@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% prerequites:                                                     %
+%                                                                  %
+% the m/data files need to be put in a path where matlab/octave    %
+% can find them, e.g., the directory from which matlab is called.  %
+%                                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% shrinkage covariance estimator 
+% compared with usual unbiased sample estimator
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Example script (to be run in MATLAB or OCTAVE)  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% small data data set
+% with 10 variables (columns)
+% and 6 repetitions (rows)
+
+load smalldata.txt  % tab-delimited data
+X=smalldata;
+size(X)  %  6 x 10
+
+
+% estimate 10x10 covariance matrix
+s1 = cov(X);                                   % usual unbiased sample estimate
+[s2, lamcor, lamvar] = covshrinkKPM(X, 1);     % shrinkage estimate 
+                                               % (fast (!) function by Kevin P. Murphy) 
+
+lamvar % shrinkage intensity variances:  0.60155
+lamcor % shrinkage factor correlations: 0.73152
+
+
+% compare ranks and conditions
+rank (s1) % 5
+cond (s1) % 3.7370e+17 (Inf)
+rank (s2) % 10
+cond (s2) % 4.5130
+
+
+% compare positive definiteness
+all ( eig(s1) > 0)  % not positive definite
+all ( eig(s2) > 0)  % positive definite
+
+
+% which estimate can be inverted?
+inv(s1);   % this cannot: matrix singular to machine precision
+inv(s2);   % no problem at all (s2 has full rank and is positive definite)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% large data data set
+% with 100 variables (columns)
+% and 20 repetitions (rows)
+
+
+load largedata.txt  % tab-delimited data
+X=largedata;
+size(X)  %  20 x 100
+
+
+% estimate 100x100 covariance matrix
+s1 = cov(X);          % usual unbiased sample estimate
+[s2, lamcor, lamvar] = covshrinkKPM(X, 1);     % shrinkage estimate 
+                                               % (function by Kevin P. Murphy) 
+
+lamvar % shrinkage intensity variances: 0.77718
+lamcor % shrinkage intensity correlations: 0.88511
+
+
+% compare ranks and conditions
+rank (s1) % 19
+cond (s1) % 1.3859e+18  (Inf)
+rank (s2) % 100
+cond (s2) % 2.8671
+
+
+% compare positive definiteness
+all ( eig(s1) > 0)  % not positive definite
+all ( eig(s2) > 0)  % positive definite
+
+
+% which estimate can be inverted?
+inv(s1);   % this cannot: matrix singular to machine precision
+inv(s2);   % no problem at all (s2 has full rank and is positive definite)

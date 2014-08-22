@@ -1,0 +1,541 @@
+
+		CHANGES IN GeneTS VERSION 2.12.0
+
+
+From this version "GeneTS" is a meta-package only, with 
+no own functions.  It exists for reasons of backward compatibility. 
+
+
+CHANGES
+
+    o the functions related to inference of gene networks
+      have been moved into the package "GeneNet"
+    
+    o the functions connected with periodicity testing are
+      now in the package "GeneCycle"
+      
+    o the functions for fdr controlling an testing are now
+      in the package "fdrtool"
+
+
+
+		CHANGES IN GeneTS VERSION 2.10.2
+
+CHANGES
+
+    o dependencies have been increased: now corpcor (>= 1.4.2)
+      and longitudinal (>= 1.1.2) are required.  This enables
+      one to use the protected shrinkage estimators.  The fraction
+      of protected components can be specified via the parameter
+      "protect" in ggm.estimate.pcor().
+   
+    o the functions sm2vec(), vec2sm(), and sm.index() have been
+      moved to corpcor package.
+    
+    o in the documentation all web links to the Strimmer group
+      page now point to strimmerlab.org.
+      
+      
+
+		CHANGES IN GeneTS VERSION 2.10.1
+
+
+CHANGES
+    
+    o because of code changes (LAPACK.svd -> svd)
+      ggm.simulate.data() didn't work anymore - now fixed.
+      
+    o example script for estimation of a relevance network added.
+    
+    
+
+		CHANGES IN GeneTS VERSION 2.10.0
+
+
+This is the offical Bioconductor version 1.8 release (27 April 2006).
+
+CHANGES
+    
+    o some small internal changes were made in order to make GeneTS 
+      work with the graph/Rgraphviz packages from BioC 1.8.
+    
+    o new functions sm2vec(), sm.indexes() and vec2sm() 
+      (these used to be part of "corpcor").
+    
+
+		CHANGES IN GeneTS VERSION 2.9.0
+
+In this versions some of the functions were cleaned up, obsolete
+methods were removed, the plotting method and the computational
+procedures were improved.
+
+
+CHANGES
+    
+    o robust.spectrum() now  gives a warning if a constant time series 
+      is being analyzed.  It now also works with a single time series.
+      
+    o documentation was updated (new addresses etc.)
+    
+    o dependency on "corpcor" revised to version 1.2.0.  This versions
+      offers much faster computation of partical correlations.
+    
+    o the infrastructure for longitudinal data and the tcell data 
+      set was moved into the separate package "longitudinal".  GeneTS
+      now depends on this package.
+
+
+REMOVED
+
+    o the option "fA.type" was removed in cor.fit.mixture() and 
+      ggm.test.edges(). The previous default "nonparametric" is now standard.
+    
+    o in ggm.estimate.pcor() the options for the estimators 
+      "observed.pcor", "partial.bagged.cor", and "bagged.pcor" have been 
+      removed.
+      
+    o the function cor0.estimate.kappa() was removed.
+      
+         
+NEW FUNCTIONALITY
+
+    o ggm.list.edges() is a new utility function.
+    
+    o ggm.estimate.pcor() now offers a possibility to compute dynamic 
+      correlation. 
+
+    o there is a new example script illustrating the network inference
+      for the tcell data.
+
+    o the plotting functions have been simplified and greatly improved:
+      In ggm.make.graph() now node.lables can be specified, and unconnected
+      nodes are removed if desired.  show.edge.weights() now displays 
+      the clear names of the nodes, not just node indices. The plots
+      output by ggm.plot.graph() visualize the strength of the association
+      by color and by line width.  Negative correlation is indicated by
+      dotted lines. Different layout types can be selected.
+
+
+
+
+		CHANGES IN GeneTS VERSION 2.8.0
+
+
+No change, expect for version number (due to new scheme on the Bioconductor side).
+
+
+
+		CHANGES IN GeneTS VERSION 2.7
+
+NEW FUNCTIONS
+
+    o new functions robust.g.test(), g.statistic(), and robust.spectrum()
+      implementing the periodicity testing approach by Ahdesmaki et al.
+      (BMC Bioinformatics 2005). 
+
+    o new data set "ecoli" for illustration of network inference
+    
+
+CHANGES
+
+    o GeneTS now relies on the external package "corpcor" for 
+      computation of partial correlations. 
+      
+      Note that "corpcor" is a spin-off  of GeneTS to bundle generic 
+      functions like shrinkage estimation of large-scale covariance
+      matrices and correlations.
+        
+    o ggm.simulate.data() now throws an error if the input (pcor) matrix 
+      is not positive definite
+    o cor.fit.mixture() and ggm.test.edges() now have a plot.locfdr" 
+      option to control the plots produced by locfdr
+    o The example scripts were updated (to use the E. Coli data for
+      network inference, and to employ local fdr for the g-test) 
+    o The functions is.square() and is.symmetric() were removed and
+      sime of the documentation was cleaned up.
+
+
+
+		CHANGES IN GeneTS VERSION 2.6
+		
+
+NEW FUNCTIONS
+
+    o cov.shrink() and and cor.shrink() allow shrinkage estimation
+      of the covariance and correlation matrices.  This is especially
+      useful in high dimensions (small n, large p setting).
+    
+    o corresponding utility function varcov(): estimates variance of the
+      individual components of the empirical covariance matrix 
+    
+    
+CHANGES		
+
+    o ggm.estimate.pcor() now uses as default the shrinkage estimators.
+
+    o inclusion of pdf/ppt info slide in documentation section
+
+    o check of model fit added to density.pr()
+
+    o example script adopted to shrinkage function
+    
+    o some descriptions corrected
+    
+    o in cor.fit.mixture() and ggm.test.edges() now has a df parameter
+      (controlling the density fit)
+
+    o is.positive.definite() now checks if input is a matrix
+      (this also fixes the "is.positive.definite(-1)=TRUE" bug
+      pointed out by David Stoffer)
+		
+
+		CHANGES IN GeneTS VERSION 2.5
+
+NEW FUNCTIONS
+
+    o density.pr() enables semi-parametric density estimation
+      using a Poisson regression fit to histogram counts.
+
+    o new data structure "longitudinal" allows to store multiple time series
+      data with repeated measurements, irregular sampling, and unequally
+      spaced  time points.  Related basic input/output functions include
+      as.longitudinal(), is.longitudinal(), summary.longitudinal(),
+      print.longitudinal(), plot.longitudinal().
+      
+    o a number of utility function for the "longitudinal" data type 
+      were added: get.time.repeats(), is.equally.spaced(), is
+      is.regularily.sampled(), has.repeated.measurements(), 
+      combine.longitudinal(), condense.longitudinal(). 
+    
+    o the caulobacter data set was converted to type "longitudinal",
+      and another data sets (T cell activation) was added.  
+
+
+
+CHANGES		
+
+    o a bug was fixed in fisher.g.test(): for time series longer
+      than 341 time points a numerical problem occured due to
+      the divergence of the gamma function.  This has now been
+      fixed by using a more clever algorithm to compute the
+      g-statistic (bug fix kindly suggested by  Benjamin Tyner)
+      
+    o GeneTS now requires R 2.0.0 or later, and locfdr version 1.0-2
+    
+    
+
+		CHANGES IN GeneTS VERSION 2.4
+
+	
+NEW FUNCTIONS
+
+    o when fitting the empirical null distribution f0 for the
+      correlation coefficients with cor.fit.mixture() the alternative
+      hypothesis fA can now also be estimated *non-parametrically*.
+      Previously, it was assumed that fA is a uniform distribution.
+      
+      For this estimation "GeneTS" relies on the external "locfdr"
+      package (available on CRAN). 
+
+
+CHANGES		
+    
+    o many parts of the documentation have been rewritten to
+      clarify details and correct some minor errors. The notation
+      has also been changed to conform to statistical standards
+      (e.g., p is used instead of G, n instead of N, etc.).
+      References were also updated.
+    
+    o a bug was fixed in make.positive.definite(): pmax() instead
+      of max() is now used (bug fix kindly pointed out by Leslie Cope).
+      
+    o in the function avgp() the title is now taken from the name
+      of the data object, rather than simply using "untitled".
+      (This was suggested by Benno Putz).
+      
+    o the function cor.prob.nonzero() is removed - this functionality
+      is now available in cor.fit.mixture().
+      
+
+
+
+		CHANGES IN GeneTS VERSION 2.3
+		
+This release introduces substantial (factor 2-20!) speed improvements
+in the computation of the parameters of graphical Gaussian models.
+
+
+CHANGES		
+
+    o installation requirements have been rolled back to R 1.9.0
+      and Bioconductor 1.4 (instead of R 2.0 and BioC 1.5).
+
+    o standardize.cov() has been removed, in favor of the native
+      and faster cor2pcor() function.
+      
+    o for (numerically) singular matrices rank.condition() now returns
+      condition number "INF". 
+
+    o the function partial.cor(x) is now *much* faster due to a new algorithm,
+      especially for small n, large p.
+
+
+NEW FUNCTIONS
+
+    o fast.svd() computes the singular decomposition *much* faster
+      for "fat" or "thin" matrices.
+    
+    
+     
+
+		CHANGES IN GeneTS VERSION 2.2
+		
+CHANGES		
+
+    o in rank.condition(), is.positive.definite() and pseudoinverse()
+      the cut-off criterion for non-zero singular values (d) has
+      been changed in order to be in agreement with the definition used
+      in MATLAB, Octave etc. Now, the condition is
+         
+	 dpos > max(dim(m))*max(d)*.Machine$double.eps
+      
+      replacing the previously used 
+     
+         dpos > max(d)*sqrt(.Machine$double.eps)
+
+      Note that the latter criterion is used, e.g., in ginv() in MASS.
+
+    o is.positive.definite() now has an option to employ the Cholesky
+      decompostion for testing positve definiteness.
+   
+    o the manual pages have been updated (e.g., reference to Schaefer and
+      Strimmer 2004)
+    
+    o GeneTS now requires R version 2.0 and only works with the "Rgraphviz"
+      and "graph" packages from Bioconductor version 1.5.  Legacy code that
+      made GeneTS work with older versions of BioC was removed.   
+
+NEW FUNCTIONS
+ 	
+    o make.positive.definite() takes a real symmetric matrix and 
+      computes the nearest positive definite matrix, using the algorithm
+      of Higham (1998).
+
+
+
+		CHANGES IN GeneTS VERSION 2.1.2
+
+CHANGES
+
+    o edge colors associated with positive and negative correlation
+      can now be specified in ggm.plot.graph().
+      
+    o plotting of edge labels can now be turned off on request.
+
+    o internal detection of the version of the installed graph and Rgraphviz
+      libraries is improved.
+
+
+
+		CHANGES IN GeneTS VERSION 2.1.1
+
+CHANGES
+
+    o in ggm.plot.graph() a small change is introduced to make it work
+      with Rgraphviz version 1.3.25 (layoutType is explicitly specfied
+      when getDefaultAttrs() is called).
+
+
+		CHANGES IN GeneTS VERSION 2.1
+		
+		
+This release contains changes to make GeneTS work with the 1.4 release of
+Bioconductor (in particular with the updated Rgraphviz package in BioC 1.4).
+Note that GeneTS 2.1 should work both with BioC 1.3 and BioC 1.4. 
+This release also corrects several small optimization problems present
+in GeneTS 2.0.1.  
+
+CHANGES
+    
+    o dcor0() now works correctly also for large values of kappa.
+      In previous versions dcor0() returned NaN for kappa > 170.
+      Similarly, pcor0() can now also be used for large values of kappa.
+      In addition, dcor0() and pcor0() now always return the correct values
+      (instead of NaNs) at the boundaries r=-1 and 1, and for r=0.
+	 
+    o in cor.fit.mixture() the upper bound MAXKAPPA for the estimated
+      kappa can now be specified as optional argument. In addition,
+      a warning message is issued if the estimated kappa equals MAXKAPPA.
+      The default for MAXKAPPA is 5000. The minimum value of kappa is now 1
+      (used to be 2). Furthermore,  the estimated degree of freedom kappa is
+      not rounded to an integer value any more.
+      
+    o cor0.estimate.kappa() now also has a MAXKAPPA option and also doesn't
+      round estimates of kappa any more.
+       
+    o ggm.test.edges() now also has a MAXKAPPA option.  The eta0 estimated
+      in this function is now explicitely used in determining the q-values
+      (previously, the conservative choice eta0=1 was assumed). 
+
+    o the "ts" and "modreg" packages needed by GeneTS are now loaded only
+      when running R versions <= 1.8.1.  From R version 1.9 these packages
+      are merged into the default "stats" package.
+    
+    o  ggm.plot.graph(), ggm.make.graph() and show.edge.weights() now check
+       whether the "graph" and the "Rgraphviz" packages are available, and
+       if not return an error message.
+      
+    o  if BioC 1.4 is used ggm.plot.graph() plots edges with negative correlation
+       in grey color (postive partial correlation is plotted in black color).  
+
+
+NEW FUNCTIONS
+
+    o pcor() is renamed to partial.cor() to avoid name collision with a
+      function of the same name in the package "ggm".
+  
+    o show.edge.weights() summarizes a graph objects by printing the vector
+      of edge weights 
+      
+    
+
+		CHANGES IN GeneTS VERSION 2.0.1
+		
+		
+This is a bug-fix release that corrects several small problems present in
+GeneTS 2.0.  It also contains changes to make GeneTS more compatible with
+the upcoming version 1.9 release of R.
+
+CHANGES
+
+    o help pages for ggm.estimate.pcor, ggm.simulate.pcor, ggm.simulate
+      data were changed (5% replaced with 5 percent), the unused argument
+      "p" from documenentation in dcor0 was removed, and a reference in
+      fdr.control was corrected
+    
+    o the example session for inferring GGMs was slightly changed (to fix a
+      bug and to make it easier to run a similar analysis for own data)
+
+    o in bag.fun results containing NAs are now flagged as erroneous so that
+      the corresponding bootstrap draws are repeated in robust.boot
+
+    o a confusing warning message in robust.boot was removed
+    
+    o the robust bootstrap is now halted when there are more than R errors
+    
+    o the functions fisher.g.test, is.constant, dominant.freqs,
+      periodogram.spec, and periodogram.freq now also take data frames
+      (and not just matrices and vectors)
+   
+    
+		CHANGES IN GeneTS VERSION 2.0
+
+
+NEW FEATURES
+
+    With version 2.0 GeneTS provides functions to infer large sparse graphical
+    Gaussian models, following an approach outlined in:
+
+    Schaefer, J., and K. Strimmer. 2003. A practical approach to inferring large
+    graphical models from sparse microarray data. Submitted to Bioinformatics.
+    [Preprint available from http://www.stat.uni-muenchen.de/~strimmer/]
+
+NEW FUNCTIONS
+ 
+    o ggm.simulate.pcor, ggm.estimate.pcor, ggm.simulate.data, ggm.test.edges
+    
+    o ggm.make.graph, ggm.plot.graph
+
+    o cor2pcor, pcor2cor, pcor
+ 
+    o bagged.cov, bagged.cor, bagged.pcor  
+   
+    o cor0.test, cor0.estimate.kappa, cor.fit.mixture, cor.prob.nonzero
+    
+    o kappa2N, N2kappa
+   
+    o dcor0, pcor0, rcor0, ibeta functions
+ 
+    o z.transform, hotelling.transform
+    
+    o robust.boot
+
+    o fdr.estimate.eta0
+
+    o pseudoinverse, rank.condition
+
+    o standardize.cov, rebuild.cov
+    
+    o sm2vec, sm.indices, vec2sm 
+ 
+    o is.positive.definite, is.symmetric, is.square
+   
+ 
+   
+    
+CHANGES
+
+    o bacteria renamed to caulobacter to avoid collision with MASS package.
+    
+    o fdr.control renamed from fdr.test,  significant hypothesis are 
+      now those with p <= cutoff rather than with p < cutoff,
+      q-values are computed, and pi0 < 1 is now allowed.
+ 
+   
+
+
+		CHANGES IN GeneTS VERSION 1.1
+
+
+NEW FEATURES
+
+    This version of GeneTS is a maintainance release only.
+
+CHANGES
+
+
+    o The functions periodogram.spec() and periodogram.freq() are now
+      combined in the single function periodogram(). 
+
+    o Rather than using angular frequencies between 0 and pi, GeneTS
+      by default now uses frequencies between 0 and the Nyquist critical
+      frequency fc = frequency()/2 (i.e. typically between 0 and 0.5). 
+
+    o Given a constant time series fisher.g.test() now returns a p-value
+      of 1 instead of issuing an error. The man page for fisher.g.test()
+      is changed and slightly extended.
+
+    o Previously, all methods in GeneTS assumed that the *rows* in a matrix
+      contain the time series data.  This convention is now changed so that
+      each *column* represents one time series (this follows the convention
+      used by the ts package).  All functions and data sets in GeneTS are
+      also changed accordingly.
+    
+
+
+
+		CHANGES IN GeneTS VERSION 1.0
+
+
+NEW FEATURES
+
+    First public release of GeneTS.  This version of GeneTS implements
+    all methods for cell cycle analysis described in:
+
+    Wichert, S., K. Fokianos, and K. Strimmer. 2004.  Identifying periodically
+    expressed transcripts in microarray time series data. Bioinformatics 20:5-20.
+
+NEW FUNCTIONS
+      
+      o the average periodogram for multiple time series (avgp)
+      
+      o Fisher's exact g test as gene selection method (fisher.g.test)
+      
+      o multiple testing using false discovery rate (fdr.test)
+      
+      o simplified interface to periodogram (periodogram)
+      
+      o some other utility function (is.constant, dominant.freqs)
+      
+      o parts of the bacterial data set by Laub et al. (2000) (caulobacter)
+ 

@@ -1,0 +1,349 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Vanilla</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#000066" alink="#0000FF">
+
+<font size=-1>
+  <a href="#s1">Overview</a>
+| <a href="#s2">Applications</a>
+| <a href="#s3">Download and Installation</a>
+| <a href="#s4">Acknowledgments</a>
+</font>
+
+<hr>
+<p>
+
+<font size="+2"><b>Vanilla 1.2</b> (April 15, 2001)</font>
+<p><font size=-1>Copyright (c) 1999-2001 Korbinian Strimmer</font>
+<br><font size=-1>This package may be distributed under the terms of the
+<a href="license.html">GNU
+General Public License</a></font>
+
+<br> 
+<p><b><i><a name="s1">Overview:</a></i></b>
+
+<p>Vanilla is a collection of command line programs written in Java to
+access some selected features in PAL, a 
+Java library for molecular evolution and phylogenetics
+(see <a href="http://www.cebl.auckland.ac.nz/pal-project/">http://www.cebl.auckland.ac.nz/pal-project/</a>
+for details on PAL). 
+<em>Note that Vanilla does not provide all functionality
+available in  PAL.</em>  
+
+<p><font size ="-1" color="brown">
+In fact, for the vast majority of things you still need to
+program yourself!  In that respect, this package
+is provided in the hope that it may serve as a
+useful guide and introduction to learn how to use PAL in your own programs.
+</font>
+<p>
+Vanilla 1.2 is only a minor
+update from Vanilla 1.1 to accommodate the changes from PAL 1.1 to PAL 1.2.    
+It runs best in a shell environment
+(Unix, Windows, MacOS X) and requires Java 1.1 or better
+(see <a href="#s3">Download and Installation</a> section).
+
+
+<p>Vanilla includes programs to compute maximum-likelihood distances
+for nucleotides and amino acid data, to estimate of maximum-likelihood branch lengths
+on trees (incl. clock trees and dated tips), for statistical 
+(e.g., Shimodaira-Hasegawa) and topological (Robinson-Foulds) comparison of trees, to infer demographic
+parameters from trees (based on the coalescent), and also utility programs
+to reformat and modify alignments.
+
+<p>
+If you wish to cite this package please use a phrase like 
+"the Vanilla 1.2 frontend to PAL 1.2", or similar, and refer to
+<dl>
+<dd>
+<font size=-1>   
+Drummond, A., and K. Strimmer. 
+2001. PAL: An object-oriented programming library for molecular
+evolution and phylogenetics. 
+<a href="http://bioinformatics.oxfordjournals.org/cgi/content/abstract/17/7/662">Bioinformatics <strong>17</strong>: 662-663.</a> 
+</font>
+</dd>
+</dl>
+<br> 
+<p><b><i><a name="s2">Applications:</a></i></b>
+<p>Vanilla applications offer plain and simple text-only interfaces and
+are intended to be run in a shell environment.  Be warned - there
+is no graphical user interface,  Vanilla is definitely not Mac/Windows-like.
+<p><i>Applications with a PHYLIP-style character user interface (self-explanatory
+menus):</i>
+
+<ul>
+
+<li>
+<b>MLDIST:</b></li>
+
+<pre>GENERAL OPTIONS
+ d                   Sequence data type?  Nucleotides
+ e            Estimate model parameters?  No
+ k     Compute observed or ML distances?  ML distances
+SUBSTITUTION MODEL
+ m                Model of substitution?  F84 (Felsenstein 1984, PHYLIP)
+ t               PHYLIP Ts/Tv parameter?  1.1 (expected Ts/Tv ratio)
+ f               Nucleotide frequencies?  As observed in data set
+ w          Model of rate heterogeneity?  Uniform rate
+ 
+Quit [q], confirm [y], or change [menu] settings:</pre>
+Computes pairwise maximum-likelihood distance matrices for nucleotide,
+amino acid, and two-state data under a variety of substitution models
+<font size="-1">(GTR,TN, HKY, F84, F81, JC; Dayhoff, JTT, MTREV24, BLOSUM, VT, WAG, CPREV)</font>
+and in incorporating rate variation over sites
+<font size="-1">(uniform rate or discrete Gamma model)</font>.
+MLDIST also computes observed distances
+and can obtain approximate estimates of unknown model parameters, e.g,
+the Ts/Tv ratio. The default file name for the sequences is "indata"
+<font size="-1">(PHYLIP or CLUSTAL W format)</font>.
+<p>
+
+<li>
+<b>MLTREE:</b></li>
+
+<pre>GENERAL OPTIONS
+ d                   Sequence data type?  Nucleotides
+ e            Estimate model parameters?  No
+ o              Optimize branch lengths?  Yes
+ b           Branch lengths constraints?  Clock-like tree with dated tips
+ i       Write out site log-likelihoods?  No
+ x                 Tree comparison test?  None
+SUBSTITUTION MODEL
+ m                Model of substitution?  F84 (Felsenstein 1984, PHYLIP)
+ t               PHYLIP Ts/Tv parameter?  2.0 (expected Ts/Tv ratio)
+ f               Nucleotide frequencies?  As observed in data set
+ w          Model of rate heterogeneity?  Uniform rate
+ 
+Quit [q], confirm [y], or change [menu] settings:</pre>
+Computes likelihoods of trees (in "intree") under a variety of substitution
+models (see MLDIST). The likelihood can be computed using the user-provided
+branch lengths or, alternatively, branch lengths can be optimized as well
+<font size=-1>(for
+unconstrained trees, clock trees, and clock trees with dated tips)</font>.
+If more than one tree is present in an "intree" file the trees can be statistically
+compared
+<font size=-1>(using the Kishino-Hasegawa, Shimadoira-Hasegawa,
+and expected Akaike weights)</font>. Note, however, that MLTREE presently
+does not do any tree searches.
+<p>
+
+<li>
+<b>EVOLVE:</b></li>
+
+<pre>GENERAL OPTIONS
+ d                   Sequence data type?  Nucleotides
+ n           Number of output data sets?  1
+ s                      Number of sites?  1000
+SUBSTITUTION MODEL
+ m                Model of substitution?  F84 (Felsenstein 1984, PHYLIP)
+ t               PHYLIP Ts/Tv parameter?  1.1 (expected Ts/Tv ratio)
+ f               Nucleotide frequencies?  Not yet specified
+ w          Model of rate heterogeneity?  Uniform rate
+ 
+Quit [q], confirm [y], or change [menu] settings:
+</pre>
+Generates artificial data sets for a tree (in "intree") and a model of
+sequence evolution (available models are the same as in MLTREE and MLDIST).
+<p><li>
+<b>DISTTREE:</b></li>
+
+<pre>GENERAL OPTIONS
+ u                Reconstruction method?  Least-squares (on user trees)
+ o              Optimise branch lengths?  Yes
+ b           Branch lengths constraints?  None
+ l                  Chi-square distance?  Weighted (Fitch-Margoliash 1967)
+ 
+Quit [q], confirm [y], or change [menu] settings:</pre>
+Tree methods dealing with distance matrices ("indist"). If user specified
+tree topologies (in "intree") are available, weighted and unweighted LS
+branch lengths <font size=-1>(for unconstrained trees, clock trees, and
+clock trees with dated tips)</font> can be estimated. In addition, NJ and
+UPGMA trees can be computed from the distance matrix.
+<p><li>
+<b>REWRITE:</b></li>
+
+<pre>GENERAL OPTIONS
+ v               Sequence output format?  PHYLIP Interleaved
+ g            Drop gaps from input data?  No
+ z       Constant/non-informative sites?  Keep sites                            
+ j                Jumble sequence order?  No
+ h                      Bootstrap sites?  No
+ n           Number of output data sets?  1
+ 
+Quit [q], confirm [y], or change [menu] settings:</pre>
+Reads a data set (in "indata") and reformats it into various formats
+<font size=-1>(PHYLIP
+Sequential, Interleaved, Plain, Clustal W)</font>. Also removes sites with
+gaps, removes constant and non-informative sites,
+jumbles sequence order, and produces bootstrapped data sets.</ul>
+<i>Applications with a command line interface</i>:
+<p>To get a list of available options simply call the program without any
+parameter. On a Macintosh you will be asked to enter the command line
+parameters.
+<ul>
+<p>
+
+<li>
+<b>TREECOMP:</b></li>
+
+<pre>Usage: treecomp intree1 intree2</pre>
+Reads two trees, each from a different file, and computes the 
+Robinson Foulds score (topological distance measure based
+on splits).  If the two trees are identical a score of zero
+is returned.
+<p>
+
+<li>
+<b>DEMOGRAPH:</b></li>
+
+<pre>Usage: demograph intree [epsilon] outfile</pre>
+Estimates demographic parameters (effective population size, growth rate)
+by maximizing the coalescent prior for a single given clocklike tree.
+Also computes the classic skyline plot, a non-parametric estimate of population size
+through time (O. G. Pybus et al.  2000. Genetics 155:1429-1437), and its extension,
+the generalized skyline plot (K. Strimmer and O. G. Pybus. 2001. Submitted).
+Epsilon is the smoothing parameter of the generalized skyline plot.
+<p>
+
+<li>
+<b>CONCAT:</b></li>
+
+<pre>Usage: concat infile1 infile2 .. outfile</pre>
+Concatenates a set of sequence alignments.
+<p>
+
+<li>
+<b>SHOWTREE:</b></li>
+
+<pre>Usage: showtree treefile [outfile]</pre>
+Reads treefile (NH format), generates ASCII picture, and computes distance
+matrix induced by branch length. If no outfile is specified the ASCII picture
+of the tree is printed to stdout.
+<p>
+
+<li>
+<b>REROOT:</b></li>
+
+<pre>Usage: reroot node treefile outfile</pre>
+Reads a treefile (NH format) and reroots the tree, making node the new
+root.
+<p><li>
+<b>SPLITCODON:</b></li>
+
+<pre>Usage: splitcodon infile outfile</pre>
+Separate 1st, 2nd, 3rd codon positions of an alignment into separate file.
+<br> 
+<br> </ul>
+At the command line <b>all applications must be called in lower case and
+prefixed by "v_"</b> (v_mldist, v_showtree, etc.).  Note that the "v_"
+is not part of the "official" name of a program, rather is makes installation
+and deinstallation more convenient.
+
+<p>Hint: In many shell environments typing "v_" followed by a tab will
+provide you with a list of all Vanilla applications.
+<br> 
+<p><b><i><a name="s3">Download and Installation:</a></i></b>
+<p>Vanilla requires Java 1.1 (or better).
+ <b>It is strongly recommended to install a Java Virtual Machine with a JIT ("just in time")
+compiler.</b>  On Linux installation of
+<a href="http://java.sun.com">Sun Java 1.3 for Linux</a> is recommend because it includes
+a very fast runtime system (based on a so-called hot-spot compiler).
+On the Macintosh please install a recent version of the
+<a href="http://www.apple.com/java">Macintosh Runtime for Java (MRJ)</a>.
+However, probably the best way to run Vanilla on a Mac is to install MacOS X and then
+install the UNIX version.
+
+<p>This version of Vanilla relies on <a href="http://www.cebl.auckland.ac.nz/pal-project/">PAL
+1.2</a>. PAL is (c) 1999-2001 by the PAL Core Development Team and is licensed
+under the
+<a href="license.html">GNU General Public License</a>. Sources
+and documentation for PAL are separately available from the PAL web page
+at
+<a href="http://www.cebl.auckland.ac.nz/pal-project/">http://www.cebl.auckland.ac.nz/pal-project/</a>.
+<p>Note that a Java <i>compiler</i> and download of PAL sources is not
+necessary as the Vanilla package already contains all necessary classes
+in precompiled form.
+<p>
+Vanilla 1.2 is distributed in two variants (for convenience only, functionality and sources
+are 100% identical across platforms):
+<ul>
+<li>
+<a href="http://strimmerlab.org/software/vanilla/vanilla-1.2.tar.gz">vanilla-1.2.tar.gz</a> (Unix)
+</li>
+<li>
+<a href="http://strimmerlab.org/software/vanilla/vanilla-1.2.zip">vanilla-1.2.zip</a> (Windows)
+</li>
+</ul>
+<p>
+Due to the arrival of Mac OS X (=Unix), a separate Macintosh version is no longer supported.
+<p>
+After uncompressing using appropriate tools 
+the following simple directory structure will be created on all platforms:
+<pre>
+                 vanilla-1.2
+              _______|______ _____ ______ __________
+             |              |     |      |          |                
+            bin           data   doc   classes     src        
+         ____|____                       |          
+        |    |    |                 vanilla.zip   
+      unix  win  mac                   pal.zip
+</pre>
+The "bin" folder contains the Vanilla "binaries", i.e. shell scripts (Unix), batch files
+(Windows) or JBindary files (Macintosh, no longer supported). The "data" directory contains some example
+data sets. The "doc" folder contains this page and some other documentation.
+The "classes" folder contains the precompiled Java class files for Vanilla
+and for PAL, and the "src" folder contains the Vanilla source code.
+<p>To be able to run the Vanilla programs the system needs to be told where
+the binaries and the Java bytecode sit on the hard drive. On Unix and
+Windows this is done by setting the PATH and CLASSPATH variables appropriately,
+on a Mac the Java classes need to be put in a special directory.
+In doubt please ask your local Unix/Windows/Mac expert for help:
+<ul>
+<li>
+Unix (edit files .login, .cshrc, .bashrc):</li>
+<br><tt>%csh</tt>
+<br><tt>setenv VDIR $HOME/vanilla-1.2</tt>
+<br><tt>setenv PATH $VDIR/bin/unix:$PATH</tt>
+<br><tt>setenv CLASSPATH $VDIR/classes/vanilla.zip:$VDIR/classes/pal.zip:$CLASSPATH</tt>
+<p><tt>%sh, bash</tt>
+<br><tt>VDIR=$HOME/vanilla-1.2</tt>
+<br><tt>export PATH=$VDIR/bin/unix:$PATH</tt>
+<br><tt>export CLASSPATH=$VDIR/classes/vanilla.zip:$VDIR/classes/pal.zip:$CLASSPATH</tt>
+<br> 
+<p><li>
+Windows (edit autoexec.bat):</li>
+
+<br><tt>PATH C:\VANILLA-1.2\BIN\WIN</tt>
+<br><tt>set CLASSPATH=C:\VANILLA-1.2\CLASSES\VANILLA.ZIP;C:\VANILLA-1.2\CLASSES\PAL.ZIP</tt>
+<br>
+<p><li>
+Macintosh:</li>
+<br>
+Move the files vanilla.zip and  pal.zip from the "classes" folder (in the
+Vanilla directory) into the 
+"MRJ Classes" folder which sits in the "MRJ Libraries" directory
+which itself is located in the extensions folder of
+the System folder. 
+</ul>
+The actual sequence of commands necessary for Unix and Windows will depend on the location of
+the Vanilla package on your hard disk and whether other programs make use
+of the PATH and CLASSPATH variables.
+
+<p>Vanilla can also be compiled
+into native code (as can PAL) using the GNU gcj compiler, makefiles are
+included with the distributions of both Vanilla and PAL.
+<p><b><i><a name="s4">Acknowledgments:</a></i></b>
+<p>I thank Oliver Pybus and Andrew Rambaut for discussion. The name Vanilla was suggested
+by Alexei Drummond. The prefixing trick (application names) is due to Catherine
+Letondal. This work is supported by an Emmy-Noether-Fellowship of the <a href="http://www.dfg.de">DFG</a>
+to K.S.
+<br>
+<hr WIDTH="100%">
+
+<center><FONT SIZE=-1><em>Last modified: April 14, 2003</em></FONT></center>
+
+</body>
+</html>
