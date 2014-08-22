@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content=
+  "text/html; charset=iso-8859-1" />
+  <meta name="KeyWords" content=
+  "graphical models, gene expression analysis, microarray, DNA chip, Korbinian Strimmer" />
+  <meta name="Author" content="Korbinian Strimmer" />
+  <meta name="Description" content="Links to GGM literature" />
+
+  <title>Graphical Gaussian Models for Genome Data</title>
+  <link rel="stylesheet" type="text/css" href="../format.css" />
+</head>
+
+<body>
+  <script type="text/javascript">
+//<![CDATA[
+  <!--  
+   if (top.location != self.location) {top.location = self.location}
+  //-->
+//]]>
+</script>
+
+  <div id="page">
+
+    <p class="c2">Notes: Graphical Gaussian Models for Genome
+    Data</p>
+
+    <p>(back to <a href="index.html">index</a>)</p>
+
+    <p>&nbsp;</p>
+
+ 
+ 
+   <p class="c1">Synopsis:</p>
+
+  <div class="note">
+   For software to efficiently identify GGM networks from data visit 
+     the <a href="http://strimmerlab.org/software/genenet/">GeneNet</a> page.
+    </div>
+
+    <p>
+   A simple method for inferring the network of (linear) dependencies among a set of variables
+       is to compute all pairwise correlations and subsequently to draw the corresponding
+       graph (for some specified threshold).  While popular and often used on many types of genomic
+       data (e.g. gene expression, metabolite concentrations etc.) <strong>the naive correlation approach does not
+       allow to infer the dependency network.
+       Instead, graphical Gaussians models (GGMs) should be used</strong>. These allow to correctly identify direct
+       influences, have close connections with causal graphical models, are straightforward to interpret, and yet
+       are essentially as easy to
+       compute as naive correlation models. This page lists pointers to learning GGMs from data, including
+       procedures suitable for "small n, large p" data sets (category iii).
+	  </p>
+
+
+    <p>&nbsp;</p>
+
+    <p class="c1">Introduction:</p>
+
+    <p><a href=
+    "http://www.google.com/search?hl=en&amp;lr=&amp;q=graphical+gaussian+model">
+    Graphical Gaussian Models</a> (GGMs), also known as "<a href=
+    "http://www.google.com/search?hl=en&amp;lr=&amp;q=covariance+selection">covariance
+    selection</a>" or " <a href=
+    "http://www.google.com/search?hl=en&amp;lr=&amp;q=concentration+graph+model">
+    concentration graph</a>" models, have recently become a popular
+    tool to study <strong>gene association networks</strong>. The
+    key idea behind GGMs is to use <em>partial correlations</em> as
+    a measure of independence of any two genes. This makes it
+    straightforward to distinguish direct from indirect
+    interactions. Note that partial correlations are related to the
+    <em>inverse</em> of the correlation matrix. Also note that in
+    GGMs missing edges indicate <u>conditional
+    independence</u>.</p>
+
+    <p>
+    A related but completely different concept
+    are the so-called <strong>gene relevance networks</strong>
+    which are based on the "<a href=
+    "http://www.google.com/search?hl=en&amp;lr=&amp;q=covariance+graph">covariance
+    graph</a>" model. In the latter interactions are defined
+    through standard correlation coefficients so that missing edges
+    denote <u>marginal independence</u> only.
+    </p>
+
+    <p>There is a simple reason why GGMs should be preferred over
+    relevance networks for identification of gene networks:
+    <strong><em>the correlation coefficient is weak criterion for
+    measuring dependence</em></strong>, as marginally, i.e.
+    directly and indirectly, more or less all genes will be
+    correlated. This implies that zero correlation is in fact a
+    <strong><em>strong indicator for independence</em></strong>,
+    i.e. the case of no edge in a network - but this is of course
+    <em>not</em> what one usually wants to find out by building a relevance
+    network... On the other hand, <strong><em>partial correlation
+    coefficients do provide a strong measure of
+    dependence</em></strong> and, correspondingly, offer only a
+    <strong><em>weak criterion of independence</em></strong> (as
+    most partial correlations coefficients usually vanish).</p>
+
+    <p>The best starting place to learn about GGMs is the classic
+    paper that introduced this concept in the early 1970s. (A.P.
+    Dempster. 1972. <a href=
+    "http://links.jstor.org/sici?sici=0006-341X%28197203%2928%3A1%3C157%3ACS%3E2.0.CO%3B2-0">
+    Covariance Selection</a>. Biometrics 28:157-175). Further
+    details can be found in the GGM books by <a href=
+    "http://www.maths.lancs.ac.uk/~whittake/gm/">J. Whittaker
+    (1990)</a> and by <a href=
+    "http://www.amazon.com/exec/obidos/tg/detail/-/0387950540/ref=ase_bridgebooks/103-7371998-2391037?v=glance&amp;s=books">
+    D. Edwards (1995)</a>.</p>
+
+    <p>&nbsp;</p>
+
+    <p class="c1">Application of GGMs to Genomic Data:</p>
+
+    <p>Application of GGMs to genomic data is quite challenging, as
+    the number of genes (p) is usually much larger than the number
+    of available samples (n), and classical GGM theory is not valid
+    in a small sample setting. With this page I'd like to provide a
+    commented list of some recent work dealing with GGM gene
+    expression analysis (there are only very few so far). In my
+    understanding, all of these paper fit in one of three
+    categories:</p>
+
+    <ol type="i">
+      <li>analysis with classic GGM theory,</li>
+
+      <li>using limited order partial correlations, and</li>
+
+      <li>application of regularized GGMs.</li>
+    </ol>
+
+    <p>For small n, large p data it seems that methods from section
+    iii. are most suited (see below for references and
+    software).</p>
+
+    <p>&nbsp;</p>
+
+    <p class="c4">I. Classic GGM Analysis:</p>
+
+    <p>The following papers simply apply classical GGM theory (i.e.
+    with not further modification) to analyze gene expression data.
+    It turns out that such an analysis is necessarily restricted to
+    very small numbers of genes or gene clusters as to satisfy n
+    &gt; p.</p>
+
+    <ol>
+      <li>P. J. Waddell and H. Kishino. 2000. <a href=
+      "http://www.jsbi.org/journal/GIW00/GIW00F09.pdf">Correspondence
+      analysis of genes and tissue types and finding genetics links
+      from microarray data</a>. Genome Informatics 11:83-95</li>
+
+      <li>P. J. Waddell and H. Kishino. 2000. <a href=
+      "http://www.jsbi.org/journal/GIW00/GIW00F13.pdf">Cluster
+      inferences methods and graphical models evaluated on NCI60
+      microarray gene expression data</a>. Genome Informatics
+      11:129--140</li>
+
+      <li>H. Toh and K. Horimoto. 2002. <a href=
+      "http://bioinformatics.oupjournals.org/cgi/content/abstract/18/2/287">
+      Inference of a genetic network by a combined approach of
+      cluster analysis and graphical Gaussian modeling</a>.
+      Bioinformatics 18:287--297</li>
+
+      <li>H. Toh and K. Horimoto. 2002. <a href=
+      "http://springerlink.metapress.com/openurl.asp?genre=article&amp;id=doi:10.1023/A:1020337311471">
+      System for automatically inferring a genetic network from
+      expression profiles</a>. J. Biol. Physics 28:449--464</li>
+
+      <li>X. Wu, Y. Ye and K. R. Subramanian. 2003. <a href=
+      "http://www.cs.rpi.edu/~zaki/BIOKDD03/proceedings/11-wu.pdf">Interactive
+      analysis of gene interactions using graphical Gaussian
+      model</a>. ACM SIGKDD Workshop on Data Mining in
+      Bioinformatics 3:63-69</li>
+    </ol>
+
+    <p>&nbsp;</p>
+
+    <p class="c4">II. Limited Order Partial Correlations:</p>
+
+    <p>One way to circumvent the problem of computing full partial
+    correlation coefficients when the sample size is small compared
+    to the number of genes is to use partial correlation
+    coefficients of limited order. This results in something
+    inbetween a full GGM model (with correlation conditioned on all
+    p-2 remaining genes) and a relevance network model (with
+    unconditioned correlation). This is the strategy employed in
+    the following papers:</p>
+
+    <ol>
+      <li>A. de la Fuente, N. Bing, I. Hoeschele, and P. Mendes.
+      2004. <a href=
+      "http://bioinformatics.oupjournals.org/cgi/reprint/20/18/3565">
+      Discovery of meaningful associations in genomic data using
+      partial correlation coefficients</a>. Bioinformatics
+      20:3565-3574.</li>
+
+      <li>A. Wille, P. Zimmermann et al. 2004. <a href=
+      "http://genomebiology.com/2004/5/11/r92/abstract">Sparse
+      graphical Gaussian modeling of the isoprenoid gene network in
+      Arabidopsis thaliana</a>. Genome Biology 5:R92</li>
+
+
+      <li>P. M. Magwene and J. Kim. 2004. <a href=
+      "http://genomebiology.com/2004/5/12/r100/abstract">Estimating
+      genomic coexpression networks using first-order conditional
+      independence</a>. Genome Biology 5:R100</li>
+
+      <li>A. Wille and P. B&uuml;hlmann. 2006. <a href=
+        "http://www.bepress.com/sagmb/vol5/iss1/art1/">Low-order conditional
+      independence graphs for inferring genetic networks</a>.
+      Statist. Appl. Genet. Mol. Biol. <strong>4</strong>: 32.
+     </li>
+
+      <li>R. Castelo and A. Roverato. A robust procedure for Gaussian
+      graphical model search from microarray data with p larger
+      than n. Preprint.
+     </li>
+
+
+    </ol>
+
+    <p>&nbsp;</p>
+
+    <p class="c4">III. Regularized GGMs:</p>
+
+    <p>Another possibility (and in my opinion the statistically
+    most sound way) to marry GGMs with small sample modeling is to
+    introduce regularization and moderation. This essentially boils
+    down to finding suitable estimates for the covariance matrix
+    and its inverse when n &lt; p. This can either be done in a
+    full Bayesian manner, or in an empirical Bayes way via variance
+    reduction, shrinkage estimates etc. Once regularized estimates
+    of partial correlation are available then heuristic searches
+    can subsequently to be employed to find an optimal graphical
+    model (or set of models).</p>
+
+    <p>Outside a genomic context using regularized GGMs was first
+    proposed by F. Wong, C.K. Carter, and R. Kohn. (2003. <a href=
+    "http://www.samsi.info/TR/tr2003-12.pdf">Efficient estimation
+    of covariance selection models</a>. Biometrika 90:809-830). For
+    gene expression data this strategy is pursued in the following
+    papers:</p>
+
+    <ol>
+      <li><div>A. Dobra, C. Hans, B. Jones, J.R. Nevins, and M. West.
+      2004. <a href="http://dx.doi.org/10.1016/j.jmva.2004.02.009">
+        Sparse graphical models for exploring gene expression
+        data</a>. J. Multiv. Analysis 90:196-212.</div>
+
+        <div><em>See
+        the <a href="http://www.isds.duke.edu/~mw/writing.html">web
+        page of M. West</a> for various other related articles.</em></div>
+      </li>
+
+      <li>
+       <span class="note">In these papers a regularized estimate of the
+	correlation matrix is obtained, either by Stein-type shrinkage
+	(3) or by bootstrap variance reduction (2).  This estimate
+	is subsequently
+	employed for computing partial correlation.  Network
+	selection is based on false discovery
+	rate multiple testing.  This
+        method is implemented in <a href="http://strimmerlab.org/software/genenet/">GeneNet</a>.</span>
+
+        <div>J. Sch&auml;fer and K. Strimmer. 2005. <a href=
+        "../publications/journals/largeggm2005.pdf">An empirical Bayes
+        approach to inferring large-scale gene association
+        networks</a>. <a href=
+        "http://bioinformatics.oxfordjournals.org/cgi/content/abstract/21/6/754">
+        Bioinformatics <strong>21</strong>: 754-764</a>.</div> 
+       </li>
+	
+      <li>
+
+        <div>J. Sch&auml;fer and K. Strimmer. 2005. <a href=
+        "../publications/journals/shrinkcov2005.pdf">A shrinkage approach to
+        large-scale covariance matrix estimation and implications
+        for functional genomics</a>. <a href=
+        "http://www.bepress.com/sagmb/vol4/iss1/art32/">Statist.
+        Appl. Genet. Mol. Biol. <strong>4</strong>: 32</a>.</div>
+       </li>
+        
+	
+	<li>
+        
+
+        <div>J. Sch&auml;fer and K. Strimmer. 2005. <a href=
+        "../publications/conferences/ggm-review2005.pdf">Learning large-scale
+        graphical Gaussian models from genomic data</a>. In: J. F.
+        Mendes. (Ed.). Proceedings of <a href=
+        "http://sweet.ua.pt/~f2064/CNET2004.html">"Science of
+        Complex Networks: from Biology to the Internet and WWW"
+        (CNET 2004)</a>, Aveiro, PT, August 2004. (Publisher:
+        <a href="http://www.aip.org">The American Institute of
+        Physics</a>).</div>
+
+       
+      </li>
+      
+      <li><div>N. Mainshausen and P. B&uuml;hlmann
+        2006. <a href="http://www.imstat.org/aos/issue_34_3.html">
+        High-dimensional graphs and variable selection with the 
+	lasso</a>. Annals of Statistics 34 (3)</div>
+
+        <div><em>This approach uses lasso regression to induce 
+	sparsity on a node level among the partial correlations.</em></div>
+      
+      </li>
+      
+      <li><div>H. Li and J. Gui.
+        2006. <a href="http://biostatistics.oxfordjournals.org/cgi/content/abstract/7/2/302">
+        Gradient directed regularization for sparse Gaussian concentration
+	graphs, with applications to inference of genetic networks</a>.
+	Biostatistics 2006 7:302-317.</div>
+
+        <div><em>These authors regularize the
+	concentration matrix rather than the covariance matrix.</em></div>
+      
+      </li>
+     
+
+      
+      
+    </ol>
+
+    <p>&nbsp;</p>
+
+    <p>Please drop me <a href="../korbinian.html">me</a> a line
+    (<a href=
+    "mailto:korbinian.strimmer@lmu.de">korbinian.strimmer@lmu.de</a>)
+    for suggestions and comments.</p>
+
+    <div class="note" style="font-size: 6pt;">  
+        <em>Last modified:</em><br />
+        August 1, 2008<br />
+        <a href="http://validator.w3.org/check?uri=referer">
+           <img src="../images/valid-xhtml11.png" alt="Valid XHTML 1.1"
+           height="31" width="88" /></a>
+    </div>
+   <p style="clear:right;" />
+  </div>
+</body>
+</html>

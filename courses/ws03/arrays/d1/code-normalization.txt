@@ -1,0 +1,86 @@
+# Kalibrierung und Normalisierung von cDNA Array (R Befehle)
+
+# Zu 1)
+
+library("marrayNorm", verbose=FALSE)
+library("marrayPlots", verbose=FALSE)
+
+
+# Zu 2)
+
+data(swirl)
+?swirl
+swirl
+class(swirl)
+getClassDef("marrayRaw")
+dim(swirl@maGf)
+swirl@maGf
+
+
+# Zu 3)
+
+# Boxplots of pre-normalization log-ratios for each array in swirl
+maBoxplot(swirl, main="Swirl arrays: pre-normalization log-ratios M")
+
+# Boxplots of pre-normalization log-ratios M for each of the 16 
+# print-tip-groups 
+# - Default arguments
+par(mfrow=c(2,2))
+for(i in 1:4)
+  maBoxplot(swirl[,i])   
+par(mfrow=c(1,1))
+
+
+# MA Plots
+par(mfrow=c(2,2))
+for(i in 1:4)
+  maPlot(swirl[,i])   
+par(mfrow=c(1,1))
+mtext("Swirl arrays: pre-normalization MA-plot, lowess fits within print-tip-group",line=3)
+
+
+# Zu 4)
+
+?maNorm
+swirl.norm <- maNorm(swirl, norm="median")
+
+
+# Zu 5)
+
+# Boxplots
+par(mfrow=c(1,2))
+maBoxplot(swirl, main="Swirl arrays: pre-normalization log-ratios M")
+maBoxplot(swirl.norm, main="Swirl arrays: post-normalization log-ratios M")
+par(mfrow=c(1,1))
+
+par(mfrow=c(2,2))
+for(i in 1:4)
+  maBoxplot(swirl.norm[,i])   
+par(mfrow=c(1,1))
+
+
+# MA Plots
+par(mfrow=c(2,2))
+for(i in 1:4)
+  maPlot(swirl.norm[,i])   
+par(mfrow=c(1,1))
+mtext("Swirl arrays: post-normalization MA-plot, lowess fits within print-tip-group",line=3)
+
+
+# Zu 6)
+
+swirl.norm <- maNorm(swirl, norm="loess")
+
+
+# Zu 7) 
+
+library(vsn)
+vsn.out <- vsn(swirl[2000:5000,])
+dim(exprs(vsn.out))
+
+
+# Zu 8)
+
+vsn.out@description@preprocessing$vsnParams
+vsnPlotPar(vsn.out, "offsets")
+vsnPlotPar(vsn.out, "factors")

@@ -1,0 +1,142 @@
+# Microarrayanalyse: Spezielle Themen (R Befehle)
+
+
+# Zu 1)
+
+# load GeneTS library
+library(GeneTS)
+
+#######################################################################
+
+# Zu 2)
+
+# Example: the Caulobacter data set
+data(caulobacter)
+
+?caulobacter
+
+# how many samples (11) and how many genes (1444)?
+dim(caulobacter)
+
+
+# Zu 3)
+
+# compute and plot average periodogram
+avgp.caulobacter <- avgp(caulobacter, "Caulobacter")
+avgp.caulobacter
+
+
+# Zu 4)
+
+# p-values from Fisher's g test
+?fisher.g.test
+pval.caulobacter <- fisher.g.test(caulobacter)
+pval.caulobacter
+
+
+# Zu 5)
+
+# test with FDR controlled at on the level 0.05
+fdr.out <- fdr.control(pval.caulobacter, Q = 0.05)
+fdr.out
+fdr.out$num.significant
+
+data.matrix <- caulobacter[,fdr.out$significant]
+dim(data.matrix)
+num.nodes <- dim(data.matrix)[2]
+
+#######################################################################
+
+# Zu 6)
+
+pcor.pi1 <- ggm.estimate.pcor(data.matrix, method = "observed.pcor")
+pcor.pi2 <- ggm.estimate.pcor(data.matrix, method = "partial.bagged.cor")
+pcor.pi3 <- ggm.estimate.pcor(data.matrix, method = "bagged.pcor")
+
+sum((pcor.pi1-pcor.pi2)^2)
+sum((pcor.pi1-pcor.pi3)^2)
+sum((pcor.pi2-pcor.pi3)^2)
+
+
+# Zu 7)
+
+inferred.pcor <- pcor.pi2
+
+# p-values, q-values and posterior probabilities for each edge 
+test.results <- ggm.test.edges(inferred.pcor)
+
+# show best 20 edges
+test.results[1:20,]
+
+# how many are significant for Q=0.05 ?
+num.significant <- sum(test.results$qval <= 0.05)
+test.results[0:num.significant,]
+
+# generate graph object with all significant edges
+gr <- ggm.make.graph( test.results[1:num.significant,], num.nodes) 
+gr 
+edgeWeightVector(gr)
+
+
+# Zu 8)
+
+inferred.pcor <- pcor.pi1
+inferred.pcor <- pcor.pi3
+
+# repeat previous analysis
+
+
+# Zu 9)
+
+# generate random network with 40 nodes and 5 percent edges
+sim.pcor <- ggm.simulate.pcor(40, 0.05)
+  
+# simulate data set with 40 observations
+m.sim <- ggm.simulate.data(40, sim.pcor)
+
+# simple estimate of partial correlations
+estimated.pcor <- pcor(m.sim)
+
+# comparison of estimated and true model
+sum((sim.pcor-estimated.pcor)^2)
+
+# a slightly better estimate ...
+estimated.pcor.2 <- ggm.estimate.pcor(m.sim, method = c("bagged.pcor"))
+sum((sim.pcor-estimated.pcor.2)^2)
+
+
+# Zu 10)
+
+# Load the R code
+source("http://www.stat.uni-muenchen.de/~socher/programs.r")
+
+# Load the reduced leukemia data set 
+leuk<-read.table("http://www.stat.uni-muenchen.de/~socher/leukemia.txt",header=TRUE)
+dim(leuk)
+leuk[1:5,1:5]
+# Transform the class y into a factor
+leuk$y<-as.factor(leuk$y)
+
+
+# Zu 11)
+
+# Plot EP {X3455<0.37}and{X2285<0.55} 
+# X3455 resp. X2285 are in columns 96 resp. 65 of matrix leuk
+plot(leuk[leuk$y==1,96],leuk[leuk$y==1,65],xlim=c(-1.5,1.5))
+points(leuk[leuk$y==2,96],leuk[leuk$y==2,65],col=2)
+lines(c(-0.37,-0.37),c(-1.5,0.55))
+lines(c(-1.5,-0.37),c(0.55,0.55))
+
+
+# Zu 12)
+
+# Detect Emerging Patterns with pg=1e-17 and ps=1e-5
+detectep(leuk,pg=1e-17,ps=1e-5)
+# 11 EPs (6 EPs of type 1 and 5 EPs of type 2)
+
+
+# Zu 13)
+
+# Detect Emerging Patterns with pg=1e-13 and ps=1e-9
+detectep(leuk,pg=1e-13,ps=1e-9)
+# 1 
