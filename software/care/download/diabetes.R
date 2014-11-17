@@ -1,50 +1,88 @@
+# /*
+# This is an R script containing R markdown comments.  It can be run as is in R.
+# To generate a document containing the formatted R code, R output and markdown 
+# click the "Compile Notebook" button in R Studio, or run the command
+# rmarkdown::render() - see http://rmarkdown.rstudio.com/r_notebook_format.html
+# */
 
-# requires "care" R package version 1.1.1
+
+#' ---
+#' title: "Diabetes Data"
+#' output: pdf_document
+#' author: ""
+#' date: Requires "care" version 1.1.1 (July 2011) or later
+#' ---
+
+
+#' This R script reproduces the analysis of diabetes data from 
+#' V. Zuber and K. Strimmer. 2011. *High-dimensional regression and variable 
+#' selection using CAR scores.* Statist. Appl. Genet. Mol. Biol. **10**: 34
+#' (http://dx.doi.org/10.2202/1544-6115.1730)
+
+
+#'
+#' # Load "care" package and diabetes data set
 
 library("care")
 
-# diabetes data
+#' Diabetes data (442 patients) from Efron et al. 2004. *Least angle regression*
+#' Ann. Statist. **32**:407-499.
 data(efron2004)
 x = efron2004$x
-y = efron2004$y
+dim(x)
+d = ncol(x) # dimension 
+n = nrow(x) # samples
+
+#' 10 predictors
 xnames = colnames(x)
+xnames
+# /* "age" "sex" "bmi" "bp"  "s1"  "s2"  "s3"  "s4"  "s5"  "s6" */
 
-#####
+#' Response
+y = efron2004$y
+length(y)
 
-# ordering suggested by CAR scores
-car = carscore(x, y, lambda=0)
+
+#'
+#' # Comparison of linear regression models
+
+#' Ordering of predictors according to CAR score:
+car = carscore(x, y, lambda=0) # no shrinkage estimation needed as n>>d
 ocar = order(car^2, decreasing=TRUE)
 xnames[ocar]
 
-# plot regression coefficients for all possible CAR models
-p = ncol(x)
-car.predlist = make.predlist(ocar, numpred = 1:p, name="CAR")
-cm = slm.models(x, y, car.predlist, lambda=0, lambda.var=0)
+#' Regression coefficients for models with increasing number of predictors:
+car.predlist = make.predlist(ocar, numpred = 1:d, name="CAR")
+cm = slm.models(x, y, car.predlist, lambda=0, lambda.var=0, verbose=FALSE)
 bmat= cm$coefficients[,-1]
 bmat
 
-plot(1:p, bmat[,1], type="l", 
+#' Plot regression coefficients:
+#+ fig.width=7, fig.height=7
+plot(1:d, bmat[,1], type="l", 
   ylab="estimated regression coefficients", 
   xlab="number of included predictors", 
   main="CAR Regression Models for Diabetes Data", 
-  xlim=c(1,p+1), ylim=c(min(bmat), max(bmat)))
+  xlim=c(1,d+1), ylim=c(min(bmat), max(bmat)))
 
-for (i in 2:p) lines(1:p, bmat[,i], col=i, lty=i)
-for (i in 1:p) points(1:p, bmat[,i], col=i)
-for (i in 1:p) text(p+0.5, bmat[p,i], xnames[i])
-
-
+for (i in 2:d) lines(1:d, bmat[,i], col=i, lty=i)
+for (i in 1:d) points(1:d, bmat[,i], col=i)
+for (i in 1:d) text(d+0.5, bmat[d,i], xnames[i])
 
 
-### estimate prediction error by cross-validation
+#'
+#' # Estimate prediction errors by crossvalidation
 
 library("crossval")
 
-K=10  # number of folds
+K=10 # number of folds
 B=50 # number of repetitions
 
 
-# Rank by CAR scores, fit and predict using a specified number of predictors
+#' Prediction function used in crossvalidation: Rank by CAR scores, 
+#' then fit and predict using a specified number of predictors
+#' (note this takes into account the uncertainty in selection and ordering
+#' of the predictors)
 predfun = function(Xtrain, Ytrain, Xtest, Ytest, numVars)
 {  
   # rank the variables according to squared CAR scores
@@ -63,7 +101,7 @@ predfun = function(Xtrain, Ytrain, Xtest, Ytest, numVars)
   return(mse)  
 }
 
-
+#' Perform crossvalidation:
 numpred = 1:10 # number of predictors
 set.seed(12345)
 cvsim = lapply(numpred, 
@@ -74,12 +112,15 @@ cvsim = lapply(numpred,
     return( cvp$stat.cv )
   }
 )
+
+#' Plot results:
 boxplot(cvsim, names=numpred,
 col=c(rep("grey", 2), rep("white", 8)),
  main="CAR Models for the Diabetes Data", xlab="number of included predictors",
        ylab="estimated CV prediction error")
 
-# After including top 3 predictors ("bmi", "s5", "bp") no further reduction of MSE is seen
+#' **Conclusion:** after including the three top ranked predictors ("bmi", "s5", "bp") 
+#' no further reduction of MSE is seen.
 
 
 

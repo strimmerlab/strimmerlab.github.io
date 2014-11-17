@@ -1,118 +1,91 @@
-#######################################################################
-# This note can be directly run in R.
-# Requires GeneNet 1.2.7 (June 2013)
-#######################################################################
+# /*
+# This is an R script containing R markdown comments.  It can be run as is in R.
+# To generate a document containing the formatted R code, R output and markdown 
+# click the "Compile Notebook" button in R Studio, or run the command
+# rmarkdown::render() - see http://rmarkdown.rstudio.com/r_notebook_format.html
+# */
 
 
-# This reproduces the "Ecoli" network example is from:
+#' ---
+#' title: "Escherichia Coli Network"
+#' output: pdf_document
+#' author: ""
+#' date: Example for GeneNet 1.2.7 (June 2013) or later
+#' ---
 
-# Schaefer, J., and K. Strimmer, K. 2005c.  A shrinkage approach
-# to large-scale covariance estimation and implications for
-# functional genomics.   Statist. Appl.  Genet. Mol. Biol. 4: 32
-# http://www.bepress.com/sagmb/vol4/iss1/art32/
+#' This note reproduces the “Escherichia coli” network example from J. Schäfer and 
+#' K. Strimmer. 2005. *A shrinkage approach to large-scale covariance 
+#' estimation and implications for functional genomics.* 
+#' Statist. Appl. Genet. Mol. Biol. **4**: 32 
+#' (http://dx.doi.org/10.2202/1544-6115.1175)
 
 
-# load GeneNet library
+#'
+#' # Load GeneNet package
+
 library("GeneNet")
 
-# Example E. Coli data set (102 genes, 9 time points)
+#' E. Coli data set (9 time points for 102 genes):
 data(ecoli)
 dim(ecoli)
 
-########################################################################
-###
-### Step 1: Estimate partial correlation matrix
-###
 
-# there are many methods for estimating partial correlations
-# - we recommend using a shrinkage estimator 
+#'
+#' # Estimation of partial correlations
 
-pc <- ggm.estimate.pcor(ecoli)
+#' Estimate matrix of partial correlation using a shrinkage estimator:
+pc = ggm.estimate.pcor(ecoli)
 dim(pc)
 
-########################################################################
-###
-### Step 2: Assign p-values, q-values, empirical posterior probabilities 
-###         to all potential edges in the network
-###
+#' Assign p-values, q-values and empirical posterior probabilities to all
+#' 5151 potential edges in the network:
+ecoli.edges = network.test.edges(pc, direct=TRUE, fdr=TRUE)
+dim(ecoli.edges)
 
-ecoli.edges <- network.test.edges(pc, direct=TRUE, fdr=TRUE)
-dim(ecoli.edges) # 5151   10
-ecoli.edges[1:4,]
+#' The table lists all edges in the order strength of partial correlations:
+ecoli.edges[1:5,]
 
-########################################################################
-###
-### Step 3: Decide which edges to include in the network
-###
+#'
+#' # Decide which edges to include in the network
 
-# use local fdr cutoff 0.2
-ecoli.net <- extract.network(ecoli.edges)
+#' To obtain a graph you need to select top ranking edges according to 
+#' a suitable criterion.  Here are some suggestions:
+#'
+#' 1. Use local fdr cutoff 0.2, i.e. include all edges with posterior 
+#' probability of at least 0.8.
+ecoli.net = extract.network(ecoli.edges)
 dim(ecoli.net)
 
-# use local fdr cutoff 0.1
-ecoli.net <- extract.network(ecoli.edges, cutoff.ggm=0.9, cutoff.dir=0.9)
+#' 2. Use local fdr cutoff 0.1, i.e. i.e. include all edges with posterior 
+#' probability of at least 0.9.
+
+ecoli.net = extract.network(ecoli.edges, cutoff.ggm=0.9, cutoff.dir=0.9)
 dim(ecoli.net)
 
-# take the 70 most significant edges
-ecoli.net <-extract.network(ecoli.edges, method.ggm="number", cutoff.ggm=70)
+#' 3. Include a fixed number of edges, say the 70 strongest edges
+ecoli.net = extract.network(ecoli.edges, method.ggm="number", cutoff.ggm=70)
+dim(ecoli.net)
 
-########################################################################
-###
-### Step 4: Plot the network
-###
+#' 
+#' Plot network
 
-node.labels <- colnames(ecoli)
+#' For plotting we use the igraph package (http://igraph.org).
+#' Note igraph is automatically installed with GeneNet.
+library("igraph") # 
 
+#' Create igraph object from the list of edges:
+node.labels = colnames(ecoli)
+igr1 = network.make.igraph(ecoli.net, node.labels)
+igr1
 
-##
-## variant 1: use "igraph" R package for plotting
-##            (seehttp://igraph.sourceforge.net/ )
+#' Plot the network:
+#+ fig.width=8, fig.height=8
+plot(igr1, main="Ecoli Network", vertex.label.cex=0.8, edge.arrow.size=0.8)
 
-library("igraph") # is automatically loaded with GeneNet 1.2.7
-
-# produce graph (*without* edge labels)
-igr1 <- network.make.igraph(ecoli.net, node.labels)
-plot(igr1, main="Ecoli Network")
-
-# there are many options available in igraph to fine-tune this plot.
-# e.g. smaller node labels and arrow sizes:
-plot(igr1, main="Ecoli Network", vertex.label.cex=0.7, edge.arrow.size=0.5)
-
-# produce graph (*with* edge labels)
-igr2 <- network.make.igraph(ecoli.net, node.labels, show.edge.labels=TRUE)
-plot(igr2, main="Ecoli Network with Partial Correlations")
-
-
-##
-## variant 2: produce "dot" file for use with "graphviz"
-##            (see http://www.graphviz.org/ )
-
-
-# produce dot file (*without* edge labels)
-network.make.dot("ecoli.dot", ecoli.net, node.labels,
-                  main="Ecoli Network")
-
-# call graphviz to produce a nice graph
-system("fdp -T svg -o ecoli.svg ecoli.dot") # SVG format
-system("fdp -T ps2 -o ecoli.eps ecoli.dot") # EPS format
-system("fdp -T png -o ecoli.png ecoli.dot") # PNG format
-
-
-# produce dot file (*with* edge labels)
-network.make.dot("ecoli.dot", ecoli.net, node.labels,
-                  show.edge.labels=TRUE, main="Ecoli Network")
-
-# call graphviz to produce a nice graph
-system("fdp -T svg -o ecoli.svg ecoli.dot") # SVG format
-system("fdp -T ps2 -o ecoli.eps ecoli.dot") # EPS format
-system("fdp -T png -o ecoli.png ecoli.dot") # PNG format
-
-
-# Hint: this requires the proper installation of graphviz
-#       so that its associated layout programs such as 
-#       neato, fdp etc. can be called on the command line
-# if the system() call doesn't work for you (e.g. on Windows) 
-# simply use a GUI frontend for graphviz and 
-# process the dot file from there.
+#' It is also possible to produce a graph showing correlations as edge labels:
+igr2 = network.make.igraph(ecoli.net, node.labels, show.edge.labels=TRUE)
+#+ fig.width=8, fig.height=8
+plot(igr2, main="Ecoli Network with Partial Correlations as Edge Labels",
+vertex.label.cex=0.8, edge.arrow.size=0.8)
 
 
