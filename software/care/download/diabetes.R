@@ -10,7 +10,7 @@
 #' title: "Diabetes Data"
 #' output: pdf_document
 #' author: ""
-#' date: Requires "care" version 1.1.1 (July 2011) or later
+#' date: Requires "care" version 1.1.7 (November 2014) or later
 #' ---
 
 
@@ -42,7 +42,7 @@ xnames
 y = efron2004$y
 length(y)
 
-
+#' \newpage
 #'
 #' # Comparison of linear regression models
 
@@ -53,7 +53,7 @@ xnames[ocar]
 
 #' Regression coefficients for models with increasing number of predictors:
 car.predlist = make.predlist(ocar, numpred = 1:d, name="CAR")
-cm = slm.models(x, y, car.predlist, lambda=0, lambda.var=0, verbose=FALSE)
+cm = slm(x, y, car.predlist, lambda=0, lambda.var=0, verbose=FALSE)
 bmat= cm$coefficients[,-1]
 bmat
 
@@ -70,6 +70,7 @@ for (i in 1:d) points(1:d, bmat[,i], col=i)
 for (i in 1:d) text(d+0.5, bmat[d,i], xnames[i])
 
 
+#' \newpage
 #'
 #' # Estimate prediction errors by crossvalidation
 
@@ -91,9 +92,9 @@ predfun = function(Xtrain, Ytrain, Xtest, Ytest, numVars)
   selVars = ocar[1:numVars]
 
   # fit and predict
-  slm.fit = slm(Xtrain[, selVars, drop=FALSE], Ytrain, verbose=FALSE, 
+  slm.fit = slm(Xtrain, Ytrain, predlist=list(selVars), verbose=FALSE, 
        lambda=0, lambda.var=0)
-  Ynew = predict(slm.fit, Xtest[, selVars, drop=FALSE], verbose=FALSE)
+  Ynew = predict(slm.fit, Xtest, verbose=FALSE)
 
   # compute squared error risk
   mse = mean( (Ynew - Ytest)^2)  
