@@ -7,10 +7,10 @@
 
 
 #' ---
-#' title: "Analysis of dorothea data set with binda"
+#' title: "Analysis of Dorothea Data Set"
 #' output: pdf_document
 #' author: "Sebastian Gibb and Korbinian Strimmer"
-#' date:   28 February 2015
+#' date:   30 April 2015
 #' ---
 
 
@@ -85,7 +85,7 @@ simFun = function(numpred)
     x.train2 = x.train[,predlist, drop=FALSE ]
     x.valid2 = x.valid[,predlist, drop=FALSE ]
     valError = predfun(x.train2, y.train, x.valid2, y.valid)
-    cv.out = crossval(predfun, x.train2, y.train, K=10, B=50, verbose=FALSE)
+    cv.out = crossval(predfun, x.train2, y.train, K=5, B=20, verbose=FALSE)
 
     return( c(valError=valError, ACC=cv.out$stat, ACC.se = cv.out$stat.se) )
 
@@ -101,3 +101,32 @@ binda.sim
 valErrorAll = predfun(x.train, y.train, x.valid, y.valid)
 valErrorAll
 
+
+#' 
+#' #  Comparison with Random Forest
+
+library("randomForest")
+
+if( file.exists("rf.rda") )
+  {
+  load("rf.rda") # load precomputed random forest
+}
+if( !file.exists("rf.rda") )
+{
+  set.seed(12345)
+  rf.fit = randomForest(x.train, y=as.factor(y.train), ntree=100, importance=TRUE)
+  save(rf.fit, file="rf.rda")
+}
+
+#' Ranking of predictors using training data
+varimp = rf.fit$importance[,4]    # MeanDecreaseGini
+names(varimp) = NULL
+ovi = order(varimp, decreasing=TRUE)
+idx = ovi[1:20]
+cbind(idx, MeanDecreaseGini=varimp[idx])
+
+
+#' Test error
+yhat = predict(rf.fit, x.valid)
+acc = ( sum( yhat == y.valid )/length(yhat) )
+acc
