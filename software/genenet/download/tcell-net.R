@@ -10,7 +10,7 @@
 #' title: "T-Cell Network"
 #' output: pdf_document
 #' author: ""
-#' date: Example for GeneNet 1.2.7 (June 2013) or later
+#' date: Example for GeneNet 1.2.13 (August 2015) or later
 #' ---
 
 #' This note reproduces the “T-Cell” network example from 
@@ -47,41 +47,57 @@ pc4 = ggm.estimate.pcor(tc44, method="dynamic")           # dynamic, with shrink
 #'  
 
 #' static, no shrinkage
-t1.edges = ggm.test.edges(pc1)
+t1.edges = network.test.edges(pc1)
 t1.net = extract.network(t1.edges) # prob > 0.8
 t1.net
 
 #' dynamic, no shrinkage
-t2.edges = ggm.test.edges(pc2)
+t2.edges = network.test.edges(pc2)
 t2.net = extract.network(t2.edges) # prob > 0.8
 t2.net
 
 #' static, with shrinkage
-t3.edges = ggm.test.edges(pc3)
+t3.edges = network.test.edges(pc3)
 t3.net = extract.network(t3.edges) # prob > 0.8
 t3.net
 
 #' dynamic, with shrinkage
-t4.edges = ggm.test.edges(pc4)
+t4.edges = network.test.edges(pc4)
 t4.net = extract.network(t4.edges) # prob > 0.8
 t4.net
 
 
 #'
-#' # Produce plots using igraph
+#' # Produce plots using graph and Rgraphviz
+
+library("Rgraphviz") 
 
 node.labels = colnames(tc44)
-igr1 = ggm.make.igraph( t1.net, node.labels) 
-igr2 = ggm.make.igraph( t2.net, node.labels)  
-igr3 = ggm.make.igraph( t3.net, node.labels) 
-igr4 = ggm.make.igraph( t4.net, node.labels)  
+gr1 = network.make.graph( t1.net, node.labels) 
+gr2 = network.make.graph( t2.net, node.labels)  
+gr3 = network.make.graph( t3.net, node.labels) 
+gr4 = network.make.graph( t4.net, node.labels)  
 
-#+ fig.width=8, fig.height=8
+globalAttrs = list()
+globalAttrs$edge <- list(color = "blue", lty = "solid", lwd = 1, arrowsize=1)
+globalAttrs$node <- list(fillcolor = "lightyellow", shape = "ellipse", fixedsize = FALSE)
+
+edgeAttrs1 <- list()
+edgeAttrs1$dir =  edge.info(gr1)$dir
+edgeAttrs2 <- list()
+edgeAttrs2$dir =  edge.info(gr2)$dir
+edgeAttrs3 <- list()
+edgeAttrs3$dir =  edge.info(gr3)$dir
+edgeAttrs4 <- list()
+edgeAttrs4$dir =  edge.info(gr4)$dir
+
+
+#+ fig.width=8, fig.height=7
 par(mfrow=c(2,2))
-plot(igr1, main="Static, no shrinkage", vertex.label.cex=.6, vertex.size=25)
-plot(igr2, main="Dynamic, no shrinkage", vertex.label.cex=.6, vertex.size=25)
-plot(igr3, main="Static, with shrinkage", vertex.label.cex=.6, vertex.size=25)
-plot(igr4, main="Dynamic, with shrinkage", vertex.label.cex=.6, vertex.size=25)
+plot(gr1, main="Static, no shrinkage", attrs = globalAttrs, edgeAttrs = edgeAttrs1, "fdp")
+plot(gr2, main="Dynamic, no shrinkage", attrs = globalAttrs, edgeAttrs = edgeAttrs2,"fdp")
+plot(gr3, main="Static, with shrinkage", attrs = globalAttrs, edgeAttrs = edgeAttrs3, "fdp")
+plot(gr4, main="Dynamic, with shrinkage", attrs = globalAttrs, edgeAttrs = edgeAttrs4, "fdp")
 par(mfrow=c(1,1))
 
 

@@ -10,7 +10,7 @@
 #' title: "Escherichia Coli Network"
 #' output: pdf_document
 #' author: ""
-#' date: Example for GeneNet 1.2.7 (June 2013) or later
+#' date: Example for GeneNet 1.2.13 (August 2015) or later
 #' ---
 
 #' This note reproduces the “Escherichia coli” network example from J. Schäfer and 
@@ -69,23 +69,31 @@ dim(ecoli.net)
 #' 
 #' Plot network
 
-#' For plotting we use the igraph package (http://igraph.org).
-#' Note igraph is automatically installed with GeneNet.
-library("igraph") # 
+#' For plotting we use the graph and Rgraphviz packages from Bioconductor.
+library("Rgraphviz") 
 
-#' Create igraph object from the list of edges:
+#' Create graph object from the list of edges:
 node.labels = colnames(ecoli)
-igr1 = network.make.igraph(ecoli.net, node.labels)
-igr1
+gr = network.make.graph(ecoli.net, node.labels, drop.singles=TRUE)
+table(  edge.info(gr)$dir )
+sort( node.degree(gr), decreasing=TRUE)
 
-#' Plot the network:
-#+ fig.width=8, fig.height=8
-plot(igr1, main="Ecoli Network", vertex.label.cex=0.8, edge.arrow.size=0.8)
 
-#' It is also possible to produce a graph showing correlations as edge labels:
-igr2 = network.make.igraph(ecoli.net, node.labels, show.edge.labels=TRUE)
-#+ fig.width=8, fig.height=8
-plot(igr2, main="Ecoli Network with Partial Correlations as Edge Labels",
-vertex.label.cex=0.8, edge.arrow.size=0.8)
+#' Set node and edge attributes for more beautiful graph plotting:
+globalAttrs = list()
+globalAttrs$edge = list(color = "black", lty = "solid", lwd = 1, arrowsize=1)
+globalAttrs$node = list(fillcolor = "lightblue", shape = "ellipse", fixedsize = FALSE)
+ 
+nodeAttrs = list()
+nodeAttrs$fillcolor = c('sucA' = "yellow")
 
+edi = edge.info(gr)
+edgeAttrs = list()
+edgeAttrs$dir = edi$dir # set edge directions 
+edgeAttrs$lty = ifelse(edi$weight < 0, "dotted", "solid") # negative correlation -> dotted
+edgeAttrs$color = ifelse(edi$dir == "none", "black", "red")
+edgeAttrs$label = round(edi$weight, 2) # use partial correlation as edge labels
+
+#+ fig.width=8, fig.height=7
+plot(gr, attrs = globalAttrs, nodeAttrs = nodeAttrs, edgeAttrs = edgeAttrs, "fdp")
 
