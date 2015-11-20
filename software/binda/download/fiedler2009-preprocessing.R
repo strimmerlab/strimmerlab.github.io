@@ -1,6 +1,13 @@
 # 28 February 2015
 #
-# R script for Gibb and Strimmer- 2015. http://arxiv.org/abs/1502.07959
+# R script for
+#
+# S. Gibb and K. Strimmer. 2015. Differential protein expression and peak 
+# selection in mass spectrometry data by binary discriminant analysis.
+# Bioinformatics 31: 3156-3162.
+# http://dx.doi.org/10.1093/bioinformatics/btv334
+# http://arxiv.org/abs/1502.07959
+#
 #
 # Preprocess raw mass spectrometry data from Fiedler et al 2009
 #
