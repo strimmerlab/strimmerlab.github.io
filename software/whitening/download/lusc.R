@@ -1,6 +1,8 @@
-# Reproduces the LUSC TCGA data analysis in Jendoubi and Strimmer. 2018.
-# A whitening approach to probabilistic canonical correlation analysis 
-# for omics data integration. https://arxiv.org/abs/1802.03490
+# Reproduces the LUSC TCGA data analysis in
+# Jendoubi and Strimmer. 2019. A whitening approach to probabilistic canonical 
+# correlation analysis for omics data integration.  BMC Bioinformatics 20:15.
+# https://doi.org/10.1186/s12859-018-2572-9
+
 
 ##### load package and data ################################
 

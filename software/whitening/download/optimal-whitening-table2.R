@@ -16,7 +16,7 @@
 #' This script reproduces the results of Table 2 in:
 #' A. Kessy, A. Lewin, and K. Strimmer. 2018. 
 #' *Optimal whitening and decorrelation.*
-#' The American Statistician
+#' The American Statistician **72**: 309-314
 #' https://doi.org/10.1080/00031305.2016.1277159
 
 #'
