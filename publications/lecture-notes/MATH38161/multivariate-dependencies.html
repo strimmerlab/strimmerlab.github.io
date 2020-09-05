@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Multivariate dependencies | Multivariate Statistics and Machine Learning MATH38161</title>
+  <meta name="description" content="5 Multivariate dependencies | Multivariate Statistics and Machine Learning MATH38161" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Multivariate dependencies | Multivariate Statistics and Machine Learning MATH38161" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Multivariate dependencies | Multivariate Statistics and Machine Learning MATH38161" />
+  
+  
+  
+
+<meta name="author" content="Korbinian Strimmer" />
+
+
+<meta name="date" content="2020-09-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="classification-supervised-learning.html"/>
+<link rel="next" href="nonlinear-and-nonparametric-models.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="http://strimmerlab.org/publications/lecture-notes/MATH38161/index.html">MATH38161 Lecture Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-these-notes"><i class="fa fa-check"></i>About these notes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-module"><i class="fa fa-check"></i>About the module</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-home-page"><i class="fa fa-check"></i>Course home page</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#topics-covered"><i class="fa fa-check"></i>Topics covered</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#video-lectures"><i class="fa fa-check"></i>Video lectures</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#additional-support-material"><i class="fa fa-check"></i>Additional support material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#further-study"><i class="fa fa-check"></i>Further study</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#recommended-reading"><i class="fa fa-check"></i>Recommended reading</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#advanced-reading"><i class="fa fa-check"></i>Advanced reading</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html"><i class="fa fa-check"></i><b>1</b> Multivariate random variables</a><ul>
+<li class="chapter" data-level="1.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#why-multivariate-statistics"><i class="fa fa-check"></i><b>1.1</b> Why multivariate statistics?</a></li>
+<li class="chapter" data-level="1.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#basics"><i class="fa fa-check"></i><b>1.2</b> Basics</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#univariate-vs.multivariate-random-variables"><i class="fa fa-check"></i><b>1.2.1</b> Univariate vs. multivariate random variables</a></li>
+<li class="chapter" data-level="1.2.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#mean-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.2</b> Mean of a random vector</a></li>
+<li class="chapter" data-level="1.2.3" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#variance-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.3</b> Variance of a random vector</a></li>
+<li class="chapter" data-level="1.2.4" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#properties-of-the-covariance-matrix"><i class="fa fa-check"></i><b>1.2.4</b> Properties of the covariance matrix</a></li>
+<li class="chapter" data-level="1.2.5" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#eigenvalue-decomposition-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.2.5</b> Eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.2.6" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#quantities-related-to-the-covariance-matrix"><i class="fa fa-check"></i><b>1.2.6</b> Quantities related to the covariance matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3</b> Multivariate normal distribution</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#univariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.1</b> Univariate normal distribution:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#multivariate-normal-model"><i class="fa fa-check"></i><b>1.3.2</b> Multivariate normal model</a></li>
+<li class="chapter" data-level="1.3.3" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#shape-of-the-contours-depend-on-the-eigenvalues-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contours depend on the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>:</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#discrete-multivariate-distributions"><i class="fa fa-check"></i><b>1.4</b> Discrete multivariate distributions</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#categorical-distribution"><i class="fa fa-check"></i><b>1.4.1</b> Categorical distribution</a></li>
+<li class="chapter" data-level="1.4.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#multinomial-distribution"><i class="fa fa-check"></i><b>1.4.2</b> Multinomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#continuous-multivariate-distributions"><i class="fa fa-check"></i><b>1.5</b> Continuous multivariate distributions</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#dirichlet-distribution"><i class="fa fa-check"></i><b>1.5.1</b> Dirichlet distribution</a></li>
+<li class="chapter" data-level="1.5.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#wishart-distribution"><i class="fa fa-check"></i><b>1.5.2</b> Wishart distribution</a></li>
+<li class="chapter" data-level="1.5.3" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#inverse-wishart-distribution"><i class="fa fa-check"></i><b>1.5.3</b> Inverse Wishart distribution</a></li>
+<li class="chapter" data-level="1.5.4" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#further-distributions"><i class="fa fa-check"></i><b>1.5.4</b> Further distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.6</b> Estimation in large sample and small sample settings</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#data-matrix"><i class="fa fa-check"></i><b>1.6.1</b> Data matrix</a></li>
+<li class="chapter" data-level="1.6.2" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#strategies-for-large-sample-estimation"><i class="fa fa-check"></i><b>1.6.2</b> Strategies for large sample estimation</a></li>
+<li class="chapter" data-level="1.6.3" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#large-sample-estimates-of-mean-boldsymbol-mu-and-covariance-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.6.3</b> Large sample estimates of mean <span class="math inline">\(\boldsymbol \mu\)</span> and covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.6.4" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><i class="fa fa-check"></i><b>1.6.4</b> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
+<li class="chapter" data-level="1.6.5" data-path="multivariate-random-variables.html"><a href="multivariate-random-variables.html#estimation-of-covariance-matrix-in-small-sample-settings"><i class="fa fa-check"></i><b>1.6.5</b> Estimation of covariance matrix in small sample settings</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html"><i class="fa fa-check"></i><b>2</b> Transformations and dimension reduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#linear-transformations"><i class="fa fa-check"></i><b>2.1</b> Linear Transformations</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#location-scale-transformation"><i class="fa fa-check"></i><b>2.1.1</b> Location-scale transformation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#invertible-location-scale-transformation"><i class="fa fa-check"></i><b>2.1.2</b> Invertible location-scale transformation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#nonlinear-transformations"><i class="fa fa-check"></i><b>2.2</b> Nonlinear transformations</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#general-transformation"><i class="fa fa-check"></i><b>2.2.1</b> General transformation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#linearisation-of-boldsymbol-hboldsymbol-x"><i class="fa fa-check"></i><b>2.2.2</b> Linearisation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span></a></li>
+<li class="chapter" data-level="2.2.3" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#delta-method"><i class="fa fa-check"></i><b>2.2.3</b> Delta method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#transformation-of-densities-under-general-invertible-transformation"><i class="fa fa-check"></i><b>2.2.4</b> Transformation of densities under general invertible transformation</a></li>
+<li class="chapter" data-level="2.2.5" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#normalising-flows"><i class="fa fa-check"></i><b>2.2.5</b> Normalising flows</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#whitening-transformations"><i class="fa fa-check"></i><b>2.3</b> Whitening transformations</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#overview"><i class="fa fa-check"></i><b>2.3.1</b> Overview</a></li>
+<li class="chapter" data-level="2.3.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#general-whitening-transformation"><i class="fa fa-check"></i><b>2.3.2</b> General whitening transformation</a></li>
+<li class="chapter" data-level="2.3.3" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#general-solution-of-whitening-constraint-covariance-based"><i class="fa fa-check"></i><b>2.3.3</b> General solution of whitening constraint (covariance-based)</a></li>
+<li class="chapter" data-level="2.3.4" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#another-solution-correlation-based"><i class="fa fa-check"></i><b>2.3.4</b> Another solution (correlation-based)</a></li>
+<li class="chapter" data-level="2.3.5" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#objective-criteria-for-choosing-among-boldsymbol-w-using-boldsymbol-q_1-or-boldsymbol-q_2"><i class="fa fa-check"></i><b>2.3.5</b> Objective criteria for choosing among <span class="math inline">\(\boldsymbol W\)</span> using <span class="math inline">\(\boldsymbol Q_1\)</span> or <span class="math inline">\(\boldsymbol Q_2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#natural-whitening-procedures"><i class="fa fa-check"></i><b>2.4</b> Natural whitening procedures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#zca-whitening"><i class="fa fa-check"></i><b>2.4.1</b> ZCA Whitening</a></li>
+<li class="chapter" data-level="2.4.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#zca-cor-whitening"><i class="fa fa-check"></i><b>2.4.2</b> ZCA-Cor Whitening</a></li>
+<li class="chapter" data-level="2.4.3" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.3</b> Cholesky Whitening</a></li>
+<li class="chapter" data-level="2.4.4" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA Whitening</a></li>
+<li class="chapter" data-level="2.4.5" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.5</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.6" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#comparison-of-zca-pca-and-chol-whitening"><i class="fa fa-check"></i><b>2.4.6</b> Comparison of ZCA, PCA and Chol whitening</a></li>
+<li class="chapter" data-level="2.4.7" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#cca-whitening-canonical-correlation-analysis"><i class="fa fa-check"></i><b>2.4.7</b> CCA whitening (Canonical Correlation Analysis)</a></li>
+<li class="chapter" data-level="2.4.8" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal"><i class="fa fa-check"></i><b>2.4.8</b> How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> diagonal?</a></li>
+<li class="chapter" data-level="2.4.9" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#recap"><i class="fa fa-check"></i><b>2.4.9</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>2.5</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#application-to-data"><i class="fa fa-check"></i><b>2.5.1</b> Application to data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#pca-correlation-loadings-and-plots"><i class="fa fa-check"></i><b>2.5.2</b> PCA correlation loadings and plots</a></li>
+<li class="chapter" data-level="2.5.3" data-path="transformations-and-dimension-reduction.html"><a href="transformations-and-dimension-reduction.html#iris-data-example"><i class="fa fa-check"></i><b>2.5.3</b> Iris data example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html"><i class="fa fa-check"></i><b>3</b> Clustering / unsupervised Learning</a><ul>
+<li class="chapter" data-level="3.1" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#overview-of-clustering"><i class="fa fa-check"></i><b>3.1</b> Overview of clustering</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#general-aim"><i class="fa fa-check"></i><b>3.1.1</b> General aim</a></li>
+<li class="chapter" data-level="3.1.2" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#why-is-clustering-difficult"><i class="fa fa-check"></i><b>3.1.2</b> Why is clustering difficult?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#common-types-of-clustering-methods"><i class="fa fa-check"></i><b>3.1.3</b> Common types of clustering methods</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>3.2</b> <span class="math inline">\(K\)</span>-means clustering</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#general-aims"><i class="fa fa-check"></i><b>3.2.1</b> General aims</a></li>
+<li class="chapter" data-level="3.2.2" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#algorithm"><i class="fa fa-check"></i><b>3.2.2</b> Algorithm</a></li>
+<li class="chapter" data-level="3.2.3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#properties"><i class="fa fa-check"></i><b>3.2.3</b> Properties</a></li>
+<li class="chapter" data-level="3.2.4" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#choosing-the-number-of-clusters"><i class="fa fa-check"></i><b>3.2.4</b> Choosing the number of clusters</a></li>
+<li class="chapter" data-level="3.2.5" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#k-medoids-aka-pam"><i class="fa fa-check"></i><b>3.2.5</b> <span class="math inline">\(K\)</span>-medoids aka PAM</a></li>
+<li class="chapter" data-level="3.2.6" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#application-of-k-means-to-iris-data"><i class="fa fa-check"></i><b>3.2.6</b> Application of <span class="math inline">\(K\)</span>-means to Iris data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#hierarchical-clustering"><i class="fa fa-check"></i><b>3.3</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#tree-like-structures"><i class="fa fa-check"></i><b>3.3.1</b> Tree-like structures</a></li>
+<li class="chapter" data-level="3.3.2" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#agglomerative-hierarchical-clustering-algorithms"><i class="fa fa-check"></i><b>3.3.2</b> Agglomerative hierarchical clustering algorithms</a></li>
+<li class="chapter" data-level="3.3.3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#application-to-swiss-banknote-data-set"><i class="fa fa-check"></i><b>3.3.3</b> Application to Swiss banknote data set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#mixture-models"><i class="fa fa-check"></i><b>3.4</b> Mixture models</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#finite-mixture-model"><i class="fa fa-check"></i><b>3.4.1</b> Finite mixture model</a></li>
+<li class="chapter" data-level="3.4.2" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#decomposition-of-covariance-and-total-variation"><i class="fa fa-check"></i><b>3.4.2</b> Decomposition of covariance and total variation</a></li>
+<li class="chapter" data-level="3.4.3" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#example-of-mixture-of-three-univariate-normal-densities"><i class="fa fa-check"></i><b>3.4.3</b> Example of mixture of three univariate normal densities:</a></li>
+<li class="chapter" data-level="3.4.4" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#example-of-a-mixture-of-two-bivariate-normal-densities"><i class="fa fa-check"></i><b>3.4.4</b> Example of a mixture of two bivariate normal densities</a></li>
+<li class="chapter" data-level="3.4.5" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#sampling-from-a-mixture-model-and-latent-allocation-variable-formulation"><i class="fa fa-check"></i><b>3.4.5</b> Sampling from a mixture model and latent allocation variable formulation</a></li>
+<li class="chapter" data-level="3.4.6" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#predicting-the-group-allocation-of-a-given-sample"><i class="fa fa-check"></i><b>3.4.6</b> Predicting the group allocation of a given sample</a></li>
+<li class="chapter" data-level="3.4.7" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#direct-estimation-of-mixture-model"><i class="fa fa-check"></i><b>3.4.7</b> Direct estimation of mixture model</a></li>
+<li class="chapter" data-level="3.4.8" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#estimate-mixture-model-using-the-em-algorithm"><i class="fa fa-check"></i><b>3.4.8</b> Estimate mixture model using the EM algorithm</a></li>
+<li class="chapter" data-level="3.4.9" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#em-algorithm-for-multivariate-normal-mixture-model"><i class="fa fa-check"></i><b>3.4.9</b> EM algorithm for multivariate normal mixture model</a></li>
+<li class="chapter" data-level="3.4.10" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#connection-with-k-means-clustering-method"><i class="fa fa-check"></i><b>3.4.10</b> Connection with <span class="math inline">\(K\)</span>-means clustering method</a></li>
+<li class="chapter" data-level="3.4.11" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#choosing-the-number-of-classes"><i class="fa fa-check"></i><b>3.4.11</b> Choosing the number of classes</a></li>
+<li class="chapter" data-level="3.4.12" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#application-of-gmms-to-iris-flower-data"><i class="fa fa-check"></i><b>3.4.12</b> Application of GMMs to Iris flower data</a></li>
+<li class="chapter" data-level="3.4.13" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#variation-1-infinite-mixture-model"><i class="fa fa-check"></i><b>3.4.13</b> Variation 1: Infinite mixture model</a></li>
+<li class="chapter" data-level="3.4.14" data-path="clustering-unsupervised-learning.html"><a href="clustering-unsupervised-learning.html#variation-2-semiparametric-mixture-model-with-two-classes"><i class="fa fa-check"></i><b>3.4.14</b> Variation 2: Semiparametric mixture model with two classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html"><i class="fa fa-check"></i><b>4</b> Classification / supervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#supervised-learning-vs.unsupervised-learning"><i class="fa fa-check"></i><b>4.1</b> Supervised learning vs. unsupervised learning</a></li>
+<li class="chapter" data-level="4.2" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#terminology"><i class="fa fa-check"></i><b>4.2</b> Terminology</a></li>
+<li class="chapter" data-level="4.3" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#bayesian-discriminant-rule-or-bayes-classifier"><i class="fa fa-check"></i><b>4.3</b> Bayesian discriminant rule or Bayes classifier</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#general-model"><i class="fa fa-check"></i><b>4.3.1</b> General model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#quadratic-discriminant-analysis-qda-and-gaussian-assumption"><i class="fa fa-check"></i><b>4.3.2</b> Quadratic discriminant analysis (QDA) and Gaussian assumption</a></li>
+<li class="chapter" data-level="4.3.3" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#linear-discriminant-analysis-lda"><i class="fa fa-check"></i><b>4.3.3</b> Linear discriminant analysis (LDA)</a></li>
+<li class="chapter" data-level="4.3.4" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#diagonal-discriminant-analysis-dda-and-naive-bayes-classifier"><i class="fa fa-check"></i><b>4.3.4</b> Diagonal discriminant analysis (DDA) and naive Bayes classifier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#the-training-step-learning-qda-lda-and-dda-classifiers-from-data"><i class="fa fa-check"></i><b>4.4</b> The training step — learning QDA, LDA and DDA classifiers from data</a></li>
+<li class="chapter" data-level="4.5" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#comparison-of-decision-boundaries-lda-vs.qda"><i class="fa fa-check"></i><b>4.5</b> Comparison of decision boundaries: LDA vs. QDA</a></li>
+<li class="chapter" data-level="4.6" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#goodness-of-fit-and-variable-selection"><i class="fa fa-check"></i><b>4.6</b> Goodness of fit and variable selection</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#lda-with-k2-classes"><i class="fa fa-check"></i><b>4.6.1</b> LDA with <span class="math inline">\(K=2\)</span> classes</a></li>
+<li class="chapter" data-level="4.6.2" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#multiple-classes"><i class="fa fa-check"></i><b>4.6.2</b> Multiple classes</a></li>
+<li class="chapter" data-level="4.6.3" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#choosing-a-threshold"><i class="fa fa-check"></i><b>4.6.3</b> Choosing a threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#estimating-prediction-error"><i class="fa fa-check"></i><b>4.7</b> Estimating prediction error</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#quantifying-prediction-error"><i class="fa fa-check"></i><b>4.7.1</b> Quantifying prediction error</a></li>
+<li class="chapter" data-level="4.7.2" data-path="classification-supervised-learning.html"><a href="classification-supervised-learning.html#estimation-of-prediction-error-without-test-data"><i class="fa fa-check"></i><b>4.7.2</b> Estimation of prediction error without test data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html"><i class="fa fa-check"></i><b>5</b> Multivariate dependencies</a><ul>
+<li class="chapter" data-level="5.1" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#measuring-the-association-between-two-sets-of-random-variables"><i class="fa fa-check"></i><b>5.1</b> Measuring the association between two sets of random variables</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#rozeboom-vector-correlation"><i class="fa fa-check"></i><b>5.1.1</b> Rozeboom vector correlation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#other-common-approaches"><i class="fa fa-check"></i><b>5.1.2</b> Other common approaches</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#graphical-models"><i class="fa fa-check"></i><b>5.2</b> Graphical models</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#purpose"><i class="fa fa-check"></i><b>5.2.1</b> Purpose</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#basic-notions-from-graph-theory"><i class="fa fa-check"></i><b>5.2.2</b> Basic notions from graph theory</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#probabilistic-graphical-models"><i class="fa fa-check"></i><b>5.2.3</b> Probabilistic graphical models</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#directed-graphical-models"><i class="fa fa-check"></i><b>5.2.4</b> Directed graphical models</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#undirected-graphical-models"><i class="fa fa-check"></i><b>5.2.5</b> Undirected graphical models</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#algorithm-for-learning-ggms"><i class="fa fa-check"></i><b>5.2.6</b> Algorithm for learning GGMs</a></li>
+<li class="chapter" data-level="5.2.7" data-path="multivariate-dependencies.html"><a href="multivariate-dependencies.html#example-exam-score-data-mardia-et-al-1979"><i class="fa fa-check"></i><b>5.2.7</b> Example: exam score data (Mardia et al 1979:)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html"><i class="fa fa-check"></i><b>6</b> Nonlinear and nonparametric models</a><ul>
+<li class="chapter" data-level="6.1" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#relevant-textbooks"><i class="fa fa-check"></i><b>6.1</b> Relevant textbooks</a></li>
+<li class="chapter" data-level="6.2" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#limits-of-linear-models"><i class="fa fa-check"></i><b>6.2</b> Limits of linear models</a></li>
+<li class="chapter" data-level="6.3" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#mutual-information-as-generalised-correlation"><i class="fa fa-check"></i><b>6.3</b> Mutual information as generalised correlation</a></li>
+<li class="chapter" data-level="6.4" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#nonlinear-spline-regression-models"><i class="fa fa-check"></i><b>6.4</b> Nonlinear spline regression models</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#relevant-reading"><i class="fa fa-check"></i><b>6.4.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.4.2" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#scatterplot-smoothing"><i class="fa fa-check"></i><b>6.4.2</b> Scatterplot smoothing</a></li>
+<li class="chapter" data-level="6.4.3" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#polynomial-regression-model"><i class="fa fa-check"></i><b>6.4.3</b> Polynomial regression model</a></li>
+<li class="chapter" data-level="6.4.4" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#piecewise-polyomial-regression"><i class="fa fa-check"></i><b>6.4.4</b> Piecewise polyomial regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#random-forests"><i class="fa fa-check"></i><b>6.5</b> Random forests</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#relevant-reading-1"><i class="fa fa-check"></i><b>6.5.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.5.2" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#stochastic-vs.algorithmic-models"><i class="fa fa-check"></i><b>6.5.2</b> Stochastic vs. algorithmic models</a></li>
+<li class="chapter" data-level="6.5.3" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#random-forests-1"><i class="fa fa-check"></i><b>6.5.3</b> Random forests</a></li>
+<li class="chapter" data-level="6.5.4" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#comparison-of-decision-boundaries-decision-tree-vs.random-forest"><i class="fa fa-check"></i><b>6.5.4</b> Comparison of decision boundaries: decision tree vs. random forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#gaussian-processes"><i class="fa fa-check"></i><b>6.6</b> Gaussian processes</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#relevant-reading-2"><i class="fa fa-check"></i><b>6.6.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.6.2" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#main-concepts"><i class="fa fa-check"></i><b>6.6.2</b> Main concepts</a></li>
+<li class="chapter" data-level="6.6.3" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#technical-background"><i class="fa fa-check"></i><b>6.6.3</b> Technical background:</a></li>
+<li class="chapter" data-level="6.6.4" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#covariance-functions-and-kernel"><i class="fa fa-check"></i><b>6.6.4</b> Covariance functions and kernel</a></li>
+<li class="chapter" data-level="6.6.5" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#gp-model"><i class="fa fa-check"></i><b>6.6.5</b> GP model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#neural-networks"><i class="fa fa-check"></i><b>6.7</b> Neural networks</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#relevant-reading-3"><i class="fa fa-check"></i><b>6.7.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.7.2" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#history"><i class="fa fa-check"></i><b>6.7.2</b> History</a></li>
+<li class="chapter" data-level="6.7.3" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#neural-networks-1"><i class="fa fa-check"></i><b>6.7.3</b> Neural networks</a></li>
+<li class="chapter" data-level="6.7.4" data-path="nonlinear-and-nonparametric-models.html"><a href="nonlinear-and-nonparametric-models.html#learning-more-about-deep-learning"><i class="fa fa-check"></i><b>6.7.4</b> Learning more about deep learning</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html"><i class="fa fa-check"></i><b>A</b> Brief refresher on matrices</a><ul>
+<li class="chapter" data-level="A.1" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#matrix-notation"><i class="fa fa-check"></i><b>A.1</b> Matrix notation</a></li>
+<li class="chapter" data-level="A.2" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#simple-special-matrices"><i class="fa fa-check"></i><b>A.2</b> Simple special matrices</a></li>
+<li class="chapter" data-level="A.3" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#simple-matrix-operations"><i class="fa fa-check"></i><b>A.3</b> Simple matrix operations</a></li>
+<li class="chapter" data-level="A.4" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#orthogonal-matrices"><i class="fa fa-check"></i><b>A.4</b> Orthogonal matrices</a></li>
+<li class="chapter" data-level="A.5" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#eigenvalues-and-eigenvalue-decomposition"><i class="fa fa-check"></i><b>A.5</b> Eigenvalues and eigenvalue decomposition</a></li>
+<li class="chapter" data-level="A.6" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#singular-value-decomposition"><i class="fa fa-check"></i><b>A.6</b> Singular value decomposition</a></li>
+<li class="chapter" data-level="A.7" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#positive-semi-definiteness-rank-condition"><i class="fa fa-check"></i><b>A.7</b> Positive (semi-)definiteness, rank, condition</a></li>
+<li class="chapter" data-level="A.8" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#trace-and-determinant-of-a-matrix-and-eigenvalues"><i class="fa fa-check"></i><b>A.8</b> Trace and determinant of a matrix and eigenvalues</a></li>
+<li class="chapter" data-level="A.9" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#functions-of-matrices"><i class="fa fa-check"></i><b>A.9</b> Functions of matrices</a></li>
+<li class="chapter" data-level="A.10" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#matrix-calculus"><i class="fa fa-check"></i><b>A.10</b> Matrix calculus</a><ul>
+<li class="chapter" data-level="A.10.1" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#first-order-vector-derivatives"><i class="fa fa-check"></i><b>A.10.1</b> First order vector derivatives</a></li>
+<li class="chapter" data-level="A.10.2" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#second-order-vector-derivatives"><i class="fa fa-check"></i><b>A.10.2</b> Second order vector derivatives</a></li>
+<li class="chapter" data-level="A.10.3" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#first-order-matrix-derivatives"><i class="fa fa-check"></i><b>A.10.3</b> First order matrix derivatives</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate Statistics and Machine Learning MATH38161</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multivariate-dependencies" class="section level1">
+<h1><span class="header-section-number">5</span> Multivariate dependencies</h1>
+<div id="measuring-the-association-between-two-sets-of-random-variables" class="section level2">
+<h2><span class="header-section-number">5.1</span> Measuring the association between two sets of random variables</h2>
+<div id="rozeboom-vector-correlation" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Rozeboom vector correlation</h3>
+<p>In linear regression model the
+squared multiple correlation (also known as coefficient of determination) between <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span>
+<span class="math display">\[
+\text{Cor}(y, \boldsymbol x)^2 = \boldsymbol P_{y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{y\boldsymbol x}
+\]</span>
+is a standard measure to describe the strength of association between the
+predictors <span class="math inline">\(\boldsymbol x\)</span> and the response <span class="math inline">\(y\)</span>.
+If there is only a single predictor the squared multiple correlation, or
+cofficient of determination, reduces to the squared Pearson correlation
+<span class="math inline">\(\text{Cor}(x, y)^2\)</span>.</p>
+<p>Now, if we consider two random vectors <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and
+<span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_q)^T\)</span>, what is a relevant measure to describe the association between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> that generalises both simple correlation and multiple correlation?</p>
+<p>An answer in the form of squared <em>vector correlation</em> was given by Rozeboom (1965)
+defined as follows:
+<span class="math display">\[
+\text{Cor}(\boldsymbol x, \boldsymbol y)^2 =1- \prod_{i=1}^m (1-\lambda_i^2)
+\]</span>
+where <span class="math inline">\(\lambda_1, \ldots, \lambda_m\)</span> are the canonical correlations (see Chapter 2).</p>
+<p>Equivalent ways to write the squared vector correlation are
+<span class="math display">\[
+\begin{split}
+\text{Cor}(\boldsymbol x, \boldsymbol y)^2 &amp;= 1 - \frac {\det \boldsymbol P_{\boldsymbol x, \boldsymbol x} } {  \det \boldsymbol P_{\boldsymbol x} \;  \det \boldsymbol P_{\boldsymbol y}    } \\
+&amp; = 1 - \det\left( \boldsymbol I_q - \boldsymbol P_{\boldsymbol y}^{-1} \boldsymbol P_{\boldsymbol y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol x\boldsymbol y}   \right) \\
+&amp; = 1 - \det\left( \boldsymbol I_p - \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol P_{\boldsymbol y}^{-1} \boldsymbol P_{\boldsymbol y\boldsymbol x}   \right) \ .
+\end{split}
+\]</span>
+It is easy to see that for <span class="math inline">\(p=1\)</span> or <span class="math inline">\(q=1\)</span> the squared vector correlation
+reduces to the squared multiple correlation.</p>
+</div>
+<div id="other-common-approaches" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Other common approaches</h3>
+<p>A common appproach to measure association between is the RV coefficient defined
+as
+<span class="math display">\[
+RV(\boldsymbol X, \boldsymbol Y) = \frac{ \text{Tr}(\boldsymbol \Sigma_{\boldsymbol X\boldsymbol Y} \boldsymbol \Sigma_{\boldsymbol Y\boldsymbol X} )}{\text{Tr}(\boldsymbol \Sigma_{\boldsymbol X}^2) \text{Tr}(\boldsymbol \Sigma_{\boldsymbol Y}^2) }
+\]</span>
+While for <span class="math inline">\(q=p=1\)</span> the RV coefficient becomes the pairwise squared correlation.
+However, the RV coefficient does not reduce to the multiple correlation coefficient
+for <span class="math inline">\(q=1\)</span> and <span class="math inline">\(p &gt; 1\)</span>.</p>
+<p>Another way to measure multivariate association is mutual information (MI)
+which not only covers linear but also non-linear association.
+See the next Chapter for details. MI applied to
+multivariate normal distribution is linked to the above Rozeboom vector
+correlation.</p>
+</div>
+</div>
+<div id="graphical-models" class="section level2">
+<h2><span class="header-section-number">5.2</span> Graphical models</h2>
+<div id="purpose" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Purpose</h3>
+<p>Graphical models combine features from</p>
+<ul>
+<li>graph theory</li>
+<li>probability</li>
+<li>statistical inference</li>
+</ul>
+<p>The literature on graphical models is huge, we focus here only on two commonly
+used models:</p>
+<ul>
+<li>DAGs (directed acyclic graphs), all edges are directed, no directed loops (i.e. no cycles, hence “acyclic”)</li>
+<li>GGM (Gaussian graphical models), all edges are undirected</li>
+</ul>
+<p>Graphical models provide probabilistic models for trees and for networks, with
+random variables represented by nodes in the graphs, and branches representing
+conditional dependencies. In this regard they generalise both the tree-based clustering approaches as well as the probabilistic non-hierarchical methods (GMMs).</p>
+<p>However, the class of graphical models goes much beyond simple
+unsupervised learning models. It also includes regression, classification,
+time series models etc. See e.g. the reference book by Murphy (2012).</p>
+</div>
+<div id="basic-notions-from-graph-theory" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Basic notions from graph theory</h3>
+<ul>
+<li>Mathematically, a graph <span class="math inline">\(G = (V, E)\)</span> consists of a a set of vertices or nodes <span class="math inline">\(V = \{v_1, v_2, \ldots\}\)</span> and a set of branches or edges <span class="math inline">\(E = \{ e_1, e_2, \ldots \}\)</span>.</li>
+<li>Edges can be undirected or directed.</li>
+<li>Graphs containing only directed edges are directed graphs, and likewise graphs containing only undirected edges are called undirected graphs. Graphs containing both directed and undirected edges are called partially directed graphs.</li>
+<li>A path is a sequence of of vertices such that from each of its vertices there is an edge to the next vertex in the sequence.</li>
+<li>A graph is connected when there is a path between every pair of vertices.</li>
+<li>A cycle is a path in a graph that connects a node with itself.</li>
+<li>A connected graph with no cycles is a called a tree.</li>
+<li>The degree of a node is the number of edges it connects with. If edges are all directed the degree of a node is the sum of the in-degree and out-degree, which counts the incoming and outgoing edges, respectively.</li>
+<li>External nodes are nodes with degree 1. In a tree-structed graph these are also called leafs.</li>
+</ul>
+<p>Some notions are only relevant for graphs with directed edges:</p>
+<ul>
+<li>In a directed graph the parent node(s) of vertex <span class="math inline">\(v\)</span> is the set of nodes <span class="math inline">\(\text{pa}(v)\)</span> directly connected to <span class="math inline">\(v\)</span> via edges directed from the parent node(s) towards <span class="math inline">\(v\)</span>.</li>
+<li>Conversely, <span class="math inline">\(v\)</span> is called a child node of <span class="math inline">\(\text{pa}(v)\)</span>. Note that a parent node can have several child nodes, so <span class="math inline">\(v\)</span> may not be the only child of <span class="math inline">\(\text{pa}(v)\)</span>.</li>
+<li>In a directed tree graph, each node has only a single parent, except for one particular node that has no parent at all (this node is called the root node).</li>
+<li>A DAG, or directed acyclic graph, is a directed graph with no directed cycles. A (directed) tree is a special version of a DAG.</li>
+</ul>
+</div>
+<div id="probabilistic-graphical-models" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Probabilistic graphical models</h3>
+<p>A graphical model uses a graph to describe the relationship between random variables <span class="math inline">\(x_1, \ldots, x_d\)</span>. The variables are assumed to have a joint distribution with density/mass function <span class="math inline">\(\text{Pr}(x_1, x_2, \ldots, x_d)\)</span>.
+Each random variable is placed in a node of the graph.</p>
+<p>The structure of the graph and the type of the edges connecting (or not connecting) any pair of nodes/variables is used to describe the conditional dependencies, and to simplify the joint distribution.</p>
+<p>Thus, a graphical model is in essence a visualisation of the joint distribution using structural information from the graph helping to understand the mutual relationship among the variables.</p>
+</div>
+<div id="directed-graphical-models" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> Directed graphical models</h3>
+<p>In a <strong>directed graphical model</strong> the graph structure is assumed to be
+a DAG (or a directed tree, which is also a DAG).</p>
+<p>Then the joint probability distribution can be factorised into a <em>product of conditional probabilities</em> as follows:
+<span class="math display">\[
+\text{Pr}(x_1, x_2, \ldots, x_d) = \prod_i \text{Pr}(x_i  | \text{pa}(x_i))
+\]</span>
+Thus, the overall joint probability distribution is specified by local conditional distributions and the graph structure, with the directions of the edges providing the information about parent-child node relationships.</p>
+<p>Probabilistic DAGs are also known as “Bayesian networks”.</p>
+<p><strong>Idea:</strong> by trying out all possible trees/graphs and fitting them to the data using maximum likelihood (or Bayesian inference) we hope to be able identify the graph structure of the data-generating process.</p>
+<p><strong>Challenges</strong></p>
+<ol style="list-style-type: decimal">
+<li>in the tree/network the internal nodes are usually not known, and thus have to
+be treated as <em>latent</em> variables.</li>
+</ol>
+<p><strong>Answer:</strong> To impute the states at these nodes we may use the EM algorithm as in GMMs
+(which in fact can be viewed as graphical models, too!).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>If we treat the internal nodes as unknowns we need to marginalise over the
+internal nodes, i.e. we need to sum / integrate over all possible set of states
+of the internal nodes!</li>
+</ol>
+<p><strong>Answer:</strong> This can be handled very effectively using the <strong>Viterbi algorithm</strong> which is essentially
+an application of the generalised distributive law. In particular for tree graphs this
+means that the summations occurs locally at each nodes and propagates recursively accross the tree.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>In order to infer the tree or network structure the space of all trees or networks need to
+be explored. This is not possible in an exhaustive fashion unless the number of variables
+in the tree is very small.</li>
+</ol>
+<p><strong>Answer:</strong> Solution: use heuristic approaches for tree and network search!</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Furthermore, there exist so-called “equivalence classes” of graphical models, i.e. sets of graphical models that share the same joint probability distribution. Thus, all graphical models within the same equivalence class cannot be distinguished from observational data, even with infinite sample size!</li>
+</ol>
+<p><strong>Answer:</strong> this is a fundamental mathematical problem of identifiability so there is now way around this issue. However,
+on the positive side, this also implies that the search through all graphical models can be restricted to finding the so-called “essential graph” (e.g. <a href="https://projecteuclid.org/euclid.aos/1031833662" class="uri">https://projecteuclid.org/euclid.aos/1031833662</a> )</p>
+<p><strong>Conclusion: using directed graphical models for structure discovery is very time consuming and computationally
+demanding for anything but small toy data sets.</strong></p>
+<p>This also explains why heuristic and non-model based approaches (such as hierarchical clustering) are so popular even though full statistical modelling is in principle possible.</p>
+</div>
+<div id="undirected-graphical-models" class="section level3">
+<h3><span class="header-section-number">5.2.5</span> Undirected graphical models</h3>
+<p>Another class of graphical models are models that contain only undirected edges. These <strong>undirected graphical models</strong>
+are used to represent the pairwise conditional (in)dependencies among the variables in the graph, and the resulting model is therefore also called <strong>conditional independence graph</strong>.</p>
+<p>If <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> two selected random variables/nodes, and the set <span class="math inline">\(\{x_k\}\)</span> represents all other variables/nodes with <span class="math inline">\(k\neq i\)</span> and <span class="math inline">\(k \neq j\)</span>. We say that variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> are conditionally independent
+given all the other variables <span class="math inline">\(\{x_k\}\)</span>
+<span class="math display">\[
+x_i \perp\!\!\!\perp x_j | \{x_k\}
+\]</span>
+if the joint probability density of <span class="math inline">\(x_i, x_j\)</span> and <span class="math inline">\(x_k\)</span>
+factorises as
+<span class="math display">\[
+ \text{Pr}(x_1, x_2, \ldots, x_d) = \text{Pr}(x_i | \{x_k\}) \text{Pr}(x_j | \{x_k\}) \text{Pr}(\{x_k\}) \,.
+ \]</span>
+or equivalently
+<span class="math display">\[
+ \text{Pr}(x_i, x_j | \{x_k\}) = \text{Pr}(x_i | \{x_k\}) \text{Pr}(x_j | \{x_k\}) \,.
+ \]</span></p>
+<p>In a corresponding conditional independence graph, there is no edge between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>,
+as in such a graph <em>missing edges correspond to conditional independencies</em> between the respective non-connected nodes.</p>
+<div id="gaussian-graphical-model" class="section level4">
+<h4><span class="header-section-number">5.2.5.1</span> Gaussian graphical model</h4>
+<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normal distributed, i.e. <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>,
+it turns out that it is straightforward to identify the pairwise conditional independencies.
+From <span class="math inline">\(\boldsymbol \Sigma\)</span> we first obtain the precision matrix
+<span class="math display">\[\boldsymbol \Omega= (\omega_{ij}) = \boldsymbol \Sigma^{-1} \,.\]</span>
+Crucially, it can be shown that
+<span class="math inline">\(\omega_{ij} = 0\)</span> implies
+<span class="math inline">\(x_i \perp\!\!\!\perp x_j | \{ x_k \}\)</span>!
+Hence, from the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can directly read off all the pairwise conditional independencies among the variables <span class="math inline">\(x_1, x_2, \ldots, x_d\)</span>!</p>
+<p>Often, the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span> is dense (few zeros) but the corresponding precision matrix
+<span class="math inline">\(\boldsymbol \Omega\)</span> is sparse (many zeros).</p>
+<p>The conditional independence graph computed for normally distributed variables is called
+a <strong>Gaussian graphical model</strong>, or <strong>GGM</strong>. A further alternative name
+is <strong>covariance selection model</strong>.</p>
+</div>
+<div id="related-quantity-partial-correlation" class="section level4">
+<h4><span class="header-section-number">5.2.5.2</span> Related quantity: partial correlation</h4>
+<p>From the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
+<p><span class="math display">\[
+\rho_{ij|\text{rest}}=-\frac{\omega_{ij}}{\sqrt{\omega_{ii}\omega_{jj}}}
+\]</span>
+which is essentially the standardised precision matrix (similar to correlation but with an extra minus sign!)</p>
+<p>The partial correlations lie in the range between -1 and +1, <span class="math inline">\(\rho_{ij|\text{rest}} \in [-1, 1]\)</span>, just like standard correlations.</p>
+<p>If <span class="math inline">\(\boldsymbol x\)</span> is multivariate normal then <span class="math inline">\(\rho_{ij|\text{rest}} = 0\)</span> indicates conditional independence
+between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.</p>
+<p><em>Regression interpretation:</em> partial correlation is the correlation that remains between
+the two variables if the effect of the other variables is “regressed away”.
+In other words, the partial correlation is exactly equivalent to the correlation between
+the residuals that remain after regressing <span class="math inline">\(x_i\)</span> on the variables <span class="math inline">\(\{x_k\}\)</span> and <span class="math inline">\(x_j\)</span> on <span class="math inline">\(\{x_k\}\)</span>.</p>
+</div>
+</div>
+<div id="algorithm-for-learning-ggms" class="section level3">
+<h3><span class="header-section-number">5.2.6</span> Algorithm for learning GGMs</h3>
+<p>From the above we can devise a simple algorithm to to learn Gaussian graphical model (GGM)
+from data:</p>
+<ol style="list-style-type: decimal">
+<li>Estimate covariance <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> (in such a way that it is invertible!)</li>
+<li>Compute corresponding partial correlations</li>
+<li>If <span class="math inline">\(\hat{\rho}_{ij|\text{rest}} \approx 0\)</span> then there is (approx). conditional
+independence between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.<br />
+In practise this is done by statistical testing for vanishing partial correlations. If there are many edges we also need
+adjustment for simultaneous multiple testing since all edges are tested in parallel.</li>
+</ol>
+</div>
+<div id="example-exam-score-data-mardia-et-al-1979" class="section level3">
+<h3><span class="header-section-number">5.2.7</span> Example: exam score data (Mardia et al 1979:)</h3>
+<p>Correlations (rounded to 2 digits):</p>
+<pre><code>##            mechanics vectors algebra analysis statistics
+## mechanics       1.00    0.55    0.55     0.41       0.39
+## vectors         0.55    1.00    0.61     0.49       0.44
+## algebra         0.55    0.61    1.00     0.71       0.66
+## analysis        0.41    0.49    0.71     1.00       0.61
+## statistics      0.39    0.44    0.66     0.61       1.00</code></pre>
+<p>Partial correlations (rounded to 2 digits):</p>
+<pre><code>##            mechanics vectors algebra analysis statistics
+## mechanics       1.00    0.33    0.23     0.00       0.02
+## vectors         0.33    1.00    0.28     0.08       0.02
+## algebra         0.23    0.28    1.00     0.43       0.36
+## analysis        0.00    0.08    0.43     1.00       0.25
+## statistics      0.02    0.02    0.36     0.25       1.00</code></pre>
+<p>Note that that there are no zero correlations but there are
+<strong>four partial correlations close to 0</strong>, indicating <strong>conditional independencies</strong> between:</p>
+<ul>
+<li>analysis and mechanics,</li>
+<li>statistics and mechanics,</li>
+<li>analysis and vectors, and</li>
+<li>statistics and vectors.</li>
+</ul>
+<p>Thus, of 10 possible edges four are missing, and thus
+the conditional independence graph looks as follows:</p>
+<pre><code>Mechanics      Analysis
+   |     \    /    |
+   |    Algebra    |
+   |     /   \     |
+ Vectors      Statistics</code></pre>
+
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="classification-supervised-learning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="nonlinear-and-nonparametric-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["math38161-script.pdf", "PDF"]],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

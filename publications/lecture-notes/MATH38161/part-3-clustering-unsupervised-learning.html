@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Part 3: Clustering / Unsupervised Learning | MATH38161 Multivariate Statistics and Machine Learning</title>
+  <meta name="description" content="3 Part 3: Clustering / Unsupervised Learning | MATH38161 Multivariate Statistics and Machine Learning" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Part 3: Clustering / Unsupervised Learning | MATH38161 Multivariate Statistics and Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Part 3: Clustering / Unsupervised Learning | MATH38161 Multivariate Statistics and Machine Learning" />
+  
+  
+  
+
+<meta name="author" content="Korbinian Strimmer" />
+
+
+<meta name="date" content="2020-09-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="part-2-transformations-and-dimension-reduction.html"/>
+<link rel="next" href="part-4-classification-supervised-learning.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction to the course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#organisatorical-details-winter-term-2020"><i class="fa fa-check"></i>Organisatorical details Winter Term 2020</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#lecturer"><i class="fa fa-check"></i>Lecturer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tutors"><i class="fa fa-check"></i>Tutors:</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#lectures-computer-labs-tutorials"><i class="fa fa-check"></i>Lectures, computer labs, tutorials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#coursework-and-exam"><i class="fa fa-check"></i>Coursework and exam</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#supporting-links"><i class="fa fa-check"></i>Supporting links</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#overview-of-this-module"><i class="fa fa-check"></i>Overview of this module</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#topics"><i class="fa fa-check"></i>Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-multivariate-statistics"><i class="fa fa-check"></i>Why multivariate statistics ?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#recommended-reading"><i class="fa fa-check"></i>Recommended reading:</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#additional-advanced-reference-books-for-probabilistic-machine-learning"><i class="fa fa-check"></i>Additional (advanced) reference books for probabilistic machine learning:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites:</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#supporting-videos"><i class="fa fa-check"></i>Supporting videos</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#blackboard-material"><i class="fa fa-check"></i>Blackboard material</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html"><i class="fa fa-check"></i><b>1</b> Multivariate Random Variables and Estimation</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-multivariate-statistics"><i class="fa fa-check"></i><b>1.1</b> Why multivariate statistics?</a></li>
+<li class="chapter" data-level="1.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#basics"><i class="fa fa-check"></i><b>1.2</b> Basics</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#univariate-random-variable-dimension-d1"><i class="fa fa-check"></i><b>1.2.1</b> Univariate random variable (dimension <span class="math inline">\(d=1\)</span>)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#multivariate-random-vector-of-dimension-d"><i class="fa fa-check"></i><b>1.2.2</b> Multivariate random vector of dimension <span class="math inline">\(d\)</span></a></li>
+<li class="chapter" data-level="1.2.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#moments-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.3</b> Moments of a random vector</a></li>
+<li class="chapter" data-level="1.2.4" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#definition-of-variance-for-univariate-random-variable"><i class="fa fa-check"></i><b>1.2.4</b> Definition of variance for univariate random variable:</a></li>
+<li class="chapter" data-level="1.2.5" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#definition-of-variance-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.5</b> Definition of variance of a random vector:</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#properties-of-the-covariance-matrix-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.3</b> Properties of the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span></a><ul>
+<li class="chapter" data-level="1.3.1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#real-valued-and-symmetric"><i class="fa fa-check"></i><b>1.3.1</b> Real valued and symmetric</a></li>
+<li class="chapter" data-level="1.3.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#spectral-decomposition-eigenvalue-decomposition-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.3.2</b> Spectral decomposition / eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#precision-matrix-or-concentration-matrix"><i class="fa fa-check"></i><b>1.3.3</b> Precision Matrix or Concentration Matrix</a></li>
+<li class="chapter" data-level="1.3.4" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#more-properties-of-ths-covariance-matrix-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.3.4</b> More properties of ths covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.3.5" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#quantities-related-to-the-covariance-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.3.5</b> Quantities related to the covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.4</b> Multivariate Normal Distribution</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#univariate-normal-distribution"><i class="fa fa-check"></i><b>1.4.1</b> Univariate normal distribution:</a></li>
+<li class="chapter" data-level="1.4.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#multivariate-normal-model"><i class="fa fa-check"></i><b>1.4.2</b> Multivariate Normal Model</a></li>
+<li class="chapter" data-level="1.4.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#shape-of-the-contours-depend-on-the-eigenvalues-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.4.3</b> Shape of the contours depend on the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>:</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#other-multivariate-distributions"><i class="fa fa-check"></i><b>1.5</b> Other Multivariate Distributions</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#discrete-distributions"><i class="fa fa-check"></i><b>1.5.1</b> Discrete Distributions</a></li>
+<li class="chapter" data-level="1.5.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#continuous-distributions"><i class="fa fa-check"></i><b>1.5.2</b> Continuous Distributions</a></li>
+<li class="chapter" data-level="1.5.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#sums-of-squared-zero-mean-normal-random-variables"><i class="fa fa-check"></i><b>1.5.3</b> Sums of squared zero-mean normal random variables</a></li>
+<li class="chapter" data-level="1.5.4" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#relationship-to-scaled-chi2-and-wishart"><i class="fa fa-check"></i><b>1.5.4</b> Relationship to scaled <span class="math inline">\(\chi^2\)</span> and Wishart:</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.6</b> Estimation in large sample and small sample settings</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#data-matrix"><i class="fa fa-check"></i><b>1.6.1</b> Data matrix</a></li>
+<li class="chapter" data-level="1.6.2" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#strategies-for-large-sample-estimation"><i class="fa fa-check"></i><b>1.6.2</b> Strategies for large sample estimation</a></li>
+<li class="chapter" data-level="1.6.3" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#empirical-estimators-outline"><i class="fa fa-check"></i><b>1.6.3</b> Empirical estimators (outline)</a></li>
+<li class="chapter" data-level="1.6.4" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#maximum-likelihood-estimation-outline"><i class="fa fa-check"></i><b>1.6.4</b> Maximum likelihood estimation (outline)</a></li>
+<li class="chapter" data-level="1.6.5" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#large-sample-estimates-of-mean-boldsymbol-mu-and-covariance-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.6.5</b> Large sample estimates of mean <span class="math inline">\(\boldsymbol \mu\)</span> and covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.6.6" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#empirical-estimates"><i class="fa fa-check"></i><b>1.6.6</b> Empirical estimates:</a></li>
+<li class="chapter" data-level="1.6.7" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#maximum-likelihood-estimates"><i class="fa fa-check"></i><b>1.6.7</b> Maximum likelihood estimates</a></li>
+<li class="chapter" data-level="1.6.8" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#distribution-of-the-empirical-maximum-likelihood-estimates"><i class="fa fa-check"></i><b>1.6.8</b> Distribution of the empirical / maximum likelihood estimates</a></li>
+<li class="chapter" data-level="1.6.9" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><i class="fa fa-check"></i><b>1.6.9</b> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
+<li class="chapter" data-level="1.6.10" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#modern-data-is-high-dimensional"><i class="fa fa-check"></i><b>1.6.10</b> Modern data is high dimensional!</a></li>
+<li class="chapter" data-level="1.6.11" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#general-problems-of-mles"><i class="fa fa-check"></i><b>1.6.11</b> General problems of MLEs:</a></li>
+<li class="chapter" data-level="1.6.12" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#history-of-statistics"><i class="fa fa-check"></i><b>1.6.12</b> History of Statistics:</a></li>
+<li class="chapter" data-level="1.6.13" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#estimation-of-covariance-matrix-in-small-sample-settings"><i class="fa fa-check"></i><b>1.6.13</b> Estimation of covariance matrix in small sample settings</a></li>
+<li class="chapter" data-level="1.6.14" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#problems-with-ml-estimate-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.6.14</b> Problems with ML estimate of <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.6.15" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#simple-regularised-estimate-of-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.6.15</b> Simple regularised estimate of <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
+<li class="chapter" data-level="1.6.16" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#bias-variance-trade-off"><i class="fa fa-check"></i><b>1.6.16</b> Bias-variance trade-off</a></li>
+<li class="chapter" data-level="1.6.17" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#why-does-regularisation-of-hatboldsymbol-sigma-work"><i class="fa fa-check"></i><b>1.6.17</b> Why does regularisation of <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> work?</a></li>
+<li class="chapter" data-level="1.6.18" data-path="multivariate-random-variables-and-estimation.html"><a href="multivariate-random-variables-and-estimation.html#summary"><i class="fa fa-check"></i><b>1.6.18</b> Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html"><i class="fa fa-check"></i><b>2</b> Part 2: Transformations and dimension reduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#linear-transformations"><i class="fa fa-check"></i><b>2.1</b> 2.1 Linear Transformations</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#location-scale-transformation"><i class="fa fa-check"></i><b>2.1.1</b> Location-scale transformation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#invertible-location-scale-transformation"><i class="fa fa-check"></i><b>2.1.2</b> Invertible location-scale transformation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#nonlinear-transformations"><i class="fa fa-check"></i><b>2.2</b> 2.2 Nonlinear transformations</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#general-transformation"><i class="fa fa-check"></i><b>2.2.1</b> General transformation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#linearisation-of-boldsymbol-hboldsymbol-x"><i class="fa fa-check"></i><b>2.2.2</b> Linearisation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span></a></li>
+<li class="chapter" data-level="2.2.3" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#delta-method"><i class="fa fa-check"></i><b>2.2.3</b> Delta method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#transformation-of-densities-under-general-invertible-transformation"><i class="fa fa-check"></i><b>2.2.4</b> Transformation of densities under general invertible transformation</a></li>
+<li class="chapter" data-level="2.2.5" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#normalising-flows"><i class="fa fa-check"></i><b>2.2.5</b> Normalising flows</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#whitening-transformations"><i class="fa fa-check"></i><b>2.3</b> 2.3 Whitening transformations</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#overview"><i class="fa fa-check"></i><b>2.3.1</b> Overview</a></li>
+<li class="chapter" data-level="2.3.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#general-whitening-transformation"><i class="fa fa-check"></i><b>2.3.2</b> General whitening transformation</a></li>
+<li class="chapter" data-level="2.3.3" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#general-solution-of-whitening-constraint-covariance-based"><i class="fa fa-check"></i><b>2.3.3</b> General solution of whitening constraint (covariance-based)</a></li>
+<li class="chapter" data-level="2.3.4" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#another-solution-correlation-based"><i class="fa fa-check"></i><b>2.3.4</b> Another solution (correlation-based)</a></li>
+<li class="chapter" data-level="2.3.5" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#objective-criteria-for-choosing-among-boldsymbol-w-using-boldsymbol-q_1-or-boldsymbol-q_2"><i class="fa fa-check"></i><b>2.3.5</b> Objective criteria for choosing among <span class="math inline">\(\boldsymbol W\)</span> using <span class="math inline">\(\boldsymbol Q_1\)</span> or <span class="math inline">\(\boldsymbol Q_2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#natural-whitening-procedures"><i class="fa fa-check"></i><b>2.4</b> 2.4 Natural whitening procedures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#zca-whitening"><i class="fa fa-check"></i><b>2.4.1</b> ZCA Whitening</a></li>
+<li class="chapter" data-level="2.4.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#zca-cor-whitening"><i class="fa fa-check"></i><b>2.4.2</b> ZCA-Cor Whitening</a></li>
+<li class="chapter" data-level="2.4.3" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.3</b> Cholesky Whitening</a></li>
+<li class="chapter" data-level="2.4.4" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA Whitening</a></li>
+<li class="chapter" data-level="2.4.5" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.5</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.6" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#comparison-of-zca-pca-and-chol-whitening"><i class="fa fa-check"></i><b>2.4.6</b> Comparison of ZCA, PCA and Chol whitening</a></li>
+<li class="chapter" data-level="2.4.7" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#cca-whitening-canonical-correlation-analysis"><i class="fa fa-check"></i><b>2.4.7</b> CCA whitening (Canonical Correlation Analysis)</a></li>
+<li class="chapter" data-level="2.4.8" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal"><i class="fa fa-check"></i><b>2.4.8</b> How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> diagonal?</a></li>
+<li class="chapter" data-level="2.4.9" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#recap"><i class="fa fa-check"></i><b>2.4.9</b> Recap</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>2.5</b> 2.5 Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#application-to-data"><i class="fa fa-check"></i><b>2.5.1</b> Application to data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#pca-correlation-loadings-and-plots"><i class="fa fa-check"></i><b>2.5.2</b> PCA correlation loadings and plots</a></li>
+<li class="chapter" data-level="2.5.3" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#iris-data-example"><i class="fa fa-check"></i><b>2.5.3</b> Iris data example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html"><i class="fa fa-check"></i><b>3</b> Part 3: Clustering / Unsupervised Learning</a><ul>
+<li class="chapter" data-level="3.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#overview"><i class="fa fa-check"></i><b>3.1</b> 3.1 Overview</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#aim"><i class="fa fa-check"></i><b>3.1.1</b> Aim</a></li>
+<li class="chapter" data-level="3.1.2" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#questions-problems"><i class="fa fa-check"></i><b>3.1.2</b> Questions / Problems</a></li>
+<li class="chapter" data-level="3.1.3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#why-is-clustering-difficult"><i class="fa fa-check"></i><b>3.1.3</b> Why is clustering difficult?</a></li>
+<li class="chapter" data-level="3.1.4" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#common-types-of-clustering-methods"><i class="fa fa-check"></i><b>3.1.4</b> Common types of clustering methods</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#k-means-clustering"><i class="fa fa-check"></i><b>3.2</b> 3.2 <span class="math inline">\(K\)</span>-means clustering</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#general-aims"><i class="fa fa-check"></i><b>3.2.1</b> General aims</a></li>
+<li class="chapter" data-level="3.2.2" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#algorithm"><i class="fa fa-check"></i><b>3.2.2</b> Algorithm</a></li>
+<li class="chapter" data-level="3.2.3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#properties"><i class="fa fa-check"></i><b>3.2.3</b> Properties</a></li>
+<li class="chapter" data-level="3.2.4" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#choosing-the-number-of-clusters"><i class="fa fa-check"></i><b>3.2.4</b> Choosing the number of clusters</a></li>
+<li class="chapter" data-level="3.2.5" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#k-medoids-aka-pam"><i class="fa fa-check"></i><b>3.2.5</b> <span class="math inline">\(K\)</span>-medoids aka PAM</a></li>
+<li class="chapter" data-level="3.2.6" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#application-of-k-means-to-iris-data"><i class="fa fa-check"></i><b>3.2.6</b> Application of <span class="math inline">\(K\)</span>-means to Iris data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#hierarchical-clustering"><i class="fa fa-check"></i><b>3.3</b> 3.3 Hierarchical clustering</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#overview-1"><i class="fa fa-check"></i><b>3.3.1</b> Overview</a></li>
+<li class="chapter" data-level="3.3.2" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#agglomerative-hierarchical-clustering-algorithms"><i class="fa fa-check"></i><b>3.3.2</b> Agglomerative hierarchical clustering algorithms</a></li>
+<li class="chapter" data-level="3.3.3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#application-to-swiss-banknote-data-set"><i class="fa fa-check"></i><b>3.3.3</b> Application to Swiss banknote data set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#mixture-models"><i class="fa fa-check"></i><b>3.4</b> 3.4 Mixture models</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#finite-mixture-model"><i class="fa fa-check"></i><b>3.4.1</b> Finite mixture model</a></li>
+<li class="chapter" data-level="3.4.2" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#decomposition-of-covariance-and-total-variation"><i class="fa fa-check"></i><b>3.4.2</b> Decomposition of covariance and total variation</a></li>
+<li class="chapter" data-level="3.4.3" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#example-of-mixture-of-three-univariate-normal-densities"><i class="fa fa-check"></i><b>3.4.3</b> Example of mixture of three univariate normal densities:</a></li>
+<li class="chapter" data-level="3.4.4" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#example-of-a-mixture-of-two-bivariate-normal-densities"><i class="fa fa-check"></i><b>3.4.4</b> Example of a mixture of two bivariate normal densities</a></li>
+<li class="chapter" data-level="3.4.5" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#sampling-from-a-mixture-model-and-latent-allocation-variable-formulation"><i class="fa fa-check"></i><b>3.4.5</b> Sampling from a mixture model and latent allocation variable formulation</a></li>
+<li class="chapter" data-level="3.4.6" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#predicting-the-group-allocation-of-a-given-sample"><i class="fa fa-check"></i><b>3.4.6</b> Predicting the group allocation of a given sample</a></li>
+<li class="chapter" data-level="3.4.7" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#direct-estimation-of-mixture-model"><i class="fa fa-check"></i><b>3.4.7</b> Direct estimation of mixture model</a></li>
+<li class="chapter" data-level="3.4.8" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#estimate-mixture-model-using-the-em-algorithm"><i class="fa fa-check"></i><b>3.4.8</b> Estimate mixture model using the EM algorithm</a></li>
+<li class="chapter" data-level="3.4.9" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#em-algorithm-for-multivariate-normal-mixture-model"><i class="fa fa-check"></i><b>3.4.9</b> EM algorithm for multivariate normal mixture model</a></li>
+<li class="chapter" data-level="3.4.10" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#connection-with-k-means-clustering-method"><i class="fa fa-check"></i><b>3.4.10</b> Connection with <span class="math inline">\(K\)</span>-means clustering method</a></li>
+<li class="chapter" data-level="3.4.11" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#choosing-the-number-of-classes"><i class="fa fa-check"></i><b>3.4.11</b> Choosing the number of classes</a></li>
+<li class="chapter" data-level="3.4.12" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#application-of-gmms-to-iris-flower-data"><i class="fa fa-check"></i><b>3.4.12</b> Application of GMMs to Iris flower data</a></li>
+<li class="chapter" data-level="3.4.13" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#variation-1-infinite-mixture-model"><i class="fa fa-check"></i><b>3.4.13</b> Variation 1: Infinite mixture model</a></li>
+<li class="chapter" data-level="3.4.14" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#variation-2-semiparametric-mixture-model-with-two-classes"><i class="fa fa-check"></i><b>3.4.14</b> Variation 2: Semiparametric mixture model with two classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html"><i class="fa fa-check"></i><b>4</b> Part 4: Classification / Supervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#supervised-learning-vs.unsupervised-learning"><i class="fa fa-check"></i><b>4.1</b> Supervised learning vs. unsupervised learning</a></li>
+<li class="chapter" data-level="4.2" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#terminology"><i class="fa fa-check"></i><b>4.2</b> Terminology</a></li>
+<li class="chapter" data-level="4.3" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#bayesian-discriminant-rule-or-bayes-classifier"><i class="fa fa-check"></i><b>4.3</b> Bayesian discriminant rule or Bayes classifier</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#general-model"><i class="fa fa-check"></i><b>4.3.1</b> General model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#quadratic-discriminant-analysis-qda-and-gaussian-assumption"><i class="fa fa-check"></i><b>4.3.2</b> Quadratic discriminant analysis (QDA) and Gaussian assumption</a></li>
+<li class="chapter" data-level="4.3.3" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#linear-discriminant-analysis-lda"><i class="fa fa-check"></i><b>4.3.3</b> Linear discriminant analysis (LDA)</a></li>
+<li class="chapter" data-level="4.3.4" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#diagonal-discriminant-analysis-dda-and-naive-bayes-classifier"><i class="fa fa-check"></i><b>4.3.4</b> Diagonal discriminant analysis (DDA) and naive Bayes classifier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#the-training-step-learning-qda-lda-and-dda-classifiers-from-data"><i class="fa fa-check"></i><b>4.4</b> The training step — learning QDA, LDA and DDA classifiers from data</a></li>
+<li class="chapter" data-level="4.5" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#comparison-of-decision-boundaries-lda-vs.qda"><i class="fa fa-check"></i><b>4.5</b> Comparison of decision boundaries: LDA vs. QDA</a></li>
+<li class="chapter" data-level="4.6" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#goodness-of-fit-and-variable-selection"><i class="fa fa-check"></i><b>4.6</b> Goodness of fit and variable selection</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#lda-with-k2-classes"><i class="fa fa-check"></i><b>4.6.1</b> LDA with <span class="math inline">\(K=2\)</span> classes</a></li>
+<li class="chapter" data-level="4.6.2" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#multiple-classes"><i class="fa fa-check"></i><b>4.6.2</b> Multiple classes</a></li>
+<li class="chapter" data-level="4.6.3" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#choosing-a-threshold"><i class="fa fa-check"></i><b>4.6.3</b> Choosing a threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#estimating-prediction-error"><i class="fa fa-check"></i><b>4.7</b> Estimating prediction error</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#quantifying-prediction-error"><i class="fa fa-check"></i><b>4.7.1</b> Quantifying prediction error</a></li>
+<li class="chapter" data-level="4.7.2" data-path="part-4-classification-supervised-learning.html"><a href="part-4-classification-supervised-learning.html#estimation-of-predicton-error-without-test-data"><i class="fa fa-check"></i><b>4.7.2</b> Estimation of predicton error without test data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html"><i class="fa fa-check"></i><b>5</b> Part 5: Multivariate dependencies</a><ul>
+<li class="chapter" data-level="5.1" data-path="part-2-transformations-and-dimension-reduction.html"><a href="part-2-transformations-and-dimension-reduction.html#overview"><i class="fa fa-check"></i><b>5.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#multivariate-regression-and-vector-correlation"><i class="fa fa-check"></i><b>5.2</b> Multivariate regression and vector correlation</a></li>
+<li class="chapter" data-level="5.3" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#vector-correlation"><i class="fa fa-check"></i><b>5.3</b> Vector correlation</a></li>
+<li class="chapter" data-level="5.4" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#graphical-models"><i class="fa fa-check"></i><b>5.4</b> Graphical models</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="part-3-clustering-unsupervised-learning.html"><a href="part-3-clustering-unsupervised-learning.html#overview-1"><i class="fa fa-check"></i><b>5.4.1</b> Overview</a></li>
+<li class="chapter" data-level="5.4.2" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#basic-notions-from-graph-theory"><i class="fa fa-check"></i><b>5.4.2</b> Basic notions from graph theory</a></li>
+<li class="chapter" data-level="5.4.3" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#probabilistic-graphical-models"><i class="fa fa-check"></i><b>5.4.3</b> Probabilistic graphical models</a></li>
+<li class="chapter" data-level="5.4.4" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#directed-graphical-models"><i class="fa fa-check"></i><b>5.4.4</b> Directed graphical models</a></li>
+<li class="chapter" data-level="5.4.5" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#undirected-graphical-models"><i class="fa fa-check"></i><b>5.4.5</b> Undirected graphical models</a></li>
+<li class="chapter" data-level="5.4.6" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#algorithm-for-learning-ggms"><i class="fa fa-check"></i><b>5.4.6</b> Algorithm for learning GGMs</a></li>
+<li class="chapter" data-level="5.4.7" data-path="part-5-multivariate-dependencies.html"><a href="part-5-multivariate-dependencies.html#example-exam-score-data-mardia-et-al-1979"><i class="fa fa-check"></i><b>5.4.7</b> Example: exam score data (Mardia et al 1979:)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html"><i class="fa fa-check"></i><b>6</b> Part 6: Nonlinear and nonparametric models</a><ul>
+<li class="chapter" data-level="6.1" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#relevant-textbooks"><i class="fa fa-check"></i><b>6.1</b> Relevant textbooks</a></li>
+<li class="chapter" data-level="6.2" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#limits-of-linear-models"><i class="fa fa-check"></i><b>6.2</b> Limits of linear models</a></li>
+<li class="chapter" data-level="6.3" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#mutual-information-as-generalised-correlation"><i class="fa fa-check"></i><b>6.3</b> Mutual information as generalised correlation</a></li>
+<li class="chapter" data-level="6.4" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#nonlinear-spline-regression-models"><i class="fa fa-check"></i><b>6.4</b> Nonlinear spline regression models</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#relevant-reading"><i class="fa fa-check"></i><b>6.4.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.4.2" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#scatterplot-smoothing"><i class="fa fa-check"></i><b>6.4.2</b> Scatterplot smoothing</a></li>
+<li class="chapter" data-level="6.4.3" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#polynomial-regression-model"><i class="fa fa-check"></i><b>6.4.3</b> Polynomial regression model</a></li>
+<li class="chapter" data-level="6.4.4" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#piecewise-polyomial-regression"><i class="fa fa-check"></i><b>6.4.4</b> Piecewise polyomial regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#random-forests"><i class="fa fa-check"></i><b>6.5</b> Random forests</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#relevant-reading-1"><i class="fa fa-check"></i><b>6.5.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.5.2" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#stochastic-vs.algorithmic-models"><i class="fa fa-check"></i><b>6.5.2</b> Stochastic vs. algorithmic models</a></li>
+<li class="chapter" data-level="6.5.3" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#random-forests-1"><i class="fa fa-check"></i><b>6.5.3</b> Random forests</a></li>
+<li class="chapter" data-level="6.5.4" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#comparison-of-decision-boundaries-decision-tree-vs.random-forest"><i class="fa fa-check"></i><b>6.5.4</b> Comparison of decision boundaries: decision tree vs. random forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#gaussian-processes"><i class="fa fa-check"></i><b>6.6</b> Gaussian processes</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#relevant-reading-2"><i class="fa fa-check"></i><b>6.6.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.6.2" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#main-concepts"><i class="fa fa-check"></i><b>6.6.2</b> Main concepts</a></li>
+<li class="chapter" data-level="6.6.3" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#technical-background"><i class="fa fa-check"></i><b>6.6.3</b> Technical background:</a></li>
+<li class="chapter" data-level="6.6.4" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#covariance-functions-and-kernel"><i class="fa fa-check"></i><b>6.6.4</b> Covariance functions and kernel</a></li>
+<li class="chapter" data-level="6.6.5" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#gp-model"><i class="fa fa-check"></i><b>6.6.5</b> GP model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#neural-networks"><i class="fa fa-check"></i><b>6.7</b> Neural networks</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#relevant-reading-3"><i class="fa fa-check"></i><b>6.7.1</b> Relevant reading</a></li>
+<li class="chapter" data-level="6.7.2" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#history"><i class="fa fa-check"></i><b>6.7.2</b> History</a></li>
+<li class="chapter" data-level="6.7.3" data-path="part-6-nonlinear-and-nonparametric-models.html"><a href="part-6-nonlinear-and-nonparametric-models.html#neural-networks-1"><i class="fa fa-check"></i><b>6.7.3</b> Neural networks</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html"><i class="fa fa-check"></i><b>A</b> Brief refresher on matrices</a><ul>
+<li class="chapter" data-level="A.1" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#matrix-notation"><i class="fa fa-check"></i><b>A.1</b> Matrix notation</a></li>
+<li class="chapter" data-level="A.2" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#simple-special-matrices"><i class="fa fa-check"></i><b>A.2</b> Simple special matrices</a></li>
+<li class="chapter" data-level="A.3" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#simple-matrix-operations"><i class="fa fa-check"></i><b>A.3</b> Simple matrix operations</a></li>
+<li class="chapter" data-level="A.4" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#orthogonal-matrices"><i class="fa fa-check"></i><b>A.4</b> Orthogonal matrices</a></li>
+<li class="chapter" data-level="A.5" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#eigenvalues-and-eigenvalue-decomposition"><i class="fa fa-check"></i><b>A.5</b> Eigenvalues and eigenvalue decomposition</a></li>
+<li class="chapter" data-level="A.6" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#singular-value-decomposition"><i class="fa fa-check"></i><b>A.6</b> Singular value decomposition</a></li>
+<li class="chapter" data-level="A.7" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#positive-semi-definiteness-rank-condition"><i class="fa fa-check"></i><b>A.7</b> Positive (semi-)definiteness, rank, condition</a></li>
+<li class="chapter" data-level="A.8" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#trace-and-determinant-of-a-matrix-and-eigenvalues"><i class="fa fa-check"></i><b>A.8</b> Trace and determinant of a matrix and eigenvalues</a></li>
+<li class="chapter" data-level="A.9" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#functions-of-matrices"><i class="fa fa-check"></i><b>A.9</b> Functions of matrices</a></li>
+<li class="chapter" data-level="A.10" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#matrix-calculus"><i class="fa fa-check"></i><b>A.10</b> Matrix calculus</a><ul>
+<li class="chapter" data-level="A.10.1" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#first-order-vector-derivatives"><i class="fa fa-check"></i><b>A.10.1</b> First order vector derivatives</a></li>
+<li class="chapter" data-level="A.10.2" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#second-order-vector-derivatives"><i class="fa fa-check"></i><b>A.10.2</b> Second order vector derivatives</a></li>
+<li class="chapter" data-level="A.10.3" data-path="brief-refresher-on-matrices.html"><a href="brief-refresher-on-matrices.html#first-order-matrix-derivatives"><i class="fa fa-check"></i><b>A.10.3</b> First order matrix derivatives</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MATH38161 Multivariate Statistics and Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="part-3-clustering-unsupervised-learning" class="section level1">
+<h1><span class="header-section-number">3</span> Part 3: Clustering / Unsupervised Learning</h1>
+<div id="overview" class="section level2">
+<h2><span class="header-section-number">3.1</span> 3.1 Overview</h2>
+<div id="aim" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Aim</h3>
+<p><strong>Find structure</strong> and gain insights in data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> collected on <span class="math inline">\(n\)</span> objects by <strong>categorising the objects into groups</strong> based on the <span class="math inline">\(d\)</span> features (= the <span class="math inline">\(d\)</span> components in <span class="math inline">\(\boldsymbol x_i\)</span>)
+obtained for each object.</p>
+<p>In machine learning / statistical learning this process is called <em>unsupervised learning</em> or <em>clustering</em>,
+and there are many algorithms and procedures to automatise and quantify this process.</p>
+<p><strong>Unsupervised learning is a very hard problem!</strong></p>
+<p>Note that <strong>unsupervised learning</strong> the class labels are a priori unknown, and are learned in the process of clustering.
+In contrast, in <strong>supervised learning</strong> (part 5 of this module) the class labels are known, at least for the training data set.</p>
+<p>Remember the Isis flower data (from PCA computer lab 2): PC1 vs. PC2 shows clear visual grouping into 2-3 clusters:<br />
+<img src="3-clustering_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Thus, by clustering this data we aim to identify this structure that is visualised here by the <em>given</em> class labels.</p>
+<p>Two extremes in clustering:</p>
+<ol style="list-style-type: decimal">
+<li>put all objects into a single cluster (low complexity model)</li>
+<li>put each object into its own cluster (high complexity model)</li>
+</ol>
+<p>In both instances nothing new has been learned!
+In practise, the aim is to find a compromise, i.e. a model that captures the
+structure in the data with appropriate complexity (not too low and not too complex).</p>
+</div>
+<div id="questions-problems" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Questions / Problems</h3>
+<ul>
+<li>how do we define clusters?</li>
+<li>how do we learn / infer clusters?</li>
+<li>how many clusters? (this is surprisingly difficult!)</li>
+<li>which features define / separate each cluster?</li>
+<li>uncertainty of clusters?</li>
+</ul>
+<p><span class="math inline">\(\Longrightarrow\)</span> Clustering / partitioning / structure discovery is not easy!</p>
+<p><span class="math inline">\(\Longrightarrow\)</span> We cannot expect perfect answers or a single “true” clustering (this is related to the problem of model selections, many differnt clusterings may fit the data equally well)</p>
+<p><span class="math inline">\(\Longrightarrow\)</span> Ideally we would wish to get information about the uncertainty of the clustering solution (e.g. by considering sets of possible clusters)</p>
+</div>
+<div id="why-is-clustering-difficult" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Why is clustering difficult?</h3>
+<p><strong>Partioning problem</strong> (combinatorics): How many partitions of <span class="math inline">\(n\)</span> objects (say flowers) into <span class="math inline">\(K\)</span> groups (say species) exists?</p>
+<p><strong>Answer:</strong></p>
+<p><span class="math display">\[
+S(n,K) = \left\{\begin{array}{l} n \\ K \end{array} \right\}
+\]</span>
+this is the “Sterling number of the second type”.</p>
+<p>For large n:
+<span class="math display">\[
+S(n,K) \approx \frac{K^n }{ K!}
+\]</span>
+Example:</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(K\)</span></th>
+<th>Number of possible partitions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>15</td>
+<td>3</td>
+<td><span class="math inline">\(\approx\)</span> 2.4 million (<span class="math inline">\(10^6\)</span>)</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>4</td>
+<td><span class="math inline">\(\approx\)</span> 2.4 billion (<span class="math inline">\(10^9\)</span>)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>5</td>
+<td><span class="math inline">\(\approx 6.6 \times 10^{76}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>These are enormously big numbers even for relatively small problems!</p>
+</div>
+<div id="common-types-of-clustering-methods" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> Common types of clustering methods</h3>
+<p>There are very many different clustering algorithms!</p>
+<p>We consider the following two broad types of methods:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Algorithmic clustering methods</strong> (these are not explicitly based on a probabilistic model)</li>
+</ol>
+<ul>
+<li><span class="math inline">\(K\)</span>-means</li>
+<li>PAM</li>
+<li>hierarchical clustering (distance or similarity-based, divise and agglomerative)</li>
+</ul>
+<blockquote>
+<p><strong>pros:</strong> fast, effective algorithms to find at least some grouping</p>
+</blockquote>
+<blockquote>
+<p><strong>cons:</strong> no probabilistic interpretation, blackbox methods</p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Model-based clustering</strong> (based on a probabilistic model)</li>
+</ol>
+<ul>
+<li>mixture models (e.g. Gaussian mixture models, GMMs, non-hierarchical)</li>
+<li>graphical models (e.g. Bayesian networks, Gaussian graphical models GGM, trees and networks)</li>
+</ul>
+<blockquote>
+<p><strong>pros:</strong> full probabilistic model with all corresponding advantages</p>
+</blockquote>
+<blockquote>
+<p><strong>cons:</strong> computationally very expensive, sometimes impossible to compute exactly.</p>
+</blockquote>
+</div>
+</div>
+<div id="k-means-clustering" class="section level2">
+<h2><span class="header-section-number">3.2</span> 3.2 <span class="math inline">\(K\)</span>-means clustering</h2>
+<div id="general-aims" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> General aims</h3>
+<ul>
+<li>Partition the data into <span class="math inline">\(K\)</span> groups, with <span class="math inline">\(K\)</span> given in advance<br />
+</li>
+<li>The groups are non-overlapping, so each of the <span class="math inline">\(n\)</span> data points / objects <span class="math inline">\(\boldsymbol x_i\)</span> is assigned to exactly one of the <span class="math inline">\(K\)</span> groups</li>
+<li>maximise the homogeneity with each group (i.e. each group should contain similar objects)</li>
+<li>maximise the heterogeneity among the different groups (i.e each group should differ from the other groups)</li>
+</ul>
+</div>
+<div id="algorithm" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Algorithm</h3>
+<p>For each group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> we assume a group mean <span class="math inline">\(\boldsymbol \mu_k\)</span>.<br />
+After running <span class="math inline">\(K\)</span>-means we will get estimates of <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> of the group means,
+as well as an allocation of each data point to one of the classes.</p>
+<p><em>Initialisation:</em></p>
+<p>At the start of the algorithm the <span class="math inline">\(n\)</span> observations <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> are randomly allocated to one of the <span class="math inline">\(K\)</span> groups. The resulting assignment is given by the function <span class="math inline">\(C(\boldsymbol x_i) \in \{1, \ldots, K\}\)</span>. With <span class="math inline">\(G_k = \{ i | C(\boldsymbol x_i) = k\}\)</span> we denote the set of indices of the data points in cluster <span class="math inline">\(k\)</span>, and with <span class="math inline">\(n_k = | G_k |\)</span> the
+number of samples in cluster <span class="math inline">\(k\)</span>.</p>
+<p><em>Iterative refinement:</em></p>
+<ol style="list-style-type: decimal">
+<li>estimate the group means by
+<span class="math display">\[
+\hat{\boldsymbol \mu}_k = \frac{1}{n_k} \sum_{i \in G_k} \boldsymbol x_i
+\]</span></li>
+<li>update group assignment: each data point <span class="math inline">\(\boldsymbol x_i\)</span> is (re)assigned to the group <span class="math inline">\(k\)</span> with the nearest <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> (in terms of the Euclidean norm).
+Specifically, the assignment <span class="math inline">\(C(\boldsymbol x_i)\)</span> is updated to
+<span class="math display">\[
+\begin{split}
+C(\boldsymbol x_i) &amp; = \underset{k}{\arg \min} \, | \boldsymbol x_i-\hat{\boldsymbol \mu}_k |_2 \\
+      &amp; = \underset{k}{\arg \min} \, (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k) \\
+\end{split}
+\]</span>
+Steps 1 and 2 are repeated until the algorithm converges (or an upper limit of repeats is reached).</li>
+</ol>
+</div>
+<div id="properties" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Properties</h3>
+<p>Despite its simplicity <span class="math inline">\(K\)</span>-means is a surprisingly effective clustering algorithms. The final clustering depends on the initialisation so it is often useful to run <span class="math inline">\(K\)</span>-means several times with different starting allocations of the data points.</p>
+<p>As a result of the way the clusters are assigned in <span class="math inline">\(K\)</span>-means this leads to cluster boundaries that form a
+Voronoi tesselation (cf. <a href="https://en.wikipedia.org/wiki/Voronoi_diagram" class="uri">https://en.wikipedia.org/wiki/Voronoi_diagram</a> ) around the cluster means.
+An example of this can be seen in the computer lab 3.</p>
+<p>Below we will also see a connection of <span class="math inline">\(K\)</span>-means with probabilistic clustering using Gaussian mixture models.</p>
+</div>
+<div id="choosing-the-number-of-clusters" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Choosing the number of clusters</h3>
+<p>Once the <span class="math inline">\(K\)</span>-means clustering has been obtained it is insightful to compute:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>the total within-group sum of squares <span class="math inline">\(SSW\)</span> (tot.withinss), or total unexplained sum of squares:
+<span class="math display">\[
+SSW = \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
+\]</span>
+This quantity decreases with <span class="math inline">\(K\)</span> and is zero for <span class="math inline">\(K=n\)</span>.
+The <span class="math inline">\(K\)</span>-means algorithm tries to minimise this quantity but it will typically only find a local minimum rather than the global one.</p></li>
+<li><p>the between-group sum of squares <span class="math inline">\(SSB\)</span> (betweenss), or explained sum of squares:
+<span class="math display">\[
+SSB = \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)
+\]</span>
+where <span class="math inline">\(\hat{\boldsymbol \mu}_0 = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\boldsymbol \mu}_k\)</span>
+is the global mean of the samples. <span class="math inline">\(SSB\)</span> increases with the number of clusters <span class="math inline">\(K\)</span> until for <span class="math inline">\(K=n\)</span> it
+becomes equal to</p></li>
+<li><p>the total sum of squares
+<span class="math display">\[
+SST = \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0) \, .
+\]</span>
+By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <span class="math inline">\(K\)</span> (i.e. <span class="math inline">\(SST\)</span> is a constant independent of <span class="math inline">\(K\)</span>).</p></li>
+</ol>
+<p>If divide the sum of squares by the sample size <span class="math inline">\(n\)</span> we get <span class="math inline">\(T = \frac{SST}{n}\)</span> as the <em>total variation</em>,
+<span class="math inline">\(B = \frac{SSW}{n}\)</span> as the <em>explained variation</em> and <span class="math inline">\(W = \frac{SSW}{n}\)</span> as the total <em>unexplained variation</em> , with
+<span class="math inline">\(T = B + W\)</span>.</p>
+<p>For deciding on the optimal number of clusters we can run <span class="math inline">\(K\)</span>-means for various settings of <span class="math inline">\(K\)</span> and then choose the smallest <span class="math inline">\(K\)</span> for which the explained variation <span class="math inline">\(B\)</span> is not significantly worse compared to a model with substantially larger number of clusters (see example below).</p>
+</div>
+<div id="k-medoids-aka-pam" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> <span class="math inline">\(K\)</span>-medoids aka PAM</h3>
+<p>A closely related clustering method is <span class="math inline">\(K\)</span>-medoids or PAM (“Partitioning Around Medoids”).</p>
+<p>This works exactly like <span class="math inline">\(K\)</span>-means, only that</p>
+<ul>
+<li>instead of the estimated group means <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> one member of each group is selected as its representative (the socalled “medoid”)</li>
+<li>instead of squared euclidean distance other dissimilarity measures are also allowed.</li>
+</ul>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="application-of-k-means-to-iris-data" class="section level3">
+<h3><span class="header-section-number">3.2.6</span> Application of <span class="math inline">\(K\)</span>-means to Iris data</h3>
+<p>Scatter plots of Iris data:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-2-1.png" width="480" /></p>
+<p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
+## 
+## Cluster means:
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 3   1.13217737  0.08812645    0.9928284   1.0141287
+## 
+## Clustering vector:
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
+## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
+## [149] 3 2
+## 
+## Within cluster sum of squares by cluster:
+## [1] 47.35062 44.08754 47.45019
+##  (between_SS / total_SS =  76.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<p>The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, tot.withinss) and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, betweenss) are:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">kmeans.out<span class="op">$</span>tot.withinss</a></code></pre></div>
+<pre><code>## [1] 138.8884</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">kmeans.out<span class="op">$</span>betweenss</a></code></pre></div>
+<pre><code>## [1] 457.1116</code></pre>
+<p>By comparing with the known class assignments we can find out about the accuracy of <span class="math inline">\(K\)</span>-means in this example:</p>
+<pre><code>##             
+## L.iris        1  2  3
+##   setosa     50  0  0
+##   versicolor  0 39 11
+##   virginica   0 14 36</code></pre>
+<p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
+within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
+<p>Thus, <span class="math inline">\(K=3\)</span> clusters seem appropriate since the the explained variation does not significantly improve
+(and the unexplained variation does not significantly decrease) with a further increase of the number of clusters.</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="hierarchical-clustering" class="section level2">
+<h2><span class="header-section-number">3.3</span> 3.3 Hierarchical clustering</h2>
+<div id="overview-1" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Overview</h3>
+<p>Often, categorisations of objects are naturally nested, i.e. there sub-categories of categories etc. Thes can be represented by <strong>tree-like hierarchical structures</strong>.</p>
+<p>In many branches of science hierarchical classifications are widely employed, for example in evolutionary (genetic) biology: see e.g.</p>
+<ul>
+<li>Tree of Life with linking the three natural kingdoms</li>
+<li>phylogenetic trees among species (e.g. vertebrata)</li>
+<li>population genetic trees to describe human evolution</li>
+<li>taxonomic trees for plant species</li>
+<li>etc.</li>
+</ul>
+<p>Note that when visualising hierarchical clusterings typically the tree is typically depicted facing downwards, i.e. the root is shown on the top, and the tips/leafs of the tree are shown at the bottom!</p>
+<p>In order to obtain such a hierarchical classification from data two opposing stratgies are commonly used:</p>
+<ol style="list-style-type: decimal">
+<li><strong>divisive or recursive partitioning algorithms</strong>
+<ul>
+<li>grow the tree from the root downwards</li>
+<li>first determine the main two clusters, then recursively refine the clusters further</li>
+</ul></li>
+<li><strong>agglomerative algorithms</strong>
+<ul>
+<li>grow the tree from the leafs upwards</li>
+<li>successively form partitions by first joining individual object together,
+then recursively join groups of items together, until all is merged.</li>
+</ul></li>
+</ol>
+<p>For example, <span class="math inline">\(K\)</span>-means can be turned into a divisive hierarchical clustering algorithm by recursively applying the algorithm with <span class="math inline">\(K=2\)</span>.</p>
+<p>In the following we discuss a number of popular hierarchical agglomerative clustering algorithms that are based on the pairwise distances / similarities (a <span class="math inline">\(n \times n\)</span> matrix) among all data points.</p>
+</div>
+<div id="agglomerative-hierarchical-clustering-algorithms" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Agglomerative hierarchical clustering algorithms</h3>
+<p>A general algorithm for agglomerative construction of a hierarchical clustering works as follows:</p>
+<p><em>Initialisation:</em></p>
+<p>Compute a dissimilarity / distance matrix between all pairs of objects where “objects” are single data points at this stage but later are also be sets of data points.</p>
+<p><em>Iterative procedure:</em></p>
+<ol style="list-style-type: decimal">
+<li><p>identify the pair of objects with the smallest distance. These two objects are then merged together into a common set. Create an internal node in the tree to describe this coalescent event.</p></li>
+<li><p>update the distance matrix by computing the distances between the new set and all other
+objects. If the new set contains all data points the procedure terminates.</p></li>
+</ol>
+<p>For actual implementation of this algorithm two key ingredients are needed:</p>
+<ol style="list-style-type: decimal">
+<li>a distance measure <span class="math inline">\(d(\boldsymbol a, \boldsymbol b)\)</span> between two data points
+<span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span>.</li>
+</ol>
+<blockquote>
+<p>This is typically on of the following.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sqrt{(\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)}\)</span></li>
+<li>Manhattan distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sum_{i=1}^d | a_i-b_i |\)</span></li>
+<li>maximum norm <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span></li>
+<li>etc</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>In the end, making the correct choice of distance will require subject knowledge about the data!</p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>a distance measure between two sets of objects <span class="math inline">\(A=\{\boldsymbol a_1, \boldsymbol a_2, \ldots, \boldsymbol a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\boldsymbol b_1, \boldsymbol b_2, \ldots, \boldsymbol b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively. The centroids of the two sets is given by <span class="math inline">\(\boldsymbol \mu_A = \frac{1}{n_A} \sum_{\boldsymbol a_i \in A} \boldsymbol a_i\)</span> and <span class="math inline">\(\boldsymbol \mu_B = \frac{1}{n_B} \sum_{\boldsymbol b_i \in B} \boldsymbol b_i\)</span>.</li>
+</ol>
+<blockquote>
+<p>To determine the distance <span class="math inline">\(d(A, B)\)</span> between these two sets the following measures are often employed:</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>complete linkage</strong> (max. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\max} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
+<li><strong>single linkage</strong> (min. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\min} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
+<li><strong>average linkage</strong> (avg. distance): <span class="math inline">\(d(A, B) = \frac{1}{n_A n_B} \sum_{\boldsymbol a_i \in A} \sum_{\boldsymbol b_i \in B} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
+</ul>
+</blockquote>
+<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong>. In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <em>smallest increase in total within-group sum of squares</em> (cf. <span class="math inline">\(K\)</span>-means). Normally, the within-group <span class="math inline">\(A\)</span>
+sum of squares <span class="math inline">\(w_A = \sum_{\boldsymbol a_i \in A} (\boldsymbol a_i -\boldsymbol \mu_A)^T (\boldsymbol a_i -\boldsymbol \mu_A)\)</span> is computed on the basis of actual observations <span class="math inline">\(\boldsymbol a_i\)</span> relative to their mean <span class="math inline">\(\boldsymbol \mu_A\)</span>. However, it is equally possible to compute it in terms of the squared pairwise differences
+between the observations using <span class="math inline">\(w_A = \frac{1}{n_A} \sum_{\boldsymbol a_i, \boldsymbol a_j \in A, i &lt; j} (\boldsymbol a_i -\boldsymbol a_j)^T (\boldsymbol a_i -\boldsymbol a_j)\)</span>. This is exploited in Ward’s clustering method where the distance measure between to sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is <span class="math inline">\(d(A, B) = w_{A \cap B} - w_A -w_B\)</span>. Correspondingly, between two data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> it is the squared Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol a- \boldsymbol b)\)</span>.</p>
+</div>
+<div id="application-to-swiss-banknote-data-set" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Application to Swiss banknote data set</h3>
+<p>This data set is reports 6 pysical measurements on 200 Swiss bank notes. Of the 200 notes
+100 are fake and 100 are real. The measurements are: length, left width, right width, bottom margin, top margin, diagonal length of the bank notes.</p>
+<p>PCA of this data shows that there are indeed two well defined groups,
+and that these groups correspond precisely to the real and fake banknotes:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="384" /></p>
+<div style="page-break-after: always;"></div>
+<p>We now compare the clusterings of the above four different hierarchical methods using Euclidean distance:</p>
+<p>Ward.D2 (=Ward’s method):</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Average linkage:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div style="page-break-after: always;"></div>
+<p>Complete linkage:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Single linkage:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Result:</p>
+<ul>
+<li>All four trees / hierarchical clusterings are quite different!</li>
+<li>The Ward.D2 method is the only one that finds the correct grouping (except for a single error).</li>
+</ul>
+<p>In practical application of hierarchical clustering methods is is essential to evaluate the stability and uncertainty of the obtained groupings. This is often done as follows:</p>
+<ul>
+<li>the bootstrap is used to generate data sets (say 200) similar to the original one, and to construct a hierarchical clustering for each of these data sets.</li>
+<li>a consensus tree is computed from the 200 bootstrap trees. This reduces the variability of te estimated tree and also provides bootstrap values measuring the
+stability of each implied cluster in the tree.</li>
+</ul>
+<p>Disadvantage: bootstrapping trees is computationally very expensive!</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="mixture-models" class="section level2">
+<h2><span class="header-section-number">3.4</span> 3.4 Mixture models</h2>
+<div id="finite-mixture-model" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Finite mixture model</h3>
+<ul>
+<li><span class="math inline">\(K\)</span> groups / classes / categories, with the number <span class="math inline">\(K\)</span> specified and finite</li>
+<li>each class <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> is modeled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>.</li>
+<li>density in each class: <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span> with <span class="math inline">\(k \in 1, \ldots, K\)</span></li>
+<li>mixing weight of each class: <span class="math inline">\(\text{Pr}(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span></li>
+<li>joint density <span class="math inline">\(f(\boldsymbol x, k) = f(\boldsymbol x| k) \text{Pr}(k) = f_k(\boldsymbol x) \pi_k\)</span></li>
+</ul>
+<p>This results in the mixture density / marginal density</p>
+<p><span class="math display">\[f(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\]</span></p>
+<p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\boldsymbol x) = N(\boldsymbol x| \boldsymbol \mu_k, \boldsymbol \Sigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
+<p>Mixture models are fundamental not just in clustering but for many other applications (e.g. classification).</p>
+<p>Note: don’t confuse <em>mixture model</em> with <em>mixed model</em> (=random effects regression model)</p>
+</div>
+<div id="decomposition-of-covariance-and-total-variation" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> Decomposition of covariance and total variation</h3>
+<p>Just like in regression you can decompose the variance into an explained and unexplained part.</p>
+<p>The conditional means and variances for each class are <span class="math inline">\(\text{E}(\boldsymbol x| k) = \boldsymbol \mu_k\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x| k) = \boldsymbol \Sigma_k\)</span>, and the probability
+of class <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\text{Pr}(k)=\pi_k\)</span>. Using the law of total expectation we can therefore obtain the mean of the mixture density as follows:
+<span class="math display">\[
+\begin{split}
+\text{E}(\boldsymbol x) &amp; = \text{E}(\text{E}(\boldsymbol x| k)) \\
+            &amp; = \sum_{k=1}^K \pi_k \boldsymbol \mu_k \\
+            &amp;= \boldsymbol \mu_0 \\
+\end{split}
+\]</span>
+Similarly, using the law of total variance we compute the marginal variance:
+<span class="math display">\[
+\begin{split}
+\underbrace{\text{Var}(\boldsymbol x)}_{\text{total}} &amp; =  \underbrace{ \text{Var}( \text{E}(\boldsymbol x| k )  )}_{\text{explained / between-group}} + \underbrace{\text{E}(\text{Var}(\boldsymbol x|k))}_{\text{unexplained / within-group}} \\
+\boldsymbol \Sigma_0 &amp; =  \sum_{k=1}^K \pi_k (\boldsymbol \mu_k - \boldsymbol \mu_0) (\boldsymbol \mu_k - \boldsymbol \mu_0)^T + \sum_{k=1}^K \pi_k \boldsymbol \Sigma_k  \\
+\end{split}
+\]</span></p>
+<p>The total variation is given by the trace of the covariance matrix, yielding empirical estimates</p>
+<p><span class="math display">\[T = \text{Tr}\left( \hat{\boldsymbol \Sigma}_0 \right)  = 
+\frac{1}{n} \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)\]</span>
+<span class="math display">\[B = \text{Tr}\left(  \sum_{k=1}^K \hat{\pi}_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0) (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T   \right) = \frac{1}{n} \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)\]</span>
+<span class="math display">\[W = \text{Tr}\left( \sum_{k=1}^K \hat{\pi}_k \hat{\boldsymbol \Sigma}_k  \right) = 
+\frac{1}{n}  \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
+\]</span></p>
+<p>Compare the above with the <span class="math inline">\(T=B+W\)</span> decomposition of total variation in <span class="math inline">\(K\)</span>-means!</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="example-of-mixture-of-three-univariate-normal-densities" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> Example of mixture of three univariate normal densities:</h3>
+<p><span class="math display">\[f(x) = 0.3 \, N(2,1^2) + 0.5 \, N(3,0.5^2) + 0.2 \, N(3.4,1.3^2) \]</span>
+<img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>In this case it is clear already by visual inspection that the three subcomponents will not be identifiable.
+</p>
+</div>
+<div id="example-of-a-mixture-of-two-bivariate-normal-densities" class="section level3">
+<h3><span class="header-section-number">3.4.4</span> Example of a mixture of two bivariate normal densities</h3>
+<p><span class="math display">\[ f(\boldsymbol x) = 
+0.7\,N_2\left(\begin{pmatrix}-1 \\1 \\ \end{pmatrix},
+\begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\right)
++ 0.3 \,N_2\left(\begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix},
+\begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\right)
+\]</span></p>
+<p><img src="3-clustering_files/figure-html/fig2-1.png" width="672" />
+</p>
+</div>
+<div id="sampling-from-a-mixture-model-and-latent-allocation-variable-formulation" class="section level3">
+<h3><span class="header-section-number">3.4.5</span> Sampling from a mixture model and latent allocation variable formulation</h3>
+<p>Assuming we know how to sample from the components <span class="math inline">\(f_k(\boldsymbol x)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span>.</p>
+<p>This is done in a two-step generative process:</p>
+<ol style="list-style-type: decimal">
+<li><p>draw from categorical distribution with parameters <span class="math inline">\(\boldsymbol \pi=(\pi_1, \ldots, \pi_k)^T\)</span>:
+<span class="math display">\[\boldsymbol z\sim \text{Categ}(\boldsymbol \pi)\]</span>
+the vector <span class="math inline">\(\boldsymbol z= (z_1, \ldots, z_K)^T\)</span> indicating the group allocation. The group index <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\{k : z_k=1\}\)</span>.</p></li>
+<li><p>Subsequently, sample from the component <span class="math inline">\(k\)</span> selected in step 1:
+<span class="math display">\[
+\boldsymbol x\sim F_k
+\]</span></p></li>
+</ol>
+<p>This two-stage approach is also called <em>latent allocation variable formulation</em> of a mixture model, with <span class="math inline">\(\boldsymbol z\)</span> (or equivalently <span class="math inline">\(k\)</span>) being the latent variable.</p>
+<p>The two-step process needs to repeated for each sample drawn from the mixture (i.e. every time a new latent variable <span class="math inline">\(\boldsymbol z\)</span> is generated).</p>
+<p>In probabilistic clustering the aim is to infer the state of <span class="math inline">\(\boldsymbol z\)</span> for all observed samples.</p>
+</div>
+<div id="predicting-the-group-allocation-of-a-given-sample" class="section level3">
+<h3><span class="header-section-number">3.4.6</span> Predicting the group allocation of a given sample</h3>
+<p>If we know the mixture model and its components we can predict the probability that an observation <span class="math inline">\(\boldsymbol x\)</span> falls in group <span class="math inline">\(k\)</span> using Bayes theorem:</p>
+<p><span class="math display">\[
+z_k = \text{Pr}(k | \boldsymbol x) = \frac{\pi_k f_k(\boldsymbol x) }{ f(\boldsymbol x)}
+\]</span>
+Thus, assuming we can calculate this probability we can <strong>perform probabilistic clustering</strong> by assigning each sample to the class with the largest probability.
+Unlike in algorithmic clustering, we also get an impression of the uncertainty of the class assignment, since for each sample <span class="math inline">\(\boldsymbol x\)</span> get the vector
+<span class="math display">\[
+\boldsymbol z= (z_1, \ldots, z_K)^T
+\]</span>
+and thus can see if there are several classes with similar assignment probability. This will be the case, e.g.,
+if <span class="math inline">\(\boldsymbol x\)</span> lies near the boundary between two classes. Note that <span class="math inline">\(\sum_{k=1}^K z_k=1\)</span>.</p>
+</div>
+<div id="direct-estimation-of-mixture-model" class="section level3">
+<h3><span class="header-section-number">3.4.7</span> Direct estimation of mixture model</h3>
+<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> with observations from <span class="math inline">\(n\)</span> samples we would like to fit the mixture model
+<span class="math inline">\(f(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> and learn its parameters <span class="math inline">\(\boldsymbol \theta\)</span>, for example by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
+<span class="math display">\[
+\log L(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)
+\]</span>
+For a Gaussian mixture model the parameters are <span class="math inline">\(\boldsymbol \theta= \{\boldsymbol \pi, \boldsymbol \mu_1, \ldots, \boldsymbol \mu_K, \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\}\)</span>.</p>
+<p>However, in practise evaluation of this likelihood function may be difficult, in part due
+to the form of the log-likelihood function (note the sum inside the logarithm), but also due
+to its singularities and non-identiability problems.</p>
+<p>The above log-likelihood function is also called the <em>observed data</em> log-likelihood,
+or the <em>incomplete data</em> log-likelihood, in contrast to the <em>complete data</em> log-likelihood described further below.</p>
+</div>
+<div id="estimate-mixture-model-using-the-em-algorithm" class="section level3">
+<h3><span class="header-section-number">3.4.8</span> Estimate mixture model using the EM algorithm</h3>
+<p>The mixture model may be viewed as an <em>incomplete</em> or <em>missing</em> data problem:
+here the missing data are the group allocation <span class="math inline">\(\boldsymbol k= (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+<p><em>If we would know</em> which sample comes from which group the estimation of the
+parameters <span class="math inline">\(\boldsymbol \theta\)</span> would indeed be straightforward using the so-called <em>complete data log-likelihood</em>
+based on the joint distribution <span class="math inline">\(f(\boldsymbol x, k) = f_k(\boldsymbol x) \pi_k\)</span>
+<span class="math display">\[
+\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol k) = \sum_{i=1}^n  \log \left(\pi_{k_i} f_{k_i}(\boldsymbol x_i) \right) 
+\]</span></p>
+<p>The idea of the EM algorithm (Dempster et al. 1977) is to exploit the simplicity of the complete data likelihood
+and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by first finding the probability distribution <span class="math inline">\(z_{ik}\)</span> of the latent variable <span class="math inline">\(k_i\)</span>, and then using this distribution to compute and optimise the corresponding expected complete-data log-likelihood. Specifically, the <span class="math inline">\(z_{ik}\)</span> contain the <em>probabilities</em> of each class for each sample <span class="math inline">\(i\)</span> and thus provide a <em>soft assignment</em> of classes rather that a 0/1 <em>hard assignment</em> (as in the <span class="math inline">\(K\)</span>-means algorithm or in the generative
+latent variable view of mixture models).</p>
+<p>In the EM algorithm we iterate between the</p>
+<ol style="list-style-type: decimal">
+<li>estimation the probabilistic distribution <span class="math inline">\(z_{ik}\)</span> for the group
+allocation latent parameters using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
+<li>maximisation of the expected complete data log-likelihood to estimate the parameters <span class="math inline">\(\boldsymbol \theta\)</span>. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1).</li>
+</ol>
+<p>Specifically, the EM algorithm applied to model-based clustering proceeds as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\boldsymbol \theta^{(1)}\)</span>, then continue with “E” Step, Part A.
+Alternatively, start with a guess of <span class="math inline">\(z_{ik}^{(1)}\)</span>, then continue
+with “E” Step, Part B. The initialisation may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means, or simply be at random.</p></li>
+<li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>:
+<span class="math display">\[
+z_{ik}^{(b+1)} \leftarrow \frac{ \pi_k f_k(\boldsymbol x_i) }{  f(\boldsymbol x_i)  }
+\]</span>
+Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current value
+<span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the parameters is required.<br />
+— Part B: Construct the expected complete data log-likelihood function using the weights <span class="math inline">\(z_{ik}^{(b+1)}\)</span>:
+<span class="math display">\[
+Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \sum_{k=1}^k z_{ik}^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
+\]</span></p></li>
+<li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the mixture model parameters <span class="math inline">\(\boldsymbol \theta\)</span>:
+<span class="math display">\[
+\boldsymbol \theta^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)
+\]</span></p></li>
+<li><p>Repeat with “E” Step until convergence of parameters <span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the mixture model.</p></li>
+</ol>
+<p>It can be shown that the output <span class="math inline">\(\boldsymbol \theta^{(1)}, \boldsymbol \theta^{(2)}, \boldsymbol \theta^{(3)}, \ldots\)</span> of the EM algorithm converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising
+the marginal log-likelihood. Since maximisation of the expected complete data log-likelihood is often much easier (and analytically tractable) than maximisation of the observed data log-likelihood function the EM algorithm is the preferred approach
+in this case.</p>
+<p>To avoid singularities in the expected log-likelihood function we
+may wish to adopt a Bayesian approach (or use regularised/penalised ML) for estimating the parameters in the M-step.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3">
+<h3><span class="header-section-number">3.4.9</span> EM algorithm for multivariate normal mixture model</h3>
+<p>For a GMM the EM algorithm can be written down analytically:</p>
+<p><strong>E-step:</strong></p>
+<p><span class="math display">\[
+z_{ik} = \frac{ \hat{\pi}_k N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k, \hat{\boldsymbol \Sigma}_k) }{  f(\boldsymbol x_i)  }
+\]</span></p>
+<p><strong>M-step:</strong></p>
+<p><span class="math display">\[
+\hat{n}_k = \sum_{i=1}^n z_{ik}
+\]</span>
+<span class="math display">\[
+\hat{\pi}_k = \frac{\hat{n}_k}{n}
+\]</span></p>
+<p><span class="math display">\[
+\hat{\boldsymbol \mu}_k = \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} \boldsymbol x_i
+\]</span>
+<span class="math display">\[
+\hat{\boldsymbol \Sigma}_k =  \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} ( \boldsymbol x_i -\boldsymbol \mu_k)   ( \boldsymbol x_i -\boldsymbol \mu_k)^T
+\]</span></p>
+<p>Note that the estimators <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}_k\)</span> are weighted versions of the
+usual empirical estimators (with weights <span class="math inline">\(z_{ik}\)</span> being the soft assignment of classes resulting
+from the Bayesian updating).</p>
+</div>
+<div id="connection-with-k-means-clustering-method" class="section level3">
+<h3><span class="header-section-number">3.4.10</span> Connection with <span class="math inline">\(K\)</span>-means clustering method</h3>
+<p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to probabilistic clustering with GMMS.</p>
+<p>Specifically, it is straightforward to see that <em><span class="math inline">\(K\)</span>-means is effectively equivalent to fitting a Gaussian mixture model with the probabilities <span class="math inline">\(\pi_k\)</span> of all classes identical and with the covariances <span class="math inline">\(\boldsymbol \Sigma_k\)</span> all of the form <span class="math inline">\(\sigma^2 \boldsymbol I\)</span></em>, i.e. all classes have the same diagonal covariance with identical variances. However, note that in <span class="math inline">\(K\)</span>-means the class allocations are hard, whereas in GMMs they are soft.
+Thus, GMM-based clustering can be viewed as a probabilistic generalisation of <span class="math inline">\(K\)</span>-means clustering!</p>
+<p>See also Example Sheet 3 where it is shown that the Bayesian update rule assuming equal probability for the
+classes together with the above covariance leads to the class assignment rule used in <span class="math inline">\(K\)</span>-means.</p>
+</div>
+<div id="choosing-the-number-of-classes" class="section level3">
+<h3><span class="header-section-number">3.4.11</span> Choosing the number of classes</h3>
+<p>Since GMMs operate in a likelihood framework we can use penalised likelihood model selection criteria to choose among different models (i.e. GMMs with different numbers of classes).</p>
+<p>The most popular choices are AIC (Akaike Information Criterion) and BIC (Bayesian Information criterion) defined as follows:
+<span class="math display">\[\text{AIC}= -2 \log L + 2 K \]</span>
+<span class="math display">\[\text{BIC}= - 2 \log L +K \log(n)\]</span></p>
+<p>Instead of maximising the log-likehood we minimise <span class="math inline">\(\text{AIC}\)</span> and <span class="math inline">\(\text{BIC}\)</span>.</p>
+<p>Note that in both criteria more complex models with more parameters (in this case groups) are penalised
+over simpler models in order to prevent overfitting.</p>
+<p><span class="math inline">\(\Longrightarrow\)</span> find optimal number of groups <span class="math inline">\(K\)</span>.</p>
+<p>Another way of choosing optimal numbers of clusters is by cross-validation (see later chapter on supervised learning).</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="application-of-gmms-to-iris-flower-data" class="section level3">
+<h3><span class="header-section-number">3.4.12</span> Application of GMMs to Iris flower data</h3>
+<p>We now explore the application of GMMs to the Iris flower data set we also investigated with PCA
+and K-means. For further example applications of GMMs see the Computer lab 3.</p>
+<p>First, we run GMM with 3 clusters:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<p>The GMM has a substantially lower misclassification error compared to <span class="math inline">\(K\)</span>-means with the same number of clusters:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">table</span>(gmm3<span class="op">$</span>classification, L.iris)</a></code></pre></div>
+<pre><code>##    L.iris
+##     setosa versicolor virginica
+##   1     50          0         0
+##   2      0         45         0
+##   3      0          5        50</code></pre>
+<p>Note that in the R software “mclust” to analyse GMMs the BIC criterion is defined with the opposite sign (<span class="math inline">\(\text{BIC}_{\text{mclust}} = 2 \log L -K \log(n)\)</span>), thus we need to find the <em>maximum</em> value rather than the smallest value.</p>
+<p>If we optimise BIC we find that the model with highest <span class="math inline">\(\text{BIC}_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="variation-1-infinite-mixture-model" class="section level3">
+<h3><span class="header-section-number">3.4.13</span> Variation 1: Infinite mixture model</h3>
+<p>It is possible to construct mixture models with infinitely many components!</p>
+<p>Most commonly known example is Dirichlet process mixture model (DPM):</p>
+<p><span class="math display">\[\sum_{k=1}^\infty \pi_k f_k(\boldsymbol x)\]</span>
+with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where the weight <span class="math inline">\(\pi_k\)</span> are taken from a infinitely dimensional Dirichlet distribution (=Dirichlet process).</p>
+<p>DPMs are useful for clustering since with them it is not necessary to determine the number of clusters a priori (since it by definition has infinitely many!). Instead, the number of clusters is a by-product of the fit of the model to observed data.</p>
+<p>Related: <strong>“Chinese restaurant process”</strong> - <a href="https://en.wikipedia.org/wiki/Chinese_restaurant_process" class="uri">https://en.wikipedia.org/wiki/Chinese_restaurant_process</a></p>
+<p>This describes an algorithm for the allocation process of samples (“persons”) to the groups (“restaurant tables”) in a DPM.</p>
+<p>See also <strong>“stick-breaking process”:</strong> <a href="https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process" class="uri">https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process</a></p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="variation-2-semiparametric-mixture-model-with-two-classes" class="section level3">
+<h3><span class="header-section-number">3.4.14</span> Variation 2: Semiparametric mixture model with two classes</h3>
+<p>A very common model is the following two-component univariate mixture model</p>
+<p><span class="math display">\[f(x) = \pi_0 f_0(x) + (1-\pi_0) f_A(\boldsymbol x)\]</span></p>
+<ul>
+<li><span class="math inline">\(f_0\)</span>: null model, typically parametric such as normal distribution</li>
+<li><span class="math inline">\(f_A\)</span>: alternative model, typically nonparametric</li>
+<li><span class="math inline">\(\pi_0\)</span>: prior probability of null model</li>
+</ul>
+<p>Using Bayes theorem this allows to compute probability that an observation <span class="math inline">\(x\)</span> belongs to the null model:
+<span class="math display">\[\text{Pr}(\text{Null} | x ) = \frac{\pi_0 f_0(x ) }{ f(x) }\]</span>
+This is called the <em>local false discovery rate</em>.</p>
+<p>The semi-parametric mixture model is the foundation for statistical testing which is based on defining decision thresholds to separate null model (“not significant”) from alternative model (“significant”):</p>
+<p></p>
+<p>See the lecture notes for Statistical Methods (year 2) for more details.</p>
+
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="part-2-transformations-and-dimension-reduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part-4-classification-supervised-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
