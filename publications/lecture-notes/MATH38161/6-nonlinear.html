@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Multivariate Statistics and Machine Learning MATH38161</title>
-  <meta name="description" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <title>6 Nonlinear and nonparametric models | Multivariate Statistics and Machine Learning MATH38161</title>
+  <meta name="description" content="6 Nonlinear and nonparametric models | Multivariate Statistics and Machine Learning MATH38161" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <meta property="og:title" content="6 Nonlinear and nonparametric models | Multivariate Statistics and Machine Learning MATH38161" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <meta name="twitter:title" content="6 Nonlinear and nonparametric models | Multivariate Statistics and Machine Learning MATH38161" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="1-multivariate.html"/>
+<link rel="prev" href="5-dependence.html"/>
+<link rel="next" href="7-matrices.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -351,124 +351,330 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Multivariate Statistics and Machine Learning MATH38161</h1>
-<p class="author"><em>Korbinian Strimmer</em></p>
-<p class="date"><em>4 September 2020</em></p>
+<div id="nonlinear-and-nonparametric-models" class="section level1">
+<h1><span class="header-section-number">6</span> Nonlinear and nonparametric models</h1>
+<p>In the last part of the module we discuss methods that go beyond the
+traditional linear methods in multivariate statistics.</p>
+<div id="relevant-textbooks" class="section level2">
+<h2><span class="header-section-number">6.1</span> Relevant textbooks</h2>
+<p>The lectures for this part follow selected chapters from the following three text books:</p>
+<ul>
+<li><p><span class="citation">James et al. (<a href="8-references.html#ref-JWHT2013">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</p></li>
+<li><p><span class="citation">Hastie, Tibshirani, and Friedman (<a href="8-references.html#ref-HTF09">2009</a>)</span> <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><em>The elements of statistical learning: data mining, inference, and prediction</em></a>. Springer.</p></li>
+<li><p><span class="citation">Rogers and Girolami (<a href="8-references.html#ref-RG2017">2017</a>)</span> <a href="https://www.crcpress.com/A-First-Course-in-Machine-Learning-Second-Edition/Rogers-Girolami/p/book/9781498738484"><em>A first course in machine learning (2nd edition)</em></a>. CRC Press.</p></li>
+</ul>
+<p>Please study the relevant section and chapters as indicated below in each subsection!</p>
+</div>
+<div id="limits-of-linear-models" class="section level2">
+<h2><span class="header-section-number">6.2</span> Limits of linear models</h2>
+<p>Linear models are very effective tools. However, it is important
+to recognise their limits especially when modelling complex nonlinear relationships.</p>
+<p>Using linear models blindly can hide complexities of the analysed
+data. A classic example for this is demonstrated by the “Anscombe quartet” of data sets
+(F. J. Anscombe. 1973. Graphs in statistical analysis.
+The American Statistician 27:17-21, <a href="http://dx.doi.org/10.1080/00031305.1973.10478966" class="uri">http://dx.doi.org/10.1080/00031305.1973.10478966</a> ):</p>
+<p><img src="6-nonlinear_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="6-nonlinear_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p>As evident from the scatter plots the relationship between the
+two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is very different in the four cases!
+Intriguingly, all four data sets share exactly the same linear characteristics and summary statistics:</p>
+<ul>
+<li>Means <span class="math inline">\(m_x = 9\)</span> and <span class="math inline">\(m_y = 7.5\)</span></li>
+<li>Variances <span class="math inline">\(s^2_x = 11\)</span> and <span class="math inline">\(s^2_y = 4.13\)</span></li>
+<li>Correlation <span class="math inline">\(r = 0.8162\)</span></li>
+<li>Linear model fit with intercept <span class="math inline">\(a=3.0\)</span> and slope <span class="math inline">\(b=0.5\)</span></li>
+</ul>
+<p>Thus, in actual data analysis it is always a <strong>good idea to inspect the data visually</strong> to get a first impression whether using a linear model makes sense.</p>
+<p>In the above only data “a” follows a linear model. Data “b” represents a quadratic relationship. Data “c” is linear but with an outlier that disturbs the linear relationship. Finally data “d” also contains an outlier but also represent a case where <span class="math inline">\(y\)</span> is (apart from the outlier) is not dependent on <span class="math inline">\(x\)</span>.</p>
+<p>In Computer Lab 5 a modern version of the Anscomber quartet will analysed (the “datasauRus” dozen - 13 data sets that all share the
+same linear characteristics).</p>
+</div>
+<div id="mutual-information-as-generalised-correlation" class="section level2">
+<h2><span class="header-section-number">6.3</span> Mutual information as generalised correlation</h2>
+<p>Definition of mutual information:</p>
+<p>KL divergence between the joint distribution and product distribution:
+<span class="math display">\[
+\text{MI}(\boldsymbol x, \boldsymbol y) =KL(F_{\boldsymbol x,\boldsymbol y} || F_{\boldsymbol x}  F_{\boldsymbol y}) = \text{E}_{F_{\boldsymbol x,\boldsymbol y}}  \log \biggl( \frac{f(\boldsymbol x, \boldsymbol y)}{f(\boldsymbol x) \, f(\boldsymbol y)} \biggr) .
+\]</span></p>
+<p><span class="math inline">\(\text{MI}(\boldsymbol x, \boldsymbol y)=0\)</span> implies that the two random variables <span class="math inline">\(\boldsymbol y\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent.</p>
+<p>In the bivariate normal case:
+<span class="math display">\[
+\text{MI}(x,y) = -\frac{1}{2} \log(1-\rho^2) \approx \frac{\rho^2}{2}
+\]</span>
+i.e. MI is
+is a function of squared correlation <span class="math inline">\(\rho^2\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>In <strong>Example Sheet 4</strong> mutual information is further explored both in linear and general settings.
+Specifically, the relationship and close links is explored to:</p>
+<ul>
+<li>squared multiple correlation and the alienation coefficient</li>
+<li>vector correlation and the vector alienation coefficient,</li>
+<li>and to canonical correlations.</li>
+</ul>
+<p>See solutions for Example Sheet 4 for details.</p>
+<p>Since MI can be computed for any distribution and model and thus applies to both normal and non-normal models, and to linear and nonlinear relationships.</p>
+<p>In the example sheet 4 the following expression is shown, linking the expected conditional distribution with mutual information:
+<span class="math display">\[
+\text{E}_{F_{\boldsymbol x}} KL(F_{\boldsymbol y|\boldsymbol x} || F_{\boldsymbol y} ) = \text{MI}(\boldsymbol x, \boldsymbol y)
+\]</span></p>
+<p>Because of this link of MI with conditioning the MI between response and predictor variables is often used for variable and feature selection (instead of the correlation).</p>
+</div>
+<div id="nonlinear-spline-regression-models" class="section level2">
+<h2><span class="header-section-number">6.4</span> Nonlinear spline regression models</h2>
+<div id="relevant-reading" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> Relevant reading</h3>
+<p>Please read: <span class="citation">James et al. (<a href="8-references.html#ref-JWHT2013">2013</a>)</span> <strong>Chapter 7 “Moving Beyond Linearity”</strong></p>
+<p>Specifically:</p>
+<ul>
+<li>Section 7.1 Polynomial Regression</li>
+<li>Section 7.4 Regression Splines</li>
+</ul>
+</div>
+<div id="scatterplot-smoothing" class="section level3">
+<h3><span class="header-section-number">6.4.2</span> Scatterplot smoothing</h3>
+<ul>
+<li>lowess / loess algorithm</li>
+</ul>
+<p>Locally weighted scatterplot smoothing (intended for exploratory analysis,
+not for probabilistic modelling).</p>
+</div>
+<div id="polynomial-regression-model" class="section level3">
+<h3><span class="header-section-number">6.4.3</span> Polynomial regression model</h3>
+<p>Advantage:
+- possible to use standard OLS tools to fit
+model and to do inference (relabeling trick for univariate models)</p>
+<p>Disadvantage:
+- multivariate version complicated and intractable
+- high-oder polynomials are very erratic
+- prone to overfitting if degree/order is too high</p>
+</div>
+<div id="piecewise-polyomial-regression" class="section level3">
+<h3><span class="header-section-number">6.4.4</span> Piecewise polyomial regression</h3>
+<ul>
+<li>simple linear piece-wise model</li>
+<li>basis function approach</li>
+<li>regression splines</li>
+<li>natural splines</li>
+</ul>
+<p>See Computer Lab 5 for practical application in R!</p>
+</div>
+</div>
+<div id="random-forests" class="section level2">
+<h2><span class="header-section-number">6.5</span> Random forests</h2>
+<div id="relevant-reading-1" class="section level3">
+<h3><span class="header-section-number">6.5.1</span> Relevant reading</h3>
+<p>Please read: <span class="citation">James et al. (<a href="8-references.html#ref-JWHT2013">2013</a>)</span> <strong>Chapter 8 “Tree-Based Methods”</strong></p>
+<p>Specifically:</p>
+<ul>
+<li>Section 8.1 The Basics of Decision Trees</li>
+<li>Section 8.2.1 Bagging</li>
+<li>Section 8.2.2 Random Forests</li>
+</ul>
+</div>
+<div id="stochastic-vs.algorithmic-models" class="section level3">
+<h3><span class="header-section-number">6.5.2</span> Stochastic vs. algorithmic models</h3>
+<p>Two cultures in statistical modelling: stochastic vs. algorithmic models</p>
+<p>Classic discussion paper by Leo Breiman (2001): Statistical modeling: the two cultures.
+Statistical Science. Vol 16, pages 199-231. <a href="https://projecteuclid.org/euclid.ss/1009213726" class="uri">https://projecteuclid.org/euclid.ss/1009213726</a></p>
+</div>
+<div id="random-forests-1" class="section level3">
+<h3><span class="header-section-number">6.5.3</span> Random forests</h3>
+<p>Invented by Breimann in 1996.</p>
+<p>Basic idea:</p>
+<ul>
+<li>A single decision tree is unreliable and unstable (weak predictor/classifier).</li>
+<li>Use boostrap to generate multiple decision trees (=“forest”)</li>
+<li>Average over predictions from all tree (=“bagging”, bootstrap aggregation)</li>
+</ul>
+<p>The averaging procedure has the effect of variance stabilisation.
+Intringuingly, averaging across all decision trees dramatically improves the
+overall prediction accuracy!</p>
+<p>The Random Forests approach is an example of an <strong>ensemble method</strong>
+(since it is based on using an “ensemble” of trees).</p>
+<p>Variations: boosting, XGBoost ( <a href="https://xgboost.ai/" class="uri">https://xgboost.ai/</a> )</p>
+<p>Random forests will be applied in Computer Lab 5.</p>
+<p>They are computationally expensive but typically perform very well!</p>
+</div>
+<div id="comparison-of-decision-boundaries-decision-tree-vs.random-forest" class="section level3">
+<h3><span class="header-section-number">6.5.4</span> Comparison of decision boundaries: decision tree vs. random forest</h3>
+<p>Non-nested case:</p>
+<p><img src="6-nonnested.png" width="90%" style="display: block; margin: auto;" />
+Nested case:</p>
+<p><img src="6-nested.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Compare also with the decision boundaries for LDA and QDA (previous chapter).</p>
+</div>
+</div>
+<div id="gaussian-processes" class="section level2">
+<h2><span class="header-section-number">6.6</span> Gaussian processes</h2>
+<div id="relevant-reading-2" class="section level3">
+<h3><span class="header-section-number">6.6.1</span> Relevant reading</h3>
+<p>Please read: <span class="citation">Rogers and Girolami (<a href="8-references.html#ref-RG2017">2017</a>)</span> <strong>Chapter 8: Gaussian processes.</strong></p>
+</div>
+<div id="main-concepts" class="section level3">
+<h3><span class="header-section-number">6.6.2</span> Main concepts</h3>
+<ul>
+<li>Gaussian processes (GPs) belong the the family of <strong>Bayesian nonparametric models</strong></li>
+<li>Idea:
+<ul>
+<li>start with prior over a function (!),</li>
+<li>then condition on observed data to get posterior distribution (again over all functions)</li>
+<li>use an infinitely dimensional multivariate normal distribution as prior</li>
+</ul></li>
+</ul>
+</div>
+<div id="technical-background" class="section level3">
+<h3><span class="header-section-number">6.6.3</span> Technical background:</h3>
+<p>GPs make use of the fact that marginal and conditional distributions of a multivariate normal
+are also multivariate normal.</p>
+<p><strong>Multivariate normal distribution:</strong></p>
+<p><span class="math display">\[\boldsymbol z\sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span></p>
+<p>Assume:
+<span class="math display">\[
+\boldsymbol z=\begin{pmatrix}
+    \boldsymbol z_1      \\
+    \boldsymbol z_2      \\
+\end{pmatrix}
+\]</span>
+with
+<span class="math display">\[
+\boldsymbol \mu=\begin{pmatrix}
+    \boldsymbol \mu_1      \\
+    \boldsymbol \mu_2      \\
+\end{pmatrix}
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol \Sigma=\begin{pmatrix}
+    \boldsymbol \Sigma_{11}   &amp; \boldsymbol \Sigma_{12}   \\
+    \boldsymbol \Sigma_{12}^T &amp; \boldsymbol \Sigma_{22}   \\
+\end{pmatrix}
+\]</span>
+with corresponding dimensions <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span> and <span class="math inline">\(d_1+d_2=d\)</span>.</p>
+<p><strong>Marginal distributions:</strong></p>
+<p>Any subset of <span class="math inline">\(\boldsymbol z\)</span> is also multivariate normal distributed:</p>
+<p><span class="math display">\[
+\boldsymbol z_i \sim N_{d_i}(\boldsymbol \mu_i, \boldsymbol \Sigma_{ii}) 
+\]</span></p>
+<p><strong>Conditional multivariate normal:</strong></p>
+<p>The conditional distribution is also multivariate normal:
+<span class="math display">\[
+\boldsymbol z_i | \boldsymbol z_j = \boldsymbol z_{i | j} \sim N_{d_i}(\boldsymbol \mu_{i|j}, \boldsymbol \Sigma_{i | j}) 
+\]</span>
+with
+<span class="math display">\[\boldsymbol \mu_{i|j}=\boldsymbol \mu_i + \boldsymbol \Sigma_{ij} \boldsymbol \Sigma_{jj}^{-1} (\boldsymbol z_j -\boldsymbol \mu_j)\]</span>
+and
+<span class="math display">\[\boldsymbol \Sigma_{i | j}=\boldsymbol \Sigma_{ii} -  \boldsymbol \Sigma_{ij} \boldsymbol \Sigma_{jj}^{-1} \boldsymbol \Sigma_{ij}^T\]</span></p>
+<p><span class="math inline">\(\boldsymbol z_{i | j}\)</span> and
+<span class="math inline">\(\boldsymbol \mu_{i|j}\)</span> have dimension <span class="math inline">\(d_i \times 1\)</span>
+and <span class="math inline">\(\boldsymbol \Sigma_{i | j}\)</span> has dimension <span class="math inline">\(d_i \times d_i\)</span></p>
+</div>
+<div id="covariance-functions-and-kernel" class="section level3">
+<h3><span class="header-section-number">6.6.4</span> Covariance functions and kernel</h3>
+<p>The GP prior is a infinitely dimensional multivariate normal
+with mean zero and the <strong>covariance specified by a function</strong>:</p>
+<p>A widely used covariance function is
+<span class="math display">\[
+\text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime})^2}{2 l^2}}
+\]</span>
+This is known as the <strong>squared-exponential kernel</strong> or <strong>Radial-basis function (RBF) kernel</strong>.</p>
+<p>Note that <span class="math inline">\((x, x) = \sigma^2\)</span> and the autocorrelation
+<span class="math inline">\(\text{Cor}(x, x^{\prime}) = e^{-\frac{ (x-x^{\prime})^2}{2 l^2}}\)</span>.</p>
+<p>The parameter <span class="math inline">\(l\)</span> is the length scale parameter and describes
+the wigglyness or smoothness of the resulting function.
+Small values of <span class="math inline">\(l\)</span> mean more complex, more wiggly functions, and low autocorrelation.</p>
+<p>There are many other kernel functions, including periodic, polynomial and linear kernels.</p>
+</div>
+<div id="gp-model" class="section level3">
+<h3><span class="header-section-number">6.6.5</span> GP model</h3>
+<p>Nonlinear regression in the GP approach is conceptually very simple:</p>
+<ul>
+<li>start with GP prior over all <span class="math inline">\(x\)</span></li>
+<li>then condition on the observed <span class="math inline">\(x_1, \ldots, x_n\)</span></li>
+<li>the resulting conditional multivariate normal can used to predict
+the function values at any unobserved values of <span class="math inline">\(x\)</span></li>
+<li>automatically provides credible intervals for predictions.</li>
+</ul>
+<p>GP regression also provides a direct link with Bayesian linear regression (using a linear kernel).</p>
+<p>Drawbacks: computationally expensive (<span class="math inline">\(n^3\)</span> because of the matrix inversion)</p>
+</div>
+</div>
+<div id="neural-networks" class="section level2">
+<h2><span class="header-section-number">6.7</span> Neural networks</h2>
+<div id="relevant-reading-3" class="section level3">
+<h3><span class="header-section-number">6.7.1</span> Relevant reading</h3>
+<p>Please read: <span class="citation">Hastie, Tibshirani, and Friedman (<a href="8-references.html#ref-HTF09">2009</a>)</span> <strong>Chapter 11 “Neural networks”</strong></p>
+</div>
+<div id="history" class="section level3">
+<h3><span class="header-section-number">6.7.2</span> History</h3>
+<p>Neural networks are actually relatively old models, going back
+to the 1950s!</p>
+<p>Three phases of neural networks (NN)</p>
+<ul>
+<li>1950/60: replicating functions of neurons in the brain (perceptron)</li>
+<li>1980/90: neural networks as universal function approximators</li>
+<li>2010—today: deep learning</li>
+</ul>
+<p>The first phase was biologically inspired, the second phase focused on
+mathematical properties, and the current phase is pushed forward by
+advances in computer science and numerical optimisation:</p>
+<ul>
+<li>backpropagation algorithm</li>
+<li>auto-differentiation,</li>
+<li>stochastic gradient descent</li>
+<li>use of GPUs and TPUs,</li>
+<li>availability and devlopment of software packages by major internet companies:
+<ul>
+<li>TensorFlow/Keras (Google),</li>
+<li>MXNet (Amazon),</li>
+<li>PyTorch (Facebook),</li>
+<li>PaddlePaddle (Baidu) etc.</li>
+</ul></li>
+</ul>
+</div>
+<div id="neural-networks-1" class="section level3">
+<h3><span class="header-section-number">6.7.3</span> Neural networks</h3>
+<p>Neural networks are essentially stacked systems of linear regressions,
+mapping input nodes (random variables) to outputs (response nodes).
+Each internal layer corresponds to internal latent variables.
+Each layer is connected with the next layer by <strong>non-linear activation functions</strong>.</p>
+<ul>
+<li>feedforward single layer NN</li>
+<li>stacked nonlinear multiple regression with hidden variables</li>
+<li>optimise by empirical risk minimisation</li>
+</ul>
+<p>It can be shown that NN can approximate any arbitrary non-linear function mapping
+input and output.</p>
+<p>“Deep” neural networks have many layers, and their optimisation requires advanced
+techniques (see above).</p>
+<p>Neural networks are very highly parameterised models and require typically a lot of data
+for training.</p>
+<p>Some of the statistical aspects of NN are not well understood: in particular it is known
+that NN overfit the data but can still generalise well. On the other hand, it is also know that NN
+can also be “fooled”, i.e. prediction can be unstable (adversarial examples).</p>
+<p>Current statistical research on NN focuses on interpretability and on links with Bayesian inference and models (e.g. GPs). For example:</p>
+<ul>
+<li><a href="https://link.springer.com/book/10.1007/978-3-030-28954-6" class="uri">https://link.springer.com/book/10.1007/978-3-030-28954-6</a></li>
+<li><a href="https://arxiv.org/abs/1910.12478" class="uri">https://arxiv.org/abs/1910.12478</a></li>
+</ul>
+</div>
+<div id="learning-more-about-deep-learning" class="section level3">
+<h3><span class="header-section-number">6.7.4</span> Learning more about deep learning</h3>
+<p>A good place to to learn more about deep learning and about the actual
+implementations in computer code on various platforms is the book “Dive into deep learning” by
+<span class="citation">Zhang et al. (<a href="8-references.html#ref-ZLLS2020">2020</a>)</span> available online at <a href="https://d2l.ai/" class="uri">https://d2l.ai/</a></p>
+
+</div>
+</div>
 </div>
 
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<div id="about-these-notes" class="section level2 unnumbered">
-<h2>About these notes</h2>
-<p>This is the course text for MATH38161, an introductory course in <strong>Multivariate Statistics and Machine Learning</strong> for
-third year mathematics students.</p>
-<p>These notes will be updated from time to time. To view the current
-version please visit <a href="http://strimmerlab.org/publications/lecture-notes/MATH38161/index.html" class="uri">http://strimmerlab.org/publications/lecture-notes/MATH38161/index.html</a></p>
-<p>A PDF can be also downloaded from there at
-<a href="http://strimmerlab.org/publications/lecture-notes/MATH38161/math38161-script.pdf" class="uri">http://strimmerlab.org/publications/lecture-notes/MATH38161/math38161-script.pdf</a></p>
-</div>
-<div id="about-the-author" class="section level2 unnumbered">
-<h2>About the author</h2>
-<p>My name is Korbinian Strimmer and I am a Professor in Statistics at the Dept. of Mathematics of the University of Manchester. You can find more information about me on my home page at <a href="http://strimmerlab.org/korbinian.html" class="uri">http://strimmerlab.org/korbinian.html</a></p>
-<p>I have first taught this module in the Winter term 2018 at the University of Manchester.</p>
-<p>I hope you enjoy the course. If you have any questions, comments, or corrections then please email me at <a href="mailto:korbinian.strimmer@manchester.ac.uk">korbinian.strimmer@manchester.ac.uk</a></p>
-</div>
-<div id="about-the-module" class="section level2 unnumbered">
-<h2>About the module</h2>
-<div id="course-home-page" class="section level3 unnumbered">
-<h3>Course home page</h3>
-<p>For organisatorical details (including details
-on assessment) please visit the course home page at
-<a href="http://strimmerlab.org/courses/2020-21/MATH38161/" class="uri">http://strimmerlab.org/courses/2020-21/MATH38161/</a> (academic year 2020/21).</p>
-<p>If you are a student and enrolled for this module you can find further information
-and material on Blackboard at <a href="https://online.manchester.ac.uk" class="uri">https://online.manchester.ac.uk</a></p>
-</div>
-<div id="topics-covered" class="section level3 unnumbered">
-<h3>Topics covered</h3>
-<p>The MATH38161 module is designed to run over the course of 11 weeks.
-It has six parts, each covering a particular aspect of multivariate statistics and machine learning:</p>
-<ol style="list-style-type: decimal">
-<li>Multivariate random variables and estimation in
-large and small sample settings (W1 and W2)</li>
-<li>Transformations and dimension reduction (W3 and W4)</li>
-<li>Unsupervised learning/clustering (W5 and W6)</li>
-<li>Supervised learning/classification (W7 and W8)</li>
-<li>Measuring and modelling multivariate dependencies (W9)</li>
-<li>Nonlinear and nonparametric models (W10, W11)</li>
-</ol>
-<p>This module focuses on:</p>
-<ul>
-<li><em>Concepts and methods</em> (not on theory)</li>
-<li><em>Implementation and application in R</em></li>
-<li><em>Practical data analysis and interpretation</em> (incl. report writing)</li>
-<li><em>Modern tools in data science and statistics</em> (R markdown, R studio)</li>
-</ul>
-</div>
-<div id="video-lectures" class="section level3 unnumbered">
-<h3>Video lectures</h3>
-<p>The material covered in these notes are also discussed in
-a set of video lectures. You can watch them at my YouTube channel:</p>
-<p><a href="https://www.youtube.com/channel/UCJsn2WIvWKWMdRcgQV2xRCA/about" class="uri">https://www.youtube.com/channel/UCJsn2WIvWKWMdRcgQV2xRCA/about</a></p>
-</div>
-<div id="additional-support-material" class="section level3 unnumbered">
-<h3>Additional support material</h3>
-<p>Further material related to this module is available from UoM Blackboard
-at <a href="https://online.manchester.ac.uk" class="uri">https://online.manchester.ac.uk</a></p>
-<p>On Blackboard you find these lecture notes plus:</p>
-<ul>
-<li>A weekly to-do list</li>
-<li>Weekly quiz questions for the videos</li>
-<li>Example sheets and their solutions</li>
-<li>Tasks for the computer labs and their solutions (in R Markdown)</li>
-</ul>
-</div>
-</div>
-<div id="further-study" class="section level2 unnumbered">
-<h2>Further study</h2>
-<p>In this module we can only touch the surface of all the methods and models used in multivariate statistics and machine learning. If you would like to study further
-I recommend the following books below — see also the corresponding <a href="https://manchester.alma.exlibrisgroup.com/leganto/public/44MAN_INST/lists/318684814430001631">MATH38161 online reading list</a> at the UoM library.</p>
-<div id="recommended-reading" class="section level3 unnumbered">
-<h3>Recommended reading</h3>
-<p>For multivariate statistics and machine learning:</p>
-<ul>
-<li><span class="citation">Härdle and Simar (<a href="8-references.html#ref-HardleSimar2015">2015</a>)</span> <a href="https://link.springer.com/book/10.1007/978-3-662-45171-7"><em>Applied multivariate statistical analysis. 4th edition</em></a>. Springer.</li>
-<li><span class="citation">Hastie, Tibshirani, and Friedman (<a href="8-references.html#ref-HTF09">2009</a>)</span> <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><em>The elements of statistical learning: data mining, inference, and prediction</em></a>. Springer.</li>
-<li><span class="citation">James et al. (<a href="8-references.html#ref-JWHT2013">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</li>
-<li><span class="citation">Marden (<a href="8-references.html#ref-Marden2015">2015</a>)</span> <a href="http://stat.istics.net/Multivariate"><em>Multivariate Statistics: Old School</em></a></li>
-<li><span class="citation">Rogers and Girolami (<a href="8-references.html#ref-RG2017">2017</a>)</span> <a href="https://ebookcentral.proquest.com/lib/manchester/reader.action?docID=4718644"><em>A first course in machine learning (2nd Edition)</em></a>. Chapman and Hall / CRC.</li>
-</ul>
-<p>For learning R markdown:</p>
-<ul>
-<li>R markdown homepage: <a href="https://rmarkdown.rstudio.com/" class="uri">https://rmarkdown.rstudio.com/</a></li>
-<li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">R markdown reference guide</a></li>
-<li>C. Shalizi. 2016. <a href="http://www.stat.cmu.edu/~cshalizi/rmarkdown/"><em>Using R markdown for class reports</em></a></li>
-<li><span class="citation">Xie, Allaire, and Grolemund (<a href="8-references.html#ref-XAG2018">2018</a>)</span> <a href="https://bookdown.org/yihui/rmarkdown/"><em>R markdown: the definitive guide</em></a></li>
-</ul>
-</div>
-<div id="advanced-reading" class="section level3 unnumbered">
-<h3>Advanced reading</h3>
-<p>Additional (advanced) reference books for probabilistic machine learning are:</p>
-<ul>
-<li><span class="citation">Murphy (<a href="8-references.html#ref-Murphy2012">2012</a>)</span> <a href="https://ebookcentral.proquest.com/lib/manchester/detail.action?docID=3339490"><em>Machine learning: a probabilistic perspective</em></a>. MIT Press.</li>
-<li><span class="citation">Bishop (<a href="8-references.html#ref-Bishop2006">2006</a>)</span> <a href="https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/"><em>Pattern recognition and machine learning</em></a>. Springer.</li>
-</ul>
-</div>
-</div>
-<div id="acknowledgements" class="section level2 unnumbered">
-<h2>Acknowledgements</h2>
-<p>Many thanks to <a href="https://www.turing.ac.uk/people/enrichment-students/beatriz-costa-gomes">Beatriz Costa Gomes</a> for her help to compile the first draft of these course notes in the winter term 2018 while she was a graduate teaching assistant for this course. I also thank the many students who suggested corrections.</p>
 
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="1-multivariate.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="5-dependence.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="7-matrices.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

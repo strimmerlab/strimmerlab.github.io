@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Multivariate Statistics and Machine Learning MATH38161</title>
-  <meta name="description" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <title>A Brief refresher on matrices | Multivariate Statistics and Machine Learning MATH38161</title>
+  <meta name="description" content="A Brief refresher on matrices | Multivariate Statistics and Machine Learning MATH38161" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <meta property="og:title" content="A Brief refresher on matrices | Multivariate Statistics and Machine Learning MATH38161" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Multivariate Statistics and Machine Learning MATH38161" />
+  <meta name="twitter:title" content="A Brief refresher on matrices | Multivariate Statistics and Machine Learning MATH38161" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="1-multivariate.html"/>
+<link rel="prev" href="6-nonlinear.html"/>
+<link rel="next" href="8-references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -351,115 +351,311 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Multivariate Statistics and Machine Learning MATH38161</h1>
-<p class="author"><em>Korbinian Strimmer</em></p>
-<p class="date"><em>4 September 2020</em></p>
+<div id="brief-refresher-on-matrices" class="section level1">
+<h1><span class="header-section-number">A</span> Brief refresher on matrices</h1>
+<p>This is intended a very short recap of some essentials you need to know about matrices
+For more details please consult the lecture notes of earlier modules (e.g. linear algebra).</p>
+<div id="matrix-notation" class="section level2">
+<h2><span class="header-section-number">A.1</span> Matrix notation</h2>
+<p>We will frequently make use of matrix calculations.
+Matrix notation helps to make the equations simpler and enables to understand
+them better.</p>
+<p>In matrix notion we distinguish between scalars, vectors, and matrices:</p>
+<p><strong>Scalar</strong>: <span class="math inline">\(x\)</span>, <span class="math inline">\(X\)</span>, lower or upper case, plain type.</p>
+<p><strong>Vector</strong>: <span class="math inline">\(\boldsymbol x\)</span>, lower case, bold type. In handwriting one uses an arrow <span class="math inline">\(\vec{x}\)</span> to indicate a vector.</p>
+<p><strong>Matrix</strong>: <span class="math inline">\(\boldsymbol X\)</span>, upper case, bold type. In handwriting you use an underscore
+<span class="math inline">\(\underline{X}\)</span> to indicate a matrix.</p>
+<p>Note that a vector may be viewed as a matrix (with only one column or only one row).
+Likewise, a scalar may also be considered as as special case of a matrix.</p>
+<p>Note on <strong>random</strong> matrices and vectors:</p>
+<p>In the above notation you need to determine
+from the context whether a quantity represents a
+random variable, or whether it is a constant. You cannot read this
+this from the case (upper vs. lower case) as in the standard notation
+commonly used in univariate statistics.</p>
+</div>
+<div id="simple-special-matrices" class="section level2">
+<h2><span class="header-section-number">A.2</span> Simple special matrices</h2>
+<p><span class="math inline">\(\boldsymbol I_d\)</span> is the identity matrix. It is a square matrix of dimension
+<span class="math inline">\(d \times d\)</span> with the diagonal
+filled with 1 and off-diagonals filled with 0.
+<span class="math display">\[\boldsymbol I_d =
+\begin{pmatrix}
+    1 &amp; 0 &amp; 0 &amp; \dots &amp; 0\\
+    0 &amp; 1 &amp; 0 &amp; \dots &amp; 0\\
+    0 &amp; 0 &amp; 1 &amp;   &amp; 0\\
+    \vdots &amp; \vdots &amp; &amp; \ddots &amp;  \\
+    0 &amp; 0 &amp; 0 &amp;  &amp; 1 \\
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(\boldsymbol 1\)</span> is a matrix that contains only 1s. Most often
+it is used in the form of a column vector with <span class="math inline">\(d\)</span> rows:
+<span class="math display">\[\boldsymbol 1_d =
+\begin{pmatrix}
+    1 \\
+    1 \\
+    1 \\
+    \vdots   \\
+    1  \\
+\end{pmatrix}\]</span></p>
+</div>
+<div id="simple-matrix-operations" class="section level2">
+<h2><span class="header-section-number">A.3</span> Simple matrix operations</h2>
+<p>Matrices behave much like ordinary numbers. For example,
+you can apply operations such as matrix addition <span class="math inline">\(\boldsymbol A+ \boldsymbol B\)</span>
+and matrix multiplication <span class="math inline">\(\boldsymbol A\boldsymbol B\)</span>. In order to conduct these operations the
+matrices need to be compatible: for addition the matrices need to have the same
+dimension, and for multiplication the number of columns of <span class="math inline">\(\boldsymbol A\)</span> must match
+the number of rows of <span class="math inline">\(\boldsymbol B\)</span>. Note that <span class="math inline">\(\boldsymbol A\boldsymbol B\neq \boldsymbol B\boldsymbol A\)</span>, i.e. matrix multiplication is in general not commutative.</p>
+<p>If <span class="math inline">\(\boldsymbol A\)</span> is a squared matrix and is nonsingular (i.e. it has no zero eigenvalues) then you can define an
+inverse <span class="math inline">\(\boldsymbol A^{-1}\)</span> such that <span class="math inline">\(\boldsymbol A^{-1} \boldsymbol A= \boldsymbol A\boldsymbol A^{-1}= \boldsymbol I\)</span>.</p>
+<p>The matrix transpose <span class="math inline">\(t(\boldsymbol A) = \boldsymbol A^T\)</span> interchanges rows and columns.</p>
+<p>The trace of the matrix is the sum of the diagonal entries <span class="math inline">\(\text{Tr}(\boldsymbol A) = \sum a_{ii}\)</span>.</p>
+<p>The sum of the squares of all entries of a rectangular matrix <span class="math inline">\(\boldsymbol A=(a_{ij})\)</span> can be
+written using the trace as follows: <span class="math inline">\(\sum_{i,j} a_{ij}^2 = \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T)\)</span></p>
+</div>
+<div id="orthogonal-matrices" class="section level2">
+<h2><span class="header-section-number">A.4</span> Orthogonal matrices</h2>
+<p>An orthogonal matrix <span class="math inline">\(\boldsymbol Q\)</span> has the property that <span class="math inline">\(\boldsymbol Q^T = \boldsymbol Q^{-1}\)</span>.
+This implies that <span class="math inline">\(\boldsymbol Q\boldsymbol Q^T = \boldsymbol Q^T \boldsymbol Q= \boldsymbol I\)</span>. An orthogonal matrix
+<span class="math inline">\(\boldsymbol Q\)</span> can be interpreted geometrically as a rotation-reflection
+operator since multiplication of <span class="math inline">\(\boldsymbol Q\)</span> with a vector will result in
+a new vector of the same length but with a change in direction.
+The identity matrix <span class="math inline">\(\boldsymbol I\)</span> is the simplest example of an orthogonal matrix
+but in general there are infinitely many rotation-reflection matrices.</p>
+</div>
+<div id="eigenvalues-and-eigenvalue-decomposition" class="section level2">
+<h2><span class="header-section-number">A.5</span> Eigenvalues and eigenvalue decomposition</h2>
+<p>A vector <span class="math inline">\(\boldsymbol u_i\)</span> is called an eigenvector of a square matrix <span class="math inline">\(\boldsymbol A\)</span> and <span class="math inline">\(\lambda_i\)</span> the corresponding
+eigenvalue if <span class="math inline">\(\boldsymbol A\boldsymbol u_i = \boldsymbol u_i \lambda_i\)</span>.</p>
+<p>If <span class="math inline">\(\boldsymbol A\)</span> is a symmetric matrix (i.e. <span class="math inline">\(\boldsymbol A= \boldsymbol A^T\)</span>) with real entries (as assumed for the rest of
+this section) then it can be shown
+that all eigenvalues are real, and that the corresponding eigenvectors are
+all orthogonal.</p>
+<p>The eigenvalue decomposition of a symmetric real-valued <span class="math inline">\(\boldsymbol A\)</span> is given by
+<span class="math display">\[\boldsymbol A= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\]</span>
+with
+<span class="math display">\[\boldsymbol \Lambda= \begin{pmatrix}
+    \lambda_{1} &amp; \dots &amp; 0\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    0 &amp; \dots &amp; \lambda_{d}
+\end{pmatrix}\]</span>
+being a diagonal matrix containing all eigenvalues <span class="math inline">\(\lambda_i\)</span>
+of <span class="math inline">\(\boldsymbol A\)</span>. <span class="math inline">\(\boldsymbol U\)</span> is an orthogonal matrix containing the corresponding
+eigensystem (i.e. all eigenvectors <span class="math inline">\(\boldsymbol u_i\)</span>) in the columns of <span class="math inline">\(\boldsymbol U\)</span>.
+The eigenvectors in <span class="math inline">\(\boldsymbol U\)</span> are orthonormal, i.e. they
+are orthogonal to each other and have length 1.</p>
+<p>If <span class="math inline">\(\boldsymbol A\)</span> is multiplied with <span class="math inline">\(\boldsymbol U\)</span> we immediately see
+that <span class="math inline">\(\boldsymbol \Lambda\)</span> contains the eigenvalues since <span class="math inline">\(\boldsymbol A\boldsymbol U= \boldsymbol U\boldsymbol \Lambda\)</span>.</p>
+<p>Furthermore, it can be shown that the above eigenvalue decomposition of <span class="math inline">\(\boldsymbol A\)</span> is <strong>unique apart from the signs
+of the eigenvectors</strong> (i.e. individual column signs of <span class="math inline">\(\boldsymbol U\)</span> can be changed and the
+eigenvalue decomposition is still valid). In order to make the eigenvalue
+decomposition fully unique you need to impose further restrictions (e.g. require a positive diagonal
+of <span class="math inline">\(\boldsymbol U\)</span>). Note that this may be particularly important in computer applications where the sign
+can vary depending on the specific implementation of the underlying numerical algorithms.</p>
+<p>Eigenvalue decomposition is also known as spectral decomposition.</p>
+</div>
+<div id="singular-value-decomposition" class="section level2">
+<h2><span class="header-section-number">A.6</span> Singular value decomposition</h2>
+<p>A generalisation of the eigenvalue decomposition (which is for
+squared matrices) is the <strong>singular value decomposition</strong> (SVD).</p>
+<p>Let <span class="math inline">\(\boldsymbol A\)</span> be a <span class="math inline">\(n\times m\)</span> matrix. The SVD decomposition of
+<span class="math inline">\(\boldsymbol A\)</span> is <span class="math inline">\(\boldsymbol A= \boldsymbol U\boldsymbol D\boldsymbol V^T\)</span>.</p>
+<p><span class="math inline">\(\boldsymbol U\)</span> and <span class="math inline">\(\boldsymbol V\)</span> are orthogonal matrices,
+<span class="math inline">\(\boldsymbol D\)</span> contains the singular values.</p>
+<p>As the eigenvalue decomposition SVD is unique apart from the
+signs of the column vectors in <span class="math inline">\(\boldsymbol U\)</span> and <span class="math inline">\(\boldsymbol V\)</span>.</p>
+</div>
+<div id="positive-semi-definiteness-rank-condition" class="section level2">
+<h2><span class="header-section-number">A.7</span> Positive (semi-)definiteness, rank, condition</h2>
+<p>If all <span class="math inline">\(\lambda_i \geq 0\)</span> then <span class="math inline">\(\boldsymbol A\)</span> is is called positive semi-definite.<br />
+If all eigenvalues are strictly positive
+<span class="math inline">\(\lambda_i &gt; 0\)</span> then <span class="math inline">\(\boldsymbol A\)</span> is called positive definite.</p>
+<p>If one or more of the eigenvalues equal zero then <span class="math inline">\(\boldsymbol A\)</span> is said to be singular.</p>
+<p>The rank of <span class="math inline">\(\boldsymbol A\)</span> counts how many eigenvalues are non-zero.<br />
+<span class="math inline">\(\boldsymbol A\)</span> is full rank if all eigenvalues are non-zero.</p>
+<p>The condition number of <span class="math inline">\(\boldsymbol A\)</span> is the ratio between the largest and smallest absolute eigenvalue.<br />
+If <span class="math inline">\(\boldsymbol A\)</span> is singular then the condition number is infinite.</p>
+</div>
+<div id="trace-and-determinant-of-a-matrix-and-eigenvalues" class="section level2">
+<h2><span class="header-section-number">A.8</span> Trace and determinant of a matrix and eigenvalues</h2>
+<p>The trace of the matrix <span class="math inline">\(\boldsymbol A\)</span> can be also obtained as the <em>sum</em> of its eigenvalues:
+<span class="math inline">\(\text{Tr}(\boldsymbol A) = \sum \lambda_i\)</span>.</p>
+<p>The determinant of <span class="math inline">\(\boldsymbol A\)</span> is the <em>product</em> of the eigenvalues, <span class="math inline">\(\det(\boldsymbol A) = \prod \lambda_i\)</span>.
+Therefore, if <span class="math inline">\(\boldsymbol A\)</span> is singular then <span class="math inline">\(\det(\boldsymbol A) = 0\)</span>.</p>
+<p>Determinants have a multiplicative property, <span class="math inline">\(\det(\boldsymbol A\boldsymbol B) = \det(\boldsymbol A) \det(\boldsymbol B)\)</span>.
+Another important identity is <span class="math inline">\(\det(\boldsymbol I_n + \boldsymbol A\boldsymbol B) = \det(\boldsymbol I_m + \boldsymbol B\boldsymbol A)\)</span>
+where <span class="math inline">\(\boldsymbol A\)</span> is a <span class="math inline">\(n \times m\)</span> and <span class="math inline">\(\boldsymbol B\)</span> is a <span class="math inline">\(m \times n\)</span> matrix. This is called the
+Weinstein-Aronszajn determinant identity (also credited to Sylvester).</p>
+</div>
+<div id="functions-of-matrices" class="section level2">
+<h2><span class="header-section-number">A.9</span> Functions of matrices</h2>
+<p>Again, we focus on symmetric, real-valued squared matrices <span class="math inline">\(\boldsymbol A\)</span>.</p>
+<p>A matrix function <span class="math inline">\(f(\boldsymbol A)\)</span>, generalising from a simple function <span class="math inline">\(f(a)\)</span> can then
+be defined via the eigenvalue decomposition as
+<span class="math display">\[
+f(\boldsymbol A) =  \boldsymbol Uf(\boldsymbol \Lambda) \boldsymbol U^T =  \boldsymbol U\begin{pmatrix}
+    f(\lambda_{1}) &amp; \dots &amp; 0\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    0 &amp; \dots &amp; f(\lambda_{d})
+\end{pmatrix} \boldsymbol U^T
+\]</span>
+Therefore, in order to obtain the corresponding matrix function,
+the function is simply applied on the level of eigenvalues.
+By construction <span class="math inline">\(f(\boldsymbol A)\)</span> will also be symmetric and and real-valued as long as
+the transformed eigenvalues <span class="math inline">\(f(\lambda_i)\)</span> are real.</p>
+<p>Examples:</p>
+
+<div class="example">
+<span id="exm:unnamed-chunk-1" class="example"><strong>Example A.1  </strong></span>matrix power: <span class="math inline">\(f(a) = a^p\)</span> (with <span class="math inline">\(p\)</span> real number)
 </div>
 
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<div id="about-these-notes" class="section level2 unnumbered">
-<h2>About these notes</h2>
-<p>This is the course text for MATH38161, an introductory course in <strong>Multivariate Statistics and Machine Learning</strong> for
-third year mathematics students.</p>
-<p>These notes will be updated from time to time. To view the current
-version please visit <a href="http://strimmerlab.org/publications/lecture-notes/MATH38161/index.html" class="uri">http://strimmerlab.org/publications/lecture-notes/MATH38161/index.html</a></p>
-<p>A PDF can be also downloaded from there at
-<a href="http://strimmerlab.org/publications/lecture-notes/MATH38161/math38161-script.pdf" class="uri">http://strimmerlab.org/publications/lecture-notes/MATH38161/math38161-script.pdf</a></p>
-</div>
-<div id="about-the-author" class="section level2 unnumbered">
-<h2>About the author</h2>
-<p>My name is Korbinian Strimmer and I am a Professor in Statistics at the Dept. of Mathematics of the University of Manchester. You can find more information about me on my home page at <a href="http://strimmerlab.org/korbinian.html" class="uri">http://strimmerlab.org/korbinian.html</a></p>
-<p>I have first taught this module in the Winter term 2018 at the University of Manchester.</p>
-<p>I hope you enjoy the course. If you have any questions, comments, or corrections then please email me at <a href="mailto:korbinian.strimmer@manchester.ac.uk">korbinian.strimmer@manchester.ac.uk</a></p>
-</div>
-<div id="about-the-module" class="section level2 unnumbered">
-<h2>About the module</h2>
-<div id="course-home-page" class="section level3 unnumbered">
-<h3>Course home page</h3>
-<p>For organisatorical details (including details
-on assessment) please visit the course home page at
-<a href="http://strimmerlab.org/courses/2020-21/MATH38161/" class="uri">http://strimmerlab.org/courses/2020-21/MATH38161/</a> (academic year 2020/21).</p>
-<p>If you are a student and enrolled for this module you can find further information
-and material on Blackboard at <a href="https://online.manchester.ac.uk" class="uri">https://online.manchester.ac.uk</a></p>
-</div>
-<div id="topics-covered" class="section level3 unnumbered">
-<h3>Topics covered</h3>
-<p>The MATH38161 module is designed to run over the course of 11 weeks.
-It has six parts, each covering a particular aspect of multivariate statistics and machine learning:</p>
-<ol style="list-style-type: decimal">
-<li>Multivariate random variables and estimation in
-large and small sample settings (W1 and W2)</li>
-<li>Transformations and dimension reduction (W3 and W4)</li>
-<li>Unsupervised learning/clustering (W5 and W6)</li>
-<li>Supervised learning/classification (W7 and W8)</li>
-<li>Measuring and modelling multivariate dependencies (W9)</li>
-<li>Nonlinear and nonparametric models (W10, W11)</li>
-</ol>
-<p>This module focuses on:</p>
+<p>Special cases of matrix power include :</p>
 <ul>
-<li><em>Concepts and methods</em> (not on theory)</li>
-<li><em>Implementation and application in R</em></li>
-<li><em>Practical data analysis and interpretation</em> (incl. report writing)</li>
-<li><em>Modern tools in data science and statistics</em> (R markdown, R studio)</li>
+<li>matrix inversion: <span class="math inline">\(f(a) = a^{-1}\)</span></li>
+<li>the matrix square root: <span class="math inline">\(f(a) = a^{1/2}\)</span><br />
+(since there are multiple solutions to the square root there are also multiple
+matrix square roots. The principal matrix square root is given by using
+the positive square roots of all the eigenvalues. Thus the <strong>principal matrix square root</strong>
+of a positive semidefinite matrix is also positive semidefinite and it is unique).</li>
 </ul>
+
+<div class="example">
+<span id="exm:unnamed-chunk-2" class="example"><strong>Example A.2  </strong></span>matrix exponential: <span class="math inline">\(f(a) = \exp(a)\)</span>
 </div>
-<div id="video-lectures" class="section level3 unnumbered">
-<h3>Video lectures</h3>
-<p>The material covered in these notes are also discussed in
-a set of video lectures. You can watch them at my YouTube channel:</p>
-<p><a href="https://www.youtube.com/channel/UCJsn2WIvWKWMdRcgQV2xRCA/about" class="uri">https://www.youtube.com/channel/UCJsn2WIvWKWMdRcgQV2xRCA/about</a></p>
-</div>
-<div id="additional-support-material" class="section level3 unnumbered">
-<h3>Additional support material</h3>
-<p>Further material related to this module is available from UoM Blackboard
-at <a href="https://online.manchester.ac.uk" class="uri">https://online.manchester.ac.uk</a></p>
-<p>On Blackboard you find these lecture notes plus:</p>
-<ul>
-<li>A weekly to-do list</li>
-<li>Weekly quiz questions for the videos</li>
-<li>Example sheets and their solutions</li>
-<li>Tasks for the computer labs and their solutions (in R Markdown)</li>
-</ul>
-</div>
-</div>
-<div id="further-study" class="section level2 unnumbered">
-<h2>Further study</h2>
-<p>In this module we can only touch the surface of all the methods and models used in multivariate statistics and machine learning. If you would like to study further
-I recommend the following books below — see also the corresponding <a href="https://manchester.alma.exlibrisgroup.com/leganto/public/44MAN_INST/lists/318684814430001631">MATH38161 online reading list</a> at the UoM library.</p>
-<div id="recommended-reading" class="section level3 unnumbered">
-<h3>Recommended reading</h3>
-<p>For multivariate statistics and machine learning:</p>
-<ul>
-<li><span class="citation">Härdle and Simar (<a href="8-references.html#ref-HardleSimar2015">2015</a>)</span> <a href="https://link.springer.com/book/10.1007/978-3-662-45171-7"><em>Applied multivariate statistical analysis. 4th edition</em></a>. Springer.</li>
-<li><span class="citation">Hastie, Tibshirani, and Friedman (<a href="8-references.html#ref-HTF09">2009</a>)</span> <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><em>The elements of statistical learning: data mining, inference, and prediction</em></a>. Springer.</li>
-<li><span class="citation">James et al. (<a href="8-references.html#ref-JWHT2013">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</li>
-<li><span class="citation">Marden (<a href="8-references.html#ref-Marden2015">2015</a>)</span> <a href="http://stat.istics.net/Multivariate"><em>Multivariate Statistics: Old School</em></a></li>
-<li><span class="citation">Rogers and Girolami (<a href="8-references.html#ref-RG2017">2017</a>)</span> <a href="https://ebookcentral.proquest.com/lib/manchester/reader.action?docID=4718644"><em>A first course in machine learning (2nd Edition)</em></a>. Chapman and Hall / CRC.</li>
-</ul>
-<p>For learning R markdown:</p>
-<ul>
-<li>R markdown homepage: <a href="https://rmarkdown.rstudio.com/" class="uri">https://rmarkdown.rstudio.com/</a></li>
-<li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">R markdown reference guide</a></li>
-<li>C. Shalizi. 2016. <a href="http://www.stat.cmu.edu/~cshalizi/rmarkdown/"><em>Using R markdown for class reports</em></a></li>
-<li><span class="citation">Xie, Allaire, and Grolemund (<a href="8-references.html#ref-XAG2018">2018</a>)</span> <a href="https://bookdown.org/yihui/rmarkdown/"><em>R markdown: the definitive guide</em></a></li>
-</ul>
-</div>
-<div id="advanced-reading" class="section level3 unnumbered">
-<h3>Advanced reading</h3>
-<p>Additional (advanced) reference books for probabilistic machine learning are:</p>
-<ul>
-<li><span class="citation">Murphy (<a href="8-references.html#ref-Murphy2012">2012</a>)</span> <a href="https://ebookcentral.proquest.com/lib/manchester/detail.action?docID=3339490"><em>Machine learning: a probabilistic perspective</em></a>. MIT Press.</li>
-<li><span class="citation">Bishop (<a href="8-references.html#ref-Bishop2006">2006</a>)</span> <a href="https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/"><em>Pattern recognition and machine learning</em></a>. Springer.</li>
-</ul>
-</div>
-</div>
-<div id="acknowledgements" class="section level2 unnumbered">
-<h2>Acknowledgements</h2>
-<p>Many thanks to <a href="https://www.turing.ac.uk/people/enrichment-students/beatriz-costa-gomes">Beatriz Costa Gomes</a> for her help to compile the first draft of these course notes in the winter term 2018 while she was a graduate teaching assistant for this course. I also thank the many students who suggested corrections.</p>
 
 
+<div class="example">
+<span id="exm:unnamed-chunk-3" class="example"><strong>Example A.3  </strong></span>matrix logarithm: <span class="math inline">\(f(a) = \log(a)\)</span>
+</div>
+
+<p>For a positive definite matrix <span class="math inline">\(\boldsymbol A\)</span> computing the trace of the matrix logarithm of <span class="math inline">\(\boldsymbol A\)</span> is
+the same as taking the log of the determinant of <span class="math inline">\(\boldsymbol A\)</span>:
+<span class="math display">\[
+\text{Tr}(\log(\boldsymbol A)) = \log \det(\boldsymbol A)
+\]</span>
+because
+<span class="math inline">\(\sum \log(\lambda_i) = \log( \prod \lambda_i )\)</span>.</p>
+</div>
+<div id="matrix-calculus" class="section level2">
+<h2><span class="header-section-number">A.10</span> Matrix calculus</h2>
+<div id="first-order-vector-derivatives" class="section level3">
+<h3><span class="header-section-number">A.10.1</span> First order vector derivatives</h3>
+<div id="gradient" class="section level4">
+<h4><span class="header-section-number">A.10.1.1</span> Gradient</h4>
+<p>The <strong>nabla operator</strong> (also known as <strong>del operator</strong>) is the <em>row</em> vector
+<span class="math display">\[
+\nabla =  (\frac{\partial}{\partial x_1}, \ldots, 
+\frac{\partial}{\partial x_d}) = \frac{\partial}{\partial \boldsymbol x}
+\]</span>
+containing
+the first order partial derivative operators.</p>
+<p>The <strong>gradient</strong> of a scalar-valued function
+<span class="math inline">\(f(\boldsymbol x)\)</span> with vector argument <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span>
+is also a <em>row</em> vector (with <span class="math inline">\(d\)</span> columns) and
+can be expressed using the nabla operator
+<span class="math display">\[
+\nabla f(\boldsymbol x) = \left( \frac{\partial f(\boldsymbol x)}{\partial x_1}, \ldots, 
+\frac{\partial f(\boldsymbol x)}{\partial x_d} \right) = 
+ \frac{\partial f(\boldsymbol x)}{\partial \boldsymbol x} = \text{grad} f(\boldsymbol x) \, .
+\]</span>
+Note the various notations for the gradient.</p>
+
+<div class="example">
+<span id="exm:unnamed-chunk-4" class="example"><strong>Example A.4  </strong></span><span class="math inline">\(f(\boldsymbol x)=\boldsymbol a^T \boldsymbol x+ b\)</span>. Then <span class="math inline">\(\nabla f(\boldsymbol x) = \frac{\partial f(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol a^T\)</span>.
+</div>
+
+
+<div class="example">
+<span id="exm:unnamed-chunk-5" class="example"><strong>Example A.5  </strong></span><span class="math inline">\(f(\boldsymbol x)=\boldsymbol x^T \boldsymbol x\)</span>. Then <span class="math inline">\(\nabla f(\boldsymbol x) = \frac{\partial f(\boldsymbol x)}{\partial \boldsymbol x} = 2 \boldsymbol x^T\)</span>.
+</div>
+
+
+<div class="example">
+<span id="exm:unnamed-chunk-6" class="example"><strong>Example A.6  </strong></span><span class="math inline">\(f(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla f(\boldsymbol x) = \frac{\partial f(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol x^T (\boldsymbol A+ \boldsymbol A^T)\)</span>.
+</div>
+
+</div>
+<div id="jacobian-matrix" class="section level4">
+<h4><span class="header-section-number">A.10.1.2</span> Jacobian matrix</h4>
+<p>For a vector-valued function
+<span class="math display">\[
+\boldsymbol f(\boldsymbol x) = ( f_1(\boldsymbol x), \ldots, f_m(\boldsymbol x) )^T \,.
+\]</span>
+the computation of the gradient of each component yields
+the <strong>Jacobian matrix</strong> (with <span class="math inline">\(m\)</span> rows and <span class="math inline">\(d\)</span> columns)
+<span class="math display">\[
+\boldsymbol J_{\boldsymbol f}(\boldsymbol x) = 
+\left( {\begin{array}{c}
+ \nabla f_1(\boldsymbol x)   \\
+ \vdots   \\
+ \nabla f_m(\boldsymbol x)   \\
+ \end{array} } \right) 
+= \left(\frac{\partial f_i(\boldsymbol x)}{\partial x_j}\right) = 
+\frac{\partial \boldsymbol f(\boldsymbol x)}{\partial \boldsymbol x} = D \boldsymbol f(\boldsymbol x)\, 
+\]</span>
+Again, note the various notations for the Jacobian matrix!</p>
+
+<div class="example">
+<span id="exm:unnamed-chunk-7" class="example"><strong>Example A.7  </strong></span><span class="math inline">\(\boldsymbol f(\boldsymbol x)=\boldsymbol A\boldsymbol x+ \boldsymbol b\)</span>. Then <span class="math inline">\(\boldsymbol J_{\boldsymbol f}(\boldsymbol x) = \frac{\partial \boldsymbol f(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol A\)</span>.
+</div>
+
+<p>If <span class="math inline">\(m=d\)</span> then the Jacobian matrix is a square matrix and this allows to compute the
+<strong>Jacobian determinant</strong> <span class="math display">\[\det  \boldsymbol J_{\boldsymbol f}(\boldsymbol x) = \det\left(\frac{\partial \boldsymbol f(\boldsymbol x)}{\partial \boldsymbol x}\right)\]</span></p>
+<p>If <span class="math inline">\(\boldsymbol y= \boldsymbol f(\boldsymbol x)\)</span> is an invertible function with <span class="math inline">\(\boldsymbol x= \boldsymbol f^{-1}(\boldsymbol y)\)</span>
+then the Jacobian matrix is invertible and the inverted matrix is in fact the
+Jacobian of the inverse function!</p>
+<p>This allows to compute the Jacobian determinant of the backtransformation as
+as the inverse of the Jacobian determinant the original function:
+<span class="math display">\[\det  D \boldsymbol f^{-1}(\boldsymbol y) = ( \det  D \boldsymbol f(\boldsymbol x) )^{-1}\]</span>
+or in alternative notation
+<span class="math display">\[\det  D \boldsymbol x(\boldsymbol y) = \frac{1}{ \det  D \boldsymbol y(\boldsymbol x) }\]</span>.</p>
+</div>
+</div>
+<div id="second-order-vector-derivatives" class="section level3">
+<h3><span class="header-section-number">A.10.2</span> Second order vector derivatives</h3>
+<p>The matrix of all second order partial derivates of scalar-valued
+function with vector-valued argument is called the <strong>Hessian matrix</strong>
+and is computed by double application of the nabla operator:
+<span class="math display">\[
+\nabla^T \nabla f(\boldsymbol x) =
+\begin{pmatrix}
+  \frac{\partial^2 f(\boldsymbol x)}{\partial x_1^2}
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_1 \partial x_2} 
+     &amp; \cdots 
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_1 \partial x_d} \\
+  \frac{\partial^2 f(\boldsymbol x)}{\partial x_2 \partial x_1} 
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_2^2}
+     &amp; \cdots 
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_2 \partial x_d} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  \frac{\partial^2 f(\boldsymbol x)}{\partial x_d \partial x_1} 
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_d \partial x_2}  
+     &amp; \cdots 
+     &amp; \frac{\partial^2 f(\boldsymbol x)}{\partial x_d^2}
+ \end{pmatrix} = \left(\frac{\partial f(\boldsymbol x)}{\partial x_i \partial x_j}\right)  
+= {\left(\frac{\partial}{\partial \boldsymbol x}\right)}^T \frac{\partial f(\boldsymbol x)}{\partial \boldsymbol x}
+\,.
+\]</span>
+By construction it is square and symmetric.</p>
+</div>
+<div id="first-order-matrix-derivatives" class="section level3">
+<h3><span class="header-section-number">A.10.3</span> First order matrix derivatives</h3>
+<p>The derivative of a scalar-valued function <span class="math inline">\(f(\boldsymbol X)\)</span> with regard to a matrix argument <span class="math inline">\(\boldsymbol X\)</span>
+can also be defined and results in a matrix
+with transposed dimensions compared to <span class="math inline">\(\boldsymbol X\)</span>.</p>
+Two important specific examples are:
+
+<div class="example">
+<span id="exm:unnamed-chunk-8" class="example"><strong>Example A.8  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol A\boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol A\)</span>
+</div>
+
+
+<div class="example">
+<span id="exm:unnamed-chunk-9" class="example"><strong>Example A.9  </strong></span><span class="math inline">\(\frac{\partial \log \det(\boldsymbol X)}{\partial \boldsymbol X} = \frac{\partial \text{Tr}(\log \boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol X^{-1}\)</span>
+</div>
+
+
+</div>
 </div>
 </div>
             </section>
@@ -467,8 +663,8 @@ I recommend the following books below — see also the corresponding <a href="ht
           </div>
         </div>
       </div>
-
-<a href="1-multivariate.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="6-nonlinear.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="8-references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
