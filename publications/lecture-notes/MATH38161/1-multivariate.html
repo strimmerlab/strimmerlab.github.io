@@ -24,7 +24,7 @@
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-09-12" />
+<meta name="date" content="2020-09-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -608,7 +608,7 @@ which is equivalent to the product of <span class="math inline">\(d\)</span> uni
 <p><strong>Misc:</strong></p>
 <ul>
 <li>for <span class="math inline">\(d=1\)</span>, multivariate normal reduces to normal.</li>
-<li>for <span class="math inline">\(\boldsymbol \Sigma\)</span> diagonal (i.e. <span class="math inline">\(\boldsymbol P= \boldsymbol I\)</span>, no correlation), MVN is the product of univariate normals (see Worksheet~2).</li>
+<li>for <span class="math inline">\(\boldsymbol \Sigma\)</span> diagonal (i.e. <span class="math inline">\(\boldsymbol P= \boldsymbol I\)</span>, no correlation), MVN is the product of univariate normals (see Worksheet 2).</li>
 </ul>
 <div style="page-break-after: always;"></div>
 <p><strong>Plot of MVN density</strong>:</p>
@@ -741,7 +741,7 @@ x_{kj}-\hat{\mu}_j\right)\]</span></p>
 Note the factor <span class="math inline">\(\frac{1}{n}\)</span> (not <span class="math inline">\(\frac{1}{n-1}\)</span>)</p>
 <p><strong>Data matrix notation</strong></p>
 <p>The empirical mean and covariance can also be written in terms of the data matrix <span class="math inline">\(\boldsymbol X\)</span>.
-See Worksheet~2 for details.</p>
+See Worksheet 2 for details.</p>
 </div>
 <div id="maximum-likelihood-estimates" class="section level4">
 <h4><span class="header-section-number">1.4.3.2</span> Maximum likelihood estimates</h4>
@@ -749,7 +749,7 @@ See Worksheet~2 for details.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> empirical estimates <span class="math inline">\(\hat{\boldsymbol \mu}\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span>
 <span class="math display">\[\hat{\boldsymbol \mu}^{\text{ML}} = \hat{\boldsymbol \mu}^{\text{emp}}\]</span>
 <span class="math display">\[\hat{\boldsymbol \Sigma}^{\text{ML}} = \hat{\boldsymbol \Sigma}^{\text{emp}}\]</span></p>
-<p>For a direct derivation of the multivariate normal MLEs by optimising the multivariate normal log-likelihood function see the Worksheet~2 (easy for the mean, more difficult for the covariance matrix).</p>
+<p>For a direct derivation of the multivariate normal MLEs by optimising the multivariate normal log-likelihood function see the Worksheet 2 (easy for the mean, more difficult for the covariance matrix).</p>
 <p>Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the MLE of the covariance matrix.</p>
 </div>
 <div id="distribution-of-the-empirical-maximum-likelihood-estimates" class="section level4">
@@ -854,7 +854,7 @@ Matrix Theory:<br />
 <li>this type of linear shrinkage/regularisation is natural for models in the exponential family (Diaconis and Ylvisaker, 1979)</li>
 </ul></li>
 </ol>
-<p>In Worksheet~2 the empirical estimator of covariance is compared with the covariance estimator implemented in the R package
+<p>In Worksheet 2 the empirical estimator of covariance is compared with the covariance estimator implemented in the R package
 “corpcor”. This uses a regularisation similar as above (but for the correlation rather than
 covariance matrix) and it
 employs an analytic data-adaptive estimate of the shrinkage intensity <span class="math inline">\(\lambda\)</span>.
@@ -977,11 +977,11 @@ This estimator is a variant of an empirical Bayes / James-Stein estimator (see t
 </div>
 <div id="wishart-distribution" class="section level3">
 <h3><span class="header-section-number">1.6.2</span> Wishart distribution</h3>
-<p>This is a distribution for the sum of squared normally distributed
-random variables.</p>
+<p>This multivariate distribution generalises the univariate
+scaled <span class="math inline">\(\chi^2\)</span> distribution (also known as Gamma distribution).</p>
 <div id="univariate-case-3" class="section level4">
 <h4><span class="header-section-number">1.6.2.1</span> Univariate case</h4>
-<p>Scaled <span class="math inline">\(\chi^2\)</span> distribution</p>
+<p>Scaled <span class="math inline">\(\chi^2\)</span> distribution (=Gamma distribution, see below)</p>
 <p><span class="math display">\[z_1,z_2,\ldots,z_m \stackrel{\text{iid}}\sim N(0,\sigma^2)\]</span>
 <span class="math display">\[x = \sum^{m}_{i=1}z_i^2\]</span></p>
 <p><span class="math display">\[x \sim \sigma^2 \chi^2_m = \text{W}_1(\sigma^2, m)\]</span>
@@ -989,10 +989,11 @@ random variables.</p>
 <span class="math display">\[\text{Var}(x)= m \, 2 \sigma^4\]</span></p>
 <p>Useful as the distribution of sample variance:
 <span class="math display">\[y_1, \ldots, y_n \sim N(\mu, \sigma^2)\]</span>
-Known mean <span class="math inline">\(\mu\)</span>
-<span class="math display">\[\frac{1}{k}\sum_{i=1}^n(y_i -\mu)^2 \sim \text{W}_1\left(\frac{\sigma^2}{k}, n\right)\]</span>
-Unknown mean <span class="math inline">\(\mu\)</span>
-<span class="math display">\[\frac{1}{k}\sum_{i=1}^n(y_i -\bar{y})^2 \sim \text{W}_1\left(\frac{\sigma^2}{k}, n-1\right)\]</span></p>
+Known mean <span class="math inline">\(\mu\)</span>:
+<span class="math display">\[\frac{1}{n}\sum_{i=1}^n(y_i -\mu)^2 \sim \text{W}_1\left(\frac{\sigma^2}{n}, n\right)\]</span>
+Unknown mean <span class="math inline">\(\mu\)</span> (estimated by <span class="math inline">\(\bar{y}\)</span>):
+<span class="math display">\[\widehat{\sigma^2}_{ML} = \frac{1}{n}\sum_{i=1}^n(y_i -\bar{y})^2 \sim \text{W}_1\left(\frac{\sigma^2}{n}, n-1\right)\]</span>
+<span class="math display">\[\widehat{\sigma^2}_{UB} = \frac{1}{n-1}\sum_{i=1}^n(y_i -\bar{y})^2 \sim \text{W}_1\left(\frac{\sigma^2}{n-1}, n-1\right)\]</span></p>
 </div>
 <div id="multivariate-case-3" class="section level4">
 <h4><span class="header-section-number">1.6.2.2</span> Multivariate case</h4>
@@ -1005,8 +1006,9 @@ Note that <span class="math inline">\(\boldsymbol X\)</span> is a !</p>
 <span class="math display">\[\text{Var}(x_{ij})=m \, \left(\sigma^2_{ij}+\sigma_{ii}\sigma_{jj}\right)\]</span></p>
 <p>Useful as distribution of sample covariance:
 <span class="math display">\[\boldsymbol y_1, \ldots, \boldsymbol y_n \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span>
-<span class="math display">\[\frac{1}{k}\sum_{i=1}^n (\boldsymbol y_i -\boldsymbol \mu)(\boldsymbol y_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\boldsymbol \Sigma/k, n\right)\]</span>
-<span class="math display">\[\frac{1}{k}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/k, n-1\right)\]</span></p>
+<span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\boldsymbol \mu)(\boldsymbol y_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n\right)\]</span>
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n-1\right)\]</span>
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{UB} = \frac{1}{n-1}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/(n-1), n-1\right)\]</span></p>
 </div>
 <div id="relationship-to-gamma-distribution" class="section level4">
 <h4><span class="header-section-number">1.6.2.3</span> Relationship to Gamma distribution</h4>
