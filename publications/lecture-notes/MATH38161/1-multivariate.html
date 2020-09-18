@@ -24,7 +24,7 @@
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,9 +194,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="2-transformations.html"><a href="2-transformations.html#natural-whitening-procedures"><i class="fa fa-check"></i><b>2.4</b> Natural whitening procedures</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="2-transformations.html"><a href="2-transformations.html#zca-whitening"><i class="fa fa-check"></i><b>2.4.1</b> ZCA Whitening</a></li>
 <li class="chapter" data-level="2.4.2" data-path="2-transformations.html"><a href="2-transformations.html#zca-cor-whitening"><i class="fa fa-check"></i><b>2.4.2</b> ZCA-Cor Whitening</a></li>
-<li class="chapter" data-level="2.4.3" data-path="2-transformations.html"><a href="2-transformations.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.3</b> Cholesky Whitening</a></li>
-<li class="chapter" data-level="2.4.4" data-path="2-transformations.html"><a href="2-transformations.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA Whitening</a></li>
-<li class="chapter" data-level="2.4.5" data-path="2-transformations.html"><a href="2-transformations.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.5</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2-transformations.html"><a href="2-transformations.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.3</b> PCA Whitening</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2-transformations.html"><a href="2-transformations.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2-transformations.html"><a href="2-transformations.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.5</b> Cholesky Whitening</a></li>
 <li class="chapter" data-level="2.4.6" data-path="2-transformations.html"><a href="2-transformations.html#comparison-of-zca-pca-and-chol-whitening"><i class="fa fa-check"></i><b>2.4.6</b> Comparison of ZCA, PCA and Chol whitening</a></li>
 <li class="chapter" data-level="2.4.7" data-path="2-transformations.html"><a href="2-transformations.html#recap"><i class="fa fa-check"></i><b>2.4.7</b> Recap</a></li>
 </ul></li>
@@ -441,13 +441,15 @@ The dimension <span class="math inline">\(d\)</span> is also often denoted by <s
 variances of the components of <span class="math inline">\(\boldsymbol x\)</span>.</li>
 <li>Off-diagonal elements <span class="math inline">\(\sigma_{ij} = \text{Cov}(x_i,x_j)\)</span> represent linear dependencies among the <span class="math inline">\(x_i\)</span>. <span class="math inline">\(\Longrightarrow\)</span> linear regression, correlation</li>
 </ol>
-<p>How many entries does the <span class="math inline">\(\boldsymbol \Sigma\)</span> matrix have?</p>
+<p>How many separate entries does <span class="math inline">\(\boldsymbol \Sigma\)</span> have?</p>
 <p><span class="math display">\[\boldsymbol \Sigma= (\sigma_{ij}) = \underbrace{\begin{pmatrix}
     \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
      \vdots &amp; \ddots &amp; \vdots \\
     \sigma_{d1} &amp; \dots &amp; \sigma_{dd}
-\end{pmatrix}}_{d\times d}\]</span></p>
-<p>Number of entries: <span class="math inline">\(\frac{d(d+1)}{2}\)</span>, which grows with square of dimension <span class="math inline">\(d\)</span>, i.e. is of order O(<span class="math inline">\(d^2\)</span>).</p>
+\end{pmatrix}}_{d\times d}\]</span>
+with <span class="math inline">\(\sigma_{ij} = \sigma_{ji}\)</span>.</p>
+<p>Number of separate entries: <span class="math inline">\(\frac{d(d+1)}{2}\)</span>.</p>
+<p>This numbers grows with the square of the dimension <span class="math inline">\(d\)</span>, i.e. is of order O(<span class="math inline">\(d^2\)</span>):</p>
 <table>
 <thead>
 <tr class="header">
@@ -747,8 +749,8 @@ See Worksheet 2 for details.</p>
 <h4><span class="header-section-number">1.4.3.2</span> Maximum likelihood estimates</h4>
 <p>It turns out that the empirical estimates are identical to the MLE assuming multivariate normal model:</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> empirical estimates <span class="math inline">\(\hat{\boldsymbol \mu}\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span>
-<span class="math display">\[\hat{\boldsymbol \mu}^{\text{ML}} = \hat{\boldsymbol \mu}^{\text{emp}}\]</span>
-<span class="math display">\[\hat{\boldsymbol \Sigma}^{\text{ML}} = \hat{\boldsymbol \Sigma}^{\text{emp}}\]</span></p>
+<span class="math display">\[\hat{\boldsymbol \mu}_{ML} = \hat{\boldsymbol \mu}_{\text{emp}}\]</span>
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \widehat{\boldsymbol \Sigma}_{\text{emp}}\]</span></p>
 <p>For a direct derivation of the multivariate normal MLEs by optimising the multivariate normal log-likelihood function see the Worksheet 2 (easy for the mean, more difficult for the covariance matrix).</p>
 <p>Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the MLE of the covariance matrix.</p>
 </div>
@@ -757,16 +759,16 @@ See Worksheet 2 for details.</p>
 <p>With <span class="math inline">\(\boldsymbol x_1,...,\boldsymbol x_n \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> one can find the exact distributions
 of the estimators.</p>
 <p><strong>1. Distribution of the estimate of the mean:</strong></p>
-<p><span class="math display">\[\hat{\boldsymbol \mu} \sim N_d\left(\boldsymbol \mu, \frac{\boldsymbol \Sigma}{n}\right)\]</span>
+<p><span class="math display">\[\hat{\boldsymbol \mu}_{ML} \sim N_d\left(\boldsymbol \mu, \frac{\boldsymbol \Sigma}{n}\right)\]</span>
 Since
-<span class="math inline">\(\text{E}(\hat{\boldsymbol \mu}) = \boldsymbol \mu\Longrightarrow \hat{\boldsymbol \mu} \text{ is unbiased}\)</span></p>
+<span class="math inline">\(\text{E}(\hat{\boldsymbol \mu}_{ML}) = \boldsymbol \mu\Longrightarrow \hat{\boldsymbol \mu}_{ML} \text{ is unbiased}\)</span></p>
 <p><strong>2. Distribution of the covariance estimate:</strong></p>
-<p><span class="math display">\[n\widehat{\boldsymbol \Sigma} \sim \text{Wishart}(\boldsymbol \Sigma, n-1)\]</span>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma} \sim \text{Wishart}(\frac{\boldsymbol \Sigma}{n}, n-1)\]</span>
 Since
-<span class="math inline">\(\text{E}(n\hat{\boldsymbol \Sigma}) = (n-1)\boldsymbol \Sigma\Longrightarrow \widehat{\boldsymbol \Sigma}\text{ is biased!}\)</span></p>
+<span class="math inline">\(\text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = \frac{n-1}{n}\boldsymbol \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\boldsymbol \Sigma}_{ML}\)</span> is biased!</p>
 <p>Easy to make unbiased:
-<span class="math inline">\(\frac{n}{n-1}\hat{\boldsymbol \Sigma}=\frac{1}{n-1}\sum^n_{k=1}\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)^T \text{is unbiased}\)</span></p>
-<p><strong>But</strong> unbiasedness is <strong>not</strong> a very relevant criteria in multivariate statistics!</p>
+<span class="math inline">\(\widehat{\boldsymbol \Sigma}_{UB} = \frac{n}{n-1}\widehat{\boldsymbol \Sigma}=\frac{1}{n-1}\sum^n_{k=1}\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)^T\)</span> is unbiased.</p>
+<p>But unbiasedness is <strong>not</strong> a very relevant criteria in multivariate statistics!</p>
 </div>
 </div>
 <div id="problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" class="section level3">

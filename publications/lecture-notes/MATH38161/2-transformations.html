@@ -24,7 +24,7 @@
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,9 +194,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="2-transformations.html"><a href="2-transformations.html#natural-whitening-procedures"><i class="fa fa-check"></i><b>2.4</b> Natural whitening procedures</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="2-transformations.html"><a href="2-transformations.html#zca-whitening"><i class="fa fa-check"></i><b>2.4.1</b> ZCA Whitening</a></li>
 <li class="chapter" data-level="2.4.2" data-path="2-transformations.html"><a href="2-transformations.html#zca-cor-whitening"><i class="fa fa-check"></i><b>2.4.2</b> ZCA-Cor Whitening</a></li>
-<li class="chapter" data-level="2.4.3" data-path="2-transformations.html"><a href="2-transformations.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.3</b> Cholesky Whitening</a></li>
-<li class="chapter" data-level="2.4.4" data-path="2-transformations.html"><a href="2-transformations.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA Whitening</a></li>
-<li class="chapter" data-level="2.4.5" data-path="2-transformations.html"><a href="2-transformations.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.5</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2-transformations.html"><a href="2-transformations.html#pca-whitening"><i class="fa fa-check"></i><b>2.4.3</b> PCA Whitening</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2-transformations.html"><a href="2-transformations.html#pca-cor-whitening"><i class="fa fa-check"></i><b>2.4.4</b> PCA-cor Whitening</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2-transformations.html"><a href="2-transformations.html#cholesky-whitening"><i class="fa fa-check"></i><b>2.4.5</b> Cholesky Whitening</a></li>
 <li class="chapter" data-level="2.4.6" data-path="2-transformations.html"><a href="2-transformations.html#comparison-of-zca-pca-and-chol-whitening"><i class="fa fa-check"></i><b>2.4.6</b> Comparison of ZCA, PCA and Chol whitening</a></li>
 <li class="chapter" data-level="2.4.7" data-path="2-transformations.html"><a href="2-transformations.html#recap"><i class="fa fa-check"></i><b>2.4.7</b> Recap</a></li>
 </ul></li>
@@ -424,29 +424,12 @@ i.e. <span class="math inline">\(\text{Cov}(a_1+b_1 x_1,a_2+b_2 x_2) = b_1 b_2\t
 <span class="math display">\[ f_{\boldsymbol y}(\boldsymbol y)=|\det(\boldsymbol B)|^{-1} f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)\]</span></p>
 
 <div class="example">
-<span id="exm:coltrans" class="example"><strong>Example 2.1  </strong></span><strong>coloring transformation</strong><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> <span class="math inline">\(\boldsymbol y= \boldsymbol \mu+\boldsymbol \Sigma^{1/2} \boldsymbol x\)</span>
+<span id="exm:mahatrans" class="example"><strong>Example 2.1  </strong></span><strong>Mahalanobis transform</strong> <span class="math inline">\(\boldsymbol y=\boldsymbol \Sigma^{-1/2}(\boldsymbol x-\boldsymbol \mu)\)</span>
 </div>
 
-<p><span class="math display">\[\boldsymbol a=\boldsymbol \mu\]</span>
-<span class="math display">\[\boldsymbol B=\boldsymbol \Sigma^{1/2}\]</span>
-where <span class="math inline">\(\boldsymbol \Sigma^{1/2} = \boldsymbol U\boldsymbol \Lambda^{1/2} \boldsymbol U^T\)</span> is the principal matrix square root obtained by eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>.
-Note that <span class="math inline">\(\boldsymbol \Sigma^{1/2}\)</span> is unique, symmetric, and positive definite (not
-just positive semi-definite because this is an invertible transformation).</p>
-<p><span class="math display">\[\text{E}(\boldsymbol x)=\boldsymbol 0\text{ and } \text{Var}(\boldsymbol x)=\boldsymbol I_d\]</span>
-<span class="math display">\[\Longrightarrow\text{E}(\boldsymbol y) = \boldsymbol \mu\text{ and } \text{Var}(\boldsymbol y) = \boldsymbol \Sigma\]</span>
-Assume <span class="math inline">\(\boldsymbol x\)</span> is multivariate standard normal <span class="math inline">\(\boldsymbol x\sim N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> with density
-<span class="math display">\[f_{\boldsymbol x}(\boldsymbol x) = (2\pi)^{-d/2}\exp\left( -\frac{1}{2} \boldsymbol x^T \boldsymbol x\right)\]</span>
-Then the density after applying this coloring transform is</p>
-<p><span class="math display">\[f_{\boldsymbol y}(\boldsymbol y) = |\det(\boldsymbol \Sigma^{1/2})|^{-1} (2\pi)^{-d/2} \exp\left(-\frac{1}{2}(\boldsymbol y-\boldsymbol \mu)^T\boldsymbol \Sigma^{-1/2} \,\boldsymbol \Sigma^{-1/2}(\boldsymbol y-\boldsymbol \mu)\right)\]</span></p>
-<p><span class="math display">\[= (2\pi)^{-d/2} \det(\boldsymbol \Sigma)^{-1/2} \exp\left(-\frac{1}{2}(\boldsymbol y-\boldsymbol \mu)^T\boldsymbol \Sigma^{-1}(\boldsymbol y-\boldsymbol \mu)\right)\]</span>
-<span class="math inline">\(\Longrightarrow\)</span> <span class="math inline">\(\boldsymbol y\)</span> has multivariate normal density!!</p>
-<p><em>Application:</em> e.g. random number generation: draw from <span class="math inline">\(N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> (easy!) then convert to multivariate normal by coloring transformation <span class="math inline">\(\boldsymbol x\rightarrow \boldsymbol y\)</span></p>
-
-<div class="example">
-<span id="exm:mahatrans" class="example"><strong>Example 2.2  </strong></span><strong>Mahalanobis transform</strong> <span class="math inline">\(\boldsymbol y=\boldsymbol \Sigma^{-1/2}(\boldsymbol x-\boldsymbol \mu)\)</span>
-</div>
-
-<p>This is the <strong>inverse</strong> of the above coloring transformation</p>
+<p>We assume a positive definite and thus invertible <span class="math inline">\(\boldsymbol \Sigma\)</span>, so
+that the inverse principal matrix square root <span class="math inline">\(\boldsymbol \Sigma^{-1/2}\)</span> can be computed,
+and the transformation itself is invertible.</p>
 <p><span class="math display">\[\boldsymbol a= - \boldsymbol \Sigma^{-1/2} \boldsymbol \mu\]</span>
 <span class="math display">\[\boldsymbol B= \boldsymbol \Sigma^{-1/2}\]</span>
 <span class="math display">\[\text{E}(\boldsymbol x)=\boldsymbol \mu\text{ and } \text{Var}(\boldsymbol x)=\boldsymbol \Sigma\]</span>
@@ -458,10 +441,31 @@ Mahalanobis transformation performs three functions:</p>
 <li>Decorrelation <span class="math inline">\(\text{Cor}(y_i,y_j)=0\)</span> for <span class="math inline">\(i \neq j\)</span></li>
 </ol>
 <p><strong>Univariate case (<span class="math inline">\(d=1\)</span>)</strong></p>
-<p><span class="math display">\[y = \frac{x-\mu}{\sigma}\]</span>
-As there is no correlation for <span class="math inline">\(d=1\)</span>, it’s standardisation + centering.</p>
-<p><strong>Mahalanobis transformation</strong> appears implicitly in many places in multivariate statistics,
+<p><span class="math display">\[y = \frac{x-\mu}{\sigma}\]</span></p>
+<p>= centering + standardisation</p>
+<p>The <strong>Mahalanobis transformation</strong> appears implicitly in many places in multivariate statistics,
 e.g. in the multivariate normal density.</p>
+<p>It is a particular example of a whitening transformation (of which there
+are infinitely many, see later chapters).</p>
+
+<div class="example">
+<span id="exm:coltrans" class="example"><strong>Example 2.2  </strong></span><strong>Inverse Mahalanobis transformation</strong> <span class="math inline">\(\boldsymbol y= \boldsymbol \mu+\boldsymbol \Sigma^{1/2} \boldsymbol x\)</span>
+</div>
+
+<p>This transformation is the <strong>inverse</strong> of the Mahalanobis transformation.
+As the Mahalanobis transform is a particular whitening transform the inverse
+transform is sometimes called the Mahalanobis colouring transformation.</p>
+<p><span class="math display">\[\boldsymbol a=\boldsymbol \mu\]</span>
+<span class="math display">\[\boldsymbol B=\boldsymbol \Sigma^{1/2}\]</span></p>
+<p><span class="math display">\[\text{E}(\boldsymbol x)=\boldsymbol 0\text{ and } \text{Var}(\boldsymbol x)=\boldsymbol I_d\]</span>
+<span class="math display">\[\Longrightarrow\text{E}(\boldsymbol y) = \boldsymbol \mu\text{ and } \text{Var}(\boldsymbol y) = \boldsymbol \Sigma\]</span>
+Assume <span class="math inline">\(\boldsymbol x\)</span> is multivariate standard normal <span class="math inline">\(\boldsymbol x\sim N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> with density
+<span class="math display">\[f_{\boldsymbol x}(\boldsymbol x) = (2\pi)^{-d/2}\exp\left( -\frac{1}{2} \boldsymbol x^T \boldsymbol x\right)\]</span>
+Then the density after applying this inverse Mahalanobis transform is</p>
+<p><span class="math display">\[f_{\boldsymbol y}(\boldsymbol y) = |\det(\boldsymbol \Sigma^{1/2})|^{-1} (2\pi)^{-d/2} \exp\left(-\frac{1}{2}(\boldsymbol y-\boldsymbol \mu)^T\boldsymbol \Sigma^{-1/2} \,\boldsymbol \Sigma^{-1/2}(\boldsymbol y-\boldsymbol \mu)\right)\]</span></p>
+<p><span class="math display">\[= (2\pi)^{-d/2} \det(\boldsymbol \Sigma)^{-1/2} \exp\left(-\frac{1}{2}(\boldsymbol y-\boldsymbol \mu)^T\boldsymbol \Sigma^{-1}(\boldsymbol y-\boldsymbol \mu)\right)\]</span>
+<span class="math inline">\(\Longrightarrow\)</span> <span class="math inline">\(\boldsymbol y\)</span> has multivariate normal density!!</p>
+<p><em>Application:</em> e.g. random number generation: draw from <span class="math inline">\(N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> (easy!) then convert to multivariate normal by tranformation.</p>
 </div>
 </div>
 <div id="nonlinear-transformations" class="section level2">
@@ -475,8 +479,10 @@ with <span class="math inline">\(\boldsymbol h\)</span> an arbitrary vector-valu
 </ul>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
-\text{E}(\boldsymbol y)=? \\
-\text{Var}(\boldsymbol y)=? \\
+\text{E}(\boldsymbol x)=\boldsymbol \mu\\
+\text{Var}(\boldsymbol x)=\boldsymbol \Sigma\\
+\text{E}(\boldsymbol y)= \text{E}(\boldsymbol h(\boldsymbol x))= ? \\
+\text{Var}(\boldsymbol y) = \text{Var}(\boldsymbol h(\boldsymbol x))= ? \\
 \end{array}
 \end{align*}\]</span></p>
 <p>For a general transformation <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> the mean and variance of the transformed variable cannot be
@@ -486,8 +492,9 @@ This is called the “Delta Method”.</p>
 </div>
 <div id="linearisation-of-boldsymbol-hboldsymbol-x" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Linearisation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span></h3>
-<p>Taylor series approximation (first order) of <span class="math inline">\(\boldsymbol h(\boldsymbol x\)</span> around <span class="math inline">\(\boldsymbol \mu\)</span>:
-<span class="math display">\[\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol \mu) + \underbrace{\boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)}_{\text{Jacobi matrix}}(\boldsymbol x-\boldsymbol \mu)\]</span></p>
+<p>Taylor series approximation (first order) of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span>:
+<span class="math display">\[\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol x_0) + \underbrace{\boldsymbol J_{\boldsymbol h}(\boldsymbol x_0)}_{\text{Jacobi matrix}}(\boldsymbol x-\boldsymbol x_0)  = 
+\underbrace{\boldsymbol h(\boldsymbol x_0) -\boldsymbol J_{\boldsymbol h}(\boldsymbol x_0)\, \boldsymbol x_0}_{\boldsymbol a} + \underbrace{\boldsymbol J_{\boldsymbol h}(\boldsymbol x_0)}_{\boldsymbol B} \boldsymbol x\]</span></p>
 <p><span class="math inline">\(\nabla\)</span>, the nabla operator, is the row vector <span class="math inline">\((\frac{\partial}{\partial x_1},...,\frac{\partial}{\partial x_d})\)</span>, which when applied to univariate <span class="math inline">\(h\)</span> gives the gradient:</p>
 <p><span class="math display">\[\nabla h(\boldsymbol x) = \left(\frac{\partial h}{\partial x_1},...,\frac{\partial h}{\partial x_d}\right)\]</span></p>
 <p>The <strong>Jacobi matrix</strong> is the <strong>generalisation of gradient</strong> if <span class="math inline">\(\boldsymbol h\)</span> is vector-valued:</p>
@@ -499,16 +506,14 @@ This is called the “Delta Method”.</p>
 </div>
 <div id="delta-method" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> Delta method</h3>
-<p><span class="math display">\[\boldsymbol y= \boldsymbol h(\boldsymbol x) \approx  \boldsymbol a+ \boldsymbol B\boldsymbol x\]</span>
-with
-<span class="math inline">\(\boldsymbol a= \boldsymbol h(\boldsymbol \mu) -\boldsymbol \mu\boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)\)</span> and
-<span class="math inline">\(\boldsymbol B= \boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)\)</span></p>
-<p><span class="math inline">\(\Longrightarrow\)</span>
-<span class="math display">\[\text{E}(\boldsymbol y)\approx\boldsymbol h(\boldsymbol \mu)\]</span>
+<p>First order approximation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0=\boldsymbol \mu\)</span> yields
+<span class="math inline">\(\boldsymbol a= \boldsymbol h(\boldsymbol \mu) - \boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)\, \boldsymbol \mu\)</span>
+<span class="math inline">\(\boldsymbol B= \boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)\)</span> and</p>
+<p><span class="math display">\[\text{E}(\boldsymbol y)\approx\boldsymbol h(\boldsymbol \mu)\]</span>
 <span class="math display">\[\text{Var}(\boldsymbol y)\approx \boldsymbol J_{\boldsymbol h}(\boldsymbol \mu) \, \boldsymbol \Sigma\, \boldsymbol J_{\boldsymbol h}(\boldsymbol \mu)^T\]</span>
 Special case: univariate Delta method
-<span class="math display">\[\text{E}(y)= h(\mu)\]</span>
-<span class="math display">\[\text{Var}(y)= \sigma^2 h&#39;(\mu)^2\]</span></p>
+<span class="math display">\[\text{E}(y) \approx h(\mu)\]</span>
+<span class="math display">\[\text{Var}(y)\approx \sigma^2 h&#39;(\mu)^2\]</span></p>
 </div>
 <div id="transformation-of-densities-under-general-invertible-transformation" class="section level3">
 <h3><span class="header-section-number">2.2.4</span> Transformation of densities under general invertible transformation</h3>
@@ -583,6 +588,8 @@ the importance of nonlinear transformations —see, e.g, the review paper by Kob
 <p>where <span class="math inline">\(\boldsymbol Q_1\)</span> is a rotation (orthogonal) matrix (with properties <span class="math inline">\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)</span> and <span class="math inline">\(\boldsymbol Q^T = \boldsymbol Q^{-1}\)</span>).</p>
 <p>Easy to see that this <span class="math inline">\(\boldsymbol W\)</span> satisfies the whitening constraint:</p>
 <p><span class="math display">\[\boldsymbol W^T \boldsymbol W= \boldsymbol \Sigma^{-1/2}\underbrace{\boldsymbol Q_1^T \boldsymbol Q_1}_{\boldsymbol I}\boldsymbol \Sigma^{-1/2}=\boldsymbol \Sigma^{-1}\]</span></p>
+<p>Note the converse is also true: any whitening whitening matrix, i.e. any <span class="math inline">\(\boldsymbol W\)</span> satisfying the whitening constraint, can be written in the above form as
+<span class="math inline">\(\boldsymbol Q_1 = \boldsymbol W\boldsymbol \Sigma^{1/2}\)</span> is orthogonal by construction.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> instead of choosing <span class="math inline">\(\boldsymbol W\)</span>, <strong>we choose the rotation matrix</strong> <span class="math inline">\(\boldsymbol Q_1\)</span>!</p>
 <ul>
 <li>it is now clear that there are infinitely many whitening procedures, because there are infinitely many rotations! This also means we need to find ways to choose/select among whitening procedures.</li>
@@ -601,7 +608,9 @@ where <span class="math inline">\(\boldsymbol V^{1/2}\)</span> is the diagonal m
 \boldsymbol W^T \boldsymbol W&amp; = \boldsymbol V^{-1/2}\boldsymbol P^{-1/2}\underbrace{\boldsymbol Q_2^T \boldsymbol Q_2}_{\boldsymbol I}\boldsymbol P^{-1/2} \boldsymbol V^{-1/2} \\
 &amp; = \boldsymbol V^{-1/2} \boldsymbol P^{-1} \boldsymbol V^{-1/2} = \boldsymbol \Sigma^{-1} \\
 \end{array}
-\]</span></p>
+\]</span>
+Conversely, any whitening matrix <span class="math inline">\(\boldsymbol W\)</span> can also be written in this form as
+<span class="math inline">\(\boldsymbol Q_2 = \boldsymbol W\boldsymbol P^{1/2} \boldsymbol V^{1/2}\)</span> is orthogonal by construction.</p>
 <ul>
 <li>for Mahalanobis/ZCA transformation <span class="math inline">\(\boldsymbol Q_2^{\text{ZCA}} = \boldsymbol \Sigma^{-1/2} \boldsymbol V^{1/2} \boldsymbol P^{1/2}\)</span></li>
 <li><strong>Another interpretation of whitening</strong>: first <strong>standardising</strong> (<span class="math inline">\(\boldsymbol V^{-1/2}\)</span>), then <strong>decorrelation</strong> (<span class="math inline">\(\boldsymbol P^{-1/2}\)</span>), followed by <strong>rotation</strong> (<span class="math inline">\(\boldsymbol Q_2\)</span>)</li>
@@ -617,7 +626,7 @@ even though<br />
 <div id="objective-criteria-for-choosing-among-boldsymbol-w-using-boldsymbol-q_1-or-boldsymbol-q_2" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Objective criteria for choosing among <span class="math inline">\(\boldsymbol W\)</span> using <span class="math inline">\(\boldsymbol Q_1\)</span> or <span class="math inline">\(\boldsymbol Q_2\)</span></h3>
 <ol style="list-style-type: decimal">
-<li><strong>Cross-covariance</strong> <span class="math inline">\(\boldsymbol \Phi= \Sigma_{\boldsymbol z,\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span><br />
+<li><strong>Cross-covariance</strong> <span class="math inline">\(\boldsymbol \Phi= \Sigma_{\boldsymbol z\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span><br />
 <span class="math display">\[
 \begin{array}{ll}
 \boldsymbol \Phi= \text{Cov}(\boldsymbol z,\boldsymbol x) &amp; = \text{Cov}(\boldsymbol W\boldsymbol x,\boldsymbol x) = \boldsymbol W\boldsymbol \Sigma\\
@@ -630,7 +639,7 @@ even though<br />
 <li>Choosing suitable cross-covariance allows the selection of a “good” <span class="math inline">\(\boldsymbol Q_1\)</span> (and hence <span class="math inline">\(\boldsymbol W\)</span>)</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>Cross-correlation</strong> <span class="math inline">\(\boldsymbol \Psi= \boldsymbol P_{\boldsymbol z,\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span><br />
+<li><strong>Cross-correlation</strong> <span class="math inline">\(\boldsymbol \Psi= \boldsymbol P_{\boldsymbol z\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span><br />
 <span class="math display">\[
 \begin{array}{ll}
 \boldsymbol \Psi= \text{Cor}(\boldsymbol z,\boldsymbol x) &amp; = \boldsymbol \Phi\boldsymbol V^{-1/2} = \boldsymbol W\boldsymbol \Sigma\boldsymbol V^{-1/2}\\
@@ -649,8 +658,8 @@ even though<br />
 <p><span class="math display">\[\Longrightarrow \sum_{i=1}^d \psi_{ij}^2 = 1\]</span>
 i.e. the <em>column</em> sums of <span class="math inline">\(\psi_{ij}^2\)</span> are equal to 1.</p>
 <p><strong>Interpretation:</strong> this is the quared multiple correlation coefficient <span class="math inline">\(R^2=1\)</span> between <span class="math inline">\(z_1, ..., z_d\)</span> and <span class="math inline">\(x_j\)</span>!<br />
-(as the <span class="math inline">\(z_i\)</span> are all uncorrelated you can simply sum the squared correlations to get <span class="math inline">\(R^2\)</span>; it is equal to 1 because whitening is an invertible transformation)</p>
-<p>The <span class="math inline">\(R^2\)</span>-s going from <span class="math inline">\(x_1, \ldots, x_d\)</span> to the <span class="math inline">\(z_i\)</span> also equal 1, but because the <span class="math inline">\(x_i\)</span> are correlated they need to be computed as <span class="math inline">\(\text{Diag}(\boldsymbol \Psi\boldsymbol P^{-1} \boldsymbol \Psi^T) = \text{Diag}(\boldsymbol P_{\boldsymbol z,\boldsymbol x} \boldsymbol P^{-1} \boldsymbol P_{\boldsymbol x,\boldsymbol z}) = (1,1, \ldots, 1)\)</span>.</p>
+(as the <span class="math inline">\(z_i\)</span> are all uncorrelated you can simply sum the squared correlations to get <span class="math inline">\(R^2\)</span>; it is equal to 1 because whitening is an invertible linear transformation)</p>
+<p>The <span class="math inline">\(R^2\)</span>-s going from <span class="math inline">\(x_1, \ldots, x_d\)</span> to the <span class="math inline">\(z_i\)</span> also equal 1, but because the <span class="math inline">\(x_i\)</span> are correlated they need to be computed as <span class="math inline">\(\text{Diag}(\boldsymbol \Psi\boldsymbol P^{-1} \boldsymbol \Psi^T) = \text{Diag}(\boldsymbol P_{\boldsymbol z\boldsymbol x} \boldsymbol P^{-1}_{\boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol z}) = (1,1, \ldots, 1)\)</span>.</p>
 </div>
 </div>
 <div id="natural-whitening-procedures" class="section level2">
@@ -663,7 +672,6 @@ i.e. the <em>column</em> sums of <span class="math inline">\(\psi_{ij}^2\)</spa
 <li><strong>Cholesky</strong> whitening</li>
 <li><strong>PCA</strong> whitening</li>
 <li><strong>PCA-cor</strong> whitening</li>
-<li><strong>CCA</strong> whitening (Canonical Correlation Analysis)</li>
 </ul>
 <p>In the following <span class="math inline">\(\boldsymbol x_c = \boldsymbol x-\boldsymbol \mu_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol z_c = \boldsymbol z-\boldsymbol \mu_{\boldsymbol z}\)</span> denote the mean-centered variables.</p>
 <div id="zca-whitening" class="section level3">
@@ -700,23 +708,8 @@ z_3\leftrightarrow x_3 \\
 <li>ZCA and ZCA-cor: lead to interpretable <span class="math inline">\(\boldsymbol z\)</span></li>
 </ul>
 </div>
-<div id="cholesky-whitening" class="section level3">
-<h3><span class="header-section-number">2.4.3</span> Cholesky Whitening</h3>
-<p><em>Aim</em>: find a whitening transformation such that the cross-covariance and cross-correlation have triangular structure. This is useful in some models (such as time course data) to ensure that the
-future cannot influence the past.</p>
-<p><em>Solution</em>: Cholesky decomposition of <span class="math inline">\(\boldsymbol \Sigma^{-1} = \boldsymbol L\boldsymbol L^T\)</span></p>
-<blockquote>
-<p><span class="math inline">\(\boldsymbol L\)</span> is a lower triangular matrix with positive diagonal elements<br />
-<span class="math inline">\(\Longrightarrow \boldsymbol W^{\text{Chol}}=\boldsymbol L^T\)</span><br />
-By construction, <span class="math inline">\(\boldsymbol W^{\text{Chol}}\)</span> satisfies the whitening constraint since <span class="math inline">\((\boldsymbol W^{\text{Chol}})^T\boldsymbol W^{\text{Chol}} = \boldsymbol \Sigma^{-1}\)</span>.</p>
-</blockquote>
-<blockquote>
-<p>The corresponding rotation matrices are <span class="math inline">\(\boldsymbol Q_1^{\text{Chol}} = \boldsymbol L^T \boldsymbol \Sigma^{1/2}\)</span> and <span class="math inline">\(\boldsymbol Q_2^{\text{Chol}} = \boldsymbol L^T \boldsymbol V^{1/2} \boldsymbol P^{1/2}\)</span><br />
-which results in <span class="math inline">\(\boldsymbol \Phi^{\text{Chol}} = \boldsymbol L^T\boldsymbol \Sigma\)</span> and <span class="math inline">\(\boldsymbol \Psi^{\text{Chol}} = \boldsymbol L^T \boldsymbol \Sigma\boldsymbol V^{-1/2}\)</span></p>
-</blockquote>
-</div>
 <div id="pca-whitening" class="section level3">
-<h3><span class="header-section-number">2.4.4</span> PCA Whitening</h3>
+<h3><span class="header-section-number">2.4.3</span> PCA Whitening</h3>
 <p><em>Aim</em>: remove correlations and compress information in <span class="math inline">\(\boldsymbol x\)</span> (each component <span class="math inline">\(z_i\)</span>
 maximally linked with all variables in <span class="math inline">\(\boldsymbol x\)</span>):
 <span class="math display">\[
@@ -741,7 +734,7 @@ z_1 &amp; \leftarrow x_d &amp; &amp; z_2 &amp; \leftarrow x_d  \\
 </ul>
 </div>
 <div id="pca-cor-whitening" class="section level3">
-<h3><span class="header-section-number">2.4.5</span> PCA-cor Whitening</h3>
+<h3><span class="header-section-number">2.4.4</span> PCA-cor Whitening</h3>
 <p><em>Aim</em>: as for PCA whitening but remove scale in <span class="math inline">\(\boldsymbol x\)</span> first (i.e. use squared correlations rather squared covariances to measure compression)<br />
 <em>Objective</em>: maximise <span class="math inline">\(\sum^d_{j=1}\text{Cor}(z_i, x_j)^2 = \sum^d_{i=1} \psi_{ij}^2\)</span> for all <span class="math inline">\(i\)</span><br />
 <em>Equivalent objective</em>: maximise <span class="math inline">\((\psi_1,...,\psi_d)^T=\text{Diag}(\boldsymbol \Psi\boldsymbol \Psi^T)=\text{Diag}(\boldsymbol Q_2\boldsymbol P\boldsymbol Q_2^T)\)</span>
@@ -758,6 +751,21 @@ with <span class="math inline">\(\psi_1&gt;\psi_2&gt;\dots &gt;\psi_d\)</span>.<
 <li>Useful for reduction of dimension by discarding low-ranking elements in <span class="math inline">\(\boldsymbol z\)</span></li>
 </ul>
 <p>Criterion for relative contributions is linked to multivariate regression <span class="math inline">\(R^2\)</span>: <span class="math inline">\(\text{Tr}(\boldsymbol P_{yx}\boldsymbol P_{x}^{-1}\boldsymbol P_{xy})\)</span> which for whitening transformations is <span class="math inline">\(d\)</span> in both directions.</p>
+</div>
+<div id="cholesky-whitening" class="section level3">
+<h3><span class="header-section-number">2.4.5</span> Cholesky Whitening</h3>
+<p><em>Aim</em>: find a whitening transformation such that the cross-covariance and cross-correlation have triangular structure. This is useful in some models (such as time course data) to ensure that the
+future cannot influence the past.</p>
+<p><em>Solution</em>: Cholesky decomposition of <span class="math inline">\(\boldsymbol \Sigma^{-1} = \boldsymbol L\boldsymbol L^T\)</span></p>
+<blockquote>
+<p><span class="math inline">\(\boldsymbol L\)</span> is a lower triangular matrix with positive diagonal elements<br />
+<span class="math inline">\(\Longrightarrow \boldsymbol W^{\text{Chol}}=\boldsymbol L^T\)</span><br />
+By construction, <span class="math inline">\(\boldsymbol W^{\text{Chol}}\)</span> satisfies the whitening constraint since <span class="math inline">\((\boldsymbol W^{\text{Chol}})^T\boldsymbol W^{\text{Chol}} = \boldsymbol \Sigma^{-1}\)</span>.</p>
+</blockquote>
+<blockquote>
+<p>The corresponding rotation matrices are <span class="math inline">\(\boldsymbol Q_1^{\text{Chol}} = \boldsymbol L^T \boldsymbol \Sigma^{1/2}\)</span> and <span class="math inline">\(\boldsymbol Q_2^{\text{Chol}} = \boldsymbol L^T \boldsymbol V^{1/2} \boldsymbol P^{1/2}\)</span><br />
+which results in <span class="math inline">\(\boldsymbol \Phi^{\text{Chol}} = \boldsymbol L^T\boldsymbol \Sigma\)</span> and <span class="math inline">\(\boldsymbol \Psi^{\text{Chol}} = \boldsymbol L^T \boldsymbol \Sigma\boldsymbol V^{-1/2}\)</span></p>
+</blockquote>
 </div>
 <div id="comparison-of-zca-pca-and-chol-whitening" class="section level3">
 <h3><span class="header-section-number">2.4.6</span> Comparison of ZCA, PCA and Chol whitening</h3>
@@ -885,19 +893,15 @@ variables that are not influenced by the two latent variables will lie near the 
 <p>with <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2}\boldsymbol P_{\boldsymbol x\boldsymbol y}\boldsymbol P_{\boldsymbol y}^{-1/2}\)</span>.</p>
 <p><strong>Idea</strong>: we can choose a suitable <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}\)</span> rotation matrix by putting constraints on the cross-correlation.</p>
 <p><strong>CCA</strong>: we aim for a <em>diagonal</em> <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> so that each component in <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span> only influences one (the corresponding) component in <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span>.</p>
-<p><span class="math display">\[\begin{align}
+<p><strong>Motivation</strong>: pairs of “modules” represented by components of <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span>
+and <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span> influencing each other (and not anyone other module).</p>
+<p><span class="math display">\[
 \begin{array}{ll}
-\boldsymbol z_{\boldsymbol x} = \begin{pmatrix} z^x_1 \\ z^x_2 \\ \vdots \\ z^x_p \end{pmatrix} \\
-\end{array}
-\begin{array}{ll}
+\boldsymbol z_{\boldsymbol x} = \begin{pmatrix} z^x_1 \\ z^x_2 \\ \vdots \\ z^x_p \end{pmatrix} &amp;
 \boldsymbol z_{\boldsymbol y} = \begin{pmatrix} z^y_1 \\ z^y_2 \\ \vdots \\ z^y_q \end{pmatrix} \\
 \end{array}
-\begin{array}{ll}
-\text{\bf Motivation} \\
-\text{pairs of &quot;modules&quot; represented by components of } \boldsymbol z_{\boldsymbol x} \text{ and } \boldsymbol z_{\boldsymbol y} \\
-\text{influencing each other (and not anyone else).}
-\end{array}
-\end{align}\]</span></p>
+\]</span></p>
+<p>\end{align}</p>
 <p><span class="math display">\[\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y}) = \begin{pmatrix} d_1 &amp; \dots &amp; 0 \\ \vdots &amp;  \vdots \\ 0 &amp; \dots &amp; d_m \end{pmatrix}\]</span></p>
 <p>where <span class="math inline">\(d_i\)</span> are the <em>canonical correlations</em> and <span class="math inline">\(m=\min(p,q)\)</span>.</p>
 <div id="how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal" class="section level3">
@@ -921,12 +925,6 @@ where <span class="math inline">\(\boldsymbol D\)</span> is the diagonal matrix 
 
 </div>
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>this is just one particular example of a coloring tranformation. There are in fact infinitely many, see the discussion on whitening transformations.<a href="2-transformations.html#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
 </div>
             </section>
 
