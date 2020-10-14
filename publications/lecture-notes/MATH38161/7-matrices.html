@@ -27,7 +27,7 @@ MATH38161</div>" />
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-10-09" />
+<meta name="date" content="2020-10-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-contour-lines-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contour lines of the multivariate normal density</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="1-multivariate.html"><a href="1-multivariate.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.4</b> Estimation in large sample and small sample settings</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#data-matrix"><i class="fa fa-check"></i><b>1.4.1</b> Data matrix</a></li>
+<li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-data"><i class="fa fa-check"></i><b>1.4.1</b> Multivariate data</a></li>
 <li class="chapter" data-level="1.4.2" data-path="1-multivariate.html"><a href="1-multivariate.html#strategies-for-large-sample-estimation"><i class="fa fa-check"></i><b>1.4.2</b> Strategies for large sample estimation</a></li>
 <li class="chapter" data-level="1.4.3" data-path="1-multivariate.html"><a href="1-multivariate.html#large-sample-estimates-of-mean-boldsymbol-mu-and-covariance-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.4.3</b> Large sample estimates of mean <span class="math inline">\(\boldsymbol \mu\)</span> and covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
 <li class="chapter" data-level="1.4.4" data-path="1-multivariate.html"><a href="1-multivariate.html#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><i class="fa fa-check"></i><b>1.4.4</b> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
@@ -426,8 +426,8 @@ the number of rows of <span class="math inline">\(\boldsymbol B\)</span>. Note t
 inverse <span class="math inline">\(\boldsymbol A^{-1}\)</span> such that <span class="math inline">\(\boldsymbol A^{-1} \boldsymbol A= \boldsymbol A\boldsymbol A^{-1}= \boldsymbol I\)</span>.</p>
 <p>The matrix transpose <span class="math inline">\(t(\boldsymbol A) = \boldsymbol A^T\)</span> interchanges rows and columns.</p>
 <p>The trace of the matrix is the sum of the diagonal entries <span class="math inline">\(\text{Tr}(\boldsymbol A) = \sum a_{ii}\)</span>.</p>
-<p>The sum of the squares of all entries of a rectangular matrix <span class="math inline">\(\boldsymbol A=(a_{ij})\)</span> can be
-written using the trace as follows: <span class="math inline">\(\sum_{i,j} a_{ij}^2 = \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T)\)</span></p>
+<p>The squared Frobenius norm, i.e. the sum of the squares of all entries of a rectangular matrix <span class="math inline">\(\boldsymbol A=(a_{ij})\)</span>, can be
+written using the trace as follows: <span class="math inline">\(||\boldsymbol A||_F^2 = \sum_{i,j} a_{ij}^2 = \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T)\)</span>.</p>
 </div>
 <div id="orthogonal-matrices" class="section level2">
 <h2><span class="header-section-number">A.4</span> Orthogonal matrices</h2>
@@ -472,14 +472,17 @@ can vary depending on the specific implementation of the underlying numerical al
 </div>
 <div id="singular-value-decomposition" class="section level2">
 <h2><span class="header-section-number">A.6</span> Singular value decomposition</h2>
-<p>A generalisation of the eigenvalue decomposition (which is for
-squared matrices) is the <strong>singular value decomposition</strong> (SVD).</p>
+<p>A generalisation of the eigenvalue decomposition to non-square
+matrices is the <strong>singular value decomposition</strong> (SVD).</p>
 <p>Let <span class="math inline">\(\boldsymbol A\)</span> be a <span class="math inline">\(n\times m\)</span> matrix. The SVD decomposition of
 <span class="math inline">\(\boldsymbol A\)</span> is <span class="math inline">\(\boldsymbol A= \boldsymbol U\boldsymbol D\boldsymbol V^T\)</span>.</p>
 <p><span class="math inline">\(\boldsymbol U\)</span> and <span class="math inline">\(\boldsymbol V\)</span> are orthogonal matrices,
 <span class="math inline">\(\boldsymbol D\)</span> contains the singular values.</p>
-<p>As the eigenvalue decomposition SVD is unique apart from the
+<p>Like the eigenvalue decomposition, the SVD is unique apart from the
 signs of the column vectors in <span class="math inline">\(\boldsymbol U\)</span> and <span class="math inline">\(\boldsymbol V\)</span>.</p>
+<p>Because <span class="math inline">\(\boldsymbol A^T \boldsymbol A= \boldsymbol V\boldsymbol D^T \boldsymbol D\boldsymbol V^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol A^T = \boldsymbol U\boldsymbol D\boldsymbol D^T \boldsymbol U^T\)</span>
+the squared singular values correspond to the eigenvalues of <span class="math inline">\(\boldsymbol A^T \boldsymbol A\)</span>
+and <span class="math inline">\(\boldsymbol A\boldsymbol A^T\)</span>.</p>
 </div>
 <div id="positive-semi-definiteness-rank-condition" class="section level2">
 <h2><span class="header-section-number">A.7</span> Positive (semi-)definiteness, rank, condition</h2>

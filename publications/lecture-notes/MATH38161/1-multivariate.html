@@ -27,7 +27,7 @@ MATH38161</div>" />
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-10-09" />
+<meta name="date" content="2020-10-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-contour-lines-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contour lines of the multivariate normal density</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="1-multivariate.html"><a href="1-multivariate.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.4</b> Estimation in large sample and small sample settings</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#data-matrix"><i class="fa fa-check"></i><b>1.4.1</b> Data matrix</a></li>
+<li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-data"><i class="fa fa-check"></i><b>1.4.1</b> Multivariate data</a></li>
 <li class="chapter" data-level="1.4.2" data-path="1-multivariate.html"><a href="1-multivariate.html#strategies-for-large-sample-estimation"><i class="fa fa-check"></i><b>1.4.2</b> Strategies for large sample estimation</a></li>
 <li class="chapter" data-level="1.4.3" data-path="1-multivariate.html"><a href="1-multivariate.html#large-sample-estimates-of-mean-boldsymbol-mu-and-covariance-boldsymbol-sigma"><i class="fa fa-check"></i><b>1.4.3</b> Large sample estimates of mean <span class="math inline">\(\boldsymbol \mu\)</span> and covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></a></li>
 <li class="chapter" data-level="1.4.4" data-path="1-multivariate.html"><a href="1-multivariate.html#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><i class="fa fa-check"></i><b>1.4.4</b> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
@@ -671,20 +671,25 @@ with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} =3\)</span>:</p>
 learn its parameters from data. We first consider the case when
 there are many measurements available, and then second the case when
 the number of data points is small compared to the number of parameters.</p>
-<div id="data-matrix" class="section level3">
-<h3><span class="header-section-number">1.4.1</span> Data matrix</h3>
-<p>Observations from a multivariate normal are vectors:
-<span class="math display">\[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n \stackrel{\text{iid}}\sim N_d\left(\boldsymbol \mu,\boldsymbol \Sigma\right)\]</span>
-<strong>Data matrix (statistics convention):</strong></p>
-<p>Each <em>line</em> of the matrix is a transposed vector <span class="math inline">\(\boldsymbol x_k^T\)</span>.</p>
-<p>Thus:
-<span class="math display">\[\boldsymbol X= (\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n)^T = \begin{pmatrix}
+<p>In a previous course in year 2 (“Statistical Methods” MATH20802) the method of maximum likelihood<br />
+as well as essential of Bayesian statistics
+were introduced. Here we apply these approaches in the setting of the multivariate
+normal distribution.</p>
+<div id="multivariate-data" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Multivariate data</h3>
+<p><strong>Vector notation:</strong></p>
+<p>Samples from a multivariate normal distribution are <em>vectors</em> (not scalars as for univariate normal):
+<span class="math display">\[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n \stackrel{\text{iid}}\sim N_d\left(\boldsymbol \mu,\boldsymbol \Sigma\right)\]</span></p>
+<p><strong>Matrix and component notation:</strong></p>
+<p>All the data points are commonly collected into a matrix <span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>In statistics the convention is to store each data vector in the rows of <span class="math inline">\(\boldsymbol X\)</span>:</p>
+<p><span class="math display">\[\boldsymbol X= (\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n)^T = \begin{pmatrix}
     x_{11}  &amp; x_{12} &amp; \dots &amp; x_{1d}   \\
     x_{21}  &amp; x_{22} &amp; \dots &amp; x_{2d}   \\
     \vdots \\
     x_{n1}  &amp; x_{n2} &amp; \dots &amp; x_{nd}
 \end{pmatrix}\]</span></p>
-<p>with
+<p>Therefore,
 <span class="math display">\[\boldsymbol x_1=\begin{pmatrix}
     x_{11}       \\
     \vdots \\
@@ -699,19 +704,26 @@ the number of data points is small compared to the number of parameters.</p>
     x_{nd}
 \end{pmatrix}\]</span></p>
 <p>Thus, in statistics the first index runs over <span class="math inline">\((1,...,n)\)</span> and denotes the samples while the second index runs over <span class="math inline">\((1,...,d)\)</span> and refers to the variables.</p>
-<p>The convention on data matrices that variables are in columns while samples are in rows. is <em>not</em> universal! In fact it’s the <strong>other way around in machine learning</strong> (where samples are stored in columns and variables in rows). However, some machine learning books also follow the statistics convention.</p>
+<p>The statistics convention on data matrices is <em>not</em> universal! In fact, in most of the machine learning literature in engineering and computer science the data samples are stored in the columns so that the variables appear in the rows (thus in the engineering convention the data matrix is transposed compared to the statistics convention).</p>
+<p>In order to avoid confusion it is recommended to use vector notation for data instead of
+matrix notation because this is not ambiguous.</p>
 </div>
 <div id="strategies-for-large-sample-estimation" class="section level3">
 <h3><span class="header-section-number">1.4.2</span> Strategies for large sample estimation</h3>
 <div id="empirical-estimators-outline" class="section level4">
 <h4><span class="header-section-number">1.4.2.1</span> Empirical estimators (outline)</h4>
-<p>For large <span class="math inline">\(n\)</span>:
-<span class="math display">\[\underbrace{F}_{\text{true}} \approx \underbrace{\widehat{F}}_{\text{empirical}}\]</span>
-Replacing <span class="math inline">\(F\)</span> by <span class="math inline">\(\hat{F}\)</span> leads to <em>empirical estimators</em>.</p>
-<p>For example, the expectation can be approximated/estimated as follows:</p>
-<p><span class="math display">\[\text{E}_F(\boldsymbol x) \approx \text{E}_{\widehat{F}}(\boldsymbol x) = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k\]</span></p>
-<p><span class="math display">\[\text{E}_F(g(\boldsymbol x)) \approx  \text{E}_{\widehat{F}}(g(\boldsymbol x)) = \frac{1}{n}\sum^{n}_{k=1} g(\boldsymbol x_k)\]</span></p>
-<p><strong>Recipe:</strong> to obtain an empirical plug-in estimator simply replace the expectation by the sample average in the population expression of the quantity of interest.</p>
+<p>For large <span class="math inline">\(n\)</span> we have thanks to the law of large numbers:
+<span class="math display">\[\underbrace{F}_{\text{true}} \approx \underbrace{\widehat{F}}_{\text{empirical}}\]</span></p>
+<p>We now would like to estimate <span class="math inline">\(A\)</span> which is a functional of <span class="math inline">\(F\)</span>, i.e. <span class="math inline">\(A=m(F)\)</span>.
+For example the mean, the median or some other quantity.</p>
+<p>The <em>empirical estimate</em> is obtained by replacing the unknown true distribution
+<span class="math inline">\(F\)</span> with the observed empirical distribution: <span class="math inline">\(\hat{A} = m(\widehat{F})\)</span>.</p>
+<p>For example, the expectation of a random variable is approximated/estimated
+as the average over the observation:
+<span class="math display">\[\text{E}_F(\boldsymbol x) \approx \text{E}_{\widehat{F}}(\boldsymbol x) = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k\]</span>
+<span class="math display">\[\text{E}_F(g(\boldsymbol x)) \approx  \text{E}_{\widehat{F}}(g(\boldsymbol x)) = \frac{1}{n}\sum^{n}_{k=1} g(\boldsymbol x_k)\]</span></p>
+<p><strong>Simple recipe to obtain an empirical estimator</strong>: simply replace the expectation operator
+by the sample average in the quantity of interest.</p>
 <p><strong>What does this work:</strong> the empirical distribution <span class="math inline">\(\widehat{F}\)</span> is actually the nonparametric maximum likelihood estimate of <span class="math inline">\(F\)</span> (see below for likelihood estimation).</p>
 <p>Note: the approximation of <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}\)</span> also the basis other approaches such as Efron’s bootstrap method.</p>
 </div>
@@ -719,27 +731,49 @@ Replacing <span class="math inline">\(F\)</span> by <span class="math inline">\(
 <h4><span class="header-section-number">1.4.2.2</span> Maximum likelihood estimation (outline)</h4>
 <p>R.A. Fisher (1922): model-based estimators using the density or probability mass function</p>
 <p><strong>log-likelihood function</strong>:
-<span class="math display">\[\log L(\boldsymbol \theta) = \sum^{n}_{k=1}  \underbrace{f}_{\text{density}}(\underbrace{x_i}_{\text{data}} |\underbrace{\boldsymbol \theta}_{\text{parameters}})\]</span>
-= conditional probability of the observed data given the model parameters</p>
+<span class="math display">\[\log L(\boldsymbol \theta) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\underbrace{x_i}_{\text{data}} |\underbrace{\boldsymbol \theta}_{\text{parameters}})\]</span>
+likelihood = probability to observe data given the model parameters</p>
 <p><strong>Maximum likelihood estimate:</strong>
-<span class="math display">\[\hat{\boldsymbol \theta}^{\text{ML}}=\arg\max_{\boldsymbol \theta} \log L(\boldsymbol \theta)\]</span></p>
-<p>ML finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
-<p>The great appeal of <strong>MLEs</strong> is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e. they use all the information available in the data optimally to estimate parameters, and <strong>for large sample size no estimator can be constructed that outperforms the MLE!</strong></p>
-<p>A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the Fisher information which is related to the curvature of the log-likelihood function).</p>
+<span class="math display">\[\hat{\boldsymbol \theta}^{\text{ML}}=\underset{\boldsymbol \theta}{\arg\,\max} \log L(\boldsymbol \theta)\]</span></p>
+<p>Maximum likelihood (ML) finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
+<p>Recall from MATH20802 that maximum likelihood is closely linked to minimising the relative entropy (KL divergence)
+<span class="math inline">\(I^{KL}(F, F_{\boldsymbol \theta})\)</span> between the unknown true model <span class="math inline">\(F\)</span> to the specified model <span class="math inline">\(F_{\boldsymbol \theta}\)</span>. Specifically, for large
+sample size <span class="math inline">\(n\)</span> the model <span class="math inline">\(F_{\hat{\boldsymbol \theta}}\)</span> fit by maximum likelihood is indeed the model that is closest to <span class="math inline">\(F\)</span>.</p>
+<p>Correspondingly, the great appeal of <strong>maximum likelihood estimates</strong> (MLEs) is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e. so that <strong>for large sample size no estimator can be constructed that outperforms the MLE</strong> (note the emphasis on “for large <span class="math inline">\(n\)</span>”!).
+A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the Fisher information which is related to the curvature of the log-likelihood function).</p>
 </div>
 </div>
 <div id="large-sample-estimates-of-mean-boldsymbol-mu-and-covariance-boldsymbol-sigma" class="section level3">
 <h3><span class="header-section-number">1.4.3</span> Large sample estimates of mean <span class="math inline">\(\boldsymbol \mu\)</span> and covariance <span class="math inline">\(\boldsymbol \Sigma\)</span></h3>
 <div id="empirical-estimates" class="section level4">
 <h4><span class="header-section-number">1.4.3.1</span> Empirical estimates:</h4>
-<p>These can be written in three different ways:</p>
-<p><strong>Vector notation</strong></p>
+<p>Recall the definitions:
+<span class="math display">\[
+\boldsymbol \mu= \text{E}(\boldsymbol x)
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol \Sigma= \text{E}\left(   (\boldsymbol x-\boldsymbol \mu) (\boldsymbol x-\boldsymbol \mu)^T \right)
+\]</span></p>
+<p>For the empirical estimate we replace the expectations by the
+corresponding sample averages.</p>
+<p>These resulting estimators can be written in three different ways:</p>
+<p><strong>Vector notation:</strong></p>
 <p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k\]</span></p>
-<p><span class="math display">\[\underbrace{\widehat{\boldsymbol \Sigma}}_{d \times d} = \frac{1}{n}\sum^{n}_{k=1} \underbrace{\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)}_{d \times 1} \; \underbrace{\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)^T}_{1 \times d}\]</span></p>
-<p><strong>Component notation</strong></p>
+<p><span class="math display">\[
+\widehat{\boldsymbol \Sigma} = \frac{1}{n}\sum^{n}_{k=1} (\boldsymbol x_k-\hat{\boldsymbol \mu})  (\boldsymbol x_k-\hat{\boldsymbol \mu})^T
+= \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k  \boldsymbol x_k^T - \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T
+\]</span></p>
+<p><strong>Data matrix notation:</strong></p>
+<p>The empirical mean and covariance can also be written in terms of the data matrix <span class="math inline">\(\boldsymbol X\)</span> (using statistics convention):</p>
+<p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n} \boldsymbol X^T \boldsymbol 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma} = \frac{1}{n} \boldsymbol X^T \boldsymbol X- \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T\]</span></p>
+<p>See Worksheet 2 for details.</p>
+<p><strong>Component notation:</strong></p>
+<p>The corresponding component notation with <span class="math inline">\(\boldsymbol X= (x_{ki})\)</span> is:</p>
 <p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki}\]</span></p>
-<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} \left(x_{ki}-\hat{\mu}_i\right)\left(\
-x_{kj}-\hat{\mu}_j\right)\]</span></p>
+<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} (x_{ki}-\hat{\mu}_i) ( 
+x_{kj}-\hat{\mu}_j )\]</span></p>
 <p><span class="math display">\[\hat{\boldsymbol \mu}=\begin{pmatrix}
     \hat{\mu}_{1}       \\
     \vdots \\
@@ -748,17 +782,43 @@ x_{kj}-\hat{\mu}_j\right)\]</span></p>
 <p>Variance estimate:<br />
 <span class="math display">\[\hat{\sigma}_{ii} = \frac{1}{n}\sum^{n}_{k=1} \left(x_{ki}-\hat{\mu}_i\right)^2\]</span>
 Note the factor <span class="math inline">\(\frac{1}{n}\)</span> (not <span class="math inline">\(\frac{1}{n-1}\)</span>)</p>
-<p><strong>Data matrix notation</strong></p>
-<p>The empirical mean and covariance can also be written in terms of the data matrix <span class="math inline">\(\boldsymbol X\)</span>.
-See Worksheet 2 for details.</p>
+<p><strong>Engineering and machine learning convention:</strong></p>
+<p>Using the engineering and machine learning convention for the data matrix <span class="math inline">\(\boldsymbol X\)</span> the estimators are written as</p>
+<p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n} \boldsymbol X\boldsymbol 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma} = \frac{1}{n} \boldsymbol X\boldsymbol X^T - \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T\]</span></p>
+<p>In the corresponding component notation the two indices for the columns and rowns are interchanged.</p>
+<p>To avoid confusion when using matrix or component notation you need to always state which
+convention is used! In these notes we strictly follow the statistics convention.</p>
 </div>
 <div id="maximum-likelihood-estimates" class="section level4">
 <h4><span class="header-section-number">1.4.3.2</span> Maximum likelihood estimates</h4>
-<p>It turns out that the empirical estimates are identical to the MLE assuming multivariate normal model:</p>
-<p><span class="math inline">\(\Longrightarrow\)</span> empirical estimates <span class="math inline">\(\hat{\boldsymbol \mu}\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span>
-<span class="math display">\[\hat{\boldsymbol \mu}_{ML} = \hat{\boldsymbol \mu}_{\text{emp}}\]</span>
-<span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \widehat{\boldsymbol \Sigma}_{\text{emp}}\]</span></p>
-<p>For a direct derivation of the multivariate normal MLEs by optimising the multivariate normal log-likelihood function see the Worksheet 2 (easy for the mean, more difficult for the covariance matrix).</p>
+<p>We now derive the MLE of the parameters <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> of the multivariate normal distribution.
+The corresponding log-likelihood function is
+<span class="math display">\[
+\begin{split}
+\log L(\boldsymbol \mu, \boldsymbol \Sigma) &amp; = \sum_{k=1}^n \log f( \boldsymbol x_k | \boldsymbol \mu, \boldsymbol \Sigma) \\
+  &amp; = -\frac{n d}{2} \log(2\pi) -\frac{n}{2} \log \det(\boldsymbol \Sigma)  
+   - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x_k-\boldsymbol \mu) \,.\\
+\end{split}
+\]</span>
+Written in terms of the precision matrix <span class="math inline">\(\boldsymbol \Omega= \boldsymbol \Sigma^{-1}\)</span> this becomes
+<span class="math display">\[
+\log L(\boldsymbol \mu, \boldsymbol \Omega) = -\frac{n d}{2} \log(2\pi) +\frac{n}{2} \log \det(\boldsymbol \Omega)  - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu) \,.
+\]</span>
+Exploiting identities for the trace and log det (see Appendix) we can rewrite
+<span class="math inline">\((\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu) = \text{Tr}( (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega)\)</span>
+and <span class="math inline">\(\log \det(\boldsymbol \Omega) = \text{Tr}( \log \boldsymbol \Omega)\)</span>
+we rewrite the log-likelihood as
+<span class="math display">\[\log L(\boldsymbol \mu, \boldsymbol \Omega) =  -\frac{n d}{2} \log(2\pi) +\frac{n}{2}  \text{Tr}( \log \boldsymbol \Omega)  - \frac{1}{2}  \sum_{k=1}^n  \text{Tr}( (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega) \,.\]</span></p>
+<p>First, to find the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we compute (see Appendix for some rules in vector and matrix calculus)
+<span class="math display">\[\frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \mu}= \sum_{k=1}^n (\boldsymbol x_k-\boldsymbol \mu)^T  \boldsymbol \Omega\,.\]</span>
+Setting this equal to zero we get <span class="math inline">\(\sum_{k=1}^n \boldsymbol x_k = n \hat{\boldsymbol \mu}_{ML}\)</span> and thus
+<span class="math display">\[\hat{\boldsymbol \mu}_{ML} = \frac{1}{n} \sum_{k=1}^n \boldsymbol x_k\,.\]</span></p>
+<p>Next, to obtain the MLE for <span class="math inline">\(\boldsymbol \Omega\)</span> we compute
+<span class="math display">\[\frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \Omega}=\frac{n}{2}\boldsymbol \Omega^{-1} - \frac{1}{2}  \sum_{k=1}^n (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T\,.\]</span>
+Setting this equal to zero and substituting the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we get
+<span class="math display">\[\widehat{\boldsymbol \Omega}^{-1}_{ML}=  \frac{1}{n} \sum_{k=1}^n  (\boldsymbol x_k-\hat{\boldsymbol \mu}) (\boldsymbol x_k-\hat{\boldsymbol \mu})^T=\widehat{\boldsymbol \Sigma}_{ML}\,.\]</span></p>
+<p>Therefore, the MLEs are identical to the empirical estimates.</p>
 <p>Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the MLE of the covariance matrix.</p>
 </div>
 <div id="distribution-of-the-empirical-maximum-likelihood-estimates" class="section level4">
@@ -768,14 +828,14 @@ of the estimators.</p>
 <p><strong>1. Distribution of the estimate of the mean:</strong></p>
 <p><span class="math display">\[\hat{\boldsymbol \mu}_{ML} \sim N_d\left(\boldsymbol \mu, \frac{\boldsymbol \Sigma}{n}\right)\]</span>
 Since
-<span class="math inline">\(\text{E}(\hat{\boldsymbol \mu}_{ML}) = \boldsymbol \mu\Longrightarrow \hat{\boldsymbol \mu}_{ML} \text{ is unbiased}\)</span></p>
+<span class="math inline">\(\text{E}(\hat{\boldsymbol \mu}_{ML}) = \boldsymbol \mu\Longrightarrow \hat{\boldsymbol \mu}_{ML}\)</span> is unbiased.</p>
 <p><strong>2. Distribution of the covariance estimate:</strong></p>
-<p><span class="math display">\[\widehat{\boldsymbol \Sigma} \sim \text{Wishart}(\frac{\boldsymbol \Sigma}{n}, n-1)\]</span>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} \sim \text{Wishart}(\frac{\boldsymbol \Sigma}{n}, n-1)\]</span>
 Since
-<span class="math inline">\(\text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = \frac{n-1}{n}\boldsymbol \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\boldsymbol \Sigma}_{ML}\)</span> is biased!</p>
+<span class="math inline">\(\text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = \frac{n-1}{n}\boldsymbol \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\boldsymbol \Sigma}_{ML}\)</span> is biased, with <span class="math inline">\(\text{Bias}(\widehat{\boldsymbol \Sigma}_{ML} ) = \boldsymbol \Sigma- \text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = -\frac{\boldsymbol \Sigma}{n}\)</span>.</p>
 <p>Easy to make unbiased:
 <span class="math inline">\(\widehat{\boldsymbol \Sigma}_{UB} = \frac{n}{n-1}\widehat{\boldsymbol \Sigma}=\frac{1}{n-1}\sum^n_{k=1}\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)\left(\boldsymbol x_k-\hat{\boldsymbol \mu}\right)^T\)</span> is unbiased.</p>
-<p>But unbiasedness is <strong>not</strong> a very relevant criteria in multivariate statistics!</p>
+<p>But unbiasedness of an estimator is <strong>not</strong> a very relevant criterion in multivariate statistics as we will see in the next section.</p>
 </div>
 </div>
 <div id="problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" class="section level3">
@@ -818,6 +878,7 @@ Reasons:</p>
 <p>Most of this is out of scope for our class, but will be covered in advanced statistical courses.</p>
 <p>Next, we describe a <strong>simple regularised estimator for the estimation of the covariance</strong>
 that we will use later (i.e. in classification).</p>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="estimation-of-covariance-matrix-in-small-sample-settings" class="section level3">
 <h3><span class="header-section-number">1.4.5</span> Estimation of covariance matrix in small sample settings</h3>
@@ -874,6 +935,7 @@ This estimator is a variant of an empirical Bayes / James-Stein estimator (see t
 <li>Regularisation introduces bias and reduces variance, minimising overall MSE</li>
 <li>Unbiased estimation (a highly valued property in classical statistics!) is not a good idea in multivariate settings and often leads to poor estimators.</li>
 </ul>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="discrete-multivariate-distributions" class="section level2">
