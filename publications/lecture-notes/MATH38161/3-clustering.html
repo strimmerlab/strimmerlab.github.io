@@ -206,8 +206,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4.7" data-path="2-transformations.html"><a href="2-transformations.html#recap"><i class="fa fa-check"></i><b>2.4.7</b> Recap</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="2-transformations.html"><a href="2-transformations.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>2.5</b> Principal Component Analysis (PCA)</a><ul>
-<li class="chapter" data-level="2.5.1" data-path="2-transformations.html"><a href="2-transformations.html#application-to-data"><i class="fa fa-check"></i><b>2.5.1</b> Application to data</a></li>
-<li class="chapter" data-level="2.5.2" data-path="2-transformations.html"><a href="2-transformations.html#iris-data-example"><i class="fa fa-check"></i><b>2.5.2</b> Iris data example</a></li>
+<li class="chapter" data-level="2.5.1" data-path="2-transformations.html"><a href="2-transformations.html#pca-transformation"><i class="fa fa-check"></i><b>2.5.1</b> PCA transformation</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2-transformations.html"><a href="2-transformations.html#application-to-data"><i class="fa fa-check"></i><b>2.5.2</b> Application to data</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2-transformations.html"><a href="2-transformations.html#iris-data-example"><i class="fa fa-check"></i><b>2.5.3</b> Iris data example</a></li>
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="2-transformations.html"><a href="2-transformations.html#correlation-loadings-plot-to-interpret-pca-components"><i class="fa fa-check"></i><b>2.6</b> Correlation loadings plot to interpret PCA components</a><ul>
 <li class="chapter" data-level="2.6.1" data-path="2-transformations.html"><a href="2-transformations.html#pca-correlation-loadings"><i class="fa fa-check"></i><b>2.6.1</b> PCA correlation loadings</a></li>
@@ -735,23 +736,23 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <p><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 47, 53, 50
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 47, 53
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1   1.13217737  0.08812645    0.9928284   1.0141287
-## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
-## 3  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 2   1.13217737  0.08812645    0.9928284   1.0141287
+## 3  -0.05005221 -0.88042696    0.3465767   0.2805873
 ## 
 ## Clustering vector:
-##   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-##  [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 2 2 2 1 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2
-##  [75] 2 1 1 1 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 1 1 1 1 2 1 1 1 1
-## [112] 1 1 2 2 1 1 1 1 2 1 2 1 2 1 1 2 1 1 1 1 1 1 2 2 1 1 1 2 1 1 1 2 1 1 1 2 1
-## [149] 1 2
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3
+##  [75] 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2 2 3 2 2 2 2
+## [112] 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 2
+## [149] 2 3
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 47.45019 44.08754 47.35062
+## [1] 47.35062 47.45019 44.08754
 ##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
@@ -767,9 +768,9 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">table</span>(L.iris, kmeans.out<span class="op">$</span>cluster)</a></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa      0  0 50
-##   versicolor 11 39  0
-##   virginica  36 14  0</code></pre>
+##   setosa     50  0  0
+##   versicolor  0 11 39
+##   virginica   0 36 14</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <p><img src="3-clustering_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
