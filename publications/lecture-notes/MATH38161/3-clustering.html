@@ -27,7 +27,7 @@ MATH38161</div>" />
 <meta name="author" content="Korbinian Strimmer" />
 
 
-<meta name="date" content="2020-10-31" />
+<meta name="date" content="2020-11-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1" data-path="1-multivariate.html"><a href="1-multivariate.html"><i class="fa fa-check"></i><b>1</b> Multivariate random variables</a><ul>
 <li class="chapter" data-level="1.1" data-path="1-multivariate.html"><a href="1-multivariate.html#why-multivariate-statistics"><i class="fa fa-check"></i><b>1.1</b> Why multivariate statistics?</a></li>
-<li class="chapter" data-level="1.2" data-path="1-multivariate.html"><a href="1-multivariate.html#basics"><i class="fa fa-check"></i><b>1.2</b> Basics</a><ul>
+<li class="chapter" data-level="1.2" data-path="1-multivariate.html"><a href="1-multivariate.html#essentials-in-multivariate-statistics"><i class="fa fa-check"></i><b>1.2</b> Essentials in multivariate statistics</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="1-multivariate.html"><a href="1-multivariate.html#univariate-vs.multivariate-random-variables"><i class="fa fa-check"></i><b>1.2.1</b> Univariate vs. multivariate random variables</a></li>
 <li class="chapter" data-level="1.2.2" data-path="1-multivariate.html"><a href="1-multivariate.html#mean-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.2</b> Mean of a random vector</a></li>
 <li class="chapter" data-level="1.2.3" data-path="1-multivariate.html"><a href="1-multivariate.html#variance-of-a-random-vector"><i class="fa fa-check"></i><b>1.2.3</b> Variance of a random vector</a></li>
@@ -231,6 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="3-clustering.html"><a href="3-clustering.html#agglomerative-hierarchical-clustering-algorithms"><i class="fa fa-check"></i><b>3.2.2</b> Agglomerative hierarchical clustering algorithms</a></li>
 <li class="chapter" data-level="3.2.3" data-path="3-clustering.html"><a href="3-clustering.html#wards-clustering-method"><i class="fa fa-check"></i><b>3.2.3</b> Ward’s clustering method</a></li>
 <li class="chapter" data-level="3.2.4" data-path="3-clustering.html"><a href="3-clustering.html#application-to-swiss-banknote-data-set"><i class="fa fa-check"></i><b>3.2.4</b> Application to Swiss banknote data set</a></li>
+<li class="chapter" data-level="3.2.5" data-path="3-clustering.html"><a href="3-clustering.html#assessment-of-the-uncertainty-of-hierarchical-clusterings"><i class="fa fa-check"></i><b>3.2.5</b> Assessment of the uncertainty of hierarchical clusterings</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="3-clustering.html"><a href="3-clustering.html#k-means-clustering"><i class="fa fa-check"></i><b>3.3</b> <span class="math inline">\(K\)</span>-means clustering</a><ul>
 <li class="chapter" data-level="3.3.1" data-path="3-clustering.html"><a href="3-clustering.html#general-aims"><i class="fa fa-check"></i><b>3.3.1</b> General aims</a></li>
@@ -408,12 +409,14 @@ MATH38161</div></a>
 <h2><span class="header-section-number">3.1</span> Challenges in supervised learning</h2>
 <div id="objective" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> Objective</h3>
-<p>We observe data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> collected on <span class="math inline">\(n\)</span> items. Thus, for each object
-(or subject) we have <span class="math inline">\(d\)</span> measurements.</p>
-<p>The aim of unsupervised learning is to identify patters among the items using all the available information on the items. For example, the items may be clustered in groups based on on some notion of similarity.</p>
-<p>The following picture shows the first two principal components of the Iris flower data (see e.g. Worksheet 4):</p>
-<p><img src="3-clustering_files/figure-html/unnamed-chunk-1-1.png" width="672" />
-Note that for this data we also have additional information, the class labels (setosa, versicolor, virginica).</p>
+<p>We observe data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects).
+Each sample <span class="math inline">\(\boldsymbol x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables.
+The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\boldsymbol x_i\)</span>. Note that unsupervised learning <em>only</em> uses this information and nothing else.</p>
+<p>For illustration consider the first two principal components of the Iris flower data (see e.g. Worksheet 4):</p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Clearly there is a group structure among the samples that is linked to particular
+patterns in the first two principal components.</p>
+<p>Note that in this plot we have used additional information, the class labels (setosa, versicolor, virginica), to highlighting the true underlying structure (the three flower species).</p>
 <p>In <strong>unsupervised learning</strong> the class labels are (assumed to be) unknown, and the aim is to infer the clustering and thus the classes labels.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <p>There are many methods for clustering and unsupervise learning, both purely algorithmic as well as probabilistic. In this chapter we will study a few of the most commonly used approaches.</p>
 </div>
@@ -423,20 +426,23 @@ Note that for this data we also have additional information, the class labels (s
 <ul>
 <li>how do we define clusters?</li>
 <li>how do we learn / infer clusters?</li>
-<li>how many clusters? (this is surprisingly difficult!)</li>
-<li>which features define / separate each cluster?</li>
-<li>uncertainty of clusters?</li>
+<li>how many clusters are there? (this is surprisingly difficult!)</li>
+<li>how can we assess the uncertainty of clusters?</li>
 </ul>
-<p>Many of these problems and questions are in fact specific to the data at hand.
-Therefore, there are many typpes of methods for clustering and unsupervised learning.</p>
-<p>In terms of modeling the data, unsupervised learning tries to balance between the
-following two extremes:</p>
+<p>Once we know the clusters we are also interested in:</p>
+<ul>
+<li>which features define / separate each cluster?</li>
+</ul>
+<p>(note this is a feature / variable selection problem, discussed in in supervised learning).</p>
+<p>Many of these problems and questions are highly specific to the data at hand.
+Correspondingly, there are many different types of methods and models for clustering and unsupervised learning.</p>
+<p>In terms of representing the data, unsupervised learning tries to balance between the following two extremes:</p>
 <ol style="list-style-type: decimal">
 <li>all objects are grouped into a single cluster (low complexity model)</li>
-<li>all object are put into its own cluster (high complexity model)</li>
+<li>all objects are put into their own cluster (high complexity model)</li>
 </ol>
 <p>In practise, the aim is to find a compromise, i.e. a model that captures the
-structure in the data with appropriate complexity (not too low and not too complex).</p>
+structure in the data with appropriate complexity — not too low and not too complex.</p>
 </div>
 <div id="why-is-clustering-difficult" class="section level3">
 <h3><span class="header-section-number">3.1.3</span> Why is clustering difficult?</h3>
@@ -502,10 +508,8 @@ Example:</p>
 <li>hierarchical clustering (distance or similarity-based, divise and agglomerative)</li>
 </ul>
 <blockquote>
-<p><strong>pros:</strong> fast, effective algorithms to find at least some grouping</p>
-</blockquote>
-<blockquote>
-<p><strong>cons:</strong> no probabilistic interpretation, blackbox methods</p>
+<p><strong>pros:</strong> fast, effective algorithms to find at least some grouping
+<strong>cons:</strong> no probabilistic interpretation, blackbox methods</p>
 </blockquote>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Model-based clustering</strong> (based on a probabilistic model)</li>
@@ -515,10 +519,8 @@ Example:</p>
 <li>graphical models (e.g. Bayesian networks, Gaussian graphical models GGM, trees and networks)</li>
 </ul>
 <blockquote>
-<p><strong>pros:</strong> full probabilistic model with all corresponding advantages</p>
-</blockquote>
-<blockquote>
-<p><strong>cons:</strong> computationally very expensive, sometimes impossible to compute exactly.</p>
+<p><strong>pros:</strong> full probabilistic model with all corresponding advantages
+<strong>cons:</strong> computationally very expensive, sometimes impossible to compute exactly.</p>
 </blockquote>
 </div>
 </div>
@@ -526,10 +528,10 @@ Example:</p>
 <h2><span class="header-section-number">3.2</span> Hierarchical clustering</h2>
 <div id="tree-like-structures" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> Tree-like structures</h3>
-<p>Often, categorisations of objects are naturally nested, i.e. there sub-categories of categories etc. Thes can be represented by <strong>tree-like hierarchical structures</strong>.</p>
+<p>Often, categorisations of objects are nested, i.e. there sub-categories of categories etc. These can be naturally represented by <strong>tree-like hierarchical structures</strong>.</p>
 <p>In many branches of science hierarchical clusterings are widely employed, for example in evolutionary biology: see e.g.</p>
 <ul>
-<li>Tree of Life with linking the three natural kingdoms</li>
+<li><a href="http://tolweb.org/">Tree of Life</a> explaining the biodiversity of life</li>
 <li>phylogenetic trees among species (e.g. vertebrata)</li>
 <li>population genetic trees to describe human evolution</li>
 <li>taxonomic trees for plant species</li>
@@ -541,7 +543,7 @@ Example:</p>
 <li><strong>divisive or recursive partitioning algorithms</strong>
 <ul>
 <li>grow the tree from the root downwards</li>
-<li>first determine the main two clusters, then recursively refine the clusters further</li>
+<li>first determine the main two clusters, then recursively refine the clusters further.</li>
 </ul></li>
 <li><strong>agglomerative algorithms</strong>
 <ul>
@@ -550,7 +552,6 @@ Example:</p>
 then recursively join groups of items together, until all is merged.</li>
 </ul></li>
 </ol>
-<p>For example, <span class="math inline">\(K\)</span>-means can be turned into a divisive hierarchical clustering algorithm by recursively applying the algorithm with <span class="math inline">\(K=2\)</span>.</p>
 <p>In the following we discuss a number of popular hierarchical agglomerative clustering algorithms that are based on the pairwise distances / similarities (a <span class="math inline">\(n \times n\)</span> matrix) among all data points.</p>
 </div>
 <div id="agglomerative-hierarchical-clustering-algorithms" class="section level3">
@@ -566,25 +567,23 @@ objects. If the new set contains all data points the procedure terminates.</p></
 </ol>
 <p>For actual implementation of this algorithm two key ingredients are needed:</p>
 <ol style="list-style-type: decimal">
-<li>a distance measure <span class="math inline">\(d(\boldsymbol a, \boldsymbol b)\)</span> between two data points
-<span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span>.</li>
+<li>a distance measure <span class="math inline">\(d(\boldsymbol a, \boldsymbol b)\)</span> between two individual elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span>.</li>
 </ol>
 <blockquote>
-<p>This is typically on of the following.</p>
+<p>This is typically one of the following:</p>
 </blockquote>
 <blockquote>
 <ul>
-<li>Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sqrt{(\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)}\)</span></li>
+<li>Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sqrt{\sum_{i=1}^d ( a_i-b_i )^2} = \sqrt{(\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)}\)</span></li>
 <li>Manhattan distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sum_{i=1}^d | a_i-b_i |\)</span></li>
-<li>maximum norm <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span></li>
-<li>etc</li>
+<li>Maximum norm <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span></li>
 </ul>
 </blockquote>
 <blockquote>
 <p>In the end, making the correct choice of distance will require subject knowledge about the data!</p>
 </blockquote>
 <ol start="2" style="list-style-type: decimal">
-<li>a distance measure between two sets of objects <span class="math inline">\(A=\{\boldsymbol a_1, \boldsymbol a_2, \ldots, \boldsymbol a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\boldsymbol b_1, \boldsymbol b_2, \ldots, \boldsymbol b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively. The centroids of the two sets is given by <span class="math inline">\(\boldsymbol \mu_A = \frac{1}{n_A} \sum_{\boldsymbol a_i \in A} \boldsymbol a_i\)</span> and <span class="math inline">\(\boldsymbol \mu_B = \frac{1}{n_B} \sum_{\boldsymbol b_i \in B} \boldsymbol b_i\)</span>.</li>
+<li>a distance measure <span class="math inline">\(d(A, B)\)</span> between two sets of objects <span class="math inline">\(A=\{\boldsymbol a_1, \boldsymbol a_2, \ldots, \boldsymbol a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\boldsymbol b_1, \boldsymbol b_2, \ldots, \boldsymbol b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively.</li>
 </ol>
 <blockquote>
 <p>To determine the distance <span class="math inline">\(d(A, B)\)</span> between these two sets the following measures are often employed:</p>
@@ -599,22 +598,22 @@ objects. If the new set contains all data points the procedure terminates.</p></
 </div>
 <div id="wards-clustering-method" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> Ward’s clustering method</h3>
-<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong>. In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <em>smallest increase in total within-group sum of squares</em> (cf. <span class="math inline">\(K\)</span>-means).</p>
-<p>The within-group <span class="math inline">\(A\)</span> sum of squares<br />
+<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong>. In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <em>smallest increase in within-group variation, or equivalenty, 5h3 total within-group sum of squares</em> (cf. <span class="math inline">\(K\)</span>-means). The centroids of the two sets is given by <span class="math inline">\(\boldsymbol \mu_A = \frac{1}{n_A} \sum_{\boldsymbol a_i \in A} \boldsymbol a_i\)</span> and <span class="math inline">\(\boldsymbol \mu_B = \frac{1}{n_B} \sum_{\boldsymbol b_i \in B} \boldsymbol b_i\)</span>.</p>
+<p>The within-group sum of squares for group <span class="math inline">\(A\)</span> is
 <span class="math display">\[
 w_A = \sum_{\boldsymbol a_i \in A} (\boldsymbol a_i -\boldsymbol \mu_A)^T (\boldsymbol a_i -\boldsymbol \mu_A)
 \]</span>
-is usually computed on the basis of actual observations <span class="math inline">\(\boldsymbol a_i\)</span> relative to their mean <span class="math inline">\(\boldsymbol \mu_A\)</span>.
-However, it is also possible to compute it from the squared pairwise differences
+and is computed here on the basis of the difference of the observations <span class="math inline">\(\boldsymbol a_i\)</span> relative to their mean <span class="math inline">\(\boldsymbol \mu_A\)</span>.
+However, it is also possible to compute it from the pairwise differences
 between the observations using
 <span class="math display">\[
 w_A = \frac{1}{n_A} \sum_{\boldsymbol a_i, \boldsymbol a_j \in A, i &lt; j} (\boldsymbol a_i -\boldsymbol a_j)^T (\boldsymbol a_i -\boldsymbol a_j)
 \]</span>
-This is exploited in Ward’s clustering method by using as distance measure between to sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is
+This trick is used in Ward’s clustering method by constructing a distance measure between to sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> as
 <span class="math display">\[
 d(A, B) = w_{A \cup B} - w_A -w_B \, .
 \]</span>
-Correspondingly, the distance between two data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is the squared Euclidean distance
+Correspondingly, the distance between two elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is the squared Euclidean distance
 <span class="math display">\[
 d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol a- \boldsymbol b) \, .
 \]</span></p>
@@ -622,12 +621,14 @@ d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol 
 <div id="application-to-swiss-banknote-data-set" class="section level3">
 <h3><span class="header-section-number">3.2.4</span> Application to Swiss banknote data set</h3>
 <p>This data set is reports 6 pysical measurements on 200 Swiss bank notes. Of the 200 notes
-100 are fake and 100 are real. The measurements are: length, left width, right width, bottom margin, top margin, diagonal length of the bank notes.</p>
+100 are genuine and 100 are counterfeit. The measurements are: length, left width, right width, bottom margin, top margin, diagonal length of the bank notes.</p>
 <p>Plotting the first to PCAs of this data shows that there are indeed two well defined groups,
-and that these groups correspond precisely to the real and fake banknotes:</p>
+and that these groups correspond precisely to the genuine and counterfeit banknotes:</p>
 <p><img src="3-clustering_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <div style="page-break-after: always;"></div>
-<p>We now compare the hierarchical clusterings of the Swiss bank note data using four different methods (with Euclidean distance):</p>
+<p>We now compare the hierarchical clusterings of the Swiss bank note data using four different methods using Euclidean distance.</p>
+<p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> of this analysis (which also allows to explore further distance measures) is available
+online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/</a> .</p>
 <p>Ward.D2 (=Ward’s method):</p>
 <p><img src="3-clustering_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Average linkage:</p>
@@ -642,13 +643,18 @@ and that these groups correspond precisely to the real and fake banknotes:</p>
 <li>All four trees / hierarchical clusterings are quite different!</li>
 <li>The Ward.D2 method is the only one that finds the correct grouping (except for a single error).</li>
 </ul>
-<p>In practical application of hierarchical clustering methods is is essential to evaluate the stability and uncertainty of the obtained groupings. This is often done as follows:</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="assessment-of-the-uncertainty-of-hierarchical-clusterings" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> Assessment of the uncertainty of hierarchical clusterings</h3>
+<p>In practical application of hierarchical clustering methods is is essential to evaluate the stability and uncertainty of the obtained groupings. This is often done as follows using the “bootstrap”:</p>
 <ul>
-<li>“bootstrap” (i.e. resampling the original data) is used to generate new data sets (say 200) similar to the original one, and to construct a hierarchical clustering for each of these data sets.</li>
-<li>a consensus tree is computed from the 200 bootstrap trees. This reduces the variability of te estimated tree and also provides bootstrap values measuring the
-stability of each implied cluster in the tree.</li>
+<li>Sampling with replacement is used to generate a number of so-called bootstrap data sets (say <span class="math inline">\(B=200\)</span>) similar to the original one. Specifically, we create new data matrices by repeately randomly selecting columns (variables) from the original data matrix for inclusion in the bootstrap data matrix. Note that we sample columns as our aim is to cluster the samples.</li>
+<li>Subsequently, a hierarchical clustering is computed for each of the bootstrap data sets. As a result, we now have an “ensemble” of <span class="math inline">\(B\)</span> bootstrap trees.</li>
+<li>Finally, analysis of the clusters (bipartions) shown in all the bootstrap trees allows to count the clusters that appear frequently, and also those that appear less frequently. These counts provide a measure of the stability of the clusterings appearing in the original tree.</li>
+<li>Additionally, from the bootstrap tree we can also compute a consensus tree containing the most stable clusters. This an be viewed as an “ensemble average” of all the bootstrap trees.</li>
 </ul>
-<p>Disadvantage: bootstrapping trees is computationally very expensive!</p>
+<p>A disadvantage of this procedure is that bootstrapping trees is computationally very very expensive, as the original procedure is already time consuming but now needs to be repeated a large number of times.</p>
 </div>
 </div>
 <div id="k-means-clustering" class="section level2">
@@ -692,7 +698,7 @@ Steps 1 and 2 are repeated until the algorithm converges (or an upper limit of r
 <p>Despite its simplicity <span class="math inline">\(K\)</span>-means is a surprisingly effective clustering algorithms. The final clustering depends on the initialisation so it is often useful to run <span class="math inline">\(K\)</span>-means several times with different starting allocations of the data points.</p>
 <p>As a result of the way the clusters are assigned in <span class="math inline">\(K\)</span>-means this leads to cluster boundaries that form a
 Voronoi tesselation (cf. <a href="https://en.wikipedia.org/wiki/Voronoi_diagram" class="uri">https://en.wikipedia.org/wiki/Voronoi_diagram</a> ) around the cluster means.</p>
-<p>Below we will also discuss the connection of <span class="math inline">\(K\)</span>-means with probabilistic clustering using Gaussian mixture models.</p>
+<p>Later we will also discuss the connection of <span class="math inline">\(K\)</span>-means with probabilistic clustering using Gaussian mixture models.</p>
 </div>
 <div id="choosing-the-number-of-clusters" class="section level3">
 <h3><span class="header-section-number">3.3.4</span> Choosing the number of clusters</h3>
@@ -736,44 +742,46 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <p><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 50, 47, 53
+<pre><code>## K-means clustering with 3 clusters of sizes 16, 100, 34
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
-## 2   1.13217737  0.08812645    0.9928284   1.0141287
-## 3  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 1   -0.6259564   1.8042613    -1.282644  -1.2290567
+## 2    0.5055957  -0.4252069     0.650315   0.6253518
+## 3   -1.1924784   0.4015443    -1.309094  -1.2608902
 ## 
 ## Clustering vector:
-##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3
-##  [75] 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2 2 3 2 2 2 2
-## [112] 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 2
-## [149] 2 3
+##   [1] 3 3 3 3 1 1 3 3 3 3 1 3 3 3 1 1 1 3 1 1 3 1 3 3 3 3 3 3 3 3 3 3 1 1 3 3 1
+##  [38] 1 3 3 3 3 3 3 1 3 1 3 1 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+## [112] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+## [149] 2 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 47.35062 47.45019 44.08754
-##  (between_SS / total_SS =  76.7 %)
+## [1]   6.45758 173.52867  15.97485
+##  (between_SS / total_SS =  67.1 %)
 ## 
 ## Available components:
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
-<p>The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, tot.withinss) and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, betweenss) are:</p>
+<p>The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, tot.withinss)
+is</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">kmeans.out<span class="op">$</span>tot.withinss</a></code></pre></div>
-<pre><code>## [1] 138.8884</code></pre>
+<pre><code>## [1] 195.9611</code></pre>
+<p>and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, betweenss) is</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">kmeans.out<span class="op">$</span>betweenss</a></code></pre></div>
-<pre><code>## [1] 457.1116</code></pre>
-<p>By comparing with the known class assignments we can find out about the accuracy of <span class="math inline">\(K\)</span>-means in this example:</p>
+<pre><code>## [1] 400.0389</code></pre>
+<p>By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">table</span>(L.iris, kmeans.out<span class="op">$</span>cluster)</a></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa     50  0  0
-##   versicolor  0 11 39
-##   virginica   0 36 14</code></pre>
+##   setosa     16  0 34
+##   versicolor  0 50  0
+##   virginica   0 50  0</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
-<p><img src="3-clustering_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
 <p>Thus, <span class="math inline">\(K=3\)</span> clusters seem appropriate since the the explained variation does not significantly improve
 (and the unexplained variation does not significantly decrease) with a further increase of the number of clusters.</p>
 </div>
@@ -798,7 +806,7 @@ within and between cluster variation in dependence of <span class="math inline">
 <div id="example-of-mixture-of-three-univariate-normal-densities" class="section level3">
 <h3><span class="header-section-number">3.4.2</span> Example of mixture of three univariate normal densities:</h3>
 <p><span class="math display">\[f(x) = 0.3 \, N(2,1^2) + 0.5 \, N(3,0.5^2) + 0.2 \, N(3.4,1.3^2) \]</span>
-<img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<img src="3-clustering_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>In this case it is clear already by visual inspection that the three subcomponents will not be identifiable.</p>
 </div>
 <div id="example-of-a-mixture-of-two-bivariate-normal-densities" class="section level3">
@@ -1021,7 +1029,7 @@ over simpler models in order to prevent overfitting.</p>
 <p>We now explore the application of GMMs to the Iris flower data set we also investigated with PCA
 and K-means.</p>
 <p>First, we run GMM with 3 clusters:</p>
-<p><img src="3-clustering_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-15-1.png" width="480" /></p>
 <p>The GMM has a substantially lower misclassification error compared to <span class="math inline">\(K\)</span>-means with the same number of clusters:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">table</span>(gmm3<span class="op">$</span>classification, L.iris)</a></code></pre></div>
 <pre><code>##    L.iris
@@ -1031,7 +1039,7 @@ and K-means.</p>
 ##   3      0          5        50</code></pre>
 <p>Note that in the R software “mclust” to analyse GMMs the BIC criterion is defined with the opposite sign (<span class="math inline">\(\text{BIC}_{\text{mclust}} = 2 \log L -K \log(n)\)</span>), thus we need to find the <em>maximum</em> value rather than the smallest value.</p>
 <p>If we compute BIC for various numbers of groups we find that the model with the best <span class="math inline">\(\text{BIC}_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
-<p><img src="3-clustering_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="3-clustering_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>Note that “VVV” is the name of the most general mixture model in “mclust”.</p>
 
 <p></p>
