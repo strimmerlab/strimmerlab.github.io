@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-11-10" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,7 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3</b> Multivariate normal distribution</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="1-multivariate.html"><a href="1-multivariate.html#univariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.1</b> Univariate normal distribution:</a></li>
 <li class="chapter" data-level="1.3.2" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-model"><i class="fa fa-check"></i><b>1.3.2</b> Multivariate normal model</a></li>
-<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-contour-lines-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contour lines of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.4" data-path="1-multivariate.html"><a href="1-multivariate.html#three-types-of-covariances"><i class="fa fa-check"></i><b>1.3.4</b> Three types of covariances</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="1-multivariate.html"><a href="1-multivariate.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.4</b> Estimation in large sample and small sample settings</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-data"><i class="fa fa-check"></i><b>1.4.1</b> Multivariate data</a></li>
@@ -429,27 +430,40 @@ e.g. in neural networks).</p>
 \end{array}
 \end{align*}\]</span></p>
 <p>Special cases/examples:</p>
-<ol style="list-style-type: decimal">
-<li>Univariate case (<span class="math inline">\(d=1, m=1\)</span>)
+
+<div class="example">
+<p><span id="exm:univartrans" class="example"><strong>Example 2.1  </strong></span>Univariate case (<span class="math inline">\(d=1, m=1\)</span>):</p>
 <ul>
 <li><span class="math inline">\(\text{E}(y)=a+b\mu\)</span></li>
 <li><span class="math inline">\(\text{Var}(y)=b^2\sigma^2\)</span></li>
-</ul></li>
-<li>Sum of two random univariate variables<br />
-<span class="math inline">\(y = x_1 + x_2\)</span>, i.e. <span class="math inline">\(a=0\)</span> and <span class="math inline">\(\boldsymbol B=(1,1)\)</span>
+</ul>
+</div>
+
+
+<div class="example">
+<p><span id="exm:sumunivariate" class="example"><strong>Example 2.2  </strong></span>Sum of two random univariate variables:
+<span class="math inline">\(y = x_1 + x_2\)</span>, i.e. <span class="math inline">\(a=0\)</span> and <span class="math inline">\(\boldsymbol B=(1,1)\)</span></p>
 <ul>
 <li><span class="math inline">\(\text{E}(x_1+x_2)=\mu_1+\mu_2\)</span><br />
 </li>
-<li><span class="math inline">\(\text{Var}(x_1+x_2) = (1,1)\begin{pmatrix}  \sigma^2_1 &amp; \sigma_{12}\\  \sigma_{21} &amp; \sigma^2_2  \end{pmatrix} \begin{pmatrix}  1\\  1  \end{pmatrix} = \sigma^2_1+\sigma^2_2+2\sigma_{12} = \text{Var}(x_1)+\text{Var}(x_2)+2\text{Cov}(x_1,x_2)\)</span></li>
-</ul></li>
-<li><span class="math inline">\(y_1=a_1+b_1 x_1\)</span> and <span class="math inline">\(y_2=a_2+b_2 x_2\)</span>, i.e. <span class="math inline">\(\boldsymbol a= \begin{pmatrix} a_1\\ a_2 \end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol B= \begin{pmatrix}b_1 &amp; 0\\ 0 &amp; b_2\end{pmatrix}\)</span>
+<li><span class="math inline">\(\text{Var}(x_1+x_2) = (1,1)\begin{pmatrix} \sigma^2_1 &amp; \sigma_{12}\\ \sigma_{21} &amp; \sigma^2_2 \end{pmatrix} \begin{pmatrix} 1\\ 1 \end{pmatrix} = \sigma^2_1+\sigma^2_2+2\sigma_{12} = \text{Var}(x_1)+\text{Var}(x_2)+2\text{Cov}(x_1,x_2)\)</span></li>
+</ul>
+</div>
+
+
+<div class="example">
+<p><span id="exm:transformcov" class="example"><strong>Example 2.3  </strong></span><span class="math inline">\(y_1=a_1+b_1 x_1\)</span> and <span class="math inline">\(y_2=a_2+b_2 x_2\)</span>,
+i.e. <span class="math inline">\(\boldsymbol a= \begin{pmatrix} a_1\\ a_2 \end{pmatrix}\)</span> and<br />
+<span class="math inline">\(\boldsymbol B= \begin{pmatrix}b_1 &amp; 0\\ 0 &amp; b_2\end{pmatrix}\)</span></p>
 <ul>
 <li><span class="math inline">\(\text{E}(\boldsymbol y)=\begin{pmatrix} a_1+b_1 \mu_1\\ a_2+b_2 \mu_2 \end{pmatrix}\)</span><br />
 </li>
-<li><span class="math inline">\(\text{Var}(\boldsymbol y) = \begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix} \begin{pmatrix}  \sigma^2_1 &amp; \sigma_{12}\\  \sigma_{21} &amp; \sigma^2_2  \end{pmatrix} \begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix} = \begin{pmatrix}  b^2_1\sigma^2_1 &amp; b_1b_2\sigma_{12}\\  b_1b_2\sigma_{21} &amp; b^2_2\sigma^2_2  \end{pmatrix}\)</span><br />
-i.e. <span class="math inline">\(\text{Cov}(a_1+b_1 x_1,a_2+b_2 x_2) = b_1 b_2\text{Cov}(x_1,x_2)\)</span></li>
-</ul></li>
-</ol>
+<li><span class="math inline">\(\text{Var}(\boldsymbol y) = \begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix} \begin{pmatrix} \sigma^2_1 &amp; \sigma_{12}\\ \sigma_{21} &amp; \sigma^2_2 \end{pmatrix} \begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix} = \begin{pmatrix} b^2_1\sigma^2_1 &amp; b_1b_2\sigma_{12}\\ b_1b_2\sigma_{21} &amp; b^2_2\sigma^2_2 \end{pmatrix}\)</span><br />
+note that <span class="math inline">\(\text{Cov}(y_1, y_2) = b_1 b_2\text{Cov}(x_1,x_2)\)</span><br />
+</li>
+</ul>
+</div>
+
 </div>
 <div id="invertible-location-scale-transformation" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> Invertible location-scale transformation</h3>
@@ -462,7 +476,7 @@ i.e. <span class="math inline">\(\text{Cov}(a_1+b_1 x_1,a_2+b_2 x_2) = b_1 b_2\t
 <span class="math display">\[ f_{\boldsymbol y}(\boldsymbol y)=|\det(\boldsymbol B)|^{-1} f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)\]</span></p>
 
 <div class="example">
-<span id="exm:mahatrans" class="example"><strong>Example 2.1  </strong></span><strong>Mahalanobis transform</strong> <span class="math inline">\(\boldsymbol y=\boldsymbol \Sigma^{-1/2}(\boldsymbol x-\boldsymbol \mu)\)</span>
+<span id="exm:mahatrans" class="example"><strong>Example 2.4  </strong></span><strong>Mahalanobis transform</strong> <span class="math inline">\(\boldsymbol y=\boldsymbol \Sigma^{-1/2}(\boldsymbol x-\boldsymbol \mu)\)</span>
 </div>
 
 <p>We assume a positive definite and thus invertible <span class="math inline">\(\boldsymbol \Sigma\)</span>, so
@@ -487,7 +501,7 @@ e.g. in the multivariate normal density.</p>
 are infinitely many, see later chapters).</p>
 
 <div class="example">
-<span id="exm:coltrans" class="example"><strong>Example 2.2  </strong></span><strong>Inverse Mahalanobis transformation</strong> <span class="math inline">\(\boldsymbol y= \boldsymbol \mu+\boldsymbol \Sigma^{1/2} \boldsymbol x\)</span>
+<span id="exm:coltrans" class="example"><strong>Example 2.5  </strong></span><strong>Inverse Mahalanobis transformation</strong> <span class="math inline">\(\boldsymbol y= \boldsymbol \mu+\boldsymbol \Sigma^{1/2} \boldsymbol x\)</span>
 </div>
 
 <p>This transformation is the <strong>inverse</strong> of the Mahalanobis transformation.
@@ -554,7 +568,7 @@ of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> around <spa
 for example if the first derivative (or gradient or Jacobi matrix) at <span class="math inline">\(\boldsymbol \mu\)</span> is zero.</p>
 
 <div class="example">
-<p><span id="exm:varoddsration" class="example"><strong>Example 2.3  </strong></span><strong>Variance of the odds ratio</strong></p>
+<p><span id="exm:varoddsration" class="example"><strong>Example 2.6  </strong></span><strong>Variance of the odds ratio</strong></p>
 <p>The proportion <span class="math inline">\(\hat{p} = \frac{n_1}{n}\)</span> resulting from
 <span class="math inline">\(n\)</span> repeats of a Bernoulli experiment has expectation <span class="math inline">\(\text{E}(\hat{p})=p\)</span>
 and variance <span class="math inline">\(\text{Var}(\hat{p}) = \frac{p (1-p)}{n}\)</span>.
@@ -568,7 +582,7 @@ Delta method
 
 
 <div class="example">
-<p><span id="exm:logtransform" class="example"><strong>Example 2.4  </strong></span><strong>Log-transform as variance stabilisation</strong></p>
+<p><span id="exm:logtransform" class="example"><strong>Example 2.7  </strong></span><strong>Log-transform as variance stabilisation</strong></p>
 <p>Assume <span class="math inline">\(x\)</span> has some mean <span class="math inline">\(\text{E}(x)=\mu\)</span> and variance <span class="math inline">\(\text{Var}(x) = \sigma^2 \mu^2\)</span>,
 i.e. the standard deviation <span class="math inline">\(\text{SD}(x)\)</span> is proportional to the mean <span class="math inline">\(\mu\)</span>.
 What are the (approximate) mean and the variance of the log-transformed variable <span class="math inline">\(\log(x)\)</span>?</p>

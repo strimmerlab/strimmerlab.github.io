@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-11-10" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,7 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3</b> Multivariate normal distribution</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="1-multivariate.html"><a href="1-multivariate.html#univariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.1</b> Univariate normal distribution:</a></li>
 <li class="chapter" data-level="1.3.2" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-model"><i class="fa fa-check"></i><b>1.3.2</b> Multivariate normal model</a></li>
-<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-contour-lines-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contour lines of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.4" data-path="1-multivariate.html"><a href="1-multivariate.html#three-types-of-covariances"><i class="fa fa-check"></i><b>1.3.4</b> Three types of covariances</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="1-multivariate.html"><a href="1-multivariate.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.4</b> Estimation in large sample and small sample settings</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-data"><i class="fa fa-check"></i><b>1.4.1</b> Multivariate data</a></li>
@@ -594,11 +595,13 @@ the spectral decomposition, followed by inverting the eigenvalues <span class="m
 \end{pmatrix} \boldsymbol U^T \]</span></p>
 <p>Note that <strong>all eigenvalues <span class="math inline">\(\lambda_i\)</span> need to be positive so that <span class="math inline">\(\boldsymbol \Sigma\)</span> can be inverted.</strong> (i.e., <span class="math inline">\(\boldsymbol \Sigma\)</span> needs to be positive definite).<br />
 If any <span class="math inline">\(\lambda_i = 0\)</span> then <span class="math inline">\(\boldsymbol \Sigma\)</span> is singular and not invertible.</p>
-<p>Importance of <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span>:
-- Natural parameter in exponential family.
-- Many expressions in multivariate statistics contain <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> and not <span class="math inline">\(\boldsymbol \Sigma\)</span>
-- <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> has close connection with graphical models
-(e.g. conditional independence graph, partial correlations, see later chapter)</p>
+<p>Importance of <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span>:</p>
+<ul>
+<li>Many expressions in multivariate statistics contain <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> and not <span class="math inline">\(\boldsymbol \Sigma\)</span></li>
+<li><span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> has close connection with graphical models
+(e.g. conditional independence graph, partial correlations, see later chapter)</li>
+<li>More generally, <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> is a natural parameter in the exponential family.</li>
+</ul>
 </div>
 <div id="partial-correlation-matrix" class="section level4">
 <h4><span class="header-section-number">1.2.6.3</span> Partial correlation matrix</h4>
@@ -612,8 +615,7 @@ measures:</p>
 <li><strong>total variation</strong>: <span class="math inline">\(\text{Tr}(\boldsymbol \Sigma) = \sum_{i=1}^d \lambda_i\)</span></li>
 <li><strong>generalised variance</strong>: <span class="math inline">\(\det(\boldsymbol \Sigma) = \prod_{i=1}^d \lambda_i\)</span></li>
 </ul>
-<p>If all eigenvalues are positive then <span class="math inline">\(\log \det(\boldsymbol \Sigma) = \sum_{i=1}^d \log \lambda_i = \text{Tr}(\log \boldsymbol \Sigma)\)</span>.</p>
-<p><span class="math inline">\(\log \boldsymbol \Sigma\)</span> is the matrix logarithm of <span class="math inline">\(\boldsymbol \Sigma\)</span> and is given by <span class="math inline">\(\log \boldsymbol \Sigma= \boldsymbol U\begin{pmatrix}  \log \lambda_{1} &amp; \dots &amp; 0\\  \vdots &amp; \ddots &amp; \vdots \\  0 &amp; \dots &amp; \log \lambda_{d} \end{pmatrix} \boldsymbol U^T\)</span></p>
+<p>The generalised variance <span class="math inline">\(\det(\boldsymbol \Sigma)\)</span> is also known as the volume of <span class="math inline">\(\boldsymbol \Sigma\)</span>.</p>
 </div>
 </div>
 </div>
@@ -633,6 +635,22 @@ from dimension 1 to dimension <span class="math inline">\(d\)</span>.</p>
 <p><img src="1-multivariate_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Special case: <strong>standard normal</strong> with <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma^2=1\)</span>:</p>
 <p><span class="math display">\[f(x |\mu=0,\sigma^2=1)=\frac{1}{\sqrt{2\pi}} \exp\left( {-\frac{x^2}{2}} \right) \]</span></p>
+<p><strong>Differential entropy</strong>:<br />
+<span class="math display">\[
+H(F) = \frac{1}{2} (\log(2 \pi \sigma^2) + 1) 
+\]</span></p>
+<p><strong>Cross-entropy</strong>:<br />
+<span class="math display">\[
+H(F_{\text{ref}}, F) = \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
+ +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)
+\]</span>
+<strong>KL divergence</strong>:<br />
+<span class="math display">\[
+D_{\text{KL}}(F_{\text{ref}}, F) = H(F_{\text{ref}}, F) - H(F_{\text{ref}}) = 
+\frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
+ +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  -\log\left(\frac{\sigma^2_{\text{ref}}}{ \sigma^2}\right) -1
+\right)
+\]</span></p>
 <p><strong>Maximum entropy characterisation:</strong> the normal distribution is the unique distribution
 that has the
 highest (differential) entropy over all continuous distributions with support from minus infinity to plus infinity with a given mean and variance.</p>
@@ -647,7 +665,7 @@ normal distribution will be a reasonable and well justified working assumption!<
 <span class="math display">\[\boldsymbol x\sim \text{MVN}(\boldsymbol \mu,\boldsymbol \Sigma) \]</span>
 <span class="math display">\[\text{E}(\boldsymbol x) = \boldsymbol \mu\space , \space  \text{Var}(\boldsymbol x) = \boldsymbol \Sigma\]</span></p>
 <p><strong>Density</strong>:</p>
-<p><span class="math display">\[f(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = (2\pi)^{-\frac{d}{2}} \det(\boldsymbol \Sigma)^{-\frac{1}{2}} \exp\left({{-\frac{1}{2}} \underbrace{\underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1 \times d} \underbrace{\boldsymbol \Sigma^{-1}}_{d \times d} \underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d \times 1} }_{1 \times 1 = \text{scalar!}}}\right)\]</span></p>
+<p><span class="math display">\[f(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = \det(2 \pi \boldsymbol \Sigma)^{-\frac{1}{2}} \exp\left({{-\frac{1}{2}} \underbrace{\underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1 \times d} \underbrace{\boldsymbol \Sigma^{-1}}_{d \times d} \underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d \times 1} }_{1 \times 1 = \text{scalar!}}}\right)\]</span></p>
 <ul>
 <li>note that density contains precision matrix <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span></li>
 <li>inverting <span class="math inline">\(\boldsymbol \Sigma\)</span> implies inverting the eigenvalues <span class="math inline">\(\lambda_i\)</span> of <span class="math inline">\(\boldsymbol \Sigma\)</span>
@@ -666,7 +684,6 @@ which is equivalent to the product of <span class="math inline">\(d\)</span> uni
 <li>for <span class="math inline">\(d=1\)</span>, multivariate normal reduces to normal.</li>
 <li>for <span class="math inline">\(\boldsymbol \Sigma\)</span> diagonal (i.e. <span class="math inline">\(\boldsymbol P= \boldsymbol I\)</span>, no correlation), MVN is the product of univariate normals (see Worksheet 2).</li>
 </ul>
-<div style="page-break-after: always;"></div>
 <p><strong>Plot of MVN density</strong>:</p>
 <p><img src="1-multivariate_files/figure-html/fig1-1.png" width="672" /></p>
 <ul>
@@ -678,12 +695,34 @@ which is equivalent to the product of <span class="math inline">\(d\)</span> uni
 </li>
 <li>Support from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span> in each dimension</li>
 </ul>
-<p>You can find an interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> of the bivariate normal density
-online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
+<p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> of the bivariate normal density plot
+is available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
+<p><strong>Differential entropy</strong>:<br />
+<span class="math display">\[
+H = \frac{1}{2} (\log \det(2 \pi \boldsymbol \Sigma) + d) 
+\]</span></p>
+<p><strong>Cross-entropy</strong>:<br />
+<span class="math display">\[
+H(F_{\text{ref}}, F) = \frac{1}{2}   \biggl\{
+        (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
+      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
+    + \log \det \biggl( 2 \pi \boldsymbol \Sigma\biggr)    \biggr\} 
+\]</span>
+<strong>KL divergence</strong>:<br />
+<span class="math display">\[
+\begin{split}
+D_{\text{KL}}(F_{\text{ref}}, F) &amp;= H(F_{\text{ref}}, F) - H(F_{\text{ref}}) \\
+&amp;= \frac{1}{2}   \biggl\{
+        (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
+      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr) 
+     - d   \biggr\} \\
+\end{split}
+\]</span></p>
 </div>
-<div id="shape-of-the-contour-lines-of-the-multivariate-normal-density" class="section level3">
-<h3><span class="header-section-number">1.3.3</span> Shape of the contour lines of the multivariate normal density</h3>
-<p>Now show that the contour lines of the multivariate normal density always take on the form of an ellipse, and that the radii of the ellipse is determined by the eigenvalues of
+<div id="shape-of-the-multivariate-normal-density" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Shape of the multivariate normal density</h3>
+<p>Now we show that the contour lines of the multivariate normal density always take on the form of an ellipse, and that the radii of the ellipse is determined by the eigenvalues of
 <span class="math inline">\(\boldsymbol \Sigma\)</span>.</p>
 <p>We start by observing that a circle with radius <span class="math inline">\(r\)</span> around the origin can be described as the set of points <span class="math inline">\((x_1,x_2)\)</span> satisfying
 <span class="math inline">\(x_1^2+x_2^2 = r^2\)</span>, or equivalently, <span class="math inline">\(\frac{x_1^2}{r^2} + \frac{x_2^2}{r^2} = 1\)</span>.
@@ -694,24 +733,46 @@ This is generalised to the shape of an ellipse by allowing (in two dimensions) f
 the axes and a shift of the origin from 0 to <span class="math inline">\(\boldsymbol \mu\)</span> the condition for an ellipse is
 <span class="math display">\[(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol Q\, \text{Diag}(r_1^2, \ldots , r_d^2)^{-1} \boldsymbol Q^T (\boldsymbol x-\boldsymbol \mu) = 1\]</span>
 where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal rotation matrix.</p>
-<p>A contour line of a probability density function is a set of connected points where the density assumes the same constant value.
-In the case of the multivariate normal distribution keeping the density at some fixed value implies that <span class="math inline">\((\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) = c\)</span> where <span class="math inline">\(c\)</span> is a constant. Using the
-eigenvalue decomposition of
-<span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> we can rewrite this condition as
-<span class="math display">\[(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T (\boldsymbol x-\boldsymbol \mu) = c \,.\]</span>
-This implies that contour
-lines of the multivariate normal density are indeed ellipses and that the squared radii are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>. Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</p>
-<p>Two examples:</p>
-<p><strong>Case 1:</strong> No Correlation / Diagonal / Isotropic / Spherical Covariance
-<span class="math inline">\(\Sigma = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\)</span>
+<p>A contour line of a probability density function is a set of connected points where the density assumes the same constant value. In the case of the multivariate normal distribution keeping the density at some fixed value implies that <span class="math inline">\((\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) = c\)</span> where <span class="math inline">\(c\)</span> is a constant. Using the eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> we can rewrite this condition as
+<span class="math display">\[
+(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T (\boldsymbol x-\boldsymbol \mu) = c \,.
+\]</span>
+This implies that the contour lines of the multivariate normal density are indeed ellipses and that the squared radii are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>. Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</p>
+<p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> to play with the contour lines of the
+bivariate normal distribution is online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
+</div>
+<div id="three-types-of-covariances" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> Three types of covariances</h3>
+<p>Following the above we can parameterise a covariance matrix in terms of its
+i) volume, ii) shape, and iii) orientation by writing
+<span class="math display">\[
+\boldsymbol \Sigma= \lambda \, \boldsymbol U\boldsymbol A\boldsymbol U^T
+\]</span>
+with <span class="math inline">\(\boldsymbol A=\text{Diag}(a_1, \ldots, a_d)\)</span> and <span class="math inline">\(\prod_{i=1}^d a_i = 1\)</span> (and <span class="math inline">\(\boldsymbol \Lambda=\lambda \boldsymbol A\)</span>).</p>
+<ol style="list-style-type: lower-roman">
+<li>The <strong>volume</strong> is <span class="math inline">\(\det(\boldsymbol \Sigma) = \lambda^d\)</span>, determined by a single parameter <span class="math inline">\(\lambda\)</span>.</li>
+<li>The <strong>shape</strong> is determined by <span class="math inline">\(\boldsymbol A\)</span>, with <span class="math inline">\(d-1\)</span> free parameters.</li>
+<li>The <strong>orientation</strong> is given by the orthogonal matrix <span class="math inline">\(\boldsymbol U\)</span>, with <span class="math inline">\(d (d-1)/2\)</span> free parameters.</li>
+</ol>
+<p>This leads to classification of covariances into three varieties:</p>
+<p><strong>Type 1:</strong> <strong>spherical covariance</strong> <span class="math inline">\(\boldsymbol \Sigma=\lambda \boldsymbol I\)</span>,
+with spherical contour lines, 1 free parameter (<span class="math inline">\(\boldsymbol A=\boldsymbol I\)</span>, <span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
+<p>Example:
+<span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
 with <span class="math inline">\(\sqrt{\lambda_1/ \lambda_2} = 1\)</span>:</p>
 <p><img src="1-multivariate_files/figure-html/fig2-1.png" width="672" /></p>
-<div style="page-break-after: always;"></div>
-<p><strong>Case 2</strong>: with correlation
-<span class="math inline">\(\Sigma = \begin{pmatrix} 1 &amp; 0.8 \\ 0.8 &amp; 1 \end{pmatrix}\)</span>
-with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} =3\)</span>:</p>
-<img src="1-multivariate_files/figure-html/fig3-1.png" width="672" />
-
+<p><strong>Type 2</strong>: <strong>diagonal covariance</strong> <span class="math inline">\(\boldsymbol \Sigma= \lambda \boldsymbol A\)</span>, with elliptical contour lines oriented along the coordinate axes, <span class="math inline">\(d\)</span> free parameters (<span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
+<p>Example:
+<span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
+with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} \approx 1.41\)</span>:</p>
+<p><img src="1-multivariate_files/figure-html/fig3-1.png" width="672" /></p>
+<p><strong>Type 3</strong>: <strong>general unrestricted covariance</strong> <span class="math inline">\(\boldsymbol \Sigma\)</span>,
+with elliptical contour lines oriented in any direction,
+<span class="math inline">\(d (d+1)/2\)</span> free parameters.</p>
+<p>Example:
+<span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0.6 \\ 0.6 &amp; 1 \end{pmatrix}\)</span>
+with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} \approx 2.20\)</span>:</p>
+<p><img src="1-multivariate_files/figure-html/fig4-1.png" width="672" /></p>
 </div>
 </div>
 <div id="estimation-in-large-sample-and-small-sample-settings" class="section level2">
@@ -786,7 +847,7 @@ likelihood = probability to observe data given the model parameters</p>
 <span class="math display">\[\hat{\boldsymbol \theta}^{\text{ML}}=\underset{\boldsymbol \theta}{\arg\,\max} \log L(\boldsymbol \theta)\]</span></p>
 <p>Maximum likelihood (ML) finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
 <p>Recall from MATH20802 that maximum likelihood is closely linked to minimising the relative entropy (KL divergence)
-<span class="math inline">\(I^{KL}(F, F_{\boldsymbol \theta})\)</span> between the unknown true model <span class="math inline">\(F\)</span> to the specified model <span class="math inline">\(F_{\boldsymbol \theta}\)</span>. Specifically, for large
+<span class="math inline">\(D_{\text{KL}}(F, F_{\boldsymbol \theta})\)</span> between the unknown true model <span class="math inline">\(F\)</span> to the specified model <span class="math inline">\(F_{\boldsymbol \theta}\)</span>. Specifically, for large
 sample size <span class="math inline">\(n\)</span> the model <span class="math inline">\(F_{\hat{\boldsymbol \theta}}\)</span> fit by maximum likelihood is indeed the model that is closest to <span class="math inline">\(F\)</span>.</p>
 <p>Correspondingly, the great appeal of <strong>maximum likelihood estimates</strong> (MLEs) is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e. so that <strong>for large sample size no estimator can be constructed that outperforms the MLE</strong> (note the emphasis on “for large <span class="math inline">\(n\)</span>”!).
 A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the Fisher information which is related to the curvature of the log-likelihood function).</p>

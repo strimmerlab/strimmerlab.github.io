@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-11-10" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,7 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3</b> Multivariate normal distribution</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="1-multivariate.html"><a href="1-multivariate.html#univariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.1</b> Univariate normal distribution:</a></li>
 <li class="chapter" data-level="1.3.2" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-normal-model"><i class="fa fa-check"></i><b>1.3.2</b> Multivariate normal model</a></li>
-<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-contour-lines-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the contour lines of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.3" data-path="1-multivariate.html"><a href="1-multivariate.html#shape-of-the-multivariate-normal-density"><i class="fa fa-check"></i><b>1.3.3</b> Shape of the multivariate normal density</a></li>
+<li class="chapter" data-level="1.3.4" data-path="1-multivariate.html"><a href="1-multivariate.html#three-types-of-covariances"><i class="fa fa-check"></i><b>1.3.4</b> Three types of covariances</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="1-multivariate.html"><a href="1-multivariate.html#estimation-in-large-sample-and-small-sample-settings"><i class="fa fa-check"></i><b>1.4</b> Estimation in large sample and small sample settings</a><ul>
 <li class="chapter" data-level="1.4.1" data-path="1-multivariate.html"><a href="1-multivariate.html#multivariate-data"><i class="fa fa-check"></i><b>1.4.1</b> Multivariate data</a></li>
@@ -514,14 +515,14 @@ of Pearson and multiple correlation to the case of two random vectors.</p>
 <p>Recall the definition
 of Kullback-Leibler divergence, or relative entropy, between two distributions:
 <span class="math display">\[
-I^{KL}(F || G) := \text{E}_F \log \biggl( \frac{f(\boldsymbol x)}{g(\boldsymbol x)} \biggr) 
+D_{\text{KL}}(F,  G) := \text{E}_F \log \biggl( \frac{f(\boldsymbol x)}{g(\boldsymbol x)} \biggr) 
 \]</span>
-Here <span class="math inline">\(F\)</span> plays the role of the true distribution and <span class="math inline">\(G\)</span> is an approximating distribution,
-with f and g being the corresponding densities.</p>
+Here <span class="math inline">\(F\)</span> plays the role of the reference distribution and <span class="math inline">\(G\)</span> is an approximating distribution,
+with <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> being the corresponding density functions.</p>
 <p>The <em>Mutual Information</em> (MI) between two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is defined as the
 KL divergence between the corresponding joint distribution and the product distribution:
 <span class="math display">\[
-\text{MI}(\boldsymbol x, \boldsymbol y) = I^{KL}(F_{\boldsymbol x,\boldsymbol y} || F_{\boldsymbol x}  F_{\boldsymbol y}) = \text{E}_{F_{\boldsymbol x,\boldsymbol y}}  \log \biggl( \frac{f(\boldsymbol x, \boldsymbol y)}{f(\boldsymbol x) \, f(\boldsymbol y)} \biggr) .
+\text{MI}(\boldsymbol x, \boldsymbol y) = D_{\text{KL}}(F_{\boldsymbol x,\boldsymbol y}, F_{\boldsymbol x}  F_{\boldsymbol y}) = \text{E}_{F_{\boldsymbol x,\boldsymbol y}}  \log \biggl( \frac{f(\boldsymbol x, \boldsymbol y)}{f(\boldsymbol x) \, f(\boldsymbol y)} \biggr) .
 \]</span>
 Thus, MI measures how well the joint distribution can be approximated by the product
 distribution (which would be the appropriate joint distribution if <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent).
@@ -532,10 +533,10 @@ Since MI is an application of KL divergence is shares all its properties. In par
 <h3><span class="header-section-number">5.2.2</span> Mutual information between two normal variables</h3>
 <p>The KL divergence between two multivariate normal distributions <span class="math inline">\(F_0\)</span> and <span class="math inline">\(F\)</span> is
 <span class="math display">\[
-I^{KL}(F_0 || F)  = \frac{1}{2}   \biggl\{
-        (\boldsymbol \mu-\boldsymbol \mu_0)^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_0)
-      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_0 \biggr)
-    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_0 \biggr) 
+D_{\text{KL}}(F_{\text{ref}}, F)  = \frac{1}{2}   \biggl\{
+        (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
+      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr) 
      - d   \biggr\} 
 \]</span>
 This allows compute the mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> between two univariate random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that are are correlated and assumed to be jointly bivariate normal. Let <span class="math inline">\(\boldsymbol z= (x, y)^T\)</span>. The joint bivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\boldsymbol z) = \boldsymbol \mu= (\mu_x, \mu_y)^T\)</span> and the covariance matrix
@@ -564,10 +565,14 @@ has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = 2\)</span> and 
 <p>With this the mutual information between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be computed as
 <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(x, y) &amp;= I^{KL}(N(\boldsymbol \mu, \boldsymbol \Sigma) || N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(x, y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
          \text{Tr}\biggl(\boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
     - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr) 
+     - 2   \biggr\} \\
+&amp; = \frac{1}{2}   \biggl\{
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A) 
      - 2   \biggr\} \\
 &amp;=  -\frac{1}{2} \log(1-\rho^2) \\
   &amp; \approx \frac{\rho^2}{2} \\
@@ -575,7 +580,7 @@ has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = 2\)</span> and 
 \]</span></p>
 <p>Thus <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> is is a one-to-one function of the squared correlation <span class="math inline">\(\rho^2\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
 <p><img src="5-dependence_files/figure-html/unnamed-chunk-1-1.png" width="384" /></p>
-<p>For small values of correlation <span class="math inline">\(2 \text{MI}_{\text{norm}}(x,y) \approx \rho^2\)</span>.</p>
+<p>For small values of correlation <span class="math inline">\(2 \, \text{MI}_{\text{norm}}(x,y) \approx \rho^2\)</span>.</p>
 </div>
 <div id="mutual-information-between-two-normally-distributed-random-vectors" class="section level3">
 <h3><span class="header-section-number">5.2.3</span> Mutual information between two normally distributed random vectors</h3>
@@ -630,10 +635,14 @@ i.e. the canonical correlations between <span class="math inline">\(\boldsymbol
 <p>The mutual information between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is then
 <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y) &amp;= I^{KL}(N(\boldsymbol \mu, \boldsymbol \Sigma) || N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
-         \text{Tr}\biggl(\boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
+         \text{Tr}\biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
     - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr) 
+     - d   \biggr\} \\
+&amp; = \frac{1}{2}   \biggl\{
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A) 
      - d   \biggr\} \\
 &amp;=-\frac{1}{2} \sum_{i=1}^m \log(1-\lambda_i^2)\\
 \end{split}
@@ -647,11 +656,9 @@ we recognize that
 \text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y) = -\frac{1}{2} \log(1 - \rho^2_{\boldsymbol x\boldsymbol y} ) \approx \frac{1}{2} \rho^2_{\boldsymbol x\boldsymbol y}
 \]</span>
 Thus, in the multivariate case <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x\boldsymbol y)\)</span> has again exactly the same functional relationship with the
-vector correlation <span class="math inline">\(\rho^2_{\boldsymbol x, \boldsymbol y}\)</span> as<br />
-as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span>
+vector correlation <span class="math inline">\(\rho^2_{\boldsymbol x, \boldsymbol y}\)</span> as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span>
 for two univariate variables with squared Pearson correlation <span class="math inline">\(\rho^2\)</span>.</p>
-<p>Thus, Rozebooms vector correlation is derived via mutual information for jointly multivariate normal
-distributed variables.</p>
+<p>Thus, Rozebooms vector correlation is directly linked to mutual information for jointly multivariate normally distributed variables.</p>
 </div>
 <div id="using-mi-for-variable-selection" class="section level3">
 <h3><span class="header-section-number">5.2.4</span> Using MI for variable selection</h3>
@@ -662,19 +669,19 @@ a simple model (no predictors).</p>
 <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> can be also understood as expectated KL divergence
 between the conditional and marginal distributions:
 <span class="math display">\[
-\text{E}_{F_{\boldsymbol x}}\, I^{KL}(F_{\boldsymbol y|\boldsymbol x} || F_{\boldsymbol y} ) = \text{MI}(\boldsymbol x, \boldsymbol y)
+\text{E}_{F_{\boldsymbol x}}\, D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x},  F_{\boldsymbol y} ) = \text{MI}(\boldsymbol x, \boldsymbol y)
 \]</span></p>
 <p>This can be shown as follows.
 The KL divergence between <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> and <span class="math inline">\(F_{\boldsymbol y}\)</span>
 is given by
 <span class="math display">\[
-I^{KL}(F_{\boldsymbol y|\boldsymbol x} , F_{\boldsymbol y} )  = \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log\biggl( \frac{f(\boldsymbol y|\boldsymbol x) }{ f(\boldsymbol y)}  \biggr) \, , 
+D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} )  = \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log\biggl( \frac{f(\boldsymbol y|\boldsymbol x) }{ f(\boldsymbol y)}  \biggr) \, , 
 \]</span>
 which is a random variable since it depends on <span class="math inline">\(\boldsymbol x\)</span>.
 Taking the expectation with regard to <span class="math inline">\(F_{\boldsymbol x}\)</span> (the distribution of <span class="math inline">\(\boldsymbol x\)</span>)
 we get
 <span class="math display">\[
-\text{E}_{F_{\boldsymbol x}} I^{KL}(F_{\boldsymbol y|\boldsymbol x} , F_{\boldsymbol y} ) = 
+\text{E}_{F_{\boldsymbol x}} D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} ) = 
 \text{E}_{F_{\boldsymbol x}}  \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log \biggl(\frac{ f(\boldsymbol y|\boldsymbol x) f(\boldsymbol x) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr) = 
 \text{E}_{F_{\boldsymbol x,\boldsymbol y}}   \log \biggl(\frac{ f(\boldsymbol x,\boldsymbol y) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr) = \text{MI}(\boldsymbol x,\boldsymbol y) \,.
 \]</span></p>
@@ -802,7 +809,7 @@ or equivalently
 as in such a graph <em>missing edges correspond to conditional independencies</em> between the respective non-connected nodes.</p>
 <div id="gaussian-graphical-model" class="section level4">
 <h4><span class="header-section-number">5.3.5.1</span> Gaussian graphical model</h4>
-<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normal distributed, i.e. <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>,
+<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e. <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>,
 it turns out that it is straightforward to identify the pairwise conditional independencies.
 From <span class="math inline">\(\boldsymbol \Sigma\)</span> we first obtain the precision matrix
 <span class="math display">\[\boldsymbol \Omega= (\omega_{ij}) = \boldsymbol \Sigma^{-1} \,.\]</span>
