@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Maximum likelihood estimation | HTML</title>
+  <meta name="description" content="Statistical Methods:<br />
+Likelihood, Bayes and Regression</div>" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Maximum likelihood estimation | HTML" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Maximum likelihood estimation | HTML" />
+  
+  
+  
+
+
+
+<meta name="date" content="2021-01-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="02-likelihood2.html"/>
+<link rel="next" href="04-likelihood4.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="http://strimmerlab.org/publications/lecture-notes/MATH20802/index.html">MATH20802 Lecture Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-these-notes"><i class="fa fa-check"></i>About these notes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i>About the author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-the-module"><i class="fa fa-check"></i>About the module</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#topics-covered"><i class="fa fa-check"></i>Topics covered</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#additional-support-material"><i class="fa fa-check"></i>Additional support material</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="part"><span><b>I Likelihood estimation and inference</b></span></li>
+<li class="chapter" data-level="1" data-path="01-likelihood1.html"><a href="01-likelihood1.html"><i class="fa fa-check"></i><b>1</b> Overview of statistical learning</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-likelihood1.html"><a href="01-likelihood1.html#how-to-learn-from-data"><i class="fa fa-check"></i><b>1.1</b> How to learn from data?</a></li>
+<li class="chapter" data-level="1.2" data-path="01-likelihood1.html"><a href="01-likelihood1.html#probability-theory-versus-statistical-learning"><i class="fa fa-check"></i><b>1.2</b> Probability theory versus statistical learning</a></li>
+<li class="chapter" data-level="1.3" data-path="01-likelihood1.html"><a href="01-likelihood1.html#cartoon-of-statistical-learning"><i class="fa fa-check"></i><b>1.3</b> Cartoon of statistical learning</a></li>
+<li class="chapter" data-level="1.4" data-path="01-likelihood1.html"><a href="01-likelihood1.html#likelihood"><i class="fa fa-check"></i><b>1.4</b> Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="02-likelihood2.html"><a href="02-likelihood2.html"><i class="fa fa-check"></i><b>2</b> From information theory to likelihood</a><ul>
+<li class="chapter" data-level="2.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#entropy"><i class="fa fa-check"></i><b>2.1</b> Entropy</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#overview"><i class="fa fa-check"></i><b>2.1.1</b> Overview</a></li>
+<li class="chapter" data-level="2.1.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#surprise"><i class="fa fa-check"></i><b>2.1.2</b> Surprise</a></li>
+<li class="chapter" data-level="2.1.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#shannon-entropy"><i class="fa fa-check"></i><b>2.1.3</b> Shannon entropy</a></li>
+<li class="chapter" data-level="2.1.4" data-path="02-likelihood2.html"><a href="02-likelihood2.html#differential-entropy"><i class="fa fa-check"></i><b>2.1.4</b> Differential entropy</a></li>
+<li class="chapter" data-level="2.1.5" data-path="02-likelihood2.html"><a href="02-likelihood2.html#maximum-entropy-principle-to-characterise-distributions"><i class="fa fa-check"></i><b>2.1.5</b> Maximum entropy principle to characterise distributions</a></li>
+<li class="chapter" data-level="2.1.6" data-path="02-likelihood2.html"><a href="02-likelihood2.html#cross-entropy"><i class="fa fa-check"></i><b>2.1.6</b> Cross-entropy</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#kullback-leibler-divergence"><i class="fa fa-check"></i><b>2.2</b> Kullback-Leibler divergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#definition"><i class="fa fa-check"></i><b>2.2.1</b> Definition</a></li>
+<li class="chapter" data-level="2.2.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#properties"><i class="fa fa-check"></i><b>2.2.2</b> Properties</a></li>
+<li class="chapter" data-level="2.2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#examples"><i class="fa fa-check"></i><b>2.2.3</b> Examples</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a></li>
+<li class="chapter" data-level="2.4" data-path="02-likelihood2.html"><a href="02-likelihood2.html#entropy-learning-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4</b> Entropy learning and maximum likelihood</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#the-relative-entropy-between-true-model-and-approximating-model"><i class="fa fa-check"></i><b>2.4.1</b> The relative entropy between true model and approximating model</a></li>
+<li class="chapter" data-level="2.4.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#maximum-likelihood-and-minimum-kl-divergence"><i class="fa fa-check"></i><b>2.4.2</b> Maximum likelihood and minimum KL divergence</a></li>
+<li class="chapter" data-level="2.4.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#further-connections"><i class="fa fa-check"></i><b>2.4.3</b> Further connections</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-likelihood3.html"><a href="03-likelihood3.html"><i class="fa fa-check"></i><b>3</b> Maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1" data-path="03-likelihood3.html"><a href="03-likelihood3.html#principle-of-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>3.1</b> Principle of maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="03-likelihood3.html"><a href="03-likelihood3.html#outline"><i class="fa fa-check"></i><b>3.1.1</b> Outline</a></li>
+<li class="chapter" data-level="3.1.2" data-path="03-likelihood3.html"><a href="03-likelihood3.html#recipe-for-obtaining-mles"><i class="fa fa-check"></i><b>3.1.2</b> Recipe for obtaining MLEs</a></li>
+<li class="chapter" data-level="3.1.3" data-path="03-likelihood3.html"><a href="03-likelihood3.html#invariance-property-of-the-mle"><i class="fa fa-check"></i><b>3.1.3</b> Invariance property of the MLE</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="03-likelihood3.html"><a href="03-likelihood3.html#examples-of-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>3.2</b> Examples of maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-1-estimation-of-a-proportion"><i class="fa fa-check"></i><b>3.2.1</b> Example 1: Estimation of a proportion</a></li>
+<li class="chapter" data-level="3.2.2" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-2-exponential-distribution"><i class="fa fa-check"></i><b>3.2.2</b> Example 2: Exponential Distribution</a></li>
+<li class="chapter" data-level="3.2.3" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-3-normal-distribution-with-unknown-mean-and-known-variance"><i class="fa fa-check"></i><b>3.2.3</b> Example 3: Normal distribution with unknown mean and known variance</a></li>
+<li class="chapter" data-level="3.2.4" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-4-normal-distribution-with-both-mean-and-variance-unknown"><i class="fa fa-check"></i><b>3.2.4</b> Example 4: Normal Distribution with both mean and variance unknown</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="03-likelihood3.html"><a href="03-likelihood3.html#observed-fisher-information"><i class="fa fa-check"></i><b>3.3</b> Observed Fisher information</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="03-likelihood3.html"><a href="03-likelihood3.html#motivation"><i class="fa fa-check"></i><b>3.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.3.2" data-path="03-likelihood3.html"><a href="03-likelihood3.html#curvature-of-log-likelihood-function"><i class="fa fa-check"></i><b>3.3.2</b> Curvature of log-likelihood function</a></li>
+<li class="chapter" data-level="3.3.3" data-path="03-likelihood3.html"><a href="03-likelihood3.html#observed-fisher-information-1"><i class="fa fa-check"></i><b>3.3.3</b> Observed Fisher information</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="03-likelihood3.html"><a href="03-likelihood3.html#observed-fisher-information---examples"><i class="fa fa-check"></i><b>3.4</b> Observed Fisher information - Examples</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-1-bernoulli-binomial-model"><i class="fa fa-check"></i><b>3.4.1</b> Example 1: Bernoulli / Binomial model</a></li>
+<li class="chapter" data-level="3.4.2" data-path="03-likelihood3.html"><a href="03-likelihood3.html#example-2-normal-distribution"><i class="fa fa-check"></i><b>3.4.2</b> Example 2: Normal distribution</a></li>
+<li class="chapter" data-level="3.4.3" data-path="03-likelihood3.html"><a href="03-likelihood3.html#from-observed-to-expected-fisher-information"><i class="fa fa-check"></i><b>3.4.3</b> From observed to expected Fisher information</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-likelihood4.html"><a href="04-likelihood4.html"><i class="fa fa-check"></i><b>4</b> Quadratic approximation and normal asymptotics</a><ul>
+<li class="chapter" data-level="4.1" data-path="04-likelihood4.html"><a href="04-likelihood4.html#quadratic-approximation-of-log-likelihood-function-around-mle"><i class="fa fa-check"></i><b>4.1</b> Quadratic approximation of log-likelihood function around MLE</a></li>
+<li class="chapter" data-level="4.2" data-path="04-likelihood4.html"><a href="04-likelihood4.html#asymptotic-normality-of-mle"><i class="fa fa-check"></i><b>4.2</b> Asymptotic normality of MLE</a></li>
+<li class="chapter" data-level="4.3" data-path="04-likelihood4.html"><a href="04-likelihood4.html#normal-confidence-intervals-for-mles"><i class="fa fa-check"></i><b>4.3</b> Normal confidence intervals for MLEs</a></li>
+<li class="chapter" data-level="4.4" data-path="04-likelihood4.html"><a href="04-likelihood4.html#observed-or-expected-fisher-information-to-estimate-variance-of-the-mle"><i class="fa fa-check"></i><b>4.4</b> Observed or expected Fisher information to estimate variance of the MLE?</a></li>
+<li class="chapter" data-level="4.5" data-path="04-likelihood4.html"><a href="04-likelihood4.html#wald-statistic"><i class="fa fa-check"></i><b>4.5</b> Wald statistic</a></li>
+<li class="chapter" data-level="4.6" data-path="04-likelihood4.html"><a href="04-likelihood4.html#normal-ci-expressed-using-the-squared-wald-statistics"><i class="fa fa-check"></i><b>4.6</b> Normal CI expressed using the squared Wald statistics</a></li>
+<li class="chapter" data-level="4.7" data-path="04-likelihood4.html"><a href="04-likelihood4.html#testing-and-confidence-intervals"><i class="fa fa-check"></i><b>4.7</b> Testing and confidence intervals</a></li>
+<li class="chapter" data-level="4.8" data-path="04-likelihood4.html"><a href="04-likelihood4.html#example-normal-distribution"><i class="fa fa-check"></i><b>4.8</b> Example: normal distribution</a></li>
+<li class="chapter" data-level="4.9" data-path="04-likelihood4.html"><a href="04-likelihood4.html#example-of-non-regular-model"><i class="fa fa-check"></i><b>4.9</b> Example of non-regular model</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-likelihood5.html"><a href="05-likelihood5.html"><i class="fa fa-check"></i><b>5</b> Likelihood-based confidence interval and likelihood ratio</a><ul>
+<li class="chapter" data-level="5.1" data-path="05-likelihood5.html"><a href="05-likelihood5.html#likelihood-based-confidence-intervals"><i class="fa fa-check"></i><b>5.1</b> Likelihood-based confidence intervals</a></li>
+<li class="chapter" data-level="5.2" data-path="05-likelihood5.html"><a href="05-likelihood5.html#wilks-log-likelihood-ratio-statistic"><i class="fa fa-check"></i><b>5.2</b> Wilks log likelihood ratio statistic</a></li>
+<li class="chapter" data-level="5.3" data-path="05-likelihood5.html"><a href="05-likelihood5.html#quadratic-approximation-of-wilks-statistic"><i class="fa fa-check"></i><b>5.3</b> Quadratic approximation of Wilks statistic</a></li>
+<li class="chapter" data-level="5.4" data-path="05-likelihood5.html"><a href="05-likelihood5.html#distribution-of-wilks-statistics"><i class="fa fa-check"></i><b>5.4</b> Distribution of Wilks statistics</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="05-likelihood5.html"><a href="05-likelihood5.html#cutoff-values-delta"><i class="fa fa-check"></i><b>5.4.1</b> Cutoff values <span class="math inline">\(\Delta\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="05-likelihood5.html"><a href="05-likelihood5.html#example-likelihood-ci-for-exponential-model"><i class="fa fa-check"></i><b>5.5</b> Example: likelihood CI for exponential model</a></li>
+<li class="chapter" data-level="5.6" data-path="05-likelihood5.html"><a href="05-likelihood5.html#origin-of-likelihood-ratio-statistic"><i class="fa fa-check"></i><b>5.6</b> Origin of likelihood ratio statistic</a></li>
+<li class="chapter" data-level="5.7" data-path="05-likelihood5.html"><a href="05-likelihood5.html#distribution-of-wilks-statistic-and-likelihood-ci"><i class="fa fa-check"></i><b>5.7</b> Distribution of Wilks statistic and Likelihood CI</a></li>
+<li class="chapter" data-level="5.8" data-path="05-likelihood5.html"><a href="05-likelihood5.html#likelihood-ratio-test-lrt"><i class="fa fa-check"></i><b>5.8</b> Likelihood ratio test (LRT)</a></li>
+<li class="chapter" data-level="5.9" data-path="05-likelihood5.html"><a href="05-likelihood5.html#optimality-of-lrts"><i class="fa fa-check"></i><b>5.9</b> Optimality of LRTs</a></li>
+<li class="chapter" data-level="5.10" data-path="05-likelihood5.html"><a href="05-likelihood5.html#generalised-likelihood-ratio-test-glrt"><i class="fa fa-check"></i><b>5.10</b> Generalised likelihood ratio test (GLRT)</a></li>
+<li class="chapter" data-level="5.11" data-path="05-likelihood5.html"><a href="05-likelihood5.html#glrt-example"><i class="fa fa-check"></i><b>5.11</b> GLRT example</a></li>
+<li class="chapter" data-level="5.12" data-path="05-likelihood5.html"><a href="05-likelihood5.html#thoughts-on-model-selection"><i class="fa fa-check"></i><b>5.12</b> Thoughts on model selection</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-likelihood6.html"><a href="06-likelihood6.html"><i class="fa fa-check"></i><b>6</b> Optimality properties, minimal sufficiency and summary</a><ul>
+<li class="chapter" data-level="6.1" data-path="06-likelihood6.html"><a href="06-likelihood6.html#properties-of-mles-encountered-so-far"><i class="fa fa-check"></i><b>6.1</b> Properties of MLEs encountered so far</a></li>
+<li class="chapter" data-level="6.2" data-path="06-likelihood6.html"><a href="06-likelihood6.html#further-optimality-properties-of-mles"><i class="fa fa-check"></i><b>6.2</b> Further optimality properties of MLEs</a></li>
+<li class="chapter" data-level="6.3" data-path="06-likelihood6.html"><a href="06-likelihood6.html#summarising-data-and-the-concept-of-minimal-sufficiency"><i class="fa fa-check"></i><b>6.3</b> Summarising data and the concept of minimal sufficiency</a></li>
+<li class="chapter" data-level="6.4" data-path="06-likelihood6.html"><a href="06-likelihood6.html#summary-and-concluding-remarks-on-maximum-likelihood"><i class="fa fa-check"></i><b>6.4</b> Summary and concluding remarks on maximum likelihood</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="06-likelihood6.html"><a href="06-likelihood6.html#starting-point-kl-divergence"><i class="fa fa-check"></i><b>6.4.1</b> Starting point: KL divergence</a></li>
+<li class="chapter" data-level="6.4.2" data-path="06-likelihood6.html"><a href="06-likelihood6.html#connections-between-kl-divergence-likelihood-and-expected-and-observed-fisher-information"><i class="fa fa-check"></i><b>6.4.2</b> Connections between KL divergence, likelihood and expected and observed Fisher information</a></li>
+<li class="chapter" data-level="6.4.3" data-path="06-likelihood6.html"><a href="06-likelihood6.html#likelihood-estimation"><i class="fa fa-check"></i><b>6.4.3</b> Likelihood estimation</a></li>
+<li class="chapter" data-level="6.4.4" data-path="06-likelihood6.html"><a href="06-likelihood6.html#what-happens-if-n-is-small"><i class="fa fa-check"></i><b>6.4.4</b> What happens if <span class="math inline">\(n\)</span> is small?</a></li>
+<li class="chapter" data-level="6.4.5" data-path="06-likelihood6.html"><a href="06-likelihood6.html#inference-with-likelihood"><i class="fa fa-check"></i><b>6.4.5</b> Inference with likelihood:</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Bayesian Statistics</b></span></li>
+<li class="chapter" data-level="7" data-path="07-bayes1.html"><a href="07-bayes1.html"><i class="fa fa-check"></i><b>7</b> Essentials of Bayesian statistics</a><ul>
+<li class="chapter" data-level="7.1" data-path="07-bayes1.html"><a href="07-bayes1.html#bayes-theorem"><i class="fa fa-check"></i><b>7.1</b> Bayes’ theorem</a></li>
+<li class="chapter" data-level="7.2" data-path="07-bayes1.html"><a href="07-bayes1.html#principle-of-bayesian-learning"><i class="fa fa-check"></i><b>7.2</b> Principle of Bayesian learning</a></li>
+<li class="chapter" data-level="7.3" data-path="07-bayes1.html"><a href="07-bayes1.html#what-is-exactly-is-the-bayesian-estimate"><i class="fa fa-check"></i><b>7.3</b> What is exactly is the “Bayesian estimate”?</a></li>
+<li class="chapter" data-level="7.4" data-path="07-bayes1.html"><a href="07-bayes1.html#computer-implementation-of-bayesian-learning"><i class="fa fa-check"></i><b>7.4</b> Computer implementation of Bayesian learning</a></li>
+<li class="chapter" data-level="7.5" data-path="07-bayes1.html"><a href="07-bayes1.html#bayesian-interpretation-of-probability"><i class="fa fa-check"></i><b>7.5</b> Bayesian interpretation of probability</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="07-bayes1.html"><a href="07-bayes1.html#what-makes-you-bayesian"><i class="fa fa-check"></i><b>7.5.1</b> What makes you “Bayesian”?</a></li>
+<li class="chapter" data-level="7.5.2" data-path="07-bayes1.html"><a href="07-bayes1.html#mathematics-of-probability"><i class="fa fa-check"></i><b>7.5.2</b> Mathematics of probability</a></li>
+<li class="chapter" data-level="7.5.3" data-path="07-bayes1.html"><a href="07-bayes1.html#interpretations-of-probability"><i class="fa fa-check"></i><b>7.5.3</b> Interpretations of probability</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="07-bayes1.html"><a href="07-bayes1.html#historical-developments"><i class="fa fa-check"></i><b>7.6</b> Historical developments</a></li>
+<li class="chapter" data-level="7.7" data-path="07-bayes1.html"><a href="07-bayes1.html#connection-with-entropy-learning"><i class="fa fa-check"></i><b>7.7</b> Connection with entropy learning</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="07-bayes1.html"><a href="07-bayes1.html#zero-forcing-property"><i class="fa fa-check"></i><b>7.7.1</b> Zero forcing property</a></li>
+<li class="chapter" data-level="7.7.2" data-path="07-bayes1.html"><a href="07-bayes1.html#connection-with-entropy-learning-1"><i class="fa fa-check"></i><b>7.7.2</b> Connection with entropy learning</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-bayes2.html"><a href="08-bayes2.html"><i class="fa fa-check"></i><b>8</b> Beta-Binomial model for estimating a proportion</a><ul>
+<li class="chapter" data-level="8.1" data-path="08-bayes2.html"><a href="08-bayes2.html#binomial-likelihood"><i class="fa fa-check"></i><b>8.1</b> Binomial likelihood</a></li>
+<li class="chapter" data-level="8.2" data-path="08-bayes2.html"><a href="08-bayes2.html#excursion-properties-of-the-beta-distribution"><i class="fa fa-check"></i><b>8.2</b> Excursion: Properties of the Beta distribution</a></li>
+<li class="chapter" data-level="8.3" data-path="08-bayes2.html"><a href="08-bayes2.html#beta-prior-distribution"><i class="fa fa-check"></i><b>8.3</b> Beta prior distribution</a></li>
+<li class="chapter" data-level="8.4" data-path="08-bayes2.html"><a href="08-bayes2.html#computing-the-posterior-distribution"><i class="fa fa-check"></i><b>8.4</b> Computing the posterior distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-bayes3.html"><a href="09-bayes3.html"><i class="fa fa-check"></i><b>9</b> Properties of Bayesian learning</a><ul>
+<li class="chapter" data-level="9.1" data-path="09-bayes3.html"><a href="09-bayes3.html#prior-acting-as-pseudo-data"><i class="fa fa-check"></i><b>9.1</b> Prior acting as pseudo-data</a></li>
+<li class="chapter" data-level="9.2" data-path="09-bayes3.html"><a href="09-bayes3.html#linear-shrinkage-of-mean"><i class="fa fa-check"></i><b>9.2</b> Linear shrinkage of mean</a></li>
+<li class="chapter" data-level="9.3" data-path="09-bayes3.html"><a href="09-bayes3.html#conjugacy-of-prior-and-posterior-distribution"><i class="fa fa-check"></i><b>9.3</b> Conjugacy of prior and posterior distribution</a></li>
+<li class="chapter" data-level="9.4" data-path="09-bayes3.html"><a href="09-bayes3.html#large-sample-asymptotics"><i class="fa fa-check"></i><b>9.4</b> Large sample asymptotics</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="09-bayes3.html"><a href="09-bayes3.html#large-sample-limits-of-mean-and-variance"><i class="fa fa-check"></i><b>9.4.1</b> Large sample limits of mean and variance</a></li>
+<li class="chapter" data-level="9.4.2" data-path="09-bayes3.html"><a href="09-bayes3.html#asymptotic-normality-of-the-posterior-distribution"><i class="fa fa-check"></i><b>9.4.2</b> Asymptotic Normality of the Posterior distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="09-bayes3.html"><a href="09-bayes3.html#posterior-variance-for-finite-n"><i class="fa fa-check"></i><b>9.5</b> Posterior variance for finite <span class="math inline">\(n\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-bayes4.html"><a href="10-bayes4.html"><i class="fa fa-check"></i><b>10</b> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a><ul>
+<li class="chapter" data-level="10.1" data-path="10-bayes4.html"><a href="10-bayes4.html#normal-normal-model-to-estimate-mean"><i class="fa fa-check"></i><b>10.1</b> Normal-Normal model to estimate mean</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="10-bayes4.html"><a href="10-bayes4.html#normal-likelihood"><i class="fa fa-check"></i><b>10.1.1</b> Normal likelihood</a></li>
+<li class="chapter" data-level="10.1.2" data-path="10-bayes4.html"><a href="10-bayes4.html#normal-prior-distribution"><i class="fa fa-check"></i><b>10.1.2</b> Normal prior distribution</a></li>
+<li class="chapter" data-level="10.1.3" data-path="10-bayes4.html"><a href="10-bayes4.html#normal-posterior-distribution"><i class="fa fa-check"></i><b>10.1.3</b> Normal posterior distribution</a></li>
+<li class="chapter" data-level="10.1.4" data-path="10-bayes4.html"><a href="10-bayes4.html#large-sample-asymptotics-and-stein-paradox"><i class="fa fa-check"></i><b>10.1.4</b> Large sample asymptotics and Stein paradox</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="10-bayes4.html"><a href="10-bayes4.html#inverse-gamma-normal-model-to-estimate-variance"><i class="fa fa-check"></i><b>10.2</b> Inverse-Gamma-Normal model to estimate variance</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="10-bayes4.html"><a href="10-bayes4.html#inverse-gamma-distribution"><i class="fa fa-check"></i><b>10.2.1</b> Inverse Gamma distribution</a></li>
+<li class="chapter" data-level="10.2.2" data-path="10-bayes4.html"><a href="10-bayes4.html#normal-likelihoood"><i class="fa fa-check"></i><b>10.2.2</b> Normal likelihoood</a></li>
+<li class="chapter" data-level="10.2.3" data-path="10-bayes4.html"><a href="10-bayes4.html#inverse-gamma-prior-distribution"><i class="fa fa-check"></i><b>10.2.3</b> Inverse Gamma prior distribution</a></li>
+<li class="chapter" data-level="10.2.4" data-path="10-bayes4.html"><a href="10-bayes4.html#inverse-gamma-posterior-distribution"><i class="fa fa-check"></i><b>10.2.4</b> Inverse Gamma posterior distribution</a></li>
+<li class="chapter" data-level="10.2.5" data-path="10-bayes4.html"><a href="10-bayes4.html#large-sample-asymptotics-1"><i class="fa fa-check"></i><b>10.2.5</b> Large sample asymptotics</a></li>
+<li class="chapter" data-level="10.2.6" data-path="10-bayes4.html"><a href="10-bayes4.html#estimating-precision"><i class="fa fa-check"></i><b>10.2.6</b> Estimating precision</a></li>
+<li class="chapter" data-level="10.2.7" data-path="10-bayes4.html"><a href="10-bayes4.html#joint-estimation-of-mean-and-variance"><i class="fa fa-check"></i><b>10.2.7</b> Joint estimation of mean and variance</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-bayes5.html"><a href="11-bayes5.html"><i class="fa fa-check"></i><b>11</b> Shrinkage estimation using empirical risk minimisation</a><ul>
+<li class="chapter" data-level="11.1" data-path="11-bayes5.html"><a href="11-bayes5.html#linear-shrinkage"><i class="fa fa-check"></i><b>11.1</b> Linear shrinkage</a></li>
+<li class="chapter" data-level="11.2" data-path="11-bayes5.html"><a href="11-bayes5.html#james-stein-estimator"><i class="fa fa-check"></i><b>11.2</b> James-Stein estimator</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="12-bayes6.html"><a href="12-bayes6.html"><i class="fa fa-check"></i><b>12</b> Bayesian model comparison using Bayes factors and the BIC</a><ul>
+<li class="chapter" data-level="12.1" data-path="12-bayes6.html"><a href="12-bayes6.html#the-bayes-factor"><i class="fa fa-check"></i><b>12.1</b> The Bayes factor</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="12-bayes6.html"><a href="12-bayes6.html#connection-with-relative-entropy"><i class="fa fa-check"></i><b>12.1.1</b> Connection with relative entropy</a></li>
+<li class="chapter" data-level="12.1.2" data-path="12-bayes6.html"><a href="12-bayes6.html#interpretation-of-and-scale-for-bayes-factor"><i class="fa fa-check"></i><b>12.1.2</b> Interpretation of and scale for Bayes factor</a></li>
+<li class="chapter" data-level="12.1.3" data-path="12-bayes6.html"><a href="12-bayes6.html#computing-textprd-m-for-simple-and-composite-models"><i class="fa fa-check"></i><b>12.1.3</b> Computing <span class="math inline">\(\text{Pr}(D | M)\)</span> for simple and composite models</a></li>
+<li class="chapter" data-level="12.1.4" data-path="12-bayes6.html"><a href="12-bayes6.html#bayes-factor-versus-likelihood-ratio"><i class="fa fa-check"></i><b>12.1.4</b> Bayes factor versus likelihood ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="12-bayes6.html"><a href="12-bayes6.html#approximate-computation-of-the-marginal-likelihood-and-of-the-log-bayes-factor"><i class="fa fa-check"></i><b>12.2</b> Approximate computation of the marginal likelihood and of the log-Bayes factor</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="12-bayes6.html"><a href="12-bayes6.html#schwarz-1978-approximation-of-log-marginal-likelihood"><i class="fa fa-check"></i><b>12.2.1</b> Schwarz (1978) approximation of log-marginal likelihood</a></li>
+<li class="chapter" data-level="12.2.2" data-path="12-bayes6.html"><a href="12-bayes6.html#bayesian-information-criterion-bic"><i class="fa fa-check"></i><b>12.2.2</b> Bayesian information criterion (BIC)</a></li>
+<li class="chapter" data-level="12.2.3" data-path="12-bayes6.html"><a href="12-bayes6.html#approximating-the-weight-of-evidence-log-bayes-factor-with-bic"><i class="fa fa-check"></i><b>12.2.3</b> Approximating the weight of evidence (log-Bayes factor) with BIC</a></li>
+<li class="chapter" data-level="12.2.4" data-path="12-bayes6.html"><a href="12-bayes6.html#model-complexity-and-occams-razor"><i class="fa fa-check"></i><b>12.2.4</b> Model complexity and Occams razor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="13-bayes7.html"><a href="13-bayes7.html"><i class="fa fa-check"></i><b>13</b> False discovery rates</a><ul>
+<li class="chapter" data-level="13.1" data-path="13-bayes7.html"><a href="13-bayes7.html#general-setup"><i class="fa fa-check"></i><b>13.1</b> General setup</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="13-bayes7.html"><a href="13-bayes7.html#overview-1"><i class="fa fa-check"></i><b>13.1.1</b> Overview</a></li>
+<li class="chapter" data-level="13.1.2" data-path="13-bayes7.html"><a href="13-bayes7.html#choosing-between-h_0-and-h_a"><i class="fa fa-check"></i><b>13.1.2</b> Choosing between <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span></a></li>
+<li class="chapter" data-level="13.1.3" data-path="13-bayes7.html"><a href="13-bayes7.html#true-and-false-positives-and-negatives"><i class="fa fa-check"></i><b>13.1.3</b> True and false positives and negatives</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="13-bayes7.html"><a href="13-bayes7.html#specificity-and-sensitivity"><i class="fa fa-check"></i><b>13.2</b> Specificity and Sensitivity</a></li>
+<li class="chapter" data-level="13.3" data-path="13-bayes7.html"><a href="13-bayes7.html#fdr-and-fndr"><i class="fa fa-check"></i><b>13.3</b> FDR and FNDR</a></li>
+<li class="chapter" data-level="13.4" data-path="13-bayes7.html"><a href="13-bayes7.html#bayesian-perspective"><i class="fa fa-check"></i><b>13.4</b> Bayesian perspective</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="13-bayes7.html"><a href="13-bayes7.html#two-component-mixture-model"><i class="fa fa-check"></i><b>13.4.1</b> Two component mixture model</a></li>
+<li class="chapter" data-level="13.4.2" data-path="13-bayes7.html"><a href="13-bayes7.html#local-fdr"><i class="fa fa-check"></i><b>13.4.2</b> Local FDR</a></li>
+<li class="chapter" data-level="13.4.3" data-path="13-bayes7.html"><a href="13-bayes7.html#q-values"><i class="fa fa-check"></i><b>13.4.3</b> q-values</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="13-bayes7.html"><a href="13-bayes7.html#software"><i class="fa fa-check"></i><b>13.5</b> Software</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="14-bayes8.html"><a href="14-bayes8.html"><i class="fa fa-check"></i><b>14</b> Optimality properties and summary</a><ul>
+<li class="chapter" data-level="14.1" data-path="14-bayes8.html"><a href="14-bayes8.html#bayesian-statistics-in-a-nutshell"><i class="fa fa-check"></i><b>14.1</b> Bayesian statistics in a nutshell</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="14-bayes8.html"><a href="14-bayes8.html#remarks"><i class="fa fa-check"></i><b>14.1.1</b> Remarks</a></li>
+<li class="chapter" data-level="14.1.2" data-path="14-bayes8.html"><a href="14-bayes8.html#advantages"><i class="fa fa-check"></i><b>14.1.2</b> Advantages</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="14-bayes8.html"><a href="14-bayes8.html#frequentist-properties-of-bayesian-estimators"><i class="fa fa-check"></i><b>14.2</b> Frequentist properties of Bayesian estimators</a></li>
+<li class="chapter" data-level="14.3" data-path="14-bayes8.html"><a href="14-bayes8.html#specifying-the-prior-problem-or-advantage"><i class="fa fa-check"></i><b>14.3</b> Specifying the prior — problem or advantage?</a></li>
+<li class="chapter" data-level="14.4" data-path="14-bayes8.html"><a href="14-bayes8.html#choosing-a-prior"><i class="fa fa-check"></i><b>14.4</b> Choosing a prior</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="14-bayes8.html"><a href="14-bayes8.html#some-guidelines"><i class="fa fa-check"></i><b>14.4.1</b> Some guidelines</a></li>
+<li class="chapter" data-level="14.4.2" data-path="14-bayes8.html"><a href="14-bayes8.html#jeffreys-prior"><i class="fa fa-check"></i><b>14.4.2</b> Jeffreys prior</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="14-bayes8.html"><a href="14-bayes8.html#optimality-of-bayes-inference"><i class="fa fa-check"></i><b>14.5</b> Optimality of Bayes inference</a></li>
+<li class="chapter" data-level="14.6" data-path="14-bayes8.html"><a href="14-bayes8.html#conclusion"><i class="fa fa-check"></i><b>14.6</b> Conclusion</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="14-bayes8.html"><a href="14-bayes8.html#current-research"><i class="fa fa-check"></i><b>14.6.1</b> Current research</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Regression</b></span></li>
+<li class="chapter" data-level="15" data-path="15-regression1.html"><a href="15-regression1.html"><i class="fa fa-check"></i><b>15</b> Overview over regression modelling</a><ul>
+<li class="chapter" data-level="15.1" data-path="15-regression1.html"><a href="15-regression1.html#general-setup-1"><i class="fa fa-check"></i><b>15.1</b> General setup</a></li>
+<li class="chapter" data-level="15.2" data-path="15-regression1.html"><a href="15-regression1.html#objectives"><i class="fa fa-check"></i><b>15.2</b> Objectives</a></li>
+<li class="chapter" data-level="15.3" data-path="15-regression1.html"><a href="15-regression1.html#regression-as-a-form-of-supervised-learning"><i class="fa fa-check"></i><b>15.3</b> Regression as a form of supervised learning</a></li>
+<li class="chapter" data-level="15.4" data-path="15-regression1.html"><a href="15-regression1.html#various-regression-models-used-in-statistics"><i class="fa fa-check"></i><b>15.4</b> Various regression models used in statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-regression2.html"><a href="16-regression2.html"><i class="fa fa-check"></i><b>16</b> Linear Regression</a><ul>
+<li class="chapter" data-level="16.1" data-path="16-regression2.html"><a href="16-regression2.html#the-linear-regression-model"><i class="fa fa-check"></i><b>16.1</b> The linear regression model</a></li>
+<li class="chapter" data-level="16.2" data-path="16-regression2.html"><a href="16-regression2.html#interpretation-of-regression-coefficients-and-intercept"><i class="fa fa-check"></i><b>16.2</b> Interpretation of regression coefficients and intercept</a></li>
+<li class="chapter" data-level="16.3" data-path="16-regression2.html"><a href="16-regression2.html#different-types-of-linear-regression"><i class="fa fa-check"></i><b>16.3</b> Different types of linear regression:</a></li>
+<li class="chapter" data-level="16.4" data-path="16-regression2.html"><a href="16-regression2.html#distributional-assumptions-and-properties"><i class="fa fa-check"></i><b>16.4</b> Distributional assumptions and properties</a></li>
+<li class="chapter" data-level="16.5" data-path="16-regression2.html"><a href="16-regression2.html#regression-in-data-matrix-notation"><i class="fa fa-check"></i><b>16.5</b> Regression in data matrix notation</a></li>
+<li class="chapter" data-level="16.6" data-path="16-regression2.html"><a href="16-regression2.html#centering-and-vanishing-of-the-intercept-beta_0"><i class="fa fa-check"></i><b>16.6</b> Centering and vanishing of the intercept <span class="math inline">\(\beta_0\)</span></a></li>
+<li class="chapter" data-level="16.7" data-path="16-regression2.html"><a href="16-regression2.html#regression-objectives-for-linear-model"><i class="fa fa-check"></i><b>16.7</b> Regression objectives for linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="17-regression3.html"><a href="17-regression3.html"><i class="fa fa-check"></i><b>17</b> Essential multivariate statistics</a><ul>
+<li class="chapter" data-level="17.1" data-path="17-regression3.html"><a href="17-regression3.html#notation"><i class="fa fa-check"></i><b>17.1</b> Notation</a></li>
+<li class="chapter" data-level="17.2" data-path="17-regression3.html"><a href="17-regression3.html#univariate-random-variables"><i class="fa fa-check"></i><b>17.2</b> Univariate random variables</a></li>
+<li class="chapter" data-level="17.3" data-path="17-regression3.html"><a href="17-regression3.html#multivariate-random-vector-of-dimension-d"><i class="fa fa-check"></i><b>17.3</b> Multivariate random vector of dimension <span class="math inline">\(d\)</span></a></li>
+<li class="chapter" data-level="17.4" data-path="17-regression3.html"><a href="17-regression3.html#moments-of-a-random-vector"><i class="fa fa-check"></i><b>17.4</b> Moments of a random vector</a></li>
+<li class="chapter" data-level="17.5" data-path="17-regression3.html"><a href="17-regression3.html#definition-of-variance-for-univariate-random-variable"><i class="fa fa-check"></i><b>17.5</b> Definition of variance for univariate random variable:</a></li>
+<li class="chapter" data-level="17.6" data-path="17-regression3.html"><a href="17-regression3.html#definition-of-variance-of-a-random-vector"><i class="fa fa-check"></i><b>17.6</b> Definition of variance of a random vector:</a></li>
+<li class="chapter" data-level="17.7" data-path="17-regression3.html"><a href="17-regression3.html#correlation-matrix-boldsymbol-p-or-standardised-covariance-matrix"><i class="fa fa-check"></i><b>17.7</b> Correlation Matrix <span class="math inline">\(\boldsymbol P\)</span> or Standardised Covariance Matrix</a></li>
+<li class="chapter" data-level="17.8" data-path="17-regression3.html"><a href="17-regression3.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>17.8</b> Multivariate Normal Distribution</a><ul>
+<li class="chapter" data-level="17.8.1" data-path="17-regression3.html"><a href="17-regression3.html#univariate-normal-model"><i class="fa fa-check"></i><b>17.8.1</b> Univariate Normal Model</a></li>
+<li class="chapter" data-level="17.8.2" data-path="17-regression3.html"><a href="17-regression3.html#multivariate-normal-model"><i class="fa fa-check"></i><b>17.8.2</b> Multivariate Normal Model</a></li>
+</ul></li>
+<li class="chapter" data-level="17.9" data-path="17-regression3.html"><a href="17-regression3.html#maximum-likelihood-estimates"><i class="fa fa-check"></i><b>17.9</b> Maximum likelihood estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-regression4.html"><a href="18-regression4.html"><i class="fa fa-check"></i><b>18</b> Estimating regression coefficients</a><ul>
+<li class="chapter" data-level="18.1" data-path="18-regression4.html"><a href="18-regression4.html#ordinary-least-squares-ols-estimator-of-regression-coefficients"><i class="fa fa-check"></i><b>18.1</b> Ordinary Least Squares (OLS) estimator of regression coefficients</a></li>
+<li class="chapter" data-level="18.2" data-path="18-regression4.html"><a href="18-regression4.html#maximum-likelihood-estimation-of-regression-coefficients"><i class="fa fa-check"></i><b>18.2</b> Maximum likelihood estimation of regression coefficients</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="18-regression4.html"><a href="18-regression4.html#detailed-derivation-of-the-mles"><i class="fa fa-check"></i><b>18.2.1</b> Detailed derivation of the MLEs</a></li>
+<li class="chapter" data-level="18.2.2" data-path="18-regression4.html"><a href="18-regression4.html#asymptotics"><i class="fa fa-check"></i><b>18.2.2</b> Asymptotics</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="18-regression4.html"><a href="18-regression4.html#covariance-plug-in-estimator-of-regression-coefficients"><i class="fa fa-check"></i><b>18.3</b> Covariance plug-in estimator of regression coefficients</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="18-regression4.html"><a href="18-regression4.html#importance-of-positive-definiteness-of-estimated-covariance-matrix"><i class="fa fa-check"></i><b>18.3.1</b> Importance of positive definiteness of estimated covariance matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="18-regression4.html"><a href="18-regression4.html#best-linear-predictor"><i class="fa fa-check"></i><b>18.4</b> Best linear predictor</a><ul>
+<li class="chapter" data-level="18.4.1" data-path="18-regression4.html"><a href="18-regression4.html#result"><i class="fa fa-check"></i><b>18.4.1</b> Result:</a></li>
+<li class="chapter" data-level="18.4.2" data-path="18-regression4.html"><a href="18-regression4.html#irreducible-error"><i class="fa fa-check"></i><b>18.4.2</b> Irreducible Error</a></li>
+</ul></li>
+<li class="chapter" data-level="18.5" data-path="18-regression4.html"><a href="18-regression4.html#regression-by-conditioning"><i class="fa fa-check"></i><b>18.5</b> Regression by conditioning</a><ul>
+<li class="chapter" data-level="18.5.1" data-path="18-regression4.html"><a href="18-regression4.html#general-idea"><i class="fa fa-check"></i><b>18.5.1</b> General idea:</a></li>
+<li class="chapter" data-level="18.5.2" data-path="18-regression4.html"><a href="18-regression4.html#multivariate-normal-assumption"><i class="fa fa-check"></i><b>18.5.2</b> Multivariate normal assumption</a></li>
+</ul></li>
+<li class="chapter" data-level="18.6" data-path="18-regression4.html"><a href="18-regression4.html#standardised-regression-coefficients-and-relationship-to-correlation"><i class="fa fa-check"></i><b>18.6</b> Standardised regression coefficients and relationship to correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="19-regression5.html"><a href="19-regression5.html"><i class="fa fa-check"></i><b>19</b> Squared multiple correlation and variance decomposition in linear regression</a><ul>
+<li class="chapter" data-level="19.1" data-path="19-regression5.html"><a href="19-regression5.html#squared-multiple-correlation-omega2-and-the-r2-coefficient"><i class="fa fa-check"></i><b>19.1</b> Squared multiple correlation <span class="math inline">\(\Omega^2\)</span> and the <span class="math inline">\(R^2\)</span> coefficient</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="19-regression5.html"><a href="19-regression5.html#estimation-of-omega2-and-the-multiple-r2-coefficient"><i class="fa fa-check"></i><b>19.1.1</b> Estimation of <span class="math inline">\(\Omega^2\)</span> and the multiple <span class="math inline">\(R^2\)</span> coefficient</a></li>
+<li class="chapter" data-level="19.1.2" data-path="19-regression5.html"><a href="19-regression5.html#r-output"><i class="fa fa-check"></i><b>19.1.2</b> R output</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="19-regression5.html"><a href="19-regression5.html#variance-decomposition-in-regression"><i class="fa fa-check"></i><b>19.2</b> Variance decomposition in regression</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="19-regression5.html"><a href="19-regression5.html#law-of-total-variance-and-variance-decomposition"><i class="fa fa-check"></i><b>19.2.1</b> Law of total variance and variance decomposition</a></li>
+<li class="chapter" data-level="19.2.2" data-path="19-regression5.html"><a href="19-regression5.html#related-quantities"><i class="fa fa-check"></i><b>19.2.2</b> Related quantities</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="19-regression5.html"><a href="19-regression5.html#sample-version-of-variance-decomposition"><i class="fa fa-check"></i><b>19.3</b> Sample version of variance decomposition</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="19-regression5.html"><a href="19-regression5.html#geometric-interpretation-of-regression-as-orthogonal-projection"><i class="fa fa-check"></i><b>19.3.1</b> Geometric interpretation of regression as orthogonal projection:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="20-regression6.html"><a href="20-regression6.html"><i class="fa fa-check"></i><b>20</b> Prediction and variable selection</a><ul>
+<li class="chapter" data-level="20.1" data-path="20-regression6.html"><a href="20-regression6.html#prediction-and-prediction-intervals"><i class="fa fa-check"></i><b>20.1</b> Prediction and prediction intervals</a></li>
+<li class="chapter" data-level="20.2" data-path="20-regression6.html"><a href="20-regression6.html#variable-importance-and-prediction"><i class="fa fa-check"></i><b>20.2</b> Variable importance and prediction</a><ul>
+<li class="chapter" data-level="20.2.1" data-path="20-regression6.html"><a href="20-regression6.html#how-to-quantify-variable-importance"><i class="fa fa-check"></i><b>20.2.1</b> How to quantify variable importance?</a></li>
+<li class="chapter" data-level="20.2.2" data-path="20-regression6.html"><a href="20-regression6.html#some-candidates-for-vims"><i class="fa fa-check"></i><b>20.2.2</b> Some candidates for VIMs</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="20-regression6.html"><a href="20-regression6.html#regression-t-scores."><i class="fa fa-check"></i><b>20.3</b> Regression <span class="math inline">\(t\)</span>-scores.</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="20-regression6.html"><a href="20-regression6.html#computation"><i class="fa fa-check"></i><b>20.3.1</b> Computation</a></li>
+<li class="chapter" data-level="20.3.2" data-path="20-regression6.html"><a href="20-regression6.html#connection-with-partial-correlation"><i class="fa fa-check"></i><b>20.3.2</b> Connection with partial correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="20-regression6.html"><a href="20-regression6.html#further-approaches-for-variable-selection"><i class="fa fa-check"></i><b>20.4</b> Further approaches for variable selection</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="21-refresher.html"><a href="21-refresher.html"><i class="fa fa-check"></i><b>A</b> Refresher</a><ul>
+<li class="chapter" data-level="A.1" data-path="21-refresher.html"><a href="21-refresher.html#vectors-and-matrices"><i class="fa fa-check"></i><b>A.1</b> Vectors and matrices</a></li>
+<li class="chapter" data-level="A.2" data-path="21-refresher.html"><a href="21-refresher.html#functions"><i class="fa fa-check"></i><b>A.2</b> Functions</a><ul>
+<li class="chapter" data-level="A.2.1" data-path="21-refresher.html"><a href="21-refresher.html#gradient"><i class="fa fa-check"></i><b>A.2.1</b> Gradient</a></li>
+<li class="chapter" data-level="A.2.2" data-path="21-refresher.html"><a href="21-refresher.html#hessian-matrix"><i class="fa fa-check"></i><b>A.2.2</b> Hessian matrix</a></li>
+<li class="chapter" data-level="A.2.3" data-path="21-refresher.html"><a href="21-refresher.html#conditions-for-local-maximum-of-a-function"><i class="fa fa-check"></i><b>A.2.3</b> Conditions for local maximum of a function</a></li>
+<li class="chapter" data-level="A.2.4" data-path="21-refresher.html"><a href="21-refresher.html#linear-and-quadratic-approximation-taylor-series"><i class="fa fa-check"></i><b>A.2.4</b> Linear and quadratic approximation (Taylor series)</a></li>
+<li class="chapter" data-level="A.2.5" data-path="21-refresher.html"><a href="21-refresher.html#functions-of-matrices"><i class="fa fa-check"></i><b>A.2.5</b> Functions of matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="21-refresher.html"><a href="21-refresher.html#probability"><i class="fa fa-check"></i><b>A.3</b> Probability</a><ul>
+<li class="chapter" data-level="A.3.1" data-path="21-refresher.html"><a href="21-refresher.html#law-of-large-numbers"><i class="fa fa-check"></i><b>A.3.1</b> Law of large numbers:</a></li>
+<li class="chapter" data-level="A.3.2" data-path="21-refresher.html"><a href="21-refresher.html#jensens-inequality"><i class="fa fa-check"></i><b>A.3.2</b> Jensen’s inequality</a></li>
+<li class="chapter" data-level="A.3.3" data-path="21-refresher.html"><a href="21-refresher.html#transformation-of-univariate-densities"><i class="fa fa-check"></i><b>A.3.3</b> Transformation of univariate densities</a></li>
+<li class="chapter" data-level="A.3.4" data-path="21-refresher.html"><a href="21-refresher.html#normal-distribution"><i class="fa fa-check"></i><b>A.3.4</b> Normal distribution</a></li>
+<li class="chapter" data-level="A.3.5" data-path="21-refresher.html"><a href="21-refresher.html#chi-square-distribution"><i class="fa fa-check"></i><b>A.3.5</b> Chi-square distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="A.4" data-path="21-refresher.html"><a href="21-refresher.html#statistics"><i class="fa fa-check"></i><b>A.4</b> Statistics</a><ul>
+<li class="chapter" data-level="A.4.1" data-path="21-refresher.html"><a href="21-refresher.html#statistical-learning"><i class="fa fa-check"></i><b>A.4.1</b> Statistical learning</a></li>
+<li class="chapter" data-level="A.4.2" data-path="21-refresher.html"><a href="21-refresher.html#point-and-interval-estimation"><i class="fa fa-check"></i><b>A.4.2</b> Point and interval estimation</a></li>
+<li class="chapter" data-level="A.4.3" data-path="21-refresher.html"><a href="21-refresher.html#sampling-properties-of-a-point-estimator-hatboldsymbol-theta"><i class="fa fa-check"></i><b>A.4.3</b> Sampling properties of a point estimator <span class="math inline">\(\hat{\boldsymbol \theta}\)</span></a></li>
+<li class="chapter" data-level="A.4.4" data-path="21-refresher.html"><a href="21-refresher.html#asymptotics-1"><i class="fa fa-check"></i><b>A.4.4</b> Asymptotics</a></li>
+<li class="chapter" data-level="A.4.5" data-path="21-refresher.html"><a href="21-refresher.html#confidence-intervals"><i class="fa fa-check"></i><b>A.4.5</b> Confidence intervals</a></li>
+<li class="chapter" data-level="A.4.6" data-path="21-refresher.html"><a href="21-refresher.html#symmetric-normal-confidence-interval"><i class="fa fa-check"></i><b>A.4.6</b> Symmetric normal confidence interval</a></li>
+<li class="chapter" data-level="A.4.7" data-path="21-refresher.html"><a href="21-refresher.html#chi-square-confidence-interval"><i class="fa fa-check"></i><b>A.4.7</b> Chi-square confidence interval</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="22-further-study.html"><a href="22-further-study.html"><i class="fa fa-check"></i><b>B</b> Further study</a><ul>
+<li class="chapter" data-level="B.1" data-path="22-further-study.html"><a href="22-further-study.html#recommended-reading"><i class="fa fa-check"></i><b>B.1</b> Recommended reading</a></li>
+<li class="chapter" data-level="B.2" data-path="22-further-study.html"><a href="22-further-study.html#additional-references"><i class="fa fa-check"></i><b>B.2</b> Additional references</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="23-references.html"><a href="23-references.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><div class="line-block">Statistical Methods:<br />
+Likelihood, Bayes and Regression</div></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="maximum-likelihood-estimation" class="section level1">
+<h1><span class="header-section-number">3</span> Maximum likelihood estimation</h1>
+<div id="principle-of-maximum-likelihood-estimation" class="section level2">
+<h2><span class="header-section-number">3.1</span> Principle of maximum likelihood estimation</h2>
+<div id="outline" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Outline</h3>
+<p>This chapter discusses maximum likelihood (ML) estimation, in particular ML point estimation, and provides a number of worked examples of ML estimators. We then list a number of optimality properties of maximum likelihood point estimates.</p>
+<p>Starting point:</p>
+<ul>
+<li>model <span class="math inline">\(f(x|\boldsymbol \theta)\)</span></li>
+<li>data <span class="math inline">\(x_1,\ldots,x_n\)</span></li>
+</ul>
+<p>Likelihood:</p>
+<ul>
+<li>Likelihood of the model is the probability of observed data given the model <span class="math inline">\(\text{Pr}(x_1,\dots,x_n|\boldsymbol \theta)\)</span></li>
+<li>Note that this is different from <span class="math inline">\(\text{Pr}(\boldsymbol \theta|x_1,\dots,x_n)\)</span>, i.e. the probability of the model given the
+observed data. This is used in Bayesian learning (see later in the course)</li>
+</ul>
+<p>Likelihood function:</p>
+<ul>
+<li><span class="math inline">\(L(\boldsymbol \theta|x_1,\dots,x_n)=\prod_{i=1}^{n} f(x_i|\boldsymbol \theta)\)</span></li>
+</ul>
+<p>Log-Likelihood function:</p>
+<ul>
+<li><span class="math inline">\(l_n(\boldsymbol \theta|x_1,\dots,x_n)=\sum_{i=1}^n \log f(x_i|\boldsymbol \theta)\)</span></li>
+</ul>
+<p>The log-likelihood is additive over the samples <span class="math inline">\(x_i\)</span></p>
+<p>Maximum Likelihood Estimator:</p>
+<p><img src="fig/lecture3_p3.PNG" width="80%" style="display: block; margin: auto;" /></p>
+<p><span class="math display">\[\hat{\boldsymbol \theta}^{MLE} = \text{arg max} l_n(\boldsymbol \theta|x_1,\dots,x_n)\]</span></p>
+</div>
+<div id="recipe-for-obtaining-mles" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Recipe for obtaining MLEs</h3>
+<ol style="list-style-type: decimal">
+<li>Specify probabilistic model</li>
+<li>Write down log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta|x_1,\dots,x_n)\)</span></li>
+<li>Maximise <span class="math inline">\(l_n(\boldsymbol \theta|x_1,\dots,x_n)\)</span></li>
+</ol>
+<p>To maximise <span class="math inline">\(l_n\)</span> one usually uses the <strong>Score Function</strong> <span class="math inline">\(\boldsymbol S(\boldsymbol \theta)\)</span></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{cc}
+\text{S}(\theta) = \frac{d l_n(\theta|x_1,\dots,x_n)}{d \theta}\\
+\\
+\\
+\textbf{S}(\boldsymbol{\boldsymbol \theta})=\nabla l_n(\boldsymbol{\theta}|x_1,\dots,x_n)\\
+\\
+\end{array}
+\begin{array}{ll}
+\text{scalar parameter: first derivative}\\
+\text{of log-likelihood function}\\
+\\
+\text{gradient if } \boldsymbol{\theta} \text{ is a vector}\\
+\text{(i.e. if there&#39;s more than one parameter)}\\
+\end{array}
+\end{align*}\]</span></p>
+<p>A necessary (but not sufficient) condition for the MLE is that
+<span class="math display">\[
+\boldsymbol S(\hat{\boldsymbol \theta}_{ML}) = 0
+\]</span></p>
+<p>To demonstrate that the log-likelihood function actually achieves a
+maximum at <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> you also need to check that the curvature
+at the MLE is negative.</p>
+<p>In the case of a single parameter (univariate <span class="math inline">\(\theta\)</span>) this requires to check
+that the second derivative of the log-likelihood function is negative:
+<span class="math display">\[
+\frac{d^2 l_n(\hat{\theta}_{ML})}{d \theta^2} &lt;0
+\]</span></p>
+<p>In the case of a parameter vector (multivariate <span class="math inline">\(\boldsymbol \theta\)</span>) you need to compute
+the Hessian matrix (matrix of second order derivatives, <a href="https://en.wikipedia.org/wiki/Hessian_matrix" class="uri">https://en.wikipedia.org/wiki/Hessian_matrix</a> )
+at the MLE:
+<span class="math display">\[
+\nabla^T\nabla l_n(\hat{\boldsymbol \theta}_{ML})
+\]</span>
+and check if this matrix is negative definite (i.e. all its eigenvalues must be negative).</p>
+<p><em>For a revisit of the Hessian matrix and related quantities see the refresher part of the lecture notes!</em></p>
+<p>As we will see in Section 4 in the (negative of) second order derivative of the log-likelihood function also plays an important role for assessing the uncertainty of the MLE.</p>
+</div>
+<div id="invariance-property-of-the-mle" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Invariance property of the MLE</h3>
+<p>Note that the maximisation is a procedure that is invariant against coordinate transformations of the argument:
+Suppose <span class="math inline">\(x_{\max} = \text{arg max } h(x)\)</span> and <span class="math inline">\(y = g(x)\)</span>
+where <span class="math inline">\(g\)</span> is an invertible function.
+Then <span class="math inline">\(y_{\max} = \text{arg max } h( g^{-1}(y) ) = g(x_{\max})\)</span>. The achieved maximum itself remains
+invariant: <span class="math inline">\(h( x_{\max} ) = h(g^{-1}(y_{\max} ) )\)</span>.</p>
+<p>With regard to maximum likelihood estimation this implies the following <strong>invariance property</strong> of the MLE:</p>
+<ul>
+<li>Suppose that <span class="math inline">\(\hat{\theta}_{ML}\)</span> is the MLE of <span class="math inline">\(\theta\)</span>.</li>
+<li>We transform the parameter to <span class="math inline">\(\theta^{\star} = g(\theta)\)</span>
+where <span class="math inline">\(g\)</span> is an invertible function.</li>
+<li>Then <span class="math inline">\(g(\hat{\theta}_{ML})=\hat{\theta}^{\star}\)</span> is the MLE of <span class="math inline">\(\theta^{\star}\)</span>.</li>
+<li>The value of the achieved maximum likelihood is the same
+in both cases.</li>
+</ul>
+<p>The invariance property of MLE can be very useful in practise, because it may be easier to perform the maximisation required for finding the MLE in a particular coordinate system.</p>
+</div>
+</div>
+<div id="examples-of-maximum-likelihood-estimation" class="section level2">
+<h2><span class="header-section-number">3.2</span> Examples of maximum likelihood estimation</h2>
+<div id="example-1-estimation-of-a-proportion" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Example 1: Estimation of a proportion</h3>
+<ul>
+<li>“Coin tossing” follows Bernoulli model: <span class="math inline">\(\text{Pr}(x=\text{&quot;head&quot;}) = p\)</span>, <span class="math inline">\(\text{Pr}(x=\text{&quot;tail&quot;}) = 1-p\)</span></li>
+<li>Parameter: <span class="math inline">\(p\)</span>: probability of “heads”</li>
+<li>We conduct <span class="math inline">\(n\)</span> trials and observe <span class="math inline">\(k\)</span> “heads” and <span class="math inline">\(n-k\)</span> tails</li>
+<li><span class="math inline">\(k\)</span> follows Binomial distribution with <span class="math inline">\(\text{E}(k)=n p\)</span> and <span class="math inline">\(\text{Var}(k) = n p (1-p)\)</span></li>
+</ul>
+<p>What is the MLE of <span class="math inline">\(p\)</span>?</p>
+<ol style="list-style-type: decimal">
+<li>likelihood function: <span class="math inline">\(L(p) = \binom{n}{k}\, p^k (1-p)^{(n-k)}\)</span></li>
+<li>log-likelihood function: <span class="math inline">\(l_n(p) = k \log p + (n-k) \log(1-p) + C\)</span></li>
+<li>Score function <span class="math inline">\(S(p) = \frac{dl_n(p)}{dp}=\frac{k}{p}-\frac{n-k}{1-p}\)</span><br />
+<span class="math inline">\(\text{S}(\hat{p}_{ML})=0 \rightarrow \hat{p}_{ML} = \frac{k}{n}\)</span>
+<span class="math inline">\(\Rightarrow\)</span> the relative frequency is the maximum likelihood estimator!</li>
+<li>As <span class="math inline">\(\frac{dS(p)}{dp} = -\frac{k}{p^2} - \frac{n-k}{(1-p)^2} &lt; 0\)</span> the optimum
+found in previous step corresponds indeed to the maximum of the (log-)likelihood function.</li>
+</ol>
+<p>Note the <strong>constant term <span class="math inline">\(C\)</span> in the log-likelihood function</strong> <span class="math inline">\(l_n(p)\)</span> that collects all terms that do not depend on the argument <span class="math inline">\(p\)</span>. Specifically in the above it
+contains the Binomial coefficient with <span class="math inline">\(C = \log \binom{n}{k}\)</span>.
+After taking the first derivative with regard to <span class="math inline">\(p\)</span> this term
+disappears in <span class="math inline">\(S(p)\)</span>, thus <strong><span class="math inline">\(C\)</span> is not relevant for finding the MLE</strong>
+of <span class="math inline">\(p\)</span>. <strong>In the future we will often omit <span class="math inline">\(C\)</span> from the log-likelihood function without further mention.</strong></p>
+</div>
+<div id="example-2-exponential-distribution" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Example 2: Exponential Distribution</h3>
+<p><span class="math display">\[x \sim Exp(\lambda) \text{ with rate parameter } \lambda &gt; 0\]</span></p>
+<p><span class="math display">\[\text{E}(x)=\frac{1}{\lambda} \text{ and }\text{Var}(x) = \frac{1}{\lambda^2}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{rr}
+\textbf{Density:}\\
+\\
+\textbf{Data:}\\
+\\
+\textbf{Likelihood function:}\\
+\\
+\textbf{Log-Likelihood function:}\\
+\\
+\textbf{Score function:}\\
+\end{array}
+\begin{array}{ll}
+f(x) = \lambda \exp^{-\lambda x} \text{ with } \lambda &gt;0\\
+\\
+x_1,\dots,x_n\\
+\\
+L(\lambda | x_1,\dots,x_n) = \prod_{i=1}^n f(x_i) = \lambda^n \exp(-\lambda \sum_{i=1}^n x_i)\\
+\\
+l_n(\lambda) = n\log\lambda-\lambda \sum_{i=1}^n x_i = n (\log\lambda - \lambda \bar{x}) \\
+\\
+\frac{dl_n(\lambda)}{d\lambda} = S(\lambda) = n ( \frac{1}{\lambda}- \bar{x}) \\
+\end{array}
+\end{align*}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{rr}
+$$S(\hat\lambda_{ML})=0$$\\
+\end{array}
+\begin{array}{ll}
+\Rightarrow \frac{1}{\hat{\lambda}_{ML}}=\bar{x} \Rightarrow \hat{\lambda}_{ML}=\frac{1}{\bar{x}} 
+\end{array}
+\end{align*}\]</span></p>
+<p>Since <span class="math inline">\(\frac{dS(\lambda)}{ \lambda} = -\frac{n}{\lambda^2} &lt;0\)</span> the optimum corresponds indeed to the maximum.</p>
+<p>Note that the maximum likelihood estimator in this case is identical to the estimate
+obtained by the methods of moments (i.e. estimate mean by the average and then substitute in the
+population mean and solve for <span class="math inline">\(\lambda\)</span>).</p>
+</div>
+<div id="example-3-normal-distribution-with-unknown-mean-and-known-variance" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Example 3: Normal distribution with unknown mean and known variance</h3>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{cc}
+x \sim N(\mu,\sigma^2)\\
+\text{E}(x)=\mu\\
+\text{Var}(x) = \sigma^2\\
+\end{array}
+\end{align*}\]</span></p>
+<p>What’s the maximum likelihood estimator for the parameter <span class="math inline">\(\mu\)</span> when <span class="math inline">\(\sigma^2\)</span> is known?</p>
+<ul>
+<li>Density: <span class="math display">\[ f(x)=
+\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></li>
+<li>Log-Density:
+<span class="math display">\[\log f(x) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></li>
+<li>Log-likelihood function: <span class="math display">\[l_n(\mu) = -\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2}\log(2 \pi \sigma^2) }_{\text{constant, can be removed, does not depend on } \mu}\]</span></li>
+<li>Score function: <span class="math display">\[S(\mu)= \frac{1}{\sigma^2}\sum_{i=1}^n(x_i-\mu)\]</span></li>
+<li>Maximum likelihood estimate:
+<span class="math display">\[S(\hat{\mu}_{ML})=0 \Rightarrow \hat{\mu}_{ML} = \frac{1}{n}\sum_{i=1}^n x_i = \bar{x}\]</span></li>
+<li>With <span class="math inline">\(\frac{dS(\mu)}{d\mu} = -\frac{n}{\sigma^2}&lt;0\)</span> the optimum is indeed the maximum</li>
+<li>Log-likelihood at maximum:
+<span class="math display">\[
+l_n(\hat{\mu}_{ML}) = -\frac{n}{2} \frac{s^2_{ML}}{\sigma^2} + \text{constant}
+\]</span>
+with <span class="math inline">\(s^2_{ML} =\frac{1}{n}\sum_{i=1}^n(x_i-\bar{x})^2\)</span>
+— this is the ML estimate of variance, see next examples.</li>
+</ul>
+<p>Note the form of the log-likelihood function! Maximising <span class="math inline">\(l_n(\mu) =-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\)</span>
+is equivalent to <em>minimising</em> <span class="math inline">\(\sum_{i=1}^n(x_i-\mu)^2\)</span>.</p>
+<p>Hence, finding estimates by <strong>maximum likelihood assuming a
+normal model is equivalent to least-squares estimation</strong>.
+Note least-squares estimation is popular in regression and
+will be discussed later in the module.</p>
+</div>
+<div id="example-4-normal-distribution-with-both-mean-and-variance-unknown" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Example 4: Normal Distribution with both mean and variance unknown</h3>
+<p>What’s the maximum likelihood estimator for the parameter
+vector <span class="math inline">\(\boldsymbol \theta= (\mu,\sigma^2)^T\)</span>?</p>
+<ul>
+<li>Density: <span class="math display">\[ f(x)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></li>
+<li>Log-likelihood function: <span class="math display">\[l_n(\boldsymbol \theta) = -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\]</span></li>
+<li>Score function <span class="math inline">\(\boldsymbol S\)</span> (vector!), gradient of <span class="math inline">\(l_n(\boldsymbol \theta)\)</span>:
+<span class="math display">\[\boldsymbol S(\boldsymbol \theta)= \nabla l_n(\boldsymbol \theta) =
+\begin{pmatrix}
+\frac{1}{\sigma^2}\sum_{i=1}^n(x_i-\mu) \\
+-\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum_{i=1}^n(x_i-\mu)^2\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\frac{n}{\sigma^2} (\bar{x}-\mu) \\
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}   \left( \overline{x^2} - 2\bar{x} \mu +\mu^2 \right)  \\
+\end{pmatrix}
+\]</span>
+with <span class="math inline">\(\bar{x}= \frac{1}{n}\sum_{i=1}^n x_i\)</span> and <span class="math inline">\(\overline{x^2} = \frac{1}{n}\sum_{i=1}^n x_i^2\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol S(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow \hat{\boldsymbol \theta}_{ML}=
+\begin{pmatrix}
+   \hat{\mu}_{ML}  \\
+   \widehat{\sigma^2}_{ML} \\
+\end{pmatrix}
+=  
+\begin{pmatrix}
+\frac{1}{n}\sum_{i=1}^n x_i\\
+\frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2 \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\bar{x} \\
+\overline{x^2} -\bar{x}^2\\
+\end{pmatrix}
+\]</span></p>
+<ul>
+<li><p>We look at the Hessian matrix in next chapter! Both eigenvalues are negative as required for maximum!</p></li>
+<li><p>Log-likelihood at maximum:
+<span class="math display">\[
+l_n(\hat{\boldsymbol \theta}_{ML}) = -\frac{n}{2} \log(s^2_{ML}) -\frac{n}{2} + \text{constant}
+\]</span></p></li>
+</ul>
+<p><strong>Results from normal model:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The MLE for <span class="math inline">\(\mu\)</span> is the average: <span class="math display">\[\hat{\mu}_{ML}= m_{ML}= \bar{x}\]</span><br />
+</li>
+<li>The MLE of <span class="math inline">\(\sigma^2\)</span> is <span class="math display">\[\widehat{\sigma^2}_{ML} = \text{s}^2_{ML} = \frac{1}{n}\sum_{i=1}^n(x_i-\bar{x})^2\]</span> Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in front of the sum. This implies that <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> is <strong>biased</strong> — recall that <span class="math inline">\(\widehat{\sigma^2}_{UB} = \frac{1}{n-1}\sum_{i=1}^n(x_i-\bar{x})^2\)</span> is unbiased
+<span class="math inline">\(\Rightarrow\)</span> <strong>Maximum likelihood can give biased estimates!</strong></li>
+</ol>
+</div>
+</div>
+<div id="observed-fisher-information" class="section level2">
+<h2><span class="header-section-number">3.3</span> Observed Fisher information</h2>
+<div id="motivation" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Motivation</h3>
+<p>This chapter explores the curvature the log-likelihood function,
+introduces the <em>observed</em> and also the <em>expected</em> Fisher information</p>
+<p><img src="03-likelihood3_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>By inspection of some log-likelihood curves it is apparent that the log-likelihood function contains more information about the parameter <span class="math inline">\(\boldsymbol \theta\)</span> than just the maximum point <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
+<p>In particular the <strong>curvature</strong> of the log-likelihood function must be somehow related the accuracy of <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>: if the likelihood surface is flat near the maximum
+(low curvature) then if is more difficult to find the optimal parameter (also numerically!). Conversely, if the likelihood surface is peaked (strong curvature) then the maximum point is clearly defined.</p>
+</div>
+<div id="curvature-of-log-likelihood-function" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Curvature of log-likelihood function</h3>
+<p>The curvature is linked to the second-order derivative of the log-likelihood function.</p>
+<ul>
+<li><p>Log-likelihood function: <span class="math display">\[l_n(\boldsymbol \theta)\]</span></p></li>
+<li><p>First derivative of log-likelihood function = Score function:</p>
+<p>For univariate <span class="math inline">\(\theta\)</span> the score function is a scalar:
+<span class="math display">\[S(\theta) = \frac{dl_n(\theta)}{d\theta}\]</span></p>
+<p>For multivariate <span class="math inline">\(\boldsymbol \theta\)</span> of dimension <span class="math inline">\(d\)</span> the score
+function is a vector of dimension <span class="math inline">\(d\)</span>:
+<span class="math display">\[\boldsymbol S(\boldsymbol \theta)=\nabla l_n(\boldsymbol \theta)\]</span></p></li>
+<li><p>Second derivative (=Hessian) of log-likelihood function:</p>
+<p>For univariate <span class="math inline">\(\theta\)</span> the Hessian is a scalar:
+<span class="math display">\[\frac{d^2 l_n(\theta)}{d\theta^2}\]</span></p>
+<p>For multivariate <span class="math inline">\(\boldsymbol \theta\)</span> the Hessian is a matrix of size <span class="math inline">\(d \times d\)</span>:
+<span class="math display">\[\nabla^T\nabla l_n(\boldsymbol \theta)\]</span></p></li>
+</ul>
+</div>
+<div id="observed-fisher-information-1" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Observed Fisher information</h3>
+<p>Assume that the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta)\)</span> has a peak at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>. Then the curvature at the peak is by construction negative, i..e the Hessian matrix is negative definite at <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
+<p>The <strong>observed Fisher information</strong> (matrix) is defined as the
+negative curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>:
+<span class="math display">\[{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = -\nabla^T\nabla l_n(\hat{\boldsymbol \theta}_{ML})\]</span></p>
+<p>Sometimes this is simply called the “observed information”.</p>
+<p>Note that there is also a different quantity called the <em>expected</em> Fisher information (to be discussed later).
+Hence to avoid confusion it is necessary to always use the qualifier “observed” information.</p>
+</div>
+</div>
+<div id="observed-fisher-information---examples" class="section level2">
+<h2><span class="header-section-number">3.4</span> Observed Fisher information - Examples</h2>
+<div id="example-1-bernoulli-binomial-model" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Example 1: Bernoulli / Binomial model</h3>
+<p>We continue the Example 1 from Chapter 3. Recall that
+<span class="math inline">\(\hat{p}_{ML} = \frac{k}{n}\)</span> and the score function
+<span class="math inline">\(S(p)=\frac{k}{p} - \frac{n-k}{1-p}\)</span>.</p>
+<p>The negative second derivative of the log-likelihood function is:
+<span class="math display">\[-\frac{d \text{S}(p)}{dp}=\frac{k}{p^2} + \frac{n-k}{(1-p)^2}\]</span>
+The observed Fisher information is therefore
+<span class="math display">\[
+\begin{split}
+J_n(\hat{p}_{ML}) &amp; = \frac{k}{\hat{p}_{ML}^2} + \frac{n-k}{(1-\hat{p}_{ML})^2}\\
+  &amp; = \frac{k}{(k/n)^2} + \frac{n-k}{(1-(k/n))^2}\\
+  &amp; = n (\frac{n}{k} + \frac{n}{n-k} ) \\
+  &amp; = n (\frac{1}{\hat{p}_{ML}} + \frac{1}{1-\hat{p}_{ML}} ) \\
+  &amp;= \frac{n}{\hat{p}_{ML} (1-\hat{p}_{ML})} \\
+\end{split}
+\]</span></p>
+<p>The inverse of the observed Fisher information is:
+<span class="math display">\[J_n(\hat{p}_{ML})^{-1}=\frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}\]</span></p>
+<p>Compare with <span class="math inline">\(\text{Var}\left(\frac{k}{n}\right) = \frac{p(1-p)}{n}\)</span> (cf. Binomial distribution).</p>
+</div>
+<div id="example-2-normal-distribution" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> Example 2: Normal distribution</h3>
+<p>This is the continuation of Example 4 of Chapter 3.
+Recall the MLE for the mean and variance:
+<span class="math display">\[\hat{\mu}_{ML}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{x}\]</span>
+<span class="math display">\[\widehat{\sigma^2}_{ML} = \frac{1}{n}\sum_{i=1}^n(x_i-\bar{x})^2 =  \overline{x^2} - \bar{x}^2\]</span>
+with <span class="math inline">\(\overline{x^2} = \frac{1}{n}\sum_{i=1}^n x_i^2\)</span>
+and the score function (a vector of dimension 2):
+<span class="math display">\[\boldsymbol S_n(\mu,\sigma^2)=\nabla l_n(\mu, \sigma^2) = 
+\begin{pmatrix}
+\frac{n}{\sigma^2}   (\bar{x}-\mu) \\
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
+\end{pmatrix}
+\]</span>
+The Hessian matrix of the log-likelihood function is
+<span class="math display">\[\nabla^T\nabla l_n(\mu,\sigma^2) =
+ \begin{pmatrix}
+    - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
+    - \frac{n}{\sigma^4} (\bar{x} -\mu) &amp; \frac{n}{2\sigma^4}-\frac{n}{\sigma^6} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
+    \end{pmatrix}
+\]</span>
+The negative Hessian at the MLE yields the <strong>observed Fisher information matrix</strong>:
+<span class="math display">\[
+\boldsymbol J_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML}) = \begin{pmatrix}
+    \frac{n}{\widehat{\sigma^2}_{ML}}&amp;0 \\
+    0 &amp; \frac{n}{2(\widehat{\sigma^2}_{ML})^2}
+    \end{pmatrix}
+\]</span>
+with the matrix inverse
+<span class="math display">\[
+\boldsymbol J_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML})^{-1} = \begin{pmatrix}
+    \frac{\widehat{\sigma^2}_{ML}}{n}&amp; 0\\
+    0 &amp; \frac{2(\widehat{\sigma^2}_{ML})^2}{n}
+    \end{pmatrix}
+\]</span></p>
+<p>Note that the observed Fisher information matrix is diagonal
+with positive entries. Therefore its
+eigenvalues are all positive as required for a maximum, because for a diagonal matrix the eigenvalues are simply the
+the entries on the diagonal.</p>
+<p>Recall that <span class="math inline">\(x \sim N(\mu, \sigma^2)\)</span> and therefore
+<span class="math display">\[\hat{\mu}_{ML}=\bar{x} \sim N(\mu, \frac{\sigma^2}{n})\]</span>
+Hence <span class="math inline">\(\text{Var}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}\)</span> — compare with the
+first entry of the inverse observed Fisher information matrix!</p>
+<p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> follows a scaled
+chi-squared distribution
+<span class="math display">\[\widehat{\sigma^2}_{ML} \sim \frac{\sigma^2}{n} \chi^2_{n-1}\]</span> with the
+following mean and variance:</p>
+<ul>
+<li><span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \sigma^2\)</span>, which implies that <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> is biased for small <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> we have <span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML})\overset{a}{=} \sigma^2\)</span>.</li>
+<li><span class="math inline">\(\text{Var}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \frac{2 \sigma ^4}{n}\)</span>. For large <span class="math inline">\(n\)</span> we get <span class="math inline">\(\text{Var}(\widehat{\sigma^2}_{ML})\overset{a}{=} \frac{2 \sigma ^4}{n}\)</span> — compare with the second entry of the inverse observed Fisher information matrix!</li>
+</ul>
+</div>
+<div id="from-observed-to-expected-fisher-information" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> From observed to expected Fisher information</h3>
+<p>The expected Fisher information the expectation of a one sample observed Fisher information:</p>
+<p><span class="math display">\[
+\underbrace{\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)}_{\text{expected Fisher information}}
+= \text{E}_{F_{\boldsymbol \theta}} \left( \underbrace{-\nabla^T\nabla\log f(x|\boldsymbol \theta)}_{\text{observed Fisher information for 1 sample}}\right) 
+\]</span></p>
+<p>For example, if you compare the observed Fisher information and the expected
+Fisher information for the normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>
+you see that both are similar with the difference that the
+observed Fisher information
+i) depends on sample size <span class="math inline">\(n\)</span> and
+ii) it contains the estimator <span class="math inline">\(\widehat{\sigma^2}\)</span>, not <span class="math inline">\(\sigma^2\)</span></p>
+
+<p></p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="02-likelihood2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="04-likelihood4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["math20802-script.pdf", "PDF"]],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
