@@ -24,7 +24,7 @@ Likelihood, Bayes and Regression</div>" />
 
 
 
-<meta name="date" content="2021-03-28" />
+<meta name="date" content="2021-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -696,16 +696,20 @@ standardising with <span class="math inline">\(\widehat{\text{SD}}(\hat{\boldsym
 \boldsymbol t(\boldsymbol \theta_0) &amp; = \widehat{\text{SD}}(\hat{\boldsymbol \theta}_{ML})^{-1}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
  &amp; = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \end{split}
-\]</span></p>
-<p>For scalar <span class="math inline">\(\theta\)</span> this simplifies to
+\]</span>
+The <strong>squared Wald statistic</strong> is a scalar defined as
 <span class="math display">\[
 \begin{split}
-t(\theta_0) &amp;= \frac{\hat{\theta}_{ML}-\theta_0}{\widehat{\text{SD}}(\hat{\theta}_{ML})} \\
-&amp;= J_n(\hat{\theta}_{ML})^{1/2} (\hat{\theta}_{ML}-\theta_0)\\
+t(\boldsymbol \theta_0)^2 &amp;= \boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0) \\
+&amp;= 
+(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)^T
+\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) 
+(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \end{split}
-\]</span></p>
+\]</span>
+Note that in the literature both <span class="math inline">\(\boldsymbol t(\boldsymbol \theta_0)\)</span> and <span class="math inline">\(t(\boldsymbol \theta_0)^2\)</span> are commonly referred to as Wald statistics. In this text we use the qualifier “squared” if we refer to the latter.</p>
 <p>We now assume that the true underlying parameter is <span class="math inline">\(\boldsymbol \theta_0\)</span>. Since the MLE is asymptotically normal the Wald statistic
-is asymptotically <strong>standard normal</strong> distributed as follows:
+is asymptotically <strong>standard normal</strong> distributed:
 <span class="math display">\[\begin{align*}
 \begin{array}{cc}
 \boldsymbol t(\boldsymbol \theta_0) \overset{a}{\sim}\\
@@ -719,12 +723,11 @@ N(0,1)\\
   \text{for vector } \boldsymbol \theta\\
   \text{for scalar } \theta\\
 \end{array}
-\end{align*}\]</span></p>
-<p>Correspondingly, the <strong>squared</strong> Wald statistic is chi-squared distributed
-assuming <span class="math inline">\(\boldsymbol \theta_0\)</span> as true parameter:
+\end{align*}\]</span>
+Correspondingly, the <strong>squared</strong> Wald statistic is chi-squared distributed:
 <span class="math display">\[\begin{align*}
 \begin{array}{cc}
-\boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0)\\
+t(\boldsymbol \theta_0)^2 \\
 t(\theta_0)^2\\
 \end{array}
 \begin{array}{ll}
@@ -736,7 +739,8 @@ t(\theta_0)^2\\
   \text{for scalar } \theta\\
 \end{array}
 \end{align*}\]</span>
-Note that the degree of freedom of the chi-squared distribution is the dimension of <span class="math inline">\(d\)</span>.</p>
+The degree of freedom of the chi-squared distribution is the dimension <span class="math inline">\(d\)</span>
+of the parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
 <div class="example">
 <p><span id="exm:waldproportion" class="example"><strong>Example 4.5  </strong></span>Wald statistic for a proportion:</p>
 <p>We continue from Example <a href="04-likelihood4.html#exm:distproportion">4.3</a>.
@@ -809,9 +813,9 @@ The critical values are computed using the inverse standard normal distribution 
 <p>The normal CI can be expressed using Wald statistic as follows:</p>
 <p><span class="math display">\[\text{CI}=\{\theta_0:  | t(\theta_0)| &lt; c_{\text{normal}} \}\]</span></p>
 <p>Similary, it can also be expressed using the squared Wald statistic:</p>
-<p><span class="math display">\[\text{CI}=\{\theta_0:   \boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0) &lt; c_{\text{chisq}} \}\]</span>
+<p><span class="math display">\[\text{CI}=\{\theta_0:   t(\boldsymbol \theta_0)^2 &lt; c_{\text{chisq}} \}\]</span>
 Note that this form facilitates the construction of normal confidence intervals
-for a parameter vector.</p>
+for a parameter vector <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
 <p>The following lists containst the critical values resulting from the chi-squared distribution
 with degree of freedom <span class="math inline">\(m=1\)</span> for the three most common choices of
 coverage <span class="math inline">\(\kappa\)</span> for a normal CI for a univariate parameter:</p>
