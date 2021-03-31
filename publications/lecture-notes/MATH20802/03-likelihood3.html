@@ -24,7 +24,7 @@ Likelihood, Bayes and Regression</div>" />
 
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -99,7 +99,10 @@ Likelihood, Bayes and Regression</div>" />
 <li class="chapter" data-level="2.2.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#properties-of-kl-divergence"><i class="fa fa-check"></i><b>2.2.2</b> Properties of KL divergence</a></li>
 <li class="chapter" data-level="2.2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#examples"><i class="fa fa-check"></i><b>2.2.3</b> Examples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a></li>
+<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#linear-approximation"><i class="fa fa-check"></i><b>2.3.1</b> Linear approximation</a></li>
+<li class="chapter" data-level="2.3.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#quadratic-approximation"><i class="fa fa-check"></i><b>2.3.2</b> Quadratic approximation</a></li>
+</ul></li>
 <li class="chapter" data-level="2.4" data-path="02-likelihood2.html"><a href="02-likelihood2.html#entropy-learning-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4</b> Entropy learning and maximum likelihood</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#the-relative-entropy-between-true-model-and-approximating-model"><i class="fa fa-check"></i><b>2.4.1</b> The relative entropy between true model and approximating model</a></li>
 <li class="chapter" data-level="2.4.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#minimum-kl-divergence-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4.2</b> Minimum KL divergence and maximum likelihood</a></li>
@@ -494,7 +497,7 @@ works in practise.</p>
 <p>We aim to estimate the true proportion <span class="math inline">\(p\)</span> in a Bernoulli experiment with binary
 outcomes, say the proportion of “successes” vs. “failures” or of “heads” vs. “tails” in a coin tossing experiment.</p>
 <ul>
-<li>Bernoulli model <span class="math inline">\(Ber(p)\)</span>: <span class="math inline">\(\text{Pr}(\text{&quot;success&quot;}) = p\)</span> and <span class="math inline">\(\text{Pr}(\text{&quot;failure&quot;}) = 1-p\)</span>.</li>
+<li>Bernoulli model <span class="math inline">\(\text{Ber}(p)\)</span>: <span class="math inline">\(\text{Pr}(\text{&quot;success&quot;}) = p\)</span> and <span class="math inline">\(\text{Pr}(\text{&quot;failure&quot;}) = 1-p\)</span>.</li>
 <li>The “success” is indicated by outcome <span class="math inline">\(x=1\)</span> and the “failure” by <span class="math inline">\(x=0\)</span>.</li>
 <li>We conduct <span class="math inline">\(n\)</span> trials and record <span class="math inline">\(n_1\)</span> successes and <span class="math inline">\(n-n_1\)</span> failures.</li>
 <li>Parameter: <span class="math inline">\(p\)</span>: probability of “success”.</li>
@@ -503,7 +506,7 @@ outcomes, say the proportion of “successes” vs. “failures” or of “head
 <ul>
 <li><p>the data <span class="math inline">\(x_1, \ldots, x_n\)</span> take on values 0 or 1.</p></li>
 <li><p>the average of the data points is <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i = \frac{n_1}{n}\)</span>.</p></li>
-<li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(Ber(p)\)</span> is:
+<li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(\text{Ber}(p)\)</span> is:
 <span class="math display">\[
 f(x) = p^x (1-p)^{1-x} = 
 \begin{cases}
@@ -538,9 +541,7 @@ S_n(p)=  \frac{dl_n(p)}{dp}= n \left( \frac{\bar{x}}{p}-\frac{1-\bar{x}}{1-p} \r
 of the successes among all observations.</p></li>
 </ul>
 </div>
-<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(p\)</span> we may equally well use the Binomial distribution <span class="math inline">\(\sim Bin(n, p)\)</span> as model for the number
-of successes. In this case we then have only a single observation, namely the observed <span class="math inline">\(k\)</span> . This results in the same MLE
-for <span class="math inline">\(p\)</span> but the likelihood function based on the Binomial PMF includes the Binomial coefficient <span class="math inline">\(\binom{n}{k}\)</span> . However, as this factor does not depend on <span class="math inline">\(p\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
+<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(p\)</span> we may equally well use the Binomial distribution <span class="math inline">\(\text{Bin}(n, p)\)</span> as model for the number of successes. In this case we then have only a single observation, namely the observed <span class="math inline">\(k\)</span> . This results in the same MLE for <span class="math inline">\(p\)</span> but the likelihood function based on the Binomial PMF includes the Binomial coefficient <span class="math inline">\(\binom{n}{k}\)</span> . However, as this factor does not depend on <span class="math inline">\(p\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
 <div class="example">
 <p><span id="exm:mlenormalmean" class="example"><strong>Example 3.2  </strong></span>Normal distribution with unknown mean and known variance:</p>
 <ul>
@@ -698,7 +699,7 @@ it is necessary to always use the qualifier “observed” when referring to <sp
 <div id="examples-of-observed-fisher-information" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Examples of observed Fisher information</h3>
 <div class="example">
-<p><span id="exm:obsfisherproportion" class="example"><strong>Example 3.4  </strong></span>Bernoulli model <span class="math inline">\(Ber(p)\)</span>:</p>
+<p><span id="exm:obsfisherproportion" class="example"><strong>Example 3.4  </strong></span>Bernoulli model <span class="math inline">\(\text{Ber}(p)\)</span>:</p>
 <p>We continue Example <a href="03-likelihood3.html#exm:mleproportion">3.1</a>. Recall that
 <span class="math inline">\(\hat{p}_{ML} = \bar{x}=\frac{n_1}{n}\)</span> and the score function
 <span class="math inline">\(S_n(p)=n \left( \frac{\bar{x} }{p} - \frac{1-\bar{x}}{1-p} \right)\)</span>. The negative second derivative of the log-likelihood function is
@@ -714,7 +715,7 @@ J_n(\hat{p}_{ML}) &amp; = n \left(\frac{ \bar{x} }{\hat{p}_{ML}^2} + \frac{ 1 - 
 <p>The inverse of the observed Fisher information is:
 <span class="math display">\[J_n(\hat{p}_{ML})^{-1}=\frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}\]</span></p>
 <p>Compare this with <span class="math inline">\(\text{Var}\left(\frac{x}{n}\right) = \frac{p(1-p)}{n}\)</span> for
-<span class="math inline">\(x \sim Bin(n, p)\)</span>.</p>
+<span class="math inline">\(x \sim \text{Bin}(n, p)\)</span>.</p>
 </div>
 <div class="example">
 <p><span id="exm:obsfishernormalmean" class="example"><strong>Example 3.5  </strong></span>Normal distribution with unknown mean and known variance:</p>
@@ -806,9 +807,9 @@ It follows from the construction of
 the observed Fisher information and the law of large numbers that correspondingly <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol I^{\text{Fisher}}( \boldsymbol \theta_0 )\)</span>.</p></li>
 <li><p>In a very important class of models, namely <strong>in the exponential family</strong>, we find that
 <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span> also for finite sample size <span class="math inline">\(n\)</span>. This is in fact the case in all the examples discussed above (e.g. see
-Examples <a href="02-likelihood2.html#exm:expectedfisherbernoulli">2.10</a> and <a href="03-likelihood3.html#exm:obsfisherproportion">3.4</a>
+Examples <a href="02-likelihood2.html#exm:expectedfisherbernoulli">2.11</a> and <a href="03-likelihood3.html#exm:obsfisherproportion">3.4</a>
 for the Bernoulli and
-Examples <a href="02-likelihood2.html#exm:expectedfishernormal">2.12</a> and <a href="03-likelihood3.html#exm:obsfishernormalmeanvar">3.6</a>
+Examples <a href="02-likelihood2.html#exm:expectedfishernormal">2.13</a> and <a href="03-likelihood3.html#exm:obsfishernormalmeanvar">3.6</a>
 for the normal distribution).</p></li>
 <li><p>However, this is an exception. In a general model <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \neq n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span>
 for finite sample size <span class="math inline">\(n\)</span>. An example is provided by the Cauchy distribution with median parameter <span class="math inline">\(\theta\)</span>. It is not part of the exponential family and has expected Fisher information <span class="math inline">\(I^{\text{Fisher}}(\theta )=\frac{1}{2}\)</span> regardless of the choice

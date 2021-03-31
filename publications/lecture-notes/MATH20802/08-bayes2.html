@@ -24,7 +24,7 @@ Likelihood, Bayes and Regression</div>" />
 
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -99,7 +99,10 @@ Likelihood, Bayes and Regression</div>" />
 <li class="chapter" data-level="2.2.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#properties-of-kl-divergence"><i class="fa fa-check"></i><b>2.2.2</b> Properties of KL divergence</a></li>
 <li class="chapter" data-level="2.2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#examples"><i class="fa fa-check"></i><b>2.2.3</b> Examples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a></li>
+<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#linear-approximation"><i class="fa fa-check"></i><b>2.3.1</b> Linear approximation</a></li>
+<li class="chapter" data-level="2.3.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#quadratic-approximation"><i class="fa fa-check"></i><b>2.3.2</b> Quadratic approximation</a></li>
+</ul></li>
 <li class="chapter" data-level="2.4" data-path="02-likelihood2.html"><a href="02-likelihood2.html#entropy-learning-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4</b> Entropy learning and maximum likelihood</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#the-relative-entropy-between-true-model-and-approximating-model"><i class="fa fa-check"></i><b>2.4.1</b> The relative entropy between true model and approximating model</a></li>
 <li class="chapter" data-level="2.4.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#minimum-kl-divergence-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4.2</b> Minimum KL divergence and maximum likelihood</a></li>
@@ -390,7 +393,7 @@ the Binomial model as used previously in Part I:</p>
 <p>proability mass function (pmf): <span class="math inline">\(\text{Pr}(x=1) = p\)</span>, <span class="math inline">\(\text{Pr}(x=0) = 1-p\)</span><br />
 Mean: <span class="math inline">\(\text{E}(x) = p\)</span><br />
 Variance <span class="math inline">\(\text{Var}(x) = p (1-p)\)</span></p>
-<p><span class="math inline">\(Bin(n,p)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments)<br />
+<p><span class="math inline">\(\text{Bin}(n,p)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments)<br />
 <span class="math inline">\(x \in \{0, 1, \ldots, n\}\)</span><br />
 Mean: <span class="math inline">\(\text{E}(x) = n p\)</span><br />
 Variance: <span class="math inline">\(\text{Var}(x) = n p (1-p)\)</span></p>
@@ -403,7 +406,7 @@ is the frequency <span class="math inline">\(\hat p_{ML} = \frac{x}{n}\)</span> 
 </div>
 <div id="excursion-properties-of-the-beta-distribution" class="section level2">
 <h2><span class="header-section-number">8.2</span> Excursion: Properties of the Beta distribution</h2>
-<p>The density of the Beta distribution <span class="math inline">\(Beta(\alpha, \beta)\)</span>
+<p>The density of the Beta distribution <span class="math inline">\(betadist(\alpha, \beta)\)</span>
 for <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span>
 is
 <span class="math display">\[f(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}\]</span>
@@ -424,9 +427,9 @@ Note that <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positi
 <div id="beta-prior-distribution" class="section level2">
 <h2><span class="header-section-number">8.3</span> Beta prior distribution</h2>
 <p><strong>In Bayesian learning we need to make explicit our uncertainty about <span class="math inline">\(p\)</span>.</strong></p>
-<p><span class="math inline">\(p\)</span> has support <span class="math inline">\([0,1]\)</span> <span class="math inline">\(\rightarrow\)</span> we use the <strong>Beta distribution <span class="math inline">\(Beta(\alpha, \beta)\)</span> as prior for <span class="math inline">\(p\)</span></strong> with parameters <span class="math inline">\(\alpha \geq 0\)</span> and <span class="math inline">\(\beta \geq 0\)</span>:</p>
+<p><span class="math inline">\(p\)</span> has support <span class="math inline">\([0,1]\)</span> <span class="math inline">\(\rightarrow\)</span> we use the <strong>Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> as prior for <span class="math inline">\(p\)</span></strong> with parameters <span class="math inline">\(\alpha \geq 0\)</span> and <span class="math inline">\(\beta \geq 0\)</span>:</p>
 <p><span class="math display">\[
-p \sim Beta(\alpha, \beta)
+p \sim \text{Beta}(\alpha, \beta)
 \]</span></p>
 <p>Note this does not actually mean that <span class="math inline">\(p\)</span> is random! It only means that we model the uncertainty about <span class="math inline">\(p\)</span> using a Beta random variable!</p>
 <p>The flexibility of the Beta distribution allows to accomodate a large variety of possible scenarious for our prior knowledge.</p>
@@ -449,14 +452,14 @@ We use in our analysis the Beta-Binomial model:</p>
 <ol style="list-style-type: lower-alpha">
 <li><strong>Beta prior:</strong>
 <span class="math display">\[
-p \sim Beta(\alpha, \beta)
+p \sim \text{Beta}(\alpha, \beta)
 \]</span>
 <span class="math display">\[
 f(p) = \frac{1}{B(\alpha, \beta)} p^{\alpha-1} (1-p)^{\beta-1}
 \]</span></li>
 <li><strong>Binomial likelihood:</strong>
 <span class="math display">\[
-x | p \sim Bin(n,p)
+x | p \sim \text{Bin}(n,p)
 \]</span>
 <span class="math display">\[
 f(x|p) = \begin{pmatrix} n \\ x \end{pmatrix} p^x (1-p)^{(n-x)}
@@ -466,7 +469,7 @@ f(x|p) = \begin{pmatrix} n \\ x \end{pmatrix} p^x (1-p)^{(n-x)}
 <ol start="3" style="list-style-type: lower-alpha">
 <li><strong>Beta posterior distribution</strong>
 <span class="math display">\[
-p| x \sim Beta(\alpha+x, \beta+n-x)
+p| x \sim betadist(\alpha+x, \beta+n-x)
 \]</span>
 <span class="math display">\[
 f(p| x) = \frac{1}{B(\alpha+x, \beta+n-x)} p^{\alpha+x-1} (1-p)^{\beta+n-x-1}

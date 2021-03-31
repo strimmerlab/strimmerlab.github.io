@@ -24,7 +24,7 @@ Likelihood, Bayes and Regression</div>" />
 
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -99,7 +99,10 @@ Likelihood, Bayes and Regression</div>" />
 <li class="chapter" data-level="2.2.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#properties-of-kl-divergence"><i class="fa fa-check"></i><b>2.2.2</b> Properties of KL divergence</a></li>
 <li class="chapter" data-level="2.2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#examples"><i class="fa fa-check"></i><b>2.2.3</b> Examples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a></li>
+<li class="chapter" data-level="2.3" data-path="02-likelihood2.html"><a href="02-likelihood2.html#local-quadratic-approximation-and-expected-fisher-information"><i class="fa fa-check"></i><b>2.3</b> Local quadratic approximation and expected Fisher information</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#linear-approximation"><i class="fa fa-check"></i><b>2.3.1</b> Linear approximation</a></li>
+<li class="chapter" data-level="2.3.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#quadratic-approximation"><i class="fa fa-check"></i><b>2.3.2</b> Quadratic approximation</a></li>
+</ul></li>
 <li class="chapter" data-level="2.4" data-path="02-likelihood2.html"><a href="02-likelihood2.html#entropy-learning-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4</b> Entropy learning and maximum likelihood</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="02-likelihood2.html"><a href="02-likelihood2.html#the-relative-entropy-between-true-model-and-approximating-model"><i class="fa fa-check"></i><b>2.4.1</b> The relative entropy between true model and approximating model</a></li>
 <li class="chapter" data-level="2.4.2" data-path="02-likelihood2.html"><a href="02-likelihood2.html#minimum-kl-divergence-and-maximum-likelihood"><i class="fa fa-check"></i><b>2.4.2</b> Minimum KL divergence and maximum likelihood</a></li>
@@ -446,15 +449,15 @@ it was considered very puzzling to have any estimator outperform the MLE, hence 
 <h3><span class="header-section-number">10.2.1</span> Inverse Gamma distribution</h3>
 <p>Next, we study a common Bayesian model for estimating the variance parameter of the normal distribution. For this we use the inverse Gamma distribution:
 <span class="math display">\[
-x \sim IG(\alpha, \beta)
+x \sim \text{Inv-Gam}(\alpha, \beta)
 \]</span>
 This distribution is closely linked with the Gamma distribution — the inverse of <span class="math inline">\(x\)</span> is Gamma-distributed with inverted scale parameter:
-<span class="math display">\[\frac{1}{x} \sim \text{Gamma}(\alpha, \beta^{-1})\]</span></p>
+<span class="math display">\[\frac{1}{x} \sim \text{Gam}(\alpha, \beta^{-1})\]</span></p>
 <p>For use as prior and posterior we employ a different parameterisation with <span class="math inline">\(k=2(\alpha-1)\)</span> and <span class="math inline">\(v=\beta/(\alpha-1)\)</span>:
 <span class="math display">\[
-x \sim IG(1+\frac{k}{2}, \frac{k}{2} v)
+x \sim \text{Inv-Gam}(1+\frac{k}{2}, \frac{k}{2} v)
 \]</span></p>
-<p>The first two moments of the IG distribution are
+<p>The first two moments of the inverse Gamma distribution are
 <span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1} = v\]</span>
 and
 <span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)} =\frac{2 v^2}{k-2}\]</span></p>
@@ -470,7 +473,7 @@ normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> with g
 <p>For the prior distribution we use the inverse Gamma
 distribution with with <span class="math inline">\(k=m\)</span> and <span class="math inline">\(v=\sigma^2_0\)</span>
 <span class="math display">\[
-\sigma^2 \sim IG(k=m, v=\sigma^2_0) 
+\sigma^2 \sim \text{Inv-Gam}(k=m, v=\sigma^2_0) 
 \]</span>
 The corresponding prior mean is
 <span class="math display">\[
@@ -487,7 +490,7 @@ and the prior variance is
 <p>As the inverse Gammma distribution is conjugate to the
 normal likelihood the posterior distribution is inverse Gamma as well:
 <span class="math display">\[
-\sigma^2| x_1 \ldots, x_n \sim IG(k=m+n, v=\sigma^2_1)
+\sigma^2| x_1 \ldots, x_n \sim \text{Inv-Gam}(k=m+n, v=\sigma^2_1)
 \]</span>
 with <span class="math inline">\(\sigma^2_1 = \frac{\sigma^2_0 m + n \widehat\sigma^2_{ML}}{m+n}\)</span>.</p>
 <p>The posterior mean is
