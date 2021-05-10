@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>6 Nonlinear and nonparametric models | Multivariate Statistics and Machine Learning</title>
+<meta name="author" content="Korbinian Strimmer">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Multivariate Statistics and Machine Learning</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li><a class="" href="multivariate-random-variables.html"><span class="header-section-number">1</span> Multivariate random variables</a></li>
+<li><a class="" href="transformations-and-dimension-reduction.html"><span class="header-section-number">2</span> Transformations and dimension reduction</a></li>
+<li><a class="" href="unsupervised-learning-and-clustering.html"><span class="header-section-number">3</span> Unsupervised learning and clustering</a></li>
+<li><a class="" href="supervised-learning-and-classification.html"><span class="header-section-number">4</span> Supervised learning and classification</a></li>
+<li><a class="" href="multivariate-dependencies.html"><span class="header-section-number">5</span> Multivariate dependencies</a></li>
+<li><a class="active" href="nonlinear-and-nonparametric-models.html"><span class="header-section-number">6</span> Nonlinear and nonparametric models</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="brief-refresher-on-matrices.html"><span class="header-section-number">A</span> Brief refresher on matrices</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="nonlinear-and-nonparametric-models" class="section level1">
+<h1>
+<span class="header-section-number">6</span> Nonlinear and nonparametric models<a class="anchor" aria-label="anchor" href="#nonlinear-and-nonparametric-models"><i class="fas fa-link"></i></a>
+</h1>
+<p>In the last part of the module we discuss methods that go beyond the
+linear methods prevalent in classical multivariate statistics.</p>
+<p><strong>Relevant textbooks:</strong></p>
+<p>The lectures for much of this part of the module follow selected chapters from the following three text books:</p>
+<ul>
+<li><p><span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2013">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</p></li>
+<li><p><span class="citation">Hastie, Tibshirani, and Friedman (<a href="bibliography.html#ref-HTF09">2009</a>)</span> <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><em>The elements of statistical learning: data mining, inference, and prediction</em></a>. Springer.</p></li>
+<li><p><span class="citation">Rogers and Girolami (<a href="bibliography.html#ref-RG2017">2017</a>)</span> <a href="https://www.crcpress.com/A-First-Course-in-Machine-Learning-Second-Edition/Rogers-Girolami/p/book/9781498738484"><em>A first course in machine learning (2nd edition)</em></a>. CRC Press.</p></li>
+</ul>
+<p>Please study the relevant section and chapters as indicated below in each subsection!</p>
+<div style="page-break-after: always;"></div>
+<div id="limits-of-linear-models-and-correlation" class="section level2">
+<h2>
+<span class="header-section-number">6.1</span> Limits of linear models and correlation<a class="anchor" aria-label="anchor" href="#limits-of-linear-models-and-correlation"><i class="fas fa-link"></i></a>
+</h2>
+<p>Linear models are very effective tools. However, it is important
+to recognise their limits especially when modelling complex nonlinear relationships.</p>
+<div id="correlation-only-measures-linear-dependence" class="section level3">
+<h3>
+<span class="header-section-number">6.1.1</span> Correlation only measures linear dependence<a class="anchor" aria-label="anchor" href="#correlation-only-measures-linear-dependence"><i class="fas fa-link"></i></a>
+</h3>
+<p>A very simple demonstration of this is given by the following example. Assume <span class="math inline">\(x\)</span> is a normally distributed
+random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span> — thus <span class="math inline">\(y\)</span> fully depends on <span class="math inline">\(x\)</span> with no added extra noise. What is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</p>
+<p>Let’s ansers this question by running a small computer simulation:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] -0.00154371</code></pre>
+<p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent!
+This is because correlation only measures linear association!</p>
+</div>
+<div id="anscombe-data-sets" class="section level3">
+<h3>
+<span class="header-section-number">6.1.2</span> Anscombe data sets<a class="anchor" aria-label="anchor" href="#anscombe-data-sets"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using correlation, and more generally linear models, blindly can thus hide the underlying complexity of the analysed
+data. This is demonstrated by the classic “Anscombe quartet” of data sets
+(F. J. Anscombe. 1973. Graphs in statistical analysis.
+The American Statistician 27:17-21, <a href="http://dx.doi.org/10.1080/00031305.1973.10478966" class="uri">http://dx.doi.org/10.1080/00031305.1973.10478966</a> ):</p>
+<p><img src="6-nonlinear_files/figure-html/unnamed-chunk-2-1.png" width="672"><img src="6-nonlinear_files/figure-html/unnamed-chunk-2-2.png" width="672"></p>
+<p>As evident from the scatter plots the relationship between the
+two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is very different in the four cases!
+However, intriguingly all four data sets share exactly the same linear characteristics and summary statistics:</p>
+<ul>
+<li>Means <span class="math inline">\(m_x = 9\)</span> and <span class="math inline">\(m_y = 7.5\)</span>
+</li>
+<li>Variances <span class="math inline">\(s^2_x = 11\)</span> and <span class="math inline">\(s^2_y = 4.13\)</span>
+</li>
+<li>Correlation <span class="math inline">\(r = 0.8162\)</span>
+</li>
+<li>Linear model fit with intercept <span class="math inline">\(a=3.0\)</span> and slope <span class="math inline">\(b=0.5\)</span>
+</li>
+</ul>
+<p>Thus, in actual data analysis it is always a <strong>good idea to inspect the data visually</strong> to get a first impression whether using a linear model makes sense.</p>
+<p>In the above only data “a” follows a linear model. Data “b” represents a quadratic relationship. Data “c” is linear but with an outlier that disturbs the linear relationship. Finally data “d” also contains an outlier but also represent a case where <span class="math inline">\(y\)</span> is (apart from the outlier) is not dependent on <span class="math inline">\(x\)</span>.</p>
+<p>In the Worksheet 10 a more recent version of the Anscombe quartet will be analysed in the form of the “datasauRus” dozen - 13 highly nonlinear datasets that all share the
+same linear characteristics.</p>
+</div>
+<div id="alternatives" class="section level3">
+<h3>
+<span class="header-section-number">6.1.3</span> Alternatives<a class="anchor" aria-label="anchor" href="#alternatives"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>Mutual information (based on relative entropy) as discussed in previous chapter</li>
+<li>Other measures designed to capture nonlinear association, such as <a href="https://en.wikipedia.org/wiki/Distance_correlation">distance correlation</a>.
+and ii) the <a href="https://en.wikipedia.org/wiki/Maximal_information_coefficient">maximal information coefficient</a> (MIC and <span class="math inline">\(\text{MIC}_e\)</span>).</li>
+</ul>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="random-forests" class="section level2">
+<h2>
+<span class="header-section-number">6.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests"><i class="fas fa-link"></i></a>
+</h2>
+<p>Another widely used approach for prediction in nonlinear settings
+is the method of random forests.</p>
+<p><strong>Relevant reading:</strong></p>
+<p>Please read: <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2013">2013</a>)</span> <strong>Chapter 8 “Tree-Based Methods”</strong></p>
+<p>Specifically:</p>
+<ul>
+<li>Section 8.1 The Basics of Decision Trees</li>
+<li>Section 8.2.1 Bagging</li>
+<li>Section 8.2.2 Random Forests</li>
+</ul>
+<div id="stochastic-vs.algorithmic-models" class="section level3">
+<h3>
+<span class="header-section-number">6.2.1</span> Stochastic vs. algorithmic models<a class="anchor" aria-label="anchor" href="#stochastic-vs.algorithmic-models"><i class="fas fa-link"></i></a>
+</h3>
+<p>Two cultures in statistical modelling: stochastic vs. algorithmic models</p>
+<p>Classic discussion paper by Leo Breiman (2001): Statistical modeling: the two cultures.
+Statistical Science <strong>16</strong>:199–231. <a href="https://projecteuclid.org/euclid.ss/1009213726" class="uri">https://projecteuclid.org/euclid.ss/1009213726</a></p>
+<p>This paper has recently be revisited in the following discussion paper by Efron (2020) and discussants:
+Prediction, estimation, and attribution. JASA <strong>115</strong>:636–677. <a href="https://doi.org/10.1080/01621459.2020.1762613" class="uri">https://doi.org/10.1080/01621459.2020.1762613</a></p>
+</div>
+<div id="random-forests-1" class="section level3">
+<h3>
+<span class="header-section-number">6.2.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Invented by Breimann in 1996.</p>
+<p>Basic idea:</p>
+<ul>
+<li>A single decision tree is unreliable and unstable (weak predictor/classifier).</li>
+<li>Use boostrap to generate multiple decision trees (=“forest”)</li>
+<li>Average over predictions from all tree (=“bagging”, bootstrap aggregation)</li>
+</ul>
+<p>The averaging procedure has the effect of variance stabilisation.
+Intringuingly, averaging across all decision trees dramatically improves the
+overall prediction accuracy!</p>
+<p>The Random Forests approach is an example of an <strong>ensemble method</strong>
+(since it is based on using an “ensemble” of trees).</p>
+<p>Variations: boosting, XGBoost ( <a href="https://xgboost.ai/" class="uri">https://xgboost.ai/</a> )</p>
+<p>Random forests will be applied in Worksheet 10.</p>
+<p>They are computationally expensive but typically perform very well!</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="comparison-of-decision-boundaries-decision-tree-vs.random-forest" class="section level3">
+<h3>
+<span class="header-section-number">6.2.3</span> Comparison of decision boundaries: decision tree vs. random forest<a class="anchor" aria-label="anchor" href="#comparison-of-decision-boundaries-decision-tree-vs.random-forest"><i class="fas fa-link"></i></a>
+</h3>
+<p>Non-nested case:</p>
+<div class="inline-figure">
+<img src="fig/fig6-nonnested.png" width="90%" style="display: block; margin: auto;">
+Nested case:</div>
+<div class="inline-figure"><img src="fig/fig6-nested.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Compare also with the decision boundaries for LDA and QDA (previous chapter).</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="gaussian-processes" class="section level2">
+<h2>
+<span class="header-section-number">6.3</span> Gaussian processes<a class="anchor" aria-label="anchor" href="#gaussian-processes"><i class="fas fa-link"></i></a>
+</h2>
+<p>Gaussian processes offer another nonparametric approach to model
+nonlinear dependencies. They provide a probabilistic model for
+the unknown nonlinear function.</p>
+<p><strong>Relevant reading:</strong></p>
+<p>Please read: <span class="citation">Rogers and Girolami (<a href="bibliography.html#ref-RG2017">2017</a>)</span> <strong>Chapter 8: Gaussian processes.</strong></p>
+<div id="main-concepts" class="section level3">
+<h3>
+<span class="header-section-number">6.3.1</span> Main concepts<a class="anchor" aria-label="anchor" href="#main-concepts"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>Gaussian processes (GPs) belong the the family of <strong>Bayesian nonparametric models</strong>
+</li>
+<li>Idea:
+<ul>
+<li>start with prior over a function (!),</li>
+<li>then condition on observed data to get posterior distribution (again over a function)</li>
+</ul>
+</li>
+<li>GPs use an infinitely dimensional multivariate normal distribution as prior</li>
+</ul>
+</div>
+<div id="conditional-multivariate-normal-distribution" class="section level3">
+<h3>
+<span class="header-section-number">6.3.2</span> Conditional multivariate normal distribution<a class="anchor" aria-label="anchor" href="#conditional-multivariate-normal-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>GPs make use of the fact that marginal and conditional distributions of a multivariate normal
+distribution are also multivariate normal.</p>
+<p><strong>Multivariate normal distribution:</strong></p>
+<p><span class="math display">\[\boldsymbol z\sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span></p>
+<p>Assume:
+<span class="math display">\[
+\boldsymbol z=\begin{pmatrix}
+    \boldsymbol z_1      \\
+    \boldsymbol z_2      \\
+\end{pmatrix}
+\]</span>
+with
+<span class="math display">\[
+\boldsymbol \mu=\begin{pmatrix}
+    \boldsymbol \mu_1      \\
+    \boldsymbol \mu_2      \\
+\end{pmatrix}
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol \Sigma=\begin{pmatrix}
+    \boldsymbol \Sigma_{1}   &amp; \boldsymbol \Sigma_{12}   \\
+    \boldsymbol \Sigma_{12}^T &amp; \boldsymbol \Sigma_{2}   \\
+\end{pmatrix}
+\]</span>
+with corresponding dimensions <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span> and <span class="math inline">\(d_1+d_2=d\)</span>.</p>
+<p><strong>Marginal distributions:</strong></p>
+<p>Any subset of <span class="math inline">\(\boldsymbol z\)</span> is also multivariate normally distributed.
+Specifically,
+<span class="math display">\[
+\boldsymbol z_1 \sim N_{d_1}(\boldsymbol \mu_1, \boldsymbol \Sigma_{1}) 
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol z_2 \sim N_{d_2}(\boldsymbol \mu_2, \boldsymbol \Sigma_{2}) 
+\]</span></p>
+<p><strong>Conditional multivariate normal:</strong></p>
+<p>The conditional distribution is also multivariate normal:
+<span class="math display">\[
+\boldsymbol z_1 | \boldsymbol z_2 = \boldsymbol z_{1 | 2} \sim N_{d_1}(\boldsymbol \mu_{1|2}, \boldsymbol \Sigma_{1 | 2}) 
+\]</span>
+with
+<span class="math display">\[\boldsymbol \mu_{1|2}=\boldsymbol \mu_1 + \boldsymbol \Sigma_{12} \boldsymbol \Sigma_{2}^{-1} (\boldsymbol z_2 -\boldsymbol \mu_2)\]</span>
+and
+<span class="math display">\[\boldsymbol \Sigma_{1 | 2}=\boldsymbol \Sigma_{1} -  \boldsymbol \Sigma_{12} \boldsymbol \Sigma_{2}^{-1} \boldsymbol \Sigma_{12}^T\]</span></p>
+<p><span class="math inline">\(\boldsymbol z_{1 | 2}\)</span> and
+<span class="math inline">\(\boldsymbol \mu_{1|2}\)</span> have dimension <span class="math inline">\(d_1 \times 1\)</span>
+and <span class="math inline">\(\boldsymbol \Sigma_{1 | 2}\)</span> has dimension <span class="math inline">\(d_1 \times d_1\)</span>,
+i.e. the same dimension as the unconditioned variables.</p>
+</div>
+<div id="covariance-functions-and-kernels" class="section level3">
+<h3>
+<span class="header-section-number">6.3.3</span> Covariance functions and kernels<a class="anchor" aria-label="anchor" href="#covariance-functions-and-kernels"><i class="fas fa-link"></i></a>
+</h3>
+<p>The GP prior is a infinitely dimensional multivariate normal
+with mean zero and the <strong>covariance specified by a function</strong> <span class="math inline">\(k(x, x^{\prime})\)</span>:</p>
+<p>A widely used covariance function is
+<span class="math display">\[
+k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime})^2}{2 l^2}}
+\]</span>
+This is known as the <strong>squared-exponential kernel</strong> or <strong>Radial-basis function (RBF) kernel</strong>.</p>
+<p>Note that this kernel implies</p>
+<ul>
+<li>
+<span class="math inline">\(k(x, x) = \text{Var}(x) = \sigma^2\)</span> and</li>
+<li>
+<span class="math inline">\(\text{Cor}(x, x^{\prime}) = e^{-\frac{ (x-x^{\prime})^2}{2 l^2}}\)</span>.</li>
+</ul>
+<p>The parameter <span class="math inline">\(l\)</span> in the RBF kernel is the length scale parameter and describes
+the “wigglyness” or smoothness of the resulting function.
+Small values of <span class="math inline">\(l\)</span> mean more complex, more wiggly functions, and low autocorrelation.</p>
+<p>There are many other kernel functions, including linear, polynomial or periodic kernels.</p>
+</div>
+<div id="gp-model" class="section level3">
+<h3>
+<span class="header-section-number">6.3.4</span> GP model<a class="anchor" aria-label="anchor" href="#gp-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>Nonlinear regression in the GP approach is conceptually very simple:</p>
+<ul>
+<li>start with multivariate prior</li>
+<li>then condition on the observed data</li>
+<li>the resulting conditional multivariate normal can used to predict
+the function values at any unobserved values</li>
+<li>the conditional variance can be used to compute credible intervals for predictions.</li>
+</ul>
+<p>GP regression also provides a direct link with classical
+Bayesian linear regression (using a linear kernel).</p>
+<p>Drawbacks: computationally expensive (<span class="math inline">\(O(n^3)\)</span> because of the matrix inversion)</p>
+</div>
+<div id="gaussian-process-example" class="section level3">
+<h3>
+<span class="header-section-number">6.3.5</span> Gaussian process example<a class="anchor" aria-label="anchor" href="#gaussian-process-example"><i class="fas fa-link"></i></a>
+</h3>
+<p>We now show how to apply Gaussian processes in R justing using standard matrix calculations.</p>
+<p>Our aim is to estimate the following nonlinear function from a number of observations. Note that initially we assume that there is no additional noise (so the observations lie directly on the curve):</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">truefunc</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="va">XLIM</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span>
+<span class="va">YLIM</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>
+
+<span class="va">n2</span> <span class="op">=</span> <span class="fl">10</span>
+<span class="va">x2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n2</span>, min<span class="op">=</span><span class="va">XLIM</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, max<span class="op">=</span><span class="va">XLIM</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>
+<span class="va">y2</span> <span class="op">=</span> <span class="fu">truefunc</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span>  <span class="co"># no noise</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span> <span class="fu">truefunc</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, xlim<span class="op">=</span><span class="va">XLIM</span>, ylim<span class="op">=</span><span class="va">YLIM</span>, xlab<span class="op">=</span><span class="st">"x"</span>, ylab<span class="op">=</span><span class="st">"y"</span>, 
+      main<span class="op">=</span><span class="st">"True Function"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure">
+<img src="6-nonlinear_files/figure-html/unnamed-chunk-5-1.png" width="672">
+Next we use the RFB kernel as the prior covariance and also assume prior mean 0:</div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># RBF kernel</span>
+<span class="va">rbfkernel</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">xa</span>, <span class="va">xb</span>, <span class="va">s2</span><span class="op">=</span><span class="fl">1</span>, <span class="va">l</span><span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span> <span class="va">s2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="va">xa</span><span class="op">-</span><span class="va">xb</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="va">l</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">kfun.mat</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">xavec</span>, <span class="va">xbvec</span>, <span class="va">FUN</span><span class="op">=</span><span class="va">rbfkernel</span><span class="op">)</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/outer.html">outer</a></span><span class="op">(</span>X<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">xavec</span><span class="op">)</span>, Y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">xbvec</span><span class="op">)</span>, FUN<span class="op">=</span><span class="va">FUN</span><span class="op">)</span>
+
+<span class="co"># prior mean</span>
+<span class="va">mu.vec</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>We can now visualise the functions samples from the multivariate normal prior:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># grid of x-values </span>
+<span class="va">n1</span> <span class="op">=</span> <span class="fl">100</span>
+<span class="va">x1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">XLIM</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">XLIM</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out<span class="op">=</span><span class="va">n1</span><span class="op">)</span>
+
+<span class="co"># unconditioned covariance and mean (unobserved samples x1)</span>
+<span class="va">K1</span> <span class="op">=</span> <span class="fu">kfun.mat</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x1</span><span class="op">)</span>  
+<span class="va">m1</span> <span class="op">=</span> <span class="fu">mu.vec</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span>
+
+<span class="co">## sample functions from GP prior  </span>
+<span class="va">B</span> <span class="op">=</span> <span class="fl">5</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">"MASS"</a></span><span class="op">)</span> <span class="co"># for mvrnorm</span>
+<span class="va">y1r</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span><span class="va">B</span>, mu <span class="op">=</span> <span class="va">m1</span>, Sigma<span class="op">=</span><span class="va">K1</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">y1r</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylab<span class="op">=</span><span class="st">"y"</span>, xlab<span class="op">=</span><span class="st">"x"</span>, ylim<span class="op">=</span><span class="va">YLIM</span>, 
+  main<span class="op">=</span><span class="st">"Prior Functions (RBF Kernel with l=1/2)"</span><span class="op">)</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">B</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">y1r</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, col<span class="op">=</span><span class="va">i</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="6-nonlinear_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
+<p>Now we compute the posterior mean and variance by conditioning on the observations:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># unconditioned covariance and mean (observed samples x2)</span>
+<span class="va">K2</span> <span class="op">=</span> <span class="fu">kfun.mat</span><span class="op">(</span><span class="va">x2</span>, <span class="va">x2</span><span class="op">)</span>
+<span class="va">m2</span> <span class="op">=</span> <span class="fu">mu.vec</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span>
+<span class="va">iK2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">K2</span><span class="op">)</span> <span class="co"># inverse</span>
+
+<span class="co"># cross-covariance</span>
+<span class="va">K12</span> <span class="op">=</span> <span class="fu">kfun.mat</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>
+
+<span class="co"># Conditioning: x1 conditioned on x2</span>
+
+<span class="co"># conditional mean</span>
+<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
+
+<span class="co"># conditional variance</span>
+<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span></code></pre></div>
+<p>Now we can plot the posterior mean and upper and lower bounds of a 95% credible interval:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># upper and lower CI</span>
+<span class="va">upper.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
+<span class="va">lower.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">m1.2</span>, type<span class="op">=</span><span class="st">"l"</span>, xlim<span class="op">=</span><span class="va">XLIM</span>, ylim<span class="op">=</span><span class="va">YLIM</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">3</span>,
+  ylab<span class="op">=</span><span class="st">"y"</span>, xlab <span class="op">=</span> <span class="st">"x"</span>, main <span class="op">=</span> <span class="st">"Posterior"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">x2</span>,<span class="va">y2</span>,pch<span class="op">=</span><span class="fl">4</span>,lwd<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">upper.bound</span>,lty<span class="op">=</span><span class="fl">2</span>,lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">lower.bound</span>,lty<span class="op">=</span><span class="fl">2</span>,lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu">truefunc</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, xlim<span class="op">=</span><span class="va">XLIM</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"gray"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"topright"</span>, 
+  legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"posterior mean"</span>, <span class="st">"posterior quantiles"</span>, <span class="st">"true function"</span><span class="op">)</span>,
+  lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"black"</span>, <span class="st">"gray"</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">1.0</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="6-nonlinear_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<p>Finally, we can take into acount noise at the measured data points by adding an error term:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># add some noise</span>
+<span class="va">sdeps</span> <span class="op">=</span> <span class="fl">0.1</span>
+<span class="va">K2</span> <span class="op">=</span> <span class="va">K2</span> <span class="op">+</span> <span class="va">sdeps</span><span class="op">^</span><span class="fl">2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># update</span>
+<span class="va">iK2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">K2</span><span class="op">)</span> <span class="co"># inverse</span>
+<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
+<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span>
+<span class="va">upper.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
+<span class="va">lower.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">m1.2</span>, type<span class="op">=</span><span class="st">"l"</span>, xlim<span class="op">=</span><span class="va">XLIM</span>, ylim<span class="op">=</span><span class="va">YLIM</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">3</span>, 
+  ylab<span class="op">=</span><span class="st">"y"</span>, xlab <span class="op">=</span> <span class="st">"x"</span>, main <span class="op">=</span> <span class="st">"Posterior (with noise)"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">x2</span>,<span class="va">y2</span>,pch<span class="op">=</span><span class="fl">4</span>,lwd<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">upper.bound</span>,lty<span class="op">=</span><span class="fl">2</span>,lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">lower.bound</span>,lty<span class="op">=</span><span class="fl">2</span>,lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu">truefunc</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, xlim<span class="op">=</span><span class="va">XLIM</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"gray"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"topright"</span>, 
+  legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"posterior mean"</span>, <span class="st">"posterior quantiles"</span>, <span class="st">"true function"</span><span class="op">)</span>,
+  lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"black"</span>, <span class="st">"gray"</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">1.0</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="6-nonlinear_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
+<p>Note that in the vicinity of data points the CIs are small and the further away
+from data the more uncertain the estimate of the underlying function becomes.</p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="neural-networks" class="section level2">
+<h2>
+<span class="header-section-number">6.4</span> Neural networks<a class="anchor" aria-label="anchor" href="#neural-networks"><i class="fas fa-link"></i></a>
+</h2>
+<p>Another highly important class of models
+for nonlinear prediction (and nonlinear function approximation) are
+neural networks.</p>
+<p><strong>Relevant reading:</strong></p>
+<p>Please read: <span class="citation">Hastie, Tibshirani, and Friedman (<a href="bibliography.html#ref-HTF09">2009</a>)</span> <strong>Chapter 11 “Neural networks”</strong></p>
+<div id="history" class="section level3">
+<h3>
+<span class="header-section-number">6.4.1</span> History<a class="anchor" aria-label="anchor" href="#history"><i class="fas fa-link"></i></a>
+</h3>
+<p>Neural networks are actually relatively old models, going back
+to the 1950s!</p>
+<p>Three phases of neural networks (NN)</p>
+<ul>
+<li>1950/60: replicating functions of neurons in the brain (perceptron)</li>
+<li>1980/90: neural networks as universal function approximators</li>
+<li>2010—today: deep learning</li>
+</ul>
+<p>The first phase was biologically inspired, the second phase focused on
+mathematical properties, and the current phase is pushed forward by
+advances in computer science and numerical optimisation:</p>
+<ul>
+<li>backpropagation algorithm</li>
+<li>auto-differentiation,</li>
+<li>stochastic gradient descent</li>
+<li>use of GPUs and TPUs (e.g. for linear algebra)</li>
+<li>
+<p>availability and development of deep learning packages:</p>
+<ul>
+<li>Theano (University of Montreal), now Theano-PyMC/Aesara (PyMC3)</li>
+<li>TensorFlow (Google),</li>
+<li>Flax / JAX (Google),</li>
+<li>MXNet (Amazon),</li>
+<li>PyTorch (Facebook),</li>
+<li>PaddlePaddle (Baidu) etc.</li>
+</ul>
+</li>
+</ul>
+<p>and high-level wrappers:</p>
+<ul>
+<li>Keras (for Tensorflow, MXNet, Theano)</li>
+<li>PyTorch-Lightning (for PyTorch)</li>
+</ul>
+</div>
+<div id="neural-networks-1" class="section level3">
+<h3>
+<span class="header-section-number">6.4.2</span> Neural networks<a class="anchor" aria-label="anchor" href="#neural-networks-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Neural networks are essentially stacked systems of linear regressions,
+mapping input nodes (random variables) to outputs (response nodes).
+Each internal layer corresponds to internal latent variables.
+Each layer is connected with the next layer by <strong>non-linear activation functions</strong>.</p>
+<ul>
+<li>feedforward single layer NN</li>
+<li>stacked nonlinear multiple regression with hidden variables</li>
+<li>optimise by empirical risk minimisation</li>
+</ul>
+<p>It can be shown that NN can approximate any arbitrary non-linear function mapping
+input and output.</p>
+<p>“Deep” neural networks have many layers, and their optimisation requires advanced
+techniques (see above).</p>
+<p>Neural networks are very highly parameterised models and require typically a lot of data
+for training.</p>
+<p>Some of the statistical aspects of NN are not well understood: in particular it is known
+that NN overfit the data but can still generalise well. On the other hand, it is also know that NN
+can also be “fooled”, i.e. prediction can be unstable (adversarial examples).</p>
+<p>Current statistical research on NN focuses on interpretability and on links with Bayesian inference and models (e.g. GPs). For example:</p>
+<ul>
+<li><a href="https://link.springer.com/book/10.1007/978-3-030-28954-6" class="uri">https://link.springer.com/book/10.1007/978-3-030-28954-6</a></li>
+<li><a href="https://arxiv.org/abs/1910.12478" class="uri">https://arxiv.org/abs/1910.12478</a></li>
+</ul>
+</div>
+<div id="learning-more-about-deep-learning" class="section level3">
+<h3>
+<span class="header-section-number">6.4.3</span> Learning more about deep learning<a class="anchor" aria-label="anchor" href="#learning-more-about-deep-learning"><i class="fas fa-link"></i></a>
+</h3>
+<p>A good place to to learn more about deep learning and about the actual
+implementations in computer code on various platforms is the book “Dive into deep learning” by
+<span class="citation">Zhang et al. (<a href="bibliography.html#ref-ZLLS2020">2020</a>)</span> available online at <a href="https://d2l.ai/" class="uri">https://d2l.ai/</a></p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="chapter-nav">
+<div class="prev"><a href="multivariate-dependencies.html"><span class="header-section-number">5</span> Multivariate dependencies</a></div>
+<div class="next"><a href="brief-refresher-on-matrices.html"><span class="header-section-number">A</span> Brief refresher on matrices</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#nonlinear-and-nonparametric-models"><span class="header-section-number">6</span> Nonlinear and nonparametric models</a></li>
+<li>
+<a class="nav-link" href="#limits-of-linear-models-and-correlation"><span class="header-section-number">6.1</span> Limits of linear models and correlation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#correlation-only-measures-linear-dependence"><span class="header-section-number">6.1.1</span> Correlation only measures linear dependence</a></li>
+<li><a class="nav-link" href="#anscombe-data-sets"><span class="header-section-number">6.1.2</span> Anscombe data sets</a></li>
+<li><a class="nav-link" href="#alternatives"><span class="header-section-number">6.1.3</span> Alternatives</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#random-forests"><span class="header-section-number">6.2</span> Random forests</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#stochastic-vs.algorithmic-models"><span class="header-section-number">6.2.1</span> Stochastic vs. algorithmic models</a></li>
+<li><a class="nav-link" href="#random-forests-1"><span class="header-section-number">6.2.2</span> Random forests</a></li>
+<li><a class="nav-link" href="#comparison-of-decision-boundaries-decision-tree-vs.random-forest"><span class="header-section-number">6.2.3</span> Comparison of decision boundaries: decision tree vs. random forest</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#gaussian-processes"><span class="header-section-number">6.3</span> Gaussian processes</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#main-concepts"><span class="header-section-number">6.3.1</span> Main concepts</a></li>
+<li><a class="nav-link" href="#conditional-multivariate-normal-distribution"><span class="header-section-number">6.3.2</span> Conditional multivariate normal distribution</a></li>
+<li><a class="nav-link" href="#covariance-functions-and-kernels"><span class="header-section-number">6.3.3</span> Covariance functions and kernels</a></li>
+<li><a class="nav-link" href="#gp-model"><span class="header-section-number">6.3.4</span> GP model</a></li>
+<li><a class="nav-link" href="#gaussian-process-example"><span class="header-section-number">6.3.5</span> Gaussian process example</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#neural-networks"><span class="header-section-number">6.4</span> Neural networks</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#history"><span class="header-section-number">6.4.1</span> History</a></li>
+<li><a class="nav-link" href="#neural-networks-1"><span class="header-section-number">6.4.2</span> Neural networks</a></li>
+<li><a class="nav-link" href="#learning-more-about-deep-learning"><span class="header-section-number">6.4.3</span> Learning more about deep learning</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+</div>
+  
+
+  
+
+</div>
+ <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
