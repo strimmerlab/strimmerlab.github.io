@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>8 Beta-Binomial model for estimating a proportion | Statistical Methods: Likelihood, Bayes and Regression</title>
+<meta name="author" content="Korbinian Strimmer">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistical Methods: Likelihood, Bayes and Regression</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">7</span> Essentials of Bayesian statistics</a></li>
+<li><a class="active" href="beta-binomial-model-for-estimating-a-proportion.html"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></li>
+<li><a class="" href="properties-of-bayesian-learning.html"><span class="header-section-number">9</span> Properties of Bayesian learning</a></li>
+<li><a class="" href="normal-normal-and-inverse-gamma-normal-models-for-estimating-the-mean-and-the-variance.html"><span class="header-section-number">10</span> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a></li>
+<li><a class="" href="shrinkage-estimation-using-empirical-risk-minimisation.html"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
+<li><a class="" href="bayesian-model-comparison-using-bayes-factors-and-the-bic.html"><span class="header-section-number">12</span> Bayesian model comparison using Bayes factors and the BIC</a></li>
+<li><a class="" href="false-discovery-rates.html"><span class="header-section-number">13</span> False discovery rates</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">14</span> Optimality properties and summary</a></li>
+<li class="book-part">Regression</li>
+<li><a class="" href="overview-over-regression-modelling.html"><span class="header-section-number">15</span> Overview over regression modelling</a></li>
+<li><a class="" href="linear-regression.html"><span class="header-section-number">16</span> Linear Regression</a></li>
+<li><a class="" href="estimating-regression-coefficients.html"><span class="header-section-number">17</span> Estimating regression coefficients</a></li>
+<li><a class="" href="squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html"><span class="header-section-number">18</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">19</span> Prediction and variable selection</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="beta-binomial-model-for-estimating-a-proportion" class="section level1">
+<h1>
+<span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion<a class="anchor" aria-label="anchor" href="#beta-binomial-model-for-estimating-a-proportion"><i class="fas fa-link"></i></a>
+</h1>
+<p>In this chapter we discuss how to estimate a portion in the Bayesian
+framework.</p>
+<div id="binomial-likelihood" class="section level2">
+<h2>
+<span class="header-section-number">8.1</span> Binomial likelihood<a class="anchor" aria-label="anchor" href="#binomial-likelihood"><i class="fas fa-link"></i></a>
+</h2>
+<p>In order to apply Bayes’ theorem we first need to find a suitable
+likelihood based on modeling the data generating process. Here we follow
+the Binomial model as used previously in Part I:</p>
+<p>Repeated Bernoulli experiment (Binomial model):</p>
+<p><span class="math inline">\(x \in \{0, 1\}\)</span> (e.g. “tails” vs. “heads”)</p>
+<p>proability mass function (pmf): <span class="math inline">\(\text{Pr}(x=1) = p\)</span>, <span class="math inline">\(\text{Pr}(x=0) = 1-p\)</span><br>
+Mean: <span class="math inline">\(\text{E}(x) = p\)</span><br>
+Variance <span class="math inline">\(\text{Var}(x) = p (1-p)\)</span></p>
+<p><span class="math inline">\(\text{Bin}(n,p)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments)<br><span class="math inline">\(x \in \{0, 1, \ldots, n\}\)</span><br>
+Mean: <span class="math inline">\(\text{E}(x) = n p\)</span><br>
+Variance: <span class="math inline">\(\text{Var}(x) = n p (1-p)\)</span></p>
+<p>Standardised Binomial (average of <span class="math inline">\(n\)</span> Bernoulli experiments):<br><span class="math inline">\(\frac{x}{n} \in \{0, \frac{1}{n}, \ldots,1\}\)</span><br>
+Mean: <span class="math inline">\(\text{E}(\frac{x}{n}) = p\)</span><br>
+Variance: <span class="math inline">\(\text{Var}(\frac{x}{n}) = \frac{p (1-p)}{n}\)</span></p>
+<p>From part I (likelihood theory) we know that the <em>maximum likelihood estimate</em> of the proportion
+is the frequency <span class="math inline">\(\hat p_{ML} = \frac{x}{n}\)</span> given <span class="math inline">\(x\)</span> (number of “heads”) is observed in <span class="math inline">\(n\)</span> repeats.</p>
+</div>
+<div id="excursion-properties-of-the-beta-distribution" class="section level2">
+<h2>
+<span class="header-section-number">8.2</span> Excursion: Properties of the Beta distribution<a class="anchor" aria-label="anchor" href="#excursion-properties-of-the-beta-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p>The density of the Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span>
+for <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span>
+is
+<span class="math display">\[f(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}\]</span>
+The mean is <span class="math inline">\(\text{E}(x) = \mu = \frac{\alpha}{\alpha+\beta}\)</span> and the variance
+<span class="math inline">\(\text{Var}(x)=\frac{\mu (1-\mu)}{\alpha+\beta+1}\)</span>.</p>
+<p>The density depends on the Beta function <span class="math inline">\(B(a, b) = \frac{ \Gamma(a) \Gamma(b)}{\Gamma(a + b)}\)</span>
+which in turn is defined via Euler’s Gamma function
+<span class="math display">\[
+\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt
+\]</span>
+Note that <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span></p>
+<p>A useful reparameterisation of the Beta distribution is in terms of the parameters
+<span class="math inline">\(\mu \in [0,1]\)</span> and <span class="math inline">\(m &gt; 0\)</span>, yielding the original parameters via
+<span class="math inline">\(\alpha= \mu m\)</span> and <span class="math inline">\(\beta=(1-\mu)m\)</span>. Conversely, <span class="math inline">\(m=\alpha+\beta\)</span> and <span class="math inline">\(\mu = \frac{\alpha}{\alpha+\beta}\)</span>.</p>
+<p>The Beta distribution is very flexible and can assume a number of different shapes, depending on the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>:</p>
+<div class="inline-figure"><img src="fig/bayes2-betashapes.png" width="80%" style="display: block; margin: auto;"></div>
+</div>
+<div id="beta-prior-distribution" class="section level2">
+<h2>
+<span class="header-section-number">8.3</span> Beta prior distribution<a class="anchor" aria-label="anchor" href="#beta-prior-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>In Bayesian learning we need to make explicit our uncertainty about <span class="math inline">\(p\)</span>.</strong></p>
+<p><span class="math inline">\(p\)</span> has support <span class="math inline">\([0,1]\)</span> <span class="math inline">\(\rightarrow\)</span> we use the <strong>Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> as prior for <span class="math inline">\(p\)</span></strong> with parameters <span class="math inline">\(\alpha \geq 0\)</span> and <span class="math inline">\(\beta \geq 0\)</span>:</p>
+<p><span class="math display">\[
+p \sim \text{Beta}(\alpha, \beta)
+\]</span></p>
+<p>Note this does not actually mean that <span class="math inline">\(p\)</span> is random! It only means that we model the uncertainty about <span class="math inline">\(p\)</span> using a Beta random variable!</p>
+<p>The flexibility of the Beta distribution allows to accomodate a large variety of possible scenarious for our prior knowledge.</p>
+<p>The prior mean is
+<span class="math display">\[\text{E}(p) = \frac{\alpha}{m} = \mu_{\text{prior}}\]</span>
+and the prior variance
+<span class="math display">\[
+\text{Var}(p)  = \frac{\mu_{\text{prior}} (1-\mu_{\text{prior}})}{m + 1}
+\]</span>
+where <span class="math inline">\(m = \alpha + \beta\)</span>.</p>
+<p>Note the similarity to the moments of the standardised Binomial above!</p>
+</div>
+<div id="computing-the-posterior-distribution" class="section level2">
+<h2>
+<span class="header-section-number">8.4</span> Computing the posterior distribution<a class="anchor" aria-label="anchor" href="#computing-the-posterior-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p>Bayes’ theorem for continous random variables to compute posterior density:
+<span class="math display">\[
+f(p | x) = \frac{f(x | p) f(p) }{\int_{p^{'}} f(x | p^{'})  f(p^{'}) dp^{'}}
+\]</span>
+We use in our analysis the Beta-Binomial model:</p>
+<ol style="list-style-type: lower-alpha">
+<li>
+<strong>Beta prior:</strong>
+<span class="math display">\[
+p \sim \text{Beta}(\alpha, \beta)
+\]</span>
+<span class="math display">\[
+f(p) = \frac{1}{B(\alpha, \beta)} p^{\alpha-1} (1-p)^{\beta-1}
+\]</span>
+</li>
+<li>
+<strong>Binomial likelihood:</strong>
+<span class="math display">\[
+x | p \sim \text{Bin}(n,p)
+\]</span>
+<span class="math display">\[
+f(x|p) = \begin{pmatrix} n \\ x \end{pmatrix} p^x (1-p)^{(n-x)}
+\]</span>
+</li>
+</ol>
+<p>Applying Bayes’ theorem results in</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>
+<strong>Beta posterior distribution</strong>
+<span class="math display">\[
+p| x \sim \text{Beta}(\alpha+x, \beta+n-x)
+\]</span>
+<span class="math display">\[
+f(p| x) = \frac{1}{B(\alpha+x, \beta+n-x)} p^{\alpha+x-1} (1-p)^{\beta+n-x-1}
+\]</span>
+(for a proof see Worksheet 5!)</li>
+</ol>
+<p>The posterior can be summarised by its first two moments (mean and variance):</p>
+<p>Posterior mean:
+<span class="math display">\[
+\mu_{\text{posterior}}= \text{E}(p | x) = \frac{x +\alpha}{n+ m }
+\]</span></p>
+<p>Posterior variance:
+<span class="math display">\[
+\sigma^2_{\text{posterior}}= \text{Var}(p | x) 
+= \frac{\mu_{\text{posterior}}(1-\mu_{\text{posterior}})}{n+m+1 }
+\]</span></p>
+
+<p></p>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="essentials-of-bayesian-statistics.html"><span class="header-section-number">7</span> Essentials of Bayesian statistics</a></div>
+<div class="next"><a href="properties-of-bayesian-learning.html"><span class="header-section-number">9</span> Properties of Bayesian learning</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#beta-binomial-model-for-estimating-a-proportion"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></li>
+<li><a class="nav-link" href="#binomial-likelihood"><span class="header-section-number">8.1</span> Binomial likelihood</a></li>
+<li><a class="nav-link" href="#excursion-properties-of-the-beta-distribution"><span class="header-section-number">8.2</span> Excursion: Properties of the Beta distribution</a></li>
+<li><a class="nav-link" href="#beta-prior-distribution"><span class="header-section-number">8.3</span> Beta prior distribution</a></li>
+<li><a class="nav-link" href="#computing-the-posterior-distribution"><span class="header-section-number">8.4</span> Computing the posterior distribution</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

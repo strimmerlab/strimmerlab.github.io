@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>18 Squared multiple correlation and variance decomposition in linear regression | Statistical Methods: Likelihood, Bayes and Regression</title>
+<meta name="author" content="Korbinian Strimmer">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistical Methods: Likelihood, Bayes and Regression</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">7</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="beta-binomial-model-for-estimating-a-proportion.html"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></li>
+<li><a class="" href="properties-of-bayesian-learning.html"><span class="header-section-number">9</span> Properties of Bayesian learning</a></li>
+<li><a class="" href="normal-normal-and-inverse-gamma-normal-models-for-estimating-the-mean-and-the-variance.html"><span class="header-section-number">10</span> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a></li>
+<li><a class="" href="shrinkage-estimation-using-empirical-risk-minimisation.html"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
+<li><a class="" href="bayesian-model-comparison-using-bayes-factors-and-the-bic.html"><span class="header-section-number">12</span> Bayesian model comparison using Bayes factors and the BIC</a></li>
+<li><a class="" href="false-discovery-rates.html"><span class="header-section-number">13</span> False discovery rates</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">14</span> Optimality properties and summary</a></li>
+<li class="book-part">Regression</li>
+<li><a class="" href="overview-over-regression-modelling.html"><span class="header-section-number">15</span> Overview over regression modelling</a></li>
+<li><a class="" href="linear-regression.html"><span class="header-section-number">16</span> Linear Regression</a></li>
+<li><a class="" href="estimating-regression-coefficients.html"><span class="header-section-number">17</span> Estimating regression coefficients</a></li>
+<li><a class="active" href="squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html"><span class="header-section-number">18</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">19</span> Prediction and variable selection</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="squared-multiple-correlation-and-variance-decomposition-in-linear-regression" class="section level1">
+<h1>
+<span class="header-section-number">18</span> Squared multiple correlation and variance decomposition in linear regression<a class="anchor" aria-label="anchor" href="#squared-multiple-correlation-and-variance-decomposition-in-linear-regression"><i class="fas fa-link"></i></a>
+</h1>
+<p>In this chapter we first introduce the (squared) multiple correlation and the multiple and adjusted <span class="math inline">\(R^2\)</span> coefficients as estimators. Subsequently
+we discuss variance decomposition.</p>
+<div id="squared-multiple-correlation-omega2-and-the-r2-coefficient" class="section level2">
+<h2>
+<span class="header-section-number">18.1</span> Squared multiple correlation <span class="math inline">\(\Omega^2\)</span> and the <span class="math inline">\(R^2\)</span> coefficient<a class="anchor" aria-label="anchor" href="#squared-multiple-correlation-omega2-and-the-r2-coefficient"><i class="fas fa-link"></i></a>
+</h2>
+<p>In the previous chapter we encountered the following quantity:
+<span class="math display">\[
+\Omega^2 =  \boldsymbol P_{y \boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy} = \sigma_y^{-2} \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}
+\]</span></p>
+<p>With <span class="math inline">\(\boldsymbol \beta=\boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\)</span>
+and
+<span class="math inline">\(\beta_0=\mu_y- \boldsymbol \beta^T \boldsymbol \mu_{\boldsymbol x}\)</span> it is straightforward to verify the following:</p>
+<ul>
+<li>the cross-covariance between <span class="math inline">\(y\)</span> and <span class="math inline">\(y^{\star}\)</span> is
+<span class="math inline">\(\text{Cov}(y, y^{\star}) = \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \beta= \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy} = \sigma^2_y \boldsymbol P_{y \boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy} = \sigma_y^2 \Omega^2\)</span>
+</li>
+<li>the (signal) variance of <span class="math inline">\(y^{\star}\)</span> is
+<span class="math inline">\(\text{Var}(y^{\star})= \boldsymbol \beta^T \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x} \boldsymbol \beta= \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy} = \sigma^2_y \boldsymbol P_{y \boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy} = \sigma_y^2 \Omega^2\)</span>.</li>
+</ul>
+<p>hence the correlation <span class="math inline">\(\text{Cor}(y, y^{\star}) = \frac{\text{Cov}(y, y^{\star})}{\text{SD}(y) \text{SD}(y^{\star})} = \Omega\)</span> with <span class="math inline">\(\Omega \geq 0\)</span>.</p>
+<p>This helps to understand the <span class="math inline">\(\Omega\)</span> and <span class="math inline">\(\Omega^2\)</span> coefficients:</p>
+<ul>
+<li><p><span class="math inline">\(\Omega\)</span> is the linear correlation between the response (<span class="math inline">\(y\)</span>) and prediction <span class="math inline">\(y^{\star}\)</span>.</p></li>
+<li><p><span class="math inline">\(\Omega^2\)</span> is called the <strong>squared multiple correlation</strong> between the scalar <span class="math inline">\(y\)</span> and the vector <span class="math inline">\(\boldsymbol x\)</span>.</p></li>
+<li><p>Note that if we only have one predictor (if <span class="math inline">\(x\)</span> is a scalar) then
+<span class="math inline">\(\boldsymbol P_{x x} = 1\)</span> and <span class="math inline">\(\boldsymbol P_{y x} = \rho_{yx}\)</span> so the multiple squared correlation coefficient reduces to squared correlation
+<span class="math inline">\(\Omega^2 = \rho_{yx}^2\)</span> between two scalar random variables <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>.</p></li>
+</ul>
+<div id="estimation-of-omega2-and-the-multiple-r2-coefficient" class="section level3">
+<h3>
+<span class="header-section-number">18.1.1</span> Estimation of <span class="math inline">\(\Omega^2\)</span> and the multiple <span class="math inline">\(R^2\)</span> coefficient<a class="anchor" aria-label="anchor" href="#estimation-of-omega2-and-the-multiple-r2-coefficient"><i class="fas fa-link"></i></a>
+</h3>
+<p>The multiple squared correlation coefficient <span class="math inline">\(\Omega^2\)</span> can be estimated by plug-in of empirical estimates for the corresponding correlation matrices:
+<span class="math display">\[R^2 =  \hat{\boldsymbol P}_{y \boldsymbol x} \hat{\boldsymbol P}_{\boldsymbol x\boldsymbol x}^{-1} \hat{\boldsymbol P}_{\boldsymbol xy} = \hat{\sigma}_y^{-2} \hat {\boldsymbol \Sigma}_{y \boldsymbol x} \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}^{-1} \hat{\boldsymbol \Sigma}_{\boldsymbol xy}\]</span>
+This estimator of <span class="math inline">\(\Omega^2\)</span> is called the <strong>multiple <span class="math inline">\(R^2\)</span> coefficient</strong>.</p>
+<p>If the same scale factor <span class="math inline">\(1/n\)</span> or <span class="math inline">\(1/(n-1)\)</span> is used in estimating the variance <span class="math inline">\(\sigma^2_y\)</span> and
+the covariances <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_{y \boldsymbol x}\)</span> then this factor will cancel out.</p>
+<p>Above we have seen that <span class="math inline">\(\Omega^2\)</span> is directly linked with the noise variance via
+<span class="math display">\[
+\text{Var}(\varepsilon) =\sigma^2_y (1-\Omega^2) \,.
+\]</span>
+so we can express the squared multiple correlation as
+<span class="math display">\[
+\Omega^2 = 1- \text{Var}(\varepsilon) / \sigma^2_y 
+\]</span></p>
+<p>The <strong>maximum likelihood estimate</strong> of the noise variance <span class="math inline">\(\text{Var}(\varepsilon)\)</span> (also called <strong>residual variance</strong>) can be computed from the residual sum of squares <span class="math inline">\(RSS = \sum_{i=1}^n (y_i -\hat{y}_i)^2\)</span>
+as follows:
+<span class="math display">\[
+\widehat{\text{Var}}(\varepsilon)_{ML} = \frac{RSS}{n}
+\]</span>
+whereas the <strong>unbiased estimate</strong> is obtained by
+<span class="math display">\[
+\widehat{\text{Var}}(\varepsilon)_{UB} = \frac{RSS}{n+d+1} = \frac{RSS}{df}
+\]</span>
+where the <strong>degree of freedom</strong> is <span class="math inline">\(df=n-d-1\)</span> and <span class="math inline">\(d\)</span> is the number of predictors.</p>
+<p>Similarly, we can find the maximimum likelihood estimate <span class="math inline">\(v_y^{ML}\)</span> for <span class="math inline">\(\sigma^2_y\)</span>
+(with factor <span class="math inline">\(1/n\)</span>) as well as an unbiased estimate <span class="math inline">\(v_y^{UB}\)</span> (with scale factor <span class="math inline">\(1/(n-1)\)</span>)</p>
+<p>The <strong>multiple <span class="math inline">\(R^2\)</span> coefficient</strong> can then be written as
+<span class="math display">\[
+R^2 =1- \widehat{\text{Var}}(\varepsilon)_{ML} / v_y^{ML}
+\]</span>
+Note we use MLEs.</p>
+<p>In contrast, the so-called <strong>adjusted multiple <span class="math inline">\(R^2\)</span> coefficient</strong> is given by
+<span class="math display">\[
+R^2_{\text{adj}}=1- \widehat{\text{Var}}(\varepsilon)_{UB} / v_y^{UB}
+\]</span>
+where the unbiased variances are used.</p>
+<p>Both <span class="math inline">\(R^2\)</span> and <span class="math inline">\(R^2_{\text{adj}}\)</span> are estimates of <span class="math inline">\(\Omega^2\)</span> and are related by
+<span class="math display">\[
+1-R^2 = (1- R^2_{\text{adj}}) \, \frac{df}{n-1}
+\]</span></p>
+</div>
+<div id="r-commands" class="section level3">
+<h3>
+<span class="header-section-number">18.1.2</span> R commands<a class="anchor" aria-label="anchor" href="#r-commands"><i class="fas fa-link"></i></a>
+</h3>
+<p>In R the command <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> fits the linear regression model.</p>
+<p>In addition to the regression cofficients (and derived quantities) the R function <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> also lists</p>
+<ul>
+<li>the multiple R-squared <span class="math inline">\(R^2\)</span>,</li>
+<li>the adjusted R-squared <span class="math inline">\(R^2_{\text{adj}}\)</span>,</li>
+<li>the degrees of freedom <span class="math inline">\(df\)</span> and</li>
+<li>the residual standard error <span class="math inline">\(\sqrt{\widehat{\text{Var}}(\varepsilon)_{UB}}\)</span> (computed from the unbiased variance estimate).</li>
+</ul>
+<p>See also Worksheet 9 which provides R code to reproduce the exact output of the native <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> R function.</p>
+</div>
+</div>
+<div id="variance-decomposition-in-regression" class="section level2">
+<h2>
+<span class="header-section-number">18.2</span> Variance decomposition in regression<a class="anchor" aria-label="anchor" href="#variance-decomposition-in-regression"><i class="fas fa-link"></i></a>
+</h2>
+<p>The squared multiple correlation coefficient is useful also because it plays an important role in the decomposition of the total variance:</p>
+<ul>
+<li>total variance: <span class="math inline">\(\text{Var}(y) = \sigma^2_y\)</span>
+</li>
+<li>unexplained variance (irreducible error): <span class="math inline">\(\sigma^2_y (1-\Omega^2) = \text{Var}(\varepsilon)\)</span>
+</li>
+<li>the explained variance is the complement: <span class="math inline">\(\sigma^2_y \Omega^2 = \text{Var}(y^{\star})\)</span>
+</li>
+</ul>
+<p>In summary:</p>
+<p><span class="math display">\[\text{Var}(y)  =  \text{Var}(y^{\star}) + \text{Var}(\varepsilon)\]</span>
+becomes
+<span class="math display">\[\underbrace{\sigma^2_y}_{\text{total variance}}  = \underbrace{\sigma_y^2 \Omega^2}_{\text{explained variance}}
+ + \underbrace{ \sigma^2_y (1-\Omega^2)}_{\text{unexplained variance}}\]</span></p>
+<p>The unexplained variance measures the fit after introducing predictors into the model (smaller means better fit).
+The total variance measures the fit of the model without any predictors. The explained variance
+is the difference between total and unexplained variance, it indicates the increase in model fit
+due to the predictors.</p>
+<div id="law-of-total-variance-and-variance-decomposition" class="section level3">
+<h3>
+<span class="header-section-number">18.2.1</span> Law of total variance and variance decomposition<a class="anchor" aria-label="anchor" href="#law-of-total-variance-and-variance-decomposition"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <strong>law of total variance</strong> is</p>
+<p><span class="math display">\[\underbrace{\text{Var}(y)}_{\text{total variance}}  = \underbrace{\text{Var}( \text{E}(y | \boldsymbol x) ) }_{\text{explained variance}}
+ + \underbrace{ \text{E}( \text{Var}( y | \boldsymbol x) )}_{\text{unexplained variance}}\]</span></p>
+<p>provides a very general decomposition in explained and unexplained parts of the variance that is valid regardless of the form of the distributions <span class="math inline">\(F_{y, \boldsymbol x}\)</span> and <span class="math inline">\(F_{y | \boldsymbol x}\)</span>.</p>
+<p>In regression it conncects
+variance decomposition and conditioning. If you plug-in the conditional expections for the multivariate
+normal model (cf. previous chapter) we recover</p>
+<p><span class="math display">\[\underbrace{\sigma^2_y}_{\text{total variance}}  = \underbrace{\sigma_y^2 \Omega^2 }_{\text{explained variance}}
+ + \underbrace{ \sigma^2_y (1-\Omega^2)}_{\text{unexplained variance}}\]</span></p>
+</div>
+<div id="related-quantities" class="section level3">
+<h3>
+<span class="header-section-number">18.2.2</span> Related quantities<a class="anchor" aria-label="anchor" href="#related-quantities"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using the above three quantities (total variance, explained variance, and unexplained variance)
+we can construct a number of scores:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>coefficient of determination</strong>, <strong>squared multiple correlation</strong>:</li>
+</ol>
+<p><span class="math display">\[
+\frac{\text{explained var}}{\text{total var}} = \frac{\sigma_y^2 \Omega^2}{\sigma_y^2} = \Omega^2
+\]</span>
+(range 0 to 1, with 1 indicating perfect fit)</p>
+<ol start="2" style="list-style-type: decimal">
+<li>
+<strong>coefficient of non-determination</strong>, <strong>coefficient of alienation</strong>:</li>
+</ol>
+<p><span class="math display">\[
+\frac{\text{unexplained var}}{\text{total var}} = \frac{\sigma_y^2 (1-\Omega^2)}{\sigma_y^2} = 1-\Omega^2
+\]</span>
+(range 0 to 1, with 0 indicating perfect fit)</p>
+<ol start="3" style="list-style-type: decimal">
+<li>
+<strong><span class="math inline">\(F\)</span> score</strong>, <strong><span class="math inline">\(t^2\)</span> score</strong>:</li>
+</ol>
+<p><span class="math display">\[
+n \frac{\text{explained var}}{\text{unexplained var}} = n \frac{\sigma_y^2 \Omega^2}{\sigma_y^2 (1-\Omega^2)} = n \frac{\Omega^2}{1-\Omega^2} = \mathcal{F} = \tau^2
+\]</span>
+(range 0 to <span class="math inline">\(\infty\)</span>, with <span class="math inline">\(\infty\)</span> indicating perfect fit)</p>
+<p>Note that <span class="math inline">\(\mathcal{F}\)</span> and <span class="math inline">\(\tau^2\)</span> scores (=population versions of <span class="math inline">\(F\)</span> and <span class="math inline">\(t^2\)</span> statistics) by definition scale with sample size <span class="math inline">\(n\)</span>, and that <span class="math inline">\(\Omega^2 = \frac{\tau^2}{\tau^2 + n} = \frac{\mathcal{F}}{\mathcal{F} + n}\)</span> links squared correlation with squared <span class="math inline">\(t\)</span>-scores and <span class="math inline">\(F\)</span>-scores.</p>
+</div>
+</div>
+<div id="sample-version-of-variance-decomposition" class="section level2">
+<h2>
+<span class="header-section-number">18.3</span> Sample version of variance decomposition<a class="anchor" aria-label="anchor" href="#sample-version-of-variance-decomposition"><i class="fas fa-link"></i></a>
+</h2>
+<p>If <span class="math inline">\(\Omega^2\)</span> and <span class="math inline">\(\sigma^2_y\)</span> are replaced by their MLEs this can be written in a sample version as follows using data points <span class="math inline">\(y_i\)</span>, predictions <span class="math inline">\(\hat{y}_i\)</span> and <span class="math inline">\(\bar{y} = \frac{1}{n}\sum_{i=1}^n {y_i}\)</span></p>
+<p><span class="math display">\[\underbrace{\sum_{i=1}^n (y_i-\bar{y})^2}_{\text{total sum of squares (TSS)}}  = \underbrace{\sum_{i=1}^n (\hat{y}_i-\bar{y})^2 }_{\text{explained sum of squares (ESS)}}
+ + \underbrace{\sum_{i=1}^n (y_i-\hat{y}_i)^2 }_{\text{residual sum of squares (RSS)}}\]</span></p>
+<p>Note that TSS, ESS and RSS all scale with <span class="math inline">\(n\)</span>.
+Using data vector notation the sample-based variance decomposition can be written in form of the Pythagorean theorem:
+<span class="math display">\[\underbrace{|| \boldsymbol y-\bar{y} \boldsymbol 1\ ||^2}_{\text{total sum of squares (TSS)}}  = 
+\underbrace{||\hat{\boldsymbol y}-\bar{y} \boldsymbol 1||^2 }_{\text{explained sum of squares (ESS)}}
+ + \underbrace{|| \boldsymbol y-\hat{\boldsymbol y} ||^2 }_{\text{residual sum of squares (RSS)}}\]</span></p>
+<div id="geometric-interpretation-of-regression-as-orthogonal-projection" class="section level3">
+<h3>
+<span class="header-section-number">18.3.1</span> Geometric interpretation of regression as orthogonal projection:<a class="anchor" aria-label="anchor" href="#geometric-interpretation-of-regression-as-orthogonal-projection"><i class="fas fa-link"></i></a>
+</h3>
+<p>The above equation can be further simplified to</p>
+<p><span class="math display">\[|| \boldsymbol y||^2  = 
+||\hat{\boldsymbol y}||^2 
+ + \underbrace{|| \boldsymbol y-\hat{\boldsymbol y} ||^2 }_{\text{RSS}}
+\]</span></p>
+<p>Geometrically speaking, this implies <span class="math inline">\(\hat{\boldsymbol y}\)</span> is an orthogonal projection of <span class="math inline">\(\boldsymbol y\)</span>, since the
+residuals <span class="math inline">\(\boldsymbol y-\hat{\boldsymbol y}\)</span> and the predictions <span class="math inline">\(\hat{\boldsymbol y}\)</span> are orthogonal (by construction!).</p>
+<p>This also valid for the centered versions of the vectors, i.e.
+<span class="math inline">\(\hat{\boldsymbol y}-\bar{y} \boldsymbol 1_n\)</span> is an orthogonal projection of <span class="math inline">\(\boldsymbol y-\bar{y} \boldsymbol 1_n\)</span> (see Figure).</p>
+<p>Also note that the angle <span class="math inline">\(\theta\)</span> between the two centered vectors is directly related to the (estimated) multiple correlation, with <span class="math inline">\(R = \cos(\theta) = \frac{||\hat{\boldsymbol y}-\bar{y} \boldsymbol 1_n ||}{|| \boldsymbol y-\bar{y} \boldsymbol 1_n||}\)</span>, or <span class="math inline">\(R^2 = \cos(\theta)^2 = \frac{||\hat{\boldsymbol y}-\bar{y} \boldsymbol 1_n ||^2}{|| \boldsymbol y-\bar{y} \boldsymbol 1_n||^2} = \frac{\text{ESS}}{\text{TSS}}\)</span>.</p>
+<div class="inline-figure"><img src="fig/regression5-p1.png" width="80%" style="display: block; margin: auto;"></div>
+<p>Source of Figure: <a href="http://stats.stackexchange.com/questions/123651/geometric-interpretation-of-multiple-correlation-coefficient-r-and-coefficient">Stack Exchange</a></p>
+
+<p></p>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="estimating-regression-coefficients.html"><span class="header-section-number">17</span> Estimating regression coefficients</a></div>
+<div class="next"><a href="prediction-and-variable-selection.html"><span class="header-section-number">19</span> Prediction and variable selection</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#squared-multiple-correlation-and-variance-decomposition-in-linear-regression"><span class="header-section-number">18</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li>
+<a class="nav-link" href="#squared-multiple-correlation-omega2-and-the-r2-coefficient"><span class="header-section-number">18.1</span> Squared multiple correlation \(\Omega^2\) and the \(R^2\) coefficient</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#estimation-of-omega2-and-the-multiple-r2-coefficient"><span class="header-section-number">18.1.1</span> Estimation of \(\Omega^2\) and the multiple \(R^2\) coefficient</a></li>
+<li><a class="nav-link" href="#r-commands"><span class="header-section-number">18.1.2</span> R commands</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#variance-decomposition-in-regression"><span class="header-section-number">18.2</span> Variance decomposition in regression</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#law-of-total-variance-and-variance-decomposition"><span class="header-section-number">18.2.1</span> Law of total variance and variance decomposition</a></li>
+<li><a class="nav-link" href="#related-quantities"><span class="header-section-number">18.2.2</span> Related quantities</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#sample-version-of-variance-decomposition"><span class="header-section-number">18.3</span> Sample version of variance decomposition</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#geometric-interpretation-of-regression-as-orthogonal-projection"><span class="header-section-number">18.3.1</span> Geometric interpretation of regression as orthogonal projection:</a></li></ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

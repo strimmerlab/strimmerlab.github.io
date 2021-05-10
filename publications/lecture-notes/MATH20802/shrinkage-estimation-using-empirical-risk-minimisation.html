@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Welcome | Statistical Methods: Likelihood, Bayes and Regression</title>
+<title>11 Shrinkage estimation using empirical risk minimisation | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="active" href="index.html">Welcome</a></li>
+<li><a class="" href="index.html">Welcome</a></li>
 <li><a class="" href="preface.html">Preface</a></li>
 <li class="book-part">Likelihood estimation and inference</li>
 <li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
@@ -45,7 +45,7 @@
 <li><a class="" href="beta-binomial-model-for-estimating-a-proportion.html"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></li>
 <li><a class="" href="properties-of-bayesian-learning.html"><span class="header-section-number">9</span> Properties of Bayesian learning</a></li>
 <li><a class="" href="normal-normal-and-inverse-gamma-normal-models-for-estimating-the-mean-and-the-variance.html"><span class="header-section-number">10</span> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a></li>
-<li><a class="" href="shrinkage-estimation-using-empirical-risk-minimisation.html"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
+<li><a class="active" href="shrinkage-estimation-using-empirical-risk-minimisation.html"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
 <li><a class="" href="bayesian-model-comparison-using-bayes-factors-and-the-bic.html"><span class="header-section-number">12</span> Bayesian model comparison using Bayes factors and the BIC</a></li>
 <li><a class="" href="false-discovery-rates.html"><span class="header-section-number">13</span> False discovery rates</a></li>
 <li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">14</span> Optimality properties and summary</a></li>
@@ -66,31 +66,76 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><!--bookdown:title:end--><!--bookdown:title:start--><div id="welcome" class="section level1 unnumbered">
-<h1>Welcome<a class="anchor" aria-label="anchor" href="#welcome"><i class="fas fa-link"></i></a>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="shrinkage-estimation-using-empirical-risk-minimisation" class="section level1">
+<h1>
+<span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation<a class="anchor" aria-label="anchor" href="#shrinkage-estimation-using-empirical-risk-minimisation"><i class="fas fa-link"></i></a>
 </h1>
-<p>These are the lecture notes for MATH20802, a course in <strong>Statistical Methods</strong> for second year mathematics students at the <a href="https://www.maths.manchester.ac.uk">Department of Mathematics of the University of Manchester</a>.</p>
-<p>The course text was written by <a href="http://www.strimmerlab.org/korbinian.html">Korbinian Strimmer</a> from 2019–2021. This version is from 10 May 2021.</p>
-<p>The notes will be updated from time to time. To view the current
-version visit the
-<a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/index.html">online MATH20802 lecture notes</a>.
-You may also <a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/math20802-script.pdf">download the MATH20802 lecture notes as PDF</a>.</p>
-<div id="license" class="section level2 unnumbered">
-<h2>License<a class="anchor" aria-label="anchor" href="#license"><i class="fas fa-link"></i></a>
+<div id="linear-shrinkage" class="section level2">
+<h2>
+<span class="header-section-number">11.1</span> Linear shrinkage<a class="anchor" aria-label="anchor" href="#linear-shrinkage"><i class="fas fa-link"></i></a>
 </h2>
-<p>Thes notes are licensed to you under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+<p>In the examples for Bayesian estimation we have seen so far
+the posterior mean of the parameter of interest was obtained
+by linear shrinkage
+<span class="math display">\[
+\hat\theta_{\text{shrink}} = \text{E}( \theta | x_1, \ldots, x_n) = \lambda \theta_0 + (1-\lambda) \hat\theta_{\text{ML}}
+\]</span>
+of the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> towards the
+prior mean <span class="math inline">\(\theta_0\)</span>, with shrinkage intensity <span class="math inline">\(\lambda=\frac{m}{m+n}\)</span>
+determined by the pseudo-sample size <span class="math inline">\(m\)</span>
+(which in turn is linked the precision of the prior)
+and the sample size <span class="math inline">\(n\)</span>.</p>
+<p>The resulting point estimate <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> is called <em>shrinkage estimate</em>
+and is a convex combination of <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>. The prior mean <span class="math inline">\(\theta_0\)</span> is also
+called the “target”.</p>
+<p>In a Bayesian estimation the parameter <span class="math inline">\(m\)</span> and hence <span class="math inline">\(\lambda\)</span> is given a priori, but it turns out that it is possible and useful to find an optimal value for <span class="math inline">\(\lambda\)</span> by minimising the mean squared error of the
+estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span>.</p>
+<p>In particular, by construction, the target <span class="math inline">\(\theta_0\)</span> has zero variance
+but substantial bias, whereas the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> will have low or zero bias but a non-vanishing variance. By combinining these two estimators with opposite properties the aim is to achieve
+a <em>bias-variance tradeoff</em> so that the resulting estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> has lower MSE than either
+<span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>.</p>
+<p>Specifically, the aim is to find
+<span class="math display">\[
+\lambda^{\star} = \underset{\lambda}{\arg \min \ }  
+\text{E}\left( ( \theta - \hat\theta_{\text{shrink}} )^2\right) 
+\]</span></p>
+<p>It turns out that this can be minimised without knowing the actual true value of <span class="math inline">\(\theta\)</span>
+and the result for an unbiased <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> is
+<span class="math display">\[
+\lambda^{\star} = \frac{\text{Var}(\hat\theta_{\text{ML}})}{\text{E}( (\hat\theta_{\text{ML}} - \theta_0)^2 )}
+\]</span>
+Hence, the shrinkage intensity will be small if the variance of the MLE is small and/or if the target
+and the MLE differ substantially. On the other hand, if the variance of the MLE is large and/or the target is close to the MLE the shrinkage intensity will be large.</p>
+</div>
+<div id="james-stein-estimator" class="section level2">
+<h2>
+<span class="header-section-number">11.2</span> James-Stein estimator<a class="anchor" aria-label="anchor" href="#james-stein-estimator"><i class="fas fa-link"></i></a>
+</h2>
+<p>We can now use empirical risk minimisation to estimate the shrinkage parameter the Normal-Normal model.</p>
+<p>In 1955 James and Stein propose the following estimate for
+the multivariate mean <span class="math inline">\(\boldsymbol \mu\)</span> of using a single sample <span class="math inline">\(\boldsymbol x\)</span>
+drawn from the multivariate normal <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol I)\)</span>:
+<span class="math display">\[
+\hat{\boldsymbol \mu}_{JS} = (1-\frac{d-2}{||\boldsymbol x||^2}) \boldsymbol x
+\]</span>
+Here, we recognise <span class="math inline">\(\hat{\boldsymbol \mu}_{ML} = \boldsymbol x\)</span>, <span class="math inline">\(\boldsymbol \mu_0=0\)</span> and shrinkage intensity <span class="math inline">\(\lambda^{\star}=\frac{d-2}{||\boldsymbol x||^2}\)</span>.</p>
+<p>Efron and Morris (1972) and Lindley and Smith (1972)
+generalised this shrinkage estimator to the case
+of multiple observations <span class="math inline">\(\boldsymbol x_1, \ldots \boldsymbol x_n\)</span>
+and target <span class="math inline">\(\boldsymbol \mu_0\)</span>, yielding an empirical Bayes estimate of <span class="math inline">\(\mu\)</span> based on the Normal-Normal model.</p>
 
-
+<p></p>
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="next"><a href="preface.html">Preface</a></div>
+<div class="prev"><a href="normal-normal-and-inverse-gamma-normal-models-for-estimating-the-mean-and-the-variance.html"><span class="header-section-number">10</span> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a></div>
+<div class="next"><a href="bayesian-model-comparison-using-bayes-factors-and-the-bic.html"><span class="header-section-number">12</span> Bayesian model comparison using Bayes factors and the BIC</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#welcome">Welcome</a></li>
-<li><a class="nav-link" href="#license">License</a></li>
+<li><a class="nav-link" href="#shrinkage-estimation-using-empirical-risk-minimisation"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
+<li><a class="nav-link" href="#linear-shrinkage"><span class="header-section-number">11.1</span> Linear shrinkage</a></li>
+<li><a class="nav-link" href="#james-stein-estimator"><span class="header-section-number">11.2</span> James-Stein estimator</a></li>
 </ul>
 
       <div class="book-extra">

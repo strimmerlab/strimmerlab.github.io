@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>7 Essentials of Bayesian statistics | Statistical Methods: Likelihood, Bayes and Regression</title>
+<meta name="author" content="Korbinian Strimmer">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistical Methods: Likelihood, Bayes and Regression</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="active" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">7</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="beta-binomial-model-for-estimating-a-proportion.html"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></li>
+<li><a class="" href="properties-of-bayesian-learning.html"><span class="header-section-number">9</span> Properties of Bayesian learning</a></li>
+<li><a class="" href="normal-normal-and-inverse-gamma-normal-models-for-estimating-the-mean-and-the-variance.html"><span class="header-section-number">10</span> Normal-Normal and Inverse-Gamma-Normal models for estimating the mean and the variance</a></li>
+<li><a class="" href="shrinkage-estimation-using-empirical-risk-minimisation.html"><span class="header-section-number">11</span> Shrinkage estimation using empirical risk minimisation</a></li>
+<li><a class="" href="bayesian-model-comparison-using-bayes-factors-and-the-bic.html"><span class="header-section-number">12</span> Bayesian model comparison using Bayes factors and the BIC</a></li>
+<li><a class="" href="false-discovery-rates.html"><span class="header-section-number">13</span> False discovery rates</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">14</span> Optimality properties and summary</a></li>
+<li class="book-part">Regression</li>
+<li><a class="" href="overview-over-regression-modelling.html"><span class="header-section-number">15</span> Overview over regression modelling</a></li>
+<li><a class="" href="linear-regression.html"><span class="header-section-number">16</span> Linear Regression</a></li>
+<li><a class="" href="estimating-regression-coefficients.html"><span class="header-section-number">17</span> Estimating regression coefficients</a></li>
+<li><a class="" href="squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html"><span class="header-section-number">18</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">19</span> Prediction and variable selection</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="essentials-of-bayesian-statistics" class="section level1">
+<h1>
+<span class="header-section-number">7</span> Essentials of Bayesian statistics<a class="anchor" aria-label="anchor" href="#essentials-of-bayesian-statistics"><i class="fas fa-link"></i></a>
+</h1>
+<div id="conditional-probability" class="section level2">
+<h2>
+<span class="header-section-number">7.1</span> Conditional probability<a class="anchor" aria-label="anchor" href="#conditional-probability"><i class="fas fa-link"></i></a>
+</h2>
+<p>Assume we have two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>.
+By definition <span class="math inline">\(\int \int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
+<p>The <strong>marginal densities</strong> for the individual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span>
+and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>. Thus, when computing the marginal densities a variable is removed
+from the joint density by integrating over all possible states of that variable.
+It follows also that <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>, i.e. the
+marginal densities also integrate to 1.</p>
+<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span>
+we may wish to keep it fixed at some value, say keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>.
+In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF)
+given by the ratio
+<span class="math display">\[
+p(x | y=y_0) = \frac{p(x, y=y_0)}{p(y=y_0)}
+\]</span>
+The denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> is
+needed to ensure that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises
+<span class="math inline">\(p(x, y=y_0)\)</span> so that it is a proper density.</p>
+<p>To simplify notation, the specific value on which a variable is conditioned is often left out.</p>
+<p>The mean and variance of the conditional distribution are called conditional mean and conditional variance.</p>
+<p>Rearranging the above we see that the joint density can be written as the
+product of marginal and conditional density in two different ways:
+<span class="math display">\[
+p(x,y) = p(x| y) f(y) = p(y | x) p(x)
+\]</span></p>
+</div>
+<div id="bayes-theorem" class="section level2">
+<h2>
+<span class="header-section-number">7.2</span> Bayes’ theorem<a class="anchor" aria-label="anchor" href="#bayes-theorem"><i class="fas fa-link"></i></a>
+</h2>
+<p>Bayesian statistical learning is linked with the name of <a href="https://de.wikipedia.org/wiki/Thomas_Bayes">Thomas Bayes
+(1701-1761)</a> who was
+the first to state <a href="https://en.wikipedia.org/wiki/An_Essay_towards_solving_a_Problem_in_the_Doctrine_of_Chances">Bayes’ theorem (1763)</a> on conditional probability.
+Interestingly, this work published only after Bayes’ death by <a href="https://en.wikipedia.org/wiki/Richard_Price">Richard Price (1723-1791)</a>):</p>
+<p><span class="math display">\[
+p(A | B) = p(B | A) \frac{ p(A) }{ p(B)}
+\]</span></p>
+<p>This theorem relates the two possible conditional densities (or conditional probability mass functions) for
+two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
+<p>It follows directly from the product rule linking the joint density
+with the marginal and conditional densities.</p>
+</div>
+<div id="principle-of-bayesian-learning" class="section level2">
+<h2>
+<span class="header-section-number">7.3</span> Principle of Bayesian learning<a class="anchor" aria-label="anchor" href="#principle-of-bayesian-learning"><i class="fas fa-link"></i></a>
+</h2>
+<p>Ingredients:</p>
+<ul>
+<li>
+<span class="math inline">\(\theta\)</span> parameter of interest, unknown and fixed.</li>
+<li>prior distribution with density <span class="math inline">\(p(\theta)\)</span> describing the <em>uncertainty</em> (not randomness!) about <span class="math inline">\(\theta\)</span>
+</li>
+<li>data generating process <span class="math inline">\(p(x | \theta)\)</span> (likelihood!)</li>
+</ul>
+<p>Question: new information in the form of new observation <span class="math inline">\(x\)</span> arrives - how does the uncertainty about <span class="math inline">\(\theta\)</span> change?</p>
+<p>Answer: use Bayes’ theorem to <strong>update prior distribution to posterior distribution</strong>.</p>
+<p><span class="math display">\[
+\underbrace{p(\theta | x)}_{\text{posterior} } = \frac{p(x | \theta) }{ p(x)} \underbrace{p(\theta)}_{\text{prior}}
+\]</span></p>
+<p>Note that this update procedure can be repeated again and again: we can use the posterior as our new prior and then update it with further data.</p>
+<div class="inline-figure"><img src="fig/bayes1-learning.png" width="80%" style="display: block; margin: auto;"></div>
+<p>For the denominator in Bayes formula we need to compute <span class="math inline">\(p(x)\)</span>.
+This is obtained by<br><span class="math display">\[
+\begin{split}
+p(x) &amp;=  \text{E}_{F_{\theta}}p(x | \theta) \\
+ &amp;= \int_{\theta} p(x | \theta) p(\theta) d\theta \\
+ &amp;= \int_{\theta} p(x , \theta) d\theta \\
+\end{split}
+\]</span>
+i.e. by marginalisation of the parameter <span class="math inline">\(\theta\)</span> from the joint
+distribution of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(x\)</span>.
+(For discrete <span class="math inline">\(\theta\)</span> replace the integral by a sum).</p>
+<p>Depending on the context this quantity is either called <em>marginal likelihood</em> (of the underlying model) or <em>prior predictive distribution</em>
+(for the data).</p>
+<p>Intringuingly, to conduct a Bayesian statistical analysis typically require integration and/or averaging (e.g. to compute the marginal likelihood), in contrast to maximum likelihood that requires optimisation (to find the maximum likelihood).</p>
+</div>
+<div id="what-is-exactly-is-the-bayesian-estimate" class="section level2">
+<h2>
+<span class="header-section-number">7.4</span> What is exactly is the “Bayesian estimate”?<a class="anchor" aria-label="anchor" href="#what-is-exactly-is-the-bayesian-estimate"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>The Bayesian estimate is the full complete posterior distribution!</strong></p>
+<p>However, it is useful to summarise aspects of the posterior distribution:</p>
+<ul>
+<li>Posterior mean <span class="math inline">\(\text{E}(\theta | x)\)</span>
+</li>
+<li>Posterior variance <span class="math inline">\(\text{Var}(\theta | x)\)</span>
+</li>
+<li>Posterior mode
+etc.</li>
+</ul>
+<p>In particular the mean of the posterior distribution is often taken as a <em>Bayesian point estimate</em>.</p>
+<p>The posterior distribution also allows to define <strong>credible regions</strong> or <strong>credible intervals</strong>.
+These are the <strong>Bayesian equivalent to confidence intervals</strong> and are constructed by
+finding the areas of highest probability mass (say 95%) in the posterior distribution.</p>
+<div class="inline-figure"><img src="fig/bayes2-ci.png" width="80%" style="display: block; margin: auto;"></div>
+<p>Bayesian credible intervals (unlike their frequentist confidence counterparts) are thus very easy to interpret - they simply correspond to the area in the parameter space in which the we can find the parameter with a given specified probability.
+In contrast, in frequentist statistics it does not make sense to assign a
+probability to a parameter value!</p>
+<p>Note that there are typically many credible intervals with the given specified coverage <span class="math inline">\(\alpha\)</span> (say 95%). Therefore, we may need further criteria
+to construct these intervals.</p>
+<p>In the univariate case a <strong>two-sided equal-tail credible interval</strong> is obtained by finding the corresponding lower <span class="math inline">\(1-\alpha/2\)</span>
+and upper <span class="math inline">\(\alpha/2\)</span> quantiles.</p>
+<p>A <strong>highest posterior density (HPD)</strong> interval of coverage <span class="math inline">\(\alpha\)</span> is found by identifying the shortest interval (i.e. with smallest support) for the given <span class="math inline">\(\alpha\)</span>
+probability mass. Any point within such an interval has higher density resp. probability than outside the credible interval, and the density / probability at the boundaries
+are all equal. Thus a Bayesian HPD credible interval is constructed similar like a likelihood based confidence interval. When the posterior has multiple modes
+this means the the HPD interval may be disjoint.</p>
+</div>
+<div id="computer-implementation-of-bayesian-learning" class="section level2">
+<h2>
+<span class="header-section-number">7.5</span> Computer implementation of Bayesian learning<a class="anchor" aria-label="anchor" href="#computer-implementation-of-bayesian-learning"><i class="fas fa-link"></i></a>
+</h2>
+<p>As we have seen Bayesian learning is <em>conceptually straightforward</em>:</p>
+<ol style="list-style-type: decimal">
+<li>Specify prior uncertainty <span class="math inline">\(p(\theta\)</span>) about the parameters of interest <span class="math inline">\(\theta\)</span>.</li>
+<li>Specify the data generating process for a specified parameter: <span class="math inline">\(p(x | \theta)\)</span>.</li>
+<li>Apply Bayes’ theorem to update prior uncertainty in the light
+of the new data.</li>
+</ol>
+<p>In practise, however, computing the posterior distribution can be <em>computationally very demanding</em>, especially
+for complex models.</p>
+<p>For this reason specialised software packages have been developed for computational Bayesian modelling, for example:</p>
+<ul>
+<li>Bayesian statistics in R: <a href="https://cran.r-project.org/web/views/Bayesian.html" class="uri">https://cran.r-project.org/web/views/Bayesian.html</a>
+</li>
+<li>Stan probabilistic programming language (can be used with R and Python) — <a href="https://mc-stan.org/" class="uri">https://mc-stan.org/</a>
+</li>
+<li>Bayesian statistics in Python: <a href="https://docs.pymc.io/">PyMC3</a> using Theano,
+<a href="http://docs.pyro.ai/">Pyro</a> using PyTorch,
+<a href="http://num.pyro.ai/">NumPyro</a> using JAX,
+<a href="https://www.tensorflow.org/probability/">TensorFlow Probability</a> using Tensorflow</li>
+<li>Bayesian statistics in Julia: <a href="https://github.com/TuringLang/Turing.jl">Turing.jl</a>
+</li>
+<li>Bayesian hierarchical modelling with <a href="https://www.mrc-bsu.cam.ac.uk/software/bugs/">BUGS</a> and <a href="https://mcmc-jags.sourceforge.io/">JAGS</a>.</li>
+</ul>
+<p>In addition to numerical procedures to sample from the posterior distribution there are also many procedures aiming to approximate the Bayesian posterior, employing the Laplace approximation, integrated nested Laplace approximation (INLA), variational Bayes etc.</p>
+</div>
+<div id="bayesian-interpretation-of-probability" class="section level2">
+<h2>
+<span class="header-section-number">7.6</span> Bayesian interpretation of probability<a class="anchor" aria-label="anchor" href="#bayesian-interpretation-of-probability"><i class="fas fa-link"></i></a>
+</h2>
+<div id="what-makes-you-bayesian" class="section level3">
+<h3>
+<span class="header-section-number">7.6.1</span> What makes you “Bayesian”?<a class="anchor" aria-label="anchor" href="#what-makes-you-bayesian"><i class="fas fa-link"></i></a>
+</h3>
+<p>If you use Bayes’ theorem are you therefore automatically a Bayesian? No!!</p>
+<p>Bayes’ theorem is a mathematical fact from probability theory.
+Hence, Bayes’ theorem is valid for everyone, whichever form for
+statistical learning your are subscribing (such as frequentist ideas,
+likelihood methods, entropy learning, Bayesian learning).</p>
+<p>As we discuss now the key difference between Bayesian and frequentist
+statistical learning lies in the differences in <em>interpretation of probability</em>,
+not in the mathematical formalism for probability (which includes Bayes’ theorem).</p>
+</div>
+<div id="mathematics-of-probability" class="section level3">
+<h3>
+<span class="header-section-number">7.6.2</span> Mathematics of probability<a class="anchor" aria-label="anchor" href="#mathematics-of-probability"><i class="fas fa-link"></i></a>
+</h3>
+<p>The mathematics of probability in its modern foundation was developed by <a href="https://en.wikipedia.org/wiki/Andrey_Kolmogorov">Andrey Kolmogorov (1903–1987)</a>. In this book <a href="https://en.wikipedia.org/wiki/Probability_axioms">Foundations of the Theory of Probability (1933)</a> he establishes probability in terms of set theory/ measure theory. This theory provides a coherent mathematical framework to work with probabilities.</p>
+<p>However, Kolmogorov’s theory does <em>not</em> provide an interpretation of probability!</p>
+<p><span class="math inline">\(\rightarrow\)</span> The Kolmogorov framework is the basis for both the frequentist and the Bayesian interpretation of probability.</p>
+</div>
+<div id="interpretations-of-probability" class="section level3">
+<h3>
+<span class="header-section-number">7.6.3</span> Interpretations of probability<a class="anchor" aria-label="anchor" href="#interpretations-of-probability"><i class="fas fa-link"></i></a>
+</h3>
+<p>Essentially, there are two major commonly used interpretation of probability in statistics - the <strong>frequentist interpretation</strong> and the <strong>Bayesian interpretation</strong>.</p>
+<p><strong>A: Frequentist interpretation</strong></p>
+<p>probability = frequency (of an event in a long-running series of identically repeated experiments)</p>
+<p>This is the <em>ontological view</em> of probability (i.e. probability “exists” and is identical to something that can be observed.).</p>
+<p>It is also a very restrictive view of probability. For example, frequentist probability
+cannot be used to describe events that occur only a single time.
+Frequentist probability thus can only be applied asymptotically, for large samples!</p>
+<p><strong>B: Bayesian probability</strong></p>
+<p>“Probability does not exist” — famous quote by <a href="https://en.wikipedia.org/wiki/Bruno_de_Finetti">Bruno de Finetti (1906–1985)</a>, a Bayesian statistician.</p>
+<p>What does this mean?</p>
+<p>Probability is a <strong>description of the state of knowledge</strong> and of <strong>uncertainty</strong>.</p>
+<p>Probability is thus an <em>epistemological quantity</em> that is assigned and that changes rather than something that is an inherent property of an object.</p>
+<p>Note that this does not require any repeated experiments.
+The Bayesian interpretation of probability is valid regardless of sample size or the number or repetitions of an experiment.</p>
+<p><strong>Hence, the key difference between frequentist and Bayesian approaches is not the use of Bayes’ theorem.
+Rather it is whether you consider probability as ontological (frequentist) or epistemological entity (Bayesian).</strong></p>
+</div>
+</div>
+<div id="historical-developments" class="section level2">
+<h2>
+<span class="header-section-number">7.7</span> Historical developments<a class="anchor" aria-label="anchor" href="#historical-developments"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>Thomas Bayes (1701-1761) the father of Bayesian statistics<br>
+Only after his death his paper on Bayes’ theorem was published (1763).</p></li>
+<li><p>Laplace (from 1800) was actually the first to use Bayes’ theorem for statistical calculations. This activivity was then called “inverse probability”.</p></li>
+<li><p>Between 1900 and 1940 classical mathematical statistics was developed and the field was heavily influenced and dominated by R.A. Fisher (who invented likelihood theory and ANOVA, among other things - he also was working in population genetics). Fisher himself was very much opposed to Bayesian theory.</p></li>
+<li><p>1931 de Finetti publishes his “representation theorem”. This shows that the joint distribution of a sequence of exchangeable events (i.e. where the ordering can be permuted) can be represented by a mixture distribution that can be constructed via Bayes’ theorem. (Note that exchangeability is a weaker condition than i.i.d.)
+This theorem is often used as a justification Bayesian statistics (along with the socalled Dutch book argument, also by de Finetti).</p></li>
+<li><p>1933 publication of Kolmogorov’s book on probability theory.</p></li>
+<li><p>1946 Cox theorem (<a href="https://en.wikipedia.org/wiki/Richard_Threlkeld_Cox">Richard T. Cox (1898–1991)</a>): the aim to generalise classical logic (from TRUE/FALSE to continuous measures of uncertainty) inevitably leads to probability theory and Bayesian learning! This justification of Bayesian statistics was later popularised by <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a> in various books (1959, 2003).</p></li>
+<li><p>1955 Stein Paradox - <a href="https://en.wikipedia.org/wiki/Charles_M._Stein">Charles M. Stein (1920–2016)</a> publishes paper on the Stein estimator - an estimator of the mean that dominates ML estimator. His estimator is always better in terms of MSE than the ML estimator, and this was very puzzling at that time!</p></li>
+</ul>
+<p>From 1970 onwards Bayesian learning has become more pervasive!</p>
+<ul>
+<li>Computers allow to do the complex computations needed in Bayesian statistics</li>
+<li>Metropolis-Hastings algorithm published</li>
+<li>A lot of work on interpreting Stein estimators as empirical Bayes estimators (Efron and Morris 1975)
+and on development of regularised estimation techniques such as penalised likelihood in regression (e.g. ridge regression)</li>
+<li>regularisation originally was only meant to make singular systems/matrices invertible - but then it turned out regularisation has a simple Bayesian interpretation!</li>
+<li>work on reference priors (Bernado 1979)</li>
+<li>penalised likelihood via KL divergence for model selection (Akaike 1973)</li>
+</ul>
+<p>Another boost was in the 1990/2000s when in science (e.g. genomics) many complex and high-dimensional data set were becoming widely available. Classical statistical methods cannot be used in this setting (overfitting!) so many new methods were developed for high-dimensional data analysis, many with direct link to Bayesian statistics:</p>
+<ul>
+<li>1996 lasso regression (Tibshirani)</li>
+<li>Machine learning etc (many Bayesians in this field!)</li>
+</ul>
+</div>
+<div id="connection-with-entropy-learning" class="section level2">
+<h2>
+<span class="header-section-number">7.8</span> Connection with entropy learning<a class="anchor" aria-label="anchor" href="#connection-with-entropy-learning"><i class="fas fa-link"></i></a>
+</h2>
+<div id="zero-forcing-property" class="section level3">
+<h3>
+<span class="header-section-number">7.8.1</span> Zero forcing property<a class="anchor" aria-label="anchor" href="#zero-forcing-property"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is easy to see that if in Bayes rule the prior probability for an event is set to 0, then the posterior probability for that event will remain at 0, regardless of the data! This <strong>zero-forcing property</strong> of the Bayes update rule has been called <strong>Cromwell’s rule</strong> by D. Lindley. Therefore, assigning prior probability 0 to an event should be avoided.</p>
+<p>Note that this implies that assigning prior probability 1 to an event should be avoided, too, since this means assigning 0 to all other alternative events.</p>
+</div>
+<div id="connection-with-entropy-learning-1" class="section level3">
+<h3>
+<span class="header-section-number">7.8.2</span> Connection with entropy learning<a class="anchor" aria-label="anchor" href="#connection-with-entropy-learning-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <em>Bayesian update rule</em> is a very general form of learning when the <em>new information arrives in the form of data</em>.</p>
+<p>But actually there is an even a more general principle: the <strong>principle of minimal information update</strong> (e.g. Jaynes 1959, 2003) or <strong>principle of minimum information discrimination (MDI) (Kullback 1959)</strong>:</p>
+<ul>
+<li><strong>Change your beliefs only as much as necessary to be coherent with new evidence!</strong></li>
+</ul>
+<p>This is also called <strong>entropy learning</strong> since the KL divergence (<span class="math inline">\(F_{\theta | \text{new information}};F_{\theta})\)</span> is employed to measure the divergence from the updated
+distribution to the distribution prior to the arrival of the information.</p>
+<p>Note that this update is based on an <span class="math inline">\(I\)</span>-projection (see Part I, Likelihood), which also does have the zero forcing property (hinting that Bayes rule is a special case).</p>
+<p>Thus, when new information arrives then the uncertainty about the parameter is only minimally adjusted, just as much as needed to account for the new information (“inertia of beliefs”).</p>
+<p>There are three main special cases that follow from the entropy learning rule:</p>
+<ol style="list-style-type: decimal">
+<li>if information arrives in form of data <span class="math inline">\(\rightarrow\)</span> update by T. Bayes’ theorem (1763)</li>
+<li>if information is in the form of another distribution <span class="math inline">\(\rightarrow\)</span> update using R. Jeffrey’s rule (1965)</li>
+<li>if the information is in form of constraints <span class="math inline">\(\rightarrow\)</span> Kullback’s principle of minimum MDI (1959),
+E. T. Jaynes MaxEnt principle (1957)</li>
+</ol>
+<p>Since 1) is by far the most common situation it is clear why it is important to study Bayesian learning!</p>
+<p>This shows (again) how fundamentally important KL divergence is in statistics - it not only leads to likelihood inference but also to Bayesian learning, as well as to other forms of information updating! Furthermore, relative entropy is useful to choose priors (e.g. reference priors) and in experimental design.</p>
+
+<p></p>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></div>
+<div class="next"><a href="beta-binomial-model-for-estimating-a-proportion.html"><span class="header-section-number">8</span> Beta-Binomial model for estimating a proportion</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#essentials-of-bayesian-statistics"><span class="header-section-number">7</span> Essentials of Bayesian statistics</a></li>
+<li><a class="nav-link" href="#conditional-probability"><span class="header-section-number">7.1</span> Conditional probability</a></li>
+<li><a class="nav-link" href="#bayes-theorem"><span class="header-section-number">7.2</span> Bayes’ theorem</a></li>
+<li><a class="nav-link" href="#principle-of-bayesian-learning"><span class="header-section-number">7.3</span> Principle of Bayesian learning</a></li>
+<li><a class="nav-link" href="#what-is-exactly-is-the-bayesian-estimate"><span class="header-section-number">7.4</span> What is exactly is the “Bayesian estimate”?</a></li>
+<li><a class="nav-link" href="#computer-implementation-of-bayesian-learning"><span class="header-section-number">7.5</span> Computer implementation of Bayesian learning</a></li>
+<li>
+<a class="nav-link" href="#bayesian-interpretation-of-probability"><span class="header-section-number">7.6</span> Bayesian interpretation of probability</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#what-makes-you-bayesian"><span class="header-section-number">7.6.1</span> What makes you “Bayesian”?</a></li>
+<li><a class="nav-link" href="#mathematics-of-probability"><span class="header-section-number">7.6.2</span> Mathematics of probability</a></li>
+<li><a class="nav-link" href="#interpretations-of-probability"><span class="header-section-number">7.6.3</span> Interpretations of probability</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#historical-developments"><span class="header-section-number">7.7</span> Historical developments</a></li>
+<li>
+<a class="nav-link" href="#connection-with-entropy-learning"><span class="header-section-number">7.8</span> Connection with entropy learning</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#zero-forcing-property"><span class="header-section-number">7.8.1</span> Zero forcing property</a></li>
+<li><a class="nav-link" href="#connection-with-entropy-learning-1"><span class="header-section-number">7.8.2</span> Connection with entropy learning</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
