@@ -173,8 +173,12 @@ predictor variables <span class="math inline">\(x_1, x_2, \dots, x_d\)</span> ar
 <h2>
 <span class="header-section-number">19.3</span> Regression <span class="math inline">\(t\)</span>-scores.<a class="anchor" aria-label="anchor" href="#regression-t-scores."><i class="fas fa-link"></i></a>
 </h2>
+<div id="wald-statistic-for-regression-coefficients" class="section level3">
+<h3>
+<span class="header-section-number">19.3.1</span> Wald statistic for regression coefficients<a class="anchor" aria-label="anchor" href="#wald-statistic-for-regression-coefficients"><i class="fas fa-link"></i></a>
+</h3>
 <p>So far, we discussed three obvious candidates for for variable importance measures
-(regression coefficients, standardised regression coefficients, marginal correlations). However, of these only marginal correlation between the response <span class="math inline">\(y\)</span> and each predictor <span class="math inline">\(x_i\)</span> are useful for variable ranking (due to the direct link of multiple correlation and explained variation).</p>
+(regression coefficients, standardised regression coefficients, marginal correlations).</p>
 <p>In this section we consider a further quantity, the
 <strong>regression <span class="math inline">\(t-\)</span>score</strong>:</p>
 <p>Recall that ML estimation of the regression coefficients yields</p>
@@ -190,63 +194,67 @@ predictor variables <span class="math inline">\(x_1, x_2, \dots, x_d\)</span> ar
 <span class="math display">\[
 t_i = \frac{\hat{\beta}_i}{\widehat{\text{SD}}(\hat{\beta}_i)}
 \]</span>
-where the standard deviations are computed by <span class="math inline">\(\widehat{\text{SD}}(\hat{\beta}_i) = \text{Diag}(\widehat{\text{Var}}(\hat{\boldsymbol \beta}))_{i}\)</span>. This corresponds to the Wald statistic to test that the underlying true <span class="math inline">\(\beta_i =0\)</span>.</p>
-<p>Correspondingly, under the null hypthesis that <span class="math inline">\(\beta_i=0\)</span> we have asymptotically for large <span class="math inline">\(n\)</span>
+where the standard deviations are computed by <span class="math inline">\(\widehat{\text{SD}}(\hat{\beta}_i) = \text{Diag}(\widehat{\text{Var}}(\hat{\boldsymbol \beta}))_{i}\)</span>. This corresponds to the <strong>Wald statistic</strong> to test that the underlying true
+regression coefficient is zero (<span class="math inline">\(\beta_i =0\)</span>).</p>
+<p>Correspondingly, under the null hypthesis that <span class="math inline">\(\beta_i=0\)</span> asymptotically for large <span class="math inline">\(n\)</span>
+the regression <span class="math inline">\(t\)</span>-score is standard normal distributed:
 <span class="math display">\[
 t_i \overset{a}{\sim} N(0,1)
 \]</span>
-Corresponding (symmetric) <span class="math inline">\(p\)</span>-values are computed by <span class="math inline">\(p = 2 \Phi(-|t_i|)\)</span>.</p>
-<p>For finite <span class="math inline">\(n\)</span>, normal assumption and using the unbiased estimate for variance <span class="math inline">\(t_i\)</span> follows a <span class="math inline">\(t\)</span>-distribution:
+This allows to compute (symmetric) <span class="math inline">\(p\)</span>-values <span class="math inline">\(p = 2 \Phi(-|t_i|)\)</span> where <span class="math inline">\(\Phi\)</span> is the standard normal distribution function.</p>
+<p>For finite <span class="math inline">\(n\)</span>, assuming normality of the observation and using the unbiased estimate for variance
+when computing <span class="math inline">\(t_i\)</span>, the exact distribution of <span class="math inline">\(i_i\)</span> is given by the Student-<span class="math inline">\(t\)</span> distribution:
 <span class="math display">\[
 t_i \sim t_{n-d-1}
 \]</span></p>
 <p>Regression <span class="math inline">\(t\)</span>-scores can thus be used to test whether a regression coefficient is zero.
-Large magnitude of the <span class="math inline">\(t_i\)</span> score indicates that the hypothesis <span class="math inline">\(\beta_i=0\)</span> can be rejected.
-This allows rank predictor variables by <span class="math inline">\(|t_i|\)</span> or the corresponding <span class="math inline">\(p\)</span>-values with regard to relevance for the linear model.</p>
+A large magnitude of the <span class="math inline">\(t_i\)</span> score indicates that the hypothesis <span class="math inline">\(\beta_i=0\)</span> can be rejected.
+Thus, a small <span class="math inline">\(p\)</span>-value (say smaller than 0.05) signals that the regression coefficient is non-zero and hence that the corresponding predictor variable should be included in the model.</p>
+<p>This allows rank predictor variables by <span class="math inline">\(|t_i|\)</span> or the corresponding <span class="math inline">\(p\)</span>-values with regard to their relevance in the linear model. Typically, in order to simplify a model, predictors with the largest <span class="math inline">\(p\)</span>-values (and thus smallest absolute <span class="math inline">\(t\)</span>-scores) may be removed from a model. However, note that having a <span class="math inline">\(p\)</span>-value say larger than 0.05 by itself is not sufficient to declare a regression coefficient to be zero (because in classical statistical testing you can only reject the null hypothesis, but not accept it!).</p>
 <p>Note that by construction the regression <span class="math inline">\(t\)</span>-scores do not depend on the scale, so when the original data are rescaled this will not affect the corresponding regression <span class="math inline">\(t\)</span>-scores.
 Furthermore, if <span class="math inline">\(\widehat{\text{SD}}(\hat{\beta}_i)\)</span> is small, then the regression <span class="math inline">\(t\)</span>-score
 <span class="math inline">\(t_i\)</span> can still be large even if <span class="math inline">\(\hat{\beta}_i\)</span> is small!</p>
-<div id="computation" class="section level3">
+</div>
+<div id="computing" class="section level3">
 <h3>
-<span class="header-section-number">19.3.1</span> Computation<a class="anchor" aria-label="anchor" href="#computation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.3.2</span> Computing<a class="anchor" aria-label="anchor" href="#computing"><i class="fas fa-link"></i></a>
 </h3>
-<p>When you perform regression analysis in R (or any other software), you will get to see the
-following table:</p>
+<p>When you perform regression analysis in R (or another statistical software package) the computer will return the following:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cc}
-$$\hat{\beta}_i$$\\
-$$\text{Estimated}$$\\
-$$\text{repression}$$\\
-$$\text{coefficient}$$\\
+\hat{\beta}_i\\
+\text{Estimated}\\
+\text{repression}\\
+\text{coefficient}\\
 \\
 \end{array}
 \begin{array}{cc}
-$$\widehat{\text{SD}}(\hat{\beta}_i)$$\\
-$$\text{Error of}$$\\
-$$\hat{\beta}_i$$\\
+\widehat{\text{SD}}(\hat{\beta}_i)\\
+\text{Error of}\\
+\hat{\beta}_i\\
 \\
 \\
 \end{array}
 \begin{array}{cc}
-$$t_i = \frac{\hat{\beta}_i}{\widehat{\text{SD}}(\hat\beta_i)}$$\\
-$$\text{t-score}$$\\
-$$\text{computed from }$$\\
-$$\text{first two columns}$$\\
+t_i = \frac{\hat{\beta}_i}{\widehat{\text{SD}}(\hat\beta_i)}\\
+\text{t-score}\\
+\text{computed from }\\
+\text{first two columns}\\
 \\
 \end{array}
 \begin{array}{cc}
-$$\text{p-values}$$\\
-$$\text{for } t_i$$\\
-$$\text{based on t-distribution}$$\\
+\text{p-values}\\
+\text{for } t_i\\
+\text{based on t-distribution}\\
 \\
 \\
 \end{array}
 \begin{array}{ll}
-$$\text{Indicator of}$$\\
-$$\text{Significance}$$\\
-$$\text{*     } 0.9$$\\
-$$\text{**    } 0.95$$\\
-$$\text{***   } 0.99$$\\
+\text{Indicator of}\\
+\text{Significance}\\
+\text{*     } 0.9\\
+\text{**    } 0.95\\
+\text{***   } 0.99\\
 \end{array}
 \end{align*}\]</span></p>
 <p>In the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function in R the standard deviation is the square root of the unbiased estimate
@@ -254,7 +262,7 @@ of the variance (but note that it itself is not unbiased!).</p>
 </div>
 <div id="connection-with-partial-correlation" class="section level3">
 <h3>
-<span class="header-section-number">19.3.2</span> Connection with partial correlation<a class="anchor" aria-label="anchor" href="#connection-with-partial-correlation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.3.3</span> Connection with partial correlation<a class="anchor" aria-label="anchor" href="#connection-with-partial-correlation"><i class="fas fa-link"></i></a>
 </h3>
 <p>The deeper reason why ranking predictors by regression <span class="math inline">\(t\)</span>-scores and associated <span class="math inline">\(p\)</span>-values is useful is their link with
 <strong>partial correlation</strong>.</p>
@@ -324,8 +332,9 @@ all predictors) to the empty model (includes no predictor) and everything inbetw
 </li>
 <li>
 <a class="nav-link" href="#regression-t-scores."><span class="header-section-number">19.3</span> Regression \(t\)-scores.</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#computation"><span class="header-section-number">19.3.1</span> Computation</a></li>
-<li><a class="nav-link" href="#connection-with-partial-correlation"><span class="header-section-number">19.3.2</span> Connection with partial correlation</a></li>
+<li><a class="nav-link" href="#wald-statistic-for-regression-coefficients"><span class="header-section-number">19.3.1</span> Wald statistic for regression coefficients</a></li>
+<li><a class="nav-link" href="#computing"><span class="header-section-number">19.3.2</span> Computing</a></li>
+<li><a class="nav-link" href="#connection-with-partial-correlation"><span class="header-section-number">19.3.3</span> Connection with partial correlation</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#further-approaches-for-variable-selection"><span class="header-section-number">19.4</span> Further approaches for variable selection</a></li>
@@ -345,7 +354,7 @@ all predictors) to the empty model (includes no predictor) and everything inbetw
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 11 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
