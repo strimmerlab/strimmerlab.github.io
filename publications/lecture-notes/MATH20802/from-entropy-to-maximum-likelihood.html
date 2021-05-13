@@ -424,31 +424,23 @@ the variances are equal. Then we get
 <span class="header-section-number">2.3.1</span> Definition of expected Fisher information<a class="anchor" aria-label="anchor" href="#definition-of-expected-fisher-information"><i class="fas fa-link"></i></a>
 </h3>
 <p>KL information measures the divergence of two distributions.
-We may thus use relative entropy to measure the divergence between two distributions in the same family, separated in parameter space only by some small <span class="math inline">\(\boldsymbol \varepsilon\)</span>:</p>
-<p><span class="math display">\[
-\begin{split}
-h(\boldsymbol \theta) &amp;= D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta})\\
-           &amp;= D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon})\\
-\end{split}
-\]</span>
-Note that in the above the first argument in the KL divergence is fixed
-at <span class="math inline">\(\boldsymbol \theta_0\)</span> and the second is varied.</p>
-<p>Since KL information vanishes only when the two arguments are identical <span class="math inline">\(h(\boldsymbol \theta)\)</span> reaches a minimum at <span class="math inline">\(\boldsymbol \theta_0\)</span> with <span class="math inline">\(h(\boldsymbol \theta_0)=0\)</span>.
-We can therefore approximate <span class="math inline">\(h(\boldsymbol \theta) = h(\boldsymbol \theta_0+\boldsymbol \varepsilon)\)</span> by the
-following quadratic function around <span class="math inline">\(\boldsymbol \theta_0\)</span>
+We may thus use relative entropy to measure the divergence between two distributions in the same family, separated in parameter space only by some small <span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
+<p>Let <span class="math inline">\(h(\boldsymbol \theta) = D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta}) = \text{E}_{\boldsymbol \theta_0}\left( \log f(\boldsymbol x| \boldsymbol \theta_0) - \log f(\boldsymbol x| \boldsymbol \theta) \right)\)</span>.
+Note that the first distribution in the KL divergence is fixed
+at <span class="math inline">\(F_{\boldsymbol \theta_0}\)</span> and the second distribution is varied. Then <span class="math inline">\(h(\boldsymbol \theta_0+\boldsymbol \varepsilon) = D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon})\)</span>.
+Since the KL divergence vanishes only when the two arguments are identical <span class="math inline">\(h(\boldsymbol \theta)\)</span> reaches a minimum at <span class="math inline">\(\boldsymbol \theta_0\)</span> with <span class="math inline">\(h(\boldsymbol \theta_0)=0\)</span> and flat gradient <span class="math inline">\(\nabla h(\boldsymbol \theta_0) =0\)</span>.</p>
+<p>We can therefore approximate <span class="math inline">\(h(\boldsymbol \theta_0+\boldsymbol \varepsilon)\)</span> by
+a quadratic function around <span class="math inline">\(\boldsymbol \theta_0\)</span>
 <span class="math display">\[
 \begin{split}
-h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; = \frac{1}{2} \boldsymbol \varepsilon^T  \nabla^T\nabla h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
+h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla^T\nabla h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
+&amp; = \frac{1}{2} \boldsymbol \varepsilon^T \left( -\text{E}_{\boldsymbol \theta_0} \nabla^T\nabla  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)   \boldsymbol \varepsilon\\
 &amp; = \frac{1}{2} \boldsymbol \varepsilon^T  \underbrace{\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0)}_{\text{expected Fisher information} }\boldsymbol \varepsilon\\
 \end{split}
 \]</span>
-The Hessian is called the <strong>expected Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta_0\)</span>.
+This yields the <strong>expected Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta_0\)</span> as the negative
+expected Hessian matrix of the log-density at <span class="math inline">\(\boldsymbol \theta_0\)</span>.
 Since <span class="math inline">\(\boldsymbol \theta_0\)</span> is a minimum the expected Fisher information matrix must be positive definite!</p>
-<p>With <span class="math inline">\(h(\boldsymbol \theta) = \text{E}_{\boldsymbol \theta_0}\left( \log f(\boldsymbol x| \boldsymbol \theta_0) - \log f(\boldsymbol x| \boldsymbol \theta) \right)\)</span> we get
-<span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0) = -\text{E}_{\boldsymbol \theta_0}\left( \nabla^T\nabla  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)
-\]</span>
-Thus the Fisher information at <span class="math inline">\(\boldsymbol \theta_0\)</span> is the negative expected Hessian of the log-density.</p>
 <p>Ss there is no data involved the expected Fisher information is purely a property of the model, or more precisely of the space of the models indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
 In the next Chapter we will study a related quantity, the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
 <p>We can use the above approximation also to compute the divergence <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \theta_0})\)</span> where the first argument varies and the second is kept fixed:
@@ -701,7 +693,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 11 May 2021.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 13 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
