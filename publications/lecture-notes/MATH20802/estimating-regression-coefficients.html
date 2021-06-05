@@ -7,8 +7,8 @@
 <title>17 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -87,11 +87,13 @@ to marginal correlation.</p>
 </h2>
 <p>Now we show the classic way (Gauss 1809; Legendre 1805) to <strong>estimate regression coefficients</strong> by the method of
 <strong>ordinary least squares (OLS)</strong>.</p>
-<p><em>Idea:</em> choose regression coefficients such as to <em>minimise</em> the <em>squared error</em> between observations and the prediction (=RSS, the Residual Sum of Squares, a function of <span class="math inline">\(\boldsymbol \beta\)</span>)</p>
+<p><em>Idea:</em> choose regression coefficients such as to <em>minimise</em> the <em>squared error</em> between observations and the prediction.</p>
 <div class="inline-figure"><img src="fig/regression3-p1.png" width="80%" style="display: block; margin: auto;"></div>
 <p>In data matrix notation (note we assume <span class="math inline">\(\beta_0=0\)</span> and thus <em>centered data</em> <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol y\)</span>):</p>
-<p><span class="math display">\[\text{RSS}(\boldsymbol \beta)=(\boldsymbol y-\boldsymbol X\boldsymbol \beta)^T(\boldsymbol y-\boldsymbol X\boldsymbol \beta)=\boldsymbol \varepsilon^T\boldsymbol \varepsilon= \sum^{n}_{i=1}\epsilon^2_i\]</span></p>
-<p><span class="math display">\[\widehat{\boldsymbol \beta}_{\text{OLS}}=\underset{\boldsymbol \beta}{\arg \min} \text{RSS}(\boldsymbol \beta)\]</span></p>
+<p><span class="math display">\[\text{RSS}(\boldsymbol \beta)=(\boldsymbol y-\boldsymbol X\boldsymbol \beta)^T(\boldsymbol y-\boldsymbol X\boldsymbol \beta)\]</span></p>
+<p>RSS is an abbreviation for “Residual Sum of Squares” which is is a function of <span class="math inline">\(\boldsymbol \beta\)</span>.
+Minimising RSS yields the OLS estimate:</p>
+<p><span class="math display">\[\widehat{\boldsymbol \beta}_{\text{OLS}}=\underset{\boldsymbol \beta}{\arg \min}\, \text{RSS}(\boldsymbol \beta)\]</span></p>
 <p><span class="math display">\[\text{RSS}(\boldsymbol \beta) = \boldsymbol y^T \boldsymbol y- 2 \boldsymbol \beta^T \boldsymbol X^T \boldsymbol y+ \boldsymbol \beta^T \boldsymbol X^T \boldsymbol X\boldsymbol \beta\]</span></p>
 <p>Gradient:
 <span class="math display">\[\nabla \text{RSS}(\boldsymbol \beta) = -2\boldsymbol X^T \boldsymbol y+ 2\boldsymbol X^T \boldsymbol X\boldsymbol \beta\]</span></p>
@@ -110,7 +112,7 @@ This also implies that OLS is generally a good method — but only if sample siz
 of maximum likelihood. This is a second method to derive <span class="math inline">\(\hat{\boldsymbol \beta}\)</span>.</p>
 <p>We recall the basic regression equation
 <span class="math display">\[
-y = \beta_0 + \boldsymbol \beta^T \boldsymbol x+ \epsilon
+y = \beta_0 + \boldsymbol \beta^T \boldsymbol x+ \varepsilon
 \]</span>
 with <span class="math inline">\(\text{E}(\varepsilon)=0\)</span> and observed data <span class="math inline">\(y_1, \ldots, y_n\)</span> and <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.
 The intercept is identified as
@@ -130,17 +132,21 @@ the respective means and (co)variances:</p>
 <li><span class="math inline">\(\hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}=\widehat{\text{Var}}(\boldsymbol x)= \frac{1}{n}\sum^n_{i=1} (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x}) (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x})^T\)</span></li>
 <li><span class="math inline">\(\hat{\boldsymbol \Sigma}_{\boldsymbol xy}=\widehat{\text{Cov}}(\boldsymbol x, y)= \frac{1}{n}\sum^n_{i=1} (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x}) (y_i - \hat{\mu}_y)\)</span></li>
 </ul>
-<p>The noise <span class="math inline">\(\varepsilon_i \sim N(0, \sigma^2_{\varepsilon})\)</span>
-is normally distributed with mean 0 and variance <span class="math inline">\(\text{Var}(\varepsilon) = \sigma^2_{\varepsilon}\)</span>
-which leads to the normal log-likelihood function:
+<p>The noise <span class="math inline">\(\varepsilon \sim N(0, \sigma^2_{\varepsilon})\)</span>
+is normally distributed with mean 0 and variance <span class="math inline">\(\text{Var}(\varepsilon) = \sigma^2_{\varepsilon}\)</span>.
+Having obtained MLEs <span class="math inline">\(\hat{\mu}_y\)</span> and <span class="math inline">\(\hat{\boldsymbol \mu}_{\boldsymbol x}\)</span> corresponding (indirect) observations are given by
+<span class="math display">\[
+(y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})
+\]</span>
+which leads to the normal log-likelihood function
 <span class="math display">\[
 \begin{split}
-\log L  &amp;= -\frac{n}{2} \log \sigma^2_{\varepsilon} - \frac{1}{2\sigma^2_{\varepsilon}}{\sum^n_{i=1} \epsilon_i^2}\\
-&amp;= -\frac{n}{2} \log \sigma^2_{\varepsilon} - \frac{1}{2\sigma^2_{\varepsilon}}\underbrace{\sum^n_{i=1} \left((y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})\right)^2}_{\text{ = RSS($\boldsymbol \beta$)}}\\
+\log L(\boldsymbol \beta,\sigma^2_{\varepsilon} ) 
+&amp;= -\frac{n}{2} \log \sigma^2_{\varepsilon} - \frac{1}{2\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})\right)^2\\
 \end{split}
 \]</span></p>
 <p>We now only need to maximise the log-likelihood to obtain MLEs of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>!</p>
-<p>Note that the residual sum of squares (RSS) appears in the log-likelihood function
+<p>Note that the residual sum of squares appears in the log-likelihood function
 (with a minus sign), which implies that ML assuming normal distribution will recover
 the OLS estimator for the regression coefficients! So OLS is a special case of ML !</p>
 <div id="detailed-derivation-of-the-mles" class="section level3">
@@ -150,7 +156,7 @@ the OLS estimator for the regression coefficients! So OLS is a special case of M
 <p>The gradient with regard to <span class="math inline">\(\boldsymbol \beta\)</span> is
 <span class="math display">\[
 \begin{split}
-\nabla_{\boldsymbol \beta} \log L &amp;= \frac{1}{\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} ) (y_i - \hat{\mu}_{y}) - (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} )(\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})^T \boldsymbol \beta\right)  \\
+\nabla_{\boldsymbol \beta} \log L(\boldsymbol \beta,\sigma^2_{\varepsilon} ) &amp;= \frac{1}{\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} ) (y_i - \hat{\mu}_{y}) - (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} )(\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})^T \boldsymbol \beta\right)  \\
  &amp;= \frac{n}{\sigma^2_{\varepsilon}} \left( \hat{\boldsymbol \Sigma}_{\boldsymbol xy} -  \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}\boldsymbol \beta\right)\\
 \end{split}
 \]</span>
@@ -163,16 +169,16 @@ as
 <span class="math display">\[
 \hat{\beta}_0 = \hat{\mu}_{y}- \hat{\boldsymbol \beta}^T \hat{\boldsymbol \mu}_{\boldsymbol x}
 \]</span>
-Taking the derivate of <span class="math inline">\(\log L\)</span> with regard to <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> results in
+Taking the derivative of <span class="math inline">\(\log L(\hat{\boldsymbol \beta},\sigma^2_{\varepsilon} )\)</span> with regard to <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> yields
 <span class="math display">\[
-\frac{\partial}{\partial \sigma^2_{\varepsilon}} \log L = -\frac{n}{2\sigma^2_{\varepsilon}} +\frac{1}{2\sigma^4_{\varepsilon}} RSS(\beta)
+\frac{\partial}{\partial \sigma^2_{\varepsilon}} \log L(\hat{\boldsymbol \beta},\sigma^2_{\varepsilon} ) = -\frac{n}{2\sigma^2_{\varepsilon}} +\frac{1}{2\sigma^4_{\varepsilon}} \sum^n_{i=1}  (y_i-\hat{y}_i)^2
 \]</span>
-which leads to the MLE
+with <span class="math inline">\(\hat{y}_i = \hat{\beta}_0 + \hat{\boldsymbol \beta}^T \boldsymbol x_i\)</span> and the residuals <span class="math inline">\(y_i-\hat{y}_i\)</span> resulting from the fitted linear model.
+This leads to the MLE of the noise variance
 <span class="math display">\[
-\hat{\sigma^2}_{\varepsilon} =\frac{RSS(\hat{\boldsymbol \beta})}{n}  = \frac{1}{n}\sum^n_{i=1}(y_i-\hat{y}_i)^2
-\]</span>
-with <span class="math inline">\(\hat{y}_i = \hat{\beta}_0 + \hat{\boldsymbol \beta}^T \boldsymbol x_i\)</span>.</p>
-<p>Note that the MLE <span class="math inline">\(\widehat{\sigma^2}_{\varepsilon}\)</span> is a biased estimate of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span>. The unbiased estimate is <span class="math inline">\(\frac{1}{n-d-1}\sum^n_{i=1}(y_i-\hat{y}_i)^2\)</span>, where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\boldsymbol \beta\)</span>
+\widehat{\sigma^2_{\varepsilon}}  = \frac{1}{n}\sum^n_{i=1}(y_i-\hat{y}_i)^2
+\]</span></p>
+<p>Note that the MLE <span class="math inline">\(\widehat{\sigma^2_{\varepsilon}}\)</span> is a biased estimate of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span>. The unbiased estimate is <span class="math inline">\(\frac{1}{n-d-1}\sum^n_{i=1}(y_i-\hat{y}_i)^2\)</span>, where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\boldsymbol \beta\)</span>
 (i.e. the number of predictors).</p>
 </div>
 <div id="asymptotics" class="section level3">
@@ -185,7 +191,7 @@ an asymptotic estimator of its variance
 <span class="math display">\[\widehat{\text{Var}}(\widehat{\boldsymbol \beta})=\frac{1}{n} \widehat{\sigma^2_{\varepsilon}} \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}^{-1}\]</span>
 Similarly, for <span class="math inline">\(\hat{\beta}_0\)</span> we have
 <span class="math display">\[
-\widehat{\text{Var}}(\widehat{\beta}_0)=\frac{1}{n} \hat{\sigma^2}_{\varepsilon} (1 + \hat{\boldsymbol \mu}^T \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}^{-1} \hat{\boldsymbol \mu})
+\widehat{\text{Var}}(\widehat{\beta}_0)=\frac{1}{n} \widehat{\sigma^2_{\varepsilon}} (1 + \hat{\boldsymbol \mu}^T \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}^{-1} \hat{\boldsymbol \mu})
 \]</span></p>
 <p>For finite sample size <span class="math inline">\(n\)</span> with known <span class="math inline">\(\text{Var}(\varepsilon)\)</span> one can show that the variances are
 <span class="math display">\[\text{Var}(\widehat{\boldsymbol \beta})=\frac{1}{n} \sigma^2_{\varepsilon}\hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}^{-1}\]</span>
@@ -472,7 +478,7 @@ Thus, in this very special case the regression coefficients are identical to the
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 13 May 2021.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 14 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
