@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>5 Multivariate dependencies | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,101 +50,101 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="multivariate-dependencies" class="section level1" number="5">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="multivariate-dependencies" class="section level1">
 <h1>
 <span class="header-section-number">5</span> Multivariate dependencies<a class="anchor" aria-label="anchor" href="#multivariate-dependencies"><i class="fas fa-link"></i></a>
 </h1>
-<div id="measuring-the-linear-association-between-two-sets-of-random-variables" class="section level2" number="5.1">
+<div id="measuring-the-linear-association-between-two-sets-of-random-variables" class="section level2">
 <h2>
 <span class="header-section-number">5.1</span> Measuring the linear association between two sets of random variables<a class="anchor" aria-label="anchor" href="#measuring-the-linear-association-between-two-sets-of-random-variables"><i class="fas fa-link"></i></a>
 </h2>
-<div id="outline" class="section level3" number="5.1.1">
+<div id="outline" class="section level3">
 <h3>
 <span class="header-section-number">5.1.1</span> Outline<a class="anchor" aria-label="anchor" href="#outline"><i class="fas fa-link"></i></a>
 </h3>
 <p>In this section we discuss how to measure the total linear association between two sets of
-random variables <span class="math inline">\(\bx = (x_1, \ldots, x_p)^T\)</span> and
-<span class="math inline">\(\by = (y_1, \ldots, y_q)^T\)</span>. We assume a joint correlation matrix
+random variables <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and
+<span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_q)^T\)</span>. We assume a joint correlation matrix
 <span class="math display">\[
-\bRho = 
+\boldsymbol P= 
 \begin{pmatrix} 
-\bRho_{\bx} &amp;  \bRho_{\bx \by} \\
-\bRho_{\by \bx} &amp; \bRho_{\by} \\
+\boldsymbol P_{\boldsymbol x} &amp;  \boldsymbol P_{\boldsymbol x\boldsymbol y} \\
+\boldsymbol P_{\boldsymbol y\boldsymbol x} &amp; \boldsymbol P_{\boldsymbol y} \\
 \end{pmatrix} 
 \]</span>
-with cross-correlation matrix <span class="math inline">\(\bRho_{\bx \by} = \bRho_{\by \bx}^T\)</span>
-and the within-group group correlations <span class="math inline">\(\bRho_{\bx}\)</span> and <span class="math inline">\(\bRho_{\by}\)</span>.
-If the cross-correlations vanish, <span class="math inline">\(\bRho_{\bx \by} =0\)</span>, then
+with cross-correlation matrix <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = \boldsymbol P_{\boldsymbol y\boldsymbol x}^T\)</span>
+and the within-group group correlations <span class="math inline">\(\boldsymbol P_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol P_{\boldsymbol y}\)</span>.
+If the cross-correlations vanish, <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} =0\)</span>, then
 the two random vectors are uncorrelated, and the joint correlation matrix
 becomes a diagonal block matrix
 <span class="math display">\[
-\bRho_{\text{indep}} = 
+\boldsymbol P_{\text{indep}} = 
 \begin{pmatrix} 
-\bRho_{\bx} &amp;  0 \\
-0 &amp; \bRho_{\by} \\
+\boldsymbol P_{\boldsymbol x} &amp;  0 \\
+0 &amp; \boldsymbol P_{\boldsymbol y} \\
 \end{pmatrix} \, .
 \]</span></p>
 </div>
-<div id="special-cases" class="section level3" number="5.1.2">
+<div id="special-cases" class="section level3">
 <h3>
 <span class="header-section-number">5.1.2</span> Special cases<a class="anchor" aria-label="anchor" href="#special-cases"><i class="fas fa-link"></i></a>
 </h3>
 <p>In linear regression model the
 <em>squared multiple correlation</em> or <em>coefficient of determination</em>
 <span class="math display">\[
-\cor(\bx, y)^2 = \bRho_{y\bx} \bRho_{\bx}^{-1} \bRho_{\bx y}
+\text{Cor}(\boldsymbol x, y)^2 = \boldsymbol P_{y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}
 \]</span>
 is a standard measure to describe the strength of total linear association between the
-predictors <span class="math inline">\(\bx\)</span> and the response <span class="math inline">\(y\)</span>. If <span class="math inline">\(\bRho_{\bx y} =0\)</span> then <span class="math inline">\(\cor(\bx, y)^2=0\)</span>.</p>
-<p>If there is only a single predictor <span class="math inline">\(x\)</span> then <span class="math inline">\(\bRho_{xy}=\rho\)</span> and <span class="math inline">\(\bRho_{x} = 1\)</span>
+predictors <span class="math inline">\(\boldsymbol x\)</span> and the response <span class="math inline">\(y\)</span>. If <span class="math inline">\(\boldsymbol P_{\boldsymbol xy} =0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, y)^2=0\)</span>.</p>
+<p>If there is only a single predictor <span class="math inline">\(x\)</span> then <span class="math inline">\(\boldsymbol P_{xy}=\rho\)</span> and <span class="math inline">\(\boldsymbol P_{x} = 1\)</span>
 and therefore the squared multiple correlation reduces to the squared Pearson correlation
 <span class="math display">\[
-\cor(x, y)^2 = \rho^2 \, .
+\text{Cor}(x, y)^2 = \rho^2 \, .
 \]</span></p>
 </div>
-<div id="rozeboom-vector-correlation" class="section level3" number="5.1.3">
+<div id="rozeboom-vector-correlation" class="section level3">
 <h3>
 <span class="header-section-number">5.1.3</span> Rozeboom vector correlation<a class="anchor" aria-label="anchor" href="#rozeboom-vector-correlation"><i class="fas fa-link"></i></a>
 </h3>
 <p>For the general case with two random vectors we are looking for a scalar
-quantity that quantifies the divergence of the general joint correlation matrix <span class="math inline">\(\bRho\)</span>
-from the joint correlation matrix <span class="math inline">\(\bRho_{\text{indep}}\)</span> assuming uncorrelated
-<span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span>.</p>
+quantity that quantifies the divergence of the general joint correlation matrix <span class="math inline">\(\boldsymbol P\)</span>
+from the joint correlation matrix <span class="math inline">\(\boldsymbol P_{\text{indep}}\)</span> assuming uncorrelated
+<span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
 <p>One such quantity is Hotelling’s <em>vector alienation
 coefficient</em> (given in his 1936 CCA paper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates.
 Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377.&lt;/p&gt;"><sup>6</sup></a>)
 <span class="math display">\[
 \begin{split}
-a(\bx, \by) &amp;= \frac{\det(\bRho)}{\det(\bRho_{\text{indep}}) } \\
-            &amp; = \frac{\det( \bRho) }{  \det(\bRho_{\bx}) \,  \det(\bRho_{\by})  }
+a(\boldsymbol x, \boldsymbol y) &amp;= \frac{\det(\boldsymbol P)}{\det(\boldsymbol P_{\text{indep}}) } \\
+            &amp; = \frac{\det( \boldsymbol P) }{  \det(\boldsymbol P_{\boldsymbol x}) \,  \det(\boldsymbol P_{\boldsymbol y})  }
 \end{split}
 \]</span>
-With <span class="math inline">\(\bK = \bRho_{\bx}^{-1/2} \bRho_{\bx\by} \bRho_{\by}^{-1/2}\)</span> (cf. Chapter 2, Canonical correlation analysis) the vector alienation coefficient can be written
+With <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol P_{\boldsymbol y}^{-1/2}\)</span> (cf. Chapter 2, Canonical correlation analysis) the vector alienation coefficient can be written
 (using the Weinstein-Aronszajn determinant identity and the formula for the determinant
 for block-structured matrices, see Appendix) as
 <span class="math display">\[
 \begin{split}
-a(\bx, \by) &amp; = \det \left( \bI_p - \bK \bK^T \right) \\
-            &amp; = \det \left( \bI_q - \bK^T \bK \right) \\
+a(\boldsymbol x, \boldsymbol y) &amp; = \det \left( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T \right) \\
+            &amp; = \det \left( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K\right) \\
             &amp;= \prod_{i=1}^m (1-\lambda_i^2) \\
 \end{split}
 \]</span>
-where the <span class="math inline">\(\lambda_i\)</span> are the singular values of <span class="math inline">\(\bK\)</span>, i.e. the canonical correlations
-for the pair <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span>.</p>
-<p>If <span class="math inline">\(\bRho_{\bx \by} = 0\)</span> und thus <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> are uncorrelated then <span class="math inline">\(\bRho = \bRho_{\text{indep}}\)</span> and
-thus by construction the vector alienation coefficient <span class="math inline">\(a(\bx, \by)=1\)</span>.
+where the <span class="math inline">\(\lambda_i\)</span> are the singular values of <span class="math inline">\(\boldsymbol K\)</span>, i.e. the canonical correlations
+for the pair <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
+<p>If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> und thus <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are uncorrelated then <span class="math inline">\(\boldsymbol P= \boldsymbol P_{\text{indep}}\)</span> and
+thus by construction the vector alienation coefficient <span class="math inline">\(a(\boldsymbol x, \boldsymbol y)=1\)</span>.
 Hence, it is itself not a generalisation of the squared multiple correlation.</p>
 <p>Instead, Rozeboom (1965) proposed to use as squared <em>vector correlation</em>
 the complement
 <span class="math display">\[
 \begin{split}
-\cor(\bx, \by)^2 &amp;= \rho^2_{\bx \by} = 1 - a(\bx, \by) \\
- &amp; = 1- \det\left( \bI_p - \bK \bK^T \right) \\
- &amp; = 1- \det\left( \bI_q - \bK^T \bK \right) \\
+\text{Cor}(\boldsymbol x, \boldsymbol y)^2 &amp;= \rho^2_{\boldsymbol x\boldsymbol y} = 1 - a(\boldsymbol x, \boldsymbol y) \\
+ &amp; = 1- \det\left( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T \right) \\
+ &amp; = 1- \det\left( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K\right) \\
  &amp;  =1- \prod_{i=1}^m (1-\lambda_i^2) \\
 \end{split}
 \]</span>
-If <span class="math inline">\(\bRho_{\bx \by} = 0\)</span> then <span class="math inline">\(\cor(\bx, \by)^2 = 0\)</span>.
+If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, \boldsymbol y)^2 = 0\)</span>.
 Moreover, if either <span class="math inline">\(p=1\)</span> or <span class="math inline">\(q=1\)</span> the squared vector correlation
 reduces to the corresponding squared multiple correlation,
 and for both <span class="math inline">\(p=1\)</span> and <span class="math inline">\(q=1\)</span> it becomes squared Pearson correlation.</p>
@@ -155,14 +155,14 @@ correlation arises naturally in MI
 for the
 multivariate normal distribution.</p>
 </div>
-<div id="rv-coefficient" class="section level3" number="5.1.4">
+<div id="rv-coefficient" class="section level3">
 <h3>
 <span class="header-section-number">5.1.4</span> RV coefficient<a class="anchor" aria-label="anchor" href="#rv-coefficient"><i class="fas fa-link"></i></a>
 </h3>
 <p>Another common approach to measure association between two random vectors is the RV coefficient introduced by Robert and Escoufier (1976)
 as
 <span class="math display">\[
-RV(\bx, \by) = \frac{ \trace(\bSigma_{\bx \by} \bSigma_{\by \bx} )}{ \sqrt{ \trace(\bSigma_{\bx}^2) \trace(\bSigma_{\by}^2)  } }
+RV(\boldsymbol x, \boldsymbol y) = \frac{ \text{Tr}(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \boldsymbol \Sigma_{\boldsymbol y\boldsymbol x} )}{ \sqrt{ \text{Tr}(\boldsymbol \Sigma_{\boldsymbol x}^2) \text{Tr}(\boldsymbol \Sigma_{\boldsymbol y}^2)  } }
 \]</span>
 It is easier to compute than the Rozeboom vector correlation since it is based
 on the matrix trace rather than matrix determinant.</p>
@@ -172,78 +172,78 @@ for <span class="math inline">\(q=1\)</span> and <span class="math inline">\(p &
 of Pearson and multiple correlation to the case of two random vectors.</p>
 </div>
 </div>
-<div id="mutual-information-as-generalisation-of-correlation" class="section level2" number="5.2">
+<div id="mutual-information-as-generalisation-of-correlation" class="section level2">
 <h2>
 <span class="header-section-number">5.2</span> Mutual information as generalisation of correlation<a class="anchor" aria-label="anchor" href="#mutual-information-as-generalisation-of-correlation"><i class="fas fa-link"></i></a>
 </h2>
-<div id="definition-of-mutual-information" class="section level3" number="5.2.1">
+<div id="definition-of-mutual-information" class="section level3">
 <h3>
 <span class="header-section-number">5.2.1</span> Definition of mutual information<a class="anchor" aria-label="anchor" href="#definition-of-mutual-information"><i class="fas fa-link"></i></a>
 </h3>
 <p>Recall the definition
 of Kullback-Leibler divergence, or relative entropy, between two distributions:
 <span class="math display">\[
-\ikl(F,  G) := \expect_F \log \biggl( \frac{f(\bx)}{g(\bx)} \biggr) 
+D_{\text{KL}}(F,  G) := \text{E}_F \log \biggl( \frac{f(\boldsymbol x)}{g(\boldsymbol x)} \biggr) 
 \]</span>
 Here <span class="math inline">\(F\)</span> plays the role of the reference distribution and <span class="math inline">\(G\)</span> is an approximating distribution,
 with <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> being the corresponding density functions
-(see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>).</p>
-<p>The <em>Mutual Information</em> (MI) between two random variables <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> is defined as the
+(see <a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>).</p>
+<p>The <em>Mutual Information</em> (MI) between two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is defined as the
 KL divergence between the corresponding joint distribution and the product distribution:
 <span class="math display">\[
-\text{MI}(\bx, \by) = \ikl(F_{\bx,\by}, F_{\bx}  F_{\by}) = \expect_{F_{\bx,\by}}  \log \biggl( \frac{f(\bx, \by)}{f(\bx) \, f(\by)} \biggr) .
+\text{MI}(\boldsymbol x, \boldsymbol y) = D_{\text{KL}}(F_{\boldsymbol x,\boldsymbol y}, F_{\boldsymbol x}  F_{\boldsymbol y}) = \text{E}_{F_{\boldsymbol x,\boldsymbol y}}  \log \biggl( \frac{f(\boldsymbol x, \boldsymbol y)}{f(\boldsymbol x) \, f(\boldsymbol y)} \biggr) .
 \]</span>
 Thus, MI measures how well the joint distribution can be approximated by the product
-distribution (which would be the appropriate joint distribution if <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> are independent).
+distribution (which would be the appropriate joint distribution if <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent).
 Since MI is an application of KL divergence is shares all its properties. In particular,
-<span class="math inline">\(\text{MI}(\bx, \by)=0\)</span> implies that the joint distribution and product distributions are the same. Hence the two random variables <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> are independent if the mutual information vanishes.</p>
+<span class="math inline">\(\text{MI}(\boldsymbol x, \boldsymbol y)=0\)</span> implies that the joint distribution and product distributions are the same. Hence the two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent if the mutual information vanishes.</p>
 </div>
-<div id="mutual-information-between-two-normal-variables" class="section level3" number="5.2.2">
+<div id="mutual-information-between-two-normal-variables" class="section level3">
 <h3>
 <span class="header-section-number">5.2.2</span> Mutual information between two normal variables<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normal-variables"><i class="fas fa-link"></i></a>
 </h3>
-<p>The KL divergence between two multivariate normal distributions <span class="math inline">\(F_{\tref}\)</span> and <span class="math inline">\(F\)</span> is
+<p>The KL divergence between two multivariate normal distributions <span class="math inline">\(F_{\text{ref}}\)</span> and <span class="math inline">\(F\)</span> is
 <span class="math display">\[
-\ikl(F_{\tref}, F)  = \frac{1}{2}   \biggl\{
-        (\bmu-\bmu_{\tref})^T \bSigma^{-1} (\bmu-\bmu_{\tref})
-      + \trace \biggl(\bSigma^{-1} \bSigma_{\tref} \biggr)
-    - \log \det \biggl( \bSigma^{-1} \bSigma_{\tref} \biggr) 
+D_{\text{KL}}(F_{\text{ref}}, F)  = \frac{1}{2}   \biggl\{
+        (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
+      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr) 
      - d   \biggr\} 
 \]</span>
-This allows compute the mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> between two univariate random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that are are correlated and assumed to be jointly bivariate normal. Let <span class="math inline">\(\bz = (x, y)^T\)</span>. The joint bivariate normal distribution is characterised by the mean <span class="math inline">\(\expect(\bz) = \bmu = (\mu_x, \mu_y)^T\)</span> and the covariance matrix
+This allows compute the mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> between two univariate random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that are are correlated and assumed to be jointly bivariate normal. Let <span class="math inline">\(\boldsymbol z= (x, y)^T\)</span>. The joint bivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\boldsymbol z) = \boldsymbol \mu= (\mu_x, \mu_y)^T\)</span> and the covariance matrix
 <span class="math display">\[
-\bSigma =
+\boldsymbol \Sigma=
 \begin{pmatrix} 
 \sigma^2_x &amp; \rho \, \sigma_x \sigma_y \\
 \rho \, \sigma_x  \sigma_y &amp; \sigma^2_y \\ 
 \end{pmatrix}
 \]</span>
-where <span class="math inline">\(\cor(x,y)= \rho\)</span>. If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are independent then
+where <span class="math inline">\(\text{Cor}(x,y)= \rho\)</span>. If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are independent then
 <span class="math inline">\(\rho=0\)</span> and
 <span class="math display">\[
-\bSigma_{\text{indep}} = 
+\boldsymbol \Sigma_{\text{indep}} = 
 \begin{pmatrix} \sigma^2_x &amp; 0 \\ 0 &amp; \sigma^2_y \\ \end{pmatrix} \,.
 \]</span>
 The product
 <span class="math display">\[
-\bA = \bSigma_{\text{indep}}^{-1} \bSigma = 
+\boldsymbol A= \boldsymbol \Sigma_{\text{indep}}^{-1} \boldsymbol \Sigma= 
 \begin{pmatrix}
 1 &amp; \rho \frac{\sigma_y}{\sigma_x} \\
 \rho \frac{\sigma_x}{\sigma_y} &amp; 1 \\
 \end{pmatrix}
 \]</span>
-has trace <span class="math inline">\(\trace(\bA) = 2\)</span> and determinant <span class="math inline">\(\det(\bA) = 1-\rho^2\)</span>.</p>
+has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = 2\)</span> and determinant <span class="math inline">\(\det(\boldsymbol A) = 1-\rho^2\)</span>.</p>
 <p>With this the mutual information between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be computed as
 <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(x, y) &amp;= \ikl(N(\bmu, \bSigma),  N(\bmu,\bSigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(x, y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
-         \trace \biggl(\bSigma^{-1}_{\text{indep}} \bSigma \biggr)
-    - \log \det \biggl( \bSigma^{-1}_{\text{indep}} \bSigma \biggr) 
+         \text{Tr}\biggl(\boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr) 
      - 2   \biggr\} \\
 &amp; = \frac{1}{2}   \biggl\{
-         \trace( \bA )
-    - \log \det( \bA ) 
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A) 
      - 2   \biggr\} \\
 &amp;=  -\frac{1}{2} \log(1-\rho^2) \\
   &amp; \approx \frac{\rho^2}{2} \\
@@ -253,116 +253,116 @@ has trace <span class="math inline">\(\trace(\bA) = 2\)</span> and determinant <
 <div class="inline-figure"><img src="5-dependence_files/figure-html/unnamed-chunk-1-1.png" width="384"></div>
 <p>For small values of correlation <span class="math inline">\(2 \, \text{MI}_{\text{norm}}(x,y) \approx \rho^2\)</span>.</p>
 </div>
-<div id="mutual-information-between-two-normally-distributed-random-vectors" class="section level3" number="5.2.3">
+<div id="mutual-information-between-two-normally-distributed-random-vectors" class="section level3">
 <h3>
 <span class="header-section-number">5.2.3</span> Mutual information between two normally distributed random vectors<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normally-distributed-random-vectors"><i class="fas fa-link"></i></a>
 </h3>
-<p>The mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(\bx,\by)\)</span> between two multivariate normal random vector <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span>
+<p>The mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y)\)</span> between two multivariate normal random vector <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>
 can be computed in a similar fashion as in the bivariate case.</p>
-<p>Let <span class="math inline">\(\bz = (\bx, \by)^T\)</span> with dimension <span class="math inline">\(d=p+q\)</span>. The joint multivariate
-normal distribution is characterised by the mean <span class="math inline">\(\expect(\bz) = \bmu = (\bmu_x^T, \bmu_y^T)^T\)</span> and the covariance matrix
+<p>Let <span class="math inline">\(\boldsymbol z= (\boldsymbol x, \boldsymbol y)^T\)</span> with dimension <span class="math inline">\(d=p+q\)</span>. The joint multivariate
+normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\boldsymbol z) = \boldsymbol \mu= (\boldsymbol \mu_x^T, \boldsymbol \mu_y^T)^T\)</span> and the covariance matrix
 <span class="math display">\[
-\bSigma =
-\begin{pmatrix} \bSigma_{\bx} &amp; \bSigma_{\bx \by} \\ 
-\bSigma_{\bx \by}^T &amp; \bSigma_{\by} \\ 
+\boldsymbol \Sigma=
+\begin{pmatrix} \boldsymbol \Sigma_{\boldsymbol x} &amp; \boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \\ 
+\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y}^T &amp; \boldsymbol \Sigma_{\boldsymbol y} \\ 
 \end{pmatrix} \,.
 \]</span>
-If <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> are independent then
-<span class="math inline">\(\bSigma_{\bx \by} = 0\)</span> and
+If <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent then
+<span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} = 0\)</span> and
 <span class="math display">\[
-\bSigma_{\text{indep}} =
+\boldsymbol \Sigma_{\text{indep}} =
 \begin{pmatrix}  
-\bSigma_{\bx} &amp; 0 \\ 
-0 &amp; \bSigma_{\by} \\ 
+\boldsymbol \Sigma_{\boldsymbol x} &amp; 0 \\ 
+0 &amp; \boldsymbol \Sigma_{\boldsymbol y} \\ 
 \end{pmatrix} \, .
 \]</span>
 The product
 <span class="math display">\[
 \begin{split}
-\bA &amp; = 
-\bSigma_{\text{indep}}^{-1} \bSigma = 
+\boldsymbol A&amp; = 
+\boldsymbol \Sigma_{\text{indep}}^{-1} \boldsymbol \Sigma= 
 \begin{pmatrix}
-\bI_p &amp; \bSigma_{\bx}^{-1} \bSigma_{\bx \by} \\
-\bSigma_{\by}^{-1} \bSigma_{\by \bx}    &amp; \bI_q \\
+\boldsymbol I_p &amp; \boldsymbol \Sigma_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \\
+\boldsymbol \Sigma_{\boldsymbol y}^{-1} \boldsymbol \Sigma_{\boldsymbol y\boldsymbol x}    &amp; \boldsymbol I_q \\
 \end{pmatrix} \\
 &amp; = 
 \begin{pmatrix}
-\bI_p &amp;  \bV_{\bx}^{-1/2} \bRho_{\bx}^{-1} \bRho_{\bx \by} \bV_{\by}^{1/2} \\
-\bV_{\by}^{-1/2} \bRho_{\by}^{-1} \bRho_{\by \bx} \bV_{\bx}^{1/2}   &amp; \bI_q \\
+\boldsymbol I_p &amp;  \boldsymbol V_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol V_{\boldsymbol y}^{1/2} \\
+\boldsymbol V_{\boldsymbol y}^{-1/2} \boldsymbol P_{\boldsymbol y}^{-1} \boldsymbol P_{\boldsymbol y\boldsymbol x} \boldsymbol V_{\boldsymbol x}^{1/2}   &amp; \boldsymbol I_q \\
 \end{pmatrix}\\
 \end{split}
 \]</span>
-has trace <span class="math inline">\(\trace(\bA) = d\)</span> and determinant
+has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = d\)</span> and determinant
 <span class="math display">\[
 \begin{split}
-\det(\bA) &amp; = \det( \bI_p - \bK \bK^T ) \\
-  &amp;= \det( \bI_q - \bK^T \bK ) \\
+\det(\boldsymbol A) &amp; = \det( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T ) \\
+  &amp;= \det( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K) \\
 \end{split}
 \]</span>
-with <span class="math inline">\(\bK = \bRho_{\bx}^{-1/2} \bRho_{\bx \by} \bRho_{\by}^{-1/2}\)</span>.
-With <span class="math inline">\(\lambda_1, \ldots, \lambda_m\)</span> the singular values of <span class="math inline">\(\bK\)</span> (i.e.
-the canonical correlations between <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span>) we get
+with <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol P_{\boldsymbol y}^{-1/2}\)</span>.
+With <span class="math inline">\(\lambda_1, \ldots, \lambda_m\)</span> the singular values of <span class="math inline">\(\boldsymbol K\)</span> (
+i.e. the canonical correlations between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>) we get
 <span class="math display">\[
-\det(\bA) =  \prod_{i=1}^m (1-\lambda_i^2)
+\det(\boldsymbol A) =  \prod_{i=1}^m (1-\lambda_i^2)
 \]</span></p>
-<p>The mutual information between <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> is then
+<p>The mutual information between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is then
 <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(\bx, \by) &amp;= \ikl(N(\bmu, \bSigma),  N(\bmu,\bSigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
-         \trace \biggl( \bSigma^{-1}_{\text{indep}} \bSigma \biggr)
-    - \log \det \biggl( \bSigma^{-1}_{\text{indep}} \bSigma \biggr) 
+         \text{Tr}\biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr) 
      - d   \biggr\} \\
 &amp; = \frac{1}{2}   \biggl\{
-         \trace( \bA )
-    - \log \det( \bA ) 
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A) 
      - d   \biggr\} \\
 &amp;=-\frac{1}{2} \sum_{i=1}^m \log(1-\lambda_i^2)\\
 \end{split}
 \]</span></p>
-<p>Note that <span class="math inline">\(\text{MI}_{\text{norm}}(\bx, \by)\)</span> is the sum of the MIs resulting from the
+<p>Note that <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y)\)</span> is the sum of the MIs resulting from the
 individual canonical correlations <span class="math inline">\(\lambda_i\)</span> with the same functional
 form as in the bivariate normal case.</p>
-<p>By comparison with the squared Rozeboom vector correlation coefficient <span class="math inline">\(\rho^2_{\bx \by}\)</span>
+<p>By comparison with the squared Rozeboom vector correlation coefficient <span class="math inline">\(\rho^2_{\boldsymbol x\boldsymbol y}\)</span>
 we recognize that
 <span class="math display">\[
-\text{MI}_{\text{norm}}(\bx,\by) = -\frac{1}{2} \log(1 - \rho^2_{\bx \by} ) \approx \frac{1}{2} \rho^2_{\bx \by}
+\text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y) = -\frac{1}{2} \log(1 - \rho^2_{\boldsymbol x\boldsymbol y} ) \approx \frac{1}{2} \rho^2_{\boldsymbol x\boldsymbol y}
 \]</span>
-Thus, in the multivariate case <span class="math inline">\(\text{MI}_{\text{norm}}(\bx \by)\)</span> has again exactly the same functional relationship with the
-vector correlation <span class="math inline">\(\rho^2_{\bx, \by}\)</span> as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span>
+Thus, in the multivariate case <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x\boldsymbol y)\)</span> has again exactly the same functional relationship with the
+vector correlation <span class="math inline">\(\rho^2_{\boldsymbol x, \boldsymbol y}\)</span> as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span>
 for two univariate variables with squared Pearson correlation <span class="math inline">\(\rho^2\)</span>.</p>
 <p>Thus, Rozebooms vector correlation is directly linked to mutual information for jointly multivariate normally distributed variables.</p>
 </div>
-<div id="using-mi-for-variable-selection" class="section level3" number="5.2.4">
+<div id="using-mi-for-variable-selection" class="section level3">
 <h3>
 <span class="header-section-number">5.2.4</span> Using MI for variable selection<a class="anchor" aria-label="anchor" href="#using-mi-for-variable-selection"><i class="fas fa-link"></i></a>
 </h3>
 <p>In principle, MI can be computed for any distribution and model and thus applies to both normal and non-normal models, and to both linear and nonlinear relationships.</p>
-<p>In very general way we may denote by <span class="math inline">\(F_{\by|\bx}\)</span> we denote a predictive model for <span class="math inline">\(\by\)</span> conditioned on <span class="math inline">\(\bx\)</span> and <span class="math inline">\(F_{\by}\)</span> is the marginal distribution of <span class="math inline">\(\by\)</span> without predictors. Note that the predictive model can assume any form (incl. nonlinear). Typically <span class="math inline">\(F_{\by|\bx}\)</span> is a complex model and <span class="math inline">\(F_{\by}\)</span>
+<p>In very general way we may denote by <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> we denote a predictive model for <span class="math inline">\(\boldsymbol y\)</span> conditioned on <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(F_{\boldsymbol y}\)</span> is the marginal distribution of <span class="math inline">\(\boldsymbol y\)</span> without predictors. Note that the predictive model can assume any form (incl. nonlinear). Typically <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> is a complex model and <span class="math inline">\(F_{\boldsymbol y}\)</span>
 a simple model (no predictors).</p>
 <p>Then mutual information between
-<span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> can be also understood as expectated KL divergence
+<span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> can be also understood as expectated KL divergence
 between the conditional and marginal distributions:
 <span class="math display">\[
-\expect_{F_{\bx}}\, \ikl(F_{\by|\bx},  F_{\by} ) = \text{MI}(\bx, \by)
+\text{E}_{F_{\boldsymbol x}}\, D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x},  F_{\boldsymbol y} ) = \text{MI}(\boldsymbol x, \boldsymbol y)
 \]</span></p>
 <p>This can be shown as follows.
-The KL divergence between <span class="math inline">\(F_{\by|\bx}\)</span> and <span class="math inline">\(F_{\by}\)</span>
+The KL divergence between <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> and <span class="math inline">\(F_{\boldsymbol y}\)</span>
 is given by
 <span class="math display">\[
-\ikl(F_{\by|\bx}, F_{\by} )  = \expect_{F_{\by|\bx}}  \log\biggl( \frac{f(\by|\bx) }{ f(\by)}  \biggr) \, , 
+D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} )  = \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log\biggl( \frac{f(\boldsymbol y|\boldsymbol x) }{ f(\boldsymbol y)}  \biggr) \, , 
 \]</span>
-which is a random variable since it depends on <span class="math inline">\(\bx\)</span>.
-Taking the expectation with regard to <span class="math inline">\(F_{\bx}\)</span> (the distribution of <span class="math inline">\(\bx\)</span>)
+which is a random variable since it depends on <span class="math inline">\(\boldsymbol x\)</span>.
+Taking the expectation with regard to <span class="math inline">\(F_{\boldsymbol x}\)</span> (the distribution of <span class="math inline">\(\boldsymbol x\)</span>)
 we get
 <span class="math display">\[
-\expect_{F_{\bx}} \ikl(F_{\by|\bx}, F_{\by} ) = 
-\expect_{F_{\bx}}  \expect_{F_{\by|\bx}}  \log \biggl(\frac{ f(\by|\bx) f(\bx) }{ f(\by) f(\bx) } \biggr) = 
-\expect_{F_{\bx,\by}}   \log \biggl(\frac{ f(\bx,\by) }{ f(\by) f(\bx) } \biggr) = \text{MI}(\bx,\by) \,.
+\text{E}_{F_{\boldsymbol x}} D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} ) = 
+\text{E}_{F_{\boldsymbol x}}  \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log \biggl(\frac{ f(\boldsymbol y|\boldsymbol x) f(\boldsymbol x) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr) = 
+\text{E}_{F_{\boldsymbol x,\boldsymbol y}}   \log \biggl(\frac{ f(\boldsymbol x,\boldsymbol y) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr) = \text{MI}(\boldsymbol x,\boldsymbol y) \,.
 \]</span></p>
 <p>Because of this link of MI with conditioning the MI between response and predictor variables is often used for variable and feature selection in general models.</p>
 </div>
-<div id="other-measures-of-general-dependence" class="section level3" number="5.2.5">
+<div id="other-measures-of-general-dependence" class="section level3">
 <h3>
 <span class="header-section-number">5.2.5</span> Other measures of general dependence<a class="anchor" aria-label="anchor" href="#other-measures-of-general-dependence"><i class="fas fa-link"></i></a>
 </h3>
@@ -372,11 +372,11 @@ and ii) the <a href="https://en.wikipedia.org/wiki/Maximal_information_coefficie
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="graphical-models" class="section level2" number="5.3">
+<div id="graphical-models" class="section level2">
 <h2>
 <span class="header-section-number">5.3</span> Graphical models<a class="anchor" aria-label="anchor" href="#graphical-models"><i class="fas fa-link"></i></a>
 </h2>
-<div id="purpose" class="section level3" number="5.3.1">
+<div id="purpose" class="section level3">
 <h3>
 <span class="header-section-number">5.3.1</span> Purpose<a class="anchor" aria-label="anchor" href="#purpose"><i class="fas fa-link"></i></a>
 </h3>
@@ -397,9 +397,9 @@ random variables represented by nodes in the graphs, and branches representing
 conditional dependencies. In this regard they generalise both the tree-based clustering approaches as well as the probabilistic non-hierarchical methods (GMMs).</p>
 <p>However, the class of graphical models goes much beyond simple
 unsupervised learning models. It also includes regression, classification,
-time series models etc. See e.g. the reference book by <span class="citation">Murphy (<a href="bibliography.html#ref-Murphy2012" role="doc-biblioref">2012</a>)</span>.</p>
+time series models etc. See e.g. the reference book by <span class="citation">Murphy (<a href="bibliography.html#ref-Murphy2012">2012</a>)</span>.</p>
 </div>
-<div id="basic-notions-from-graph-theory" class="section level3" number="5.3.2">
+<div id="basic-notions-from-graph-theory" class="section level3">
 <h3>
 <span class="header-section-number">5.3.2</span> Basic notions from graph theory<a class="anchor" aria-label="anchor" href="#basic-notions-from-graph-theory"><i class="fas fa-link"></i></a>
 </h3>
@@ -422,16 +422,16 @@ time series models etc. See e.g. the reference book by <span class="citation">M
 <li>A DAG, or directed acyclic graph, is a directed graph with no directed cycles. A (directed) tree is a special version of a DAG.</li>
 </ul>
 </div>
-<div id="probabilistic-graphical-models" class="section level3" number="5.3.3">
+<div id="probabilistic-graphical-models" class="section level3">
 <h3>
 <span class="header-section-number">5.3.3</span> Probabilistic graphical models<a class="anchor" aria-label="anchor" href="#probabilistic-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
-<p>A graphical model uses a graph to describe the relationship between random variables <span class="math inline">\(x_1, \ldots, x_d\)</span>. The variables are assumed to have a joint distribution with density/mass function <span class="math inline">\(\prob(x_1, x_2, \ldots, x_d)\)</span>.
+<p>A graphical model uses a graph to describe the relationship between random variables <span class="math inline">\(x_1, \ldots, x_d\)</span>. The variables are assumed to have a joint distribution with density/mass function <span class="math inline">\(\text{Pr}(x_1, x_2, \ldots, x_d)\)</span>.
 Each random variable is placed in a node of the graph.</p>
 <p>The structure of the graph and the type of the edges connecting (or not connecting) any pair of nodes/variables is used to describe the conditional dependencies, and to simplify the joint distribution.</p>
 <p>Thus, a graphical model is in essence a visualisation of the joint distribution using structural information from the graph helping to understand the mutual relationship among the variables.</p>
 </div>
-<div id="directed-graphical-models" class="section level3" number="5.3.4">
+<div id="directed-graphical-models" class="section level3">
 <h3>
 <span class="header-section-number">5.3.4</span> Directed graphical models<a class="anchor" aria-label="anchor" href="#directed-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
@@ -439,7 +439,7 @@ Each random variable is placed in a node of the graph.</p>
 a DAG (or a directed tree, which is also a DAG).</p>
 <p>Then the joint probability distribution can be factorised into a <em>product of conditional probabilities</em> as follows:
 <span class="math display">\[
-\prob(x_1, x_2, \ldots, x_d) = \prod_i \prob(x_i  | \text{pa}(x_i))
+\text{Pr}(x_1, x_2, \ldots, x_d) = \prod_i \text{Pr}(x_i  | \text{pa}(x_i))
 \]</span>
 Thus, the overall joint probability distribution is specified by local conditional distributions and the graph structure, with the directions of the edges providing the information about parent-child node relationships.</p>
 <p>Probabilistic DAGs are also known as “Bayesian networks”.</p>
@@ -474,7 +474,7 @@ on the positive side, this also implies that the search through all graphical mo
 demanding for anything but small toy data sets.</strong></p>
 <p>This also explains why heuristic and non-model based approaches (such as hierarchical clustering) are so popular even though full statistical modelling is in principle possible.</p>
 </div>
-<div id="undirected-graphical-models" class="section level3" number="5.3.5">
+<div id="undirected-graphical-models" class="section level3">
 <h3>
 <span class="header-section-number">5.3.5</span> Undirected graphical models<a class="anchor" aria-label="anchor" href="#undirected-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
@@ -488,43 +488,43 @@ x_i \perp\!\!\!\perp x_j | \{x_k\}
 if the joint probability density of <span class="math inline">\(x_i, x_j\)</span> and <span class="math inline">\(x_k\)</span>
 factorises as
 <span class="math display">\[
- \prob(x_1, x_2, \ldots, x_d) = \prob(x_i | \{x_k\}) \prob(x_j | \{x_k\}) \prob(\{x_k\}) \,.
+ \text{Pr}(x_1, x_2, \ldots, x_d) = \text{Pr}(x_i | \{x_k\}) \text{Pr}(x_j | \{x_k\}) \text{Pr}(\{x_k\}) \,.
  \]</span>
 or equivalently
 <span class="math display">\[
- \prob(x_i, x_j | \{x_k\}) = \prob(x_i | \{x_k\}) \prob(x_j | \{x_k\}) \,.
+ \text{Pr}(x_i, x_j | \{x_k\}) = \text{Pr}(x_i | \{x_k\}) \text{Pr}(x_j | \{x_k\}) \,.
  \]</span></p>
 <p>In a corresponding conditional independence graph, there is no edge between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>,
 as in such a graph <em>missing edges correspond to conditional independence</em> between the respective non-connected nodes.</p>
-<div id="gaussian-graphical-model" class="section level4" number="5.3.5.1">
+<div id="gaussian-graphical-model" class="section level4">
 <h4>
 <span class="header-section-number">5.3.5.1</span> Gaussian graphical model<a class="anchor" aria-label="anchor" href="#gaussian-graphical-model"><i class="fas fa-link"></i></a>
 </h4>
-<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e. <span class="math inline">\(\bx \sim N(\bmu, \bSigma)\)</span>,
+<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e. <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>,
 it turns out that it is straightforward to identify the pairwise conditional independencies.
-From <span class="math inline">\(\bSigma\)</span> we first obtain the precision matrix
-<span class="math display">\[\bOmega = (\omega_{ij}) = \bSigma^{-1} \,.\]</span>
+From <span class="math inline">\(\boldsymbol \Sigma\)</span> we first obtain the precision matrix
+<span class="math display">\[\boldsymbol \Omega= (\omega_{ij}) = \boldsymbol \Sigma^{-1} \,.\]</span>
 Crucially, it can be shown that
 <span class="math inline">\(\omega_{ij} = 0\)</span> implies
 <span class="math inline">\(x_i \perp\!\!\!\perp x_j | \{ x_k \}\)</span>!
-Hence, from the precision matrix <span class="math inline">\(\bOmega\)</span> we can directly read off all the pairwise conditional independencies among the variables <span class="math inline">\(x_1, x_2, \ldots, x_d\)</span>!</p>
-<p>Often, the covariance matrix <span class="math inline">\(\bSigma\)</span> is dense (few zeros) but the corresponding precision matrix
-<span class="math inline">\(\bOmega\)</span> is sparse (many zeros).</p>
+Hence, from the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can directly read off all the pairwise conditional independencies among the variables <span class="math inline">\(x_1, x_2, \ldots, x_d\)</span>!</p>
+<p>Often, the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span> is dense (few zeros) but the corresponding precision matrix
+<span class="math inline">\(\boldsymbol \Omega\)</span> is sparse (many zeros).</p>
 <p>The conditional independence graph computed for normally distributed variables is called
 a <strong>Gaussian graphical model</strong>, or <strong>GGM</strong>. A further alternative name
 is <strong>covariance selection model</strong>.</p>
 </div>
-<div id="related-quantity-partial-correlation" class="section level4" number="5.3.5.2">
+<div id="related-quantity-partial-correlation" class="section level4">
 <h4>
 <span class="header-section-number">5.3.5.2</span> Related quantity: partial correlation<a class="anchor" aria-label="anchor" href="#related-quantity-partial-correlation"><i class="fas fa-link"></i></a>
 </h4>
-<p>From the precision matrix <span class="math inline">\(\bOmega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
+<p>From the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
 <p><span class="math display">\[
 \rho_{ij|\text{rest}}=-\frac{\omega_{ij}}{\sqrt{\omega_{ii}\omega_{jj}}}
 \]</span>
 which is essentially the standardised precision matrix (similar to correlation but with an extra minus sign!)</p>
 <p>The partial correlations lie in the range between -1 and +1, <span class="math inline">\(\rho_{ij|\text{rest}} \in [-1, 1]\)</span>, just like standard correlations.</p>
-<p>If <span class="math inline">\(\bx\)</span> is multivariate normal then <span class="math inline">\(\rho_{ij|\text{rest}} = 0\)</span> indicates conditional independence
+<p>If <span class="math inline">\(\boldsymbol x\)</span> is multivariate normal then <span class="math inline">\(\rho_{ij|\text{rest}} = 0\)</span> indicates conditional independence
 between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.</p>
 <p><em>Regression interpretation:</em> partial correlation is the correlation that remains between
 the two variables if the effect of the other variables is “regressed away”.
@@ -532,14 +532,14 @@ In other words, the partial correlation is exactly equivalent to the correlation
 the residuals that remain after regressing <span class="math inline">\(x_i\)</span> on the variables <span class="math inline">\(\{x_k\}\)</span> and <span class="math inline">\(x_j\)</span> on <span class="math inline">\(\{x_k\}\)</span>.</p>
 </div>
 </div>
-<div id="algorithm-for-learning-ggms" class="section level3" number="5.3.6">
+<div id="algorithm-for-learning-ggms" class="section level3">
 <h3>
 <span class="header-section-number">5.3.6</span> Algorithm for learning GGMs<a class="anchor" aria-label="anchor" href="#algorithm-for-learning-ggms"><i class="fas fa-link"></i></a>
 </h3>
 <p>From the above we can devise a simple algorithm to to learn Gaussian graphical model (GGM)
 from data:</p>
 <ol style="list-style-type: decimal">
-<li>Estimate covariance <span class="math inline">\(\hat{\bSigma}\)</span> (in such a way that it is invertible!)</li>
+<li>Estimate covariance <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> (in such a way that it is invertible!)</li>
 <li>Compute corresponding partial correlations</li>
 <li>If <span class="math inline">\(\hat{\rho}_{ij|\text{rest}} \approx 0\)</span> then there is (approx). conditional
 independence between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.<br>
@@ -547,7 +547,7 @@ In practise this is done by statistical testing for vanishing partial correlatio
 adjustment for simultaneous multiple testing since all edges are tested in parallel.</li>
 </ol>
 </div>
-<div id="example-exam-score-data-mardia-et-al-1979" class="section level3" number="5.3.7">
+<div id="example-exam-score-data-mardia-et-al-1979" class="section level3">
 <h3>
 <span class="header-section-number">5.3.7</span> Example: exam score data (Mardia et al 1979:)<a class="anchor" aria-label="anchor" href="#example-exam-score-data-mardia-et-al-1979"><i class="fas fa-link"></i></a>
 </h3>
@@ -581,6 +581,7 @@ the conditional independence graph looks as follows:</p>
    |     /   \     |
  Vectors      Statistics</code></pre>
 
+<p></p>
 </div>
 </div>
 </div>
@@ -636,7 +637,7 @@ the conditional independence graph looks as follows:</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 11 May 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

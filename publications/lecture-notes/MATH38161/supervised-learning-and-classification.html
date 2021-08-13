@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Supervised learning and classification | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,35 +50,35 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="supervised-learning-and-classification" class="section level1" number="4">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="supervised-learning-and-classification" class="section level1">
 <h1>
 <span class="header-section-number">4</span> Supervised learning and classification<a class="anchor" aria-label="anchor" href="#supervised-learning-and-classification"><i class="fas fa-link"></i></a>
 </h1>
-<div id="introduction" class="section level2" number="4.1">
+<div id="introduction" class="section level2">
 <h2>
 <span class="header-section-number">4.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
 </h2>
-<div id="supervised-learning-vs.-unsupervised-learning" class="section level3" number="4.1.1">
+<div id="supervised-learning-vs.unsupervised-learning" class="section level3">
 <h3>
-<span class="header-section-number">4.1.1</span> Supervised learning vs. unsupervised learning<a class="anchor" aria-label="anchor" href="#supervised-learning-vs.-unsupervised-learning"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.1</span> Supervised learning vs. unsupervised learning<a class="anchor" aria-label="anchor" href="#supervised-learning-vs.unsupervised-learning"><i class="fas fa-link"></i></a>
 </h3>
 <p><strong>Unsupervised learning:</strong></p>
 <p>Starting point:</p>
 <ul>
-<li>unlabeled data <span class="math inline">\(\bx_1, \ldots, \bx_n\)</span>.</li>
+<li>unlabeled data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</li>
 </ul>
-<p>Aim: find labels <span class="math inline">\(y_1, \ldots, y_n\)</span> to attach to each sample <span class="math inline">\(\bx_i\)</span>.</p>
+<p>Aim: find labels <span class="math inline">\(y_1, \ldots, y_n\)</span> to attach to each sample <span class="math inline">\(\boldsymbol x_i\)</span>.</p>
 <p>For discrete labels <span class="math inline">\(y\)</span> unsupervised learning is called <em>clustering</em>.</p>
 <p><strong>Supervised learning:</strong></p>
 <p>Starting point:</p>
 <ul>
-<li>labeled <em>training data</em>: <span class="math inline">\(\{\bx_1^{\train}, y_1^{\train}\}\)</span>,
-<span class="math inline">\(\ldots\)</span>, <span class="math inline">\(\{\bx_n^{\train}, y_n^{\train} \}\)</span>
+<li>labeled <em>training data</em>: <span class="math inline">\(\{\boldsymbol x_1^{\text{train}}, y_1^{\text{train}}\}\)</span>,
+<span class="math inline">\(\ldots\)</span>, <span class="math inline">\(\{\boldsymbol x_n^{\text{train}}, y_n^{\text{train}} \}\)</span>
 </li>
-<li>In addition, we have unlabeled <em>test data</em>: <span class="math inline">\(\bx^{\test}\)</span>
+<li>In addition, we have unlabeled <em>test data</em>: <span class="math inline">\(\boldsymbol x^{\text{test}}\)</span>
 </li>
 </ul>
-<p>Aim: use training data to learn a function, say <span class="math inline">\(h(\bx)\)</span>,
+<p>Aim: use training data to learn a function, say <span class="math inline">\(h(\boldsymbol x)\)</span>,
 to predict the label corresponding to the test data.
 The predictor function may provide a soft (probabilistic) assignment
 or a hard assignment of a class label to a test sample.</p>
@@ -86,16 +86,16 @@ or a hard assignment of a class label to a test sample.</p>
 For continuous <span class="math inline">\(y\)</span> the label is called response and supervised learning becomes <em>regression</em>.</p>
 <p>Thus, supervised learning is a two-step procedure:</p>
 <ol style="list-style-type: decimal">
-<li>Learn predictor function <span class="math inline">\(h(\bx)\)</span> using the training data <span class="math inline">\(\bx_i^{\train}\)</span> plus labels <span class="math inline">\(y_i^{\train}\)</span>.</li>
-<li>Predict the label <span class="math inline">\(y^{\test}\)</span> for the test data <span class="math inline">\(\bx^{\test}\)</span> using the estimated classifier function:
-<span class="math inline">\(\hat{y}^{\test} = \hat{h}(\bx^{\test})\)</span>.</li>
+<li>Learn predictor function <span class="math inline">\(h(\boldsymbol x)\)</span> using the training data <span class="math inline">\(\boldsymbol x_i^{\text{train}}\)</span> plus labels <span class="math inline">\(y_i^{\text{train}}\)</span>.</li>
+<li>Predict the label <span class="math inline">\(y^{\text{test}}\)</span> for the test data <span class="math inline">\(\boldsymbol x^{\text{test}}\)</span> using the estimated classifier function:
+<span class="math inline">\(\hat{y}^{\text{test}} = \hat{h}(\boldsymbol x^{\text{test}})\)</span>.</li>
 </ol>
 </div>
-<div id="terminology" class="section level3" number="4.1.2">
+<div id="terminology" class="section level3">
 <h3>
 <span class="header-section-number">4.1.2</span> Terminology<a class="anchor" aria-label="anchor" href="#terminology"><i class="fas fa-link"></i></a>
 </h3>
-<p>The function <span class="math inline">\(h(\bx)\)</span> that predicts the class <span class="math inline">\(y\)</span> is called a <em>classifier</em>.</p>
+<p>The function <span class="math inline">\(h(\boldsymbol x)\)</span> that predicts the class <span class="math inline">\(y\)</span> is called a <em>classifier</em>.</p>
 <p>There are many types of classifiers, we focus here primarily on probabilistic classifiers
 (i.e. those that output probabilities for each possible class/label).</p>
 <p>The challenge is to find a classifier that</p>
@@ -105,8 +105,8 @@ For continuous <span class="math inline">\(y\)</span> the label is called respon
 <li>that also generalises well to future unseen data.</li>
 </ul>
 <p>Note that it is relatively easy to find a predictor that explains the training data but especially in high dimensions (i.e. with many predictors) there is often overfitting and then the predictor does not generalise well!</p>
-<p>The <em>decision boundary</em> between the classes is defined as the set of all <span class="math inline">\(\bx\)</span> for which
-the class assignment by the predictor <span class="math inline">\(h(\bx)\)</span> switches from one class to another.</p>
+<p>The <em>decision boundary</em> between the classes is defined as the set of all <span class="math inline">\(\boldsymbol x\)</span> for which
+the class assignment by the predictor <span class="math inline">\(h(\boldsymbol x)\)</span> switches from one class to another.</p>
 <div class="inline-figure"><img src="fig/fig4-qda.jpg" width="60%" style="display: block; margin: auto;"></div>
 <p>In general, simple decision boundaries are preferred over complex decision boundaries to avoid overfitting.</p>
 <p>Some commonly used probabilistic methods for classifications:</p>
@@ -127,7 +127,7 @@ the class assignment by the predictor <span class="math inline">\(h(\bx)\)</span
 of the above methods, e.g. Fisher discriminant analysis, regularised LDA, shrinkage disciminant analysis etc.</p>
 </div>
 </div>
-<div id="bayesian-discriminant-rule-or-bayes-classifier" class="section level2" number="4.2">
+<div id="bayesian-discriminant-rule-or-bayes-classifier" class="section level2">
 <h2>
 <span class="header-section-number">4.2</span> Bayesian discriminant rule or Bayes classifier<a class="anchor" aria-label="anchor" href="#bayesian-discriminant-rule-or-bayes-classifier"><i class="fas fa-link"></i></a>
 </h2>
@@ -135,117 +135,117 @@ of the above methods, e.g. Fisher discriminant analysis, regularised LDA, shrin
 <ul>
 <li>
 <span class="math inline">\(K\)</span> groups with <span class="math inline">\(K\)</span> prespecified</li>
-<li>each group has its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\btheta_k\)</span>
+<li>each group has its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>
 </li>
-<li>the density of each class is <span class="math inline">\(f_k(\bx ) = f(\bx | k)\)</span>.</li>
-<li>prior probability of group <span class="math inline">\(k\)</span> is <span class="math inline">\(\prob(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>
+<li>the density of each class is <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span>.</li>
+<li>prior probability of group <span class="math inline">\(k\)</span> is <span class="math inline">\(\text{Pr}(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>
 </li>
-<li>marginal density is the mixture <span class="math inline">\(f(\bx) = \sum_{k=1}^K \pi_k f_k(\bx)\)</span>
+<li>marginal density is the mixture <span class="math inline">\(f(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span>
 </li>
 </ul>
 <p>The posterior probability of group <span class="math inline">\(k\)</span> is then
 <span class="math display">\[
-\prob(k | \bx) = \frac{\pi_k f_k(\bx ) }{ f(\bx)}
+\text{Pr}(k | \boldsymbol x) = \frac{\pi_k f_k(\boldsymbol x) }{ f(\boldsymbol x)}
 \]</span></p>
 <p>This already provides a “soft” classification
-<span class="math display">\[\bh(\bx^{\test}) = (\prob(k=1 | \bx^{\test}),\ldots, \prob(k=K | \bx^{\test})   )^T\]</span>
+<span class="math display">\[\boldsymbol h(\boldsymbol x^{\text{test}}) = (\text{Pr}(k=1 | \boldsymbol x^{\text{test}}),\ldots, \text{Pr}(k=K | \boldsymbol x^{\text{test}})   )^T\]</span>
 where each possible class <span class="math inline">\(k \in \{ 1, \ldots, K\}\)</span> is assigned a probability to be the label for
-the test sample <span class="math inline">\(\bx\)</span>.</p>
+the test sample <span class="math inline">\(\boldsymbol x\)</span>.</p>
 <p>The <em>discriminant function</em> is the logarithm of the posterior probability:
 <span class="math display">\[
-d_k(\bx) = \log \prob(k | \bx) = \log \pi_k  + \log f_k(\bx )  - \log f(\bx) 
+d_k(\boldsymbol x) = \log \text{Pr}(k | \boldsymbol x) = \log \pi_k  + \log f_k(\boldsymbol x)  - \log f(\boldsymbol x) 
 \]</span>
 Since we use <span class="math inline">\(d_k\)</span> to compare the different classes <span class="math inline">\(k\)</span> we can
-simplify the discriminant function by dropping all constant terms that do not depend on <span class="math inline">\(k\)</span> — in the above this is the term <span class="math inline">\(\log f(\bx)\)</span>. Hence we get for the Bayes discriminant function
+simplify the discriminant function by dropping all constant terms that do not depend on <span class="math inline">\(k\)</span> — in the above this is the term <span class="math inline">\(\log f(\boldsymbol x)\)</span>. Hence we get for the Bayes discriminant function
 <span class="math display">\[
-d_k(\bx) = \log \pi_k + \log f_k(\bx ) \,.
+d_k(\boldsymbol x) = \log \pi_k + \log f_k(\boldsymbol x) \,.
 \]</span></p>
-<p>For subsequent “hard” classification <span class="math inline">\(h(\bx^{\test})\)</span> we then select the group/label for which the value of the discriminant function is maximised:
+<p>For subsequent “hard” classification <span class="math inline">\(h(\boldsymbol x^{\text{test}})\)</span> we then select the group/label for which the value of the discriminant function is maximised:
 <span class="math display">\[
-\hat{y}^{\test} = h(\bx^{\test}) = \arg \max_k d_k(\bx^{\test}) \,.
+\hat{y}^{\text{test}} = h(\boldsymbol x^{\text{test}}) = \arg \max_k d_k(\boldsymbol x^{\text{test}}) \,.
 \]</span></p>
-<p>The discriminant functions <span class="math inline">\(d_k(\bx)\)</span> can be mapped back to the probabilistic class assignment by using the softargmax function (also known as softmax function):
+<p>The discriminant functions <span class="math inline">\(d_k(\boldsymbol x)\)</span> can be mapped back to the probabilistic class assignment by using the softargmax function (also known as softmax function):
 <span class="math display">\[
-\prob(k | \bx) = 
-\frac{\exp( d_k(\bx) )}{\sum_{c=1}^K \exp( d_c(\bx) ) } = 
-\frac{\exp( d_k(\bx) - d_{\max} ) }{\sum_{c=1}^K \exp( d_c(\bx) - d_{\max} ) } \,.
+\text{Pr}(k | \boldsymbol x) = 
+\frac{\exp( d_k(\boldsymbol x) )}{\sum_{c=1}^K \exp( d_c(\boldsymbol x) ) } = 
+\frac{\exp( d_k(\boldsymbol x) - d_{\max} ) }{\sum_{c=1}^K \exp( d_c(\boldsymbol x) - d_{\max} ) } \,.
 \]</span>
-Note that subtracting <span class="math inline">\(d_{\max} = \max\{ d_1(\bx), \ldots, d_K(\bx) \}\)</span> avoids numerical overflow problems when computing the exponential
+Note that subtracting <span class="math inline">\(d_{\max} = \max\{ d_1(\boldsymbol x), \ldots, d_K(\boldsymbol x) \}\)</span> avoids numerical overflow problems when computing the exponential
 by standardising the maximum of the discriminant functions to zero.</p>
 <p>We have already encountered the Bayes classifier in the EM algorithm to predict the state
 of the latent variables (soft assignment) and in the <span class="math inline">\(K\)</span>-means algorithm (hard assignment), see previous Chapter and also Worksheet 7.</p>
 </div>
-<div id="normal-bayes-classifier" class="section level2" number="4.3">
+<div id="normal-bayes-classifier" class="section level2">
 <h2>
 <span class="header-section-number">4.3</span> Normal Bayes classifier<a class="anchor" aria-label="anchor" href="#normal-bayes-classifier"><i class="fas fa-link"></i></a>
 </h2>
-<div id="quadratic-discriminant-analysis-qda-and-gaussian-assumption" class="section level3" number="4.3.1">
+<div id="quadratic-discriminant-analysis-qda-and-gaussian-assumption" class="section level3">
 <h3>
 <span class="header-section-number">4.3.1</span> Quadratic discriminant analysis (QDA) and Gaussian assumption<a class="anchor" aria-label="anchor" href="#quadratic-discriminant-analysis-qda-and-gaussian-assumption"><i class="fas fa-link"></i></a>
 </h3>
-<p>Quadratic discriminant analysis (QDA) is a special case of the Bayes classifier when all densities are multivariate normal with <span class="math inline">\(f_k(\bx) = N(\bx | \bmu_k, \bSigma_k)\)</span>.</p>
+<p>Quadratic discriminant analysis (QDA) is a special case of the Bayes classifier when all densities are multivariate normal with <span class="math inline">\(f_k(\boldsymbol x) = N(\boldsymbol x| \boldsymbol \mu_k, \boldsymbol \Sigma_k)\)</span>.</p>
 <p>This leads to the discriminant function for QDA:
 <span class="math display">\[
-d_k^{QDA}(\bx) = -\frac{1}{2} (\bx-\bmu_k)^T \bSigma_k^{-1} (\bx-\bmu_k) -\frac{1}{2} \log \det(\bSigma_k) +\log(\pi_k)
+d_k^{QDA}(\boldsymbol x) = -\frac{1}{2} (\boldsymbol x-\boldsymbol \mu_k)^T \boldsymbol \Sigma_k^{-1} (\boldsymbol x-\boldsymbol \mu_k) -\frac{1}{2} \log \det(\boldsymbol \Sigma_k) +\log(\pi_k)
 \]</span></p>
 <p>There are a number of noteworthy things here:</p>
 <ul>
 <li>Again terms are dropped that do not depend on <span class="math inline">\(k\)</span>, such as <span class="math inline">\(-\frac{d}{2}\log( 2\pi)\)</span>.</li>
-<li>Note the appearance of the Mahalanobis distance between <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\bmu_k\)</span>
-in the last term — recall <span class="math inline">\(d^{Mahalanobis}(\bx, \bmu | \bSigma) = (\bx-\bmu)^T \bSigma^{-1} (\bx-\bmu)\)</span>.</li>
-<li>The <strong>QDA discriminant function is quadratic in <span class="math inline">\(\bx\)</span></strong> - hence its name!<br>
+<li>Note the appearance of the Mahalanobis distance between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu_k\)</span>
+in the last term — recall <span class="math inline">\(d^{Mahalanobis}(\boldsymbol x, \boldsymbol \mu| \boldsymbol \Sigma) = (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)\)</span>.</li>
+<li>The <strong>QDA discriminant function is quadratic in <span class="math inline">\(\boldsymbol x\)</span></strong> - hence its name!<br>
 This implies that the <strong>decision boundaries for QDA classification are quadratic</strong> (i.e. parabolas in two dimensional settings).</li>
 </ul>
 <p>For Gaussian models specifically it can useful be to multiply the discriminant function by -2 to get rid of the factor <span class="math inline">\(-\frac{1}{2}\)</span>, but note that in that case we then need to find the minimum of the discriminant function rather than the maximum:
 <span class="math display">\[
-d_k^{QDA (v2)}(\bx) =  (\bx-\bmu_k)^T \bSigma_k^{-1} (\bx-\bmu_k) + \log \det(\bSigma_k)  -2 \log(\pi_k)
+d_k^{QDA (v2)}(\boldsymbol x) =  (\boldsymbol x-\boldsymbol \mu_k)^T \boldsymbol \Sigma_k^{-1} (\boldsymbol x-\boldsymbol \mu_k) + \log \det(\boldsymbol \Sigma_k)  -2 \log(\pi_k)
 \]</span>
 In the literature you will find both versions of Gaussian discriminant functions so you need to check carefully which convention is used.
 In the following we will use the first version only.</p>
 <p>Decision boundaries for the QDA classifier can be either linear or nonlinear (quadratic curve).
 The decision boundary between any two classes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>
-require that <span class="math inline">\(d^{QDA}_i(\bx) = d^{QDA}_j(\bx)\)</span>, or equivalently
-<span class="math inline">\(d^{QDA}_i(\bx) - d^{QDA}_j(\bx) = 0\)</span>, which is a quadratic equation.</p>
+require that <span class="math inline">\(d^{QDA}_i(\boldsymbol x) = d^{QDA}_j(\boldsymbol x)\)</span>, or equivalently
+<span class="math inline">\(d^{QDA}_i(\boldsymbol x) - d^{QDA}_j(\boldsymbol x) = 0\)</span>, which is a quadratic equation.</p>
 </div>
-<div id="linear-discriminant-analysis-lda" class="section level3" number="4.3.2">
+<div id="linear-discriminant-analysis-lda" class="section level3">
 <h3>
 <span class="header-section-number">4.3.2</span> Linear discriminant analysis (LDA)<a class="anchor" aria-label="anchor" href="#linear-discriminant-analysis-lda"><i class="fas fa-link"></i></a>
 </h3>
-<p>LDA is a special case of QDA, with the assumption of common overall covariance across all groups: <span class="math inline">\(\bSigma_k = \bSigma\)</span>.</p>
+<p>LDA is a special case of QDA, with the assumption of common overall covariance across all groups: <span class="math inline">\(\boldsymbol \Sigma_k = \boldsymbol \Sigma\)</span>.</p>
 <p>This leads to a simplified discriminant function:
 <span class="math display">\[
-d_k^{LDA}(\bx) = -\frac{1}{2} (\bx-\bmu_k)^T \bSigma^{-1} (\bx-\bmu_k) +\log(\pi_k)
+d_k^{LDA}(\boldsymbol x) = -\frac{1}{2} (\boldsymbol x-\boldsymbol \mu_k)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu_k) +\log(\pi_k)
 \]</span>
 Note that term containing the log-determinant is now gone, and that LDA is essentially now a method that tries to minimize the Mahalanobis distance
 (while taking also into account the prior class probabilities).</p>
-<p>The above function can be further simplified, by noting that the quadratic term <span class="math inline">\(\bx^T \bSigma^{-1} \bx\)</span> does not depend on <span class="math inline">\(k\)</span> and hence can be dropped:
+<p>The above function can be further simplified, by noting that the quadratic term <span class="math inline">\(\boldsymbol x^T \boldsymbol \Sigma^{-1} \boldsymbol x\)</span> does not depend on <span class="math inline">\(k\)</span> and hence can be dropped:
 <span class="math display">\[
 \begin{split}
-d_k^{LDA}(\bx) &amp;=  \bmu_k^T \bSigma^{-1} \bx - \frac{1}{2}\bmu_k^T \bSigma^{-1} \bmu_k + \log(\pi_k) \\
-  &amp;= \bb^T \bx + a
+d_k^{LDA}(\boldsymbol x) &amp;=  \boldsymbol \mu_k^T \boldsymbol \Sigma^{-1} \boldsymbol x- \frac{1}{2}\boldsymbol \mu_k^T \boldsymbol \Sigma^{-1} \boldsymbol \mu_k + \log(\pi_k) \\
+  &amp;= \boldsymbol b^T \boldsymbol x+ a
 \end{split}
 \]</span>
-Thus, the <strong>LDA discriminant function is linear in <span class="math inline">\(\bx\)</span>, and hence the
+Thus, the <strong>LDA discriminant function is linear in <span class="math inline">\(\boldsymbol x\)</span>, and hence the
 resulting decision boundaries are linear</strong> as well (i.e. straight lines in two-dimensional settings).</p>
 <p>Comparison of linear decision boundaries of LDA (left) compared with QDA (right):</p>
 <div class="inline-figure"><img src="fig/fig4-ldaqda.jpg" width="100%" style="display: block; margin: auto;"></div>
 <p>Note that logistic regression (cf. GLM module) takes on exactly the above linear form and is indeed closely linked with the LDA classifier.</p>
 </div>
-<div id="diagonal-discriminant-analysis-dda" class="section level3" number="4.3.3">
+<div id="diagonal-discriminant-analysis-dda" class="section level3">
 <h3>
 <span class="header-section-number">4.3.3</span> Diagonal discriminant analysis (DDA)<a class="anchor" aria-label="anchor" href="#diagonal-discriminant-analysis-dda"><i class="fas fa-link"></i></a>
 </h3>
 <p>For DDA we start with the same setting as for LDA, but now we simplify the model even further by additionally requiring a <strong>diagonal covariance</strong> containing only the variances (thus we assume that all correlations among the predictors <span class="math inline">\(x_1, \ldots, x_d\)</span> are zero):
 <span class="math display">\[
-\bSigma = \bV = \begin{pmatrix}
+\boldsymbol \Sigma= \boldsymbol V= \begin{pmatrix}
     \sigma^2_{1} &amp; \dots &amp; 0\\
      \vdots &amp; \ddots &amp; \vdots \\
     0 &amp; \dots &amp; \sigma^2_{d}
 \end{pmatrix}
 \]</span>
-This simplifies the inversion of <span class="math inline">\(\bSigma\)</span> as
+This simplifies the inversion of <span class="math inline">\(\boldsymbol \Sigma\)</span> as
 <span class="math display">\[
-\bSigma^{-1} = \bV^{-1} = \begin{pmatrix}
+\boldsymbol \Sigma^{-1} = \boldsymbol V^{-1} = \begin{pmatrix}
     \sigma^{-2}_{1} &amp; \dots &amp; 0\\
      \vdots &amp; \ddots &amp; \vdots \\
     0 &amp; \dots &amp; \sigma^{-2}_{d}
@@ -254,7 +254,7 @@ This simplifies the inversion of <span class="math inline">\(\bSigma\)</span> as
 and leads to the discriminant function
 <span class="math display">\[
 \begin{split}
-d_k^{DDA}(\bx) &amp;=  \bmu_k^T \bV^{-1} \bx - \frac{1}{2}\bmu_k^T \bV^{-1} \bmu_k + \log(\pi_k) \\
+d_k^{DDA}(\boldsymbol x) &amp;=  \boldsymbol \mu_k^T \boldsymbol V^{-1} \boldsymbol x- \frac{1}{2}\boldsymbol \mu_k^T \boldsymbol V^{-1} \boldsymbol \mu_k + \log(\pi_k) \\
   &amp;= \sum_{j=i}^d \frac{\mu_{k,j} x_j - \mu_{k,j}^2/2}{\sigma_d^2} + \log(\pi_k)
 \end{split}
 \]</span>
@@ -265,21 +265,21 @@ is also known as the <strong>naive Bayes classifier</strong>.</p>
 <p>However, don’t let you misguide because of the name “naive”: in fact DDA and other “naive” Bayes classifier are often very effective classifiers, especially in high-dimensional settings!</p>
 </div>
 </div>
-<div id="the-training-step-learning-qda-lda-and-dda-classifiers-from-data" class="section level2" number="4.4">
+<div id="the-training-step-learning-qda-lda-and-dda-classifiers-from-data" class="section level2">
 <h2>
 <span class="header-section-number">4.4</span> The training step — learning QDA, LDA and DDA classifiers from data<a class="anchor" aria-label="anchor" href="#the-training-step-learning-qda-lda-and-dda-classifiers-from-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="number-of-model-parameters" class="section level3" number="4.4.1">
+<div id="number-of-model-parameters" class="section level3">
 <h3>
 <span class="header-section-number">4.4.1</span> Number of model parameters<a class="anchor" aria-label="anchor" href="#number-of-model-parameters"><i class="fas fa-link"></i></a>
 </h3>
-<p>In order to predict the class for new data using any of the above discriminant functions we need to first learn the underlying parameters from the training data <span class="math inline">\(\bx_i^{\train}\)</span> and <span class="math inline">\(y_i^{\train}\)</span>:</p>
+<p>In order to predict the class for new data using any of the above discriminant functions we need to first learn the underlying parameters from the training data <span class="math inline">\(\boldsymbol x_i^{\text{train}}\)</span> and <span class="math inline">\(y_i^{\text{train}}\)</span>:</p>
 <ul>
-<li>For QDA, LDA and DDA we need to learn <span class="math inline">\(\pi_1, \ldots, \pi_K\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> and the mean vectors <span class="math inline">\(\bmu_1, \ldots, \bmu_K\)</span>
+<li>For QDA, LDA and DDA we need to learn <span class="math inline">\(\pi_1, \ldots, \pi_K\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> and the mean vectors <span class="math inline">\(\boldsymbol \mu_1, \ldots, \boldsymbol \mu_K\)</span>
 </li>
-<li>For QDA we additionally require <span class="math inline">\(\bSigma_1, \ldots, \bSigma_K\)</span>
+<li>For QDA we additionally require <span class="math inline">\(\boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\)</span>
 </li>
-<li>For LDA we need <span class="math inline">\(\bSigma\)</span>
+<li>For LDA we need <span class="math inline">\(\boldsymbol \Sigma\)</span>
 </li>
 <li>For DDA we estimate <span class="math inline">\(\sigma^2_1, \ldots, \sigma^2_d\)</span>.</li>
 </ul>
@@ -295,51 +295,51 @@ from training data is as follows:</p>
 </ul>
 <div class="inline-figure"><img src="4-classification_files/figure-html/unnamed-chunk-3-1.png" width="672"></div>
 </div>
-<div id="estimating-the-discriminant-predictor-function" class="section level3" number="4.4.2">
+<div id="estimating-the-discriminant-predictor-function" class="section level3">
 <h3>
 <span class="header-section-number">4.4.2</span> Estimating the discriminant / predictor function<a class="anchor" aria-label="anchor" href="#estimating-the-discriminant-predictor-function"><i class="fas fa-link"></i></a>
 </h3>
 <p>For QDA, LDA and DDA we learn the predictor by estimating the
 parameters of the discriminant function from the training data.</p>
-<div id="large-sample-size" class="section level4" number="4.4.2.1">
+<div id="large-sample-size" class="section level4">
 <h4>
 <span class="header-section-number">4.4.2.1</span> Large sample size<a class="anchor" aria-label="anchor" href="#large-sample-size"><i class="fas fa-link"></i></a>
 </h4>
 <p>If the sample size of the training data set is sufficiently large compared to the model dimensions we can use maximum likelihood (ML) to estimate the model parameters. To be able use ML we need a larger sample size for QDA and LDA (because full covariances need to be estimated) but for DDA relatively small sample size can be sufficient (which explains why “naive” Bayes methods are very popular in practise).</p>
-<p>To obtain the parameters estimates we use the known labels <span class="math inline">\(y_i^{\train}\)</span> to sort the
-samples <span class="math inline">\(\bx_i^{\train}\)</span> into the corresponding classes, and then apply the standard ML estimators.
-Let <span class="math inline">\(g_k =\{i: y_i^{\train}=k \}\)</span> be the set of all indices of training sample belonging to group <span class="math inline">\(k\)</span>, <span class="math inline">\(n_k\)</span> the sample size in group <span class="math inline">\(k\)</span></p>
+<p>To obtain the parameters estimates we use the known labels <span class="math inline">\(y_i^{\text{train}}\)</span> to sort the
+samples <span class="math inline">\(\boldsymbol x_i^{\text{train}}\)</span> into the corresponding classes, and then apply the standard ML estimators.
+Let <span class="math inline">\(g_k =\{i: y_i^{\text{train}}=k \}\)</span> be the set of all indices of training sample belonging to group <span class="math inline">\(k\)</span>, <span class="math inline">\(n_k\)</span> the sample size in group <span class="math inline">\(k\)</span></p>
 <p>The ML estimates of the class probabilities are the frequencies
 <span class="math display">\[
 \hat{\pi}_k = \frac{n_k}{n}
 \]</span>
 and the ML estimate of the group means <span class="math inline">\(k=1, \ldots, K\)</span> are
 <span class="math display">\[
-\hat{\bmu}_k = \frac{1}{n_k} \sum_{i \in g_k} \bx_i^{\train} \, .
+\hat{\boldsymbol \mu}_k = \frac{1}{n_k} \sum_{i \in g_k} \boldsymbol x_i^{\text{train}} \, .
 \]</span>
-The ML estimate of the global mean <span class="math inline">\(\bmu_0\)</span> (i.e. if we assume there is only a single class and ignore the group labels) is
+The ML estimate of the global mean <span class="math inline">\(\boldsymbol \mu_0\)</span> (i.e. if we assume there is only a single class and ignore the group labels) is
 <span class="math display">\[
-\hat{\bmu}_0 = \frac{1}{n} \sum_{i=1}^n \bx_i^{\train} = \sum_{k=1}^K \hat{\pi}_k \hat{\bmu}_k
+\hat{\boldsymbol \mu}_0 = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i^{\text{train}} = \sum_{k=1}^K \hat{\pi}_k \hat{\boldsymbol \mu}_k
 \]</span>
 Note the global mean is identical to the pooled mean (i.e. weighted average of
 the individual group means).</p>
-<p>The ML estimates for the covariances <span class="math inline">\(\bSigma_k\)</span> for QDA are
+<p>The ML estimates for the covariances <span class="math inline">\(\boldsymbol \Sigma_k\)</span> for QDA are
 <span class="math display">\[
-\widehat{\bSigma}_k = \frac{1}{n_k} \sum_{i \in g_k} ( \bx_i^{\train} -\hat{\bmu}_k) ( \bx_i^{\train} -\hat{\bmu}_k)^T
+\widehat{\boldsymbol \Sigma}_k = \frac{1}{n_k} \sum_{i \in g_k} ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k) ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k)^T
 \]</span></p>
-<p>In order to get the ML estimate of the pooled variance <span class="math inline">\(\bSigma\)</span> for use with LDA we compute
+<p>In order to get the ML estimate of the pooled variance <span class="math inline">\(\boldsymbol \Sigma\)</span> for use with LDA we compute
 <span class="math display">\[
-\widehat{\bSigma} = \frac{1}{n} \sum_{k=1}^K \sum_{i \in g_k} ( \bx_i^{\train} -\hat{\bmu}_k) ( \bx_i^{\train} -\hat{\bmu}_k)^T =  \sum_{k=1}^K \hat{\pi}_k \widehat{\bSigma}_k 
+\widehat{\boldsymbol \Sigma} = \frac{1}{n} \sum_{k=1}^K \sum_{i \in g_k} ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k) ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k)^T =  \sum_{k=1}^K \hat{\pi}_k \widehat{\boldsymbol \Sigma}_k 
 \]</span></p>
-<p>Note that the pooled variance <span class="math inline">\(\bSigma\)</span> differs (substantially!) from the global variance <span class="math inline">\(\Sigma_0\)</span> that results from simply
+<p>Note that the pooled variance <span class="math inline">\(\boldsymbol \Sigma\)</span> differs (substantially!) from the global variance <span class="math inline">\(\Sigma_0\)</span> that results from simply
 ignoring class labels and that is computed as
 <span class="math display">\[
-\widehat{\bSigma}_0^{ML} = \frac{1}{n} \sum_{i =1}^n ( \bx_i^{\train} -\hat{\bmu}_0) ( \bx_i^{\train} -\hat{\bmu}_0)^T
+\widehat{\boldsymbol \Sigma}_0^{ML} = \frac{1}{n} \sum_{i =1}^n ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_0) ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_0)^T
 \]</span>
-You will recognise the above from the variance decomposition in mixture models, with <span class="math inline">\(\bSigma_0\)</span> being the total variance
-and the pooled <span class="math inline">\(\bSigma\)</span> the unexplained/with-in group variance.</p>
+You will recognise the above from the variance decomposition in mixture models, with <span class="math inline">\(\boldsymbol \Sigma_0\)</span> being the total variance
+and the pooled <span class="math inline">\(\boldsymbol \Sigma\)</span> the unexplained/with-in group variance.</p>
 </div>
-<div id="small-sample-size" class="section level4" number="4.4.2.2">
+<div id="small-sample-size" class="section level4">
 <h4>
 <span class="header-section-number">4.4.2.2</span> Small sample size<a class="anchor" aria-label="anchor" href="#small-sample-size"><i class="fas fa-link"></i></a>
 </h4>
@@ -352,9 +352,9 @@ automatically guaranteed only for DDA if all variances are positive).</p>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="comparison-of-estimated-decision-boundaries-lda-vs.-qda" class="section level3" number="4.4.3">
+<div id="comparison-of-estimated-decision-boundaries-lda-vs.qda" class="section level3">
 <h3>
-<span class="header-section-number">4.4.3</span> Comparison of estimated decision boundaries: LDA vs. QDA<a class="anchor" aria-label="anchor" href="#comparison-of-estimated-decision-boundaries-lda-vs.-qda"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.4.3</span> Comparison of estimated decision boundaries: LDA vs. QDA<a class="anchor" aria-label="anchor" href="#comparison-of-estimated-decision-boundaries-lda-vs.qda"><i class="fas fa-link"></i></a>
 </h3>
 <p>We compare two simple scenarios using simulated data.</p>
 <p><strong>Non-nested case (<span class="math inline">\(K=4\)</span>):</strong></p>
@@ -369,149 +369,149 @@ is no way to separate two nested classes with
 a simple linear boundary.</p>
 </div>
 </div>
-<div id="goodness-of-fit-and-variable-ranking" class="section level2" number="4.5">
+<div id="goodness-of-fit-and-variable-ranking" class="section level2">
 <h2>
 <span class="header-section-number">4.5</span> Goodness of fit and variable ranking<a class="anchor" aria-label="anchor" href="#goodness-of-fit-and-variable-ranking"><i class="fas fa-link"></i></a>
 </h2>
-<p>As in linear regression (cf. “Statistical Methods” module) we are interested in finding out
+<p>As in linear regression (cf. “Statistical Methods” module) we are interested in finding out
 whether the fitted mixture model is an appropriate model, and
-which particular predictor(s) <span class="math inline">\(x_j\)</span> from <span class="math inline">\(\bx=(x_1, \ldots, x_d)^T\)</span>
+which particular predictor(s) <span class="math inline">\(x_j\)</span> from <span class="math inline">\(\boldsymbol x=(x_1, \ldots, x_d)^T\)</span>
 are responsible prediction the outcome, i.e. for categorizing a sample into group <span class="math inline">\(k\)</span>.</p>
 <p>In order to study these problem it is helpful to rewrite the discriminant function to highlight the influence (or importance) of each predictor.</p>
 <p>We focus on linear methods (LDA and DDA) and first look at the simple case <span class="math inline">\(K=2\)</span> and then generalise to more than two groups.</p>
-<div id="lda-with-k2-classes" class="section level3" number="4.5.1">
+<div id="lda-with-k2-classes" class="section level3">
 <h3>
 <span class="header-section-number">4.5.1</span> LDA with <span class="math inline">\(K=2\)</span> classes<a class="anchor" aria-label="anchor" href="#lda-with-k2-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>For two classes using the LDA discriminant rule will choose group <span class="math inline">\(k=1\)</span>
-if <span class="math inline">\(d_1^{LDA}(\bx) &gt; d_2^{LDA}(\bx)\)</span>, or equivalently, if
+if <span class="math inline">\(d_1^{LDA}(\boldsymbol x) &gt; d_2^{LDA}(\boldsymbol x)\)</span>, or equivalently, if
 <span class="math display">\[
-\Delta_{12}^{LDA} = d_1^{LDA}(\bx) - d_2^{LDA}(\bx) &gt; 0
+\Delta_{12}^{LDA} = d_1^{LDA}(\boldsymbol x) - d_2^{LDA}(\boldsymbol x) &gt; 0
 \]</span>
-Since <span class="math inline">\(d_k(\bx)\)</span> is the log-posterior (plus/minus identical constants)
+Since <span class="math inline">\(d_k(\boldsymbol x)\)</span> is the log-posterior (plus/minus identical constants)
 <span class="math inline">\(\Delta^{LDA}\)</span> is in fact the <strong>log-posterior odds of class 1 versus class 2</strong> (see Statistical Methods, Bayesian inference).</p>
 <p>The difference <span class="math inline">\(\Delta_{12}^{LDA}\)</span> is
 <span class="math display">\[
 \underbrace{ \Delta_{12}^{LDA}}_{\text{log posterior odds}} = 
-\underbrace{(\bmu_1 -\bmu_2)^T \bSigma^{-1} \left(\bx - \frac{\bmu_1+\bmu_2}{2}\right)}_{\text{log Bayes factor } \log B_{12}} + \underbrace{\log\left( \frac{\pi_1}{\pi_2} \right)}_{\text{log prior odds}}
+\underbrace{(\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol \Sigma^{-1} \left(\boldsymbol x- \frac{\boldsymbol \mu_1+\boldsymbol \mu_2}{2}\right)}_{\text{log Bayes factor } \log B_{12}} + \underbrace{\log\left( \frac{\pi_1}{\pi_2} \right)}_{\text{log prior odds}}
 \]</span>
 Note that since we only consider simple non-composite models here the log-Bayes factor is identical
 with the log-likelihood ratio!</p>
 <p>The log Bayes factor <span class="math inline">\(\log B_{12}\)</span> is known as the <em>weight of evidence</em> in favour
-of <span class="math inline">\(F_1\)</span> given <span class="math inline">\(\bx\)</span>. The <em>expected weight of evidence</em> assuming <span class="math inline">\(\bx\)</span> is indeed from <span class="math inline">\(F_1\)</span>
+of <span class="math inline">\(F_1\)</span> given <span class="math inline">\(\boldsymbol x\)</span>. The <em>expected weight of evidence</em> assuming <span class="math inline">\(\boldsymbol x\)</span> is indeed from <span class="math inline">\(F_1\)</span>
 is the Kullback-Leibler discrimination information in favour of group 1,
 i.e. the KL divergence of from distribution <span class="math inline">\(F_2\)</span> to <span class="math inline">\(F_1\)</span>:
 <span class="math display">\[
-\expect_{F_1} ( \log B_{12} ) = \ikl(F_1,  F_2) = \frac{1}{2} (\bmu_1 -\bmu_2)^T \bSigma^{-1} (\bmu_1 -\bmu_2) = \frac{1}{2} \Omega^2
+\text{E}_{F_1} ( \log B_{12} ) = D_{\text{KL}}(F_1,  F_2) = \frac{1}{2} (\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu_1 -\boldsymbol \mu_2) = \frac{1}{2} \Omega^2
 \]</span>
 This yields, apart of a scale factor, a population version of
 the Hotelling <span class="math inline">\(T^2\)</span>
 statistic defined as
-<span class="math display">\[T^2 =  c^2 (\hat{\bmu}_1 -\hat{\bmu}_2)^T \hat{\bSigma}^{-1} (\hat{\bmu}_1 -\hat{\bmu}_2)\]</span>
+<span class="math display">\[T^2 =  c^2 (\hat{\boldsymbol \mu}_1 -\hat{\boldsymbol \mu}_2)^T \hat{\boldsymbol \Sigma}^{-1} (\hat{\boldsymbol \mu}_1 -\hat{\boldsymbol \mu}_2)\]</span>
 where
 <span class="math inline">\(c = (\frac{1}{n_1} + \frac{1}{n_2})^{-1/2} = \sqrt{n \pi_1 \pi_2}\)</span>
-is a sample size dependent factor (for <span class="math inline">\(\sd(\hat{\bmu}_1 - \hat{\bmu}_2)\)</span>).
+is a sample size dependent factor (for <span class="math inline">\(\text{SD}(\hat{\boldsymbol \mu}_1 - \hat{\boldsymbol \mu}_2)\)</span>).
 <span class="math inline">\(T^2\)</span> is a measure of fit of the underlying two-component mixture.</p>
-<p>Using the whitening transformation with <span class="math inline">\(\bz = \bW \bx\)</span> and <span class="math inline">\(\bW^T \bW = \bSigma^{-1}\)</span>
+<p>Using the whitening transformation with <span class="math inline">\(\boldsymbol z= \boldsymbol W\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol W^T \boldsymbol W= \boldsymbol \Sigma^{-1}\)</span>
 we can rewrite the log Bayes factor as
 <span class="math display">\[
 \begin{split}
-\log B_{12} &amp;= \left( (\bmu_1 -\bmu_2)^T \bW^T \right)\, \left(\bW \left(\bx - \frac{\bmu_1+\bmu_2}{2}\right) \right) \\
-&amp;=\bomega^T \bdelta(\bx)
+\log B_{12} &amp;= \left( (\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol W^T \right)\, \left(\boldsymbol W\left(\boldsymbol x- \frac{\boldsymbol \mu_1+\boldsymbol \mu_2}{2}\right) \right) \\
+&amp;=\boldsymbol \omega^T \boldsymbol \delta(\boldsymbol x)
 \end{split}
 \]</span>
 i.e. as the product of two vectors:</p>
 <ul>
 <li>
-<span class="math inline">\(\bdelta(\bx)\)</span> is the whitened <span class="math inline">\(\bx\)</span> (centered around average means)
+<span class="math inline">\(\boldsymbol \delta(\boldsymbol x)\)</span> is the whitened <span class="math inline">\(\boldsymbol x\)</span> (centered around average means)
 and</li>
 <li>
-<span class="math inline">\(\bomega = (\omega_1, \ldots, \omega_d)^T = \bW (\bmu_1 -\bmu_2)\)</span> gives the weight of each
-whitened component <span class="math inline">\(\bdelta(\bx)\)</span>
+<span class="math inline">\(\boldsymbol \omega= (\omega_1, \ldots, \omega_d)^T = \boldsymbol W(\boldsymbol \mu_1 -\boldsymbol \mu_2)\)</span> gives the weight of each
+whitened component <span class="math inline">\(\boldsymbol \delta(\boldsymbol x)\)</span>
 in the log Bayes factor.</li>
 </ul>
 <p>A large positive or negative value of <span class="math inline">\(\omega_j\)</span>
 indicates that the corresponding whitened predictor is relevant for choosing a class,
 whereas small values of <span class="math inline">\(\omega_j\)</span> close to zero indicate that the corresponding ZCA whitened predictor is unimportant. Furthermore,
-<span class="math inline">\(\bomega^T \bomega = \sum_{j=1}^d \omega_j^2 = (\bmu_1 -\bmu_2)^T \bSigma^{-1} (\bmu_1 -\bmu_2) = \Omega^2\)</span>,
+<span class="math inline">\(\boldsymbol \omega^T \boldsymbol \omega= \sum_{j=1}^d \omega_j^2 = (\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu_1 -\boldsymbol \mu_2) = \Omega^2\)</span>,
 i.e. the squared <span class="math inline">\(\omega_j^2\)</span> provide a component-wise decomposition of the overall fit <span class="math inline">\(\Omega^2\)</span>.</p>
-<p>Choosing ZCA-cor as whitening transformation with <span class="math inline">\(\bW =\bRho^{-1/2} \bV^{-1/2}\)</span>
+<p>Choosing ZCA-cor as whitening transformation with <span class="math inline">\(\boldsymbol W=\boldsymbol P^{-1/2} \boldsymbol V^{-1/2}\)</span>
 we get
 <span class="math display">\[
-\bomega^{ZCA-cor} = \bRho^{-1/2} \bV^{-1/2} (\bmu_1 -\bmu_2)
+\boldsymbol \omega^{ZCA-cor} = \boldsymbol P^{-1/2} \boldsymbol V^{-1/2} (\boldsymbol \mu_1 -\boldsymbol \mu_2)
 \]</span>
-A better understanding of <span class="math inline">\(\bomega^{ZCA-cor}\)</span> is provided by
+A better understanding of <span class="math inline">\(\boldsymbol \omega^{ZCA-cor}\)</span> is provided by
 comparing with the two-sample <span class="math inline">\(t\)</span>-statistic
 <span class="math display">\[
-\hat{\btau} = c \hat{\bV}^{-1/2} (\hat{\bmu}_1 - \hat{\bmu}_2)
+\hat{\boldsymbol \tau} = c \hat{\boldsymbol V}^{-1/2} (\hat{\boldsymbol \mu}_1 - \hat{\boldsymbol \mu}_2)
 \]</span>
-With <span class="math inline">\(\btau\)</span> the population version of <span class="math inline">\(\hat{\btau}\)</span> we can define
-<span class="math display">\[\btau^{adj} = \bRho^{-1/2} \btau = c \bomega^{ZCA-cor}\]</span>
-as correlation-adjusted <span class="math inline">\(t\)</span>-scores (cat scores). With <span class="math inline">\(({\hat{\btau}}^{adj})^T {\hat{\btau}}^{adj} = T^2\)</span> we can see that the cat scores offer a component-wise decomposition of Hotelling’s <span class="math inline">\(T^2\)</span>.</p>
+With <span class="math inline">\(\boldsymbol \tau\)</span> the population version of <span class="math inline">\(\hat{\boldsymbol \tau}\)</span> we can define
+<span class="math display">\[\boldsymbol \tau^{adj} = \boldsymbol P^{-1/2} \boldsymbol \tau= c \boldsymbol \omega^{ZCA-cor}\]</span>
+as correlation-adjusted <span class="math inline">\(t\)</span>-scores (cat scores). With <span class="math inline">\(({\hat{\boldsymbol \tau}}^{adj})^T {\hat{\boldsymbol \tau}}^{adj} = T^2\)</span> we can see that the cat scores offer a component-wise decomposition of Hotelling’s <span class="math inline">\(T^2\)</span>.</p>
 <p>Note the choice of ZCA-cor whitening is to ensure that the whitened components are interpretable
 and stay maximally correlated to the original variables. However, you may also choose for example PCA whitening
-in which case the <span class="math inline">\(\bomega^T \bomega\)</span> provide the variable importance for the PCA whitened variables.</p>
-<p>For DDA, which assumes that correlations among predictors vanish, i.e. <span class="math inline">\(\bRho = \bI_d\)</span>, we get
+in which case the <span class="math inline">\(\boldsymbol \omega^T \boldsymbol \omega\)</span> provide the variable importance for the PCA whitened variables.</p>
+<p>For DDA, which assumes that correlations among predictors vanish, i.e. <span class="math inline">\(\boldsymbol P= \boldsymbol I_d\)</span>, we get
 <span class="math display">\[
-\Delta_{12}^{DDA} =\underbrace{ \left( (\bmu_1 -\bmu_2)^T \bV^{-1/2}  \right)}_{\text{ } c^{-1} \btau^T }\, \underbrace{ \left( \bV^{-1/2} \left(\bx - \frac{\bmu_1+\bmu_2}{2}\right) \right) }_{\text{centered standardised predictor}}+ \log\left( \frac{\pi_1}{\pi_2} \right) \\
+\Delta_{12}^{DDA} =\underbrace{ \left( (\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol V^{-1/2}  \right)}_{\text{ } c^{-1} \boldsymbol \tau^T }\, \underbrace{ \left( \boldsymbol V^{-1/2} \left(\boldsymbol x- \frac{\boldsymbol \mu_1+\boldsymbol \mu_2}{2}\right) \right) }_{\text{centered standardised predictor}}+ \log\left( \frac{\pi_1}{\pi_2} \right) \\
 \]</span>
-Similarly as above, the <span class="math inline">\(t\)</span>-score <span class="math inline">\(\btau\)</span> determines the impact of the standardised predictor in <span class="math inline">\(\Delta^{DDA}\)</span>.</p>
+Similarly as above, the <span class="math inline">\(t\)</span>-score <span class="math inline">\(\boldsymbol \tau\)</span> determines the impact of the standardised predictor in <span class="math inline">\(\Delta^{DDA}\)</span>.</p>
 <p>Consequently, in DDA we can rank predictors by the squared <span class="math inline">\(t\)</span>-score.
 Recall that in standard linear regression with uncorrelated predictors we can find the most important predictors
 by ranking the squared marginal correlations – ranking by (squared) <span class="math inline">\(t\)</span>-scores in DDA is the exact analogy but for discrete response.</p>
 </div>
-<div id="multiple-classes" class="section level3" number="4.5.2">
+<div id="multiple-classes" class="section level3">
 <h3>
 <span class="header-section-number">4.5.2</span> Multiple classes<a class="anchor" aria-label="anchor" href="#multiple-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>For more than two classes we need to refer to the so-called <strong>pooled centroids formulation</strong> of DDA and LDA (introduced by Tibshirani 2002).</p>
-<p>The pooled centroid is given by <span class="math inline">\(\bmu_0 = \sum_{k=1}^K \pi_k \bmu_k\)</span> — this is the centroid
+<p>The pooled centroid is given by <span class="math inline">\(\boldsymbol \mu_0 = \sum_{k=1}^K \pi_k \boldsymbol \mu_k\)</span> — this is the centroid
 if there would be only a single class. The corresponding probability (for a single class) is <span class="math inline">\(\pi_0=1\)</span> and the distribution
 is called <span class="math inline">\(F_0\)</span>.</p>
 <p>The LDA discriminant function for this “group 0” is
 <span class="math display">\[
-d_0^{LDA}(\bx) = \bmu_0^T \bSigma^{-1} \bx - \frac{1}{2}\bmu_0^T \bSigma^{-1} \bmu_0 
+d_0^{LDA}(\boldsymbol x) = \boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol x- \frac{1}{2}\boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol \mu_0 
 \]</span>
 and the log posterior odds for comparison of group <span class="math inline">\(k\)</span> with the pooled group <span class="math inline">\(0\)</span>
 is
 <span class="math display">\[
 \begin{split}
-\Delta_k^{LDA} &amp;= d_k^{LDA}(\bx) - d_0^{LDA}(\bx) \\
+\Delta_k^{LDA} &amp;= d_k^{LDA}(\boldsymbol x) - d_0^{LDA}(\boldsymbol x) \\
          &amp;= \log B_{k0} + \log(\pi_k) \\
-         &amp;= \bomega_k^T \bdelta_k(\bx) + \log(\pi_k)
+         &amp;= \boldsymbol \omega_k^T \boldsymbol \delta_k(\boldsymbol x) + \log(\pi_k)
 \end{split}
 \]</span>
 with
 <span class="math display">\[
-\bomega_k = \bW (\bmu_k - \bmu_0)  
+\boldsymbol \omega_k = \boldsymbol W(\boldsymbol \mu_k - \boldsymbol \mu_0)  
 \]</span>
 and
 <span class="math display">\[
-\bdelta_k(\bx) = \bW (\bx - \frac{\bmu_k +\bmu_0}{2} )
+\boldsymbol \delta_k(\boldsymbol x) = \boldsymbol W(\boldsymbol x- \frac{\boldsymbol \mu_k +\boldsymbol \mu_0}{2} )
 \]</span>
 The expected log Bayes factor is
 <span class="math display">\[
-\expect_{F_k} ( \log B_{k0} )= KL(F_k || F_0) = \frac{1}{2} (\bmu_k -\bmu_0)^T \bSigma^{-1} (\bmu_k -\bmu_0) = \frac{1}{2} \Omega_k^2
+\text{E}_{F_k} ( \log B_{k0} )= KL(F_k || F_0) = \frac{1}{2} (\boldsymbol \mu_k -\boldsymbol \mu_0)^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu_k -\boldsymbol \mu_0) = \frac{1}{2} \Omega_k^2
 \]</span></p>
-<p>With scale factor <span class="math inline">\(c_k = (\frac{1}{n_k} - \frac{1}{n})^{-1/2} = \sqrt{n \frac{\pi_k}{1-\pi_k}}\)</span> (for <span class="math inline">\(\sd(\hat{\bmu}_k-\hat{\bmu}_0)\)</span>, with the minus sign before <span class="math inline">\(\frac{1}{n}\)</span> due to correlation between
-<span class="math inline">\(\hat{\bmu}_k\)</span> and pooled mean <span class="math inline">\(\hat{\bmu}_0\)</span>)
+<p>With scale factor <span class="math inline">\(c_k = (\frac{1}{n_k} - \frac{1}{n})^{-1/2} = \sqrt{n \frac{\pi_k}{1-\pi_k}}\)</span> (for <span class="math inline">\(\text{SD}(\hat{\boldsymbol \mu}_k-\hat{\boldsymbol \mu}_0)\)</span>, with the minus sign before <span class="math inline">\(\frac{1}{n}\)</span> due to correlation between
+<span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> and pooled mean <span class="math inline">\(\hat{\boldsymbol \mu}_0\)</span>)
 we get as correlation-adjusted <span class="math inline">\(t\)</span>-score for comparing mean of group <span class="math inline">\(k\)</span> with the
 pooled mean
 <span class="math display">\[
-\btau_k^{adj} = c_k \bomega_k^{ZCA-cor} \,.
+\boldsymbol \tau_k^{adj} = c_k \boldsymbol \omega_k^{ZCA-cor} \,.
 \]</span></p>
 <p>For the two class case (<span class="math inline">\(K=2\)</span>) we get with
-<span class="math inline">\(\bmu_0 = \pi_1 \bmu_1 + \pi_2 \bmu_2\)</span> for the mean difference
-<span class="math inline">\((\bmu_1 - \bmu_0) = \pi_2 (\bmu_1 - \bmu_2)\)</span>
+<span class="math inline">\(\boldsymbol \mu_0 = \pi_1 \boldsymbol \mu_1 + \pi_2 \boldsymbol \mu_2\)</span> for the mean difference
+<span class="math inline">\((\boldsymbol \mu_1 - \boldsymbol \mu_0) = \pi_2 (\boldsymbol \mu_1 - \boldsymbol \mu_2)\)</span>
 and with <span class="math inline">\(c_1 = \sqrt{n \frac{\pi_1}{\pi_2}}\)</span>
 this yields
 <span class="math display">\[
-\btau_1^{adj} = \sqrt{n \pi_1 \pi_2 } \bRho^{-1/2} \bV^{-1/2} (\bmu_1 - \bmu_2) , 
+\boldsymbol \tau_1^{adj} = \sqrt{n \pi_1 \pi_2 } \boldsymbol P^{-1/2} \boldsymbol V^{-1/2} (\boldsymbol \mu_1 - \boldsymbol \mu_2) , 
 \]</span>
 i.e. the exact same score as in the two-class setting.</p>
 </div>
 </div>
-<div id="variable-selection-and-cross-validation" class="section level2" number="4.6">
+<div id="variable-selection-and-cross-validation" class="section level2">
 <h2>
 <span class="header-section-number">4.6</span> Variable selection and cross-validation<a class="anchor" aria-label="anchor" href="#variable-selection-and-cross-validation"><i class="fas fa-link"></i></a>
 </h2>
@@ -519,14 +519,14 @@ i.e. the exact same score as in the two-class setting.</p>
 for <strong>ranking features</strong> with regard to their relevance in separating the classes is
 the (squared) <span class="math inline">\(t\)</span>-score, and for LDA a whitened version such as the
 squared correlation-adjusted <span class="math inline">\(t\)</span>-score (based on ZCA-cor whitening) may be used.
-Once such a ranking has been established the question of a <strong>suitable cutoff</strong> arises, i.e. 
+Once such a ranking has been established the question of a <strong>suitable cutoff</strong> arises, i.e.
 how many features need (or should) be retained in a model.</p>
 <p>For large and high-dimensional models <strong>feature selection can also be viewed
 as a form of regularisation and also dimension reduction</strong>. Specifically, there may be many variables/ features that do no contribute to the class prediction. Despite having
 in principle no effect on the outcome the presence of these “null variables”
 can nonetheless deterioriate (sometimes dramatically!) the overall predictive accuracy of a trained predictor, because they add noise and increase the model dimension. Therefore, variables that do not contribute to prediction
 should be filtered out in order to be able to construct good prediction models and classifiers.</p>
-<div id="choosing-a-threshold-by-multiple-testing-using-false-discovery-rates" class="section level3" number="4.6.1">
+<div id="choosing-a-threshold-by-multiple-testing-using-false-discovery-rates" class="section level3">
 <h3>
 <span class="header-section-number">4.6.1</span> Choosing a threshold by multiple testing using false discovery rates<a class="anchor" aria-label="anchor" href="#choosing-a-threshold-by-multiple-testing-using-false-discovery-rates"><i class="fas fa-link"></i></a>
 </h3>
@@ -547,17 +547,17 @@ to determine a suitable cutoff by trying to separate two populations of predicto
 <span class="math display">\[
 f(z) = \pi_0 f_0(z) + (1-\pi_0) f_a(z)
 \]</span></p></li>
-<li><p>The null model is typically from a parametric family (e.g. normal around zero and with
-a free variance parameter) whereas the alternative is often modelled nonparametrically.</p></li>
+<li>The null model is typically from a parametric family (e.g. normal around zero and with
+a free variance parameter) whereas the alternative is often modelled nonparametrically.</li>
 <li>
 <p>After fitting the mixture model, often assuming some additional constraints to make the mixture identifiable, one can compute false discovery rates (FDR) as follows:</p>
 <p>Local FDR:
 <span class="math display">\[
-\widehat{fdr}(z_i) = \hat{\prob}(\text{null} | z_i) = \frac{\hat{\pi}_0 \hat{f}_0(z_i)}{\hat{f}(z_i)}  
+\widehat{fdr}(z_i) = \hat{\text{Pr}}(\text{null} | z_i) = \frac{\hat{\pi}_0 \hat{f}_0(z_i)}{\hat{f}(z_i)}  
 \]</span></p>
 <p>Tail-area-based FDR (=<span class="math inline">\(q\)</span>-value):
 <span class="math display">\[
-\widehat{Fdr}(z_i) = \hat{\prob}(\text{null} | Z &gt; z_i) = \frac{\hat{\pi}_0 \hat{F}_0(z_i)}{\hat{F}(z_i)}
+\widehat{Fdr}(z_i) = \hat{\text{Pr}}(\text{null} | Z &gt; z_i) = \frac{\hat{\pi}_0 \hat{F}_0(z_i)}{\hat{F}(z_i)}
 \]</span>
 Note these are essentially <span class="math inline">\(p\)</span>-values adjusted for multiple testing (by a variant of the Benjamini-Hochberg method).</p>
 </li>
@@ -568,15 +568,15 @@ that cannot easily be discriminated to fall into either group:</p>
 <ul>
 <li>“alternative” variables have low local FDR, e.g, <span class="math inline">\(\widehat{fdr}(z_i) \leq 0.2\)</span>
 </li>
-<li>“null” variables have high local FDR, e.g. <span class="math inline">\(\widehat{fdr}(z_i) \geq 0.8\)</span>
+<li>“null” variables have high local FDR, e.g. <span class="math inline">\(\widehat{fdr}(z_i) \geq 0.8\)</span>
 </li>
-<li>features that cannot easily classified as null or alternative, e.g. <span class="math inline">\(0.2 &lt; \widehat{fdr}(z_i) &lt; 0.8\)</span>
+<li>features that cannot easily classified as null or alternative, e.g. <span class="math inline">\(0.2 &lt; \widehat{fdr}(z_i) &lt; 0.8\)</span>
 </li>
 </ul>
 <p>For feature selection in prediction settings we generally aim to remove only those
 variable that clearly belong to the null group, leaving all others in the model.</p>
 </div>
-<div id="quantifying-prediction-error" class="section level3" number="4.6.2">
+<div id="quantifying-prediction-error" class="section level3">
 <h3>
 <span class="header-section-number">4.6.2</span> Quantifying prediction error<a class="anchor" aria-label="anchor" href="#quantifying-prediction-error"><i class="fas fa-link"></i></a>
 </h3>
@@ -585,7 +585,7 @@ by quantification of prediction error. Specifically, we are interested in the re
 performance of models with diverse sets of predictor. variables.</p>
 <p>A measure of predictor error compares the predicted label <span class="math inline">\(\hat{y}\)</span> with the true
 label <span class="math inline">\(y\)</span> for a validation data set. A validation data set contains both the
-<span class="math inline">\(\bx_i\)</span> and the associated label <span class="math inline">\(y_i\)</span> but unlike the training data it has
+<span class="math inline">\(\boldsymbol x_i\)</span> and the associated label <span class="math inline">\(y_i\)</span> but unlike the training data it has
 not been used for learning the predictor function.</p>
 <p>For continuous response often the squared loss is used:
 <span class="math display">\[
@@ -603,18 +603,18 @@ Alternatively, any other quantity derived from the confusion matrix
 (containing TP, TN, FP, FN) can be used.</p>
 <p>The mean prediction error is the expectation
 <span class="math display">\[
-PE = \expect(\text{err}(\hat{y}, y))
+PE = \text{E}(\text{err}(\hat{y}, y))
 \]</span>
 and thus the empirical mean prediction error is
 <span class="math display">\[
 \widehat{PE} = \frac{1}{m} \sum_{i=1}^m \text{err}(\hat{y}_i, y_i)
  \]</span>
 where <span class="math inline">\(m\)</span> is the sample size of the validation data set.</p>
-<p>More generally, we can also quantify prediction error in the framework of so-called <strong>proper scoring rules</strong>, where the whole probabilistic forecast is taken into account (e.g. the individual probabilities for each class, rather than just the selected most probable class). A commonly used scoring rule is the negative log-probability (“surprise”), and the expected surprise is the cross-entropy (cf. Statistical Methods module). So this leads back to entropy and likelihood (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>).</p>
+<p>More generally, we can also quantify prediction error in the framework of so-called <strong>proper scoring rules</strong>, where the whole probabilistic forecast is taken into account (e.g. the individual probabilities for each class, rather than just the selected most probable class). A commonly used scoring rule is the negative log-probability (“surprise”), and the expected surprise is the cross-entropy (cf. Statistical Methods module). So this leads back to entropy and likelihood (see <a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>).</p>
 <p>Once we have an estimate of the prediction error of a model we can use it to compare and choose among a set of candiate models, selecting those with a sufficiently low prediction
 error.</p>
 </div>
-<div id="estimation-of-prediction-error-without-validation-data-using-cross-validation" class="section level3" number="4.6.3">
+<div id="estimation-of-prediction-error-without-validation-data-using-cross-validation" class="section level3">
 <h3>
 <span class="header-section-number">4.6.3</span> Estimation of prediction error without validation data using cross-validation<a class="anchor" aria-label="anchor" href="#estimation-of-prediction-error-without-validation-data-using-cross-validation"><i class="fas fa-link"></i></a>
 </h3>
@@ -636,8 +636,9 @@ so that this approach is computationally inexpensive for some standard models (i
 <p>In a number of worksheets cross-validation is employed to evaluate classification models
 to demonstrate in practise that feature selection is useful to construct compact models with only a small number of variables that nonetheless generalise and predict well.</p>
 <p><strong>Further reading:</strong></p>
-<p>To study the technical details of cross-validation: read <strong>Section 5.1 Cross-Validation</strong> in <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2013" role="doc-biblioref">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</p>
+<p>To study the technical details of cross-validation: read <strong>Section 5.1 Cross-Validation</strong> in <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2013">2013</a>)</span> <a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"><em>An introduction to statistical learning with applications in R</em></a>. Springer.</p>
 
+<p></p>
 </div>
 </div>
 </div>
@@ -650,7 +651,7 @@ to demonstrate in practise that feature selection is useful to construct compact
 <li><a class="nav-link" href="#supervised-learning-and-classification"><span class="header-section-number">4</span> Supervised learning and classification</a></li>
 <li>
 <a class="nav-link" href="#introduction"><span class="header-section-number">4.1</span> Introduction</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#supervised-learning-vs.-unsupervised-learning"><span class="header-section-number">4.1.1</span> Supervised learning vs. unsupervised learning</a></li>
+<li><a class="nav-link" href="#supervised-learning-vs.unsupervised-learning"><span class="header-section-number">4.1.1</span> Supervised learning vs. unsupervised learning</a></li>
 <li><a class="nav-link" href="#terminology"><span class="header-section-number">4.1.2</span> Terminology</a></li>
 </ul>
 </li>
@@ -666,7 +667,7 @@ to demonstrate in practise that feature selection is useful to construct compact
 <a class="nav-link" href="#the-training-step-learning-qda-lda-and-dda-classifiers-from-data"><span class="header-section-number">4.4</span> The training step — learning QDA, LDA and DDA classifiers from data</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#number-of-model-parameters"><span class="header-section-number">4.4.1</span> Number of model parameters</a></li>
 <li><a class="nav-link" href="#estimating-the-discriminant-predictor-function"><span class="header-section-number">4.4.2</span> Estimating the discriminant / predictor function</a></li>
-<li><a class="nav-link" href="#comparison-of-estimated-decision-boundaries-lda-vs.-qda"><span class="header-section-number">4.4.3</span> Comparison of estimated decision boundaries: LDA vs. QDA</a></li>
+<li><a class="nav-link" href="#comparison-of-estimated-decision-boundaries-lda-vs.qda"><span class="header-section-number">4.4.3</span> Comparison of estimated decision boundaries: LDA vs. QDA</a></li>
 </ul>
 </li>
 <li>
@@ -698,7 +699,7 @@ to demonstrate in practise that feature selection is useful to construct compact
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 11 May 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
