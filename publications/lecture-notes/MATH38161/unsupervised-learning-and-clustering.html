@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 Unsupervised learning and clustering | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.9/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,21 +50,21 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="unsupervised-learning-and-clustering" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="unsupervised-learning-and-clustering" class="section level1" number="3">
 <h1>
 <span class="header-section-number">3</span> Unsupervised learning and clustering<a class="anchor" aria-label="anchor" href="#unsupervised-learning-and-clustering"><i class="fas fa-link"></i></a>
 </h1>
-<div id="challenges-in-supervised-learning" class="section level2">
+<div id="challenges-in-supervised-learning" class="section level2" number="3.1">
 <h2>
 <span class="header-section-number">3.1</span> Challenges in supervised learning<a class="anchor" aria-label="anchor" href="#challenges-in-supervised-learning"><i class="fas fa-link"></i></a>
 </h2>
-<div id="objective" class="section level3">
+<div id="objective" class="section level3" number="3.1.1">
 <h3>
 <span class="header-section-number">3.1.1</span> Objective<a class="anchor" aria-label="anchor" href="#objective"><i class="fas fa-link"></i></a>
 </h3>
-<p>We observe data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects).
-Each sample <span class="math inline">\(\boldsymbol x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables.
-The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\boldsymbol x_i\)</span>. Note that unsupervised learning <em>only</em> uses this information and nothing else.</p>
+<p>We observe data <span class="math inline">\(\bx_1, \ldots, \bx_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects).
+Each sample <span class="math inline">\(\bx_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables.
+The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\bx_i\)</span>. Note that unsupervised learning <em>only</em> uses this information and nothing else.</p>
 <p>For illustration consider the first two principal components of the Iris flower data (see e.g. Worksheet 4):</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-1-1.png" width="672"></div>
 <p>Clearly there is a group structure among the samples that is linked to particular
@@ -73,7 +73,7 @@ patterns in the first two principal components.</p>
 <p>In <strong>unsupervised learning</strong> the class labels are (assumed to be) unknown, and the aim is to infer the clustering and thus the classes labels.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In contrast, in &lt;strong&gt;supervised learning&lt;/strong&gt; (to be discussed in a subsequent chapter) the class labels are known for a subset of the data (the training data set) and are required to learn a prediction function.&lt;/p&gt;"><sup>4</sup></a></p>
 <p>There are many methods for clustering and unsupervise learning, both purely algorithmic as well as probabilistic. In this chapter we will study a few of the most commonly used approaches.</p>
 </div>
-<div id="questions-and-problems" class="section level3">
+<div id="questions-and-problems" class="section level3" number="3.1.2">
 <h3>
 <span class="header-section-number">3.1.2</span> Questions and problems<a class="anchor" aria-label="anchor" href="#questions-and-problems"><i class="fas fa-link"></i></a>
 </h3>
@@ -99,7 +99,7 @@ Correspondingly, there are many different types of methods and models for cluste
 <p>In practise, the aim is to find a compromise, i.e. a model that captures the
 structure in the data with appropriate complexity — not too low and not too complex.</p>
 </div>
-<div id="why-is-clustering-difficult" class="section level3">
+<div id="why-is-clustering-difficult" class="section level3" number="3.1.3">
 <h3>
 <span class="header-section-number">3.1.3</span> Why is clustering difficult?<a class="anchor" aria-label="anchor" href="#why-is-clustering-difficult"><i class="fas fa-link"></i></a>
 </h3>
@@ -152,7 +152,7 @@ Example:</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> We need to assesse the uncertainty of the clustering</p>
 <p>This can be done as part of probabilistic modelling or by resampling (e.g., bootstrap).</p>
 </div>
-<div id="common-types-of-clustering-methods" class="section level3">
+<div id="common-types-of-clustering-methods" class="section level3" number="3.1.4">
 <h3>
 <span class="header-section-number">3.1.4</span> Common types of clustering methods<a class="anchor" aria-label="anchor" href="#common-types-of-clustering-methods"><i class="fas fa-link"></i></a>
 </h3>
@@ -186,16 +186,16 @@ Example:</p>
 </blockquote>
 </div>
 </div>
-<div id="hierarchical-clustering" class="section level2">
+<div id="hierarchical-clustering" class="section level2" number="3.2">
 <h2>
 <span class="header-section-number">3.2</span> Hierarchical clustering<a class="anchor" aria-label="anchor" href="#hierarchical-clustering"><i class="fas fa-link"></i></a>
 </h2>
-<div id="tree-like-structures" class="section level3">
+<div id="tree-like-structures" class="section level3" number="3.2.1">
 <h3>
 <span class="header-section-number">3.2.1</span> Tree-like structures<a class="anchor" aria-label="anchor" href="#tree-like-structures"><i class="fas fa-link"></i></a>
 </h3>
 <p>Often, categorisations of objects are nested, i.e. there sub-categories of categories etc. These can be naturally represented by <strong>tree-like hierarchical structures</strong>.</p>
-<p>In many branches of science hierarchical clusterings are widely employed, for example in evolutionary biology: see e.g.</p>
+<p>In many branches of science hierarchical clusterings are widely employed, for example in evolutionary biology: see e.g. </p>
 <ul>
 <li>
 <a href="http://tolweb.org/">Tree of Life</a> explaining the biodiversity of life</li>
@@ -225,7 +225,7 @@ then recursively join groups of items together, until all is merged.</li>
 </ol>
 <p>In the following we discuss a number of popular hierarchical agglomerative clustering algorithms that are based on the pairwise distances / similarities (a <span class="math inline">\(n \times n\)</span> matrix) among all data points.</p>
 </div>
-<div id="agglomerative-hierarchical-clustering-algorithms" class="section level3">
+<div id="agglomerative-hierarchical-clustering-algorithms" class="section level3" number="3.2.2">
 <h3>
 <span class="header-section-number">3.2.2</span> Agglomerative hierarchical clustering algorithms<a class="anchor" aria-label="anchor" href="#agglomerative-hierarchical-clustering-algorithms"><i class="fas fa-link"></i></a>
 </h3>
@@ -240,18 +240,18 @@ objects. If the new set contains all data points the procedure terminates.</p></
 </ol>
 <p>For actual implementation of this algorithm two key ingredients are needed:</p>
 <ol style="list-style-type: decimal">
-<li>a distance measure <span class="math inline">\(d(\boldsymbol a, \boldsymbol b)\)</span> between two individual elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span>.</li>
+<li>a distance measure <span class="math inline">\(d(\ba, \bb)\)</span> between two individual elementary data points <span class="math inline">\(\ba\)</span> and <span class="math inline">\(\bb\)</span>.</li>
 </ol>
 <blockquote>
 <p>This is typically one of the following:</p>
 </blockquote>
 <blockquote>
 <ul>
-<li>Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sqrt{\sum_{i=1}^d ( a_i-b_i )^2} = \sqrt{(\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)}\)</span>
+<li>Euclidean distance <span class="math inline">\(d(\ba, \bb) = \sqrt{\sum_{i=1}^d ( a_i-b_i )^2} = \sqrt{(\ba-\bb)^T (\ba-\bb)}\)</span>
 </li>
-<li>Manhattan distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sum_{i=1}^d | a_i-b_i |\)</span>
+<li>Manhattan distance <span class="math inline">\(d(\ba, \bb) = \sum_{i=1}^d | a_i-b_i |\)</span>
 </li>
-<li>Maximum norm <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span>
+<li>Maximum norm <span class="math inline">\(d(\ba, \bb) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span>
 </li>
 </ul>
 </blockquote>
@@ -259,7 +259,7 @@ objects. If the new set contains all data points the procedure terminates.</p></
 <p>In the end, making the correct choice of distance will require subject knowledge about the data!</p>
 </blockquote>
 <ol start="2" style="list-style-type: decimal">
-<li>a distance measure <span class="math inline">\(d(A, B)\)</span> between two sets of objects <span class="math inline">\(A=\{\boldsymbol a_1, \boldsymbol a_2, \ldots, \boldsymbol a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\boldsymbol b_1, \boldsymbol b_2, \ldots, \boldsymbol b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively.</li>
+<li>a distance measure <span class="math inline">\(d(A, B)\)</span> between two sets of objects <span class="math inline">\(A=\{\ba_1, \ba_2, \ldots, \ba_{n_A} \}\)</span> and <span class="math inline">\(B=\{\bb_1, \bb_2, \ldots, \bb_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively.</li>
 </ol>
 <blockquote>
 <p>To determine the distance <span class="math inline">\(d(A, B)\)</span> between these two sets the following measures are often employed:</p>
@@ -267,42 +267,42 @@ objects. If the new set contains all data points the procedure terminates.</p></
 <blockquote>
 <ul>
 <li>
-<strong>complete linkage</strong> (max. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\max} d(\boldsymbol a_i, \boldsymbol b_i)\)</span>
+<strong>complete linkage</strong> (max. distance): <span class="math inline">\(d(A, B) = \underset{\ba_i \in A, \bb_i \in B}{\max} d(\ba_i, \bb_i)\)</span>
 </li>
 <li>
-<strong>single linkage</strong> (min. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\min} d(\boldsymbol a_i, \boldsymbol b_i)\)</span>
+<strong>single linkage</strong> (min. distance): <span class="math inline">\(d(A, B) = \underset{\ba_i \in A, \bb_i \in B}{\min} d(\ba_i, \bb_i)\)</span>
 </li>
 <li>
-<strong>average linkage</strong> (avg. distance): <span class="math inline">\(d(A, B) = \frac{1}{n_A n_B} \sum_{\boldsymbol a_i \in A} \sum_{\boldsymbol b_i \in B} d(\boldsymbol a_i, \boldsymbol b_i)\)</span>
+<strong>average linkage</strong> (avg. distance): <span class="math inline">\(d(A, B) = \frac{1}{n_A n_B} \sum_{\ba_i \in A} \sum_{\bb_i \in B} d(\ba_i, \bb_i)\)</span>
 </li>
 </ul>
 </blockquote>
 </div>
-<div id="wards-clustering-method" class="section level3">
+<div id="wards-clustering-method" class="section level3" number="3.2.3">
 <h3>
 <span class="header-section-number">3.2.3</span> Ward’s clustering method<a class="anchor" aria-label="anchor" href="#wards-clustering-method"><i class="fas fa-link"></i></a>
 </h3>
-<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong>. In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <em>smallest increase in within-group variation, or equivalenty, 5h3 total within-group sum of squares</em> (cf. <span class="math inline">\(K\)</span>-means). The centroids of the two sets is given by <span class="math inline">\(\boldsymbol \mu_A = \frac{1}{n_A} \sum_{\boldsymbol a_i \in A} \boldsymbol a_i\)</span> and <span class="math inline">\(\boldsymbol \mu_B = \frac{1}{n_B} \sum_{\boldsymbol b_i \in B} \boldsymbol b_i\)</span>.</p>
+<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong>. In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <em>smallest increase in within-group variation, or equivalenty, 5h3 total within-group sum of squares</em> (cf. <span class="math inline">\(K\)</span>-means). The centroids of the two sets is given by <span class="math inline">\(\bmu_A = \frac{1}{n_A} \sum_{\ba_i \in A} \ba_i\)</span> and <span class="math inline">\(\bmu_B = \frac{1}{n_B} \sum_{\bb_i \in B} \bb_i\)</span>.</p>
 <p>The within-group sum of squares for group <span class="math inline">\(A\)</span> is
 <span class="math display">\[
-w_A = \sum_{\boldsymbol a_i \in A} (\boldsymbol a_i -\boldsymbol \mu_A)^T (\boldsymbol a_i -\boldsymbol \mu_A)
+w_A = \sum_{\ba_i \in A} (\ba_i -\bmu_A)^T (\ba_i -\bmu_A)
 \]</span>
-and is computed here on the basis of the difference of the observations <span class="math inline">\(\boldsymbol a_i\)</span> relative to their mean <span class="math inline">\(\boldsymbol \mu_A\)</span>.
+and is computed here on the basis of the difference of the observations <span class="math inline">\(\ba_i\)</span> relative to their mean <span class="math inline">\(\bmu_A\)</span>.
 However, it is also possible to compute it from the pairwise differences
 between the observations using
 <span class="math display">\[
-w_A = \frac{1}{n_A} \sum_{\boldsymbol a_i, \boldsymbol a_j \in A, i &lt; j} (\boldsymbol a_i -\boldsymbol a_j)^T (\boldsymbol a_i -\boldsymbol a_j)
+w_A = \frac{1}{n_A} \sum_{\ba_i, \ba_j \in A, i &lt; j} (\ba_i -\ba_j)^T (\ba_i -\ba_j)
 \]</span>
 This trick is used in Ward’s clustering method by constructing a distance measure between to sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> as
 <span class="math display">\[
 d(A, B) = w_{A \cup B} - w_A -w_B \, .
 \]</span>
-Correspondingly, the distance between two elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is the squared Euclidean distance
+Correspondingly, the distance between two elementary data points <span class="math inline">\(\ba\)</span> and <span class="math inline">\(\bb\)</span> is the squared Euclidean distance
 <span class="math display">\[
-d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol a- \boldsymbol b) \, .
+d(\ba, \bb) = (\ba- \bb)^T (\ba- \bb) \, .
 \]</span></p>
 </div>
-<div id="application-to-swiss-banknote-data-set" class="section level3">
+<div id="application-to-swiss-banknote-data-set" class="section level3" number="3.2.4">
 <h3>
 <span class="header-section-number">3.2.4</span> Application to Swiss banknote data set<a class="anchor" aria-label="anchor" href="#application-to-swiss-banknote-data-set"><i class="fas fa-link"></i></a>
 </h3>
@@ -331,7 +331,7 @@ online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/" c
 </ul>
 <div style="page-break-after: always;"></div>
 </div>
-<div id="assessment-of-the-uncertainty-of-hierarchical-clusterings" class="section level3">
+<div id="assessment-of-the-uncertainty-of-hierarchical-clusterings" class="section level3" number="3.2.5">
 <h3>
 <span class="header-section-number">3.2.5</span> Assessment of the uncertainty of hierarchical clusterings<a class="anchor" aria-label="anchor" href="#assessment-of-the-uncertainty-of-hierarchical-clusterings"><i class="fas fa-link"></i></a>
 </h3>
@@ -345,63 +345,63 @@ online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/" c
 <p>A disadvantage of this procedure is that bootstrapping trees is computationally very very expensive, as the original procedure is already time consuming but now needs to be repeated a large number of times.</p>
 </div>
 </div>
-<div id="k-means-clustering" class="section level2">
+<div id="k-means-clustering" class="section level2" number="3.3">
 <h2>
 <span class="header-section-number">3.3</span> <span class="math inline">\(K\)</span>-means clustering<a class="anchor" aria-label="anchor" href="#k-means-clustering"><i class="fas fa-link"></i></a>
 </h2>
-<div id="general-aims" class="section level3">
+<div id="general-aims" class="section level3" number="3.3.1">
 <h3>
 <span class="header-section-number">3.3.1</span> General aims<a class="anchor" aria-label="anchor" href="#general-aims"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>Partition the data into <span class="math inline">\(K\)</span> groups, with <span class="math inline">\(K\)</span> given in advance</li>
-<li>The groups are non-overlapping, so each of the <span class="math inline">\(n\)</span> data points / objects <span class="math inline">\(\boldsymbol x_i\)</span> is assigned to exactly one of the <span class="math inline">\(K\)</span> groups</li>
+<li>The groups are non-overlapping, so each of the <span class="math inline">\(n\)</span> data points / objects <span class="math inline">\(\bx_i\)</span> is assigned to exactly one of the <span class="math inline">\(K\)</span> groups</li>
 <li>maximise the homogeneity with each group (i.e. each group should contain similar objects)</li>
 <li>maximise the heterogeneity among the different groups (i.e each group should differ from the other groups)</li>
 </ul>
 </div>
-<div id="algorithm" class="section level3">
+<div id="algorithm" class="section level3" number="3.3.2">
 <h3>
 <span class="header-section-number">3.3.2</span> Algorithm<a class="anchor" aria-label="anchor" href="#algorithm"><i class="fas fa-link"></i></a>
 </h3>
-<p>For each group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> we assume a group mean <span class="math inline">\(\boldsymbol \mu_k\)</span>.<br>
-After running <span class="math inline">\(K\)</span>-means we will get estimates of <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> of the group means,
+<p>For each group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> we assume a group mean <span class="math inline">\(\bmu_k\)</span>.<br>
+After running <span class="math inline">\(K\)</span>-means we will get estimates of <span class="math inline">\(\hat{\bmu}_k\)</span> of the group means,
 as well as an allocation of each data point to one of the classes.</p>
 <p><em>Initialisation:</em></p>
-<p>At the start of the algorithm the <span class="math inline">\(n\)</span> observations <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> are randomly allocated with equal probability to one of the <span class="math inline">\(K\)</span> groups. The resulting assignment is given by the function <span class="math inline">\(C(\boldsymbol x_i) \in \{1, \ldots, K\}\)</span>. With <span class="math inline">\(G_k = \{ i | C(\boldsymbol x_i) = k\}\)</span> we denote the set of indices of the data points in cluster <span class="math inline">\(k\)</span>, and with <span class="math inline">\(n_k = | G_k |\)</span> the
+<p>At the start of the algorithm the <span class="math inline">\(n\)</span> observations <span class="math inline">\(\bx_1, \ldots, \bx_n\)</span> are randomly allocated with equal probability to one of the <span class="math inline">\(K\)</span> groups. The resulting assignment is given by the function <span class="math inline">\(C(\bx_i) \in \{1, \ldots, K\}\)</span>. With <span class="math inline">\(G_k = \{ i | C(\bx_i) = k\}\)</span> we denote the set of indices of the data points in cluster <span class="math inline">\(k\)</span>, and with <span class="math inline">\(n_k = | G_k |\)</span> the
 number of samples in cluster <span class="math inline">\(k\)</span>.</p>
 <p><em>Iterative refinement:</em></p>
 <ol style="list-style-type: decimal">
 <li>estimate the group means by
 <span class="math display">\[
-\hat{\boldsymbol \mu}_k = \frac{1}{n_k} \sum_{i \in G_k} \boldsymbol x_i
+\hat{\bmu}_k = \frac{1}{n_k} \sum_{i \in G_k} \bx_i
 \]</span>
 </li>
-<li>update group assignment: each data point <span class="math inline">\(\boldsymbol x_i\)</span> is (re)assigned to the group <span class="math inline">\(k\)</span> with the nearest <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> (in terms of the Euclidean norm).
-Specifically, the assignment <span class="math inline">\(C(\boldsymbol x_i)\)</span> is updated to
+<li>update group assignment: each data point <span class="math inline">\(\bx_i\)</span> is (re)assigned to the group <span class="math inline">\(k\)</span> with the nearest <span class="math inline">\(\hat{\bmu}_k\)</span> (in terms of the Euclidean norm).
+Specifically, the assignment <span class="math inline">\(C(\bx_i)\)</span> is updated to
 <span class="math display">\[
 \begin{split}
-C(\boldsymbol x_i) &amp; = \underset{k}{\arg \min} \, | \boldsymbol x_i-\hat{\boldsymbol \mu}_k |_2 \\
-      &amp; = \underset{k}{\arg \min} \, (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k) \\
+C(\bx_i) &amp; = \underset{k}{\arg \min} \, | \bx_i-\hat{\bmu}_k |_2 \\
+      &amp; = \underset{k}{\arg \min} \, (\bx_i-\hat{\bmu}_k)^T (\bx_i-\hat{\bmu}_k) \\
 \end{split}
 \]</span>
 Steps 1 and 2 are repeated until the algorithm converges (or an upper limit of repeats is reached).</li>
 </ol>
 </div>
-<div id="properties" class="section level3">
+<div id="properties" class="section level3" number="3.3.3">
 <h3>
 <span class="header-section-number">3.3.3</span> Properties<a class="anchor" aria-label="anchor" href="#properties"><i class="fas fa-link"></i></a>
 </h3>
 <p>Despite its simplicity <span class="math inline">\(K\)</span>-means is a surprisingly effective clustering algorithms.</p>
 <p>The final clustering depends on the initialisation so it is often useful to run <span class="math inline">\(K\)</span>-means several
 times with different starting allocations of the data points. Furthermore, non-random or non-uniform
-initialisations can lead to improved and faster convergence, see e.g.
+initialisations can lead to improved and faster convergence, see e.g. 
 the <a href="https://en.wikipedia.org/wiki/K-means%2B%2B">K-means++</a> algorithm.</p>
 <p>As a result of the way the clusters are assigned in <span class="math inline">\(K\)</span>-means the corresponding cluster boundaries form a
 Voronoi tesselation (cf. <a href="https://en.wikipedia.org/wiki/Voronoi_diagram" class="uri">https://en.wikipedia.org/wiki/Voronoi_diagram</a> ) around the cluster means.</p>
 <p>Later we will also discuss the connection of <span class="math inline">\(K\)</span>-means with probabilistic clustering using Gaussian mixture models.</p>
 </div>
-<div id="choosing-the-number-of-clusters" class="section level3">
+<div id="choosing-the-number-of-clusters" class="section level3" number="3.3.4">
 <h3>
 <span class="header-section-number">3.3.4</span> Choosing the number of clusters<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-clusters"><i class="fas fa-link"></i></a>
 </h3>
@@ -409,40 +409,40 @@ Voronoi tesselation (cf. <a href="https://en.wikipedia.org/wiki/Voronoi_diagram
 <ol style="list-style-type: lower-alpha">
 <li><p>the total within-group sum of squares <span class="math inline">\(SSW\)</span> (tot.withinss), or total unexplained sum of squares:
 <span class="math display">\[
-SSW = \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
+SSW = \sum_{k=1}^K \, \sum_{i \in G_k} (\bx_i -\hat{\bmu}_k)^T (\bx_i -\hat{\bmu}_k)
 \]</span>
 This quantity decreases with <span class="math inline">\(K\)</span> and is zero for <span class="math inline">\(K=n\)</span>.
 The <span class="math inline">\(K\)</span>-means algorithm tries to minimise this quantity but it will typically only find a local minimum rather than the global one.</p></li>
 <li><p>the between-group sum of squares <span class="math inline">\(SSB\)</span> (betweenss), or explained sum of squares:
 <span class="math display">\[
-SSB = \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)
+SSB = \sum_{k=1}^K n_k (\hat{\bmu}_k - \hat{\bmu}_0)^T (\hat{\bmu}_k - \hat{\bmu}_0)
 \]</span>
-where <span class="math inline">\(\hat{\boldsymbol \mu}_0 = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\boldsymbol \mu}_k\)</span>
+where <span class="math inline">\(\hat{\bmu}_0 = \frac{1}{n} \sum_{i=1}^n \bx_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\bmu}_k\)</span>
 is the global mean of the samples. <span class="math inline">\(SSB\)</span> increases with the number of clusters <span class="math inline">\(K\)</span> until for <span class="math inline">\(K=n\)</span> it
 becomes equal to</p></li>
 <li><p>the total sum of squares
 <span class="math display">\[
-SST = \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0) \, .
+SST = \sum_{i=1}^n (\bx_i - \hat{\bmu}_0)^T (\bx_i - \hat{\bmu}_0) \, .
 \]</span>
-By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <span class="math inline">\(K\)</span> (i.e. <span class="math inline">\(SST\)</span> is a constant independent of <span class="math inline">\(K\)</span>).</p></li>
+By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <span class="math inline">\(K\)</span> (i.e. <span class="math inline">\(SST\)</span> is a constant independent of <span class="math inline">\(K\)</span>).</p></li>
 </ol>
 <p>If divide the sum of squares by the sample size <span class="math inline">\(n\)</span> we get <span class="math inline">\(T = \frac{SST}{n}\)</span> as the <em>total variation</em>,
 <span class="math inline">\(B = \frac{SSW}{n}\)</span> as the <em>explained variation</em> and <span class="math inline">\(W = \frac{SSW}{n}\)</span> as the total <em>unexplained variation</em> , with
 <span class="math inline">\(T = B + W\)</span>.</p>
 <p>For deciding on the optimal number of clusters we can run <span class="math inline">\(K\)</span>-means for various settings of <span class="math inline">\(K\)</span> and then choose the smallest <span class="math inline">\(K\)</span> for which the explained variation <span class="math inline">\(B\)</span> is not significantly worse compared to a model with substantially larger number of clusters (see example below).</p>
 </div>
-<div id="k-medoids-aka-pam" class="section level3">
+<div id="k-medoids-aka-pam" class="section level3" number="3.3.5">
 <h3>
 <span class="header-section-number">3.3.5</span> <span class="math inline">\(K\)</span>-medoids aka PAM<a class="anchor" aria-label="anchor" href="#k-medoids-aka-pam"><i class="fas fa-link"></i></a>
 </h3>
 <p>A closely related clustering method is <span class="math inline">\(K\)</span>-medoids or PAM (“Partitioning Around Medoids”).</p>
 <p>This works exactly like <span class="math inline">\(K\)</span>-means, only that</p>
 <ul>
-<li>instead of the estimated group means <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> one member of each group is selected as its representative (the socalled “medoid”)</li>
+<li>instead of the estimated group means <span class="math inline">\(\hat{\bmu}_k\)</span> one member of each group is selected as its representative (the socalled “medoid”)</li>
 <li>instead of squared Euclidean distance other dissimilarity measures are also allowed.</li>
 </ul>
 </div>
-<div id="application-of-k-means-to-iris-data" class="section level3">
+<div id="application-of-k-means-to-iris-data" class="section level3" number="3.3.6">
 <h3>
 <span class="header-section-number">3.3.6</span> Application of <span class="math inline">\(K\)</span>-means to Iris data<a class="anchor" aria-label="anchor" href="#application-of-k-means-to-iris-data"><i class="fas fa-link"></i></a>
 </h3>
@@ -495,7 +495,7 @@ within and between cluster variation in dependence of <span class="math inline">
 <p>Thus, <span class="math inline">\(K=3\)</span> clusters seem appropriate since the the explained variation does not significantly improve
 (and the unexplained variation does not significantly decrease) with a further increase of the number of clusters.</p>
 </div>
-<div id="arbitrariness-of-cluster-labels-and-label-switching" class="section level3">
+<div id="arbitrariness-of-cluster-labels-and-label-switching" class="section level3" number="3.3.7">
 <h3>
 <span class="header-section-number">3.3.7</span> Arbitrariness of cluster labels and label switching<a class="anchor" aria-label="anchor" href="#arbitrariness-of-cluster-labels-and-label-switching"><i class="fas fa-link"></i></a>
 </h3>
@@ -508,69 +508,69 @@ labels, corresponding to the number of permutations of <span class="math inline"
 (e.g.: sample 1 is always in group labeled “1”), and/or linking labels to orderings or constraints on the group characteristics (e.g.: the group with label “1” has always a smaller mean that group with label “2”).</p>
 </div>
 </div>
-<div id="mixture-models" class="section level2">
+<div id="mixture-models" class="section level2" number="3.4">
 <h2>
 <span class="header-section-number">3.4</span> Mixture models<a class="anchor" aria-label="anchor" href="#mixture-models"><i class="fas fa-link"></i></a>
 </h2>
-<div id="finite-mixture-model" class="section level3">
+<div id="finite-mixture-model" class="section level3" number="3.4.1">
 <h3>
 <span class="header-section-number">3.4.1</span> Finite mixture model<a class="anchor" aria-label="anchor" href="#finite-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>
 <span class="math inline">\(K\)</span> groups / classes / categories, with the number <span class="math inline">\(K\)</span> specified and finite</li>
-<li>each class <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> is modeled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>.</li>
-<li>density in each class: <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span> with <span class="math inline">\(k \in 1, \ldots, K\)</span>
+<li>each class <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> is modeled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\btheta_k\)</span>.</li>
+<li>density in each class: <span class="math inline">\(f_k(\bx ) = f(\bx | k)\)</span> with <span class="math inline">\(k \in 1, \ldots, K\)</span>
 </li>
-<li>mixing weight of each class: <span class="math inline">\(\text{Pr}(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>
+<li>mixing weight of each class: <span class="math inline">\(\prob(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>
 </li>
-<li>joint density <span class="math inline">\(f(\boldsymbol x, k) = f(\boldsymbol x| k) \text{Pr}(k) = f_k(\boldsymbol x) \pi_k\)</span>
+<li>joint density <span class="math inline">\(f(\bx, k) = f(\bx | k) \prob(k) = f_k(\bx) \pi_k\)</span>
 </li>
 </ul>
 <p>This results in the mixture density
 <span class="math display">\[
-f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)
+f_{\mix}(\bx) = \sum_{k=1}^K \pi_k f_k(\bx)
 \]</span>
-This is also called marginal density as it arised from the joint density <span class="math inline">\(f(\boldsymbol x, k)\)</span> by marginalising <span class="math inline">\(k\)</span>.</p>
-<p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\boldsymbol x) = N(\boldsymbol x| \boldsymbol \mu_k, \boldsymbol \Sigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
+This is also called marginal density as it arised from the joint density <span class="math inline">\(f(\bx, k)\)</span> by marginalising <span class="math inline">\(k\)</span>.</p>
+<p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\bx) = N(\bx | \bmu_k, \bSigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
 <p>Mixture models are fundamental not just in clustering but for many other applications (e.g. classification).</p>
 <p>Note: don’t confuse <em>mixture model</em> with <em>mixed model</em> (=random effects regression model)</p>
 </div>
-<div id="total-variance-and-variation-of-mixture-model" class="section level3">
+<div id="total-variance-and-variation-of-mixture-model" class="section level3" number="3.4.2">
 <h3>
 <span class="header-section-number">3.4.2</span> Total variance and variation of mixture model<a class="anchor" aria-label="anchor" href="#total-variance-and-variation-of-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
-<p>The conditional means and variances for each class are <span class="math inline">\(\text{E}(\boldsymbol x| k) = \boldsymbol \mu_k\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x| k) = \boldsymbol \Sigma_k\)</span>, and the probability
-of class <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\text{Pr}(k)=\pi_k\)</span>. Using the law of total expectation we can therefore obtain the mean of the mixture density as follows:
+<p>The conditional means and variances for each class are <span class="math inline">\(\expect(\bx| k) = \bmu_k\)</span> and <span class="math inline">\(\var(\bx| k) = \bSigma_k\)</span>, and the probability
+of class <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\prob(k)=\pi_k\)</span>. Using the law of total expectation we can therefore obtain the mean of the mixture density as follows:
 <span class="math display">\[
 \begin{split}
-\text{E}(\boldsymbol x) &amp; = \text{E}(\text{E}(\boldsymbol x| k)) \\
-            &amp; = \sum_{k=1}^K \pi_k \boldsymbol \mu_k \\
-            &amp;= \boldsymbol \mu_0 \\
+\expect(\bx) &amp; = \expect(\expect(\bx | k)) \\
+            &amp; = \sum_{k=1}^K \pi_k \bmu_k \\
+            &amp;= \bmu_0 \\
 \end{split}
 \]</span>
 Similarly, using the law of total variance we compute the marginal variance:
 <span class="math display">\[
 \begin{split}
-\underbrace{\text{Var}(\boldsymbol x)}_{\text{total}} &amp; =  \underbrace{ \text{Var}( \text{E}(\boldsymbol x| k )  )}_{\text{explained / between-group}} + \underbrace{\text{E}(\text{Var}(\boldsymbol x|k))}_{\text{unexplained / within-group}} \\
-\boldsymbol \Sigma_0 &amp; =  \sum_{k=1}^K \pi_k (\boldsymbol \mu_k - \boldsymbol \mu_0) (\boldsymbol \mu_k - \boldsymbol \mu_0)^T + \sum_{k=1}^K \pi_k \boldsymbol \Sigma_k  \\
+\underbrace{\var(\bx)}_{\text{total}} &amp; =  \underbrace{ \var( \expect(\bx | k )  )}_{\text{explained / between-group}} + \underbrace{\expect(\var(\bx |k))}_{\text{unexplained / within-group}} \\
+\bSigma_0 &amp; =  \sum_{k=1}^K \pi_k (\bmu_k - \bmu_0) (\bmu_k - \bmu_0)^T + \sum_{k=1}^K \pi_k \bSigma_k  \\
 \end{split}
 \]</span>
-Thus, just like in linear regression (see <a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>) you can decompose the total variance into an explained
+Thus, just like in linear regression (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>) you can decompose the total variance into an explained
 (between group) part and an unexplained (within group) part.</p>
 <p>The total <em>variation</em> is given by the trace of the covariance matrix, so the above decomposition turns into
 <span class="math display">\[
 \begin{split}
-\text{Tr}(\boldsymbol \Sigma_0) &amp; =  \sum_{k=1}^K \pi_k \text{Tr}((\boldsymbol \mu_k - \boldsymbol \mu_0) (\boldsymbol \mu_k - \boldsymbol \mu_0)^T) + \sum_{k=1}^K \pi_k \text{Tr}(\boldsymbol \Sigma_k)  \\
-&amp; =  \sum_{k=1}^K \pi_k (\boldsymbol \mu_k - \boldsymbol \mu_0)^T (\boldsymbol \mu_k - \boldsymbol \mu_0) + \sum_{k=1}^K \pi_k \text{Tr}(\boldsymbol \Sigma_k)\\
+\trace(\bSigma_0) &amp; =  \sum_{k=1}^K \pi_k \trace((\bmu_k - \bmu_0) (\bmu_k - \bmu_0)^T) + \sum_{k=1}^K \pi_k \trace(\bSigma_k)  \\
+&amp; =  \sum_{k=1}^K \pi_k (\bmu_k - \bmu_0)^T (\bmu_k - \bmu_0) + \sum_{k=1}^K \pi_k \trace(\bSigma_k)\\
 \end{split}
 \]</span>
 If the covariances are replaced by their empirical estimates we obtain
 the <span class="math inline">\(T=B+W\)</span> decomposition of total variation familiar from <span class="math inline">\(K\)</span>-means:
-<span class="math display">\[T = \text{Tr}\left( \hat{\boldsymbol \Sigma}_0 \right)  = 
-\frac{1}{n} \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)\]</span>
-<span class="math display">\[B = \frac{1}{n} \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)\]</span>
-<span class="math display">\[W = \frac{1}{n}  \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
+<span class="math display">\[T = \trace \left( \hat{\bSigma}_0 \right)  = 
+\frac{1}{n} \sum_{i=1}^n (\bx_i - \hat{\bmu}_0)^T (\bx_i - \hat{\bmu}_0)\]</span>
+<span class="math display">\[B = \frac{1}{n} \sum_{k=1}^K n_k (\hat{\bmu}_k - \hat{\bmu}_0)^T (\hat{\bmu}_k - \hat{\bmu}_0)\]</span>
+<span class="math display">\[W = \frac{1}{n}  \sum_{k=1}^K \, \sum_{i \in G_k} (\bx_i -\hat{\bmu}_k)^T (\bx_i -\hat{\bmu}_k)
 \]</span></p>
 <p>For a univariate mixture (<span class="math inline">\(d=1\)</span>) with <span class="math inline">\(K=2\)</span> components we get
 <span class="math display">\[
@@ -596,7 +596,7 @@ The ratio of the between-group variance and the within-group variance is proport
 \]</span>
 If you are familiar with ANOVA (e.g. linear models course) you will recognise this ratio as the <span class="math inline">\(F\)</span>-score.</p>
 </div>
-<div id="example-of-mixtures" class="section level3">
+<div id="example-of-mixtures" class="section level3" number="3.4.3">
 <h3>
 <span class="header-section-number">3.4.3</span> Example of mixtures<a class="anchor" aria-label="anchor" href="#example-of-mixtures"><i class="fas fa-link"></i></a>
 </h3>
@@ -620,56 +620,56 @@ for example due to singular estimated covariance matrices. However, this can be 
 regularising and/or requiring sufficient sample size per group.</p>
 <p>Mixture models need not to be univariate, in fact most mixtures we consider in this course are multivariate.
 For illustration, here is a plot of a mixture of two bivariate normals,
-with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\boldsymbol \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>,
-<span class="math inline">\(\boldsymbol \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1 \\ \end{pmatrix}\)</span>,
-<span class="math inline">\(\boldsymbol \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1 \\ \end{pmatrix}\)</span>:</p>
+with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\bmu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>,
+<span class="math inline">\(\bSigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1 \\ \end{pmatrix}\)</span>,
+<span class="math inline">\(\bmu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\bSigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1 \\ \end{pmatrix}\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/fig2-1.png" width="672"></div>
 </div>
-<div id="generative-view-sampling-from-a-mixture-model" class="section level3">
+<div id="generative-view-sampling-from-a-mixture-model" class="section level3" number="3.4.4">
 <h3>
 <span class="header-section-number">3.4.4</span> Generative view: sampling from a mixture model<a class="anchor" aria-label="anchor" href="#generative-view-sampling-from-a-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
-<p>Assuming we know how to sample from the component densities <span class="math inline">\(f_k(\boldsymbol x)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span>.</p>
+<p>Assuming we know how to sample from the component densities <span class="math inline">\(f_k(\bx)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f_{\mix}(\bx) = \sum_{k=1}^K \pi_k f_k(\bx)\)</span>.</p>
 <p>This is done in a two-step generative process:</p>
 <ol style="list-style-type: decimal">
-<li><p>draw from categorical distribution with parameters <span class="math inline">\(\boldsymbol \pi=(\pi_1, \ldots, \pi_K)^T\)</span>:
-<span class="math display">\[\boldsymbol z\sim \text{Cat}(\boldsymbol \pi)\]</span>
-the vector <span class="math inline">\(\boldsymbol z= (z_1, \ldots, z_K)^T\)</span> indicating the group allocation. The group index <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\{k : z_k=1\}\)</span>.</p></li>
+<li><p>draw from categorical distribution with parameters <span class="math inline">\(\bpi=(\pi_1, \ldots, \pi_K)^T\)</span>:
+<span class="math display">\[\bz \sim \catdist(\bpi)\]</span>
+the vector <span class="math inline">\(\bz = (z_1, \ldots, z_K)^T\)</span> indicating the group allocation. The group index <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\{k : z_k=1\}\)</span>.</p></li>
 <li><p>Subsequently, sample from the component <span class="math inline">\(k\)</span> selected in step 1:
 <span class="math display">\[
-\boldsymbol x\sim F_k
+\bx \sim F_k
 \]</span></p></li>
 </ol>
-<p>This two-stage approach is also called <em>latent allocation variable formulation</em> of a mixture model, with <span class="math inline">\(\boldsymbol z\)</span> (or equivalently <span class="math inline">\(k\)</span>) being the latent variable.</p>
-<p>The two-step process needs to repeated for each sample drawn from the mixture (i.e. every time a new latent variable <span class="math inline">\(\boldsymbol z\)</span> is generated).</p>
-<p>In probabilistic clustering the aim is to infer the state of <span class="math inline">\(\boldsymbol z\)</span> for all observed samples.</p>
+<p>This two-stage approach is also called <em>latent allocation variable formulation</em> of a mixture model, with <span class="math inline">\(\bz\)</span> (or equivalently <span class="math inline">\(k\)</span>) being the latent variable.</p>
+<p>The two-step process needs to repeated for each sample drawn from the mixture (i.e. every time a new latent variable <span class="math inline">\(\bz\)</span> is generated).</p>
+<p>In probabilistic clustering the aim is to infer the state of <span class="math inline">\(\bz\)</span> for all observed samples.</p>
 </div>
-<div id="predicting-the-group-allocation-of-a-given-sample" class="section level3">
+<div id="predicting-the-group-allocation-of-a-given-sample" class="section level3" number="3.4.5">
 <h3>
 <span class="header-section-number">3.4.5</span> Predicting the group allocation of a given sample<a class="anchor" aria-label="anchor" href="#predicting-the-group-allocation-of-a-given-sample"><i class="fas fa-link"></i></a>
 </h3>
-<p>If we know the mixture model and its components we can predict the probability that an observation <span class="math inline">\(\boldsymbol x\)</span> falls in group <span class="math inline">\(k\)</span> via application of Bayes theorem:
+<p>If we know the mixture model and its components we can predict the probability that an observation <span class="math inline">\(\bx\)</span> falls in group <span class="math inline">\(k\)</span> via application of Bayes theorem:
 <span class="math display">\[
-z_k = \text{Pr}(k | \boldsymbol x) = \frac{\pi_k f_k(\boldsymbol x) }{ f(\boldsymbol x)}
+z_k = \prob(k | \bx) = \frac{\pi_k f_k(\bx ) }{ f(\bx)}
 \]</span></p>
 <p>In the above mentioned interactive Shiny app for the normal component mixture (available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a> ) you can also explore the probabilities of each
 class.</p>
 <p>Thus, by calculating the class probabilities using a fitted mixture model we can <strong>perform probabilistic clustering</strong> by assigning each sample to the class with the largest probability.
-Unlike in algorithmic clustering, we also get an assessment of the uncertainty of the class assignment, since for each sample <span class="math inline">\(\boldsymbol x\)</span> we obtain the vector
+Unlike in algorithmic clustering, we also get an assessment of the uncertainty of the class assignment, since for each sample <span class="math inline">\(\bx\)</span> we obtain the vector
 <span class="math display">\[
-\boldsymbol z= (z_1, \ldots, z_K)^T
+\bz = (z_1, \ldots, z_K)^T
 \]</span>
 and thus can see if there are several classes with similar assignment probability. This will be the case, e.g.,
-if <span class="math inline">\(\boldsymbol x\)</span> lies near the boundary between two classes. Note that <span class="math inline">\(\sum_{k=1}^K z_k=1\)</span>.</p>
+if <span class="math inline">\(\bx\)</span> lies near the boundary between two classes. Note that <span class="math inline">\(\sum_{k=1}^K z_k=1\)</span>.</p>
 </div>
-<div id="variation-1-infinite-mixture-model" class="section level3">
+<div id="variation-1-infinite-mixture-model" class="section level3" number="3.4.6">
 <h3>
 <span class="header-section-number">3.4.6</span> Variation 1: Infinite mixture model<a class="anchor" aria-label="anchor" href="#variation-1-infinite-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <p>It is possible to construct mixture models with infinitely many components!</p>
 <p>Most commonly known example is Dirichlet process mixture model (DPM):</p>
 <p><span class="math display">\[
-f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^\infty \pi_k f_k(\boldsymbol x)
+f_{\mix}(\bx) = \sum_{k=1}^\infty \pi_k f_k(\bx)
 \]</span>
 with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where the weight <span class="math inline">\(\pi_k\)</span> are taken from a infinitely dimensional Dirichlet distribution (=Dirichlet process).</p>
 <p>DPMs are useful for clustering since with them it is not necessary to determine the number of clusters a priori (since it by definition has infinitely many!). Instead, the number of clusters is a by-product of the fit of the model to observed data.</p>
@@ -677,12 +677,12 @@ with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where th
 <p>This describes an algorithm for the allocation process of samples (“persons”) to the groups (“restaurant tables”) in a DPM.</p>
 <p>See also <strong>“stick-breaking process”:</strong> <a href="https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process" class="uri">https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process</a></p>
 </div>
-<div id="variation-2-semiparametric-mixture-model-with-two-classes" class="section level3">
+<div id="variation-2-semiparametric-mixture-model-with-two-classes" class="section level3" number="3.4.7">
 <h3>
 <span class="header-section-number">3.4.7</span> Variation 2: Semiparametric mixture model with two classes<a class="anchor" aria-label="anchor" href="#variation-2-semiparametric-mixture-model-with-two-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>A very common model is the following two-component univariate mixture model</p>
-<p><span class="math display">\[f_{\text{mix}}(x) = \pi_0 f_0(x) + (1-\pi_0) f_A(\boldsymbol x)\]</span></p>
+<p><span class="math display">\[f_{\mix}(x) = \pi_0 f_0(x) + (1-\pi_0) f_A(\bx)\]</span></p>
 <ul>
 <li>
 <span class="math inline">\(f_0\)</span>: null model, typically parametric such as normal distribution</li>
@@ -692,28 +692,28 @@ with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where th
 <span class="math inline">\(\pi_0\)</span>: prior probability of null model</li>
 </ul>
 <p>Using Bayes theorem this allows to compute probability that an observation <span class="math inline">\(x\)</span> belongs to the null model:
-<span class="math display">\[\text{Pr}(\text{Null} | x ) = \frac{\pi_0 f_0(x ) }{ f(x) }\]</span>
+<span class="math display">\[\prob(\text{Null} | x ) = \frac{\pi_0 f_0(x ) }{ f(x) }\]</span>
 This is called the <em>local false discovery rate</em>.</p>
 <p>The semi-parametric mixture model is the foundation for statistical testing which is based on defining decision thresholds to separate null model (“not significant”) from alternative model (“significant”):</p>
 <div class="inline-figure"><img src="fig/fig3-twocompmix.png" width="60%" style="display: block; margin: auto;"></div>
-<p>See <a href="http://www.strimmerlab.org/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>
+<p>See <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>
 for more details.</p>
 </div>
 </div>
-<div id="fitting-mixture-models-to-data" class="section level2">
+<div id="fitting-mixture-models-to-data" class="section level2" number="3.5">
 <h2>
 <span class="header-section-number">3.5</span> Fitting mixture models to data<a class="anchor" aria-label="anchor" href="#fitting-mixture-models-to-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="direct-estimation-of-mixture-model-parameters" class="section level3">
+<div id="direct-estimation-of-mixture-model-parameters" class="section level3" number="3.5.1">
 <h3>
 <span class="header-section-number">3.5.1</span> Direct estimation of mixture model parameters<a class="anchor" aria-label="anchor" href="#direct-estimation-of-mixture-model-parameters"><i class="fas fa-link"></i></a>
 </h3>
-<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> with observations from <span class="math inline">\(n\)</span> samples we would like to fit the mixture model
-<span class="math inline">\(f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> and learn its parameters <span class="math inline">\(\boldsymbol \theta\)</span>, for example by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
+<p>Given data matrix <span class="math inline">\(\bX= (\bx_1, \ldots, \bx_n)^T\)</span> with observations from <span class="math inline">\(n\)</span> samples we would like to fit the mixture model
+<span class="math inline">\(f_{\mix}(\bx) = \sum_{k=1}^K \pi_k f_k(\bx)\)</span> and learn its parameters <span class="math inline">\(\btheta\)</span>, for example by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\btheta\)</span>:
 <span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)
+\log L(\btheta | \bX) = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\bx_i)  \right)
 \]</span>
-For a Gaussian mixture model the parameters are <span class="math inline">\(\boldsymbol \theta= \{\boldsymbol \pi, \boldsymbol \mu_1, \ldots, \boldsymbol \mu_K, \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\}\)</span>.</p>
+For a Gaussian mixture model the parameters are <span class="math inline">\(\btheta = \{\bpi, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K\}\)</span>.</p>
 <p>However, in practise evaluation and optimisation of this likelihood function may be difficult due
 a number of reasons:</p>
 <ul>
@@ -726,62 +726,62 @@ problem of label switching and non-identifiability of cluster labels in mixtures
 <p>The above log-likelihood function is also called the <em>observed data</em> log-likelihood,
 or the <em>incomplete data</em> log-likelihood, in contrast to the <em>complete data</em> log-likelihood described further below.</p>
 </div>
-<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3">
+<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.2">
 <h3>
 <span class="header-section-number">3.5.2</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
 </h3>
 <p>The mixture model may be viewed as an <em>incomplete</em> or <em>missing</em> data problem:
-here the missing data are the group allocations <span class="math inline">\(\boldsymbol k= (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+here the missing data are the group allocations <span class="math inline">\(\bk = (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\bx_1, \ldots, \bx_n\)</span>.</p>
 <p><em>If we would know</em> which sample comes from which group the estimation of the
-parameters <span class="math inline">\(\boldsymbol \theta\)</span> would indeed be straightforward using the so-called <em>complete data log-likelihood</em>
-based on the joint distribution <span class="math inline">\(f(\boldsymbol x, k) = \pi_k f_k(\boldsymbol x)\)</span>
+parameters <span class="math inline">\(\btheta\)</span> would indeed be straightforward using the so-called <em>complete data log-likelihood</em>
+based on the joint distribution <span class="math inline">\(f(\bx, k) = \pi_k f_k(\bx)\)</span>
 <span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol k) = \sum_{i=1}^n  \log \left(\pi_{k_i} f_{k_i}(\boldsymbol x_i) \right) 
+\log L(\btheta | \bX, \bk) = \sum_{i=1}^n  \log \left(\pi_{k_i} f_{k_i}(\bx_i) \right) 
 \]</span></p>
 <p>The idea of the EM algorithm (Dempster et al. 1977) is to exploit the simplicity of the complete data likelihood
-and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by first finding the probability distribution <span class="math inline">\(z_{ik}\)</span> of the latent variable <span class="math inline">\(k_i\)</span>, and then using this distribution to compute and optimise the corresponding expected complete-data log-likelihood. Specifically, the <span class="math inline">\(z_{ik}\)</span> contain the <em>probabilities</em> of each class for each sample <span class="math inline">\(i\)</span> and thus provide a <em>soft assignment</em> of classes rather that a 0/1 <em>hard assignment</em> (as in the <span class="math inline">\(K\)</span>-means algorithm or in the generative
+and to obtain estimates of <span class="math inline">\(\btheta\)</span> by first finding the probability distribution <span class="math inline">\(z_{ik}\)</span> of the latent variable <span class="math inline">\(k_i\)</span>, and then using this distribution to compute and optimise the corresponding expected complete-data log-likelihood. Specifically, the <span class="math inline">\(z_{ik}\)</span> contain the <em>probabilities</em> of each class for each sample <span class="math inline">\(i\)</span> and thus provide a <em>soft assignment</em> of classes rather that a 0/1 <em>hard assignment</em> (as in the <span class="math inline">\(K\)</span>-means algorithm or in the generative
 latent variable view of mixture models).</p>
 <p>In the EM algorithm we iterate between the</p>
 <ol style="list-style-type: decimal">
 <li>estimation the probabilistic distribution <span class="math inline">\(z_{ik}\)</span> for the group
-allocation latent parameters using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
-<li>maximisation of the expected complete data log-likelihood to estimate the parameters <span class="math inline">\(\boldsymbol \theta\)</span>. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1).</li>
+allocation latent parameters using the current estimate of the parameters <span class="math inline">\(\btheta\)</span> (obtained in step 2)</li>
+<li>maximisation of the expected complete data log-likelihood to estimate the parameters <span class="math inline">\(\btheta\)</span>. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1).</li>
 </ol>
 <p>Specifically, the EM algorithm applied to model-based clustering proceeds as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\boldsymbol \theta^{(1)}\)</span>, then continue with “E” Step, Part A.
+<li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\btheta^{(1)}\)</span>, then continue with “E” Step, Part A.
 Alternatively, start with a guess of <span class="math inline">\(z_{ik}^{(1)}\)</span>, then continue
 with “E” Step, Part B. The initialisation may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means, or simply be at random.</p></li>
-<li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>:
+<li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation for all the samples <span class="math inline">\(\bx_i\)</span>:
 <span class="math display">\[
-z_{ik}^{(b+1)} \leftarrow \frac{ \pi_k f_k(\boldsymbol x_i) }{  f(\boldsymbol x_i)  }
+z_{ik}^{(b+1)} \leftarrow \frac{ \pi_k f_k(\bx_i) }{  f(\bx_i)  }
 \]</span>
 Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current value
-<span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the parameters is required.<br>
+<span class="math inline">\(\btheta^{(b)}\)</span> of the parameters is required.<br>
 — Part B: Construct the expected complete data log-likelihood function using the weights <span class="math inline">\(z_{ik}^{(b+1)}\)</span>:
 <span class="math display">\[
-Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \sum_{k=1}^K z_{ik}^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
+Q^{(b+1)}(\btheta | \bX ) = \sum_{i=1}^n \sum_{k=1}^K z_{ik}^{(b+1)}  \log \left( \pi_k f_k(\bx_i) \right)
 \]</span></p></li>
-<li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the mixture model parameters <span class="math inline">\(\boldsymbol \theta\)</span>:
+<li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the mixture model parameters <span class="math inline">\(\btheta\)</span>:
 <span class="math display">\[
-\boldsymbol \theta^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)
+\btheta^{(b+1)} \leftarrow \arg \max_{\btheta}  Q^{(b+1)}(\btheta | \bX )
 \]</span></p></li>
-<li><p>Repeat with “E” Step until convergence of parameters <span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the mixture model.</p></li>
+<li><p>Repeat with “E” Step until convergence of parameters <span class="math inline">\(\btheta^{(b)}\)</span> of the mixture model.</p></li>
 </ol>
-<p>It can be shown that the output <span class="math inline">\(\boldsymbol \theta^{(1)}, \boldsymbol \theta^{(2)}, \boldsymbol \theta^{(3)}, \ldots\)</span> of the EM algorithm converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising
+<p>It can be shown that the output <span class="math inline">\(\btheta^{(1)}, \btheta^{(2)}, \btheta^{(3)}, \ldots\)</span> of the EM algorithm converges to the estimate <span class="math inline">\(\hat{\btheta}\)</span> found when maximising
 the marginal log-likelihood. Since maximisation of the expected complete data log-likelihood is often much easier (and analytically tractable) than maximisation of the observed data log-likelihood function the EM algorithm is the preferred approach
 in this case.</p>
 <p>To avoid singularities in the expected log-likelihood function we
 may wish to adopt a Bayesian approach (or use regularised/penalised ML) for estimating the parameters in the M-step.</p>
 </div>
-<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3">
+<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.3">
 <h3>
 <span class="header-section-number">3.5.3</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <p>For a GMM the EM algorithm can be written down analytically:</p>
 <p><strong>E-step:</strong></p>
 <p><span class="math display">\[
-z_{ik} = \frac{ \hat{\pi}_k N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k, \hat{\boldsymbol \Sigma}_k) }{  f(\boldsymbol x_i)  }
+z_{ik} = \frac{ \hat{\pi}_k N(\bx_i | \hat{\bmu}_k, \hat{\bSigma}_k) }{  f(\bx_i)  }
 \]</span></p>
 <p><strong>M-step:</strong></p>
 <p><span class="math display">\[
@@ -791,54 +791,54 @@ z_{ik} = \frac{ \hat{\pi}_k N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k, \hat{\b
 \hat{\pi}_k = \frac{\hat{n}_k}{n}
 \]</span></p>
 <p><span class="math display">\[
-\hat{\boldsymbol \mu}_k = \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} \boldsymbol x_i
+\hat{\bmu}_k = \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} \bx_i
 \]</span>
 <span class="math display">\[
-\hat{\boldsymbol \Sigma}_k =  \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} ( \boldsymbol x_i -\boldsymbol \mu_k)   ( \boldsymbol x_i -\boldsymbol \mu_k)^T
+\hat{\bSigma}_k =  \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} ( \bx_i -\bmu_k)   ( \bx_i -\bmu_k)^T
 \]</span></p>
-<p>Note that the estimators <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}_k\)</span> are weighted versions of the
+<p>Note that the estimators <span class="math inline">\(\hat{\bmu}_k\)</span> and <span class="math inline">\(\hat{\bSigma}_k\)</span> are weighted versions of the
 usual empirical estimators (with weights <span class="math inline">\(z_{ik}\)</span> being the soft assignment of classes resulting
 from the Bayesian updating).</p>
 <p>In Worksheet 7 you can find a simple R implementation of the EM algorithm for
 univariate normal mixtures.</p>
 </div>
-<div id="connection-with-k-means-clustering-method" class="section level3">
+<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.4">
 <h3>
 <span class="header-section-number">3.5.4</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to probabilistic clustering with a Gaussian mixture models.</p>
 <p>Specifically, the class assigment in <span class="math inline">\(K\)</span>-means is
-<span class="math display">\[C(\boldsymbol x_i) = \underset{k}{\arg \min} \, (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)\]</span></p>
-<p>If in a Gaussian mixture model the probabilities <span class="math inline">\(\pi_k\)</span> of all classes are asssumed to be identical (i.e. <span class="math inline">\(\pi_k=\frac{1}{K}\)</span>)
-and the covariances <span class="math inline">\(\boldsymbol \Sigma_k\)</span> are all of the same spherical form <span class="math inline">\(\sigma^2 \boldsymbol I\)</span>, i.e. no dependence on groups, no correlation and identical variance for all variables,
+<span class="math display">\[C(\bx_i) = \underset{k}{\arg \min} \, (\bx_i-\hat{\bmu}_k)^T (\bx_i-\hat{\bmu}_k)\]</span></p>
+<p>If in a Gaussian mixture model the probabilities <span class="math inline">\(\pi_k\)</span> of all classes are asssumed to be identical (i.e. <span class="math inline">\(\pi_k=\frac{1}{K}\)</span>)
+and the covariances <span class="math inline">\(\bSigma_k\)</span> are all of the same spherical form <span class="math inline">\(\sigma^2 \bI\)</span>, i.e. no dependence on groups, no correlation and identical variance for all variables,
 then the soft assignment for the class allocation becomes
-<span class="math display">\[\log( z_{ik} ) = -\frac{1}{2 \sigma^2} (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k) +  C 
+<span class="math display">\[\log( z_{ik} ) = -\frac{1}{2 \sigma^2} (\bx_i-\hat{\bmu}_k)^T (\bx_i-\hat{\bmu}_k) +  C 
 \]</span>
-where <span class="math inline">\(C\)</span> is a constant depending on <span class="math inline">\(\boldsymbol x_i\)</span> but not on <span class="math inline">\(k\)</span>. In order to select a hard class allocation based on <span class="math inline">\(z_{ik}\)</span> we may then use the rule
+where <span class="math inline">\(C\)</span> is a constant depending on <span class="math inline">\(\bx_i\)</span> but not on <span class="math inline">\(k\)</span>. In order to select a hard class allocation based on <span class="math inline">\(z_{ik}\)</span> we may then use the rule
 <span class="math display">\[
 \begin{split}
-C(\boldsymbol x_i) &amp;= \underset{k}{\arg \max} \log( z_{ik} ) \\
-          &amp; = \underset{k}{\arg \min}  (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)\\
+C(\bx_i) &amp;= \underset{k}{\arg \max} \log( z_{ik} ) \\
+          &amp; = \underset{k}{\arg \min}  (\bx_i-\hat{\bmu}_k)^T (\bx_i-\hat{\bmu}_k)\\
 \end{split}
 \]</span>
 Thus, <span class="math inline">\(K\)</span>-means can be viewed as an algorithm to provide hard classifications
 for a simple restricted Gaussian mixture model.</p>
 </div>
-<div id="choosing-the-number-of-classes" class="section level3">
+<div id="choosing-the-number-of-classes" class="section level3" number="3.5.5">
 <h3>
 <span class="header-section-number">3.5.5</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>Since GMMs operate in a likelihood framework we can use penalised likelihood model selection criteria to choose among different models (i.e. GMMs with different numbers of classes).</p>
 <p>The most popular choices are AIC (Akaike Information Criterion) and BIC (Bayesian Information criterion) defined as follows:
-<span class="math display">\[\text{AIC}= -2 \log L + 2 K \]</span>
-<span class="math display">\[\text{BIC}= - 2 \log L +K \log(n)\]</span></p>
-<p>Instead of maximising the log-likehood we minimise <span class="math inline">\(\text{AIC}\)</span> and <span class="math inline">\(\text{BIC}\)</span>.</p>
+<span class="math display">\[\aic = -2 \log L + 2 K \]</span>
+<span class="math display">\[\bic = - 2 \log L +K \log(n)\]</span></p>
+<p>Instead of maximising the log-likehood we minimise <span class="math inline">\(\aic\)</span> and <span class="math inline">\(\bic\)</span>.</p>
 <p>Note that in both criteria more complex models with more parameters (in this case groups) are penalised
 over simpler models in order to prevent overfitting.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> find optimal number of groups <span class="math inline">\(K\)</span>.</p>
 <p>Another way of choosing optimal numbers of clusters is by cross-validation (see later chapter on supervised learning).</p>
 </div>
-<div id="application-of-gmms-to-iris-flower-data" class="section level3">
+<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.6">
 <h3>
 <span class="header-section-number">3.5.6</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
 </h3>
@@ -857,7 +857,7 @@ See &lt;a href="https://journal.r-project.org/archive/2016/RJ-2016-021/" class="
 <pre><code>## [1] "VVV"</code></pre>
 <p>Here “VVV” is the name used by the “mclust” software for a model
 allowing for an individual
-unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
+unrestricted covariance matrix <span class="math inline">\(\bSigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
 <p>This GMM has a substantially lower misclassification error compared to <span class="math inline">\(K\)</span>-means with the same number of clusters:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">gmm3</span><span class="op">$</span><span class="va">classification</span>, <span class="va">L.iris</span><span class="op">)</span></code></pre></div>
@@ -866,11 +866,10 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 ##   1     50          0         0
 ##   2      0         45         0
 ##   3      0          5        50</code></pre>
-<p>Note that in “mclust” the BIC criterion is defined with the opposite sign (<span class="math inline">\(\text{BIC}_{\text{mclust}} = 2 \log L -K \log(n)\)</span>), thus we need to find the <em>maximum</em> value rather than the smallest value.</p>
-<p>If we compute BIC for various numbers of groups we find that the model with the best <span class="math inline">\(\text{BIC}_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
+<p>Note that in “mclust” the BIC criterion is defined with the opposite sign (<span class="math inline">\(\bic_{\text{mclust}} = 2 \log L -K \log(n)\)</span>), thus we need to find the <em>maximum</em> value rather than the smallest value.</p>
+<p>If we compute BIC for various numbers of groups we find that the model with the best <span class="math inline">\(\bic_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 
-<p></p>
 </div>
 </div>
 </div>
@@ -947,7 +946,7 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 11 May 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
