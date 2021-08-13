@@ -31,7 +31,7 @@ library("qvalue")
 
 data(caulobacter)
 
-# download these files from http://www.strimmerlab.org/data.html 
+# download these files from https://strimmerlab.github.io
 load("spellmann-yeast.rda.gz")
 load("fibroblasts.rda.gz")
 load("humanhela.rda.gz")

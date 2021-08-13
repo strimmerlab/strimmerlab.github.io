@@ -12,7 +12,7 @@
 # http://simplystatistics.org/2014/01/04/repost-prediction-the-lasso-vs-just-using-the-top-10-predictors/
 #
 # CAT score software and references:
-# http://strimmerlab.org/software/sda/
+# https://strimmerlab.github.io/software/sda/
 
 
 

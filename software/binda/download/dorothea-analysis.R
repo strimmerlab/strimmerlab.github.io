@@ -18,7 +18,7 @@
 #' #  Dorothea data set
 #'
 #' The Dorothea data set in R data format can be downloaded from
-#' http://strimmerlab.org/data/dorothea.rda
+#' https://strimmerlab.github.io/data/dorothea.rda
 
 #' 
 #' Load data set

@@ -12,7 +12,7 @@ function [s, lamcor, lamvar] = covshrinkKPM(x, shrinkvar)
 % See  J. Schaefer and K. Strimmer.  2005.  A shrinkage approach to 
 %   large-scale covariance matrix estimation and implications 
 %   for functional genomics. Statist. Appl. Genet. Mol. Biol. 4:32.
-% This code is based on their original code http://strimmerlab.org/software.html
+% This code is based on their original code
 % but has been vectorized and simplified by Kevin Murphy.
 
 if nargin < 2, shrinkvar = 0; end
