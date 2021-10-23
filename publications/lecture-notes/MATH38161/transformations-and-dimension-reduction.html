@@ -311,9 +311,11 @@ by Kobyzev et al (2021 )<a class="footnote-ref" tabindex="0" data-toggle="popove
 \boldsymbol z\\
 \end{array}
 \begin{array}{ll}
-\text{Observed variable (can be measured), external, typically correlated} \\
+\text{Observed variable (can be measured)} \\
+\text{external, typically correlated} \\
 \space \\
-\text{Unobserved "latent" variable, internal, typically not correlated} \\
+\text{Unobserved "latent" variable (cannot be directly measured)} \\
+\text{internal, typically chosen to be uncorrelated} \\
 \end{array}
 \end{align*}\]</span></p>
 </div>
@@ -349,7 +351,7 @@ positive definite invertible correlation matrix <span class="math inline">\(\bol
 <span class="math display">\[
 \boldsymbol W= \boldsymbol Q_1 \boldsymbol \Sigma^{-1/2}
 \]</span>
-where <span class="math inline">\(\boldsymbol Q_1\)</span> is an orthogonal matrix</p>
+where <span class="math inline">\(\boldsymbol Q_1\)</span> is an orthogonal matrix.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In this Chapter we will make frequent use of orthogonal matrices. Please check Appendix A on matrices to review their most importantant properties!&lt;/p&gt;"><sup>5</sup></a></p>
 <p>Recall that an orthogonal matrix <span class="math inline">\(\boldsymbol Q\)</span> has the property that <span class="math inline">\(\boldsymbol Q^{-1} = \boldsymbol Q^T\)</span> and
 and as a consequence <span class="math inline">\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)</span>.</p>
 <p>As a result, the above <span class="math inline">\(\boldsymbol W\)</span> satisfies the whitening constraint:</p>
@@ -401,8 +403,9 @@ even though<br><span class="math display">\[\boldsymbol \Sigma^{-1/2}\boldsymbol
 <h3>
 <span class="header-section-number">2.3.5</span> Cross-covariance and cross-correlation<a class="anchor" aria-label="anchor" href="#cross-covariance-and-cross-correlation"><i class="fas fa-link"></i></a>
 </h3>
-<p>A useful criterion to distinguish whitening transformation is to consider the
-cross-covariance and cross-correlation:</p>
+<p>A useful criterion to characterise and to distinguish among whitening transformations is the
+cross-covariance and cross-correlation matrix between the whitened variable <span class="math inline">\(\boldsymbol z\)</span> and
+the original variable <span class="math inline">\(\boldsymbol x\)</span>:</p>
 <ol style="list-style-type: lower-alpha">
 <li>
 <strong>Cross-covariance</strong> <span class="math inline">\(\boldsymbol \Phi= \Sigma_{\boldsymbol z\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span>:
@@ -423,7 +426,7 @@ only that now the covariance is used rather than the inverse covariance.</p>
 <p>The whitening matrix expressed in terms of cross-covariance is <span class="math inline">\(\boldsymbol W= \boldsymbol \Phi\boldsymbol \Sigma^{-1}\)</span>, so as required <span class="math inline">\(\boldsymbol W^T \boldsymbol W= \boldsymbol \Sigma^{-1} \boldsymbol \Phi^T \boldsymbol \Phi\boldsymbol \Sigma^{-1} =\boldsymbol \Sigma^{-1}\)</span>.
 Furthermore, the transpose of <span class="math inline">\(\boldsymbol \Phi\)</span> is
 the <em>inverse</em> of the whitening matrix,
-as <span class="math inline">\(\boldsymbol W^{-1} = \boldsymbol \Sigma^{1/2} \boldsymbol Q_1^{-1} = \boldsymbol \Sigma^{1/2} \boldsymbol Q_1^{-T} = \boldsymbol \Phi^T\)</span>.</p>
+as <span class="math inline">\(\boldsymbol W^{-1} = \left(\boldsymbol Q_1 \boldsymbol \Sigma^{-1/2} \right)^{-1} = \boldsymbol \Sigma^{1/2} \boldsymbol Q_1^{-1} = \boldsymbol \Sigma^{1/2} \boldsymbol Q_1^{T} = \left( \boldsymbol Q_1 \boldsymbol \Sigma^{1/2} \right)^{T} = \boldsymbol \Phi^T\)</span>.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>
 <strong>Cross-correlation</strong> <span class="math inline">\(\boldsymbol \Psi= \boldsymbol P_{\boldsymbol z\boldsymbol x}\)</span> between <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span>:
@@ -469,10 +472,18 @@ Furthermore, since <span class="math inline">\(\boldsymbol \Psi= \boldsymbol \Ph
 with the original <span class="math inline">\(\boldsymbol x\)</span>. Similarly, the cross-correlation matrix are the <em>correlation loadings</em>
 linking the (already standardised) latent variable <span class="math inline">\(\boldsymbol z\)</span> with the standardised <span class="math inline">\(\boldsymbol x\)</span>.</p>
 </div>
-<div id="multiple-correlation-cofficients" class="section level3" number="2.3.7">
+<div id="multiple-correlation-coefficients" class="section level3" number="2.3.7">
 <h3>
-<span class="header-section-number">2.3.7</span> Multiple correlation cofficients<a class="anchor" aria-label="anchor" href="#multiple-correlation-cofficients"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.7</span> Multiple correlation coefficients<a class="anchor" aria-label="anchor" href="#multiple-correlation-coefficients"><i class="fas fa-link"></i></a>
 </h3>
+<p><strong>Definition of squared multiple correlation</strong></p>
+<p>Squared multiple correlation is a measure summarising the linear association between a response variable <span class="math inline">\(y\)</span>
+(a scalar) and predictors <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span>. It is given by
+<span class="math display">\[
+\text{Cor}(y, \boldsymbol x)^2 =\boldsymbol P_{y \boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}
+\]</span>
+The empirical estimate of is <span class="math inline">\(R^2\)</span>.</p>
+<p>See the corresponding section in <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html">MATH20802 Statistical Methods</a>.</p>
 <p><strong>Multiple correlation coefficients from <span class="math inline">\(\boldsymbol z\)</span> to <span class="math inline">\(\boldsymbol x\)</span>:</strong></p>
 <p>Consider the backtransformation from <span class="math inline">\(\boldsymbol z\)</span> to <span class="math inline">\(\boldsymbol x\)</span>.
 The components of <span class="math inline">\(\boldsymbol z\)</span> are all uncorrelated. Therefore, we can compute the squared multiple correlation coefficient between each <span class="math inline">\(x_j\)</span> and <span class="math inline">\(\boldsymbol z\)</span> as the sum of the squared correlations
@@ -483,8 +494,8 @@ The components of <span class="math inline">\(\boldsymbol z\)</span> are all unc
 In vector notation with <span class="math inline">\(\boldsymbol \Psi= (\psi_{ij})\)</span> we get
 <span class="math display">\[
 \begin{split}
-(\text{Cor}(\boldsymbol z, x_j)^2 )^T &amp;= \text{Diag}(\boldsymbol \Psi^T \boldsymbol \Psi) \\
-&amp;= \text{Diag}(\boldsymbol P^{1/2} \boldsymbol Q_2^T \boldsymbol Q_2\boldsymbol P^{1/2}) \\
+\left(\text{Cor}(\boldsymbol z, x_1)^2, \ldots, \text{Cor}(\boldsymbol z, x_d)^2 \right)^T &amp;= \text{Diag}\left(\boldsymbol \Psi^T \boldsymbol \Psi\right) \\
+&amp;= \text{Diag}\left(\boldsymbol P^{1/2} \boldsymbol Q_2^T \boldsymbol Q_2\boldsymbol P^{1/2}\right) \\
 &amp;= \text{Diag}(\boldsymbol P) \\
 &amp;= (1, \ldots, 1)^T\\
 \end{split}
@@ -499,8 +510,8 @@ Therefore the column sums of the matrix <span class="math inline">\((\psi_{ij}^2
 In vector notation:
 <span class="math display">\[
 \begin{split}
-(\text{Cor}(z_i, \boldsymbol x)^2 )^T &amp;= \text{Diag}( \boldsymbol \Psi\boldsymbol P^{-1} \boldsymbol \Psi^T) \\
- &amp;= \text{Diag}( \boldsymbol Q_2 \boldsymbol P^{1/2} \boldsymbol P^{-1} \boldsymbol P^{1/2} \boldsymbol Q_2^T ) \\
+\left(\text{Cor}(z_1, \boldsymbol x)^2, \ldots, \text{Cor}(z_d, \boldsymbol x)^2 \right)^T &amp;= \text{Diag}\left( \boldsymbol \Psi\boldsymbol P^{-1} \boldsymbol \Psi^T\right) \\
+ &amp;= \text{Diag}\left( \boldsymbol Q_2 \boldsymbol P^{1/2} \boldsymbol P^{-1} \boldsymbol P^{1/2} \boldsymbol Q_2^T \right) \\
  &amp; = \text{Diag}(\boldsymbol I) \\
  &amp; = (1, \ldots, 1)^T\\
 \end{split}
@@ -525,6 +536,7 @@ In vector notation:
 <li>
 <strong>Cholesky</strong> whitening (based on precision or covariance matrix)</li>
 </ul>
+<p>Note that there are three main types (ZCA, PCA, Cholesky) with two variations each.</p>
 <p>In the following <span class="math inline">\(\boldsymbol x_c = \boldsymbol x-\boldsymbol \mu_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol z_c = \boldsymbol z-\boldsymbol \mu_{\boldsymbol z}\)</span> denote the mean-centered variables.</p>
 <div id="zca-whitening" class="section level3" number="2.4.1">
 <h3>
@@ -556,7 +568,7 @@ One possible way to implement this is to compute the expected squared difference
 The only term that depends on the whitening transformation is <span class="math inline">\(-2 \text{Tr}(\boldsymbol \Phi)\)</span> as it is a function
 of <span class="math inline">\(\boldsymbol Q_1\)</span>. Therefore we can use the following
 alternative objective:</p>
-<p><em>ZCA equivalent objective</em>: maximise <span class="math inline">\(\text{Tr}(\boldsymbol \Phi) = \text{Tr}(\boldsymbol Q_1\boldsymbol \Sigma^{1/2})\)</span> to find optimal <span class="math inline">\(\boldsymbol Q_1\)</span></p>
+<p><em>ZCA equivalent objective</em>: maximise <span class="math inline">\(\text{Tr}(\boldsymbol \Phi) = \text{Tr}(\boldsymbol Q_1\boldsymbol \Sigma^{1/2})\)</span> to find the optimal <span class="math inline">\(\boldsymbol Q_1\)</span></p>
 <p>This is the sum <span class="math inline">\(\sum_{i=1}^d \text{Cov}(z_i, x_i)\)</span> of all covariances between corresponding
 elements in <span class="math inline">\(\boldsymbol z\)</span> and <span class="math inline">\(\boldsymbol x\)</span>.</p>
 <p><em>Solution</em>:</p>
@@ -571,10 +583,12 @@ elements in <span class="math inline">\(\boldsymbol z\)</span> and <span class="
 &amp; = \sum_{i=1}^d \lambda_i b_{ii}.
 \end{split} 
 \]</span>
-Note that the product of the orthogonal matrices <span class="math inline">\(\boldsymbol B= \boldsymbol U^T \boldsymbol Q_1 \boldsymbol U\)</span> is itself an orthogonal matrix, and
+Note that the product of two orthogonal matrices it itself an orthogonal matrix.
+Therefore, <span class="math inline">\(\boldsymbol B= \boldsymbol U^T \boldsymbol Q_1 \boldsymbol U\)</span> is an orthogonal matrix and
 <span class="math inline">\(\boldsymbol Q_1 = \boldsymbol U\boldsymbol B\boldsymbol U^T\)</span>.</li>
-<li>As <span class="math inline">\(\lambda_i &gt; 0\)</span> the objective function is maximised for the orthogonal matrix <span class="math inline">\(\boldsymbol B=\boldsymbol I\)</span>.</li>
-<li>Thus, the optimal <span class="math inline">\(\boldsymbol Q_1\)</span> matrix is <span class="math display">\[\boldsymbol Q_1^{\text{ZCA}}=\boldsymbol I\]</span>
+<li>As <span class="math inline">\(\lambda_i &gt; 0\)</span> and all <span class="math inline">\(b_{ii} \in [-1, 1]\)</span> the objective function is maximised
+for <span class="math inline">\(b_{ii}=1\)</span>, i.e. for <span class="math inline">\(\boldsymbol B=\boldsymbol I\)</span>.</li>
+<li>Thus, for ZCA the optimal <span class="math inline">\(\boldsymbol Q_1\)</span> matrix is <span class="math display">\[\boldsymbol Q_1^{\text{ZCA}}=\boldsymbol I\]</span>
 </li>
 </ol>
 <p>The corresponding whitening matrix for ZCA is
@@ -650,7 +664,7 @@ total correlation between corresponding elements in <span class="math inline">\(
 is (typically strongly) positively correlated with the corresponding element in the original <span class="math inline">\(\boldsymbol x\)</span>.</li>
 <li>As ZCA-cor is explicitly constructed to maximise the total
 pairwise correlations it achieves the higher correlation than ZCA.</li>
-<li>If <span class="math inline">\(\boldsymbol x\)</span> is standardised to <span class="math inline">\(\text{Var}(x_i)=1\)</span> then ZCA and ZCA-cor are identical but otherwise they are different whitening transformations.</li>
+<li>If <span class="math inline">\(\boldsymbol x\)</span> is standardised to <span class="math inline">\(\text{Var}(x_i)=1\)</span> then ZCA and ZCA-cor are identical.</li>
 </ul>
 </div>
 <div id="pca-whitening" class="section level3" number="2.4.3">
@@ -672,25 +686,25 @@ z_1 &amp; \leftarrow x_d &amp; &amp; z_2 &amp; \leftarrow x_d  \\
 One way to measure the total link of each <span class="math inline">\(z_i\)</span> with all <span class="math inline">\(x_j\)</span> is the sum of the
 corresponding squared covariances
 <span class="math display">\[
-p_i = \sum^d_{j=1}\text{Cov}(z_i,x_j)^2 = \sum^d_{j=1} \phi_{ij}^2
+h_i = \sum^d_{j=1}\text{Cov}(z_i,x_j)^2 = \sum^d_{j=1} \phi_{ij}^2
 \]</span>
 In vector notation we write
 <span class="math display">\[
-\boldsymbol p= (p_1,...,p_d)^T = \text{Diag}(\boldsymbol \Phi\boldsymbol \Phi^T)
+\boldsymbol h= (h_1,...,h_d)^T = \text{Diag}(\boldsymbol \Phi\boldsymbol \Phi^T)
 \]</span>
-With <span class="math inline">\(\boldsymbol \Phi= \boldsymbol Q_1 \boldsymbol \Sigma^{1/2}\)</span> this can be written <span class="math inline">\(\boldsymbol p=\text{Diag}(\boldsymbol Q_1\boldsymbol \Sigma\boldsymbol Q_1^T)\)</span>
+With <span class="math inline">\(\boldsymbol \Phi= \boldsymbol Q_1 \boldsymbol \Sigma^{1/2}\)</span> this can be written <span class="math inline">\(\boldsymbol h=\text{Diag}\left(\boldsymbol Q_1\boldsymbol \Sigma\boldsymbol Q_1^T\right)\)</span>
 as a function of <span class="math inline">\(\boldsymbol Q_1\)</span>.</p>
-<p><em>PCA objective functions</em>: maximise <span class="math inline">\(p_1, \ldots, p_{d-1}\)</span> in <span class="math inline">\(\boldsymbol p= \text{Diag}(\boldsymbol Q_1\boldsymbol \Sigma\boldsymbol Q_1^T)\)</span> such that <span class="math inline">\(p_1 \geq p_2 \geq \dots \geq p_d\)</span>
+<p><em>PCA objective functions</em>: maximise <span class="math inline">\(h_1, \ldots, h_{d-1}\)</span> in <span class="math inline">\(\boldsymbol h= \text{Diag}\left(\boldsymbol Q_1\boldsymbol \Sigma\boldsymbol Q_1^T\right)\)</span> such that <span class="math inline">\(h_1 \geq h_2 \geq \dots \geq h_d\)</span>
 to find an optimal optimal <span class="math inline">\(\boldsymbol Q_1\)</span> and the corresponding whitening transformation.</p>
-<p>Note that <span class="math inline">\(\sum_{i=1}^d p_i = \text{Tr}( \boldsymbol Q_1 \boldsymbol \Sigma\boldsymbol Q_1^T ) = \text{Tr}(\boldsymbol \Sigma)\)</span>
-is constant regardless of the choice of <span class="math inline">\(\boldsymbol Q_1\)</span> so there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(p_i\)</span>.</p>
+<p>Note that <span class="math inline">\(\sum_{i=1}^d h_i = \text{Tr}\left( \boldsymbol Q_1 \boldsymbol \Sigma\boldsymbol Q_1^T \right) = \text{Tr}(\boldsymbol \Sigma)\)</span>
+is constant regardless of the choice of <span class="math inline">\(\boldsymbol Q_1\)</span> so there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(h_i\)</span>.</p>
 <p><em>Solution:</em></p>
 <ol style="list-style-type: lower-roman">
 <li><p>Apply eigendecomposition to <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>. Note that <span class="math inline">\(\boldsymbol \Lambda\)</span> is diagonal with positive entries <span class="math inline">\(\lambda_1 \geq \lambda_2 \ldots \geq \lambda_d &gt; 0\)</span> as <span class="math inline">\(\boldsymbol \Sigma\)</span> is positive definite and that the eigenvalues are already arranged non-increasing order.
 Also recall that <span class="math inline">\(\boldsymbol U\)</span> is not uniquely defined — you are free to change the columns signs.</p></li>
 <li><p>The objective functions become
-<span class="math inline">\(\boldsymbol p= \text{Diag}( (\boldsymbol Q_1 \boldsymbol U) \boldsymbol \Lambda(\boldsymbol Q_1 \boldsymbol U)^T ) = \text{Diag}( \boldsymbol B\boldsymbol \Lambda\boldsymbol B^T)\)</span> where <span class="math inline">\(\boldsymbol B\)</span> is an orthogonal matrix, and <span class="math inline">\(\boldsymbol Q_1= \boldsymbol B\boldsymbol U^T\)</span>.</p></li>
-<li><p>The optimal (maximum) values are achieved for <span class="math inline">\(\boldsymbol B= \boldsymbol I\)</span>, with <span class="math inline">\(p_i^{\text{PCA}} = \lambda_i\)</span>.
+<span class="math inline">\(\boldsymbol h= \text{Diag}\left( (\boldsymbol Q_1 \boldsymbol U) \boldsymbol \Lambda(\boldsymbol Q_1 \boldsymbol U)^T \right) = \text{Diag}\left( \boldsymbol B\boldsymbol \Lambda\boldsymbol B^T\right)\)</span> where <span class="math inline">\(\boldsymbol B\)</span> is an orthogonal matrix, and <span class="math inline">\(\boldsymbol Q_1= \boldsymbol B\boldsymbol U^T\)</span>.</p></li>
+<li><p>The optimal (maximum) values are achieved for <span class="math inline">\(\boldsymbol B= \boldsymbol I\)</span>, with <span class="math display">\[h_i^{\text{PCA}} = \lambda_i\]</span>
 However, this is not the only solution — you can arbitrarily change
 the column signs of the matrix <span class="math inline">\(\boldsymbol B\)</span> to arrive at the same maximum!</p></li>
 <li><p>The corresponding optimal value for the <span class="math inline">\(\boldsymbol Q_1\)</span> matrix is
@@ -724,11 +738,11 @@ if different computer implementations of PCA whitening (and the related PCA appr
 are used.</p>
 <p><em>Proportion of total variation:</em></p>
 <p>The sum of the maximised squared covariances for each latent component <span class="math inline">\(z_i\)</span> is
-<span class="math inline">\(\sum_{i=1}^d p_i^{\text{PCA}} = \sum_{i=1}^d \lambda_i\)</span>
+<span class="math inline">\(\sum_{i=1}^d h_i^{\text{PCA}} = \sum_{i=1}^d \lambda_i\)</span>
 and equals the total variation <span class="math inline">\(\text{Tr}(\boldsymbol \Sigma)\)</span>.</p>
 <p>The fraction <span class="math inline">\(\frac{\lambda_i}{\sum^d_{j=1}\lambda_j}\)</span> is the proportional
 contribution of each element in <span class="math inline">\(\boldsymbol z\)</span> to explain the total variation.
-Thus, low ranking components <span class="math inline">\(z_i\)</span> with small <span class="math inline">\(p_i^{\text{PCA}}=\lambda_i\)</span> may be discarded.
+Thus, low ranking components <span class="math inline">\(z_i\)</span> with small <span class="math inline">\(h_i^{\text{PCA}}=\lambda_i\)</span> may be discarded.
 In fact, the aim of PCA whitening is to achieve this kind of compression and the resuling
 reduction in dimension in the latent space.</p>
 <p><em>Summary:</em></p>
@@ -743,22 +757,23 @@ reduction in dimension in the latent space.</p>
 <span class="header-section-number">2.4.4</span> PCA-cor whitening<a class="anchor" aria-label="anchor" href="#pca-cor-whitening"><i class="fas fa-link"></i></a>
 </h3>
 <p><em>Aim</em>: same as for PCA whitening but remove scale in <span class="math inline">\(\boldsymbol x\)</span> first. This means we use squared correlations rather than squared covariances to measure compression, i.e.<br><span class="math display">\[
-p_i = \sum^d_{j=1}\text{Cor}(z_i, x_j)^2 = \sum^d_{j=1} \psi_{ij}^2\]</span>
+h_i = \sum^d_{j=1}\text{Cor}(z_i, x_j)^2 = \sum^d_{j=1} \psi_{ij}^2
+\]</span>
 In vector notation this becomes
 <span class="math display">\[
-\boldsymbol p= \text{Diag}(\boldsymbol \Psi\boldsymbol \Psi^T)=\text{Diag}(\boldsymbol Q_2\boldsymbol P\boldsymbol Q_2^T)
+\boldsymbol h= (h_1,...,h_d)^T = \text{Diag}\left(\boldsymbol \Psi\boldsymbol \Psi^T\right)=\text{Diag}\left(\boldsymbol Q_2\boldsymbol P\boldsymbol Q_2^T\right)
 \]</span></p>
 <p><em>PCA-cor objective functions:</em>
-maximise <span class="math inline">\(p_1, \ldots, p_{d-1}\)</span> in <span class="math inline">\(\boldsymbol p= \text{Diag}(\boldsymbol Q_2\boldsymbol P\boldsymbol Q_2^T)\)</span> such that <span class="math inline">\(p_1 \geq p_2 \geq \dots \geq p_d\)</span>
+maximise <span class="math inline">\(h_1, \ldots, h_{d-1}\)</span> in <span class="math inline">\(\boldsymbol h= \text{Diag}\left(\boldsymbol Q_2\boldsymbol P\boldsymbol Q_2^T\right)\)</span> such that <span class="math inline">\(h_1 \geq h_2 \geq \dots \geq h_d\)</span>
 to find an optimal optimal <span class="math inline">\(\boldsymbol Q_2\)</span> and the corresponding whitening transformation.</p>
-<p>Note that <span class="math inline">\(\sum_{i=1}^d p_i = \text{Tr}( \boldsymbol Q_2 \boldsymbol P\boldsymbol Q_2^T ) = \text{Tr}(\boldsymbol P) = d\)</span>
-is constant regardless of the choice of <span class="math inline">\(\boldsymbol Q_2\)</span> so there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(p_i\)</span>.</p>
+<p>Note that <span class="math inline">\(\sum_{i=1}^d h_i = \text{Tr}\left( \boldsymbol Q_2 \boldsymbol P\boldsymbol Q_2^T \right) = \text{Tr}(\boldsymbol P) = d\)</span>
+is constant regardless of the choice of <span class="math inline">\(\boldsymbol Q_2\)</span> so there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(h_i\)</span>.</p>
 <p><em>Solution:</em></p>
 <ol style="list-style-type: lower-roman">
 <li><p>Apply eigendecomposition to <span class="math inline">\(\boldsymbol P= \boldsymbol G\boldsymbol \Theta\boldsymbol G^T\)</span>. Note that <span class="math inline">\(\boldsymbol \Theta\)</span> is diagonal with positive entries <span class="math inline">\(\theta_1 \geq \theta_2 \ldots \geq \theta_d &gt; 0\)</span> as <span class="math inline">\(\boldsymbol P\)</span> is positive definite and that the eigenvalues are already arranged non-increasing order. Also recall that <span class="math inline">\(\boldsymbol G\)</span> is not uniquely defined — you are free to change the columns signs.</p></li>
 <li><p>The objective functions become
-<span class="math inline">\(\boldsymbol p= \text{Diag}( (\boldsymbol Q_2 \boldsymbol G) \boldsymbol \Theta(\boldsymbol Q_2 \boldsymbol G)^T ) = \text{Diag}( \boldsymbol B\boldsymbol \Theta\boldsymbol B^T)\)</span> where <span class="math inline">\(\boldsymbol B\)</span> is an orthogonal matrix, and <span class="math inline">\(\boldsymbol Q_2= \boldsymbol B\boldsymbol G^T\)</span>.</p></li>
-<li><p>The optimal (maximum) values are achieved for <span class="math inline">\(\boldsymbol B= \boldsymbol I\)</span>, with <span class="math inline">\(p_i^{\text{PCA-Cor}} = \theta_i\)</span>.
+<span class="math inline">\(\boldsymbol h= \text{Diag}\left( (\boldsymbol Q_2 \boldsymbol G) \boldsymbol \Theta(\boldsymbol Q_2 \boldsymbol G)^T \right) = \text{Diag}\left( \boldsymbol B\boldsymbol \Theta\boldsymbol B^T\right)\)</span> where <span class="math inline">\(\boldsymbol B\)</span> is an orthogonal matrix, and <span class="math inline">\(\boldsymbol Q_2= \boldsymbol B\boldsymbol G^T\)</span>.</p></li>
+<li><p>The optimal (maximum) values are achieved for <span class="math inline">\(\boldsymbol B= \boldsymbol I\)</span>, with <span class="math display">\[h_i^{\text{PCA-Cor}} = \theta_i\]</span>
 However, this is not the only solution — you can arbitrarily change
 the column signs of the matrix <span class="math inline">\(\boldsymbol B\)</span> to arrive at the same maximum!</p></li>
 <li><p>The corresponding optimal value for the <span class="math inline">\(\boldsymbol Q_2\)</span> matrix is
@@ -784,7 +799,7 @@ can be freely chosen.</p></li>
 <span class="math inline">\(\text{Diag}(\boldsymbol G) &gt; 0\)</span> so that <span class="math inline">\(\text{Diag}(\boldsymbol \Phi^{\text{PCA-Cor}}) &gt; 0\)</span> and <span class="math inline">\(\text{Diag}(\boldsymbol \Psi^{\text{PCA-Cor}}) &gt; 0\)</span>.</p>
 <p><em>Proportion of total variation:</em></p>
 <p>The sum of the maximised squared correlations for each latent component <span class="math inline">\(z_i\)</span> is
-<span class="math inline">\(\sum_{i=1}^d p_i^{\text{PCA-Cor}} = \sum_{i=1}^d \theta_i = d\)</span>
+<span class="math inline">\(\sum_{i=1}^d h_i^{\text{PCA-Cor}} = \sum_{i=1}^d \theta_i = d\)</span>
 and equals the total variation <span class="math inline">\(\text{Tr}(\boldsymbol P)\)</span>.
 Therefore the fraction
 <span class="math inline">\(\frac{\theta_i}{\sum^d_{j=1} \theta_j} = \frac{\theta_j}{d}\)</span> is the
@@ -910,7 +925,7 @@ The corresponding whitening matrix is <span class="math inline">\((\boldsymbol V
 </tr>
 <tr class="odd">
 <td>Cholesky</td>
-<td>time course data, triangular <span class="math inline">\(W\)</span>, <span class="math inline">\(\boldsymbol \Phi\)</span> and <span class="math inline">\(\boldsymbol P\)</span>
+<td>time course data, triangular <span class="math inline">\(W\)</span>, <span class="math inline">\(\boldsymbol \Phi\)</span> and <span class="math inline">\(\boldsymbol \Psi\)</span>
 </td>
 </tr>
 </tbody>
@@ -934,8 +949,8 @@ latent variables depending on the response)</p></li>
 </h3>
 <p>Principal component analysis was proposed in 1933 by Harald Hotelling<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components.
 Journal of Educational Psychology &lt;strong&gt;24&lt;/strong&gt;:417–441 (Part 1) and &lt;strong&gt;24&lt;/strong&gt;:498–520 (Part 2).
-&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
-points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572.&lt;/p&gt;"><sup>6</sup></a> for the problem of orthogonal regression.</p>
+&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
+points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572.&lt;/p&gt;"><sup>7</sup></a> for the problem of orthogonal regression.</p>
 <p>Assume random vector <span class="math inline">\(\boldsymbol x\)</span> with <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>.
 PCA is a particular orthogonal transformation of the original <span class="math inline">\(\boldsymbol x\)</span>
 such that the resulting components are orthogonal:
@@ -991,7 +1006,7 @@ by the the principal components.</p>
 <span class="math display">\[
 \boldsymbol V^{-1/2} \boldsymbol x= \boldsymbol \Psi^T  \boldsymbol z\, , 
 \]</span>
-i.e. they are the coefficients linking the whitened variable <span class="math inline">\(\boldsymbol z\)</span> with the standardised orginal variable <span class="math inline">\(\boldsymbol x\)</span>.
+i.e. they are the coefficients linking the whitened variable <span class="math inline">\(\boldsymbol z\)</span> with the standardised original variable <span class="math inline">\(\boldsymbol x\)</span>.
 This relationship holds therefore also for PCA-whitening
 with <span class="math inline">\(\boldsymbol z^{\text{PCA}}= \boldsymbol \Lambda^{-1/2} \boldsymbol U^T \boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \Psi^{\text{PCA}} = \boldsymbol \Lambda^{1/2} \boldsymbol U^T \boldsymbol V^{-1/2}\)</span>.</p>
 <p>The classical PCA is not a whitening approach because <span class="math inline">\(\text{Var}(\boldsymbol t^{\text{PCA}}) \neq \boldsymbol I\)</span>. However, we can still compute cross-correlations between the principal components <span class="math inline">\(\boldsymbol t^{\text{PCA}}\)</span> and <span class="math inline">\(\boldsymbol x\)</span>, resulting in
@@ -1023,7 +1038,7 @@ a small number of components.</p>
 <p>For each original variable <span class="math inline">\(x_j\)</span> we therefore have two numbers betweem -1 and 1, the correlationa
 <span class="math inline">\(\text{Cor}(t_1^{\text{PCA}}, x_j)\)</span> and <span class="math inline">\(cor(t_2^{\text{PCA}}, x_j)\)</span> that we use as coordinates to draw a point in a plane. By construction, all points
 have to lie within a unit circle around the origin. As the sum of the squared correlation loadings from all latents component to one specific original variable sum up to one, the sum of the squared loadings from just the first two components is also at most 1.
-The orginal variables most strongly influenced
+The original variables most strongly influenced
 by the two latent variables will have strong correlation and thus lie near the outer circle, whereas variables that are not influenced by the two latent variables will lie near the origin.</p>
 <p>As an example, here is the correlation loadings plot showing the cross-correlation between the first two
 PCA components and all four variables of the iris flower data set discussed earlier.</p>
@@ -1036,7 +1051,7 @@ PCA components and all four variables of the iris flower data set discussed earl
 <span class="header-section-number">2.7</span> CCA whitening (Canonical Correlation Analysis)<a class="anchor" aria-label="anchor" href="#cca-whitening-canonical-correlation-analysis"><i class="fas fa-link"></i></a>
 </h2>
 <p>Canonical correlation analysis was invented by Harald Hotelling in 1936.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates.
-Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377.&lt;/p&gt;"><sup>7</sup></a></p>
+Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377.&lt;/p&gt;"><sup>8</sup></a></p>
 <p>So far, we have looked only into whitening as a <strong>single</strong> vector <span class="math inline">\(\boldsymbol x\)</span>. In CCA whitening we consider <strong>two vectors</strong> <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> simultaneously:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
@@ -1076,7 +1091,6 @@ and <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span> influenci
 \boldsymbol z_{\boldsymbol y} = \begin{pmatrix} z^y_1 \\ z^y_2 \\ \vdots \\ z^y_q \end{pmatrix} \\
 \end{array}
 \]</span></p>
-<p>\end{align}</p>
 <p><span class="math display">\[\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y}) = \begin{pmatrix} d_1 &amp; \dots &amp; 0 \\ \vdots &amp;  \vdots \\ 0 &amp; \dots &amp; d_m \end{pmatrix}\]</span></p>
 <p>where <span class="math inline">\(d_i\)</span> are the <em>canonical correlations</em> and <span class="math inline">\(m=\min(p,q)\)</span>.</p>
 <div id="how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal" class="section level3" number="2.7.1">
@@ -1143,7 +1157,7 @@ on multivariate dependencies).</p></li>
 <li><a class="nav-link" href="#another-solution-correlation-based"><span class="header-section-number">2.3.4</span> Another solution (correlation-based)</a></li>
 <li><a class="nav-link" href="#cross-covariance-and-cross-correlation"><span class="header-section-number">2.3.5</span> Cross-covariance and cross-correlation</a></li>
 <li><a class="nav-link" href="#inverse-whitening-transformation-and-loadings"><span class="header-section-number">2.3.6</span> Inverse whitening transformation and loadings</a></li>
-<li><a class="nav-link" href="#multiple-correlation-cofficients"><span class="header-section-number">2.3.7</span> Multiple correlation cofficients</a></li>
+<li><a class="nav-link" href="#multiple-correlation-coefficients"><span class="header-section-number">2.3.7</span> Multiple correlation coefficients</a></li>
 </ul>
 </li>
 <li>
@@ -1192,7 +1206,7 @@ on multivariate dependencies).</p></li>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 15 September 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 23 October 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
