@@ -88,7 +88,7 @@ random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <s
 <code class="sourceCode R"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.01985962</code></pre>
+<pre><code>## [1] 0.003610902</code></pre>
 <p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent!
 This is because correlation only measures linear association!</p>
 </div>
@@ -369,10 +369,10 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
 <span class="co"># Conditioning: x1 conditioned on x2</span>
 
 <span class="co"># conditional mean</span>
-<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
+<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">iK2</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
 
 <span class="co"># conditional variance</span>
-<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span></code></pre></div>
+<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">iK2</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span></code></pre></div>
 <p>Now we can plot the posterior mean and upper and lower bounds of a 95% credible interval:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># upper and lower CI</span>
@@ -399,8 +399,8 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
 
 <span class="co"># update</span>
 <span class="va">iK2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">K2</span><span class="op">)</span> <span class="co"># inverse</span>
-<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
-<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op">%*%</span> <span class="va">iK2</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span>
+<span class="va">m1.2</span> <span class="op">=</span> <span class="va">m1</span> <span class="op">+</span> <span class="va">K12</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">iK2</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="op">(</span><span class="va">y2</span> <span class="op">-</span> <span class="va">m2</span><span class="op">)</span>
+<span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">iK2</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span>
 <span class="va">upper.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
 <span class="va">lower.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
 
@@ -564,7 +564,7 @@ implementations in computer code on various platforms is the book “Dive into d
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 23 October 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 31 October 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

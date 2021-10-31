@@ -426,12 +426,18 @@ This is generalised to the shape of an ellipse by allowing (in two dimensions) f
 <span class="math inline">\(\boldsymbol x^T \text{Diag}(r_1^2, r_2^2)^{-1} \boldsymbol x= 1\)</span>. In <span class="math inline">\(d\)</span> dimensions and allowing for rotation of
 the axes and a shift of the origin from 0 to <span class="math inline">\(\boldsymbol \mu\)</span> the condition for an ellipse is
 <span class="math display">\[(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol Q\, \text{Diag}(r_1^2, \ldots , r_d^2)^{-1} \boldsymbol Q^T (\boldsymbol x-\boldsymbol \mu) = 1\]</span>
-where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal matrix.</p>
+where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal matrix whose column vectors indicate the direction of the axes.</p>
 <p>A contour line of a probability density function is a set of connected points where the density assumes the same constant value. In the case of the multivariate normal distribution keeping the density at some fixed value implies that <span class="math inline">\((\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) = c\)</span> where <span class="math inline">\(c\)</span> is a constant. Using the eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> we can rewrite this condition as
 <span class="math display">\[
 (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T (\boldsymbol x-\boldsymbol \mu) = c \,.
 \]</span>
-This implies that the contour lines of the multivariate normal density are indeed ellipses and that the squared radii are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>. Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</p>
+This implies that</p>
+<ul>
+<li>the contour lines of the multivariate normal density are indeed ellipses,</li>
+<li>the squared radii are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> and</li>
+<li>the direction of the axes correspond to the eigenvectors in <span class="math inline">\(\boldsymbol U\)</span>.</li>
+</ul>
+<p>Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for a singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</p>
 <p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> to play with the contour lines of the
 bivariate normal distribution is online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
 </div>
@@ -442,28 +448,30 @@ bivariate normal distribution is online at <a href="https://minerva.it.mancheste
 <p>Following the above we can parameterise a covariance matrix in terms of its
 i) volume, ii) shape, and iii) orientation by writing
 <span class="math display">\[
-\boldsymbol \Sigma= \lambda \, \boldsymbol U\boldsymbol A\boldsymbol U^T
+\boldsymbol \Sigma= \kappa \, \boldsymbol U\boldsymbol A\boldsymbol U^T
 \]</span>
-with <span class="math inline">\(\boldsymbol A=\text{Diag}(a_1, \ldots, a_d)\)</span> and <span class="math inline">\(\prod_{i=1}^d a_i = 1\)</span> (and <span class="math inline">\(\boldsymbol \Lambda=\lambda \boldsymbol A\)</span>).</p>
+with <span class="math inline">\(\boldsymbol A=\text{Diag}(a_1, \ldots, a_d)\)</span> and <span class="math inline">\(\prod_{i=1}^d a_i = 1\)</span>.</p>
+<p>Note that the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> are <span class="math inline">\(\lambda_i = \kappa a_i\)</span>.</p>
 <ol style="list-style-type: lower-roman">
-<li>The <strong>volume</strong> is <span class="math inline">\(\det(\boldsymbol \Sigma) = \lambda^d\)</span>, determined by a single parameter <span class="math inline">\(\lambda\)</span>.</li>
+<li>The <strong>volume</strong> is <span class="math inline">\(\det(\boldsymbol \Sigma) = \kappa^d\)</span>, determined by a single parameter <span class="math inline">\(\kappa\)</span>.</li>
 <li>The <strong>shape</strong> is determined by <span class="math inline">\(\boldsymbol A\)</span>, with <span class="math inline">\(d-1\)</span> free parameters.</li>
 <li>The <strong>orientation</strong> is given by the orthogonal matrix <span class="math inline">\(\boldsymbol U\)</span>, with <span class="math inline">\(d (d-1)/2\)</span> free parameters.</li>
 </ol>
 <p>This leads to classification of covariances into three varieties:</p>
-<p><strong>Type 1:</strong> <strong>spherical covariance</strong> <span class="math inline">\(\boldsymbol \Sigma=\lambda \boldsymbol I\)</span>,
+<p><strong>Type 1:</strong> <strong>spherical covariance</strong> <span class="math inline">\(\boldsymbol \Sigma=\kappa \boldsymbol I\)</span>,
 with spherical contour lines, 1 free parameter (<span class="math inline">\(\boldsymbol A=\boldsymbol I\)</span>, <span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
 <p>Example:
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
 with <span class="math inline">\(\sqrt{\lambda_1/ \lambda_2} = 1\)</span>:</p>
 <div class="inline-figure"><img src="1-multivariate_files/figure-html/fig2-1.png" width="672"></div>
-<p><strong>Type 2</strong>: <strong>diagonal covariance</strong> <span class="math inline">\(\boldsymbol \Sigma= \lambda \boldsymbol A\)</span>, with elliptical contour lines oriented along the coordinate axes, <span class="math inline">\(d\)</span> free parameters (<span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
+<p><strong>Type 2</strong>: <strong>diagonal covariance</strong> <span class="math inline">\(\boldsymbol \Sigma= \kappa \boldsymbol A\)</span>, with elliptical contour lines and axes of the ellipse oriented parallel to the coordinates, <span class="math inline">\(d\)</span> free parameters (<span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
 <p>Example:
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
 with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} \approx 1.41\)</span>:</p>
 <div class="inline-figure"><img src="1-multivariate_files/figure-html/fig3-1.png" width="672"></div>
 <p><strong>Type 3</strong>: <strong>general unrestricted covariance</strong> <span class="math inline">\(\boldsymbol \Sigma\)</span>,
-with elliptical contour lines oriented in any direction,
+with elliptical contour lines, with axes of the ellipse oriented according to the
+column vectors in <span class="math inline">\(\boldsymbol U\)</span>,
 <span class="math inline">\(d (d+1)/2\)</span> free parameters.</p>
 <p>Example:
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0.6 \\ 0.6 &amp; 1 \end{pmatrix}\)</span>
@@ -1418,7 +1426,7 @@ and <span class="math inline">\(\Psi = k \Sigma\)</span> (or <span class="math i
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 23 October 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 31 October 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
