@@ -242,9 +242,9 @@ then recursively join groups of items together, until all is merged.</li>
 <p>Compute a dissimilarity / distance matrix between all pairs of objects where “objects” are single data points at this stage but later are also be sets of data points.</p>
 <p><em>Iterative procedure:</em></p>
 <ol style="list-style-type: decimal">
-<li><p>identify the pair of objects with the smallest distance. These two objects are then merged together into a common set. Create an internal node in the tree to describe this coalescent event.</p></li>
+<li><p>identify the pair of objects with the smallest distance. These two objects are then merged together into one set. Create an internal node in the tree to represent this set.</p></li>
 <li><p>update the distance matrix by computing the distances between the new set and all other
-objects. If the new set contains all data points the procedure terminates.</p></li>
+objects. If the new set contains all data points the procedure terminates. The final node created is the root node.</p></li>
 </ol>
 <p>For actual implementation of this algorithm two key ingredients are needed:</p>
 <ol style="list-style-type: decimal">
@@ -427,17 +427,24 @@ SSB = \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\h
 \]</span>
 where <span class="math inline">\(\hat{\boldsymbol \mu}_0 = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\boldsymbol \mu}_k\)</span>
 is the global mean of the samples. <span class="math inline">\(SSB\)</span> increases with the number of clusters <span class="math inline">\(K\)</span> until for <span class="math inline">\(K=n\)</span> it
-becomes equal to</p></li>
+becomes equal to the total sum of squares <span class="math inline">\(SST\)</span>.</p></li>
 <li><p>the total sum of squares
 <span class="math display">\[
 SST = \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0) \, .
 \]</span>
 By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <span class="math inline">\(K\)</span> (i.e. <span class="math inline">\(SST\)</span> is a constant independent of <span class="math inline">\(K\)</span>).</p></li>
 </ol>
-<p>If divide the sum of squares by the sample size <span class="math inline">\(n\)</span> we get <span class="math inline">\(T = \frac{SST}{n}\)</span> as the <em>total variation</em>,
-<span class="math inline">\(B = \frac{SSW}{n}\)</span> as the <em>explained variation</em> and <span class="math inline">\(W = \frac{SSW}{n}\)</span> as the total <em>unexplained variation</em> , with
-<span class="math inline">\(T = B + W\)</span>.</p>
-<p>For deciding on the optimal number of clusters we can run <span class="math inline">\(K\)</span>-means for various settings of <span class="math inline">\(K\)</span> and then choose the smallest <span class="math inline">\(K\)</span> for which the explained variation <span class="math inline">\(B\)</span> is not significantly worse compared to a model with substantially larger number of clusters (see example below).</p>
+<p>Dividing the sum of squares by the sample size <span class="math inline">\(n\)</span> we get</p>
+<ul>
+<li>
+<span class="math inline">\(T = \frac{SST}{n}\)</span> as the <em>total variation</em>,</li>
+<li>
+<span class="math inline">\(B = \frac{SSW}{n}\)</span> as the <em>explained variation</em> and</li>
+<li>
+<span class="math inline">\(W = \frac{SSW}{n}\)</span> as the total <em>unexplained variation</em> ,</li>
+<li>with <span class="math inline">\(T = B + W\)</span>.</li>
+</ul>
+<p>In order to decide on the optimal number of clusters we run <span class="math inline">\(K\)</span>-means for different settings for <span class="math inline">\(K\)</span> and then choose the smallest <span class="math inline">\(K\)</span> for which the explained variation <span class="math inline">\(B\)</span> is not significantly worse compared to a clustering with a substantially larger <span class="math inline">\(K\)</span> (see example below).</p>
 </div>
 <div id="k-medoids-aka-pam" class="section level3" number="3.3.5">
 <h3>
@@ -457,23 +464,23 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="480"></div>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
+<pre><code>## K-means clustering with 3 clusters of sizes 53, 50, 47
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
-## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 1  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 2  -1.01119138  0.85041372   -1.3006301  -1.2507035
 ## 3   1.13217737  0.08812645    0.9928284   1.0141287
 ## 
 ## Clustering vector:
-##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
-##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
-## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
-## [149] 3 2
+##   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 1 1 1 3 1 1 1 1 1 1 1 1 3 1 1 1 1 3 1 1 1
+##  [75] 1 3 3 3 1 1 1 1 1 1 1 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 3 3 3 3 1 3 3 3 3
+## [112] 3 3 1 1 3 3 3 3 1 3 1 3 1 3 3 1 3 3 3 3 3 3 1 1 3 3 3 1 3 3 3 1 3 3 3 1 3
+## [149] 3 1
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 47.35062 44.08754 47.45019
+## [1] 44.08754 47.35062 47.45019
 ##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
@@ -494,9 +501,9 @@ is</p>
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">L.iris</span>, <span class="va">kmeans.out</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa     50  0  0
-##   versicolor  0 39 11
-##   virginica   0 14 36</code></pre>
+##   setosa      0 50  0
+##   versicolor 39  0 11
+##   virginica  14  0 36</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="480"></div>
@@ -716,103 +723,146 @@ for more details.</p>
 <h3>
 <span class="header-section-number">3.5.1</span> Direct estimation of mixture model parameters<a class="anchor" aria-label="anchor" href="#direct-estimation-of-mixture-model-parameters"><i class="fas fa-link"></i></a>
 </h3>
-<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> with observations from <span class="math inline">\(n\)</span> samples we would like to fit the mixture model
-<span class="math inline">\(f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> and learn its parameters <span class="math inline">\(\boldsymbol \theta\)</span>, for example by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
-<span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)
-\]</span>
+<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> containing the observations of <span class="math inline">\(n\)</span> samples
+<span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> we would like to fit the mixture model
+<span class="math inline">\(f_{\text{mix}}(\boldsymbol x| \boldsymbol \theta) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> and learn its parameters <span class="math inline">\(\boldsymbol \theta\)</span>.
 For a Gaussian mixture model the parameters are <span class="math inline">\(\boldsymbol \theta= \{\boldsymbol \pi, \boldsymbol \mu_1, \ldots, \boldsymbol \mu_K, \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\}\)</span>.</p>
-<p>However, in practise evaluation and optimisation of this likelihood function may be difficult due
-a number of reasons:</p>
+<p>The standard way (for large sample size <span class="math inline">\(n\)</span>) is to find the MLEs of the parameters by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
+<span class="math display">\[
+\log L(\boldsymbol \theta| \boldsymbol X) =  \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)
+\]</span>
+and
+<span class="math display">\[
+\hat{\boldsymbol \theta}^{ML} = \underset{\boldsymbol \theta}{\arg \max}\,\, \log L(\boldsymbol \theta| \boldsymbol X)
+\]</span>
+The above log-likelihood function is also called the <em>observed data</em> log-likelihood,
+or the <em>incomplete data</em> log-likelihood (to contrast it with the <em>complete data</em> log-likelihood described further below).</p>
+<p>Once the model is fitted we estimate probabilities for the group allocation of a sample
+<span class="math inline">\(\boldsymbol x_i\)</span> by computing
+<span class="math display">\[
+z_{ik} = \text{Pr}(k| \boldsymbol x_i) =  \frac{ \hat{\pi}_k \hat{f}_k(\boldsymbol x_i) }{  \hat{f}(\boldsymbol x_i)  }
+\]</span>
+Note that the <span class="math inline">\(z_{ik}\)</span> provide a so-called <em>soft assignment</em> of samples <span class="math inline">\(\boldsymbol x_i\)</span> to classes rather than a 0/1 <em>hard assignment</em> as for example in the <span class="math inline">\(K\)</span>-means algorithm.<br>
+To arrive at a hard clustering we can select the class with the highest probability
+<span class="math display">\[
+\hat{k}_i =\underset{k}{\arg \max}\,\,z_{ik}
+\]</span></p>
+<p>Unfortunately, in practise evaluation and optimisation of the observed data log-likelihood function can be difficult due a number of reasons:</p>
 <ul>
 <li>The form of the log-likelihood function prevents analytic simplifications
 (note the sum inside the logarithm).</li>
 <li>Because of the symmetries due to exchangeability of cluster labels the likelihood function is multimodal (note this is also linked to the general
 problem of label switching and non-identifiability of cluster labels in mixtures).</li>
-<li>Furthermore, the likelihood in Gaussian mixture models can become singular if one of the fitted covariance matrices becomes singular. Note this can be adressed by using regularisation (Bayes, penalised ML, etc.).</li>
+<li>Furthermore, the likelihood in Gaussian mixture models can become singular if one of the fitted covariance matrices becomes singular. Note this can be adressed by using some form of regularisation (Bayes, penalised ML, etc.).</li>
 </ul>
-<p>The above log-likelihood function is also called the <em>observed data</em> log-likelihood,
-or the <em>incomplete data</em> log-likelihood, in contrast to the <em>complete data</em> log-likelihood described further below.</p>
 </div>
 <div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.2">
 <h3>
 <span class="header-section-number">3.5.2</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
 </h3>
-<p>The mixture model may be viewed as an <em>incomplete</em> or <em>missing</em> data problem:
-here the missing data are the group allocations <span class="math inline">\(\boldsymbol k= (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
-<p><em>If we would know</em> which sample comes from which group the estimation of the
-parameters <span class="math inline">\(\boldsymbol \theta\)</span> would indeed be straightforward using the so-called <em>complete data log-likelihood</em>
+<p>Clustering with a mixture model can be viewed as an <em>incomplete</em> or <em>missing</em> data problem.
+Specifically, the missing data are the unknown group allocations <span class="math inline">\(\boldsymbol k= (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+<p><em>If we knew</em> in advance which sample belongs to a particular group the estimation of the
+parameters <span class="math inline">\(\boldsymbol \theta\)</span> would be done using the so-called <em>complete data log-likelihood</em>
 based on the joint distribution <span class="math inline">\(f(\boldsymbol x, k) = \pi_k f_k(\boldsymbol x)\)</span>
 <span class="math display">\[
 \log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol k) = \sum_{i=1}^n  \log \left(\pi_{k_i} f_{k_i}(\boldsymbol x_i) \right) 
-\]</span></p>
-<p>The idea of the EM algorithm (Dempster et al. 1977) is to exploit the simplicity of the complete data likelihood
-and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by first finding the probability distribution <span class="math inline">\(z_{ik}\)</span> of the latent variable <span class="math inline">\(k_i\)</span>, and then using this distribution to compute and optimise the corresponding expected complete-data log-likelihood. Specifically, the <span class="math inline">\(z_{ik}\)</span> contain the <em>probabilities</em> of each class for each sample <span class="math inline">\(i\)</span> and thus provide a <em>soft assignment</em> of classes rather that a 0/1 <em>hard assignment</em> (as in the <span class="math inline">\(K\)</span>-means algorithm or in the generative
-latent variable view of mixture models).</p>
-<p>In the EM algorithm we iterate between the</p>
+\]</span>
+Note this is a much simpler function than the incomplete data log-likelihood above.</p>
+<p>The idea of the so-called EM algorithm<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Dempster, A. P, N. M. Laird and D. B. Rubin 1977. Maximum likelihood from
+incomplete data via the EM algorithm. JRSS B &lt;strong&gt;39&lt;/strong&gt;:1–38. &lt;a href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1977.tb01600.x&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> proposed by by Arthur Dempster and others in 1977 is to exploit the simplicity of the complete data likelihood
+and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by treating the group allocations as missing data and to impute them, then subsequently iteratively refining both the imputations and the estimates of <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>More precisely, in the EM (=expectation-maximisation) algorithm we alternate between the</p>
 <ol style="list-style-type: decimal">
-<li>estimation the probabilistic distribution <span class="math inline">\(z_{ik}\)</span> for the group
-allocation latent parameters using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
-<li>maximisation of the expected complete data log-likelihood to estimate the parameters <span class="math inline">\(\boldsymbol \theta\)</span>. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1).</li>
+<li>updating the soft allocations <span class="math inline">\(z_{ik}\)</span> using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
+<li>updating the parameter estimates by maximising the <em>expected</em> complete data log-likelihood. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1). Thus
+the complete data log-likelihood is averaged over the soft class assignments.</li>
 </ol>
-<p>Specifically, the EM algorithm applied to model-based clustering proceeds as follows:</p>
+<p>Specifically, the EM algorithm proceeds as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\boldsymbol \theta^{(1)}\)</span>, then continue with “E” Step, Part A.
+<li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}\)</span>, then continue with “E” Step, Part A.
 Alternatively, start with a guess of <span class="math inline">\(z_{ik}^{(1)}\)</span>, then continue
-with “E” Step, Part B. The initialisation may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means, or simply be at random.</p></li>
+with “E” Step, Part B. The initialisation may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means, or simply be at random. Note that some particular initialisations correspond to invariant states and hence should be avoided (see further below).</p></li>
 <li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>:
 <span class="math display">\[
-z_{ik}^{(b+1)} \leftarrow \frac{ \pi_k f_k(\boldsymbol x_i) }{  f(\boldsymbol x_i)  }
+z_{ik}^{(b+1)} \leftarrow \frac{ \hat{\pi}_k^{(b)} \hat{f}_k^{(b)}(\boldsymbol x_i) }{  \hat{f}^{(b)}(\boldsymbol x_i)  }
 \]</span>
-Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current value
-<span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the parameters is required.<br>
-— Part B: Construct the expected complete data log-likelihood function using the weights <span class="math inline">\(z_{ik}^{(b+1)}\)</span>:
+Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current estimated value
+<span class="math inline">\(\hat{\boldsymbol \theta}^{(b)}\)</span> of the parameters is required.<br>
+— Part B: Construct the expected complete data log-likelihood function for <span class="math inline">\(\boldsymbol \theta\)</span> using the soft allocations <span class="math inline">\(z_{ik}^{(b+1)}\)</span>:
 <span class="math display">\[
 Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \sum_{k=1}^K z_{ik}^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
 \]</span></p></li>
-<li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the mixture model parameters <span class="math inline">\(\boldsymbol \theta\)</span>:
+<li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the estimates of mixture model parameters:
 <span class="math display">\[
-\boldsymbol \theta^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)
+\hat{\boldsymbol \theta}^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)
 \]</span></p></li>
-<li><p>Repeat with “E” Step until convergence of parameters <span class="math inline">\(\boldsymbol \theta^{(b)}\)</span> of the mixture model.</p></li>
+<li><p>Continue with 2) “E” Step until the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> has converged or, equivalently, until the series of maximised complete data log-likelihoods
+<span class="math inline">\(Q^{(1)}(\hat{\boldsymbol \theta}^{(1)} | \boldsymbol X), Q^{(2)}(\hat{\boldsymbol \theta}^{(2)} | \boldsymbol X), Q^{(3)}(\hat{\boldsymbol \theta}^{(3)} | \boldsymbol X), \ldots\)</span> has converged.</p></li>
 </ol>
-<p>It can be shown that the output <span class="math inline">\(\boldsymbol \theta^{(1)}, \boldsymbol \theta^{(2)}, \boldsymbol \theta^{(3)}, \ldots\)</span> of the EM algorithm converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising
-the marginal log-likelihood. Since maximisation of the expected complete data log-likelihood is often much easier (and analytically tractable) than maximisation of the observed data log-likelihood function the EM algorithm is the preferred approach
-in this case.</p>
-<p>To avoid singularities in the expected log-likelihood function we
-may wish to adopt a Bayesian approach (or use regularised/penalised ML) for estimating the parameters in the M-step.</p>
+<p>Since maximisation of the expected complete data log-likelihood is typically much easier (and often also analytically tractable) the EM algorithm is often preferred over direct
+maximisation of the observed data log-likelihood.</p>
+<p>Note that to avoid singularities in the expected log-likelihood function we
+may need to adopt regularisation (i.e. penalised maximum likelihood or Bayesian learning) for estimating the parameters in the M-step.</p>
 </div>
 <div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.3">
 <h3>
 <span class="header-section-number">3.5.3</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
-<p>For a GMM the EM algorithm can be written down analytically:</p>
+<p>For a Gaussian mixture model (GMM) both steps in the EM algorithm can be expressed analytically:</p>
 <p><strong>E-step:</strong></p>
-<p><span class="math display">\[
-z_{ik} = \frac{ \hat{\pi}_k N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k, \hat{\boldsymbol \Sigma}_k) }{  f(\boldsymbol x_i)  }
+<p>Update the soft allocations:
+<span class="math display">\[
+z_{ik}^{(b+1)} = \frac{ \hat{\pi}_k^{(b)} N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k^{(b)}, \hat{\boldsymbol \Sigma}_k^{(b)}) }{  \hat{f}^{(b)}(\boldsymbol x_i)  }
 \]</span></p>
 <p><strong>M-step:</strong></p>
-<p><span class="math display">\[
-\hat{n}_k = \sum_{i=1}^n z_{ik}
-\]</span>
+<p>The number of samples assigned to class <span class="math inline">\(k\)</span> in the current step is
 <span class="math display">\[
-\hat{\pi}_k = \frac{\hat{n}_k}{n}
-\]</span></p>
-<p><span class="math display">\[
-\hat{\boldsymbol \mu}_k = \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} \boldsymbol x_i
+n_k^{(b+1)} = \sum_{i=1}^n z_{ik}^{(b+1)} 
 \]</span>
+Note this is not necessarily an integer because of the soft allocations of samples to groups!</p>
+<p>The updated estimate of the group probabilities is
 <span class="math display">\[
-\hat{\boldsymbol \Sigma}_k =  \frac{1}{\hat{n}_k} \sum_{i=1}^n z_{ik} ( \boldsymbol x_i -\boldsymbol \mu_k)   ( \boldsymbol x_i -\boldsymbol \mu_k)^T
+\hat{\pi}_k^{(b+1)} = \frac{n_k^{(b+1)}}{n}
+\]</span>
+The updated estimate of the mean is
+<span class="math display">\[
+\hat{\boldsymbol \mu}_k^{(b+1)} = \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n z_{ik}^{(b+1)} \boldsymbol x_i
+\]</span>
+and the updated covariance estimate is
+<span class="math display">\[
+\hat{\boldsymbol \Sigma}_k^{(b+1)} =  \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n z_{ik}^{(b+1)} \left( \boldsymbol x_i -\boldsymbol \mu_k^{(b+1)}\right)   \left( \boldsymbol x_i -\boldsymbol \mu_k^{(b+1)}\right)^T
 \]</span></p>
-<p>Note that the estimators <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> and <span class="math inline">\(\hat{\boldsymbol \Sigma}_k\)</span> are weighted versions of the
-usual empirical estimators (with weights <span class="math inline">\(z_{ik}\)</span> being the soft assignment of classes resulting
-from the Bayesian updating).</p>
+<p>Note that if <span class="math inline">\(z_{ik}\)</span> is a hard allocation (so that for any <span class="math inline">\(i\)</span> only one class has weight 1 and all others weight 0) then all estimators above reduce to the usual empirical estimators.</p>
 <p>In Worksheet 7 you can find a simple R implementation of the EM algorithm for
 univariate normal mixtures.</p>
 </div>
-<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.4">
+<div id="convergence" class="section level3" number="3.5.4">
 <h3>
-<span class="header-section-number">3.5.4</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.4</span> Convergence<a class="anchor" aria-label="anchor" href="#convergence"><i class="fas fa-link"></i></a>
+</h3>
+<p>Under mild assumptions the EM algorithm is guaranteed to monotonically converge to local optima of the marginal log-likelihood.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Wu, C.F. 1983. On the convergence properties of the EM algorithm. The Annals of Statistics &lt;em&gt;11&lt;/em&gt;:95–103. &lt;a href="https://doi.org/10.1214/aos/1176346060" class="uri"&gt;https://doi.org/10.1214/aos/1176346060&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a> Thus the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising the marginal log-likelihood.
+However, the speed of convergence in the EM algorithm can sometimes be slow, and there are also situations in which there is no convergence at all to <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> because the EM algorithm remains in an invariant state.</p>
+<p>An example of such an invariant state for a Gaussian mixture model is uniform initialisation of the latent variables <span class="math inline">\(z_{ik} = \frac{1}{K}\)</span>, where <span class="math inline">\(K\)</span> is the number of classes.<br>
+With this we get in the M step <span class="math inline">\(n_k = \frac{n}{K}\)</span> and as parameter estimates
+<span class="math display">\[
+\hat{\pi}_k = \frac{1}{K}
+\]</span>
+<span class="math display">\[
+\hat{\boldsymbol \mu}_k = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \bar{\boldsymbol x}
+\]</span>
+<span class="math display">\[
+\hat{\boldsymbol \Sigma}_k = \frac{1}{n}  \sum_{i=1}^n ( \boldsymbol x_i -\bar{\boldsymbol x})   ( \boldsymbol x_i -\bar{\boldsymbol x})^T = \hat{\boldsymbol \Sigma}
+\]</span>
+Crucially, none of these actually depend on the group <span class="math inline">\(k\)</span>! Thus, in the E step when the next soft allocations are determined this leads to
+<span class="math display">\[
+z_{ik} = \frac{ \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\boldsymbol \Sigma} ) }{ \sum_{j=1}^K  \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\boldsymbol \Sigma} )  } = \frac{1}{K}
+\]</span>
+After one cycle in the EM algorithm we arrive at the same soft allocation that we started with, and the algorithm is trapped in an invariant state! Therefore uniform initialisation should clearly be avoided!</p>
+</div>
+<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.5">
+<h3>
+<span class="header-section-number">3.5.5</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to probabilistic clustering with a Gaussian mixture models.</p>
 <p>Specifically, the class assigment in <span class="math inline">\(K\)</span>-means is
@@ -832,9 +882,9 @@ C(\boldsymbol x_i) &amp;= \underset{k}{\arg \max} \log( z_{ik} ) \\
 Thus, <span class="math inline">\(K\)</span>-means can be viewed as an algorithm to provide hard classifications
 for a simple restricted Gaussian mixture model.</p>
 </div>
-<div id="choosing-the-number-of-classes" class="section level3" number="3.5.5">
+<div id="choosing-the-number-of-classes" class="section level3" number="3.5.6">
 <h3>
-<span class="header-section-number">3.5.5</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.6</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>Since GMMs operate in a likelihood framework we can use penalised likelihood model selection criteria to choose among different models (i.e. GMMs with different numbers of classes).</p>
 <p>The most popular choices are AIC (Akaike Information Criterion) and BIC (Bayesian Information criterion) defined as follows:
@@ -846,14 +896,14 @@ over simpler models in order to prevent overfitting.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> find optimal number of groups <span class="math inline">\(K\)</span>.</p>
 <p>Another way of choosing optimal numbers of clusters is by cross-validation (see later chapter on supervised learning).</p>
 </div>
-<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.6">
+<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.7">
 <h3>
-<span class="header-section-number">3.5.6</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.7</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>We now explore the application of Gaussian mixture models to the Iris flower data set we also investigated with PCA
 and K-means.</p>
 <p>First, we fit a GMM with 3 clusters, using the R software “mclust.”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;L. Scrucca L. et. al. 2016. mclust 5: Clustering, classification and density estimation using Gaussian finite mixture models. The R Journal 8:205–233.
-See &lt;a href="https://journal.r-project.org/archive/2016/RJ-2016-021/" class="uri"&gt;https://journal.r-project.org/archive/2016/RJ-2016-021/&lt;/a&gt; and &lt;a href="https://mclust-org.github.io/mclust/" class="uri"&gt;https://mclust-org.github.io/mclust/&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a></p>
+See &lt;a href="https://journal.r-project.org/archive/2016/RJ-2016-021/" class="uri"&gt;https://journal.r-project.org/archive/2016/RJ-2016-021/&lt;/a&gt; and &lt;a href="https://mclust-org.github.io/mclust/" class="uri"&gt;https://mclust-org.github.io/mclust/&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://mclust-org.github.io/mclust/">"mclust"</a></span><span class="op">)</span>
 <span class="va">gmm3</span> <span class="op">=</span> <span class="fu"><a href="https://mclust-org.github.io/mclust/reference/Mclust.html">Mclust</a></span><span class="op">(</span><span class="va">X.iris</span>, G<span class="op">=</span><span class="fl">3</span>, verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
@@ -933,9 +983,10 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <li><a class="nav-link" href="#direct-estimation-of-mixture-model-parameters"><span class="header-section-number">3.5.1</span> Direct estimation of mixture model parameters</a></li>
 <li><a class="nav-link" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><span class="header-section-number">3.5.2</span> Estimating mixture model parameters using the EM algorithm</a></li>
 <li><a class="nav-link" href="#em-algorithm-for-multivariate-normal-mixture-model"><span class="header-section-number">3.5.3</span> EM algorithm for multivariate normal mixture model</a></li>
-<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.4</span> Connection with \(K\)-means clustering method</a></li>
-<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.5</span> Choosing the number of classes</a></li>
-<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.6</span> Application of GMMs to Iris flower data</a></li>
+<li><a class="nav-link" href="#convergence"><span class="header-section-number">3.5.4</span> Convergence</a></li>
+<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.5</span> Connection with \(K\)-means clustering method</a></li>
+<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.6</span> Choosing the number of classes</a></li>
+<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.7</span> Application of GMMs to Iris flower data</a></li>
 </ul>
 </li>
 </ul>
@@ -954,7 +1005,7 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 31 October 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 14 November 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
