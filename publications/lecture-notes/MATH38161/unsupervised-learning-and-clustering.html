@@ -225,7 +225,7 @@ Example:</p>
 <li>
 <strong>agglomerative algorithms</strong>
 <ul>
-<li>grow the tree from the leafs upwards</li>
+<li>grow the tree from the leaves upwards</li>
 <li>successively form partitions by first joining individual object together,
 then recursively join groups of items together, until all is merged.</li>
 </ul>
@@ -464,23 +464,23 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="480"></div>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 53, 50, 47
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1  -0.05005221 -0.88042696    0.3465767   0.2805873
-## 2  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
 ## 3   1.13217737  0.08812645    0.9928284   1.0141287
 ## 
 ## Clustering vector:
-##   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 1 1 1 3 1 1 1 1 1 1 1 1 3 1 1 1 1 3 1 1 1
-##  [75] 1 3 3 3 1 1 1 1 1 1 1 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 3 3 3 3 1 3 3 3 3
-## [112] 3 3 1 1 3 3 3 3 1 3 1 3 1 3 3 1 3 3 3 3 3 3 1 1 3 3 3 1 3 3 3 1 3 3 3 1 3
-## [149] 3 1
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
+## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
+## [149] 3 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 44.08754 47.35062 47.45019
+## [1] 47.35062 44.08754 47.45019
 ##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
@@ -501,9 +501,9 @@ is</p>
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">L.iris</span>, <span class="va">kmeans.out</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa      0 50  0
-##   versicolor 39  0 11
-##   virginica  14  0 36</code></pre>
+##   setosa     50  0  0
+##   versicolor  0 39 11
+##   virginica   0 14 36</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="480"></div>
@@ -532,30 +532,47 @@ labels, corresponding to the number of permutations of <span class="math inline"
 <span class="header-section-number">3.4.1</span> Finite mixture model<a class="anchor" aria-label="anchor" href="#finite-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
-<li>
-<span class="math inline">\(K\)</span> groups / classes / categories, with the number <span class="math inline">\(K\)</span> specified and finite</li>
-<li>each class <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> is modeled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>.</li>
-<li>density in each class: <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span> with <span class="math inline">\(k \in 1, \ldots, K\)</span>
-</li>
-<li>mixing weight of each class: <span class="math inline">\(\text{Pr}(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>
-</li>
-<li>joint density <span class="math inline">\(f(\boldsymbol x, k) = f(\boldsymbol x| k) \text{Pr}(k) = f_k(\boldsymbol x) \pi_k\)</span>
-</li>
-</ul>
-<p>This results in the mixture density
+<li><p><span class="math inline">\(K\)</span> groups / classes / categories, with finite <span class="math inline">\(K\)</span> known in advance.</p></li>
+<li><p>Each class <span class="math inline">\(k \in C= \{1, \ldots, K\}\)</span> is modelled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>.</p></li>
+<li><p>Density of class <span class="math inline">\(k\)</span>: <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span>.</p></li>
+<li><p>Probability weight of class <span class="math inline">\(k\)</span>: <span class="math inline">\(\pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>.</p></li>
+<li><p>The resulting mixture density the observed variable <span class="math inline">\(\boldsymbol x\)</span> is
 <span class="math display">\[
 f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)
-\]</span>
-This is also called marginal density as it arised from the joint density <span class="math inline">\(f(\boldsymbol x, k)\)</span> by marginalising <span class="math inline">\(k\)</span>.</p>
+\]</span></p></li>
+</ul>
 <p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\boldsymbol x) = N(\boldsymbol x| \boldsymbol \mu_k, \boldsymbol \Sigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
 <p>Mixture models are fundamental not just in clustering but for many other applications (e.g. classification).</p>
 <p>Note: don’t confuse <em>mixture model</em> with <em>mixed model</em> (=random effects regression model)</p>
 </div>
-<div id="total-variance-and-variation-of-mixture-model" class="section level3" number="3.4.2">
+<div id="observed-and-latent-variables" class="section level3" number="3.4.2">
 <h3>
-<span class="header-section-number">3.4.2</span> Total variance and variation of mixture model<a class="anchor" aria-label="anchor" href="#total-variance-and-variation-of-mixture-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.2</span> Observed and latent variables<a class="anchor" aria-label="anchor" href="#observed-and-latent-variables"><i class="fas fa-link"></i></a>
 </h3>
-<p>The conditional means and variances for each class are <span class="math inline">\(\text{E}(\boldsymbol x| k) = \boldsymbol \mu_k\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x| k) = \boldsymbol \Sigma_k\)</span>, and the probability
+<p>When we collect data from a mixture model we observe samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.
+However, for each observed <span class="math inline">\(\boldsymbol x_i\)</span> there is also the underlying class allocation <span class="math inline">\(y_i\)</span>
+that cannot be observed.</p>
+<p>The unobserved data <span class="math inline">\(y_1, \ldots, y_n\)</span> are modelled by a latent discrete random variable <span class="math inline">\(y\)</span>
+representing the class allocation. <span class="math inline">\(y\)</span> takes on values from <span class="math inline">\(C = \{1, \ldots, K\}\)</span>
+and the probabilities of the <span class="math inline">\(K\)</span> states are given by <span class="math inline">\(\pi_1, \ldots, \pi_K\)</span>.</p>
+<ul>
+<li>The joint density of observed and unobserved variables:
+<span class="math display">\[f(\boldsymbol x, y) = f(\boldsymbol x| y) \text{Pr}(y) = f_y(\boldsymbol x) \pi_y\]</span>
+</li>
+</ul>
+<p>The mixture density is therefore a <strong>marginal density</strong> as it arises from the joint density <span class="math inline">\(f(\boldsymbol x, y)\)</span>
+by marginalising over the discrete variable <span class="math inline">\(y\)</span></p>
+<ul>
+<li>Marginalisation: <span class="math inline">\(f(\boldsymbol x) = \sum_{y \in C} f(\boldsymbol x, y)\)</span>
+</li>
+</ul>
+<p>In probabilistic clustering the aim is to infer the states <span class="math inline">\(y_1, \ldots, y_n\)</span> for all observed samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> .</p>
+</div>
+<div id="total-variance-and-variation-of-mixture-model" class="section level3" number="3.4.3">
+<h3>
+<span class="header-section-number">3.4.3</span> Total variance and variation of mixture model<a class="anchor" aria-label="anchor" href="#total-variance-and-variation-of-mixture-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>The conditional means and variances for each class <span class="math inline">\(k \in C\)</span> are <span class="math inline">\(\text{E}(\boldsymbol x| k) = \boldsymbol \mu_k\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x| k) = \boldsymbol \Sigma_k\)</span>, and the probability
 of class <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\text{Pr}(k)=\pi_k\)</span>. Using the law of total expectation we can therefore obtain the mean of the mixture density as follows:
 <span class="math display">\[
 \begin{split}
@@ -611,9 +628,9 @@ The ratio of the between-group variance and the within-group variance is proport
 \]</span>
 If you are familiar with ANOVA (e.g. linear models course) you will recognise this ratio as the <span class="math inline">\(F\)</span>-score.</p>
 </div>
-<div id="example-of-mixtures" class="section level3" number="3.4.3">
+<div id="example-of-mixtures" class="section level3" number="3.4.4">
 <h3>
-<span class="header-section-number">3.4.3</span> Example of mixtures<a class="anchor" aria-label="anchor" href="#example-of-mixtures"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.4</span> Example of mixtures<a class="anchor" aria-label="anchor" href="#example-of-mixtures"><i class="fas fa-link"></i></a>
 </h3>
 <p>Mixtures can take on many different shapes and forms, so it is instructive to study a few examples.</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
@@ -625,14 +642,15 @@ Because the two components are well-separated there are two clear modes. The plo
 Thus, in this case it will be very hard (or even impossible) to identify the two peaks from data.</p>
 <p>An interactive version of the above two normal component mixture is available online as
 <a href="https://shiny.rstudio.com/">R Shiny web app</a> at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a> .</p>
-<p>In general, learning mixture models from data can be challenging due to various issues.
-First, because of permutation symmetries due to the arbitrariness of group labels the group specific parameters are not identiable without additional restrictions.
-Second, further identifiability issues can arise if
-— as in the above example — two neighboring components of the mixture model are largely overlapping
-and thus are too close to each other to be discriminated as two different modes.
-Furthermore, likelihood estimation is challenging if there are singularities in the likelihood function,
+<p>In general, learning mixture models from data can be challenging due to various issues.</p>
+<ul>
+<li>First, because of permutation symmetries due to the arbitrariness of group labels the group specific parameters are not identiable without additional restrictions.</li>
+<li>Second, further identifiability issues can arise if
+— as in the above example — two neighboring components of the mixture model are largely overlapping and thus are too close to each other to be discriminated as two different modes.</li>
+<li>Furthermore, likelihood estimation is challenging if there are singularities in the likelihood function,
 for example due to singular estimated covariance matrices. However, this can be easily fixed by
-regularising and/or requiring sufficient sample size per group.</p>
+regularising and/or requiring sufficient sample size per group.</li>
+</ul>
 <p>Mixture models need not to be univariate, in fact most mixtures we consider in this course are multivariate.
 For illustration, here is a plot of a mixture of two bivariate normals,
 with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\boldsymbol \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>,
@@ -640,62 +658,72 @@ with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\
 <span class="math inline">\(\boldsymbol \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1 \\ \end{pmatrix}\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/fig2-1.png" width="672"></div>
 </div>
-<div id="generative-view-sampling-from-a-mixture-model" class="section level3" number="3.4.4">
+<div id="sampling-from-a-mixture-model-generative-view" class="section level3" number="3.4.5">
 <h3>
-<span class="header-section-number">3.4.4</span> Generative view: sampling from a mixture model<a class="anchor" aria-label="anchor" href="#generative-view-sampling-from-a-mixture-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.5</span> Sampling from a mixture model (=generative view)<a class="anchor" aria-label="anchor" href="#sampling-from-a-mixture-model-generative-view"><i class="fas fa-link"></i></a>
 </h3>
 <p>Assuming we know how to sample from the component densities <span class="math inline">\(f_k(\boldsymbol x)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span>.</p>
-<p>This is done in a two-step generative process:</p>
+<p>This is done in a two-step process:</p>
 <ol style="list-style-type: decimal">
-<li><p>draw from categorical distribution with parameters <span class="math inline">\(\boldsymbol \pi=(\pi_1, \ldots, \pi_K)^T\)</span>:
+<li><p>Draw from categorical distribution with parameter <span class="math inline">\(\boldsymbol \pi=(\pi_1, \ldots, \pi_K)^T\)</span>:
 <span class="math display">\[\boldsymbol z\sim \text{Cat}(\boldsymbol \pi)\]</span>
-the vector <span class="math inline">\(\boldsymbol z= (z_1, \ldots, z_K)^T\)</span> indicating the group allocation. The group index <span class="math inline">\(k\)</span> is given by <span class="math inline">\(\{k : z_k=1\}\)</span>.</p></li>
+Here the vector <span class="math inline">\(\boldsymbol z= (z_1, \ldots, z_K)^T\)</span> indicates a hard group allocation, with all components <span class="math inline">\(z_i=0\)</span> except for a single entry <span class="math inline">\(z_k=1\)</span>.</p></li>
 <li><p>Subsequently, sample from the component <span class="math inline">\(k\)</span> selected in step 1:
 <span class="math display">\[
 \boldsymbol x\sim F_k
 \]</span></p></li>
 </ol>
-<p>This two-stage approach is also called <em>latent allocation variable formulation</em> of a mixture model, with <span class="math inline">\(\boldsymbol z\)</span> (or equivalently <span class="math inline">\(k\)</span>) being the latent variable.</p>
-<p>The two-step process needs to repeated for each sample drawn from the mixture (i.e. every time a new latent variable <span class="math inline">\(\boldsymbol z\)</span> is generated).</p>
-<p>In probabilistic clustering the aim is to infer the state of <span class="math inline">\(\boldsymbol z\)</span> for all observed samples.</p>
+<p>This two-stage sampling approach is also known as latent variable <em>generative model</em> for a mixture distribution.</p>
 </div>
-<div id="predicting-the-group-allocation-of-a-given-sample" class="section level3" number="3.4.5">
+<div id="predicting-the-group-allocation-of-a-given-sample-inference-of-the-latent-state" class="section level3" number="3.4.6">
 <h3>
-<span class="header-section-number">3.4.5</span> Predicting the group allocation of a given sample<a class="anchor" aria-label="anchor" href="#predicting-the-group-allocation-of-a-given-sample"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.6</span> Predicting the group allocation of a given sample (=inference of the latent state)<a class="anchor" aria-label="anchor" href="#predicting-the-group-allocation-of-a-given-sample-inference-of-the-latent-state"><i class="fas fa-link"></i></a>
 </h3>
-<p>If we know the mixture model and its components we can predict the probability that an observation <span class="math inline">\(\boldsymbol x\)</span> falls in group <span class="math inline">\(k\)</span> via application of Bayes theorem:
+<p>Clustering with a mixture model can be viewed as an <em>incomplete</em> or <em>missing</em> data problem.
+Specifically, the missing data are the unknown group allocations <span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+<p>Assuming that the mixture model is known (either in advance or after fitting it to training data) Bayes’ theorem allows predict the probability that an observation <span class="math inline">\(\boldsymbol x\)</span> falls in group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span>:
 <span class="math display">\[
 z_k = \text{Pr}(k | \boldsymbol x) = \frac{\pi_k f_k(\boldsymbol x) }{ f(\boldsymbol x)}
-\]</span></p>
-<p>In the above mentioned interactive Shiny app for the normal component mixture (available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a> ) you can also explore the probabilities of each
-class.</p>
-<p>Thus, by calculating the class probabilities using a fitted mixture model we can <strong>perform probabilistic clustering</strong> by assigning each sample to the class with the largest probability.
-Unlike in algorithmic clustering, we also get an assessment of the uncertainty of the class assignment, since for each sample <span class="math inline">\(\boldsymbol x\)</span> we obtain the vector
+\]</span>
+Thus, for each of the <span class="math inline">\(K\)</span> classes we obtain a corresponding posterior probability that we can collect in the vector
 <span class="math display">\[
 \boldsymbol z= (z_1, \ldots, z_K)^T
 \]</span>
-and thus can see if there are several classes with similar assignment probability. This will be the case, e.g.,
-if <span class="math inline">\(\boldsymbol x\)</span> lies near the boundary between two classes. Note that <span class="math inline">\(\sum_{k=1}^K z_k=1\)</span>.</p>
+Note that <span class="math inline">\(\sum_{k=1}^K z_k=1\)</span>.
+The posterior probabilities in <span class="math inline">\(\boldsymbol z\)</span> provide a so-called <em>soft assignment</em> of the sample <span class="math inline">\(\boldsymbol x\)</span> to all classes rather than a 0/1 <em>hard assignment</em> to a specific class (as for example in the <span class="math inline">\(K\)</span>-means algorithm).</p>
+<p>To obtain at a hard clustering and to infer the most probable latent state we find the class with the highest probability
+<span class="math display">\[
+\hat{y} =\underset{k}{\arg \max}\,\,z_{k}
+\]</span></p>
+<p>Unlike in algorithmic clustering (e.g. <span class="math inline">\(K\)</span>-means) in probabilistic clustering
+we assessment of the uncertainty of the class assignment
+and we can also check if there are classes with similar assignment probability. This will be the case, e.g.,
+if <span class="math inline">\(\boldsymbol x\)</span> lies near the boundary between two classes.</p>
+<p>In the interactive Shiny app for the normal component mixture (see above, and online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a> ) you can explore the posterior probabilities of each class.</p>
 </div>
-<div id="variation-1-infinite-mixture-model" class="section level3" number="3.4.6">
+<div id="additional-uses-of-mixture-models" class="section level3" number="3.4.7">
 <h3>
-<span class="header-section-number">3.4.6</span> Variation 1: Infinite mixture model<a class="anchor" aria-label="anchor" href="#variation-1-infinite-mixture-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.7</span> Additional uses of mixture models:<a class="anchor" aria-label="anchor" href="#additional-uses-of-mixture-models"><i class="fas fa-link"></i></a>
 </h3>
+<div id="variation-1-infinite-mixture-model" class="section level4" number="3.4.7.1">
+<h4>
+<span class="header-section-number">3.4.7.1</span> Variation 1: Infinite mixture model<a class="anchor" aria-label="anchor" href="#variation-1-infinite-mixture-model"><i class="fas fa-link"></i></a>
+</h4>
 <p>It is possible to construct mixture models with infinitely many components!</p>
 <p>Most commonly known example is Dirichlet process mixture model (DPM):</p>
 <p><span class="math display">\[
 f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^\infty \pi_k f_k(\boldsymbol x)
 \]</span>
 with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where the weight <span class="math inline">\(\pi_k\)</span> are taken from a infinitely dimensional Dirichlet distribution (=Dirichlet process).</p>
-<p>DPMs are useful for clustering since with them it is not necessary to determine the number of clusters a priori (since it by definition has infinitely many!). Instead, the number of clusters is a by-product of the fit of the model to observed data.</p>
+<p>DPMs are useful for clustering since with them it is not necessary to specify the number of clusters a priori (since it by definition has infinitely many!). Instead, the number of clusters is a by-product of the fit of the model to observed data.</p>
 <p>Related: <strong>“Chinese restaurant process”</strong> - <a href="https://en.wikipedia.org/wiki/Chinese_restaurant_process" class="uri">https://en.wikipedia.org/wiki/Chinese_restaurant_process</a></p>
 <p>This describes an algorithm for the allocation process of samples (“persons”) to the groups (“restaurant tables”) in a DPM.</p>
 <p>See also <strong>“stick-breaking process”:</strong> <a href="https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process" class="uri">https://en.wikipedia.org/wiki/Dirichlet_process#The_stick-breaking_process</a></p>
 </div>
-<div id="variation-2-semiparametric-mixture-model-with-two-classes" class="section level3" number="3.4.7">
-<h3>
-<span class="header-section-number">3.4.7</span> Variation 2: Semiparametric mixture model with two classes<a class="anchor" aria-label="anchor" href="#variation-2-semiparametric-mixture-model-with-two-classes"><i class="fas fa-link"></i></a>
-</h3>
+<div id="variation-2-semiparametric-mixture-model-with-two-classes" class="section level4" number="3.4.7.2">
+<h4>
+<span class="header-section-number">3.4.7.2</span> Variation 2: Semiparametric mixture model with two classes<a class="anchor" aria-label="anchor" href="#variation-2-semiparametric-mixture-model-with-two-classes"><i class="fas fa-link"></i></a>
+</h4>
 <p>A very common model is the following two-component univariate mixture model</p>
 <p><span class="math display">\[f_{\text{mix}}(x) = \pi_0 f_0(x) + (1-\pi_0) f_A(\boldsymbol x)\]</span></p>
 <ul>
@@ -706,48 +734,65 @@ with <span class="math inline">\(\sum_{k=1}^\infty\pi_k =1\)</span> and where th
 <li>
 <span class="math inline">\(\pi_0\)</span>: prior probability of null model</li>
 </ul>
-<p>Using Bayes theorem this allows to compute probability that an observation <span class="math inline">\(x\)</span> belongs to the null model:
-<span class="math display">\[\text{Pr}(\text{Null} | x ) = \frac{\pi_0 f_0(x ) }{ f(x) }\]</span>
-This is called the <em>local false discovery rate</em>.</p>
 <p>The semi-parametric mixture model is the foundation for statistical testing which is based on defining decision thresholds to separate null model (“not significant”) from alternative model (“significant”):</p>
 <div class="inline-figure"><img src="fig/fig3-twocompmix.png" width="60%" style="display: block; margin: auto;"></div>
-<p>See <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>
+<p>Using Bayes theorem this allows to compute probability that an observation <span class="math inline">\(x\)</span> belongs to the null model:
+<span class="math display">\[\text{Pr}(\text{Null} | x ) = \frac{\pi_0 f_0(x ) }{ f(x) }\]</span>
+This is called the <em>local false discovery rate</em>. See <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>
 for more details.</p>
+</div>
 </div>
 </div>
 <div id="fitting-mixture-models-to-data" class="section level2" number="3.5">
 <h2>
 <span class="header-section-number">3.5</span> Fitting mixture models to data<a class="anchor" aria-label="anchor" href="#fitting-mixture-models-to-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="direct-estimation-of-mixture-model-parameters" class="section level3" number="3.5.1">
+<div id="likelihood-functions" class="section level3" number="3.5.1">
 <h3>
-<span class="header-section-number">3.5.1</span> Direct estimation of mixture model parameters<a class="anchor" aria-label="anchor" href="#direct-estimation-of-mixture-model-parameters"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.1</span> Likelihood functions<a class="anchor" aria-label="anchor" href="#likelihood-functions"><i class="fas fa-link"></i></a>
 </h3>
-<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> containing the observations of <span class="math inline">\(n\)</span> samples
-<span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> we would like to fit the mixture model
-<span class="math inline">\(f_{\text{mix}}(\boldsymbol x| \boldsymbol \theta) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> and learn its parameters <span class="math inline">\(\boldsymbol \theta\)</span>.
+<p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> containing the observations of <span class="math inline">\(n\)</span> independent
+and identically distributed samples
+<span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> we would like to learn the parameters <span class="math inline">\(\boldsymbol \theta\)</span> of the underlying mixture model.
 For a Gaussian mixture model the parameters are <span class="math inline">\(\boldsymbol \theta= \{\boldsymbol \pi, \boldsymbol \mu_1, \ldots, \boldsymbol \mu_K, \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\}\)</span>.</p>
-<p>The standard way (for large sample size <span class="math inline">\(n\)</span>) is to find the MLEs of the parameters by maximising the corresponding marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
+<p>The standard way (for large sample size <span class="math inline">\(n\)</span>) is to employ maximum likelihood
+and find the MLEs of the parameters by maximising
+a suitable log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>If we knew in advance which sample belongs to a particular group the estimation of the
+parameters <span class="math inline">\(\boldsymbol \theta\)</span> would be done using the so-called <em>complete data log-likelihood</em>
+based on the joint distribution <span class="math inline">\(f(\boldsymbol x, y) = \pi_y f_k(\boldsymbol x)\)</span>
 <span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X) =  \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)
+\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y) = \sum_{i=1}^n \log f(\boldsymbol x_i, y_i)  =  \sum_{i=1}^n  \log \left(\pi_{y_i} f_{k_i}(\boldsymbol x_i) \right) 
+\]</span></p>
+<p>However, in practise we do not know the group allocations <span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>. Thus have to treat them as missing data and face the problem of likelihood inference with missing data. The corresponding
+<em>incomplete data log-likelihood</em>, <em>observed data log-likelihood</em> or <em>marginal log-likelihood</em> can be computed from the above complete data likelihood by marginalising over <span class="math inline">\(\boldsymbol y\)</span>
+<span class="math display">\[
+\begin{split}
+\log L(\boldsymbol \theta| \boldsymbol X) &amp;= \log \sum_{\boldsymbol y}   L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y)\\
+ &amp;= \log \sum_{y_1, \ldots, y_K}  \prod_{i=1}^n f(\boldsymbol x_i, y_i)\\
+&amp;= \log \prod_{i=1}^n  \sum_y f(\boldsymbol x_i, y)\\
+&amp; = \sum_{i=1}^n \log \left(  \sum_y f(\boldsymbol x_i, y)     \right)
+\end{split} 
 \]</span>
-and
+or more directly, and equivalently, from the mixture density
+<span class="math display">\[
+\begin{split}
+\log L(\boldsymbol \theta| \boldsymbol X) &amp; =\sum_{i=1}^n \log f(\boldsymbol x_i | \boldsymbol \theta)\\
+&amp; = \sum_{i=1}^n \log \left(  \sum_y f(\boldsymbol x_i, y)     \right)\\
+&amp; = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)\\
+\end{split}
+\]</span>
+Note that the probabilities <span class="math inline">\(\pi_k\)</span> are now parameters (i.e. part of <span class="math inline">\(\boldsymbol \theta\)</span>).</p>
+</div>
+<div id="direct-estimation-of-mixture-model-parameters" class="section level3" number="3.5.2">
+<h3>
+<span class="header-section-number">3.5.2</span> Direct estimation of mixture model parameters<a class="anchor" aria-label="anchor" href="#direct-estimation-of-mixture-model-parameters"><i class="fas fa-link"></i></a>
+</h3>
+<p>The direct way to fit a mixture model by maximum likelihood is to find the MLEs of the parameters by maximising the marginal log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>:
 <span class="math display">\[
 \hat{\boldsymbol \theta}^{ML} = \underset{\boldsymbol \theta}{\arg \max}\,\, \log L(\boldsymbol \theta| \boldsymbol X)
-\]</span>
-The above log-likelihood function is also called the <em>observed data</em> log-likelihood,
-or the <em>incomplete data</em> log-likelihood (to contrast it with the <em>complete data</em> log-likelihood described further below).</p>
-<p>Once the model is fitted we estimate probabilities for the group allocation of a sample
-<span class="math inline">\(\boldsymbol x_i\)</span> by computing
-<span class="math display">\[
-z_{ik} = \text{Pr}(k| \boldsymbol x_i) =  \frac{ \hat{\pi}_k \hat{f}_k(\boldsymbol x_i) }{  \hat{f}(\boldsymbol x_i)  }
-\]</span>
-Note that the <span class="math inline">\(z_{ik}\)</span> provide a so-called <em>soft assignment</em> of samples <span class="math inline">\(\boldsymbol x_i\)</span> to classes rather than a 0/1 <em>hard assignment</em> as for example in the <span class="math inline">\(K\)</span>-means algorithm.<br>
-To arrive at a hard clustering we can select the class with the highest probability
-<span class="math display">\[
-\hat{k}_i =\underset{k}{\arg \max}\,\,z_{ik}
 \]</span></p>
-<p>Unfortunately, in practise evaluation and optimisation of the observed data log-likelihood function can be difficult due a number of reasons:</p>
+<p>Unfortunately, in practise evaluation and optimisation of the observed data log-likelihood function can be difficult due to a number of reasons:</p>
 <ul>
 <li>The form of the log-likelihood function prevents analytic simplifications
 (note the sum inside the logarithm).</li>
@@ -756,26 +801,18 @@ problem of label switching and non-identifiability of cluster labels in mixtures
 <li>Furthermore, the likelihood in Gaussian mixture models can become singular if one of the fitted covariance matrices becomes singular. Note this can be adressed by using some form of regularisation (Bayes, penalised ML, etc.).</li>
 </ul>
 </div>
-<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.2">
+<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.3">
 <h3>
-<span class="header-section-number">3.5.2</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.3</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
 </h3>
-<p>Clustering with a mixture model can be viewed as an <em>incomplete</em> or <em>missing</em> data problem.
-Specifically, the missing data are the unknown group allocations <span class="math inline">\(\boldsymbol k= (k_1, \ldots, k_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
-<p><em>If we knew</em> in advance which sample belongs to a particular group the estimation of the
-parameters <span class="math inline">\(\boldsymbol \theta\)</span> would be done using the so-called <em>complete data log-likelihood</em>
-based on the joint distribution <span class="math inline">\(f(\boldsymbol x, k) = \pi_k f_k(\boldsymbol x)\)</span>
-<span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol k) = \sum_{i=1}^n  \log \left(\pi_{k_i} f_{k_i}(\boldsymbol x_i) \right) 
-\]</span>
-Note this is a much simpler function than the incomplete data log-likelihood above.</p>
 <p>The idea of the so-called EM algorithm<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Dempster, A. P, N. M. Laird and D. B. Rubin 1977. Maximum likelihood from
-incomplete data via the EM algorithm. JRSS B &lt;strong&gt;39&lt;/strong&gt;:1–38. &lt;a href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1977.tb01600.x&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> proposed by by Arthur Dempster and others in 1977 is to exploit the simplicity of the complete data likelihood
-and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by treating the group allocations as missing data and to impute them, then subsequently iteratively refining both the imputations and the estimates of <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+incomplete data via the EM algorithm. JRSS B &lt;strong&gt;39&lt;/strong&gt;:1–38. &lt;a href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1977.tb01600.x&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> proposed by Arthur Dempster and others in 1977 is to exploit the simplicity of the complete data likelihood
+and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by imputing the missing group allocations
+and then subsequently iteratively refining both the imputations and the estimates of <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
 <p>More precisely, in the EM (=expectation-maximisation) algorithm we alternate between the</p>
 <ol style="list-style-type: decimal">
-<li>updating the soft allocations <span class="math inline">\(z_{ik}\)</span> using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
-<li>updating the parameter estimates by maximising the <em>expected</em> complete data log-likelihood. The expectation is taken with regard to the distribution <span class="math inline">\(z_{ik}\)</span> (obtained in step 1). Thus
+<li>updating soft allocation using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</li>
+<li>updating the parameter estimates by maximising the <em>expected</em> complete data log-likelihood. The expectation is taken with regard to the distribution over the latent states (obtained in step 1). Thus
 the complete data log-likelihood is averaged over the soft class assignments.</li>
 </ol>
 <p>Specifically, the EM algorithm proceeds as follows:</p>
@@ -783,21 +820,23 @@ the complete data log-likelihood is averaged over the soft class assignments.</l
 <li><p>Initialisation: Start with a guess of the parameters <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}\)</span>, then continue with “E” Step, Part A.
 Alternatively, start with a guess of <span class="math inline">\(z_{ik}^{(1)}\)</span>, then continue
 with “E” Step, Part B. The initialisation may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means, or simply be at random. Note that some particular initialisations correspond to invariant states and hence should be avoided (see further below).</p></li>
-<li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>:
+<li><p><strong>E “expectation” step</strong> — Part A: Use Bayes’ theorem to compute new probabilities of allocation to class <span class="math inline">\(k\)</span> for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>:
 <span class="math display">\[
 z_{ik}^{(b+1)} \leftarrow \frac{ \hat{\pi}_k^{(b)} \hat{f}_k^{(b)}(\boldsymbol x_i) }{  \hat{f}^{(b)}(\boldsymbol x_i)  }
 \]</span>
-Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current estimated value
-<span class="math inline">\(\hat{\boldsymbol \theta}^{(b)}\)</span> of the parameters is required.<br>
+Note that to obtain <span class="math inline">\(z_{ik}^{(b+1)}\)</span> the current estimate
+<span class="math inline">\(\hat{\boldsymbol \theta}^{(b)}\)</span> of the parameters of the mixture model is required.<br>
 — Part B: Construct the expected complete data log-likelihood function for <span class="math inline">\(\boldsymbol \theta\)</span> using the soft allocations <span class="math inline">\(z_{ik}^{(b+1)}\)</span>:
 <span class="math display">\[
 Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X) = \sum_{i=1}^n \sum_{k=1}^K z_{ik}^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
-\]</span></p></li>
+\]</span>
+Note that in the case that the soft allocations <span class="math inline">\(z_{ik}^{(b+1)}\)</span> turn into hard 0/1 allocations then
+<span class="math inline">\(Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)\)</span> becomes equivalent to the complete data log-likelihood.</p></li>
 <li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the estimates of mixture model parameters:
 <span class="math display">\[
 \hat{\boldsymbol \theta}^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  Q^{(b+1)}(\boldsymbol \theta| \boldsymbol X)
 \]</span></p></li>
-<li><p>Continue with 2) “E” Step until the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> has converged or, equivalently, until the series of maximised complete data log-likelihoods
+<li><p>Continue with 2) “E” Step until the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> has converged or, equivalently, until the series of maximised expected complete data log-likelihoods
 <span class="math inline">\(Q^{(1)}(\hat{\boldsymbol \theta}^{(1)} | \boldsymbol X), Q^{(2)}(\hat{\boldsymbol \theta}^{(2)} | \boldsymbol X), Q^{(3)}(\hat{\boldsymbol \theta}^{(3)} | \boldsymbol X), \ldots\)</span> has converged.</p></li>
 </ol>
 <p>Since maximisation of the expected complete data log-likelihood is typically much easier (and often also analytically tractable) the EM algorithm is often preferred over direct
@@ -805,9 +844,9 @@ maximisation of the observed data log-likelihood.</p>
 <p>Note that to avoid singularities in the expected log-likelihood function we
 may need to adopt regularisation (i.e. penalised maximum likelihood or Bayesian learning) for estimating the parameters in the M-step.</p>
 </div>
-<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.3">
+<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.4">
 <h3>
-<span class="header-section-number">3.5.3</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.4</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <p>For a Gaussian mixture model (GMM) both steps in the EM algorithm can be expressed analytically:</p>
 <p><strong>E-step:</strong></p>
@@ -836,10 +875,13 @@ and the updated covariance estimate is
 <p>Note that if <span class="math inline">\(z_{ik}\)</span> is a hard allocation (so that for any <span class="math inline">\(i\)</span> only one class has weight 1 and all others weight 0) then all estimators above reduce to the usual empirical estimators.</p>
 <p>In Worksheet 7 you can find a simple R implementation of the EM algorithm for
 univariate normal mixtures.</p>
+<p>Similar analytical expressions as in the normal case
+can also be found in more general mixtures where the components
+are exponential families.</p>
 </div>
-<div id="convergence" class="section level3" number="3.5.4">
+<div id="convergence" class="section level3" number="3.5.5">
 <h3>
-<span class="header-section-number">3.5.4</span> Convergence<a class="anchor" aria-label="anchor" href="#convergence"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.5</span> Convergence<a class="anchor" aria-label="anchor" href="#convergence"><i class="fas fa-link"></i></a>
 </h3>
 <p>Under mild assumptions the EM algorithm is guaranteed to monotonically converge to local optima of the marginal log-likelihood.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Wu, C.F. 1983. On the convergence properties of the EM algorithm. The Annals of Statistics &lt;em&gt;11&lt;/em&gt;:95–103. &lt;a href="https://doi.org/10.1214/aos/1176346060" class="uri"&gt;https://doi.org/10.1214/aos/1176346060&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a> Thus the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising the marginal log-likelihood.
 However, the speed of convergence in the EM algorithm can sometimes be slow, and there are also situations in which there is no convergence at all to <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> because the EM algorithm remains in an invariant state.</p>
@@ -860,9 +902,9 @@ z_{ik} = \frac{ \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\bolds
 \]</span>
 After one cycle in the EM algorithm we arrive at the same soft allocation that we started with, and the algorithm is trapped in an invariant state! Therefore uniform initialisation should clearly be avoided!</p>
 </div>
-<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.5">
+<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.6">
 <h3>
-<span class="header-section-number">3.5.5</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.6</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to probabilistic clustering with a Gaussian mixture models.</p>
 <p>Specifically, the class assigment in <span class="math inline">\(K\)</span>-means is
@@ -882,9 +924,9 @@ C(\boldsymbol x_i) &amp;= \underset{k}{\arg \max} \log( z_{ik} ) \\
 Thus, <span class="math inline">\(K\)</span>-means can be viewed as an algorithm to provide hard classifications
 for a simple restricted Gaussian mixture model.</p>
 </div>
-<div id="choosing-the-number-of-classes" class="section level3" number="3.5.6">
+<div id="choosing-the-number-of-classes" class="section level3" number="3.5.7">
 <h3>
-<span class="header-section-number">3.5.6</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.7</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>Since GMMs operate in a likelihood framework we can use penalised likelihood model selection criteria to choose among different models (i.e. GMMs with different numbers of classes).</p>
 <p>The most popular choices are AIC (Akaike Information Criterion) and BIC (Bayesian Information criterion) defined as follows:
@@ -896,9 +938,9 @@ over simpler models in order to prevent overfitting.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> find optimal number of groups <span class="math inline">\(K\)</span>.</p>
 <p>Another way of choosing optimal numbers of clusters is by cross-validation (see later chapter on supervised learning).</p>
 </div>
-<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.7">
+<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.8">
 <h3>
-<span class="header-section-number">3.5.7</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.8</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>We now explore the application of Gaussian mixture models to the Iris flower data set we also investigated with PCA
 and K-means.</p>
@@ -970,23 +1012,24 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <li>
 <a class="nav-link" href="#mixture-models"><span class="header-section-number">3.4</span> Mixture models</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#finite-mixture-model"><span class="header-section-number">3.4.1</span> Finite mixture model</a></li>
-<li><a class="nav-link" href="#total-variance-and-variation-of-mixture-model"><span class="header-section-number">3.4.2</span> Total variance and variation of mixture model</a></li>
-<li><a class="nav-link" href="#example-of-mixtures"><span class="header-section-number">3.4.3</span> Example of mixtures</a></li>
-<li><a class="nav-link" href="#generative-view-sampling-from-a-mixture-model"><span class="header-section-number">3.4.4</span> Generative view: sampling from a mixture model</a></li>
-<li><a class="nav-link" href="#predicting-the-group-allocation-of-a-given-sample"><span class="header-section-number">3.4.5</span> Predicting the group allocation of a given sample</a></li>
-<li><a class="nav-link" href="#variation-1-infinite-mixture-model"><span class="header-section-number">3.4.6</span> Variation 1: Infinite mixture model</a></li>
-<li><a class="nav-link" href="#variation-2-semiparametric-mixture-model-with-two-classes"><span class="header-section-number">3.4.7</span> Variation 2: Semiparametric mixture model with two classes</a></li>
+<li><a class="nav-link" href="#observed-and-latent-variables"><span class="header-section-number">3.4.2</span> Observed and latent variables</a></li>
+<li><a class="nav-link" href="#total-variance-and-variation-of-mixture-model"><span class="header-section-number">3.4.3</span> Total variance and variation of mixture model</a></li>
+<li><a class="nav-link" href="#example-of-mixtures"><span class="header-section-number">3.4.4</span> Example of mixtures</a></li>
+<li><a class="nav-link" href="#sampling-from-a-mixture-model-generative-view"><span class="header-section-number">3.4.5</span> Sampling from a mixture model (=generative view)</a></li>
+<li><a class="nav-link" href="#predicting-the-group-allocation-of-a-given-sample-inference-of-the-latent-state"><span class="header-section-number">3.4.6</span> Predicting the group allocation of a given sample (=inference of the latent state)</a></li>
+<li><a class="nav-link" href="#additional-uses-of-mixture-models"><span class="header-section-number">3.4.7</span> Additional uses of mixture models:</a></li>
 </ul>
 </li>
 <li>
 <a class="nav-link" href="#fitting-mixture-models-to-data"><span class="header-section-number">3.5</span> Fitting mixture models to data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#direct-estimation-of-mixture-model-parameters"><span class="header-section-number">3.5.1</span> Direct estimation of mixture model parameters</a></li>
-<li><a class="nav-link" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><span class="header-section-number">3.5.2</span> Estimating mixture model parameters using the EM algorithm</a></li>
-<li><a class="nav-link" href="#em-algorithm-for-multivariate-normal-mixture-model"><span class="header-section-number">3.5.3</span> EM algorithm for multivariate normal mixture model</a></li>
-<li><a class="nav-link" href="#convergence"><span class="header-section-number">3.5.4</span> Convergence</a></li>
-<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.5</span> Connection with \(K\)-means clustering method</a></li>
-<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.6</span> Choosing the number of classes</a></li>
-<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.7</span> Application of GMMs to Iris flower data</a></li>
+<li><a class="nav-link" href="#likelihood-functions"><span class="header-section-number">3.5.1</span> Likelihood functions</a></li>
+<li><a class="nav-link" href="#direct-estimation-of-mixture-model-parameters"><span class="header-section-number">3.5.2</span> Direct estimation of mixture model parameters</a></li>
+<li><a class="nav-link" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><span class="header-section-number">3.5.3</span> Estimating mixture model parameters using the EM algorithm</a></li>
+<li><a class="nav-link" href="#em-algorithm-for-multivariate-normal-mixture-model"><span class="header-section-number">3.5.4</span> EM algorithm for multivariate normal mixture model</a></li>
+<li><a class="nav-link" href="#convergence"><span class="header-section-number">3.5.5</span> Convergence</a></li>
+<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.6</span> Connection with \(K\)-means clustering method</a></li>
+<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.7</span> Choosing the number of classes</a></li>
+<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.8</span> Application of GMMs to Iris flower data</a></li>
 </ul>
 </li>
 </ul>
@@ -1005,7 +1048,7 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 14 November 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 December 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -84,11 +84,11 @@ to recognise their limits especially when modelling complex nonlinear relationsh
 <p>A very simple demonstration of this is given by the following example. Assume <span class="math inline">\(x\)</span> is a normally distributed
 random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span> — thus <span class="math inline">\(y\)</span> fully depends on <span class="math inline">\(x\)</span> with no added extra noise. What is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</p>
 <p>Let’s ansers this question by running a small computer simulation:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.02659249</code></pre>
+<pre><code>## [1] -0.01293564</code></pre>
 <p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent!
 This is because correlation only measures linear association!</p>
 </div>
@@ -138,7 +138,7 @@ and ii) the <a href="https://en.wikipedia.org/wiki/Maximal_information_coefficie
 <p>Another widely used approach for prediction in nonlinear settings
 is the method of random forests.</p>
 <p><strong>Relevant reading:</strong></p>
-<p>Please read: <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2013" role="doc-biblioref">2013</a>)</span> <strong>Chapter 8 “Tree-Based Methods”</strong></p>
+<p>Please read: <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2021" role="doc-biblioref">2021</a>)</span> <strong>Chapter 8 “Tree-Based Methods”</strong></p>
 <p>Specifically:</p>
 <ul>
 <li>Section 8.1 The Basics of Decision Trees</li>
@@ -151,7 +151,7 @@ is the method of random forests.</p>
 </h3>
 <p>Two cultures in statistical modelling: stochastic vs. algorithmic models</p>
 <p>Classic discussion paper by Leo Breiman (2001): Statistical modeling: the two cultures.
-Statistical Science <strong>16</strong>:199–231. <a href="https://projecteuclid.org/euclid.ss/1009213726" class="uri">https://projecteuclid.org/euclid.ss/1009213726</a></p>
+Statistical Science <strong>16</strong>:199–231. <a href="https://doi.org/10.1214/ss/1009213726" class="uri">https://doi.org/10.1214/ss/1009213726</a></p>
 <p>This paper has recently be revisited in the following discussion paper by Efron (2020) and discussants:
 Prediction, estimation, and attribution. JASA <strong>115</strong>:636–677. <a href="https://doi.org/10.1080/01621459.2020.1762613" class="uri">https://doi.org/10.1080/01621459.2020.1762613</a></p>
 </div>
@@ -313,7 +313,7 @@ Bayesian linear regression (using a linear kernel).</p>
 </h3>
 <p>We now show how to apply Gaussian processes in R justing using standard matrix calculations.</p>
 <p>Our aim is to estimate the following nonlinear function from a number of observations. Note that initially we assume that there is no additional noise (so the observations lie directly on the curve):</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">truefunc</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 <span class="va">XLIM</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span>
 <span class="va">YLIM</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>
@@ -328,7 +328,7 @@ Bayesian linear regression (using a linear kernel).</p>
 <div class="inline-figure">
 <img src="6-nonlinear_files/figure-html/unnamed-chunk-5-1.png" width="672">
 Next we use the RFB kernel as the prior covariance and also assume prior mean 0:</div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># RBF kernel</span>
 <span class="va">rbfkernel</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">xa</span>, <span class="va">xb</span>, <span class="va">s2</span><span class="op">=</span><span class="fl">1</span>, <span class="va">l</span><span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span> <span class="va">s2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="va">xa</span><span class="op">-</span><span class="va">xb</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="va">l</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
 <span class="va">kfun.mat</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">xavec</span>, <span class="va">xbvec</span>, <span class="va">FUN</span><span class="op">=</span><span class="va">rbfkernel</span><span class="op">)</span> 
@@ -337,7 +337,7 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
 <span class="co"># prior mean</span>
 <span class="va">mu.vec</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can now visualise the functions samples from the multivariate normal prior:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># grid of x-values </span>
 <span class="va">n1</span> <span class="op">=</span> <span class="fl">100</span>
 <span class="va">x1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">XLIM</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">XLIM</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out<span class="op">=</span><span class="va">n1</span><span class="op">)</span>
@@ -357,7 +357,7 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
   <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">y1r</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>, col<span class="op">=</span><span class="va">i</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="6-nonlinear_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
 <p>Now we compute the posterior mean and variance by conditioning on the observations:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># unconditioned covariance and mean (observed samples x2)</span>
 <span class="va">K2</span> <span class="op">=</span> <span class="fu">kfun.mat</span><span class="op">(</span><span class="va">x2</span>, <span class="va">x2</span><span class="op">)</span>
 <span class="va">m2</span> <span class="op">=</span> <span class="fu">mu.vec</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span>
@@ -374,7 +374,7 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
 <span class="co"># conditional variance</span>
 <span class="va">K1.2</span> <span class="op">=</span> <span class="va">K1</span> <span class="op">-</span> <span class="va">K12</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">iK2</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">K12</span><span class="op">)</span></code></pre></div>
 <p>Now we can plot the posterior mean and upper and lower bounds of a 95% credible interval:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># upper and lower CI</span>
 <span class="va">upper.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
 <span class="va">lower.bound</span> <span class="op">=</span> <span class="va">m1.2</span> <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">K1.2</span><span class="op">)</span><span class="op">)</span>
@@ -392,7 +392,7 @@ Next we use the RFB kernel as the prior covariance and also assume prior mean 0:
   lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"black"</span>, <span class="st">"gray"</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">1.0</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="6-nonlinear_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
 <p>Finally, we can take into acount noise at the measured data points by adding an error term:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># add some noise</span>
 <span class="va">sdeps</span> <span class="op">=</span> <span class="fl">0.1</span>
 <span class="va">K2</span> <span class="op">=</span> <span class="va">K2</span> <span class="op">+</span> <span class="va">sdeps</span><span class="op">^</span><span class="fl">2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">)</span>
@@ -564,7 +564,7 @@ implementations in computer code on various platforms is the book “Dive into d
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 14 November 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 December 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
