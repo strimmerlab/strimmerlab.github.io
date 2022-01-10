@@ -464,23 +464,23 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-7-1.png" width="480"></div>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
+<pre><code>## K-means clustering with 3 clusters of sizes 47, 53, 50
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 1   1.13217737  0.08812645    0.9928284   1.0141287
 ## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
-## 3   1.13217737  0.08812645    0.9928284   1.0141287
+## 3  -1.01119138  0.85041372   -1.3006301  -1.2507035
 ## 
 ## Clustering vector:
-##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
-##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
-## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
-## [149] 3 2
+##   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+##  [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 2 2 2 1 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2
+##  [75] 2 1 1 1 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 1 1 1 1 2 1 1 1 1
+## [112] 1 1 2 2 1 1 1 1 2 1 2 1 2 1 1 2 1 1 1 1 1 1 2 2 1 1 1 2 1 1 1 2 1 1 1 2 1
+## [149] 1 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 47.35062 44.08754 47.45019
+## [1] 47.45019 44.08754 47.35062
 ##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
@@ -501,9 +501,9 @@ is</p>
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">L.iris</span>, <span class="va">kmeans.out</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa     50  0  0
-##   versicolor  0 39 11
-##   virginica   0 14 36</code></pre>
+##   setosa      0  0 50
+##   versicolor 11 39  0
+##   virginica  36 14  0</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering_files/figure-html/unnamed-chunk-12-1.png" width="480"></div>
@@ -747,9 +747,9 @@ for more details.</p>
 <h2>
 <span class="header-section-number">3.5</span> Fitting mixture models to data<a class="anchor" aria-label="anchor" href="#fitting-mixture-models-to-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="likelihood-functions" class="section level3" number="3.5.1">
+<div id="observed-data-log-likelihood" class="section level3" number="3.5.1">
 <h3>
-<span class="header-section-number">3.5.1</span> Likelihood functions<a class="anchor" aria-label="anchor" href="#likelihood-functions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.1</span> Observed data log-likelihood<a class="anchor" aria-label="anchor" href="#observed-data-log-likelihood"><i class="fas fa-link"></i></a>
 </h3>
 <p>Given data matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> containing the observations of <span class="math inline">\(n\)</span> independent
 and identically distributed samples
@@ -758,23 +758,8 @@ For a Gaussian mixture model the parameters are <span class="math inline">\(\bol
 <p>The standard way (for large sample size <span class="math inline">\(n\)</span>) is to employ maximum likelihood
 and find the MLEs of the parameters by maximising
 a suitable log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-<p>If we knew in advance which sample belongs to a particular group the estimation of the
-parameters <span class="math inline">\(\boldsymbol \theta\)</span> would be done using the so-called <em>complete data log-likelihood</em>
-based on the joint distribution <span class="math inline">\(f(\boldsymbol x, y) = \pi_y f_k(\boldsymbol x)\)</span>
-<span class="math display">\[
-\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y) = \sum_{i=1}^n \log f(\boldsymbol x_i, y_i)  =  \sum_{i=1}^n  \log \left(\pi_{y_i} f_{k_i}(\boldsymbol x_i) \right) 
-\]</span></p>
-<p>However, in practise we do not know the group allocations <span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>. Thus have to treat them as missing data and face the problem of likelihood inference with missing data. The corresponding
-<em>incomplete data log-likelihood</em>, <em>observed data log-likelihood</em> or <em>marginal log-likelihood</em> can be computed from the above complete data likelihood by marginalising over <span class="math inline">\(\boldsymbol y\)</span>
-<span class="math display">\[
-\begin{split}
-\log L(\boldsymbol \theta| \boldsymbol X) &amp;= \log \sum_{\boldsymbol y}   L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y)\\
- &amp;= \log \sum_{y_1, \ldots, y_K}  \prod_{i=1}^n f(\boldsymbol x_i, y_i)\\
-&amp;= \log \prod_{i=1}^n  \sum_y f(\boldsymbol x_i, y)\\
-&amp; = \sum_{i=1}^n \log \left(  \sum_y f(\boldsymbol x_i, y)     \right)
-\end{split} 
-\]</span>
-or more directly, and equivalently, from the mixture density
+<p>The corresponding
+<em>observed data log-likelihood</em> or <em>marginal log-likelihood</em> (sometimes also called <em>incomplete data log-likelihood</em>) can be computed from the mixture density <span class="math inline">\(f(\boldsymbol x| \boldsymbol \theta)\)</span> as
 <span class="math display">\[
 \begin{split}
 \log L(\boldsymbol \theta| \boldsymbol X) &amp; =\sum_{i=1}^n \log f(\boldsymbol x_i | \boldsymbol \theta)\\
@@ -782,7 +767,15 @@ or more directly, and equivalently, from the mixture density
 &amp; = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)\\
 \end{split}
 \]</span>
-Note that the probabilities <span class="math inline">\(\pi_k\)</span> are now parameters (i.e. part of <span class="math inline">\(\boldsymbol \theta\)</span>).</p>
+Note that the probabilities <span class="math inline">\(\pi_k\)</span> are parameters (i.e. part of <span class="math inline">\(\boldsymbol \theta\)</span>).</p>
+<p>We recall from <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a> that the log-likelihood is the large sample approximation
+of the negative cross-entropy multiplied by sample size <span class="math inline">\(n\)</span> between the unknown true distribution <span class="math inline">\(F^{\text{true}}_{\boldsymbol x}\)</span> and the model <span class="math inline">\(F^{\boldsymbol \theta}_{\boldsymbol x}\)</span>:
+<span class="math display">\[
+\begin{split}
+-n H(F^{\text{true}}_{\boldsymbol x}, F^{\boldsymbol \theta}_{\boldsymbol x}) &amp;= n \text{E}_{F^{\text{true}}_{\boldsymbol x}} (\log f(\boldsymbol x|\boldsymbol \theta)) \\
+&amp; \approx  \sum_{i=1}^n \log f(\boldsymbol x_i | \boldsymbol \theta) = \log L(\boldsymbol \theta| \boldsymbol X)\\
+\end{split}
+\]</span></p>
 </div>
 <div id="direct-estimation-of-mixture-model-parameters" class="section level3" number="3.5.2">
 <h3>
@@ -801,9 +794,58 @@ problem of label switching and non-identifiability of cluster labels in mixtures
 <li>Furthermore, the likelihood in Gaussian mixture models can become singular if one of the fitted covariance matrices becomes singular. Note this can be adressed by using some form of regularisation (Bayes, penalised ML, etc.).</li>
 </ul>
 </div>
-<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.3">
+<div id="complete-data-log-likelihood" class="section level3" number="3.5.3">
 <h3>
-<span class="header-section-number">3.5.3</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.3</span> Complete data log-likelihood<a class="anchor" aria-label="anchor" href="#complete-data-log-likelihood"><i class="fas fa-link"></i></a>
+</h3>
+<p>If we knew in advance which sample belongs to a particular group the estimation of the
+parameters <span class="math inline">\(\boldsymbol \theta\)</span> would be done using the so-called <em>complete data log-likelihood</em>
+based on the joint distribution <span class="math inline">\(f(\boldsymbol x, y) = \pi_y f_k(\boldsymbol x)\)</span>
+<span class="math display">\[
+\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y) = \sum_{i=1}^n \log f(\boldsymbol x_i, y_i)  =  \sum_{i=1}^n  \log \left(\pi_{y_i} f_{k_i}(\boldsymbol x_i) \right) 
+\]</span></p>
+<p>This is the large sample approximation
+of the negative cross-entropy multiplied by sample size <span class="math inline">\(n\)</span> between the unknown <em>joint</em> true distribution <span class="math inline">\(F^{\text{true}}_{\boldsymbol x, y}\)</span> and the <em>joint</em> model <span class="math inline">\(F^{\boldsymbol \theta}_{\boldsymbol x, y}\)</span>:
+<span class="math display">\[
+\begin{split}
+-n H(F^{\text{true}}_{\boldsymbol x, y}, F^{\boldsymbol \theta}_{\boldsymbol x, y}) &amp;= n \text{E}_{F^{\text{true}}_{\boldsymbol x, y}} (\log f(\boldsymbol x, y |\boldsymbol \theta)) \\
+&amp; \approx  \sum_{i=1}^n \log f(\boldsymbol x_i, y_i | \boldsymbol \theta) = \log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y)\\
+\end{split}
+\]</span></p>
+<p>The
+<em>observed data log-likelihood</em> or <em>marginal log-likelihood</em> can also be computed from the above complete data likelihood
+function by marginalising over <span class="math inline">\(\boldsymbol y\)</span>
+<span class="math display">\[
+\begin{split}
+\log L(\boldsymbol \theta| \boldsymbol X) &amp;= \log \sum_{\boldsymbol y}   L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y)\\
+ &amp;= \log \sum_{y_1, \ldots, y_K}  \prod_{i=1}^n f(\boldsymbol x_i, y_i)\\
+&amp;= \log \prod_{i=1}^n  \sum_y f(\boldsymbol x_i, y)\\
+&amp; = \sum_{i=1}^n \log \left(  \sum_y f(\boldsymbol x_i, y)     \right)
+\end{split} 
+\]</span></p>
+<p>In practise we do not know the group allocations <span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_n)^T\)</span> belonging to each sample <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> so we cannot use the complete data log-likelihood.</p>
+<p>Thus instead we consider them as missing data and face the problem of likelihood inference with missing data.
+We first rewriting the joint density as
+<span class="math display">\[
+f(\boldsymbol x, y) = f(\boldsymbol x) f(y |\boldsymbol x)
+\]</span>
+where <span class="math inline">\(f(y |\boldsymbol x)\)</span> is a probability mass function giving the probability of a sample to
+be allocated to a particular class. Note this factorisation is different to the initially used decomposition <span class="math inline">\(f(\boldsymbol x, y) = f(y) f(\boldsymbol x| y)\)</span>.
+With this we get the <em>expected</em> complete log-likelihood function
+<span class="math display">\[
+\begin{split}
+-n H(F^{\text{true}}_{\boldsymbol x, y}, F^{\boldsymbol \theta}_{\boldsymbol x, y}) &amp;= n \text{E}_{F^{\text{true}}_{\boldsymbol x, y}} (\log f(\boldsymbol x, y |\boldsymbol \theta)) \\
+&amp;= n \text{E}_{F^{\text{true}}_{\boldsymbol x}}   \text{E}_{F^{\text{true}}_{ y |\boldsymbol x}}    (\log f(\boldsymbol x, y |\boldsymbol \theta)) \\
+&amp; \approx  \sum_{i=1}^n  \sum_y f^{\text{true}}(y |\boldsymbol x_i)   \log f(\boldsymbol x_i, y | \boldsymbol \theta) \\
+\end{split}
+\]</span>
+where the expectation is taken with regard to the true discrete probability distribution for
+the latent state corresponding to each <span class="math inline">\(\boldsymbol x_i\)</span>.</p>
+<p>In practise this distribution is not known but it can be approximated iteratively using the EM algorithm described next.</p>
+</div>
+<div id="estimating-mixture-model-parameters-using-the-em-algorithm" class="section level3" number="3.5.4">
+<h3>
+<span class="header-section-number">3.5.4</span> Estimating mixture model parameters using the EM algorithm<a class="anchor" aria-label="anchor" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><i class="fas fa-link"></i></a>
 </h3>
 <p>The idea of the so-called EM algorithm<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Dempster, A. P, N. M. Laird and D. B. Rubin 1977. Maximum likelihood from
 incomplete data via the EM algorithm. JRSS B &lt;strong&gt;39&lt;/strong&gt;:1–38. &lt;a href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1977.tb01600.x&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> proposed by Arthur Dempster and others in 1977 is to exploit the simplicity of the complete data likelihood
@@ -844,9 +886,9 @@ maximisation of the observed data log-likelihood.</p>
 <p>Note that to avoid singularities in the expected log-likelihood function we
 may need to adopt regularisation (i.e. penalised maximum likelihood or Bayesian learning) for estimating the parameters in the M-step.</p>
 </div>
-<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.4">
+<div id="em-algorithm-for-multivariate-normal-mixture-model" class="section level3" number="3.5.5">
 <h3>
-<span class="header-section-number">3.5.4</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.5</span> EM algorithm for multivariate normal mixture model<a class="anchor" aria-label="anchor" href="#em-algorithm-for-multivariate-normal-mixture-model"><i class="fas fa-link"></i></a>
 </h3>
 <p>For a Gaussian mixture model (GMM) both steps in the EM algorithm can be expressed analytically:</p>
 <p><strong>E-step:</strong></p>
@@ -879,9 +921,9 @@ univariate normal mixtures.</p>
 can also be found in more general mixtures where the components
 are exponential families.</p>
 </div>
-<div id="convergence" class="section level3" number="3.5.5">
+<div id="convergence" class="section level3" number="3.5.6">
 <h3>
-<span class="header-section-number">3.5.5</span> Convergence<a class="anchor" aria-label="anchor" href="#convergence"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.6</span> Convergence<a class="anchor" aria-label="anchor" href="#convergence"><i class="fas fa-link"></i></a>
 </h3>
 <p>Under mild assumptions the EM algorithm is guaranteed to monotonically converge to local optima of the marginal log-likelihood.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Wu, C.F. 1983. On the convergence properties of the EM algorithm. The Annals of Statistics &lt;em&gt;11&lt;/em&gt;:95–103. &lt;a href="https://doi.org/10.1214/aos/1176346060" class="uri"&gt;https://doi.org/10.1214/aos/1176346060&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a> Thus the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising the marginal log-likelihood.
 However, the speed of convergence in the EM algorithm can sometimes be slow, and there are also situations in which there is no convergence at all to <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> because the EM algorithm remains in an invariant state.</p>
@@ -902,9 +944,9 @@ z_{ik} = \frac{ \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\bolds
 \]</span>
 After one cycle in the EM algorithm we arrive at the same soft allocation that we started with, and the algorithm is trapped in an invariant state! Therefore uniform initialisation should clearly be avoided!</p>
 </div>
-<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.6">
+<div id="connection-with-k-means-clustering-method" class="section level3" number="3.5.7">
 <h3>
-<span class="header-section-number">3.5.6</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.7</span> Connection with <span class="math inline">\(K\)</span>-means clustering method<a class="anchor" aria-label="anchor" href="#connection-with-k-means-clustering-method"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to probabilistic clustering with a Gaussian mixture models.</p>
 <p>Specifically, the class assigment in <span class="math inline">\(K\)</span>-means is
@@ -924,9 +966,9 @@ C(\boldsymbol x_i) &amp;= \underset{k}{\arg \max} \log( z_{ik} ) \\
 Thus, <span class="math inline">\(K\)</span>-means can be viewed as an algorithm to provide hard classifications
 for a simple restricted Gaussian mixture model.</p>
 </div>
-<div id="choosing-the-number-of-classes" class="section level3" number="3.5.7">
+<div id="choosing-the-number-of-classes" class="section level3" number="3.5.8">
 <h3>
-<span class="header-section-number">3.5.7</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.8</span> Choosing the number of classes<a class="anchor" aria-label="anchor" href="#choosing-the-number-of-classes"><i class="fas fa-link"></i></a>
 </h3>
 <p>Since GMMs operate in a likelihood framework we can use penalised likelihood model selection criteria to choose among different models (i.e. GMMs with different numbers of classes).</p>
 <p>The most popular choices are AIC (Akaike Information Criterion) and BIC (Bayesian Information criterion) defined as follows:
@@ -938,9 +980,9 @@ over simpler models in order to prevent overfitting.</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> find optimal number of groups <span class="math inline">\(K\)</span>.</p>
 <p>Another way of choosing optimal numbers of clusters is by cross-validation (see later chapter on supervised learning).</p>
 </div>
-<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.8">
+<div id="application-of-gmms-to-iris-flower-data" class="section level3" number="3.5.9">
 <h3>
-<span class="header-section-number">3.5.8</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.5.9</span> Application of GMMs to Iris flower data<a class="anchor" aria-label="anchor" href="#application-of-gmms-to-iris-flower-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>We now explore the application of Gaussian mixture models to the Iris flower data set we also investigated with PCA
 and K-means.</p>
@@ -1022,14 +1064,15 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 </li>
 <li>
 <a class="nav-link" href="#fitting-mixture-models-to-data"><span class="header-section-number">3.5</span> Fitting mixture models to data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#likelihood-functions"><span class="header-section-number">3.5.1</span> Likelihood functions</a></li>
+<li><a class="nav-link" href="#observed-data-log-likelihood"><span class="header-section-number">3.5.1</span> Observed data log-likelihood</a></li>
 <li><a class="nav-link" href="#direct-estimation-of-mixture-model-parameters"><span class="header-section-number">3.5.2</span> Direct estimation of mixture model parameters</a></li>
-<li><a class="nav-link" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><span class="header-section-number">3.5.3</span> Estimating mixture model parameters using the EM algorithm</a></li>
-<li><a class="nav-link" href="#em-algorithm-for-multivariate-normal-mixture-model"><span class="header-section-number">3.5.4</span> EM algorithm for multivariate normal mixture model</a></li>
-<li><a class="nav-link" href="#convergence"><span class="header-section-number">3.5.5</span> Convergence</a></li>
-<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.6</span> Connection with \(K\)-means clustering method</a></li>
-<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.7</span> Choosing the number of classes</a></li>
-<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.8</span> Application of GMMs to Iris flower data</a></li>
+<li><a class="nav-link" href="#complete-data-log-likelihood"><span class="header-section-number">3.5.3</span> Complete data log-likelihood</a></li>
+<li><a class="nav-link" href="#estimating-mixture-model-parameters-using-the-em-algorithm"><span class="header-section-number">3.5.4</span> Estimating mixture model parameters using the EM algorithm</a></li>
+<li><a class="nav-link" href="#em-algorithm-for-multivariate-normal-mixture-model"><span class="header-section-number">3.5.5</span> EM algorithm for multivariate normal mixture model</a></li>
+<li><a class="nav-link" href="#convergence"><span class="header-section-number">3.5.6</span> Convergence</a></li>
+<li><a class="nav-link" href="#connection-with-k-means-clustering-method"><span class="header-section-number">3.5.7</span> Connection with \(K\)-means clustering method</a></li>
+<li><a class="nav-link" href="#choosing-the-number-of-classes"><span class="header-section-number">3.5.8</span> Choosing the number of classes</a></li>
+<li><a class="nav-link" href="#application-of-gmms-to-iris-flower-data"><span class="header-section-number">3.5.9</span> Application of GMMs to Iris flower data</a></li>
 </ul>
 </li>
 </ul>
@@ -1048,7 +1091,7 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 December 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 6 December 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

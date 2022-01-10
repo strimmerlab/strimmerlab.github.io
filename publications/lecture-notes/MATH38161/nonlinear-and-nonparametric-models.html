@@ -77,29 +77,29 @@ linear methods prevalent in classical multivariate statistics.</p>
 </h2>
 <p>Linear models are very effective tools. However, it is important
 to recognise their limits especially when modelling complex nonlinear relationships.</p>
-<div id="correlation-only-measures-linear-dependence" class="section level3" number="6.1.1">
+<div id="correlation-measures-only-linear-dependence" class="section level3" number="6.1.1">
 <h3>
-<span class="header-section-number">6.1.1</span> Correlation only measures linear dependence<a class="anchor" aria-label="anchor" href="#correlation-only-measures-linear-dependence"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.1.1</span> Correlation measures only linear dependence<a class="anchor" aria-label="anchor" href="#correlation-measures-only-linear-dependence"><i class="fas fa-link"></i></a>
 </h3>
 <p>A very simple demonstration of this is given by the following example. Assume <span class="math inline">\(x\)</span> is a normally distributed
 random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span> — thus <span class="math inline">\(y\)</span> fully depends on <span class="math inline">\(x\)</span> with no added extra noise. What is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</p>
-<p>Let’s ansers this question by running a small computer simulation:</p>
+<p>Let’s answer this question by running a small computer simulation:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] -0.01293564</code></pre>
-<p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent!
-This is because correlation only measures linear association!</p>
+<pre><code>## [1] 0.008969057</code></pre>
+<p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are dependent variables.
+This is because correlation only measures linear association, and the relationship between
+<span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is nonlinear.</p>
 </div>
 <div id="anscombe-data-sets" class="section level3" number="6.1.2">
 <h3>
 <span class="header-section-number">6.1.2</span> Anscombe data sets<a class="anchor" aria-label="anchor" href="#anscombe-data-sets"><i class="fas fa-link"></i></a>
 </h3>
 <p>Using correlation, and more generally linear models, blindly can thus hide the underlying complexity of the analysed
-data. This is demonstrated by the classic “Anscombe quartet” of data sets
-(F. J. Anscombe. 1973. Graphs in statistical analysis.
-The American Statistician 27:17-21, <a href="http://dx.doi.org/10.1080/00031305.1973.10478966" class="uri">http://dx.doi.org/10.1080/00031305.1973.10478966</a> ):</p>
+data. This is demonstrated by the classic “Anscombe quartet” of data sets presented in his 1973 paper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Anscombe, F. J. 1973. Graphs in statistical analysis.
+The American Statistician 27:17-21, &lt;a href="http://doi.org/10.1080/00031305.1973.10478966" class="uri"&gt;http://doi.org/10.1080/00031305.1973.10478966&lt;/a&gt;&lt;/p&gt;'><sup>15</sup></a> -</p>
 <p><img src="6-nonlinear_files/figure-html/unnamed-chunk-2-1.png" width="672"><img src="6-nonlinear_files/figure-html/unnamed-chunk-2-2.png" width="672"></p>
 <p>As evident from the scatter plots the relationship between the
 two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is very different in the four cases!
@@ -124,7 +124,7 @@ same linear characteristics.</p>
 <span class="header-section-number">6.1.3</span> Alternatives<a class="anchor" aria-label="anchor" href="#alternatives"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
-<li>Mutual information (based on relative entropy) as discussed in previous chapter</li>
+<li>Mutual information (based on relative entropy) as discussed in the previous chapter</li>
 <li>Other measures designed to capture nonlinear association, such as <a href="https://en.wikipedia.org/wiki/Distance_correlation">distance correlation</a>.
 and ii) the <a href="https://en.wikipedia.org/wiki/Maximal_information_coefficient">maximal information coefficient</a> (MIC and <span class="math inline">\(\text{MIC}_e\)</span>).</li>
 </ul>
@@ -159,7 +159,7 @@ Prediction, estimation, and attribution. JASA <strong>115</strong>:636–677. <a
 <h3>
 <span class="header-section-number">6.2.2</span> Random forests<a class="anchor" aria-label="anchor" href="#random-forests-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Invented by Breimann in 1996.</p>
+<p>Proposed by Leo Breimann in 2001 as application of “bagging” (Breiman 1996) to decision trees.</p>
 <p>Basic idea:</p>
 <ul>
 <li>A single decision tree is unreliable and unstable (weak predictor/classifier).</li>
@@ -511,6 +511,7 @@ implementations in computer code on various platforms is the book “Dive into d
 
 
 
+
   <div class="chapter-nav">
 <div class="prev"><a href="multivariate-dependencies.html"><span class="header-section-number">5</span> Multivariate dependencies</a></div>
 <div class="next"><a href="brief-refresher-on-matrices.html"><span class="header-section-number">A</span> Brief refresher on matrices</a></div>
@@ -520,7 +521,7 @@ implementations in computer code on various platforms is the book “Dive into d
 <li><a class="nav-link" href="#nonlinear-and-nonparametric-models"><span class="header-section-number">6</span> Nonlinear and nonparametric models</a></li>
 <li>
 <a class="nav-link" href="#limits-of-linear-models-and-correlation"><span class="header-section-number">6.1</span> Limits of linear models and correlation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#correlation-only-measures-linear-dependence"><span class="header-section-number">6.1.1</span> Correlation only measures linear dependence</a></li>
+<li><a class="nav-link" href="#correlation-measures-only-linear-dependence"><span class="header-section-number">6.1.1</span> Correlation measures only linear dependence</a></li>
 <li><a class="nav-link" href="#anscombe-data-sets"><span class="header-section-number">6.1.2</span> Anscombe data sets</a></li>
 <li><a class="nav-link" href="#alternatives"><span class="header-section-number">6.1.3</span> Alternatives</a></li>
 </ul>
@@ -564,7 +565,7 @@ implementations in computer code on various platforms is the book “Dive into d
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 December 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 6 December 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

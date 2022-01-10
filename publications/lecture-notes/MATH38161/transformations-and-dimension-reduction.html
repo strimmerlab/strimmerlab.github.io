@@ -1032,8 +1032,11 @@ The corresponding whitening matrix is <span class="math inline">\((\boldsymbol V
 <p>For comparison, here are the results of ZCA, PCA and Cholesky whitening (precision matrix) applied to a simulated bivariate normal data set with correlation <span class="math inline">\(\rho=0.8\)</span>.</p>
 <div class="inline-figure"><img src="2-transformations_files/figure-html/fig1-1.png" width="672"></div>
 <p>In column 1 you can see the simulated data as scatter plot.</p>
-<p>Column 2 shows the scatter plots of the whitened data — as expect all three methods removed correlation produce isotropic covariance.</p>
-<p>The three approached differ differ in the cross-correlations. Columns 3 and 4 show the cross-correlations between the first two corresponding components (<span class="math inline">\(x_1\)</span> and <span class="math inline">\(z_1\)</span>, and <span class="math inline">\(x_2\)</span> and <span class="math inline">\(z_2\)</span>) for ZCA, PCA and Cholesky whitening. As expected, in ZCA both pairs show strong correlation, but this is not the case for PCA and Cholesky whitening.</p>
+<p>Column 2 shows the scatter plots of the whitened data — as expect all three methods remove correlation and produce an isotropic covariance.</p>
+<p>However, the three approaches differ in the cross-correlations. Columns 3 and 4 show the cross-correlations between the first two corresponding components (<span class="math inline">\(x_1\)</span> and <span class="math inline">\(z_1\)</span>, and <span class="math inline">\(x_2\)</span> and <span class="math inline">\(z_2\)</span>) for ZCA, PCA and Cholesky whitening. As expected, in ZCA both pairs show strong correlation, but this is not the case for PCA and Cholesky whitening.</p>
+<p>Note that for Cholesky whitening (precision matrix) the second component <span class="math inline">\(z_2\)</span>
+is perfectly positively correlated with the original component <span class="math inline">\(x_2\)</span>
+because the whitening matrix is upper triangular with a positive diagonal and hence <span class="math inline">\(z_2\)</span> is just <span class="math inline">\(x_2\)</span> multiplied with a positive constant.</p>
 </div>
 <div id="recap" class="section level3" number="2.4.7">
 <h3>
@@ -1068,7 +1071,7 @@ The corresponding whitening matrix is <span class="math inline">\((\boldsymbol V
 <ul>
 <li><p>Factor models: essentially whitening plus an additional error term, factors have rotational
 freedom just like in whitening</p></li>
-<li><p>PLS: similar to PCA but in regression setting (with the choice of
+<li><p>Partial Least Squares (PLS): similar to Principal Components Analysis (PCA) but in a regression setting (with the choice of
 latent variables depending on the response)</p></li>
 </ul>
 </div>
@@ -1083,8 +1086,8 @@ latent variables depending on the response)</p></li>
 </h3>
 <p>Principal component analysis was proposed in 1933 by Harald Hotelling<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components.
 Journal of Educational Psychology &lt;strong&gt;24&lt;/strong&gt;:417–441 (Part 1) and &lt;strong&gt;24&lt;/strong&gt;:498–520 (Part 2).
-&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
-points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572.&lt;/p&gt;"><sup>7</sup></a> for the problem of orthogonal regression.</p>
+&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
+points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572. &lt;a href="https://doi.org/10.1080/14786440109462720" class="uri"&gt;https://doi.org/10.1080/14786440109462720&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a> for the problem of orthogonal regression.</p>
 <p>Assume random vector <span class="math inline">\(\boldsymbol x\)</span> with <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>.
 PCA is a particular orthogonal transformation of the original <span class="math inline">\(\boldsymbol x\)</span>
 such that the resulting components are orthogonal:
@@ -1184,8 +1187,7 @@ PCA components and all four variables of the iris flower data set discussed earl
 <h2>
 <span class="header-section-number">2.7</span> CCA whitening (Canonical Correlation Analysis)<a class="anchor" aria-label="anchor" href="#cca-whitening-canonical-correlation-analysis"><i class="fas fa-link"></i></a>
 </h2>
-<p>Canonical correlation analysis was invented by Harald Hotelling in 1936.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates.
-Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377.&lt;/p&gt;"><sup>8</sup></a></p>
+<p>Canonical correlation analysis was invented by Harald Hotelling in 1936.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates. Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377. &lt;a href="https://doi.org/10.1093/biomet/28.3-4.321" class="uri"&gt;https://doi.org/10.1093/biomet/28.3-4.321&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a></p>
 <p>So far, we have looked only into whitening as a <strong>single</strong> vector <span class="math inline">\(\boldsymbol x\)</span>. In CCA whitening we consider <strong>two vectors</strong> <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> simultaneously:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
@@ -1252,11 +1254,11 @@ negative values.</p>
 <span class="header-section-number">2.7.2</span> Related methods<a class="anchor" aria-label="anchor" href="#related-methods"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
-<li><p>O2PLS: similar to CCA but using orthogonal projections
-(thus in O2PLS the latent variables underlying <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are not orthogonal)</p></li>
+<li><p>O2PLS: similar to CCA but using orthogonal projections rather than whitening.</p></li>
 <li><p>Vector correlation: aggregates the squared canonical correlations into a single overall measure
 of association between two random vectors <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> (see Chapter 5
 on multivariate dependencies).</p></li>
+<li><p>nonlinear dimension reduction methods such as SNE, tSNE, UMAP.</p></li>
 </ul>
 </div>
 </div>
@@ -1340,7 +1342,7 @@ on multivariate dependencies).</p></li>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 December 2021.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 6 December 2021.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
