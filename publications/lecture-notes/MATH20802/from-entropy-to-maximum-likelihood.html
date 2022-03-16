@@ -11,7 +11,7 @@
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.13/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><meta name="description" content="2.1 Entropy  2.1.1 Overview In this chapter we discuss various information criteria and their connection to maximum likelihood. The modern definition of (relative) entropy, or “disorder”, was...">
@@ -170,33 +170,38 @@ and conversely the surprise to observe an event that is certain not to happen
 <h3>
 <span class="header-section-number">2.1.3</span> Shannon entropy<a class="anchor" aria-label="anchor" href="#shannon-entropy"><i class="fas fa-link"></i></a>
 </h3>
-<p>Assume we have a discrete distribution <span class="math inline">\(F\)</span> with <span class="math inline">\(K\)</span> classes and
-class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> with <span class="math inline">\(\text{Pr}(\text{"class k"}) = p_k\)</span>
-and <span class="math inline">\(\sum_{k=1}^K = 1\)</span>. Let <span class="math inline">\(x\)</span> indicate the selected class then define the PMF
-as <span class="math inline">\(f(x = \text{"class k"})= p_k\)</span>.</p>
-<p>The <strong>Shannon entropy</strong> of the discrete distribution <span class="math inline">\(F\)</span> is defined as the
+<p>Assume we have a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> classes/categories. The corresponding
+class probabilities are <span class="math inline">\(p_1, \ldots, p_K\)</span> with <span class="math inline">\(\text{Pr}(\text{"class k"}) = p_k\)</span>
+and <span class="math inline">\(\sum_{k=1}^K p_k= 1\)</span>. The probability mass function (PMF)
+is <span class="math inline">\(p(x = \text{"class k"})= p_k\)</span>.</p>
+<p>As the random variable <span class="math inline">\(x\)</span> is discrete the categorical distribution
+<span class="math inline">\(P\)</span> is a discrete distribution but <span class="math inline">\(P\)</span> is generally also known as <em>the</em> discrete distribution.</p>
+<p>The <strong>Shannon entropy</strong> (1948)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal &lt;strong&gt;27&lt;/strong&gt;:379–423. &lt;a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri"&gt;https://doi.org/10.1002/j.1538-7305.1948.tb01338.x&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a> of the distribution <span class="math inline">\(P\)</span> is defined as the
 <strong>expected surprise</strong>, i.e. the negative expected log-probability
 <span class="math display">\[
 \begin{split}
-H(F) &amp;=-\text{E}_F\left(\log f(x)\right) \\
-     &amp;= - \sum_{i=1}^{K}p_i \log(p_i) \\
+H(P) &amp;=-\text{E}_P\left(\log p(x)\right) \\
+     &amp;= - \sum_{k=1}^{K}p_k \log(p_k) \\
 \end{split}
 \]</span>
-As all <span class="math inline">\(p_k \in [0,1]\)</span> by construction Shannon entropy must be larger or equal to 0.
-Furthermore, it is bounded above by <span class="math inline">\(\log K\)</span>. Hence for
-for any discrete distribution <span class="math inline">\(F\)</span> with <span class="math inline">\(K\)</span> categories we have
-<span class="math display">\[\log K \geq  H(F) \geq 0\]</span></p>
+As all <span class="math inline">\(p_k \in [0,1]\)</span> by construction Shannon entropy must be larger or equal to 0.</p>
+<p>Furthermore, it is bounded above by <span class="math inline">\(\log K\)</span>. This can be seen by maximising Shannon entropy
+as a function with regard to the <span class="math inline">\(p_k\)</span> under the constraint <span class="math inline">\(\sum_{k=1}^K p_k= 1\)</span>, e.g., by constrained optimisation using Langrange
+multipliers. The maximum is achieved for <span class="math inline">\(P\)</span> being the discrete uniform - see Example <a href="from-entropy-to-maximum-likelihood.html#exm:entropyuniform">2.1</a>.</p>
+<p>Hence for any categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have
+<span class="math display">\[\log K \geq  H(P) \geq 0\]</span></p>
+<p>In statistical physics, the Shannon entropy is known as <a href="https://en.wikipedia.org/wiki/Entropy_(statistical_thermodynamics)#Gibbs_entropy_formula">Gibbs entropy (1878)</a>.</p>
 <div class="example">
-<p><span id="exm:entropydunif" class="example"><strong>Example 2.1  </strong></span><strong>Discrete uniform distribution</strong> <span class="math inline">\(U_K\)</span>: let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>.
-Then <span class="math display">\[H(U_K) = - \sum_{i=1}^{K}\frac{1}{K} \log\left(\frac{1}{K}\right) = \log K\]</span></p>
+<p><span id="exm:entropyuniform" class="example"><strong>Example 2.1  </strong></span><strong>Discrete uniform distribution</strong> <span class="math inline">\(U_K\)</span>: let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>.
+Then <span class="math display">\[H(U_K) = - \sum_{k=1}^{K}\frac{1}{K} \log\left(\frac{1}{K}\right) = \log K\]</span></p>
 <p>Note this is the largest value the Shannon entropy can assume
 with <span class="math inline">\(K\)</span> classes.</p>
 </div>
 <div class="example">
 <p><span id="exm:entropyconcentrated" class="example"><strong>Example 2.2  </strong></span><strong>Concentrated probability mass</strong>: let
 <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>.
-Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon probability
-<span class="math display">\[ H(F) = 1\times\log(1) + 0\times\log(0) + \dots = 0\]</span></p>
+Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon entropy
+<span class="math display">\[H(P) = 1\times\log(1) + 0\times\log(0) + \dots = 0\]</span></p>
 <p>Note that 0 is the smallest value that Shannon entropy can assume, and corresponds to maximum concentration.</p>
 </div>
 <p>Thus, <strong>large entropy</strong> implies that the <strong>distribution is spread out</strong> whereas <strong>small entropy</strong>
@@ -230,10 +235,10 @@ and thus
 <span class="math display">\[
 \begin{split}
 \frac{1}{n}\log \binom{n}{n_1, \ldots, n_K} &amp;\approx - \sum_{k=1}^K \hat{p}_k \log \hat{p}_k \\
-&amp;=H(\hat{F})
+&amp;=H(\hat{P})
 \end{split}
 \]</span>
-where <span class="math inline">\(\hat{F}\)</span> is the empirical discrete distribution with <span class="math inline">\(\hat{p}_k = \frac{n_k}{n}\)</span>.</p>
+where <span class="math inline">\(\hat{P}\)</span> is the empirical categorical distribution with <span class="math inline">\(\hat{p}_k = \frac{n_k}{n}\)</span>.</p>
 <p>The combinatorical derivation of Shannon entropy is now credited to Wallis (1962)
 but has already been used a century earlier by Boltzmann (1877) who discovered it in his work
 in statistical mechanics (recall <span class="math inline">\(S = k_b \log W\)</span> is the
@@ -246,29 +251,30 @@ in statistical mechanics (recall <span class="math inline">\(S = k_b \log W\)</s
 </h3>
 <p>Shannon entropy is only defined for discrete random variables.</p>
 <p><em>Differential Entropy</em> results from applying the
-definition of Shannon entropy to a <em>continuous</em> random variable <span class="math inline">\(x\)</span> with density <span class="math inline">\(f(x)\)</span>:
+definition of Shannon entropy to a <em>continuous</em> random variable <span class="math inline">\(x\)</span> with density <span class="math inline">\(p(x)\)</span>:
 <span class="math display">\[
-H(F) = -\text{E}_F(\log f(x)) = - \int_x f(x) \log f(x) \, dx
+H(P) = -\text{E}_P(\log p(x)) = - \int_x p(x) \log p(x) \, dx
 \]</span>
 Despite having essentially the same formula the different name is justified because differential entropy exhibits different properties compared to Shannon entropy, because the logarithm is taken of a density
 which in contrast to a probability can assumes values larger than one.
 As a consequence, differential entropy is <em>not</em> bounded below by zero and can be negative.</p>
 <div class="example">
-<p><span id="exm:entropyunif" class="example"><strong>Example 2.4  </strong></span>Consider the uniform distribution <span class="math inline">\(U(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a\)</span> and density <span class="math inline">\(f(x) = 1/a\)</span>. As <span class="math inline">\(-\int_0^a f(x) \log f(x) dx =- \int_0^a \frac{1}{a} \log(\frac{1}{a}) dx = \log a\)</span>
+<p><span id="exm:entropyunif" class="example"><strong>Example 2.4  </strong></span>Consider the uniform distribution <span class="math inline">\(U(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. As <span class="math inline">\(-\int_0^a p(x) \log p(x) dx =- \int_0^a \frac{1}{a} \log(\frac{1}{a}) dx = \log a\)</span>
 the differential entropy is
 <span class="math display">\[H( U(0, a) ) =  \log a \,.\]</span>
 Note that for <span class="math inline">\(a &lt; 1\)</span> the differential entropy is negative.</p>
 </div>
 <div class="example">
-<p><span id="exm:entropynormal" class="example"><strong>Example 2.5  </strong></span>The density of the univariate normal <span class="math inline">\(N(\mu, \sigma^2)\)</span> distribution
-is <span class="math inline">\(f(x |\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>.
-The corresponding differential entropy is
-is
+<p><span id="exm:entropynormal" class="example"><strong>Example 2.5  </strong></span>The log density of the univariate normal <span class="math inline">\(N(\mu, \sigma^2)\)</span> distribution
+is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left( \log(2\pi\sigma^2) + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>.
+The corresponding differential entropy is with <span class="math inline">\(\text{E}((x-\mu)^2) = \sigma^2\)</span>
 <span class="math display">\[
-H(F) = \frac{1}{2} ( \log(2 \pi \sigma^2)+1) \,.
+\begin{split}
+H(P) &amp; = -\text{E}\left( \log p(x |\mu, \sigma^2) \right)\\
+&amp; = \frac{1}{2} \left( \log(2 \pi \sigma^2)+1\right) \,. \\
+\end{split}
 \]</span>
-Note that it only depends on the variance and not on the mean, and
-that for <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
+Interestingly, <span class="math inline">\(H(P)\)</span> only depends on the variance and not on the mean, and the entropy grows with the variance. Note that for <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
 </div>
 </div>
 <div id="maximum-entropy-principle-to-characterise-distributions" class="section level3" number="2.1.5">
@@ -289,7 +295,7 @@ was advocated by E.T. Jaynes (who also proposed to use maximum entropy in the co
 <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" class="uri">https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution</a> .</p>
 <p>Many distributions commonly used in statistical modelling are exponential families.
 Intriguingly, these distribution are all maximum entropy distributions, so there is a very close link
-between the principle of maximum entropy and common choices in statistical modelling.</p>
+between the principle of maximum entropy and common model choices in statistics and machine learning.</p>
 </div>
 <div id="cross-entropy" class="section level3" number="2.1.6">
 <h3>
@@ -298,13 +304,19 @@ between the principle of maximum entropy and common choices in statistical model
 <p>If in the definition of Shannon entropy (and differential entropy) the expectation over
 the log-density (say <span class="math inline">\(g(x)\)</span> of distribution <span class="math inline">\(G\)</span>) is with regard to a different distribution <span class="math inline">\(F\)</span> over the same state space
 we arrive at the <strong>cross-entropy</strong>
-<span class="math display">\[H(F, G) =-\text{E}_F\left( \log g(x)  \right)\]</span></p>
+<span class="math display">\[
+H(F, G) =-\text{E}_F\left( \log g(x)  \right)
+\]</span>
+For discrete distributions <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> with class probabilities
+<span class="math inline">\(f_1, \ldots, f_K\)</span> and <span class="math inline">\(g_1, \ldots, g_K\)</span> the cross-entropy is computed as the weighted sum <span class="math inline">\(H(F, G) = - \sum_{k=1}^{K} f_k \log g_k\)</span>.
+For continuous distributions <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> with densities <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> we compute the integral
+<span class="math inline">\(H(F, G) =- \int_x f(x) \log g(x) \, dx\)</span>.</p>
 <p>Therefore, cross-entropy is a measure linking two distributions <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span>.</p>
 <p>Note that</p>
 <ul>
 <li>cross-entropy is not symmetric with regard to <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span>, because
 the expectation is taken with reference to <span class="math inline">\(F\)</span>.</li>
-<li>By construction <span class="math inline">\(H(F, F) = H(F)\)</span>.</li>
+<li>By construction <span class="math inline">\(H(F, F) = H(F)\)</span>. Thus if both distributions are identical cross-entropy reduces to Shannon and differential entropy, respectively.</li>
 </ul>
 <p>A crucial property of the cross-entropy <span class="math inline">\(H(F, G)\)</span> is that it is bounded below by the entropy of <span class="math inline">\(F\)</span>, therefore
 <span class="math display">\[
@@ -313,21 +325,27 @@ H(F, G) \geq H(F)
 with equality for <span class="math inline">\(F=G\)</span>. This is known as <a href="https://en.wikipedia.org/wiki/Gibbs%27_inequality"><strong>Gibbs’ inequality</strong></a>.</p>
 <p>Equivalently we can write
 <span class="math display">\[
-H(F, G)-H(F) \geq 0
+ \underbrace{H(F, G)-H(F)}_{\text{relative entropy}} \geq 0
 \]</span><br>
-In fact, this recalibrated cross-entropy turns out to be more fundamental than both cross-entropy and Shannon resp. differential entropy. It will be studied in detail in the next section.</p>
+In fact, this recalibrated cross-entropy (known as KL divergence or relative entropy turns out to be more fundamental than both cross-entropy and entropy. It will be studied in detail in the next section.</p>
 <div class="example">
 <p><span id="exm:crossentropynormals" class="example"><strong>Example 2.6  </strong></span>Cross-entropy between two normals:</p>
 <p>Assume <span class="math inline">\(F_{\text{ref}}=N(\mu_{\text{ref}},\sigma^2_{\text{ref}})\)</span> and <span class="math inline">\(F=N(\mu,\sigma^2)\)</span>.
-Then the cross-entropy is
+The cross-entropy <span class="math inline">\(H(F_{\text{ref}}, F)\)</span> is
 <span class="math display">\[
-H(F_{\text{ref}}, F) = \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
- +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)
-\]</span></p>
+\begin{split}
+H(F_{\text{ref}}, F) &amp;=  -\text{E}_{F_{\text{ref}}} \left( \log p(x |\mu, \sigma^2) \right)\\
+&amp;=  \frac{1}{2}  \text{E}_{F_{\text{ref}}} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right) \\
+&amp;= \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
+ +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)  \\
+\end{split}
+\]</span>
+using <span class="math inline">\(\text{E}_{F_{\text{ref}}} ((x-\mu)^2) = (\mu_{\text{ref}}-\mu)^2 + \sigma^2_{\text{ref}}\)</span>.</p>
 </div>
 <div class="example">
 <p><span id="exm:crossentropylowerbound" class="example"><strong>Example 2.7  </strong></span>If <span class="math inline">\(\mu_{\text{ref}} = \mu\)</span> and <span class="math inline">\(\sigma^2_{\text{ref}} = \sigma^2\)</span>
-then the above cross-entropy <span class="math inline">\(H(F,G)\)</span> degenerates to the differential entropy
+then the cross-entropy <span class="math inline">\(H(F_{\text{ref}},F)\)</span> in Example <a href="from-entropy-to-maximum-likelihood.html#exm:crossentropynormals">2.6</a>
+degenerates to the differential entropy
 <span class="math inline">\(H(F_{\text{ref}}) = \frac{1}{2} \left(\log( 2 \pi \sigma^2_{\text{ref}}) +1 \right)\)</span>.</p>
 </div>
 </div>
@@ -375,10 +393,13 @@ D_{\text{KL}}(F,G) &amp;= \text{E}_F\log\left(\frac{dF}{dG}\right) \\
 <span class="math inline">\(G\)</span> as prior distribution</li>
 </ul>
 <p>There exist various notations for KL divergence in the literature.
-Here we use <span class="math inline">\(D_{KL}(F, G)\)</span> but often you can find <span class="math inline">\(KL(F || G)\)</span>
-or <span class="math inline">\(\boldsymbol I^{KL}(F; G)\)</span> in other references.</p>
-<p>Some authors (e.g. Efron) call twice the KL divergence <span class="math inline">\(2 D_{KL}(F, G) = D(F, G)\)</span> the <strong>deviance</strong> of <span class="math inline">\(G\)</span> from <span class="math inline">\(F\)</span>.</p>
-<p>Historically, in physics (negative) relative entropy was discovered by Boltzmann (1878).</p>
+Here we use <span class="math inline">\(D_{\text{KL}}(F, G)\)</span> but you often find as well <span class="math inline">\(\text{KL}(F || G)\)</span>
+and <span class="math inline">\(\boldsymbol I^{KL}(F; G)\)</span>.</p>
+<p>Some authors (e.g. Efron) call twice the KL divergence <span class="math inline">\(2 D_{\text{KL}}(F, G) = D(F, G)\)</span> the <strong>deviance</strong> of <span class="math inline">\(G\)</span> from <span class="math inline">\(F\)</span>.</p>
+<p>Historically, in physics (negative) relative entropy was discovered by Boltzmann (1878).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Boltzmann, L. 1878. Weitere Bemerkungen über einige Probleme der mechanischen
+Wärmetheorie. Wien Ber. &lt;strong&gt;78&lt;/strong&gt;:7–46. &lt;a href="https://doi.org/10.1017/CBO9781139381437.013" class="uri"&gt;https://doi.org/10.1017/CBO9781139381437.013&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>
+In statistics and information theory it was introduced by Kullback and Leibler (1951).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Kullback, S., and R. A. Leibler. 1951. On information and sufficiency. Ann. Math. Statist. &lt;strong&gt;22&lt;/strong&gt; 79–86.
+&lt;a href="https://doi.org/10.1214/aoms/1177729694" class="uri"&gt;https://doi.org/10.1214/aoms/1177729694&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a></p>
 </div>
 <div id="properties-of-kl-divergence" class="section level3" number="2.2.2">
 <h3>
@@ -386,11 +407,11 @@ or <span class="math inline">\(\boldsymbol I^{KL}(F; G)\)</span> in other refere
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<span class="math inline">\(D_{\text{KL}}(F, G) \neq D_{\text{KL}}(G, F)\)</span>, i.e., KL divergence is not symmetric, <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> cannot be interchanged.</li>
+<span class="math inline">\(D_{\text{KL}}(F, G) \neq D_{\text{KL}}(G, F)\)</span>, i.e. the KL divergence is not symmetric, <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> cannot be interchanged.</li>
 <li>
 <span class="math inline">\(D_{\text{KL}}(F, G) = 0\)</span> if and only if <span class="math inline">\(F=G\)</span>, i.e., the KL divergence is zero if and only if <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> are identical.</li>
 <li>
-<span class="math inline">\(D_{\text{KL}}(F, G)\geq 0\)</span>, proof via the <strong>Jensen Inequality</strong>.</li>
+<span class="math inline">\(D_{\text{KL}}(F, G)\geq 0\)</span>, proof via <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality"><strong>Jensen’s inequality</strong></a>.</li>
 <li>
 <span class="math inline">\(D_{\text{KL}}(F, G)\)</span> remains invariant under coordinate transformations,
 i.e. it is an invariant geometric quantity.</li>
@@ -398,9 +419,9 @@ i.e. it is an invariant geometric quantity.</li>
 <p>Note that in the KL divergence the expectation is taken over a ratio of densities (or ratio of probabilities for discrete random variables). This is what creates the transformation invariance.</p>
 <p>For more details and proofs of properties 3 and 4 see Worksheet 1.</p>
 </div>
-<div id="examples" class="section level3" number="2.2.3">
+<div id="kl-divergence-examples" class="section level3" number="2.2.3">
 <h3>
-<span class="header-section-number">2.2.3</span> Examples<a class="anchor" aria-label="anchor" href="#examples"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2.3</span> KL divergence examples<a class="anchor" aria-label="anchor" href="#kl-divergence-examples"><i class="fas fa-link"></i></a>
 </h3>
 <div class="example">
 <p><span id="exm:klbernoulli" class="example"><strong>Example 2.8  </strong></span>KL divergence between two Bernoulli distributions <span class="math inline">\(\text{Ber}(p)\)</span> and <span class="math inline">\(\text{Ber}(q)\)</span>:</p>
@@ -450,7 +471,7 @@ Since the KL divergence vanishes only when the two arguments are identical <span
 a quadratic function around <span class="math inline">\(\boldsymbol \theta_0\)</span>
 <span class="math display">\[
 \begin{split}
-h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla^T\nabla h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
+D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}) = h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla^T\nabla h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
 &amp; = \frac{1}{2} \boldsymbol \varepsilon^T \left( -\text{E}_{F_{\boldsymbol \theta_0}} \nabla^T\nabla  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)   \boldsymbol \varepsilon\\
 &amp; = \frac{1}{2} \boldsymbol \varepsilon^T  \underbrace{\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0)}_{\text{expected Fisher information} }\boldsymbol \varepsilon\\
 \end{split}
@@ -458,8 +479,6 @@ h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \bolds
 This yields the <strong>expected Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta_0\)</span> as the negative
 expected Hessian matrix of the log-density at <span class="math inline">\(\boldsymbol \theta_0\)</span>.
 Since <span class="math inline">\(\boldsymbol \theta_0\)</span> is a minimum the expected Fisher information matrix must be positive definite!</p>
-<p>Ss there is no data involved the expected Fisher information is purely a property of the model, or more precisely of the space of the models indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
-In the next Chapter we will study a related quantity, the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
 <p>We can use the above approximation also to compute the divergence <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \theta_0})\)</span> where the first argument varies and the second is kept fixed:
 <span class="math display">\[
 \begin{split}
@@ -479,10 +498,12 @@ D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \
 \end{split} 
 \]</span>
 keeping only terms quadratic in <span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
+<p>Note that there is no data involved in computing the expected Fisher information, hence it is purely a property of the model, or more precisely of the space of the models indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
+In the next Chapter we will study a related quantity, the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
 </div>
-<div id="examples-1" class="section level3" number="2.3.2">
+<div id="examples" class="section level3" number="2.3.2">
 <h3>
-<span class="header-section-number">2.3.2</span> Examples<a class="anchor" aria-label="anchor" href="#examples-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.2</span> Examples<a class="anchor" aria-label="anchor" href="#examples"><i class="fas fa-link"></i></a>
 </h3>
 <div class="example">
 <p><span id="exm:expectedfisherbernoulli" class="example"><strong>Example 2.11  </strong></span>Expected Fisher information for the Bernoulli distribution:</p>
@@ -595,7 +616,7 @@ the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a 
 H(F, G_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, G_{\boldsymbol \theta}) \\
                   &amp; = - \text{E}_{\hat{F}_n} (\log g(x|\boldsymbol \theta))  \\
                   &amp; = -\frac{1}{n} \sum_{i=1}^n \log g(x_i | \boldsymbol \theta) \\
-                  &amp; -\frac{1}{n} l_n ({\boldsymbol \theta})
+                  &amp; = -\frac{1}{n} l_n ({\boldsymbol \theta})
 \end{split}
 \]</span>
 This turns out to be equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>! Or in other words, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
@@ -623,7 +644,7 @@ is the same as maximising the likelihood <span class="math inline">\(l_n ({\bold
 Note that the entropy of the true distribution <span class="math inline">\(F\)</span> (and the corresponding empirical
 distribution <span class="math inline">\(\hat{F}\)</span>) that does not depend on the parameters <span class="math inline">\(\boldsymbol \theta\)</span>
 and hence it does not matter when minimising the divergence.</p>
-<p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>!) to minimising the KL divergence of the approximating model and the unknown true model!</p>
+<p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>) to minimising the KL divergence of the approximating model and the unknown true model!</p>
 <p><span class="math display">\[
 \begin{split}
 \hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta) \\
@@ -656,6 +677,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 </div>
 </div>
 </div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></div>
 <div class="next"><a href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></div>
@@ -677,13 +699,13 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <a class="nav-link" href="#kullback-leibler-divergence"><span class="header-section-number">2.2</span> Kullback-Leibler divergence</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#definition"><span class="header-section-number">2.2.1</span> Definition</a></li>
 <li><a class="nav-link" href="#properties-of-kl-divergence"><span class="header-section-number">2.2.2</span> Properties of KL divergence</a></li>
-<li><a class="nav-link" href="#examples"><span class="header-section-number">2.2.3</span> Examples</a></li>
+<li><a class="nav-link" href="#kl-divergence-examples"><span class="header-section-number">2.2.3</span> KL divergence examples</a></li>
 </ul>
 </li>
 <li>
 <a class="nav-link" href="#local-quadratic-approximation-and-expected-fisher-information"><span class="header-section-number">2.3</span> Local quadratic approximation and expected Fisher information</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#definition-of-expected-fisher-information"><span class="header-section-number">2.3.1</span> Definition of expected Fisher information</a></li>
-<li><a class="nav-link" href="#examples-1"><span class="header-section-number">2.3.2</span> Examples</a></li>
+<li><a class="nav-link" href="#examples"><span class="header-section-number">2.3.2</span> Examples</a></li>
 </ul>
 </li>
 <li>
@@ -709,7 +731,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

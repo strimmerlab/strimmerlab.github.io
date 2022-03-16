@@ -11,7 +11,7 @@
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.13/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><meta name="description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed \(n\) data samples \(x_1,\ldots,x_n\), iid (=independent and identically...">
@@ -116,11 +116,11 @@ given by maximising the (log)-likelihood</p>
 </h3>
 <p>In regular situations, i.e. when</p>
 <ul>
-<li>the log-likelihood function is smooth and twice differentiable,</li>
+<li>the log-likelihood function is twice differentiable,</li>
 <li>the second derivative is negative and not zero, and for more than
 one parameter the Hessian matrix is negative definite and not singular,</li>
 <li>the parameters of the model are all identifiable (in particular the model is not overparameterised), and</li>
-<li>the true parameter values lie inside the support and not on the border,</li>
+<li>the maximum (peak) of the likelihood function does not lie at a boundary of the parameter space,</li>
 </ul>
 <p>then in order to maximise <span class="math inline">\(l_n\)</span> one may use the <strong>score function</strong> <span class="math inline">\(\boldsymbol S(\boldsymbol \theta)\)</span>
 which is the first order derivative of the log-likelihood function:</p>
@@ -165,20 +165,22 @@ and then verify that this matrix is negative definite (i.e. all its eigenvalues
 <h3>
 <span class="header-section-number">3.1.3</span> Invariance property of the maximum likelihood<a class="anchor" aria-label="anchor" href="#invariance-property-of-the-maximum-likelihood"><i class="fas fa-link"></i></a>
 </h3>
-<p>Maximisation is a procedure that is invariant against coordinate transformations of the argument. Suppose <span class="math inline">\(x_{\max} = \text{arg max } h(x)\)</span> and <span class="math inline">\(y = g(x)\)</span>
-where <span class="math inline">\(g\)</span> is an invertible function.
-Then <span class="math inline">\(y_{\max} = \text{arg max } h( g^{-1}(y) ) = g(x_{\max})\)</span>. The achieved maximum itself remains
-invariant: <span class="math inline">\(h( x_{\max} ) = h(g^{-1}(y_{\max} ) )\)</span>.</p>
+<p>Maximisation is a procedure that is invariant against coordinate transformations of the argument. Consider a function <span class="math inline">\(h(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h(x)\)</span>. Now we relabel the argument using
+<span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h( g^{-1}(y))\)</span>.
+and clearly this function has a maximum at <span class="math inline">\(y_{\max} = g(x_{\max})\)</span> since
+<span class="math inline">\(h(g^{-1}(y_{\max} ) ) = h( x_{\max} )\)</span>.</p>
 <p>With regard to maximum likelihood estimation this implies the following <strong>invariance property</strong> of the maximum likelihood:</p>
 <ul>
 <li>Suppose that <span class="math inline">\(\hat{\theta}_{ML}\)</span> is the MLE of <span class="math inline">\(\theta\)</span>.</li>
 <li>We transform the parameter to <span class="math inline">\(\theta^{\star} = g(\theta)\)</span>
 where <span class="math inline">\(g\)</span> is an invertible function.</li>
+<li>The model (density/PMF) and thus the likelihood function now depends on <span class="math inline">\(\theta^{\star}\)</span> rather than <span class="math inline">\(\theta\)</span>.</li>
 <li>Then <span class="math inline">\(g(\hat{\theta}_{ML})=\hat{\theta}^{\star}\)</span> is the MLE of <span class="math inline">\(\theta^{\star}\)</span>.</li>
 <li>The value of the achieved maximum likelihood is the same
 in both cases, i.e. it is invariant against transformation of the parameters.</li>
 </ul>
-<p>The invariance property can be very useful in practise because it may be easier to perform the maximisation required for finding the MLE in a particular coordinate system.</p>
+<p>The invariance property can be very useful in practise because it may be easier to perform the maximisation
+of the likelihood required for finding the MLE in a particular coordinate system.</p>
 <p>See Worksheet 2 for an example application of the invariance principle.</p>
 </div>
 <div id="consistency-of-maximum-likelihood-estimates" class="section level3" number="3.1.4">
@@ -593,7 +595,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -11,7 +11,7 @@
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Refresher | Statistical Methods: Likelihood, Bayes and Regression">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.13/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><meta name="description" content="Statistics is a mathematical science that requires practical use of tools from probability, vector and matrices, analysis etc. Here we briefly list some essentials that are needed for “Statistical...">
@@ -427,8 +427,9 @@ the weighted average over all possible outcomes, with the weight given by the PM
 \int_{x \in \Omega} f(x) x dx &amp; \text{continuous case} \\
 \end{cases}
 \]</span>
-The expectation is not necessarily always defined for a continuous
-random variable as the integral can diverge.</p>
+To emphasise that the expecation is taken with regard to the distribution
+<span class="math inline">\(F\)</span> we write <span class="math inline">\(\text{E}_F(x)\)</span> with the distribution <span class="math inline">\(F\)</span> as subscript. The expectation is not necessarily always defined for a continuous
+random variable as the integral may diverge.</p>
 <p>The expected value of a function of a random variable <span class="math inline">\(h(x)\)</span> is
 obtained similarly:
 <span class="math display">\[
@@ -438,7 +439,9 @@ obtained similarly:
 \int_{x \in \Omega} f(x) h(x) dx &amp; \text{continuous case} \\
 \end{cases}
 \]</span>
-This is called the <a href="https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician">“law of the unconscious statistician”</a>, or short LOTUS.</p>
+This is called the <a href="https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician">“law of the unconscious statistician”</a>, or short LOTUS.
+Again, to highlight that the random variable <span class="math inline">\(x\)</span> has distribution <span class="math inline">\(F\)</span> we
+write <span class="math inline">\(\text{E}_F(h(x))\)</span>.</p>
 <p>For an event <span class="math inline">\(A\)</span> we can define a corresponding <strong>indicator function</strong>
 <span class="math display">\[
 1_A(x) =
@@ -639,12 +642,20 @@ the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">
 <li>we are uncertain about this parameter (i.e. we don’t know the exact value)</li>
 <li>we would like to learn about this parameter by observing data <span class="math inline">\(x_1, \ldots, x_n\)</span> from the model</li>
 </ul>
+<p>Often the parameter(s) of interest are related to moments (such as mean and variance) or
+to quantiles of the distribution representing the model.</p>
 <p>Estimation:</p>
 <ul>
-<li>An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is a function <span class="math inline">\(\hat{\theta}(x_1, \ldots, x_n)\)</span> that maps the data (input) to a “guess” (output) about <span class="math inline">\(\theta\)</span>.<br>
-</li>
+<li>An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is a function <span class="math inline">\(\hat{\theta}(x_1, \ldots, x_n)\)</span> that maps the data (input) to a “guess” (output) about <span class="math inline">\(\theta\)</span>.</li>
 <li>A <strong>point estimator</strong> provides a single number for each parameter</li>
 <li>An <strong>interval estimator</strong> provides a set of possible values for each parameter.</li>
+</ul>
+<p>Simple estimators of mean and variance:</p>
+<p>Suppose we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> all sampled independently from a distribution <span class="math inline">\(F\)</span>.</p>
+<ul>
+<li>The average (also known as empirical mean) <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is an estimate of the mean of <span class="math inline">\(F\)</span>.</li>
+<li>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> is an estimate of the variance of <span class="math inline">\(F\)</span>. Note the factor <span class="math inline">\(1/n\)</span>. It is the maximum likelihood estimate assuming a normal model.</li>
+<li>The unbiased sample variance <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> is another estimate of the variance of <span class="math inline">\(F\)</span>. Note the factor <span class="math inline">\(1/(n-1)\)</span> therefore <span class="math inline">\(n\geq 2\)</span> is required for this estimator.</li>
 </ul>
 </div>
 <div id="sampling-properties-of-a-point-estimator-hatboldsymbol-theta" class="section level3" number="20.7.3">
@@ -652,7 +663,7 @@ the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">
 <span class="header-section-number">A.7.3</span> Sampling properties of a point estimator <span class="math inline">\(\hat{\boldsymbol \theta}\)</span><a class="anchor" aria-label="anchor" href="#sampling-properties-of-a-point-estimator-hatboldsymbol-theta"><i class="fas fa-link"></i></a>
 </h3>
 <p>A point estimator <span class="math inline">\(\hat\theta\)</span> depends on the data, hence it has sampling variation (i.e. estimate will be different for a new set of observations)</p>
-<p>Thus <span class="math inline">\(\hat\theta\)</span> can be seen as a random variable, and its distribution is called sampling distribution (accross different experiments).</p>
+<p>Thus <span class="math inline">\(\hat\theta\)</span> can be seen as a random variable, and its distribution is called sampling distribution (across different experiments).</p>
 <p>Properties of this distribution can be used to evaluate how far the estimator
 deviates (on average across different experiments) from the true value:</p>
 <p><span class="math display">\[\begin{align*}
@@ -681,28 +692,66 @@ However, requiring strict unbiasedness is not always a good idea!</p>
 <p>In many situations it is better to allow for some small bias and in order to achieve a smaller variance and an overall total smaller MSE. This is called <em>bias-variance tradeoff</em> — as more bias
 is traded for smaller variance (or, conversely, less bias is traded for higher variance)</p>
 </div>
-<div id="asymptotics-1" class="section level3" number="20.7.4">
+<div id="sampling-distribution-of-mean-and-variance-estimators-for-normal-data" class="section level3" number="20.7.4">
 <h3>
-<span class="header-section-number">A.7.4</span> Asymptotics<a class="anchor" aria-label="anchor" href="#asymptotics-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.4</span> Sampling distribution of mean and variance estimators for normal data<a class="anchor" aria-label="anchor" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Suppose we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> all sampled from a normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p>
+<ul>
+<li><p>The empirical estimator of the mean parameter <span class="math inline">\(\mu\)</span> is given by <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span>. Under the normal assumption the distribution of <span class="math inline">\(\hat{\mu}\)</span> is
+<span class="math display">\[
+\hat{\mu} \sim N\left(\mu, \frac{\sigma^2}{n}\right)
+\]</span>
+Thus <span class="math inline">\(\text{E}(\hat{\mu}) = \mu\)</span> and <span class="math inline">\(\text{Var}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.
+The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased since <span class="math inline">\(\text{E}(\hat{\mu})-\mu = 0\)</span> The mean
+squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\text{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
+<li><p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a scaled chi-squared distribution or equivalently a Gamma distribution
+<span class="math display">\[
+\widehat{\sigma^2}_{\text{ML}} \sim \frac{\sigma^2}{n} \text{$\chi^2_{n-1}$} = \text{Gam}\left(\underbrace{\frac{n-1}{2}}_{\text{shape}}, \underbrace{\frac{2\sigma^2}{n}}_{\text{scale}}\right)
+\]</span>
+Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{n-1}{n}\sigma^2\)</span> and
+<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4\)</span>.
+The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is biased since
+<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} )-\sigma^2 = -\frac{1}{n}\sigma^2\)</span>.
+The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4 +\frac{1}{n^2}\sigma^4 =\frac{2 n-1}{n^2}\sigma^4\)</span>.</p></li>
+<li>
+<p>The unbiased variance <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a scaled chi-squared distribution or equivalently a Gamma distribution
+<span class="math display">\[
+\widehat{\sigma^2}_{\text{UB}} \sim \frac{\sigma^2}{n-1} \text{$\chi^2_{n-1}$} = \text{Gam}\left(\underbrace{\frac{n-1}{2}}_{\text{shape}}, \underbrace{\frac{2\sigma^2}{n-1}}_{\text{scale}}\right)
+\]</span>
+Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} ) = \sigma^2\)</span> and
+<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) = \frac{2}{n-1}\sigma^4\)</span>.
+The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is unbiased since
+<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} )-\sigma^2 =0\)</span>.
+The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) =\frac{2}{n-1}\sigma^4\)</span>.</p>
+<p>Note that for any <span class="math inline">\(n&gt;1\)</span> we find that <span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{Var}( \widehat{\sigma^2}_{\text{ML}} )\)</span> and <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{MSE}( \widehat{\sigma^2}_{\text{ML}} )\)</span> so that the biased empirical estimator has both lower variance and lower mean squared error than the unbiased estimator.</p>
+</li>
+</ul>
+</div>
+<div id="asymptotics-1" class="section level3" number="20.7.5">
+<h3>
+<span class="header-section-number">A.7.5</span> Asymptotics<a class="anchor" aria-label="anchor" href="#asymptotics-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Typically, <span class="math inline">\(\text{Bias}\)</span>, <span class="math inline">\(\text{Var}\)</span> and <span class="math inline">\(\text{MSE}\)</span> all decrease with increasing sample size
 so that with more data <span class="math inline">\(n \to \infty\)</span> the errors become smaller and smaller.</p>
 <p>The typical rate of decrease of variance of a good estimator is <span class="math inline">\(\frac{1}{n}\)</span>.
 Thus, when sample size is doubled the variance is divided by 2
 (and the standard deviation is divided by <span class="math inline">\(\sqrt{2}\)</span>).</p>
-<p>Consistency: <span class="math inline">\(\hat{\theta}\)</span> is called consistent if</p>
-<p><span class="math display">\[\text{MSE}(\hat{\theta}) \longrightarrow 0 \text{ with $n\rightarrow \infty$ }\]</span>.</p>
-<p>Consistency implies we recover the true model in the limit of infinite data and if the model class contains the true model.</p>
+<p>Consistency: <span class="math inline">\(\hat{\theta}\)</span> is called consistent if
+<span class="math display">\[
+\text{MSE}(\hat{\theta}) \longrightarrow 0 \text{ with $n\rightarrow \infty$ }
+\]</span>
+The three estimators discussed above (empirical mean, empirical variance, unbiased variance) are all consistent as their MSE goes to zero with large sample size <span class="math inline">\(n\)</span>.</p>
 <p>Consistency is a <em>minimum</em> essential requirement for any reasonable estimator! Of all consistent
-estimators we typically prefer the estimator that is most efficient (i.e. with fasted decrease in
-MSE) and that thus has smallest variance and/or MSE for given finite <span class="math inline">\(n\)</span>.</p>
-<p>Note that if the model class does not contain the true model then strict consistency
-cannot be achived but we still wish to get at least as close as possible
-to the true model.</p>
+estimators we typically prefer the estimator that is most efficient (i.e. with fasted decrease in MSE) and that therefore has smallest variance and/or MSE for given finite <span class="math inline">\(n\)</span>.</p>
+<p>Consistency implies we recover the true model in the limit of infinite data if the model class contains the true data generating model.</p>
+<p>If the model class does not contain the true model then strict consistency
+cannot be achived but we still wish to get as close as possible
+to the true model when choosing model parameters.</p>
 </div>
-<div id="confidence-intervals" class="section level3" number="20.7.5">
+<div id="confidence-intervals" class="section level3" number="20.7.6">
 <h3>
-<span class="header-section-number">A.7.5</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.6</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>A <strong>confidence</strong> interval (CI) is an <strong>interval estimate</strong> with a <strong>frequentist</strong> interpretation.</li>
@@ -721,9 +770,9 @@ to the true model.</p>
 </ul>
 <p><strong>Note:</strong> the coverage probability is <strong>not</strong> the probability that the true value is contained in a given estimated interval (that would be the Bayesian <em>Credible</em> Interval).</p>
 </div>
-<div id="symmetric-normal-confidence-interval" class="section level3" number="20.7.6">
+<div id="symmetric-normal-confidence-interval" class="section level3" number="20.7.7">
 <h3>
-<span class="header-section-number">A.7.6</span> Symmetric normal confidence interval<a class="anchor" aria-label="anchor" href="#symmetric-normal-confidence-interval"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.7</span> Symmetric normal confidence interval<a class="anchor" aria-label="anchor" href="#symmetric-normal-confidence-interval"><i class="fas fa-link"></i></a>
 </h3>
 <p>For a normally distributed univariate random variable
 it is straightforward to construct a symmetric two-sided CI with a given desired coverage <span class="math inline">\(\kappa\)</span>.</p>
@@ -765,12 +814,14 @@ Note <span class="math inline">\(\Phi(c)\)</span> is the cumulative distribution
 </li>
 </ul>
 <p>is then given by
-<span class="math display">\[\widehat{\text{CI}}=[\hat{\theta} \pm c \hat{\sigma}]\]</span></p>
-<p>where <span class="math inline">\(c\)</span> is chosen for desired coverage level <span class="math inline">\(\kappa\)</span>.</p>
+<span class="math display">\[
+\widehat{\text{CI}}=[\hat{\theta} \pm c \hat{\sigma}]
+\]</span>
+where <span class="math inline">\(c\)</span> is chosen for desired coverage level <span class="math inline">\(\kappa\)</span>.</p>
 </div>
-<div id="confidence-interval-for-chi-squared-distribution" class="section level3" number="20.7.7">
+<div id="confidence-interval-for-chi-squared-distribution" class="section level3" number="20.7.8">
 <h3>
-<span class="header-section-number">A.7.7</span> Confidence interval for chi-squared distribution<a class="anchor" aria-label="anchor" href="#confidence-interval-for-chi-squared-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.8</span> Confidence interval for chi-squared distribution<a class="anchor" aria-label="anchor" href="#confidence-interval-for-chi-squared-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <div class="inline-figure"><img src="fig/refresher_p4_2.PNG" width="80%" style="display: block; margin: auto;"></div>
 <p>As for the normal CI we can compute critical values but for the
@@ -855,10 +906,11 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <li><a class="nav-link" href="#statistical-learning"><span class="header-section-number">A.7.1</span> Statistical learning</a></li>
 <li><a class="nav-link" href="#point-and-interval-estimation"><span class="header-section-number">A.7.2</span> Point and interval estimation</a></li>
 <li><a class="nav-link" href="#sampling-properties-of-a-point-estimator-hatboldsymbol-theta"><span class="header-section-number">A.7.3</span> Sampling properties of a point estimator \(\hat{\boldsymbol \theta}\)</a></li>
-<li><a class="nav-link" href="#asymptotics-1"><span class="header-section-number">A.7.4</span> Asymptotics</a></li>
-<li><a class="nav-link" href="#confidence-intervals"><span class="header-section-number">A.7.5</span> Confidence intervals</a></li>
-<li><a class="nav-link" href="#symmetric-normal-confidence-interval"><span class="header-section-number">A.7.6</span> Symmetric normal confidence interval</a></li>
-<li><a class="nav-link" href="#confidence-interval-for-chi-squared-distribution"><span class="header-section-number">A.7.7</span> Confidence interval for chi-squared distribution</a></li>
+<li><a class="nav-link" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><span class="header-section-number">A.7.4</span> Sampling distribution of mean and variance estimators for normal data</a></li>
+<li><a class="nav-link" href="#asymptotics-1"><span class="header-section-number">A.7.5</span> Asymptotics</a></li>
+<li><a class="nav-link" href="#confidence-intervals"><span class="header-section-number">A.7.6</span> Confidence intervals</a></li>
+<li><a class="nav-link" href="#symmetric-normal-confidence-interval"><span class="header-section-number">A.7.7</span> Symmetric normal confidence interval</a></li>
+<li><a class="nav-link" href="#confidence-interval-for-chi-squared-distribution"><span class="header-section-number">A.7.8</span> Confidence interval for chi-squared distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -877,7 +929,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

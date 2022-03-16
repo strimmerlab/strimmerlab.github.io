@@ -11,7 +11,7 @@
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12 Bayesian model comparison using Bayes factors and the BIC | Statistical Methods: Likelihood, Bayes and Regression">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.13/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><meta name="description" content="12.1 The Bayes factor We would like to compare two models \(M_1\) and \(M_2\). Before seeing data \(D\) we can check their Prior odds (= ratio of prior probabilities of the models \(M_1\) and...">
@@ -82,7 +82,7 @@
 <span class="header-section-number">12.1</span> The Bayes factor<a class="anchor" aria-label="anchor" href="#the-bayes-factor"><i class="fas fa-link"></i></a>
 </h2>
 <p>We would like to compare two models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>. Before seeing data <span class="math inline">\(D\)</span> we can check their <strong>Prior odds</strong> (= ratio of prior probabilities of the models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>):<br><span class="math display">\[\frac{\text{Pr}(M_1)}{\text{Pr}(M_2)}\]</span></p>
-<p>After seeing data <span class="math inline">\(D\)</span> we arrive at the <strong>Posterior odds</strong> (= ratio of posterior probabilities):
+<p>After seeing data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> we arrive at the <strong>Posterior odds</strong> (= ratio of posterior probabilities):
 <span class="math display">\[\frac{\text{Pr}(M_1 | D)}{\text{Pr}(M_2  | D)}\]</span></p>
 <p>Using Bayes Theorem <span class="math inline">\(\text{Pr}(M_i | D) = \text{Pr}(M_i) \frac{p(D | M_i) }{p(D)}\)</span> we can rewrite the
 posterior odds as
@@ -107,8 +107,8 @@ is also called the <strong>weight of evidence</strong> for <span class="math inl
 </h3>
 <p>The <em>expected</em> weight of evidence, with expectation taken with regard to one of the two models,
 is in fact the <strong>KL divergence</strong> between the two models (plus a minus sign depending on direction):</p>
-<p><span class="math display">\[\text{E}_{M_1}( \log B_{12} ) = KL(M_1 || M_2)\]</span></p>
-<p><span class="math display">\[\text{E}_{M_2}( \log B_{12} ) = -\text{E}_{M_2}( \log B_{21} ) = -KL(M_2 || M_1)\]</span></p>
+<p><span class="math display">\[\text{E}_{M_1}( \log B_{12} ) = D_{\text{KL}}(M_1, M_2)\]</span></p>
+<p><span class="math display">\[\text{E}_{M_2}( \log B_{12} ) = -\text{E}_{M_2}( \log B_{21} ) = -D_{\text{KL}}(M_2,  M_1)\]</span></p>
 </div>
 <div id="interpretation-of-and-scale-for-bayes-factor" class="section level3" number="12.1.2">
 <h3>
@@ -317,7 +317,7 @@ In contrast, when selecting a model by maximum likelihood directly, without aver
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
