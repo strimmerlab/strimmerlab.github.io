@@ -93,7 +93,7 @@
 \text{large } n\\
 \downarrow\\
 \text{Fisher 1922}\\
-\textbf{Maximise Likelihood  } L(\boldsymbol \theta|x_1, \dots, x_n)\\
+\textbf{Maximise Likelihood  } L(\boldsymbol \theta|D)\\
 \downarrow\\
 \text{normal model}\\
 \downarrow\\
@@ -124,52 +124,48 @@ observed Fisher information.</p></li>
 <h3>
 <span class="header-section-number">6.2.1</span> Sufficient statistic<a class="anchor" aria-label="anchor" href="#sufficient-statistic"><i class="fas fa-link"></i></a>
 </h3>
-<p>Another important concept in statistics and likelihood theory are so-colled sufficient statistics to summarise the information available in the data about a parameter in a model.</p>
-<p>Generally, a <strong>statistic</strong> <span class="math inline">\(T(x_1, \ldots, x_n)= T(x_i)\)</span> is function of the data <span class="math inline">\(x_1, \ldots, x_n\)</span>. In the following we write <span class="math inline">\(x_i\)</span> as a shorthand for the complete data set with
-<span class="math inline">\(n\)</span> observations.
-The statistic <span class="math inline">\(T(x_i)\)</span> can be of any type and value (scalar, vector, matrix etc. — even a function). <span class="math inline">\(T(x_i)\)</span> is called a <em>summary statistic</em> if it describes important
-aspects of the data such as location (e.g. the average <span class="math inline">\(\text{avg}(x_i) =\bar{x}\)</span>, the median) or scale (e.g. standard
-deviation, interquartile range).</p>
-<p>A statistic <span class="math inline">\(T(x_i)\)</span> is said to be <strong>sufficient</strong> for
-a parameter <span class="math inline">\(\boldsymbol \theta\)</span> in a model if the corresponding likelihood function can be written using only <span class="math inline">\(T(x_i)\)</span>
+<p>Another important concept in statistics and likelihood theory are so-called sufficient statistics to summarise the information available in the data about a parameter in a model.</p>
+<p>Generally, a <strong>statistic</strong> <span class="math inline">\(T(D)\)</span> is function of the observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span>.
+The statistic <span class="math inline">\(T(D)\)</span> can be of any type and value (scalar, vector, matrix etc. — even a function). <span class="math inline">\(T(D)\)</span> is called a <em>summary statistic</em> if it describes important aspects of the data such as location (e.g. the average <span class="math inline">\(\text{avg}(D) =\bar{x}\)</span>, the median) or scale (e.g. standard deviation, interquartile range).</p>
+<p>A statistic <span class="math inline">\(T(D)\)</span> is said to be <strong>sufficient</strong> for
+a parameter <span class="math inline">\(\boldsymbol \theta\)</span> in a model if the corresponding likelihood function can be written using only <span class="math inline">\(T(D)\)</span>
 in the terms that involve <span class="math inline">\(\boldsymbol \theta\)</span> such that
 <span class="math display">\[
-L(\boldsymbol \theta| x_i) = h( T(x_i) , \boldsymbol \theta) \, k(x_i) \,,
+L(\boldsymbol \theta| D) = h( T(D) , \boldsymbol \theta) \, k(D) \,,
 \]</span>
-where <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(k(x)\)</span> are positive-valued functions, and or equivalently on log-scale
+where <span class="math inline">\(h()\)</span> and <span class="math inline">\(k()\)</span> are positive-valued functions, and or equivalently on log-scale
 <span class="math display">\[
-l_n(\boldsymbol \theta) = \log h( T(x_i) , \boldsymbol \theta) + \log k(x_i) \,.
+l_n(\boldsymbol \theta) = \log h( T(D) , \boldsymbol \theta) + \log k(D) \,.
 \]</span>
 This is known as the <strong>Fisher-Pearson factorisation</strong>.</p>
-<p>By construction, estimation and inference about <span class="math inline">\(\boldsymbol \theta\)</span> based on the factorised likelihood <span class="math inline">\(L(\boldsymbol \theta)\)</span> is mediated through the sufficient statistic <span class="math inline">\(T(x_i)\)</span> and does not require the original data <span class="math inline">\(x_i\)</span>. Instead, the sufficient statistic <span class="math inline">\(T(x_i)\)</span> contains all the information in <span class="math inline">\(x_i\)</span> required to learn about the parameter <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-<p>Therefore, if the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> of <span class="math inline">\(\boldsymbol \theta\)</span> exists and is unique then <strong>the MLE is a unique function of the sufficient statistic <span class="math inline">\(T(x_i)\)</span></strong>. If the MLE is not unique then it can be chosen to be function of <span class="math inline">\(T(x_i)\)</span>.
-Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(x_i\)</span>
-are themselves sufficient statistics, with <span class="math inline">\(T(x_i) = x_i\)</span>. Furthermore, sufficient statistics are <strong>not unique</strong> since applying a one-to-one transformation to
-<span class="math inline">\(T(x_i)\)</span> yields another sufficient statistic.</p>
+<p>By construction, estimation and inference about <span class="math inline">\(\boldsymbol \theta\)</span> based on the factorised likelihood <span class="math inline">\(L(\boldsymbol \theta)\)</span> is mediated through the sufficient statistic <span class="math inline">\(T(D)\)</span> and does not require the original data <span class="math inline">\(D\)</span>. Instead, the sufficient statistic <span class="math inline">\(T(D)\)</span> contains all the information in <span class="math inline">\(D\)</span> required to learn about the parameter <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>Therefore, if the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> of <span class="math inline">\(\boldsymbol \theta\)</span> exists and is unique then <strong>the MLE is a unique function of the sufficient statistic <span class="math inline">\(T(D)\)</span></strong>. If the MLE is not unique then it can be chosen to be function of <span class="math inline">\(T(D)\)</span>.
+Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(D\)</span>
+are themselves sufficient statistics, with <span class="math inline">\(T(D) = D\)</span>. Furthermore, sufficient statistics are <strong>not unique</strong> since applying a one-to-one transformation to
+<span class="math inline">\(T(D)\)</span> yields another sufficient statistic.</p>
 </div>
 <div id="induced-partioning-of-data-space-and-likelihood-equivalence" class="section level3" number="6.2.2">
 <h3>
 <span class="header-section-number">6.2.2</span> Induced partioning of data space and likelihood equivalence<a class="anchor" aria-label="anchor" href="#induced-partioning-of-data-space-and-likelihood-equivalence"><i class="fas fa-link"></i></a>
 </h3>
-<p>Every sufficient statistic <span class="math inline">\(T(x_i)\)</span> induces a partitioning of the space of data sets
-by clustering all hypothetical outcomes for which the statistic <span class="math inline">\(T(x_i)\)</span> assumes the same value <span class="math inline">\(t\)</span>:
-<span class="math display">\[\mathcal{X}_t = \{x_i: T(x_i) = t\}\]</span>
-The <strong>data sets in <span class="math inline">\(\mathcal{X}_t\)</span> are equivalent in terms of the sufficient statistic <span class="math inline">\(T(x_i)\)</span></strong>. Note that the dimensions of <span class="math inline">\(T(x_i)\)</span> may be much smaller than
-those of <span class="math inline">\(x_i\)</span>.
-Instead of <span class="math inline">\(n\)</span> data points as few as one or two summaries may be sufficient to fully convey all the information in the data about the model parameters.
-Thus, transforming data <span class="math inline">\(x_i\)</span> using a sufficient statistic <span class="math inline">\(T(x_i)\)</span> may result in substantial <strong>data reduction</strong>.</p>
-<p>Data sets <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> for which the ratio of the
+<p>Every sufficient statistic <span class="math inline">\(T(D)\)</span> induces a partitioning of the space of data sets
+by clustering all hypothetical outcomes for which the statistic <span class="math inline">\(T(D)\)</span> assumes the same value <span class="math inline">\(t\)</span>:
+<span class="math display">\[\mathcal{X}_t = \{D: T(D) = t\}\]</span>
+The <strong>data sets in <span class="math inline">\(\mathcal{X}_t\)</span> are equivalent in terms of the sufficient statistic <span class="math inline">\(T(D)\)</span></strong>. Note that this implies that <span class="math inline">\(T(D)\)</span>
+is not a 1:1 transformation of <span class="math inline">\(D\)</span>. Instead of <span class="math inline">\(n\)</span> data points <span class="math inline">\(x_1, \ldots, x_n\)</span> as few as one or two summaries (such as mean and variance) may be sufficient to fully convey all the information in the data about the model parameters.
+Thus, transforming data <span class="math inline">\(D\)</span> using a sufficient statistic <span class="math inline">\(T(D)\)</span> may result in substantial <strong>data reduction</strong>.</p>
+<p>Two data sets <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span> for which the ratio of the corresponding
 likelihoods
-<span class="math inline">\(L(\boldsymbol \theta| x_i )/L(\boldsymbol \theta| y_i)\)</span> does not depend on <span class="math inline">\(\boldsymbol \theta\)</span> (so the two likelihoods
+<span class="math inline">\(L(\boldsymbol \theta| D_1 )/L(\boldsymbol \theta| D_2)\)</span> does not depend on <span class="math inline">\(\boldsymbol \theta\)</span> (so the two likelihoods
 are proportional to each other by a constant)
 are called <strong>likelihood equivalent</strong> because a likelihood-based procedure
-to learn about <span class="math inline">\(\boldsymbol \theta\)</span> will draw identical conclusions from <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>.
-For data sets <span class="math inline">\(x_i, y_i \in \mathcal{X}_t\)</span> equivalent with respect
-to a sufficient statistic <span class="math inline">\(T(x_i)\)</span>
+to learn about <span class="math inline">\(\boldsymbol \theta\)</span> will draw identical conclusions from <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span>.
+For data sets <span class="math inline">\(D_1, D_2 \in \mathcal{X}_t\)</span> which are equivalent with respect
+to a sufficient statistic <span class="math inline">\(T\)</span>
 it follows directly from the Fisher-Pearson factorisation that
 the ratio
-<span class="math display">\[L(\boldsymbol \theta| x_i )/L(\boldsymbol \theta| y_i) = k(x_i)/ k(y_i)\]</span>
-and thus is constant with regard to <span class="math inline">\(\boldsymbol \theta\)</span>. Consequently, all <strong>data sets in <span class="math inline">\(\mathcal{X}_t\)</span> are also likelihood equivalent</strong>.
+<span class="math display">\[L(\boldsymbol \theta| D_1 )/L(\boldsymbol \theta| D_2) = k(D_1)/ k(D_2)\]</span>
+and thus is constant with regard to <span class="math inline">\(\boldsymbol \theta\)</span>. As a result, all <strong>data sets in <span class="math inline">\(\mathcal{X}_t\)</span> are likelihood equivalent</strong>.
 However, the converse is not true: depending on the sufficient statistics there usually will be many likelihood equivalent data
 sets that are not part of the same set <span class="math inline">\(\mathcal{X}_t\)</span>.</p>
 </div>
@@ -178,16 +174,16 @@ sets that are not part of the same set <span class="math inline">\(\mathcal{X}_t
 <span class="header-section-number">6.2.3</span> Minimal sufficient statistics<a class="anchor" aria-label="anchor" href="#minimal-sufficient-statistics"><i class="fas fa-link"></i></a>
 </h3>
 <p>Of particular interest is therefore to find those sufficient statistics that achieve the coarsest partitioning of the sample space and thus may allow the highest data reduction.
-Specifically, a <strong>minimal sufficient statistic</strong> is a sufficient statistic <span class="math inline">\(T(x_i)\)</span>
-for which all likelihood equivalent data sets also are equivalent under <span class="math inline">\(T(x_i)\)</span>.
-Therefore, to check whether a sufficient statistic <span class="math inline">\(T(x_i\)</span> is minimally sufficient we verify whether for any two likelihood equivalent data sets <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>
-it also follows that <span class="math inline">\(T(x_i) = T(y_i)\)</span>. If this holds true
-then <span class="math inline">\(T(x_i)\)</span> is a minimally sufficient statistic.</p>
-<p>An equivalent non-operational definition is that a minimal sufficient statistic <span class="math inline">\(T(x_i)\)</span> is a sufficient statistic that can be computed from any other sufficient statistic <span class="math inline">\(S(x_i)\)</span>. This follows from the above directly: assume any sufficient statistic <span class="math inline">\(S(x_i)\)</span>, this defines
+Specifically, a <strong>minimal sufficient statistic</strong> is a sufficient statistic
+for which all likelihood equivalent data sets also are equivalent under this statistic.</p>
+<p>Therefore, to check whether a sufficient statistic <span class="math inline">\(T(D)\)</span> is minimally sufficient we need to verify whether for any two likelihood equivalent data sets <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span>
+it also follows that <span class="math inline">\(T(D_1) = T(D_2)\)</span>. If this holds true
+then <span class="math inline">\(T\)</span> is a minimally sufficient statistic.</p>
+<p>An equivalent non-operational definition is that a minimal sufficient statistic <span class="math inline">\(T(D)\)</span> is a sufficient statistic that can be computed from any other sufficient statistic <span class="math inline">\(S(D)\)</span>. This follows from the above directly: assume any sufficient statistic <span class="math inline">\(S(D)\)</span>, this defines
 a corresponding set <span class="math inline">\(\mathcal{X}_s\)</span> of likelihood equivalent data sets. By implication
-any <span class="math inline">\(x_i, y_i \in \mathcal{X}_s\)</span> will ncecessarily also be in <span class="math inline">\(\mathcal{X}_t\)</span>, thus
-whenever <span class="math inline">\(S(x_i)=S(y_i)\)</span> we also have <span class="math inline">\(T(x_i)=T(y_i)\)</span>, and therefore
-<span class="math inline">\(T(x_i)\)</span> is a function of <span class="math inline">\(S(x_i)\)</span>.</p>
+any <span class="math inline">\(D_1, D_2 \in \mathcal{X}_s\)</span> will necessarily also be in <span class="math inline">\(\mathcal{X}_t\)</span>, thus
+whenever <span class="math inline">\(S(D_1)=S(D_2)\)</span> we also have <span class="math inline">\(T(D_1)=T(D_2)\)</span>, and therefore
+<span class="math inline">\(T(D_1)\)</span> is a function of <span class="math inline">\(S(D_1)\)</span>.</p>
 <p>A trivial but <strong>important example of
 a minimal sufficient statistic is the likelihood function itself</strong>
 since by definition it can be computed from any set of sufficient statistics. Thus the likelihood function <span class="math inline">\(L(\boldsymbol \theta)\)</span> captures all information about <span class="math inline">\(\boldsymbol \theta\)</span> that is available in the data. In other words, it provides an <em>optimal summary</em> of the observed data with regard to a model. Note that in Bayesian statistics (to be discussed in Part 2 of the module) the likelihood function is used as proxy/summary of the data.</p>
@@ -205,7 +201,7 @@ l_n(\boldsymbol \theta) = -\frac{n}{2} \log(2 \pi \sigma^2)  - \frac{1}{2 \sigma
 \]</span>
 One possible set of minimal sufficient statistics for <span class="math inline">\(\boldsymbol \theta\)</span> are <span class="math inline">\(\bar{x}\)</span>
 and <span class="math inline">\(\overline{x^2}\)</span>, and with these we can rewrite the log-likelihood function
-without any reference to the original data <span class="math inline">\(x_i\)</span> as follows
+without any reference to the original data <span class="math inline">\(x_1, \ldots, x_n\)</span> as follows
 <span class="math display">\[
 l_n(\boldsymbol \theta) = -\frac{n}{2} \log(2 \pi \sigma^2) 
 -\frac{n}{2 \sigma^2} (\overline{x^2} - 2 \bar{x} \mu + \mu^2)
@@ -371,7 +367,7 @@ it is clear that for large sample size <span class="math inline">\(n\)</span> th
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 16 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -603,7 +603,7 @@ the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a 
 <p>Recall the “Law of Large Numbers” :</p>
 <ul>
 <li><p>By the strong law of large numbers the empirical distribution
-<span class="math inline">\(\hat{F}_n\)</span> converges to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> almost surely:
+<span class="math inline">\(\hat{F}_n\)</span> based on observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> converges to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> almost surely:
 <span class="math display">\[
 \hat{F}_n\overset{a. s.}{\to} F
 \]</span></p></li>
@@ -616,7 +616,7 @@ the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a 
 H(F, G_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, G_{\boldsymbol \theta}) \\
                   &amp; = - \text{E}_{\hat{F}_n} (\log g(x|\boldsymbol \theta))  \\
                   &amp; = -\frac{1}{n} \sum_{i=1}^n \log g(x_i | \boldsymbol \theta) \\
-                  &amp; = -\frac{1}{n} l_n ({\boldsymbol \theta})
+                  &amp; = -\frac{1}{n} l_n ({\boldsymbol \theta}| D)
 \end{split}
 \]</span>
 This turns out to be equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>! Or in other words, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
@@ -626,7 +626,7 @@ H(\hat{F}) \approx \frac{1}{n} \log \binom{n}{n_1, \ldots, n_K}
 \]</span></p>
 <p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,G_{\boldsymbol \theta})\)</span> can therefore be approximated by
 <span class="math display">\[
-D_{\text{KL}}(F,G_{\boldsymbol \theta}) \approx -\frac{1}{n} \left( \log \binom{n}{n_1, \ldots, n_K} + l_n ({\boldsymbol \theta})  \right)
+D_{\text{KL}}(F,G_{\boldsymbol \theta}) \approx -\frac{1}{n} \left( \log \binom{n}{n_1, \ldots, n_K} + l_n ({\boldsymbol \theta}| D)  \right)
 \]</span>
 Thus, with the KL divergence we obtain not just the log-likelihood (the cross-entropy part) but also the multiplicity factor taking account of the possible orderings of the data (the entropy part).</p>
 </div>
@@ -640,14 +640,14 @@ However, since we actually don’t know <span class="math inline">\(F\)</span> t
 is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section.
 Thus, instead of minimising the KL divergence
 <span class="math inline">\(D_{\text{KL}}(F, G_{\boldsymbol \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, G_{\boldsymbol \theta})\)</span> which
-is the same as maximising the likelihood <span class="math inline">\(l_n ({\boldsymbol \theta})\)</span>.
+is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\boldsymbol \theta}| D)\)</span>.
 Note that the entropy of the true distribution <span class="math inline">\(F\)</span> (and the corresponding empirical
 distribution <span class="math inline">\(\hat{F}\)</span>) that does not depend on the parameters <span class="math inline">\(\boldsymbol \theta\)</span>
 and hence it does not matter when minimising the divergence.</p>
 <p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>) to minimising the KL divergence of the approximating model and the unknown true model!</p>
 <p><span class="math display">\[
 \begin{split}
-\hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta) \\
+\hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta| D) \\
  &amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, G_{\boldsymbol \theta}) \\
  &amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, G_{\boldsymbol \theta}) \\
 \end{split}
@@ -731,7 +731,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 16 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

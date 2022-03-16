@@ -179,14 +179,14 @@ Depending on the context this quantity is either called <em>marginal density</em
 <h3>
 <span class="header-section-number">7.2.3</span> Bayesian update and likelihood<a class="anchor" aria-label="anchor" href="#bayesian-update-and-likelihood"><i class="fas fa-link"></i></a>
 </h3>
-<p>After independent and identically distributed data <span class="math inline">\(x_1, \ldots, x_n\)</span> have been observed the Bayesian posterior is computed by<br><span class="math display">\[
-\underbrace{p(\theta | x_1, \ldots, x_n)}_{\text{posterior} } = \underbrace{p(\theta)}_{\text{prior}} \frac{ L(\theta| x_1, \ldots, x_n) }{ L(x_1, \ldots, x_n)} 
+<p>After independent and identically distributed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> have been observed the Bayesian posterior is computed by<br><span class="math display">\[
+\underbrace{p(\theta | D) }_{\text{posterior} } = \underbrace{p(\theta)}_{\text{prior}} \frac{ L(\theta| D) }{ L(D)} 
 \]</span>
-involving the likelihood <span class="math inline">\(L(\theta| x_1, \ldots, x_n) = \prod_{i=1}^n p(x_i | \theta)\)</span>
-and the marginal likelihood <span class="math inline">\(L(x_1, \ldots, x_n) = \int_{\theta} p(\theta) L(\theta| x_1, \ldots, x_n) d\theta\)</span> with <span class="math inline">\(\theta\)</span> integrated out.</p>
+involving the likelihood <span class="math inline">\(L(\theta| D) = \prod_{i=1}^n p(x_i | \theta)\)</span>
+and the marginal likelihood <span class="math inline">\(L(D) = \int_{\theta} p(\theta) L(\theta| D) d\theta\)</span> with <span class="math inline">\(\theta\)</span> integrated out.</p>
 <p>The marginal likelihood serves as a standardising factor so that the posterior density for <span class="math inline">\(\theta\)</span> integrates to 1:
 <span class="math display">\[
-\int_{\theta} p(\theta | x_1, \ldots, x_n) d\theta = \frac{1}{L(x_1, \ldots, x_n)} \int_{\theta} p(\theta) L(\theta| x_1, \ldots, x_n) d\theta  = 1
+\int_{\theta} p(\theta | D) d\theta = \frac{1}{L(D)} \int_{\theta} p(\theta) L(\theta| D) d\theta  = 1
 \]</span>
 Unfortunately, the integral to compute the marginal likelihood is typically analytically intractable and requires
 numerical integration and/or approximation.</p>
@@ -200,7 +200,7 @@ numerical integration and/or approximation.</p>
 <h3>
 <span class="header-section-number">7.2.4</span> Sequential updates<a class="anchor" aria-label="anchor" href="#sequential-updates"><i class="fas fa-link"></i></a>
 </h3>
-<p>Note that the Bayesian update procedure can be repeated again and again: we can use the posterior as our new prior and then update it with further data. Thus, we may also update the posterior density sequentially, with the data points <span class="math inline">\(x_1, \ldots, x_n\)</span> arriving one after the other, by computing first <span class="math inline">\(p(\theta| x_1)\)</span>, then <span class="math inline">\(p(\theta| x_1, x_2)\)</span> and so on until we reach <span class="math inline">\(p(\theta | x_1, \ldots, x_n)\)</span>.</p>
+<p>Note that the Bayesian update procedure can be repeated again and again: we can use the posterior as our new prior and then update it with further data. Thus, we may also update the posterior density sequentially, with the data points <span class="math inline">\(x_1, \ldots, x_n\)</span> arriving one after the other, by computing first <span class="math inline">\(p(\theta| x_1)\)</span>, then <span class="math inline">\(p(\theta| x_1, x_2)\)</span> and so on until we reach <span class="math inline">\(p(\theta | x_1, \ldots, x_n) = p(\theta| D)\)</span>.</p>
 <p>For example, for the first update we have
 <span class="math display">\[
 p(\theta| x_1) =  p(\theta)   \frac{p(x_1 | \theta)  }{p(x_1)}
@@ -218,18 +218,18 @@ with <span class="math inline">\(p(x_2| x_1) = \int_{\theta} p(x_2 | \theta) p(\
 The final step is
 <span class="math display">\[
 \begin{split}
-p(\theta| x_1, \ldots, x_n) &amp;=   p(\theta) \frac{ \prod_{i=1}^n p(x_i | \theta)  }{ L(x_1, \ldots, x_n)  }\\
+p(\theta| D)  = p(\theta| x_1, \ldots, x_n) &amp;=   p(\theta) \frac{ \prod_{i=1}^n p(x_i | \theta)  }{ L(D)  }\\
 \end{split}
 \]</span>
 with the marginal likelihood factorising into
 <span class="math display">\[
-L(x_1, \ldots, x_n) = \prod_{i=1}^n p(x_i| x_{&lt;i})
+L(D) = \prod_{i=1}^n p(x_i| x_{&lt;i})
 \]</span>
 with
 <span class="math display">\[
 p(x_i| x_{&lt;i}) = \int_{\theta} p(x_i | \theta) p(\theta| x_{&lt;i}) d\theta
 \]</span>
-Therefore, the marginal likelihood <span class="math inline">\(L(x_1, \ldots, x_n)\)</span> is <em>not</em> the product
+Therefore, the marginal likelihood <span class="math inline">\(L(D)\)</span> is <em>not</em> the product
 of the marginal densities <span class="math inline">\(p(x_i)\)</span> at each <span class="math inline">\(x_i\)</span> but the product of the conditional densities <span class="math inline">\(p(x_i| x_{&lt;i})\)</span>.</p>
 </div>
 <div id="summaries-of-posterior-distributions-and-credible-intervals" class="section level3" number="7.2.5">
@@ -239,9 +239,9 @@ of the marginal densities <span class="math inline">\(p(x_i)\)</span> at each <s
 <p><strong>The Bayesian estimate is the full complete posterior distribution!</strong></p>
 <p>However, it is useful to summarise aspects of the posterior distribution:</p>
 <ul>
-<li>Posterior mean <span class="math inline">\(\text{E}(\theta | x)\)</span>
+<li>Posterior mean <span class="math inline">\(\text{E}(\theta | D)\)</span>
 </li>
-<li>Posterior variance <span class="math inline">\(\text{Var}(\theta | x)\)</span>
+<li>Posterior variance <span class="math inline">\(\text{Var}(\theta | D)\)</span>
 </li>
 <li>Posterior mode
 etc.</li>
@@ -474,7 +474,7 @@ also helps in experimental design to quantify the information provided by an exp
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 16 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

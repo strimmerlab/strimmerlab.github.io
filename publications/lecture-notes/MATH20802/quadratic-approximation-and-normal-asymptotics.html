@@ -204,7 +204,7 @@ notations is generally preferable.</p>
 </h3>
 <p>Assume we observe a single sample <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma^2)\)</span> with known covariance. The corresponding log-likelihood for <span class="math inline">\(\boldsymbol \mu\)</span> is
 <span class="math display">\[
-l_1(\boldsymbol \mu) = C - \frac{1}{2}(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)
+l_1(\boldsymbol \mu| \boldsymbol x) = C - \frac{1}{2}(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)
 \]</span>
 where <span class="math inline">\(C\)</span> is a constant that does not depend on <span class="math inline">\(\boldsymbol \mu\)</span>.
 Note that the log-likelihood is exactly quadratic and the maximum lies
@@ -214,18 +214,18 @@ at <span class="math inline">\((\boldsymbol x, C)\)</span>.</p>
 <h3>
 <span class="header-section-number">4.2.2</span> Quadratic approximation of a log-likelihood function<a class="anchor" aria-label="anchor" href="#quadratic-approximation-of-a-log-likelihood-function"><i class="fas fa-link"></i></a>
 </h3>
-<p>Now consider the quadratic approximation of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta)\)</span> for
-a general model around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
+<p>Now consider the quadratic approximation of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta| D)\)</span> for
+around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
 <div class="inline-figure"><img src="fig/lecture4_p1.PNG" width="80%" style="display: block; margin: auto;"></div>
-<p>We assume the model is regular with
-<span class="math inline">\(\nabla l_n(\hat{\boldsymbol \theta}_{ML} ) = 0\)</span>. The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> is
+<p>We assume the underlying model is regular and that
+<span class="math inline">\(\nabla l_n(\hat{\boldsymbol \theta}_{ML} | D) = 0\)</span>. The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> is
 <span class="math display">\[
 f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
 (\boldsymbol x-\boldsymbol x_0)^T \nabla^T \nabla f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \ldots
 \]</span>
 Applied to the log-likelihood function this yields</p>
-<p><span class="math display">\[l_n(\boldsymbol \theta) \approx l_n(\hat{\boldsymbol \theta}_{ML})- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)\]</span></p>
-<p>This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, l_n(\hat{\boldsymbol \theta}_{ML}) )\)</span>.
+<p><span class="math display">\[l_n(\boldsymbol \theta| D) \approx l_n(\hat{\boldsymbol \theta}_{ML} | D)- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)\]</span></p>
+<p>This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, l_n(\hat{\boldsymbol \theta}_{ML} | D) )\)</span>.
 Note the natural appearance
 of the observed Fisher information <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> in the quadratic term.
 There is no linear term because of the vanishing gradient at the MLE.</p>
@@ -237,7 +237,7 @@ Fisher information matrix so that <span class="math inline">\(J_n(\hat{\boldsymb
 <p><span id="exm:quadapproxproportion" class="example"><strong>Example 4.2  </strong></span>Quadratic approximation of the log-likelihood for a proportion:</p>
 <p>From Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a> we have the log-likelihood
 <span class="math display">\[
-l_n(p) = n \left( \bar{x} \log p + (1-\bar{x}) \log(1-p) \right)
+l_n(p | D) = n \left( \bar{x} \log p + (1-\bar{x}) \log(1-p) \right)
 \]</span>
 and the MLE
 <span class="math display">\[
@@ -251,18 +251,18 @@ J_n(\hat{p}_{ML}) = \frac{n}{\bar{x} (1-\bar{x})}
 \]</span>
 The log-likelihood at the MLE is
 <span class="math display">\[
-l_n(\hat{p}_{ML}) = n \left( \bar{x} \log \bar{x} + (1-\bar{x}) \log(1-\bar{x}) \right)
+l_n(\hat{p}_{ML} | D) = n \left( \bar{x} \log \bar{x} + (1-\bar{x}) \log(1-\bar{x}) \right)
 \]</span>
 This allows us to construct the quadratic approximation of the log-likelihood
 around the MLE as
 <span class="math display">\[
 \begin{split}
-l_n(p) &amp; \approx  l_n(\hat{p}_{ML}) - \frac{1}{2} J_n(\hat{p}_{ML}) (p-\hat{p}_{ML})^2 \\
+l_n(p| D) &amp; \approx  l_n(\hat{p}_{ML} | D) - \frac{1}{2} J_n(\hat{p}_{ML}) (p-\hat{p}_{ML})^2 \\
    &amp;= n \left( \bar{x} \log \bar{x} + (1-\bar{x}) \log(1-\bar{x}) - \frac{(p-\bar{x})^2}{2 \bar{x} (1-\bar{x})}  \right) \\
 &amp;=  C + \frac{ \bar{x} p -\frac{1}{2} p^2}{ \bar{x} (1-\bar{x})/n} \\
 \end{split}
 \]</span>
-The constant <span class="math inline">\(C\)</span> does not depend on <span class="math inline">\(p\)</span>, its only purpose is to match the approximate log-likelihood at the MLE with that of the corresponding original log-likelihood. The
+The constant <span class="math inline">\(C\)</span> does not depend on <span class="math inline">\(p\)</span>, its function is to match the approximate log-likelihood at the MLE with that of the corresponding original log-likelihood. The
 approximate log-likelihood takes on the form of a normal log-likelihood
 (Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>) for one observation
 of <span class="math inline">\(\hat{p}_{ML}=\bar{x}\)</span> from <span class="math inline">\(N\left(p, \frac{\bar{x} (1-\bar{x})}{n} \right)\)</span>.</p>
@@ -501,7 +501,7 @@ corresponding normal confidence interval (CI):</p>
 <p>For example, to construct the asymptotic normal CI for the MLE of
 a scalar parameter <span class="math inline">\(\theta\)</span> we use the MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> as estimate of the mean
 and its standard deviation <span class="math inline">\(\widehat{\text{SD}}(\hat{\theta}_{ML})\)</span> computed from the observed Fisher information:</p>
-<p><span class="math display">\[\text{CI}=[\hat{\theta}_{ML} \pm c_{normal} \widehat{\text{SD}}(\hat{\theta}_{ML})]\]</span></p>
+<p><span class="math display">\[\text{CI}=[\hat{\theta}_{ML} \pm c_{\text{normal}} \widehat{\text{SD}}(\hat{\theta}_{ML})]\]</span></p>
 <p><span class="math inline">\(c_{normal}\)</span> is a critical value for the standard-normal symmetric confidence interval
 chosen to achieve the desired nominal coverage-
 The critical values are computed using the inverse standard normal distribution function via
@@ -654,8 +654,8 @@ With <span class="math inline">\(x_{[i]}\)</span> we denote the <em>ordered</em>
     \frac{1}{\theta} &amp;\text{if } x \in [0,\theta] \\
     0              &amp; \text{otherwise.}
 \end{cases}
-\]</span></p>
-<p><img src="fig/lecture5_p4.PNG" width="80%" style="display: block; margin: auto;">
+\]</span>
+<img src="fig/lecture5_p4.PNG" width="70%" style="display: block; margin: auto;">
 and on the log-scale
 <span class="math display">\[
 \log f(x|\theta) =\begin{cases}
@@ -663,23 +663,23 @@ and on the log-scale
     - \infty              &amp; \text{otherwise.}
 \end{cases}
 \]</span></p>
-<p>Since all observed data <span class="math inline">\(x_1, \ldots, x_n\)</span> lie in the interval <span class="math inline">\([0,\theta]\)</span>
+<p>Since all observed data <span class="math inline">\(D =\{x_1, \ldots, x_n\}\)</span> lie in the interval <span class="math inline">\([0,\theta]\)</span>
 we get as log-likelihood function
 <span class="math display">\[
-l_n(\theta) =\begin{cases}
+l_n(\theta| D) =\begin{cases}
     -n\log \theta  &amp;\text{for } x_{[n]} \leq \theta \\
     - \infty              &amp; \text{otherwise}
 \end{cases}
 \]</span></p>
 <p>Obtaining the MLE of <span class="math inline">\(\theta\)</span> is straightforward: <span class="math inline">\(-n\log \theta\)</span> is monotonically decreasing with <span class="math inline">\(\theta\)</span>
 and <span class="math inline">\(\theta \geq x_{[n]}\)</span> hence the log-likelihood function has a maximum at <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>.</p>
-<p>However, there is a discontinuity in <span class="math inline">\(l_n(\theta)\)</span> at <span class="math inline">\(x_{[n]}\)</span> and therefore
-<span class="math inline">\(l_n(\theta)\)</span> <strong>is not differentiable</strong> at <span class="math inline">\(\hat{\theta}_{ML}\)</span>.
+<p>However, there is a discontinuity in <span class="math inline">\(l_n(\theta| D)\)</span> at <span class="math inline">\(x_{[n]}\)</span> and therefore
+<span class="math inline">\(l_n(\theta| D)\)</span> <strong>is not differentiable</strong> at <span class="math inline">\(\hat{\theta}_{ML}\)</span>.
 Thus, <strong>there is no quadratic approximation around <span class="math inline">\(\hat{\theta}_{ML}\)</span></strong>
 and the <strong>observed Fisher information cannot be computed</strong>.
 Hence, the normal approximation for the distribution of <span class="math inline">\(\hat{\theta}_{ML}\)</span> is not valid regardless of sample size, i.e. not even asymptotically for <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
-<p>Nonetheless, we can in fact still obtain the sampling distribution of <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>. However, <em>not</em> via asymptotic arguments but instead by understanding that <span class="math inline">\(x_{[n]}\)</span> is an order statistic (see <a href="https://en.wikipedia.org/wiki/Order_statistic" class="uri">https://en.wikipedia.org/wiki/Order_statistic</a> ) with the following properties:</p>
-<p><span class="math display">\[\begin{align*}
+<p>Nonetheless, we can in fact still obtain the sampling distribution of <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>. However, <em>not</em> via asymptotic arguments but instead by understanding that <span class="math inline">\(x_{[n]}\)</span> is an order statistic (see <a href="https://en.wikipedia.org/wiki/Order_statistic" class="uri">https://en.wikipedia.org/wiki/Order_statistic</a> ) with the following properties:
+<span class="math display">\[\begin{align*}
 \begin{array}{cc}
 x_{[n]}\sim \theta \, \text{Beta}(n,1)\\
 \\
@@ -747,7 +747,7 @@ x_{[n]}\sim \theta \, \text{Beta}(n,1)\\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 15 March 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 16 March 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
