@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>8 Models with latent variables and missing data | Statistical Methods: Likelihood, Bayes and Regression</title>
+<meta name="author" content="Korbinian Strimmer">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="8 Models with latent variables and missing data | Statistical Methods: Likelihood, Bayes and Regression">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="8 Models with latent variables and missing data | Statistical Methods: Likelihood, Bayes and Regression">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="8.1 Complete data log-likelihood versus observed data log-likelihood It is frequently the case that we need to employ models where not all variables are observable and the corresponding data are...">
+<meta property="og:description" content="8.1 Complete data log-likelihood versus observed data log-likelihood It is frequently the case that we need to employ models where not all variables are observable and the corresponding data are...">
+<meta name="twitter:description" content="8.1 Complete data log-likelihood versus observed data log-likelihood It is frequently the case that we need to employ models where not all variables are observable and the corresponding data are...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistical Methods: Likelihood, Bayes and Regression</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="" href="conditioning-and-bayes-rule.html"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></li>
+<li><a class="active" href="models-with-latent-variables-and-missing-data.html"><span class="header-section-number">8</span> Models with latent variables and missing data</a></li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="bayesian-learning-in-practise.html"><span class="header-section-number">10</span> Bayesian learning in practise</a></li>
+<li><a class="" href="bayesian-model-comparison.html"><span class="header-section-number">11</span> Bayesian model comparison</a></li>
+<li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
+<li class="book-part">Regression</li>
+<li><a class="" href="overview-over-regression-modelling.html"><span class="header-section-number">14</span> Overview over regression modelling</a></li>
+<li><a class="" href="linear-regression.html"><span class="header-section-number">15</span> Linear Regression</a></li>
+<li><a class="" href="estimating-regression-coefficients.html"><span class="header-section-number">16</span> Estimating regression coefficients</a></li>
+<li><a class="" href="squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html"><span class="header-section-number">17</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="models-with-latent-variables-and-missing-data" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Models with latent variables and missing data<a class="anchor" aria-label="anchor" href="#models-with-latent-variables-and-missing-data"><i class="fas fa-link"></i></a>
+</h1>
+<div id="complete-data-log-likelihood-versus-observed-data-log-likelihood" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Complete data log-likelihood versus observed data log-likelihood<a class="anchor" aria-label="anchor" href="#complete-data-log-likelihood-versus-observed-data-log-likelihood"><i class="fas fa-link"></i></a>
+</h2>
+<p>It is frequently the case that we need to employ models where
+not all variables are observable and the corresponding data are missing.</p>
+<p>For example consider two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a joint density
+<span class="math display">\[
+p(x, y| \boldsymbol \theta)
+\]</span>
+and parameters <span class="math inline">\(\boldsymbol \theta\)</span>. If we observe data <span class="math inline">\(D_x = \{ x_1, \ldots, x_n\}\)</span>
+and <span class="math inline">\(D_y = \{ y_1, \ldots, y_n\}\)</span> for <span class="math inline">\(n\)</span> samples we can use the <strong>complete data log-likelihood</strong>
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x, D_y) = \sum_{i=1}^n  \log p(x_i, y_i| \boldsymbol \theta)
+\]</span>
+to estimate <span class="math inline">\(\boldsymbol \theta\)</span>. Recall that
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x, D_y) =-n H(\hat{Q}_{x,y}, P_{x, y|\boldsymbol \theta})
+\]</span>
+where <span class="math inline">\(\hat{Q}_{x,y}\)</span> is the empirical joint distribution based on both <span class="math inline">\(D_x\)</span> and <span class="math inline">\(D_y\)</span> and
+<span class="math inline">\(P_{x, y|\boldsymbol \theta}\)</span> the joint model, so maximising the complete data log-likelihood minimises
+the cross-entropy <span class="math inline">\(H(\hat{Q}_{x,y}, P_{x, y|\boldsymbol \theta})\)</span>.</p>
+<p>Now assume that <span class="math inline">\(y\)</span> is not observable and hence is a so-called <strong>latent variable</strong>. Then we don’t have observations <span class="math inline">\(D_y\)</span> and therefore cannot use the complete data likelihood.
+Instead, for maximum likelihood estimation with missing data
+we need to use the <strong>observed data log-likelihood</strong>.</p>
+<p>From the joint density we obtain the marginal density for <span class="math inline">\(x\)</span> by integrating out the unobserved variable <span class="math inline">\(y\)</span>:
+<span class="math display">\[
+p(x | \boldsymbol \theta) = \int_y  p(x, y| \boldsymbol \theta) dy
+\]</span>
+Using the marginal model we then compute the <strong>observed data log-likelihood</strong>
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x) = \sum_{i=1}^n  \log p(x_i| \boldsymbol \theta) =\sum_{i=1}^n \log \int_y  p(x_i, y| \boldsymbol \theta) dy
+\]</span>
+Note that only the data <span class="math inline">\(D_x\)</span> are used.</p>
+<p>Maximum likelihood estimation based on the marginal model proceeds as usual by maximising the corresponding
+observed data likelihood function which is
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x) = -n H(\hat{Q}_{x}, P_{x|\boldsymbol \theta})
+\]</span>
+where <span class="math inline">\(\hat{Q}_{x}\)</span> is the empirical distribution based only on <span class="math inline">\(D_x\)</span> and <span class="math inline">\(P_{x|\boldsymbol \theta}\)</span>
+is the model family. Hence, maximising the observed data log-likelihood minimises the cross-entropy
+<span class="math inline">\(H(\hat{Q}_{x}, P_{x|\boldsymbol \theta})\)</span>.</p>
+<div class="example">
+<p><span id="exm:normmixmodel" class="example"><strong>Example 8.1  </strong></span>Two group normal mixture model:</p>
+<p>Assume we have two groups labelled by <span class="math inline">\(y=1\)</span> and <span class="math inline">\(y=2\)</span> (thus the variable <span class="math inline">\(y\)</span> is discrete). The data <span class="math inline">\(x\)</span> observed in each group are normal with means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and variances
+<span class="math inline">\(\sigma^2_1\)</span> and <span class="math inline">\(\sigma^2_2\)</span>, respectively.
+The probability of group <span class="math inline">\(1\)</span> is <span class="math inline">\(\pi_1 = p\)</span> and the probability of group <span class="math inline">\(2\)</span> is <span class="math inline">\(\pi_2=1-p\)</span>.
+The density of the joint model for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is
+<span class="math display">\[
+p(x, y| \boldsymbol \theta)  = \pi_y N(x| \mu_y, \sigma_y)
+\]</span>
+The model parameters are <span class="math inline">\(\boldsymbol \theta= (p, \mu_1, \mu_2, \sigma^2_1, \sigma^2_2)^T\)</span>
+and they can be inferred from the complete data comprised of <span class="math inline">\(D_x = \{x_1, \ldots, x_n\}\)</span> and the group allocations <span class="math inline">\(D_y=\{y_1, \ldots, y_n\}\)</span> of each sample using the complete data log-likelihood
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x, D_y  ) =\sum_{i=1}^n  \log \pi_{y_i} + \sum_{i=1}^n \log  N(x_i| \mu_{y_i}, \sigma_{y_i})
+\]</span></p>
+<p>However, typically we do not know the class allocation <span class="math inline">\(y\)</span> and thus we need to use the marginal
+model for <span class="math inline">\(x\)</span> alone which has density
+<span class="math display">\[
+\begin{split}
+p(x| \boldsymbol \theta) &amp;= \sum_{y=1}^2 \pi_y N(\mu_y, \sigma^2_y) \\
+&amp;= p N(x| \mu_1, \sigma^2_1) + (1-p)  N(x | \mu_2, \sigma^2_2)\\
+\end{split}
+\]</span>
+This is an example of a <strong>two-component mixture model</strong>.
+The corresponding observed data log-likelihood is
+<span class="math display">\[
+l_n(\boldsymbol \theta| D_x ) = \sum_{i=1}^n  \log \sum_{y=1}^2 \pi_y N(x |\mu_y, \sigma^2_y)
+\]</span>
+Note that the form of the observed data log-likelihood is more complex than that of the
+complete data log-likelihood because it contains the logarithm of a sum that cannot be simplified.
+It is used to estimate the model parameters <span class="math inline">\(\boldsymbol \theta\)</span> from <span class="math inline">\(D_x\)</span> without
+requiring knowledge of the class allocations <span class="math inline">\(D_y\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:altmarglkl" class="example"><strong>Example 8.2  </strong></span>Alternative computation of the observed data likelihood:</p>
+<p>An alternative way to arrive at the observed data likelihood is to marginalise the complete data likelihood.
+<span class="math display">\[
+L_n(\boldsymbol \theta| D_x, D_y) = \prod_{i=1}^n p(x_i, y_i| \boldsymbol \theta)
+\]</span>
+and
+<span class="math display">\[
+L_n(\boldsymbol \theta| D_x) = \int_{y_1, \ldots, y_n} \prod_{i=1}^n p(x_i, y_i| \boldsymbol \theta) dy_1 \ldots dy_n
+\]</span>
+The integration (sum) and the multiplication can be interchanged as per <a href="https://en.wikipedia.org/wiki/Generalized_distributive_law">Generalised Distributive Law</a> leading to
+<span class="math display">\[
+L_n(\boldsymbol \theta| D_x) =  \prod_{i=1}^n \int_{y} p(x_i, y| \boldsymbol \theta) dy
+\]</span>
+which is the same as constructing the likelihood from the marginal density.</p>
+</div>
+</div>
+<div id="estimation-of-the-unobservable-latent-states-using-bayes-theorem" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Estimation of the unobservable latent states using Bayes theorem<a class="anchor" aria-label="anchor" href="#estimation-of-the-unobservable-latent-states-using-bayes-theorem"><i class="fas fa-link"></i></a>
+</h2>
+<p>After estimating the marginal model it is straightforward to obtain a
+probabilistic prediction about the state of the latent variables <span class="math inline">\(y_1, \ldots, y_n\)</span>.
+Since
+<span class="math display">\[
+p(x, y | \boldsymbol \theta) = p( x|\boldsymbol \theta) \, p(y | x, \boldsymbol \theta) =  p( y|\boldsymbol \theta) \, p(x | y, \boldsymbol \theta)
+\]</span>
+given an estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> we are able to compute for each observation <span class="math inline">\(x_i\)</span>
+<span class="math display">\[
+p(y_i | x_i , \hat{\boldsymbol \theta}) = \frac{p(x_i, y_i | \hat{\boldsymbol \theta} ) }{p(x_i|\hat{\boldsymbol \theta})}
+=\frac{  p( y_i|\hat{\boldsymbol \theta}) \, p(x_i | y_i, \hat{\boldsymbol \theta})     }{p(x_i|\hat{\boldsymbol \theta})}
+\]</span>
+the probabilities / densities of all states of <span class="math inline">\(y_i\)</span>
+(note this an application of Bayes’ theorem).</p>
+<div class="example">
+<p><span id="exm:normixlat" class="example"><strong>Example 8.3  </strong></span>Latent states of two group normal mixture model:</p>
+<p>Continuing from Example <a href="models-with-latent-variables-and-missing-data.html#exm:normmixmodel">8.1</a> above we assume the marginal model has been fitted with
+parameter values <span class="math inline">\(\hat{\boldsymbol \theta} = (\hat{p},\hat{\mu}_1, \hat{\mu}_2, \widehat{\sigma^2_1}, \widehat{\sigma^2_2} )^T\)</span>.
+Then for each sample <span class="math inline">\(x_i\)</span> we can get
+probabilistic prediction about group assocation of each sample by
+<span class="math display">\[
+p(y_i | x_i, \hat{\boldsymbol \theta}) = \frac{\hat{\pi}_{y_i} N(x_i| \hat{\mu}_{y_i}, \widehat{\sigma^2_{y_i}})}{\hat{p} N(x_i| \hat{\mu}_1, \widehat{\sigma^2_1}) + (1-\hat{p})  N(x_i | \hat{\mu}_2,  \widehat{\sigma^2_2})}
+\]</span></p>
+</div>
+</div>
+<div id="em-algorithm" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> EM Algorithm<a class="anchor" aria-label="anchor" href="#em-algorithm"><i class="fas fa-link"></i></a>
+</h2>
+<p>Computing and maximising the observed data log-likelihood can be difficult
+because of the integration over the unobserved variable (or summation in case of a discrete latent variable). In contrast, the complete data log-likelihood function may be easier to compute.</p>
+<p>The widely used <strong>EM algorithm</strong>, formally described by Dempster and others (1977) but also used before, addresses this problem and maximises the observed data log-likelihood indirectly in an iterative procedure comprising two steps:</p>
+<ol style="list-style-type: decimal">
+<li>First, the missing data <span class="math inline">\(D_y\)</span> is imputed using Bayes’ theorem, providing a probabilities (“soft allocations”) of the internal states (“E” step).</li>
+<li>Subsequently, the expected complete data log-likelihood function is employed to estimate <span class="math inline">\(\boldsymbol \theta\)</span>, where the expectation is with regard to the distribution over the latent states (“M” step).</li>
+</ol>
+<p>The EM algorithm leads to the exact same estimates as if the observed data log-likelihood would be optimised directly (therefore it is in fact <em>not</em> an approximation).</p>
+<p>The EM algorithm and application to clustering is discussed in more detail in the module <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH38161/">MATH38161 Multivariate Statistics and Machine Learning</a>.</p>
+<p>In a nutshell, the justication for the EM algorithm follows from the entropy chain rules and the corresponding bounds (see previous chapter). Specifically, given the data for <span class="math inline">\(x\)</span> and hence the empirical distribution <span class="math inline">\(\hat{Q}_x\)</span>, by minimising <span class="math inline">\(D_{\text{KL}}( \hat{Q}_{x} Q_{y| x}, P_{x, y})\)</span> iteratively</p>
+<ol style="list-style-type: decimal">
+<li>with regard to <span class="math inline">\(Q_{y| x}\)</span> (“E” step) and</li>
+<li>with regard to the parameters of <span class="math inline">\(P_{x, y}\)</span> (“M” step")</li>
+</ol>
+<p>one minimises <span class="math inline">\(D_{\text{KL}}(\hat{Q}_{x} , P_{x})\)</span> with regard to the parameters of <span class="math inline">\(P_{x}\)</span>.</p>
+<p>Interestingly, in the “E” step the first argument of the KL divergence is optimised (“I” projection) and in the “M” step the second argument (“M” projection).</p>
+<p>Alternatively (and equivalently), instead of bounding the marginal KL divergence one can also minimise the upper bound or maximise the lower bound on
+the (negative) cross-entropy, all of this yielding the same EM algorithm.</p>
+<p>Note that the optimisation of the entropy bound in the “E” step
+requires variational calculus since the argument is a distribution!
+The EM algorithm is in fact a special case of a <strong>variational Bayes algorithm</strong>
+since it not only provides estimates of <span class="math inline">\(\boldsymbol \theta\)</span> but also yields the distribution of the latent states by means of the calculus of variations.</p>
+<p>Finally, in the above we see that we can learn about unobservable states by means of Bayes theorem. Extending this principle to learning about parameters and models we arrive at Bayesian learning.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="conditioning-and-bayes-rule.html"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></div>
+<div class="next"><a href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#models-with-latent-variables-and-missing-data"><span class="header-section-number">8</span> Models with latent variables and missing data</a></li>
+<li><a class="nav-link" href="#complete-data-log-likelihood-versus-observed-data-log-likelihood"><span class="header-section-number">8.1</span> Complete data log-likelihood versus observed data log-likelihood</a></li>
+<li><a class="nav-link" href="#estimation-of-the-unobservable-latent-states-using-bayes-theorem"><span class="header-section-number">8.2</span> Estimation of the unobservable latent states using Bayes theorem</a></li>
+<li><a class="nav-link" href="#em-algorithm"><span class="header-section-number">8.3</span> EM Algorithm</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 30 April 2022.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

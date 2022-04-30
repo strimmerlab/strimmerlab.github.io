@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>7 Conditioning and Bayes rule | Statistical Methods: Likelihood, Bayes and Regression</title>
+<meta name="author" content="Korbinian Strimmer">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="7 Conditioning and Bayes rule | Statistical Methods: Likelihood, Bayes and Regression">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="7 Conditioning and Bayes rule | Statistical Methods: Likelihood, Bayes and Regression">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.  7.1 Conditional probability Assume we have two random variables \(x\)...">
+<meta property="og:description" content="In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.  7.1 Conditional probability Assume we have two random variables \(x\)...">
+<meta name="twitter:description" content="In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.  7.1 Conditional probability Assume we have two random variables \(x\)...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistical Methods: Likelihood, Bayes and Regression</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="active" href="conditioning-and-bayes-rule.html"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></li>
+<li><a class="" href="models-with-latent-variables-and-missing-data.html"><span class="header-section-number">8</span> Models with latent variables and missing data</a></li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="bayesian-learning-in-practise.html"><span class="header-section-number">10</span> Bayesian learning in practise</a></li>
+<li><a class="" href="bayesian-model-comparison.html"><span class="header-section-number">11</span> Bayesian model comparison</a></li>
+<li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
+<li class="book-part">Regression</li>
+<li><a class="" href="overview-over-regression-modelling.html"><span class="header-section-number">14</span> Overview over regression modelling</a></li>
+<li><a class="" href="linear-regression.html"><span class="header-section-number">15</span> Linear Regression</a></li>
+<li><a class="" href="estimating-regression-coefficients.html"><span class="header-section-number">16</span> Estimating regression coefficients</a></li>
+<li><a class="" href="squared-multiple-correlation-and-variance-decomposition-in-linear-regression.html"><span class="header-section-number">17</span> Squared multiple correlation and variance decomposition in linear regression</a></li>
+<li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="conditioning-and-bayes-rule" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Conditioning and Bayes rule<a class="anchor" aria-label="anchor" href="#conditioning-and-bayes-rule"><i class="fas fa-link"></i></a>
+</h1>
+<p>In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.</p>
+<div id="conditional-probability" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> Conditional probability<a class="anchor" aria-label="anchor" href="#conditional-probability"><i class="fas fa-link"></i></a>
+</h2>
+<p>Assume we have two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>.
+By definition <span class="math inline">\(\int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
+<p>The <strong>marginal densities</strong> for the individual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span>
+and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>. Thus, when computing the marginal densities a variable is removed
+from the joint density by integrating over all possible states of that variable.
+It follows also that <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>, i.e. the
+marginal densities also integrate to 1.</p>
+<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span>
+we may wish to keep it fixed at some value, say keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>.
+In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF)
+given by the ratio
+<span class="math display">\[
+p(x | y=y_0) = \frac{p(x, y=y_0)}{p(y=y_0)}
+\]</span>
+The denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> is
+needed to ensure that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises
+<span class="math inline">\(p(x, y=y_0)\)</span> so that it is a proper density.</p>
+<p>To simplify notation, the specific value on which a variable is conditioned is often left out
+so we just write <span class="math inline">\(p(x | y)\)</span>.</p>
+</div>
+<div id="bayes-theorem" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> Bayes’ theorem<a class="anchor" aria-label="anchor" href="#bayes-theorem"><i class="fas fa-link"></i></a>
+</h2>
+<p><a href="https://de.wikipedia.org/wiki/Thomas_Bayes">Thomas Bayes (1701-1761)</a> was
+the first to state <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes’ theorem</a>
+on conditional probabilities.</p>
+<p>Using the definition of conditional probabilities
+we see that the joint density can be written as the
+product of marginal and conditional density in two different ways:
+<span class="math display">\[
+p(x,y) = p(x| y) p(y) = p(y | x) p(x)
+\]</span></p>
+<p>This directly leads to <strong>Bayes’ theorem</strong>:
+<span class="math display">\[
+p(x | y) = p(y | x) \frac{ p(x) }{ p(y)}
+\]</span>
+This rule relates the two possible conditional densities (or conditional probability mass functions) for two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. It thus allows to reverse the ordering of conditioning.</p>
+<p>Bayes’s theorem was <a href="https://en.wikipedia.org/wiki/An_Essay_towards_solving_a_Problem_in_the_Doctrine_of_Chances">published in 1763</a> only after his death by <a href="https://en.wikipedia.org/wiki/Richard_Price">Richard Price (1723-1791)</a>:</p>
+<p><a href="https://de.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> independently published Bayes’ theorem in 1774 and he was in fact the first to routinely apply it to statistical calculations.</p>
+</div>
+<div id="conditional-mean-and-variance" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> Conditional mean and variance<a class="anchor" aria-label="anchor" href="#conditional-mean-and-variance"><i class="fas fa-link"></i></a>
+</h2>
+<p>The mean <span class="math inline">\(\text{E}(x| y)\)</span> and variance <span class="math inline">\(\text{Var}(x|y)\)</span> of the conditional distribution with
+density <span class="math inline">\(p(x|y)\)</span> are called <strong>conditional mean</strong> and <strong>conditional variance</strong>.</p>
+<p>The <strong>law of total expectation</strong> states that
+<span class="math display">\[
+\text{E}( \text{E}(x| y) ) = \text{E}(x)
+\]</span></p>
+<p>The <strong>law of total variance</strong> states that
+<span class="math display">\[
+\text{Var}(x) = \text{Var}(\text{E}(x| y)) + \text{E}(\text{Var}(x|y))
+\]</span>
+The first term is the “explained” or “between-group” variance, and the second the “unexplained”
+or “mean within group” variance (also known as “pooled” variance).</p>
+<div class="example">
+<p><span id="exm:meanmixture" class="example"><strong>Example 7.1  </strong></span>Mean and variance of a mixture model:</p>
+<p>Assume <span class="math inline">\(K\)</span> groups indicated by a discrete variable <span class="math inline">\(y = 1, 2, \ldots, K\)</span> with probability <span class="math inline">\(p(y) = \pi_y\)</span>. In each group
+the observations <span class="math inline">\(x\)</span> follow a density <span class="math inline">\(p(x|y)\)</span> with conditional mean <span class="math inline">\(E(x|y) = \mu_y\)</span> and conditional variance <span class="math inline">\(\text{Var}(x| y)= \sigma^2_y\)</span>. The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is
+<span class="math inline">\(p(x, y) = \pi_y p(x|y)\)</span>.
+The marginal density for <span class="math inline">\(x\)</span> is
+<span class="math inline">\(\sum_{y=1}^K \pi_y p(x|y)\)</span>. This is called a mixture model.</p>
+<p>The total mean <span class="math inline">\(\text{E}(x) = \mu_0\)</span> is equal to <span class="math inline">\(\sum_{y=1}^K \pi_y \mu_y\)</span>.</p>
+<p>The total variance <span class="math inline">\(\text{Var}(x) = \sigma^2_0\)</span> is equal to
+<span class="math display">\[
+\sum_{y=1}^K \pi_y (\mu_y - \mu_0)^2 + \sum_{y=1}^K \pi_y \sigma^2_y
+\]</span></p>
+</div>
+</div>
+<div id="conditional-entropy-and-entropy-chain-rules" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> Conditional entropy and entropy chain rules<a class="anchor" aria-label="anchor" href="#conditional-entropy-and-entropy-chain-rules"><i class="fas fa-link"></i></a>
+</h2>
+<p>For the entropy of the joint distribution we find that
+<span class="math display">\[
+\begin{split}
+H( P_{x,y}) &amp;= -\text{E}_{P_{x,y}} \log p(x, y) \\
+ &amp;= -\text{E}_{P_x} \text{E}_{P_{y| x}} (\log p(x) + \log p(y| x)\\
+ &amp;= -\text{E}_{P_x} \log p(x) - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)\\
+ &amp;= H(P_{x}) + H(P_{y| x} ) \\
+\end{split}
+\]</span>
+thus it decomposes into the entropy of the marginal distribution and
+the <strong>conditional entropy</strong> defined as
+<span class="math display">\[
+H(P_{y| x} ) = - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)
+\]</span>
+Note that to simplify notation by convention the expectation <span class="math inline">\(\text{E}_{P_{x}}\)</span> over the variable <span class="math inline">\(x\)</span> that we condition on (<span class="math inline">\(x\)</span>) is implicitly assumed.</p>
+<p>Similarly, for the cross-entropy we get
+<span class="math display">\[
+\begin{split}
+H(Q_{x,y} , P_{x, y}) &amp;= -\text{E}_{Q_{x,y}} \log  p(x, y) \\
+&amp;= -\text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\, p(x)\, p(y| x)\, \right)\\
+  &amp;= -\text{E}_{Q_x} \log p(x)    -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)         \\
+ &amp;= H(Q_x, P_x)  +  H(Q_{y|x}, P_{y|x})
+\end{split}
+\]</span>
+where the <strong>conditional cross-entropy</strong> is defined as
+<span class="math display">\[
+H(Q_{y|x}, P_{y|x})= -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)
+\]</span>
+Note again the implicit expectation <span class="math inline">\(\text{E}_{Q_x}\)</span> over <span class="math inline">\(x\)</span> implied in this notation.</p>
+<p>The KL divergence between the joint distributions can be decomposed as follows:
+<span class="math display">\[
+\begin{split}
+D_{\text{KL}}(Q_{x,y} , P_{x, y}) &amp;= \text{E}_{Q_{x,y}} \log \left(\frac{ q(x, y) }{ p(x, y) }\right)\\
+&amp;= \text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\frac{ q(x) q(y| x) }{ p(x) p(y| x) }\right)\\
+ &amp;= \text{E}_{Q_x} \log \left(\frac{ q(x) }{ p(x) }\right)      + \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)          \\
+&amp;= D_{\text{KL}}(Q_{x} , P_{x}) +   D_{\text{KL}}(Q_{y| x} , P_{y|x}) \\
+\end{split}
+\]</span>
+with the <strong>conditional KL divergence</strong> or <strong>conditional relative entropy</strong> defined as
+<span class="math display">\[
+D_{\text{KL}}(Q_{y| x} , P_{y|x})  = \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)
+\]</span>
+(again the expectation <span class="math inline">\(\text{E}_{Q_{x}}\)</span> is usually dropped for convenience).
+The conditional relative entropy can also be computed from the conditional (cross-)entropies by
+<span class="math display">\[
+D_{\text{KL}}(Q_{y| x} , P_{y|x}) = H(Q_{y|x}, P_{y|x})
+ -  H(Q_{y| x})
+\]</span></p>
+<p>The above decompositions for the entropy, the cross-entropy and relative entropy are known as <strong>entropy chain rules</strong>.</p>
+</div>
+<div id="entropy-bounds-for-the-marginal-variables" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> Entropy bounds for the marginal variables<a class="anchor" aria-label="anchor" href="#entropy-bounds-for-the-marginal-variables"><i class="fas fa-link"></i></a>
+</h2>
+<p>The chain rule for KL divergence
+directly shows that
+<span class="math display">\[
+\begin{split}
+\underbrace{D_{\text{KL}}(Q_{x,y} , P_{x, y})}_{\text{upper bound}} &amp;= D_{\text{KL}}(Q_{x} , P_{x}) + \underbrace{  D_{\text{KL}}(Q_{y| x} , P_{y|x})   }_{\geq 0}\\
+&amp;\geq D_{\text{KL}}(Q_{x} , P_{x})
+\end{split}
+\]</span>
+This means that the KL divergence between the joint distributions
+forms an <strong>upper bound for the KL divergence between the marginal distributions</strong>, with the difference given by the conditional KL divergence <span class="math inline">\(D_{\text{KL}}(Q_{y| x} , P_{y|x})\)</span>.</p>
+<p>Equivalently, we can state an <strong>upper bound for the marginal cross-entropy</strong>:
+<span class="math display">\[
+\begin{split}
+\underbrace{H(Q_{x,y} , P_{x, y}) - H(Q_{y| x} )}_{\text{upper bound}} &amp;= H(Q_{x}, P_{x})  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x}) }_{\geq 0}\\
+&amp; \geq H(Q_{x}, P_{x}) \\
+\end{split}
+\]</span>
+Instead of an upper bound we may as well express this as <strong>lower bound for the negative marginal cross-entropy</strong>
+<span class="math display">\[.
+\begin{split}
+ - H(Q_{x}, P_{x}) &amp;= \underbrace{ - H(Q_{x} Q_{y| x} , P_{x, y})  + H(Q_{y| x} )}_{\text{lower bound}}  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x})}_{\geq 0}\\ 
+&amp; \geq F\left( Q_{x}, Q_{y| x},  P_{x, y}\right)\\
+\end{split}
+\]</span></p>
+<p>Since entropy and KL divergence is closedly linked with maximum likelihood the above bounds play a major role in statistical learning
+of models with unobserved latent variables (here <span class="math inline">\(y\)</span>).
+They form the basis of important methods such as the EM algorithm as well as of variational Bayes.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></div>
+<div class="next"><a href="models-with-latent-variables-and-missing-data.html"><span class="header-section-number">8</span> Models with latent variables and missing data</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#conditioning-and-bayes-rule"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></li>
+<li><a class="nav-link" href="#conditional-probability"><span class="header-section-number">7.1</span> Conditional probability</a></li>
+<li><a class="nav-link" href="#bayes-theorem"><span class="header-section-number">7.2</span> Bayes’ theorem</a></li>
+<li><a class="nav-link" href="#conditional-mean-and-variance"><span class="header-section-number">7.3</span> Conditional mean and variance</a></li>
+<li><a class="nav-link" href="#conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">7.4</span> Conditional entropy and entropy chain rules</a></li>
+<li><a class="nav-link" href="#entropy-bounds-for-the-marginal-variables"><span class="header-section-number">7.5</span> Entropy bounds for the marginal variables</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 30 April 2022.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
