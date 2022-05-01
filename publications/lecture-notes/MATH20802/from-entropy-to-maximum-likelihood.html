@@ -474,8 +474,8 @@ Since the KL divergence vanishes only when the two arguments are identical <span
 a quadratic function around <span class="math inline">\(\boldsymbol \theta_0\)</span>
 <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}) = h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla^T\nabla h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
-&amp; = \frac{1}{2} \boldsymbol \varepsilon^T \left( -\text{E}_{F_{\boldsymbol \theta_0}} \nabla^T\nabla  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)   \boldsymbol \varepsilon\\
+D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}) = h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla \nabla^T h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
+&amp; = \frac{1}{2} \boldsymbol \varepsilon^T \left( -\text{E}_{F_{\boldsymbol \theta_0}} \nabla \nabla^T  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)   \boldsymbol \varepsilon\\
 &amp; = \frac{1}{2} \boldsymbol \varepsilon^T  \underbrace{\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0)}_{\text{expected Fisher information} }\boldsymbol \varepsilon\\
 \end{split}
 \]</span>
@@ -553,22 +553,21 @@ D_{\text{KL}}\left( \text{Ber}(p+\varepsilon), \text{Ber}(p) \right) \approx \fr
 \log f(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2) 
 -\frac{1}{2 \sigma^2} (x-\mu)^2 - \frac{1}{2}\log(2 \pi)
 \]</span>
-The gradient with respect to <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> (!) is the row vector
+The gradient with respect to <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> (!) is the vector
 <span class="math display">\[
 \nabla \log f(x | \mu, \sigma^2) =
 \begin{pmatrix}
 \frac{1}{\sigma^2} (x-\mu) \\
 - \frac{1}{2 \sigma^2} + \frac{1}{2 \sigma^4} (x- \mu)^2 \\
-\end{pmatrix}^T
+\end{pmatrix}
 \]</span>
 Hint for calculating the gradient: replace <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(v\)</span> and then take the partial derivative with regard to <span class="math inline">\(v\)</span>, then substitute back.</p>
 <p>The Hessian matrix is
 <span class="math display">\[
-\nabla^T\nabla \log f(x | \mu, \sigma^2) =
+\nabla \nabla^T \log f(x | \mu, \sigma^2) =
 \begin{pmatrix}
 -\frac{1}{\sigma^2} &amp; -\frac{1}{\sigma^4} (x-\mu)\\
 -\frac{1}{\sigma^4} (x-\mu) &amp;  \frac{1}{2\sigma^4} - \frac{1}{\sigma^6}(x- \mu)^2 \\
-\\
 \end{pmatrix}
 \]</span>
 As <span class="math inline">\(\text{E}(x) = \mu\)</span> we have <span class="math inline">\(\text{E}(x-\mu) =0\)</span>.
@@ -610,7 +609,7 @@ the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a 
 <span class="math display">\[
 \hat{F}_n\overset{a. s.}{\to} F
 \]</span></p></li>
-<li><p>For <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(X)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(X))\)</span>.</p></li>
+<li><p>For <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
 </ul>
 <hr>
 <p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate cross-entropy and as a result the KL divergence. The cross-entropy <span class="math inline">\(H(F, G_{\boldsymbol \theta})\)</span> is approximated by the empirical cross-entropy where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>:
@@ -734,7 +733,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 30 April 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

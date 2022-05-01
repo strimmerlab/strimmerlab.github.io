@@ -159,7 +159,7 @@ In the case of a parameter vector (multivariate <span class="math inline">\(\bol
 the Hessian matrix (matrix of second order derivatives)
 at the MLE:
 <span class="math display">\[
-\nabla^T\nabla l_n(\hat{\boldsymbol \theta}_{ML}| D)
+\nabla \nabla^T l_n(\hat{\boldsymbol \theta}_{ML}| D)
 \]</span>
 and then verify that this matrix is negative definite (i.e. all its eigenvalues must be negative).</p>
 <p>As we will see later the second order derivatives of the log-likelihood function also play an important role for assessing the uncertainty of the MLE.</p>
@@ -331,7 +331,7 @@ l_n(\boldsymbol \theta| D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(
 Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span>
 and <span class="math inline">\(\overline{x^2}\)</span>!</p></li>
 <li>
-<p>Score function <span class="math inline">\(\boldsymbol S\)</span> (row vector!), gradient of <span class="math inline">\(l_n(\boldsymbol \theta| D)\)</span>:
+<p>Score function <span class="math inline">\(\boldsymbol S\)</span>, gradient of <span class="math inline">\(l_n(\boldsymbol \theta| D)\)</span>:
 <span class="math display">\[
 \begin{split}
 \boldsymbol S(\boldsymbol \theta) &amp;= \nabla l_n(\boldsymbol \theta| D) \\
@@ -339,7 +339,7 @@ and <span class="math inline">\(\overline{x^2}\)</span>!</p></li>
 \begin{pmatrix}
 \frac{n}{\sigma^2} (\bar{x}-\mu) \\
 -\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}   \left( \overline{x^2} - 2\bar{x} \mu +\mu^2 \right)  \\
-\end{pmatrix}^T\\
+\end{pmatrix}\\
 \end{split}
 \]</span></p>
 <p>Note that to obtain the second component of the score function the partial derivative needs to be taken with regard to the variance parameter <span class="math inline">\(\sigma^2\)</span> — not with regard to <span class="math inline">\(\sigma\)</span>! Hint: replace <span class="math inline">\(\sigma^2 = v\)</span> in the log-likelihood function, then take the partial derivative with regard to <span class="math inline">\(v\)</span>, then backsubstitute <span class="math inline">\(v=\sigma^2\)</span> in the result.</p>
@@ -418,16 +418,16 @@ For large <span class="math inline">\(n\)</span>, however, the bias disappears a
 <p>For univariate <span class="math inline">\(\theta\)</span> the Hessian is a scalar:
 <span class="math display">\[\frac{d^2 l_n(\theta|D)}{d\theta^2}\]</span></p>
 <p>For multivariate parameter vector <span class="math inline">\(\boldsymbol \theta\)</span> of dimension <span class="math inline">\(d\)</span> the Hessian is a matrix of size <span class="math inline">\(d \times d\)</span>:
-<span class="math display">\[\nabla^T\nabla l_n(\boldsymbol \theta| D)\]</span></p>
+<span class="math display">\[\nabla \nabla^T l_n(\boldsymbol \theta| D)\]</span></p>
 <p>By construction the Hessian is negative definite at the MLE (i.e. its eigenvalues are all negative) to ensure the the function is concave at the MLE (i.e. peak shaped).</p>
 <p>The <strong>observed Fisher information</strong> (matrix) is defined as the
 negative curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>:
 <span class="math display">\[
-{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = -\nabla^T\nabla l_n(\hat{\boldsymbol \theta}_{ML}| D)
+{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = -\nabla \nabla^T l_n(\hat{\boldsymbol \theta}_{ML}| D)
 \]</span></p>
 <p>Sometimes this is simply called the “observed information”.
 To avoid confusion with the expected Fisher information introduced earlier<br><span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{F_{\boldsymbol \theta}} \left( \nabla^T\nabla\log f(x|\boldsymbol \theta)\right)
+\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{F_{\boldsymbol \theta}} \left( \nabla \nabla^T \log f(x|\boldsymbol \theta)\right)
 \]</span>
 it is necessary to always use the qualifier “observed” when referring to <span class="math inline">\({\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML})\)</span>.</p>
 </div>
@@ -490,10 +490,10 @@ with score function
 \begin{pmatrix}
 \frac{n}{\sigma^2}   (\bar{x}-\mu) \\
 -\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
-\end{pmatrix}^T
+\end{pmatrix}
 \]</span>
 The Hessian matrix of the log-likelihood function is
-<span class="math display">\[\nabla^T\nabla l_n(\mu,\sigma^2| D) =
+<span class="math display">\[\nabla \nabla^T l_n(\mu,\sigma^2| D) =
  \begin{pmatrix}
     - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
     - \frac{n}{\sigma^4} (\bar{x} -\mu) &amp; \frac{n}{2\sigma^4}-\frac{n}{\sigma^6} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
@@ -607,7 +607,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 30 April 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

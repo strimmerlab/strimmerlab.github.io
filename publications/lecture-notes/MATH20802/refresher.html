@@ -108,6 +108,9 @@ Please familiarise yourself (again) with these topics.</p>
 <p>Positive and negative definiteness of a real symmetric matrix (containing only positive or only negative eigenvalues).</p>
 <p>Singularity of a real symmetric matrix (containing one or more eigenvalues identical to zero).</p>
 <p>Singular value decomposition of a real matrix.</p>
+<p>Inverse of a matrix.</p>
+<p>Trace and determinant of a square matrix.</p>
+<p>Connection with eigenvalues (trace = sum of eigenvalues, determinant = product of eigenvalues).</p>
 </div>
 <div id="functions" class="section level2" number="19.3">
 <h2>
@@ -117,32 +120,34 @@ Please familiarise yourself (again) with these topics.</p>
 <h3>
 <span class="header-section-number">A.3.1</span> Gradient<a class="anchor" aria-label="anchor" href="#gradient"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>nabla operator</strong> (also known as <strong>del operator</strong>) is the <em>row</em> vector
-<span class="math display">\[
-\nabla =  \left(\frac{\partial}{\partial x_1}, \ldots, 
-\frac{\partial}{\partial x_d}\right) = \frac{\partial}{\partial \boldsymbol x}
-\]</span>
-containing
-the first order partial derivative operators.</p>
 <p>The <strong>gradient</strong> of a scalar-valued function
 <span class="math inline">\(h(\boldsymbol x)\)</span> with vector argument <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span>
-is also a <em>row</em> vector (with <span class="math inline">\(d\)</span> columns) and
-can be expressed using the nabla operator
+is the vector containing the first order partial derivatives
+of <span class="math inline">\(h(\boldsymbol x)\)</span> with regard to each <span class="math inline">\(x_1, \ldots, x_d\)</span>:
 <span class="math display">\[
-\nabla h(\boldsymbol x) = \left( \frac{\partial h(\boldsymbol x)}{\partial x_1}, \ldots, 
-\frac{\partial h(\boldsymbol x)}{\partial x_d} \right) = 
- \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \text{grad } h(\boldsymbol x) \, .
+\begin{split}
+\nabla h(\boldsymbol x) &amp;= \begin{pmatrix}
+\frac{\partial h(\boldsymbol x)}{\partial x_1} \\
+\vdots\\
+\frac{\partial h(\boldsymbol x)}{\partial x_d}
+\end{pmatrix}\\
+ &amp;=  \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} \\
+&amp; = \text{grad } h(\boldsymbol x) \\
+\end{split}
 \]</span>
-Note the various notations for the gradient.</p>
+The symbol <span class="math inline">\(\nabla\)</span> is called the <strong>nabla operator</strong> (also known as <strong>del operator</strong>).</p>
+<p>Note that we write the gradient as a <strong>column vector</strong>. This is called the
+<strong>denominator layout</strong> convention, see <a href="https://en.wikipedia.org/wiki/Matrix_calculus" class="uri">https://en.wikipedia.org/wiki/Matrix_calculus</a> for details.
+In contrast, many textbooks (and also earlier versions of these lecture notes) assume that gradients are row vectors, following the so-called numerator layout convention.</p>
 <div class="example">
 <p><span id="exm:gradientexamples" class="example"><strong>Example A.1  </strong></span>Examples for the gradient:</p>
 <ul>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol a^T \boldsymbol x+ b\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol a^T\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol a^T \boldsymbol x+ b\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol a\)</span>.</li>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = 2 \boldsymbol x^T\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = 2 \boldsymbol x\)</span>.</li>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol x^T (\boldsymbol A+ \boldsymbol A^T)\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = (\boldsymbol A+ \boldsymbol A^T) \boldsymbol x\)</span>.</li>
 </ul>
 </div>
 </div>
@@ -151,10 +156,10 @@ Note the various notations for the gradient.</p>
 <span class="header-section-number">A.3.2</span> Hessian matrix<a class="anchor" aria-label="anchor" href="#hessian-matrix"><i class="fas fa-link"></i></a>
 </h3>
 <p>The matrix of all second order partial derivates of scalar-valued
-function with vector-valued argument is called the <strong>Hessian matrix</strong>
-and is computed by double application of the nabla operator:
+function with vector-valued argument is called the <strong>Hessian matrix</strong>:
 <span class="math display">\[
-\nabla^T \nabla h(\boldsymbol x) =
+\begin{split}
+\nabla \nabla^T h(\boldsymbol x) &amp;=
 \begin{pmatrix}
   \frac{\partial^2 h(\boldsymbol x)}{\partial x_1^2}
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_1 \partial x_2} 
@@ -169,30 +174,34 @@ and is computed by double application of the nabla operator:
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_d \partial x_2}  
      &amp; \cdots 
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_d^2}
- \end{pmatrix} = \left(\frac{\partial h(\boldsymbol x)}{\partial x_i \partial x_j}\right)  
-= {\left(\frac{\partial}{\partial \boldsymbol x}\right)}^T \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x}
-\,.
+ \end{pmatrix} \\
+&amp;= \left(\frac{\partial h(\boldsymbol x)}{\partial x_i \partial x_j}\right)  \\
+&amp; = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} \\
+\end{split}
 \]</span>
-By construction it is square and symmetric.</p>
+By construction the Hessian matrix is square and symmetric.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Example A.2  </strong></span><span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x) = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} = (\boldsymbol A+ \boldsymbol A^T)\)</span>.</p>
+</div>
 </div>
 <div id="convex-and-concave-functions" class="section level3" number="19.3.3">
 <h3>
 <span class="header-section-number">A.3.3</span> Convex and concave functions<a class="anchor" aria-label="anchor" href="#convex-and-concave-functions"><i class="fas fa-link"></i></a>
 </h3>
 <p>A function <span class="math inline">\(h(x)\)</span> is convex if the second derivative <span class="math inline">\(h''(x) \geq 0\)</span> for all <span class="math inline">\(x\)</span>.
-More generally, a function <span class="math inline">\(h(\boldsymbol x)\)</span> is convex if the Hessian matrix <span class="math inline">\(\nabla^T \nabla h(\boldsymbol x)\)</span>
-is positive definite, i.e. if it contains only positive eigenvalues.</p>
-<p>If <span class="math inline">\(h(\boldsymbol x)\)</span> is convex, then <span class="math inline">\(-h(\boldsymbol x)\)</span> is <em>concave</em>. A function is concave if the Hessian matrix is negative definite.</p>
+More generally, a function <span class="math inline">\(h(\boldsymbol x)\)</span>, where <span class="math inline">\(\boldsymbol x\)</span> is a vector, is convex if the Hessian matrix <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x)\)</span>
+is positive definite, i.e. if the eigenvalues of the Hessian matrix are all positive.</p>
+<p>If <span class="math inline">\(h(\boldsymbol x)\)</span> is convex, then <span class="math inline">\(-h(\boldsymbol x)\)</span> is <em>concave</em>. A function is concave if the Hessian matrix is negative definite, i.e. if the eigenvalues of the Hessian matrix are all negative.</p>
 <div class="example">
-<p><span id="exm:convexconcave" class="example"><strong>Example A.2  </strong></span>The logarithm <span class="math inline">\(\log(x)\)</span> is an example of a concave function whereas <span class="math inline">\(x^2\)</span> is a convex function.</p>
-<p>To memorise, a <em>v</em>alley is con<em>v</em>ex.</p>
+<p><span id="exm:convexconcave" class="example"><strong>Example A.3  </strong></span>The logarithm <span class="math inline">\(\log(x)\)</span> is an example of a concave function whereas <span class="math inline">\(x^2\)</span> is a convex function.</p>
+<p>To memorise, a <strong>v</strong>alley is con<strong>v</strong>ex.</p>
 </div>
 </div>
 <div id="linear-and-quadratic-approximation" class="section level3" number="19.3.4">
 <h3>
 <span class="header-section-number">A.3.4</span> Linear and quadratic approximation<a class="anchor" aria-label="anchor" href="#linear-and-quadratic-approximation"><i class="fas fa-link"></i></a>
 </h3>
-<p>Taylor series of first / second order.</p>
+<p>A linear and quadratic approximation of a function is given by a Taylor series of first and second order, respectively.</p>
 <p>Applied to scalar-valued function of a scalar:
 <span class="math display">\[
 h(x) \approx h(x_0) + h'(x_0) (x-x_0) + \frac{1}{2} h''(x_0) (x-x_0)^2
@@ -203,15 +212,15 @@ h(x_0+ \varepsilon) \approx h(x_0) + h'(x_0) \, \varepsilon + \frac{1}{2} h''(x_
 \]</span></p>
 <p>Applied to scalar-valued function of a vector:
 <span class="math display">\[
-h(\boldsymbol x) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
-(\boldsymbol x-\boldsymbol x_0)^T \nabla^T \nabla h(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0)
+h(\boldsymbol x) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
+(\boldsymbol x-\boldsymbol x_0)^T \nabla \nabla^T h(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0)
 \]</span>
 With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> this can be written as
 <span class="math display">\[
-h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0)\boldsymbol \varepsilon+ \frac{1}{2} \boldsymbol \varepsilon^T \nabla^T \nabla h(\boldsymbol x_0) \boldsymbol \varepsilon
+h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0)^T\boldsymbol \varepsilon+ \frac{1}{2} \boldsymbol \varepsilon^T \nabla \nabla^T h(\boldsymbol x_0) \boldsymbol \varepsilon
 \]</span></p>
 <div class="example">
-<p><span id="exm:taylorexamples" class="example"><strong>Example A.3  </strong></span>Commonly occurring Taylor series approximations of second order are for example
+<p><span id="exm:taylorexamples" class="example"><strong>Example A.4  </strong></span>Commonly occurring Taylor series approximations of second order are for example
 <span class="math display">\[
 \log(x_0+\varepsilon) \approx \log(x_0) + \frac{\varepsilon}{x_0} - \frac{\varepsilon^2}{2 x_0^2}
 \]</span>
@@ -235,28 +244,14 @@ and
 <p>For a function of several variables:</p>
 <ol style="list-style-type: lower-roman">
 <li>Gradient vanishes at maximum, <span class="math inline">\(\nabla h(\boldsymbol x_0)=0\)</span>.</li>
-<li>If the Hessian <span class="math inline">\(\nabla^T \nabla h(\boldsymbol x_0)\)</span> is negative definite (= all eigenvalues of Hessian matrix are negative) then the function is locally concave and the optimum is a maximum.</li>
-<li>If the Hessian is positive definite (= all eigenvalues of Hessian matrix are positive) then the function is locally convec and the optimum is a minimum.</li>
+<li>If the Hessian <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x_0)\)</span> is negative definite (= all eigenvalues of Hessian matrix are negative) then the function is locally concave and the optimum is a maximum.</li>
+<li>If the Hessian is positive definite (= all eigenvalues of Hessian matrix are positive) then the function is locally convex and the optimum is a minimum.</li>
 </ol>
 <p>Around the local optimum <span class="math inline">\(\boldsymbol x_0\)</span> we can approximate the function quadratically using
 <span class="math display">\[
-h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) +  \frac{1}{2} \boldsymbol \varepsilon^T \nabla^T \nabla h(\boldsymbol x_0) \boldsymbol \varepsilon
+h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) +  \frac{1}{2} \boldsymbol \varepsilon^T \nabla \nabla^T h(\boldsymbol x_0) \boldsymbol \varepsilon
 \]</span>
 Note the linear term is missing due to the gradient being zero at <span class="math inline">\(\boldsymbol x_0\)</span>.</p>
-</div>
-<div id="functions-of-matrices" class="section level3" number="19.3.6">
-<h3>
-<span class="header-section-number">A.3.6</span> Functions of matrices<a class="anchor" aria-label="anchor" href="#functions-of-matrices"><i class="fas fa-link"></i></a>
-</h3>
-<p>Matrix inverse,
-matrix square root etc. of symmetric real matrices.</p>
-<p>Computation via eigenvalue decomposition
-i.e. apply function such as inverse, sqrt etc. on the eigenvalues.</p>
-<p>In this course we do not actually compute matrix functions, but we will use matrix
-notation for matrix square roots, so you do need to know that it is exists and that it
-is not the same as taking the square root of the matrix entries.</p>
-<p>Trace and determinant of a square matrix.</p>
-<p>Connection with eigenvalues (trace = sum of eigenvalues, determinant = product of eigenvalues).</p>
 </div>
 </div>
 <div id="combinatorics" class="section level2" number="19.4">
@@ -498,7 +493,7 @@ The <a href="https://en.wikipedia.org/wiki/Glivenko%E2%80%93Cantelli_theorem">Gl
 <span class="math display">\[
 \hat{F}_n\overset{P}{\to} F
 \]</span></p></li>
-<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(X)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(X))\)</span>.</p></li>
+<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
 </ul>
 </div>
 <div id="jensens-inequality" class="section level3" number="19.5.6">
@@ -507,7 +502,7 @@ The <a href="https://en.wikipedia.org/wiki/Glivenko%E2%80%93Cantelli_theorem">Gl
 </h3>
 <p><span class="math display">\[\text{E}(h(\boldsymbol x)) \geq h(\text{E}(\boldsymbol x))\]</span>
 for a <em>convex</em> function <span class="math inline">\(h(\boldsymbol x)\)</span>.</p>
-<p>Recall: a convex function (such as <span class="math inline">\(x^2\)</span>) has the shape of a “valley”.</p>
+<p>Recall: a con<strong>v</strong>ex function (such as <span class="math inline">\(x^2\)</span>) has the shape of a “<strong>v</strong>alley”.</p>
 </div>
 </div>
 <div id="distributions" class="section level2" number="19.6">
@@ -690,7 +685,7 @@ deviates (on average across different experiments) from the true value:</p>
 =\text{Var}(\hat{\theta})+\text{Bias}(\hat{\theta})^2\\
 \end{array}
 \end{align*}\]</span></p>
-<p>The last identity about MSE follows from <span class="math inline">\(\text{E}(X^2)=\text{Var}(X)+\text{E}(X)^2\)</span>.</p>
+<p>The last identity about MSE follows from <span class="math inline">\(\text{E}(x^2)=\text{Var}(x)+\text{E}(x)^2\)</span>.</p>
 <p>At first sight it seems desirable to focus on unbiased (for finite <span class="math inline">\(n\)</span>) estimators.
 However, requiring strict unbiasedness is not always a good idea!</p>
 <p>In many situations it is better to allow for some small bias and in order to achieve a smaller variance and an overall total smaller MSE. This is called <em>bias-variance tradeoff</em> — as more bias
@@ -782,7 +777,7 @@ to the true model when choosing model parameters.</p>
 it is straightforward to construct a symmetric two-sided CI with a given desired coverage <span class="math inline">\(\kappa\)</span>.</p>
 <div class="inline-figure"><img src="fig/refresher_p2_1.PNG" width="80%" style="display: block; margin: auto;"></div>
 <p>For a normal random variable <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> and density function <span class="math inline">\(f(x)\)</span> we can compute the probability</p>
-<p><span class="math display">\[\text{Pr}(X \leq \mu + c \sigma) =  \int_{-\infty}^{\mu+c\sigma} f(x) dx  = \Phi (c) = \frac{1+\kappa}{2}\]</span>
+<p><span class="math display">\[\text{Pr}(x \leq \mu + c \sigma) =  \int_{-\infty}^{\mu+c\sigma} f(x) dx  = \Phi (c) = \frac{1+\kappa}{2}\]</span>
 Note <span class="math inline">\(\Phi(c)\)</span> is the cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span>:</p>
 <p>From the above we obtain the critical point <span class="math inline">\(c\)</span> from the quantile function, i.e. by inversion of <span class="math inline">\(\Phi\)</span>:</p>
 <p><span class="math display">\[c=\Phi^{-1}\left(\frac{1+\kappa}{2}\right)\]</span></p>
@@ -831,7 +826,7 @@ where <span class="math inline">\(c\)</span> is chosen for desired coverage leve
 <p>As for the normal CI we can compute critical values but for the
 chi-squared distribution we use a one-sided interval:
 <span class="math display">\[
-\text{Pr}(X \leq c) = \kappa
+\text{Pr}(x \leq c) = \kappa
 \]</span>
 As before we get <span class="math inline">\(c\)</span> by the quantile function, i.e. by inverting the CDF of the chi-squared distribution.</p>
 <p>The following list the critical values for the three most common choice of <span class="math inline">\(\kappa\)</span>
@@ -878,7 +873,6 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <li><a class="nav-link" href="#convex-and-concave-functions"><span class="header-section-number">A.3.3</span> Convex and concave functions</a></li>
 <li><a class="nav-link" href="#linear-and-quadratic-approximation"><span class="header-section-number">A.3.4</span> Linear and quadratic approximation</a></li>
 <li><a class="nav-link" href="#conditions-for-local-optimum-of-a-function"><span class="header-section-number">A.3.5</span> Conditions for local optimum of a function</a></li>
-<li><a class="nav-link" href="#functions-of-matrices"><span class="header-section-number">A.3.6</span> Functions of matrices</a></li>
 </ul>
 </li>
 <li>
@@ -933,7 +927,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 30 April 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
