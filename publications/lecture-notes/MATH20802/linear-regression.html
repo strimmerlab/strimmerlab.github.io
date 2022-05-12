@@ -198,14 +198,14 @@ the variance of the response <span class="math inline">\(\text{Var}(y)\)</span> 
 </li>
 <li>As we will see later the regression coefficients <span class="math inline">\(\beta_j\)</span> depend on the correlations between the response <span class="math inline">\(y\)</span> and and the predictor variables <span class="math inline">\(x_j\)</span>.
 Thus, the choice of regression coefficients implies a specific correlation pattern,
-and vice vera (in fact, we will use this correlation pattern to infer the regression coefficient from data!).</li>
+and vice versa (in fact, we will use this correlation pattern to infer the regression coefficients from data!).</li>
 </ul>
 </div>
 <div id="regression-in-data-matrix-notation" class="section level2" number="15.5">
 <h2>
 <span class="header-section-number">15.5</span> Regression in data matrix notation<a class="anchor" aria-label="anchor" href="#regression-in-data-matrix-notation"><i class="fas fa-link"></i></a>
 </h2>
-<p>We can also write the regression in terms of actual observed data (rather than random variables):</p>
+<p>We can also write the regression in terms of actual observed data (rather than in terms of random variables):</p>
 <p>Data matrix for the predictors:
 <span class="math display">\[\boldsymbol X= \begin{pmatrix} x_{11} &amp; \dots &amp; x_{1d} \\ \vdots &amp; \ddots &amp; \vdots \\ x_{n1} &amp; \dots &amp; x_{nd} \end{pmatrix}\]</span></p>
 <p>Note the statistics convention: the <span class="math inline">\(n\)</span> rows of <span class="math inline">\(\boldsymbol X\)</span> contain the samples, and the <span class="math inline">\(d\)</span> columns contain variables.</p>
@@ -216,13 +216,13 @@ and vice vera (in fact, we will use this correlation pattern to infer the regres
 <p>Note that here the regression coefficients are now multiplied <em>after</em> the
 data matrix (compare with the original vector notation where the <em>transpose</em> of regression coefficients come <em>before</em>
 the vector of the predictors).</p>
-<p>The <strong>observed noise</strong> values (i.e. realisations of <span class="math inline">\(\varepsilon\)</span>) are called the <strong>residuals</strong>.</p>
+<p>The <strong>observed noise</strong> values (i.e. realisations of the random variable <span class="math inline">\(\varepsilon\)</span>) are called the <strong>residuals</strong>.</p>
 </div>
 <div id="centering-and-vanishing-of-the-intercept-beta_0" class="section level2" number="15.6">
 <h2>
 <span class="header-section-number">15.6</span> Centering and vanishing of the intercept <span class="math inline">\(\beta_0\)</span><a class="anchor" aria-label="anchor" href="#centering-and-vanishing-of-the-intercept-beta_0"><i class="fas fa-link"></i></a>
 </h2>
-<p>If <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(y\)</span> are centered, i.e. <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu_{\boldsymbol x}= 0\)</span> and <span class="math inline">\(\text{E}(y) = \mu_{y} = 0\)</span>
+<p>If <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(y\)</span> are centered, i.e. if <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu_{\boldsymbol x}= 0\)</span> and <span class="math inline">\(\text{E}(y) = \mu_{y} = 0\)</span>,
 then the intercept <span class="math inline">\(\beta_0\)</span> disappears:</p>
 <p>The regression equation is
 <span class="math display">\[y=\beta_0 + \boldsymbol \beta^T \boldsymbol x+\varepsilon\]</span>
@@ -232,16 +232,17 @@ and therefore
 <span class="math display">\[
 \beta_0 = \mu_{y}- \boldsymbol \beta^T \boldsymbol \mu_{\boldsymbol x}
 \]</span>
-This is equal to zero if the means of the response and predictors vanish.
+This is zero if the mean of the response <span class="math inline">\(\mu_{y}\)</span> and
+the mean of predictors <span class="math inline">\(\boldsymbol \mu_{\boldsymbol x}\)</span> vanish.
 Conversely, if we assume that the intercept vanishes (<span class="math inline">\(\beta_0=0\)</span>) this is only possible for general <span class="math inline">\(\boldsymbol \beta\)</span> if both <span class="math inline">\(\boldsymbol \mu_{\boldsymbol x}=0\)</span> and <span class="math inline">\(\mu_{y}=0\)</span>.</p>
-<p>Thus, in the linear model is always possible to transform <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> (or data <span class="math inline">\(\boldsymbol y\)</span> and <span class="math inline">\(\boldsymbol X\)</span>) so that the intercept vanishes!<br><span class="math inline">\(\Rightarrow\)</span> we will therefore often set <span class="math inline">\(\beta_0=0\)</span>.</p>
+<p>Thus, in the linear model is always possible to transform <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> (or data <span class="math inline">\(\boldsymbol y\)</span> and <span class="math inline">\(\boldsymbol X\)</span>) so that the intercept vanishes. To simplify equations we will therefore often set <span class="math inline">\(\beta_0=0\)</span>.</p>
 </div>
-<div id="regression-objectives-for-linear-model" class="section level2" number="15.7">
+<div id="objectives-in-data-analysis-using-linear-regression" class="section level2" number="15.7">
 <h2>
-<span class="header-section-number">15.7</span> Regression objectives for linear model<a class="anchor" aria-label="anchor" href="#regression-objectives-for-linear-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15.7</span> Objectives in data analysis using linear regression<a class="anchor" aria-label="anchor" href="#objectives-in-data-analysis-using-linear-regression"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p>Understand functional relationship: find estimates of intercept (<span class="math inline">\(\hat{\beta}_0\)</span>) and regression coefficients (<span class="math inline">\(\hat{\beta}_j\)</span>)</p></li>
+<li><p>Understand functional relationship: find estimates of the intercept (<span class="math inline">\(\hat{\beta}_0\)</span>) and the regression coefficients (<span class="math inline">\(\hat{\beta}_j\)</span>), as well as the associated errors.</p></li>
 <li>
 <p>Prediction:</p>
 <ul>
@@ -252,10 +253,12 @@ Conversely, if we assume that the intercept vanishes (<span class="math inline">
 <span class="math inline">\(\hat{y} =\hat{\beta}_0 + \sum^{d}_{j=1} \hat{\beta}_j x_j = \hat{\beta}_0 + \hat{\boldsymbol \beta}^T \boldsymbol x\)</span>
 </li>
 </ul>
-<p>Also find the <strong>corresponding prediction errors!</strong></p>
+<p>For each point prediction find the <strong>corresponding prediction error!</strong></p>
 </li>
-<li><p>Variable importance: Which predictors <span class="math inline">\(x_j\)</span> are most relevant?<br><span class="math inline">\(\rightarrow\)</span> test whether <span class="math inline">\(\beta_j=0\)</span><br><span class="math inline">\(\rightarrow\)</span> find measures of variable importance<br>
-Remark: as we will see <span class="math inline">\(\beta_j\)</span> or <span class="math inline">\(\hat{\beta}_j\)</span> itself is <strong>not</strong> a measure of importance!</p></li>
+<li>
+<p>Variable importance: Which predictors <span class="math inline">\(x_j\)</span> are most relevant?<br><span class="math inline">\(\rightarrow\)</span> test whether <span class="math inline">\(\beta_j=0\)</span><br><span class="math inline">\(\rightarrow\)</span> find measures of variable importance</p>
+<p>Remark: as we will see <span class="math inline">\(\beta_j\)</span> or <span class="math inline">\(\hat{\beta}_j\)</span> itself is <strong>not</strong> a measure of variable importance!</p>
+</li>
 </ol>
 </div>
 </div>
@@ -272,7 +275,7 @@ Remark: as we will see <span class="math inline">\(\beta_j\)</span> or <span cla
 <li><a class="nav-link" href="#distributional-assumptions-and-properties"><span class="header-section-number">15.4</span> Distributional assumptions and properties</a></li>
 <li><a class="nav-link" href="#regression-in-data-matrix-notation"><span class="header-section-number">15.5</span> Regression in data matrix notation</a></li>
 <li><a class="nav-link" href="#centering-and-vanishing-of-the-intercept-beta_0"><span class="header-section-number">15.6</span> Centering and vanishing of the intercept \(\beta_0\)</a></li>
-<li><a class="nav-link" href="#regression-objectives-for-linear-model"><span class="header-section-number">15.7</span> Regression objectives for linear model</a></li>
+<li><a class="nav-link" href="#objectives-in-data-analysis-using-linear-regression"><span class="header-section-number">15.7</span> Objectives in data analysis using linear regression</a></li>
 </ul>
 
       <div class="book-extra">
@@ -289,7 +292,7 @@ Remark: as we will see <span class="math inline">\(\beta_j\)</span> or <span cla
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 May 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
