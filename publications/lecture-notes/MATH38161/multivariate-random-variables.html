@@ -1283,23 +1283,31 @@ and of the inverse Gamma distribution.</p>
 <h3>
 <span class="header-section-number">1.6.2</span> Wishart distribution<a class="anchor" aria-label="anchor" href="#wishart-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>This multivariate distribution generalises the univariate
-scaled <span class="math inline">\(\chi^2\)</span> distribution (also known as Gamma distribution).</p>
+<p>The Wishart distribution is a multivariate generalisation of the gamma distribution,
+also known as univariate Wishart distribution and scaled chi-squared distribution. The exponential and chi-squared distribution are special cases.</p>
 <div id="univariate-case-2" class="section level4" number="1.6.2.1">
 <h4>
 <span class="header-section-number">1.6.2.1</span> Univariate case<a class="anchor" aria-label="anchor" href="#univariate-case-2"><i class="fas fa-link"></i></a>
 </h4>
-<p>Scaled <span class="math inline">\(\chi^2\)</span> distribution (=Gamma distribution, see below)</p>
-<p><span class="math display">\[z_1,z_2,\ldots,z_m \stackrel{\text{iid}}\sim N(0,\sigma^2)\]</span>
-<span class="math display">\[x = \sum^{m}_{i=1}z_i^2\]</span></p>
-<p><span class="math display">\[x \sim \sigma^2 \chi^2_m = \text{W}_1(\sigma^2, m)\]</span>
-<span class="math display">\[\text{E}(x) = m \, \sigma^2\]</span>
-<span class="math display">\[\text{Var}(x)= m \, 2 \sigma^4\]</span></p>
+<p>Gamma distribution:</p>
+<p><span class="math display">\[z_1,z_2,\ldots,z_m \stackrel{\text{iid}}\sim N(0,\sigma^2_z)\]</span>
+<span class="math display">\[x = \sum^{m}_{i=1}z_i^2\]</span>
+<span class="math display">\[\mu_x = m \sigma^2_z\]</span>
+Then <span class="math inline">\(x\)</span> is distributed as:
+<span class="math display">\[
+x \sim  \text{W}_1\left(\frac{\mu_x}{m}, m\right) =
+        \text{Gam}\left(\alpha=\frac{1}{2} m, \beta=2 \frac{\mu_x}{m}\right) = 
+        \frac{\mu_x}{m} \chi^2_m
+\]</span>
+where <span class="math inline">\(\alpha\)</span> is the shape and <span class="math inline">\(\beta\)</span> the scale parameter of the gamma distribution.</p>
+<p>The mean and variance of <span class="math inline">\(x\)</span> are:
+<span class="math display">\[\text{E}(x) = \mu_x\]</span>
+<span class="math display">\[\text{Var}(x) = \frac{2 \mu^2_x}{m}\]</span></p>
 <p>Useful as the distribution of sample variance:
-<span class="math display">\[y_1, \ldots, y_n \sim N(\mu, \sigma^2)\]</span>
-Known mean <span class="math inline">\(\mu\)</span>:
-<span class="math display">\[\frac{1}{n}\sum_{i=1}^n(y_i -\mu)^2 \sim \text{W}_1\left(\frac{\sigma^2}{n}, n\right)\]</span>
-Unknown mean <span class="math inline">\(\mu\)</span> (estimated by <span class="math inline">\(\bar{y}\)</span>):
+<span class="math display">\[y_1, \ldots, y_n \sim N(\mu_y, \sigma^2)\]</span>
+Known mean <span class="math inline">\(\mu_y\)</span>:
+<span class="math display">\[\frac{1}{n}\sum_{i=1}^n(y_i -\mu_y)^2 \sim \text{W}_1\left(\frac{\sigma^2}{n}, n\right)\]</span>
+Unknown mean <span class="math inline">\(\mu_y\)</span> (estimated by <span class="math inline">\(\bar{y}\)</span>):
 <span class="math display">\[\widehat{\sigma^2}_{ML} = \frac{1}{n}\sum_{i=1}^n(y_i -\bar{y})^2 \sim \text{W}_1\left(\frac{\sigma^2}{n}, n-1\right)\]</span>
 <span class="math display">\[\widehat{\sigma^2}_{UB} = \frac{1}{n-1}\sum_{i=1}^n(y_i -\bar{y})^2 \sim \text{W}_1\left(\frac{\sigma^2}{n-1}, n-1\right)\]</span></p>
 </div>
@@ -1307,57 +1315,41 @@ Unknown mean <span class="math inline">\(\mu\)</span> (estimated by <span class=
 <h4>
 <span class="header-section-number">1.6.2.2</span> Multivariate case<a class="anchor" aria-label="anchor" href="#multivariate-case-2"><i class="fas fa-link"></i></a>
 </h4>
-<p>Wishart distribution</p>
-<p><span class="math display">\[\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_m \stackrel{\text{iid}}\sim N_d(0,\boldsymbol \Sigma)\]</span>
-<span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{m}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span><br>
-Note that <span class="math inline">\(\boldsymbol X\)</span> is a <em>matrix</em>!</p>
-<p><span class="math display">\[\boldsymbol X\sim \text{W}_d\left(\boldsymbol \Sigma, m\right)\]</span>
-<span class="math display">\[\text{E}(\boldsymbol X) = m \boldsymbol \Sigma\]</span>
-<span class="math display">\[\text{Var}(x_{ij})=m \, \left(\sigma^2_{ij}+\sigma_{ii}\sigma_{jj}\right)\]</span></p>
+<p>Wishart distribution:</p>
+<p><span class="math display">\[\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_m \stackrel{\text{iid}}\sim N_d(0,\boldsymbol \Sigma_{\boldsymbol z})\]</span>
+<span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{m}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span><br><span class="math display">\[\boldsymbol M= (\mu_{ij}) = m \boldsymbol \Sigma_{\boldsymbol z}\]</span></p>
+<p>Then <span class="math inline">\(\boldsymbol X\)</span> (a random matrix!) is distributed as:
+<span class="math display">\[\boldsymbol X\sim  \text{W}_d\left(\frac{\boldsymbol M}{m}, m\right) \]</span>
+with mean and variances:
+<span class="math display">\[\text{E}(\boldsymbol X) = \boldsymbol M\]</span>
+<span class="math display">\[\text{Var}(x_{ij})= \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{m} \]</span></p>
 <p>Useful as distribution of sample covariance:
 <span class="math display">\[\boldsymbol y_1, \ldots, \boldsymbol y_n \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span>
 <span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\boldsymbol \mu)(\boldsymbol y_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n\right)\]</span>
 <span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n-1\right)\]</span>
 <span class="math display">\[\widehat{\boldsymbol \Sigma}_{UB} = \frac{1}{n-1}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/(n-1), n-1\right)\]</span></p>
 </div>
-<div id="relationship-to-gamma-distribution" class="section level4" number="1.6.2.3">
-<h4>
-<span class="header-section-number">1.6.2.3</span> Relationship to Gamma distribution<a class="anchor" aria-label="anchor" href="#relationship-to-gamma-distribution"><i class="fas fa-link"></i></a>
-</h4>
-<p>The scaled <span class="math inline">\(\chi^2\)</span> distribution (=one-dimensional Wishart distribution) with parameters <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(m\)</span> is a reparameterised <strong>Gamma distribution</strong> with shape parameter <span class="math inline">\(\alpha\)</span> and scale parameter <span class="math inline">\(\beta\)</span>:</p>
-<p><span class="math display">\[\text{Gam}\left(  \underbrace{\frac{m}{2}}_{\text{shape} } \, , \underbrace{ 2 \sigma^{2}}_{\text{scale}} \right)=  \sigma^2\chi^2_m = \text{W}_1(\sigma^2, m)\]</span></p>
-<p>or, equivalently (<span class="math inline">\(m = 2 \alpha\)</span>, <span class="math inline">\(\sigma^2 = \beta/2\)</span>)
-<span class="math display">\[\text{Gam}\left(  \underbrace{\alpha}_{\text{shape} } \, , \underbrace{\beta}_{\text{scale}} \right) = \frac{\beta}{2} \chi^2_{2 \alpha} =  \text{W}_1(\frac{\beta}{2}, 2 \alpha)\]</span></p>
-<p>The mean of the Gamma distribution is <span class="math inline">\(\text{E}(x) = \alpha \beta\)</span> and the variance is <span class="math inline">\(\text{Var}(x) = \alpha \beta^2\)</span>.</p>
-<p>The <strong>exponential distribution</strong> with scale parameter <span class="math inline">\(\beta\)</span> is a special
-case of the Gamma distribution with <span class="math inline">\(\alpha=1\)</span>:
-<span class="math display">\[
-\text{Exp}(\beta) = \text{Gam}(1, \beta) = \frac{\beta}{2} \chi^2_{2} = \text{W}_1\left(\frac{\beta}{2}, 2 \right)
-\]</span>
-The corresponding mean is <span class="math inline">\(\beta\)</span> and the variance is <span class="math inline">\(\beta^2\)</span>.</p>
-<p>The density expressed in terms of scale parameter <span class="math inline">\(\beta\)</span> is
-<span class="math display">\[
-f(x| \beta) = \frac{1}{\beta} e^{-x/\beta}
-\]</span></p>
-<p>Instead of the scale parameter <span class="math inline">\(\beta\)</span> the exponential distribution is often
-also parameterised in terms of a rate parameter <span class="math inline">\(\lambda = \frac{1}{\beta}\)</span>.</p>
-</div>
 </div>
 <div id="inverse-wishart-distribution" class="section level3" number="1.6.3">
 <h3>
 <span class="header-section-number">1.6.3</span> Inverse Wishart distribution<a class="anchor" aria-label="anchor" href="#inverse-wishart-distribution"><i class="fas fa-link"></i></a>
 </h3>
+<p>The inverse Wishart distribution is a multivariate generalisation of the inverse gamma
+distribution (also known as inverse scaled chi-squared distribution).</p>
 <div id="univariate-case-3" class="section level4" number="1.6.3.1">
 <h4>
 <span class="header-section-number">1.6.3.1</span> Univariate case<a class="anchor" aria-label="anchor" href="#univariate-case-3"><i class="fas fa-link"></i></a>
 </h4>
-<p>Inverse <span class="math inline">\(\chi^2\)</span> Distribution:</p>
-<p><span class="math display">\[x \sim \text{W}^{-1}_1(\psi, k+2) = \psi\,\text{Inv-$\chi^2_{k+2}$}\]</span>
-<span class="math display">\[\text{E}(x) = \frac{\psi}{k}\]</span>
-<span class="math display">\[\text{Var}(x)= \frac{2\psi^2}{k^2 (k-2)}\]</span></p>
-<p>Relationship to scaled <span class="math inline">\(\chi^2\)</span> :
+<p>Inverse gamma distribution (with <span class="math inline">\(\alpha\)</span> shape
+and <span class="math inline">\(\beta\)</span> scale parameter):</p>
+<p><span class="math display">\[x \sim \text{W}^{-1}_1(k \mu, k+2) = \text{Inv-Gam}\left( \alpha = \frac{k+2}{2}, \beta=\frac{k \mu}{2} \right) = k \mu\,\text{Inv-$\chi^2_{k+2}$}\]</span></p>
+<p>Then <span class="math inline">\(x\)</span> has mean and variance</p>
+<p><span class="math display">\[\text{E}(x) = \mu\]</span>
+<span class="math display">\[\text{Var}(x)= \frac{2\mu^2}{k-2}\]</span></p>
+<p>Relationship to gamma distribution:
 <span class="math display">\[
-\frac{1}{x} \sim W_1(\psi^{-1}, k+2) =  \psi^{-1} \, \chi^2_{k+2}
+\frac{1}{x} \sim W_1\left(\frac{1}{k \mu}, k+2\right) 
+=  \text{Gam}\left(\frac{k+2}{2}, \frac{2}{k \mu}\right) = \frac{1}{k \mu} \, \chi^2_{k+2}
 \]</span></p>
 </div>
 <div id="multivariate-case-3" class="section level4" number="1.6.3.2">
@@ -1365,31 +1357,15 @@ also parameterised in terms of a rate parameter <span class="math inline">\(\lam
 <span class="header-section-number">1.6.3.2</span> Multivariate case<a class="anchor" aria-label="anchor" href="#multivariate-case-3"><i class="fas fa-link"></i></a>
 </h4>
 <p>Inverse Wishart distribution:</p>
-<p><span class="math display">\[\underbrace{\boldsymbol X}_{d\times d} \sim \text{W}^{-1}_d\left( \underbrace{\boldsymbol \Psi}_{d\times d} \, , \, k+d+1\right)\]</span>
-<span class="math display">\[\text{E}(\boldsymbol X) =\boldsymbol \Psi/ k\]</span>
-<span class="math display">\[\text{Var}(x_{ij})= \frac{2 }{k^2 (k-2)} \frac{(k+2) \psi_{ij} + k \, \psi_{ii} \psi_{jj} }{2 k + 2}\]</span></p>
+<p><span class="math display">\[\underbrace{\boldsymbol X}_{d\times d} \sim \text{W}^{-1}_d\left( k \underbrace{ \boldsymbol M}_{d\times d} \, , \, k+d+1\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol X) =\boldsymbol M\]</span>
+<span class="math display">\[\text{Var}(x_{ij})= \frac{2 }{k-2} \frac{(k+2) \mu_{ij}^2 + k \, \mu_{ii} \mu_{jj} }{2 k + 2}\]</span></p>
 <p>Relationship to Wishart:
-<span class="math display">\[\boldsymbol X^{-1} \sim \text{W}_d\left( \boldsymbol \Psi^{-1} \, , k+d+1\right)\]</span></p>
-</div>
-<div id="relationship-to-inverse-gamma-distribution" class="section level4" number="1.6.3.3">
-<h4>
-<span class="header-section-number">1.6.3.3</span> Relationship to inverse Gamma distribution<a class="anchor" aria-label="anchor" href="#relationship-to-inverse-gamma-distribution"><i class="fas fa-link"></i></a>
-</h4>
-<p>Another way to express the univariate inverse Wishart distribution is via the <strong>inverse Gamma distribution</strong>:
-<span class="math display">\[\text{Inv-Gam}(\underbrace{1+\frac{k}{2}}_{\text{shape } \alpha}, \underbrace{\frac{\psi}{2}}_{\text{scale }\beta}) = \psi\,\text{Inv-$\chi^2_{k+2}$} =  \text{W}^{-1}_1(\psi, k+2) \]</span>
-or equivalently (<span class="math inline">\(k=2(\alpha-1)\)</span> and <span class="math inline">\(\psi=2\beta\)</span>)
-<span class="math display">\[\text{Inv-Gam}( \alpha, \beta) = 2\beta\,\text{Inv-$\chi^2_{2\alpha}$} = \text{W}^{-1}_1(2 \beta, 2 \alpha) \]</span>
-The mean of the inverse Gamma distribution is
-<span class="math inline">\(\text{E}(x) = \frac{\beta}{\alpha-1} = \mu\)</span> the variance
-<span class="math inline">\(\text{Var}(x)= \frac{\beta^2}{(\alpha-1)^2(\alpha-2)} = \frac{2 \mu^2}{k-2}\)</span>.</p>
-<p>The inverse of <span class="math inline">\(x\)</span> is Gamma distributed:
-<span class="math display">\[
-\frac{1}{x} \sim \text{Gam}(1+\frac{k}{2}, 2\psi^{-1})=\text{Gam}(\alpha, \beta^{-1})
-\]</span></p>
+<span class="math display">\[\boldsymbol X^{-1} \sim \text{W}_d\left( \frac{ \boldsymbol M^{-1}}{k}  \, , k+d+1\right)\]</span></p>
 <hr>
-<p>The inverse Wishart distribution is useful as conjugate distribution for Bayesian modelling
-of the variance, with <span class="math inline">\(k\)</span> the sample size parameter
-and <span class="math inline">\(\Psi = k \Sigma\)</span> (or <span class="math inline">\(\psi = k \sigma^2\)</span>).</p>
+<p>The inverse Wishart distribution is useful as prior and posterior distribution
+of the variance where <span class="math inline">\(k\)</span> is the sample size parameter and <span class="math inline">\(\boldsymbol M\)</span> resp. <span class="math inline">\(\mu\)</span> is
+mean of the distribution for <span class="math inline">\(\boldsymbol \Sigma\)</span> and <span class="math inline">\(\sigma^2\)</span> (in the univariate case).</p>
 <hr>
 </div>
 </div>
@@ -1471,7 +1447,7 @@ and <span class="math inline">\(\Psi = k \Sigma\)</span> (or <span class="math i
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 May 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 29 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

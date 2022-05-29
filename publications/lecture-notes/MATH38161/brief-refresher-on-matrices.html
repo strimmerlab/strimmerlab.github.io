@@ -83,20 +83,24 @@ real numbers. However, one important matrix decomposition — the eigenvalues de
 <p>In matrix notation we distinguish between scalars, vectors, and matrices:</p>
 <p><strong>Scalar</strong>: <span class="math inline">\(x\)</span>, <span class="math inline">\(X\)</span>, lower or upper case, plain type.</p>
 <p><strong>Vector</strong>: <span class="math inline">\(\boldsymbol x\)</span>, lower case, bold type. In handwriting an arrow <span class="math inline">\(\vec{x}\)</span> indicates a vector.</p>
-<p>In component notation we write <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T = (x_i)^T\)</span>. By convention, a vector is a
-column vector, i.e. the elements are arranged in a column and the index (here <span class="math inline">\(i\)</span>) refers to the row
-of the column. If you transpose a column vector it becomes a row vector
-<span class="math inline">\(\boldsymbol x^T = (x_1, \ldots, x_d) =(x_i)\)</span> and the index now refers to the column.</p>
+<p>In component notation we write <span class="math inline">\(\boldsymbol x= \begin{pmatrix} x_1 \\ \vdots\\ x_d\end{pmatrix}\)</span>. By default, a vector is a
+column vector, i.e. the elements are arranged in a column and index of the components <span class="math inline">\(x_i\)</span> refers to the row.</p>
+<p>The <strong>transpose</strong> of a vector (indicated by the superscript <span class="math inline">\(T\)</span>) turns it into a row vector. To save space we can write the column vector <span class="math inline">\(\boldsymbol x\)</span>
+as <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span> so that <span class="math inline">\(\boldsymbol x^T\)</span> is a row vector.</p>
 <p><strong>Matrix</strong>: <span class="math inline">\(\boldsymbol X\)</span>, upper case, bold type. In handwriting an underscore
 <span class="math inline">\(\underline{X}\)</span> indicates a matrix.</p>
 <p>In component notation we write <span class="math inline">\(\boldsymbol X= (x_{ij})\)</span>. By convention, the first index (here <span class="math inline">\(i\)</span>)
 of the scalar elements <span class="math inline">\(x_{ij}\)</span> denotes the row and the second index (here <span class="math inline">\(j\)</span>) the column of the matrix.
-Assuming that <span class="math inline">\(n\)</span> is the number of rows and <span class="math inline">\(d\)</span> is the number of columns
-you can also view the matrix <span class="math inline">\(\boldsymbol X= (\boldsymbol x_j) = (\boldsymbol z_i)^T\)</span> as being composed of column vectors
-<span class="math inline">\(\boldsymbol x_j = (x_{1j}, \ldots, x_{nj})^T\)</span>
-or of row vectors <span class="math inline">\(\boldsymbol z_i^T = (x_{i1}, \ldots, x_{id})\)</span>.</p>
-<p>A (column) vector is a matrix of size <span class="math inline">\(d\times 1\)</span>. A row vector is a matrix of size <span class="math inline">\(1\times d\)</span>.
-A scalar is a matrix of size <span class="math inline">\(1 \times 1\)</span>.</p>
+For <span class="math inline">\(n\)</span> the number of rows and <span class="math inline">\(d\)</span> the number of columns
+we can view the matrix
+<span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_d)\)</span>
+either as being composed of <span class="math inline">\(d\)</span> column vectors
+<span class="math inline">\(\boldsymbol x_j = \begin{pmatrix} x_{1j} \\ \vdots \\ x_{nj}\\ \end{pmatrix}\)</span>
+or <span class="math inline">\(\boldsymbol X= \begin{pmatrix} \boldsymbol z_1^T \\ \vdots \\ \boldsymbol z_n^T\end{pmatrix}\)</span>
+being
+composed of <span class="math inline">\(n\)</span> row vectors <span class="math inline">\(\boldsymbol z_i^T = (x_{i1}, \ldots, x_{id})\)</span>.</p>
+<p>A (column) vector of dimension <span class="math inline">\(d\)</span> is a matrix of size <span class="math inline">\(d\times 1\)</span>. A row vector of dimension <span class="math inline">\(d\)</span> is a matrix of size <span class="math inline">\(1\times d\)</span>.
+A scalar is of dimension <span class="math inline">\(1\)</span> and is a matrix of size <span class="math inline">\(1 \times 1\)</span>.</p>
 </div>
 <div id="random-matrix" class="section level3" number="7.1.2">
 <h3>
@@ -164,18 +168,18 @@ By <span class="math inline">\(\text{Diag}(\boldsymbol A)\)</span> we access the
 and multiply matrices <span class="math inline">\(\boldsymbol C= \boldsymbol A\boldsymbol B\)</span>.</p>
 <p>For <strong>matrix addition</strong> <span class="math inline">\(\boldsymbol C= \boldsymbol A+ \boldsymbol B\)</span> we add the corresponding elements <span class="math inline">\(c_{ij} = a_{ij} + b_{ij}\)</span>. For matrix addition <span class="math inline">\(\boldsymbol A\)</span> and <span class="math inline">\(\boldsymbol B\)</span> must have the same dimensions, i.e.
 the same number of rows and columns.</p>
-<p>The <strong>dot product</strong>, or <strong>scalar product</strong>, between two vectors <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is given by <span class="math inline">\(\boldsymbol a\cdot \boldsymbol b= \boldsymbol a^T \boldsymbol b= \boldsymbol a\boldsymbol b^T = \sum_{i=1}^d a_{i} b_{i}\)</span>.</p>
+<p>The <strong>dot product</strong>, or <strong>scalar product</strong>, of two vectors <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is a scalar given by <span class="math inline">\(\boldsymbol a\cdot \boldsymbol b= \langle \boldsymbol a, \boldsymbol b\rangle = \boldsymbol a^T \boldsymbol b= \boldsymbol b^T \boldsymbol a= \sum_{i=1}^d a_{i} b_{i}\)</span>.</p>
 <p><strong>Matrix multiplication</strong> <span class="math inline">\(\boldsymbol C= \boldsymbol A\boldsymbol B\)</span> is obtained by setting <span class="math inline">\(c_{ij} = \sum_{k=1}^m a_{ik} b_{kj}\)</span> where <span class="math inline">\(m\)</span> is the
 number of columns of <span class="math inline">\(\boldsymbol A\)</span> and the number of rows in <span class="math inline">\(\boldsymbol B\)</span>. Thus, <span class="math inline">\(\boldsymbol C\)</span> contains all possible
 dot products of the row vectors in <span class="math inline">\(\boldsymbol A\)</span> with the column vectors in <span class="math inline">\(\boldsymbol B\)</span>.
 For matrix multiplication the number of columns in <span class="math inline">\(\boldsymbol A\)</span> must match the number of rows in <span class="math inline">\(\boldsymbol B\)</span>.
-Note that matrix multiplication is in general (for <span class="math inline">\(d &gt; 1\)</span> not commutative, i.e. <span class="math inline">\(\boldsymbol A\boldsymbol B\neq \boldsymbol B\boldsymbol A\)</span>.</p>
+Note that matrix multiplication in general (for <span class="math inline">\(m &gt; 1\)</span>) does not commute, i.e. <span class="math inline">\(\boldsymbol A\boldsymbol B\neq \boldsymbol B\boldsymbol A\)</span>.</p>
 </div>
 <div id="matrix-transpose" class="section level3" number="7.2.2">
 <h3>
 <span class="header-section-number">A.2.2</span> Matrix transpose<a class="anchor" aria-label="anchor" href="#matrix-transpose"><i class="fas fa-link"></i></a>
 </h3>
-<p>The matrix transpose <span class="math inline">\(t(\boldsymbol A) = \boldsymbol A^T\)</span> interchanges rows and columns. The transpose
+<p>The matrix transpose <span class="math inline">\(\boldsymbol A^T\)</span> indicate by the superscript <span class="math inline">\(T\)</span> interchanges rows and columns of a matrix. The transpose
 is a linear operator <span class="math inline">\((\boldsymbol A+ \boldsymbol B)^T = \boldsymbol A^T + \boldsymbol B^T\)</span> and
 applied to a matrix
 product it reverses the ordering, i.e. <span class="math inline">\((\boldsymbol A\boldsymbol B)^T =\boldsymbol B^T \boldsymbol A^T\)</span>.</p>
@@ -188,43 +192,115 @@ product it reverses the ordering, i.e. <span class="math inline">\((\boldsymbol
 <h2>
 <span class="header-section-number">A.3</span> Matrix summaries<a class="anchor" aria-label="anchor" href="#matrix-summaries"><i class="fas fa-link"></i></a>
 </h2>
-<div id="matrix-trace" class="section level3" number="7.3.1">
+<div id="row-column-and-grand-sum" class="section level3" number="7.3.1">
 <h3>
-<span class="header-section-number">A.3.1</span> Matrix trace<a class="anchor" aria-label="anchor" href="#matrix-trace"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.3.1</span> Row, column and grand sum<a class="anchor" aria-label="anchor" href="#row-column-and-grand-sum"><i class="fas fa-link"></i></a>
 </h3>
-<p>The trace of the matrix is the sum of the diagonal elements <span class="math inline">\(\text{Tr}(\boldsymbol A) = \sum a_{ii}\)</span>.</p>
-<p>A useful identity for the matrix trace is
+<p>Assume a matrix <span class="math inline">\(\boldsymbol A\)</span> of size <span class="math inline">\(n \times m\)</span>.</p>
+<p>The sum over the <span class="math inline">\(m\)</span> entries of row <span class="math inline">\(i\)</span> is <span class="math inline">\(\sum_{j=1}^m a_{ij}\)</span>.
+In matrix notation the <span class="math inline">\(n\)</span> row sums are given by
+<span class="math inline">\(\boldsymbol A\, \boldsymbol 1_m\)</span>.</p>
+<p>The sum over the <span class="math inline">\(n\)</span> entries of column <span class="math inline">\(j\)</span> is <span class="math inline">\(\sum_{i=1}^n a_{ij}\)</span>.
+In matrix notation the <span class="math inline">\(m\)</span> column sums are <span class="math inline">\(\boldsymbol A^T \boldsymbol 1_n\)</span>.</p>
+<p>The grand sum of all matrix entries of <span class="math inline">\(\boldsymbol A\)</span> is obtained by
 <span class="math display">\[
-\text{Tr}(\boldsymbol A\boldsymbol B) = \text{Tr}( \boldsymbol B\boldsymbol A)  
-\]</span>
-with for two vectors becomes
-<span class="math display">\[
-\boldsymbol a^T \boldsymbol b= \text{Tr}( \boldsymbol b\boldsymbol a^T) \,.
+\sum_{i=1}^n \sum_{j=1}^m a_{ij} = \boldsymbol 1_n^T \, \boldsymbol A\, \boldsymbol 1_m 
 \]</span></p>
 </div>
-<div id="euclidean-norm" class="section level3" number="7.3.2">
+<div id="matrix-trace" class="section level3" number="7.3.2">
 <h3>
-<span class="header-section-number">A.3.2</span> Euclidean norm<a class="anchor" aria-label="anchor" href="#euclidean-norm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.3.2</span> Matrix trace<a class="anchor" aria-label="anchor" href="#matrix-trace"><i class="fas fa-link"></i></a>
 </h3>
-<p>The dot product <span class="math inline">\(\boldsymbol a\cdot \boldsymbol a= \boldsymbol a^T \boldsymbol a= \boldsymbol a\boldsymbol a^T = \sum_{i=1}^d a_i^2 = ||\boldsymbol a||^2_2\)</span> yields the
-the <strong>squared length</strong> or the <strong>squared Euclidean norm</strong> of the vector <span class="math inline">\(\boldsymbol a\)</span>.</p>
-<p>The <strong>squared Frobenius norm</strong> is a generalisation of the Euclidean vector norm to a rectangular matrix <span class="math inline">\(\boldsymbol A= (a_{ij})\)</span> and is
-the sum of the squares of all its elements <span class="math inline">\(a_{ij}\)</span>.
+<p>The trace of the matrix is the sum of the diagonal elements <span class="math inline">\(\text{Tr}(\boldsymbol A) = \sum a_{ii}\)</span>.</p>
+<p>The trace is invariant against transposition, i.e.
+<span class="math display">\[
+\text{Tr}(\boldsymbol A) = \text{Tr}(\boldsymbol A^T )
+\]</span></p>
+<p>A useful identity for the matrix trace of the product of two matrices is
+<span class="math display">\[
+\text{Tr}(\boldsymbol A\boldsymbol B) = \text{Tr}( \boldsymbol B\boldsymbol A)  
+\]</span></p>
+<p>Intriguingly, the trace of a matrix equals the sum of the eigenvalues of the matrix (see further below).</p>
+</div>
+<div id="row-column-and-grand-sum-of-squares" class="section level3" number="7.3.3">
+<h3>
+<span class="header-section-number">A.3.3</span> Row, column and grand sum of squares<a class="anchor" aria-label="anchor" href="#row-column-and-grand-sum-of-squares"><i class="fas fa-link"></i></a>
+</h3>
+<p>The sum over the <span class="math inline">\(m\)</span> squared entries of row <span class="math inline">\(i\)</span> is <span class="math inline">\(\sum_{j=1}^m a_{ij}^2\)</span>.
+In matrix notation the <span class="math inline">\(n\)</span> row sums of squares are given by
+<span class="math inline">\(\text{Diag}( \boldsymbol A\boldsymbol A^T)\)</span>.</p>
+<p>The sum over the <span class="math inline">\(n\)</span> squared entries of column <span class="math inline">\(j\)</span> is <span class="math inline">\(\sum_{i=1}^n a_{ij}^2\)</span>.
+In matrix notation the <span class="math inline">\(m\)</span> column sums of squares are <span class="math inline">\(\text{Diag}( \boldsymbol A^T \boldsymbol A)\)</span>.</p>
+<p>The grand sum of all squared elements of <span class="math inline">\(\boldsymbol A\)</span> is obtained by
+<span class="math display">\[
+\sum_{i=1}^n \sum_{j=1}^m a_{ij}^2 = \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T)
+\]</span>
+This is also known as the squared Frobenius norm of <span class="math inline">\(\boldsymbol A\)</span> (see below).</p>
+</div>
+<div id="sum-of-squared-diagonal-entries" class="section level3" number="7.3.4">
+<h3>
+<span class="header-section-number">A.3.4</span> Sum of squared diagonal entries<a class="anchor" aria-label="anchor" href="#sum-of-squared-diagonal-entries"><i class="fas fa-link"></i></a>
+</h3>
+<p>The sum of the squared entries on the diagonal is in matrix notation
+<span class="math display">\[
+\text{Diag}(\boldsymbol A)^T \text{Diag}(\boldsymbol A) = \sum_{i=1}^{\min(n,m)} a_{ii}^2
+\]</span></p>
+</div>
+<div id="frobenius-inner-product" class="section level3" number="7.3.5">
+<h3>
+<span class="header-section-number">A.3.5</span> Frobenius inner product<a class="anchor" aria-label="anchor" href="#frobenius-inner-product"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <strong>Frobenius inner product</strong> between two rectangular matrices of the same dimension is the scalar
+<span class="math display">\[
+\begin{split}
+\langle \boldsymbol A, \boldsymbol B\rangle &amp;=  \text{Tr}(\boldsymbol A\boldsymbol B^T) = \text{Tr}(\boldsymbol B\boldsymbol A^T)\\
+&amp;=  \text{Tr}(\boldsymbol A^T \boldsymbol B) = \text{Tr}(\boldsymbol B^T \boldsymbol A)\\
+&amp;= \sum_{i,j} a_{ij} b_{ij} \,.
+\end{split}
+\]</span>
+This generalises the dot product between two vectors.
+Note that dot product can therefore also be written as the trace of matrix
+<span class="math display">\[
+\langle \boldsymbol a, \boldsymbol b\rangle = \text{Tr}( \boldsymbol a\boldsymbol b^T ) = \text{Tr}( \boldsymbol b\boldsymbol a^T) \,.
+\]</span></p>
+</div>
+<div id="euclidean-norm" class="section level3" number="7.3.6">
+<h3>
+<span class="header-section-number">A.3.6</span> Euclidean norm<a class="anchor" aria-label="anchor" href="#euclidean-norm"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <strong>squared Euclidean norm</strong> or the <strong>squared length</strong> of the vector <span class="math inline">\(\boldsymbol a\)</span>
+is the
+dot product <span class="math inline">\(||\boldsymbol a||^2_2 = \boldsymbol a\cdot \boldsymbol a= \langle \boldsymbol a, \boldsymbol a\rangle = \boldsymbol a^T \boldsymbol a= \boldsymbol a\boldsymbol a^T = \sum_{i=1}^d a_i^2\)</span>.</p>
+<p>The <strong>squared Frobenius norm</strong> is a generalisation of the squared Euclidean vector norm to a rectangular matrix and is
+the sum of the squares of all its elements.
 Using the trace it can be written as
 <span class="math display">\[
 \begin{split}
-||\boldsymbol A||_F^2 &amp;= \sum_{i,j} a_{ij}^2 \\
- &amp;= \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T) \,.
+||\boldsymbol A||_F^2 &amp;= \langle \boldsymbol A, \boldsymbol A\rangle \\
+ &amp;= \text{Tr}(\boldsymbol A^T \boldsymbol A) = \text{Tr}(\boldsymbol A\boldsymbol A^T) \\
+ &amp;= \sum_{i,j} a_{ij}^2 \,.
 \end{split}
 \]</span></p>
+<p>A useful identity for the <strong>squared Frobenius norm of the difference of two matrices</strong>
+is
+<span class="math display">\[
+\begin{split}
+||\boldsymbol A- \boldsymbol B||_F^2 &amp;= ||\boldsymbol A||_F^2 + ||\boldsymbol B||_F^2  - 2 \langle \boldsymbol A, \boldsymbol B\rangle \\
+ &amp;= \text{Tr}(\boldsymbol A^T \boldsymbol A) +\text{Tr}(\boldsymbol B^T \boldsymbol B) - 2 \text{Tr}(\boldsymbol A^T \boldsymbol B) \\
+ &amp;= \sum_{i,j} (a_{ij}-b_{ij})^2 \,.
+\end{split}
+\]</span></p>
+<p>The Frobenius norm of a matrix <span class="math inline">\(||\boldsymbol A||_F\)</span> is not to be confused with the induced <span class="math inline">\(2\)</span>-norm of a matrix <span class="math inline">\(||\boldsymbol A||_2\)</span>. The latter equals the maximum
+absolute eigenvalue of the matrix, with <span class="math inline">\(||\boldsymbol A||_2 \leq ||\boldsymbol A||_F\)</span>.</p>
 </div>
-<div id="determinant-of-a-matrix" class="section level3" number="7.3.3">
+<div id="determinant-of-a-matrix" class="section level3" number="7.3.7">
 <h3>
-<span class="header-section-number">A.3.3</span> Determinant of a matrix<a class="anchor" aria-label="anchor" href="#determinant-of-a-matrix"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.3.7</span> Determinant of a matrix<a class="anchor" aria-label="anchor" href="#determinant-of-a-matrix"><i class="fas fa-link"></i></a>
 </h3>
 <p>If <span class="math inline">\(\boldsymbol A\)</span> is a square matrix the determinant <span class="math inline">\(\det(\boldsymbol A)\)</span> is a scalar measuring the volume spanned by the column vectors in <span class="math inline">\(\boldsymbol A\)</span> with the sign determined by the orientation of the vectors.</p>
 <p>If <span class="math inline">\(\det(\boldsymbol A) \neq 0\)</span> the matrix <span class="math inline">\(\boldsymbol A\)</span> is non-singular or non-degenerate. Conversely, if
 <span class="math inline">\(\det(\boldsymbol A) =0\)</span> the matrix <span class="math inline">\(\boldsymbol A\)</span> is singular or degenerate.</p>
+<p>Intriguingly, the determinant of <span class="math inline">\(\boldsymbol A\)</span> is the product of the eigenvalues of <span class="math inline">\(\boldsymbol A\)</span> (see further below).</p>
 <p>One way to compute the determinant of a matrix <span class="math inline">\(\boldsymbol A\)</span> is the Laplace cofactor
 expansion approach that proceeds recursively based on the determinants of the submatrices <span class="math inline">\(\boldsymbol A_{-i,-j}\)</span> obtained by deleting row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> from <span class="math inline">\(\boldsymbol A\)</span>. Specifically, at each
 level we compute the</p>
@@ -532,6 +608,15 @@ Hence for these matrices the characteristic equation becomes <span class="math i
 <li>
 <span class="math inline">\(\boldsymbol A\)</span> is never defective as <span class="math inline">\(\boldsymbol U\)</span> forms a complete basis.</li>
 </ol>
+<p>Furthermore, for a symmetric matrix <span class="math inline">\(\boldsymbol A\)</span> with diagonal elements <span class="math inline">\(p_1 \geq \ldots \geq p_d\)</span>
+and eigenvalues <span class="math inline">\(\lambda_1 \geq \ldots \geq \lambda_d\)</span> (note both written in decreasing order) the sum of the
+largest <span class="math inline">\(k\)</span> eigenvalues forms an upper bound of the sum of the largest <span class="math inline">\(k\)</span> diagonal elements:
+<span class="math display">\[
+\sum_{i}^k \lambda_i \geq \sum_{i}^k p_i
+\]</span>
+This theorem is due to Schur (1923).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Schur, I. 1923. Über eine Klasse von Mittelbildungen mit Anwendungen auf die Determinantentheorie.
+Sitzungsber. Berl. Math. Ges. &lt;strong&gt;22&lt;/strong&gt;:9–29.&lt;/p&gt;"><sup>18</sup></a> The equality holds for <span class="math inline">\(k=d\)</span> (as the trace of <span class="math inline">\(\boldsymbol A\)</span> equals the sum
+of its eigenvalues) and for any <span class="math inline">\(k\)</span> if <span class="math inline">\(\boldsymbol A\)</span> is diagonal (as in this case of the diagonal elements equal the eigenvalues).</p>
 </div>
 <div id="eigenvalues-of-orthogonal-matrices" class="section level3" number="7.6.7">
 <h3>
@@ -599,24 +684,27 @@ This is called the eigendecomposition, or spectral decomposition, of <span class
 <span class="math display">\[\boldsymbol \Lambda= \boldsymbol U^{-1} \boldsymbol A\boldsymbol U\]</span>
 is the diagonalisation of <span class="math inline">\(\boldsymbol A\)</span>.
 Thus any matrix <span class="math inline">\(\boldsymbol A\)</span> that is not defective is diagonalisable using eigenvalue decomposition.</p>
+<p>We can construct a matrix <span class="math inline">\(\boldsymbol B= \boldsymbol P\boldsymbol A\boldsymbol P^{-1}\)</span> from <span class="math inline">\(\boldsymbol A\)</span> where <span class="math inline">\(\boldsymbol P\)</span> is an invertible matrix.
+The matrices <span class="math inline">\(\boldsymbol A\)</span> and <span class="math inline">\(\boldsymbol B\)</span> are called <strong>similar</strong> as they share the same eigenvalues
+since the spectral decomposition of <span class="math inline">\(\boldsymbol B\)</span> is <span class="math inline">\(\boldsymbol B= ( \boldsymbol P\boldsymbol U) \boldsymbol \Lambda( \boldsymbol P\boldsymbol U)^{-1}\)</span>.</p>
 </div>
 <div id="orthogonal-eigenvalue-decomposition" class="section level3" number="7.7.2">
 <h3>
 <span class="header-section-number">A.7.2</span> Orthogonal eigenvalue decomposition<a class="anchor" aria-label="anchor" href="#orthogonal-eigenvalue-decomposition"><i class="fas fa-link"></i></a>
 </h3>
-<p>For symmetric <span class="math inline">\(\boldsymbol A\)</span> this becomes
+<p>For symmetric <span class="math inline">\(\boldsymbol A\)</span> with real eigenvalues and orthogonal matrix <span class="math inline">\(\boldsymbol U\)</span> the spectral decomposition
+becomes
 <span class="math display">\[\boldsymbol A= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\]</span>
-with real eigenvalues and orthogonal matrix <span class="math inline">\(\boldsymbol U\)</span>
 and
 <span class="math display">\[\boldsymbol \Lambda= \boldsymbol U^T \boldsymbol A\boldsymbol U\,.\]</span>
 This special case is known as the orthogonal diagonalisation
 of <span class="math inline">\(\boldsymbol A\)</span>.</p>
 <p>The orthogonal decomposition for symmetric <span class="math inline">\(\boldsymbol A\)</span> is
 unique apart from the signs
-of the eigenvectors.
-In order to make it fully unique one needs to impose further restrictions (e.g. require a positive diagonal
-of <span class="math inline">\(\boldsymbol U\)</span>). Note that this can be particularly important in computer application where the sign
-can vary depending on the specific implementation of the underlying numerical algorithms.</p>
+of the eigenvectors (columns of <span class="math inline">\(\boldsymbol U\)</span>). Thus, in a computer application
+depending on the specific implementation of a numerical algorithm for eigenvalue
+decomposition
+the signs may vary.</p>
 </div>
 <div id="singular-value-decomposition" class="section level3" number="7.7.3">
 <h3>
@@ -674,7 +762,7 @@ Here, <span class="math inline">\(\boldsymbol L\)</span> is a lower triangular m
 <p>This decomposition is unique and is called <strong>Cholesky factorisation</strong>. It is
 often used to check whether a symmetric matrix is positive definite as it is algorithmically
 less demanding than eigenvalue decomposition.</p>
-<p>Note that some implementations of the Cholesky decomposition (e.g. R) use
+<p>Note that some implementations of the Cholesky decomposition (e.g. in R) use
 upper triangular matrices <span class="math inline">\(\boldsymbol K\)</span> with positive diagonal so that
 <span class="math inline">\(\boldsymbol A= \boldsymbol K^T \boldsymbol K\)</span> and <span class="math inline">\(\boldsymbol L= \boldsymbol K^T\)</span>.</p>
 </div>
@@ -966,6 +1054,7 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 </div>
 </div>
 </div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="nonlinear-and-nonparametric-models.html"><span class="header-section-number">6</span> Nonlinear and nonparametric models</a></div>
 <div class="next"><a href="further-study.html"><span class="header-section-number">B</span> Further study</a></div>
@@ -988,9 +1077,13 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 </li>
 <li>
 <a class="nav-link" href="#matrix-summaries"><span class="header-section-number">A.3</span> Matrix summaries</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#matrix-trace"><span class="header-section-number">A.3.1</span> Matrix trace</a></li>
-<li><a class="nav-link" href="#euclidean-norm"><span class="header-section-number">A.3.2</span> Euclidean norm</a></li>
-<li><a class="nav-link" href="#determinant-of-a-matrix"><span class="header-section-number">A.3.3</span> Determinant of a matrix</a></li>
+<li><a class="nav-link" href="#row-column-and-grand-sum"><span class="header-section-number">A.3.1</span> Row, column and grand sum</a></li>
+<li><a class="nav-link" href="#matrix-trace"><span class="header-section-number">A.3.2</span> Matrix trace</a></li>
+<li><a class="nav-link" href="#row-column-and-grand-sum-of-squares"><span class="header-section-number">A.3.3</span> Row, column and grand sum of squares</a></li>
+<li><a class="nav-link" href="#sum-of-squared-diagonal-entries"><span class="header-section-number">A.3.4</span> Sum of squared diagonal entries</a></li>
+<li><a class="nav-link" href="#frobenius-inner-product"><span class="header-section-number">A.3.5</span> Frobenius inner product</a></li>
+<li><a class="nav-link" href="#euclidean-norm"><span class="header-section-number">A.3.6</span> Euclidean norm</a></li>
+<li><a class="nav-link" href="#determinant-of-a-matrix"><span class="header-section-number">A.3.7</span> Determinant of a matrix</a></li>
 </ul>
 </li>
 <li>
@@ -1062,7 +1155,7 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 5 May 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 29 May 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
