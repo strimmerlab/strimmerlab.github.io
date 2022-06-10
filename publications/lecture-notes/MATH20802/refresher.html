@@ -583,32 +583,46 @@ In R the function is called <code><a href="https://rdrr.io/r/stats/Normal.html">
 <div class="inline-figure"><img src="19-refresher_files/figure-html/unnamed-chunk-4-1.png" width="384"></div>
 <p>The sum of two normal random variables is also normal (with the appropriate mean and variance).</p>
 </div>
-<div id="scaled-chi-squared-wishart-gamma-distribution-and-exponential-distribution" class="section level3" number="19.6.3">
+<div id="gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution" class="section level3" number="19.6.3">
 <h3>
-<span class="header-section-number">A.6.3</span> Scaled chi-squared / Wishart / gamma distribution and exponential distribution<a class="anchor" aria-label="anchor" href="#scaled-chi-squared-wishart-gamma-distribution-and-exponential-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.6.3</span> Gamma distribution aka scaled chi-squared and one-dimensional Wishart distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <p>Assume <span class="math inline">\(m\)</span> independent normal random variables
-<span class="math display">\[z_1,z_2,\dots,z_m\sim N(0,\sigma^2)\]</span>
+<span class="math display">\[z_1,z_2,\dots,z_m\sim N(0,\sigma^2_z)\]</span>
 Then the sum of the squares
 <span class="math display">\[
 x = \sum_{i=1}^{m} z_i^2
 \]</span>
+with
+<span class="math display">\[
+\mu_x = m \sigma^2_z
+\]</span>
 follows a <strong>scaled chi-squared distribution</strong>
 <span class="math display">\[
-x\sim \sigma^2 \text{$\chi^2_{m}$}
+x\sim \frac{\mu_x}{m} \text{$\chi^2_{m}$} = W_1\left(\frac{\mu_x}{m}, m\right) = \text{Gam}\left(\frac{1}{2} m, 2 \frac{\mu_x}{m}\right) 
 \]</span>
 with degree of freedom <span class="math inline">\(m\)</span> and <span class="math inline">\(x \geq 0\)</span>.
-The mean and variance of a scaled chi-squared distributed variable is <span class="math inline">\(\text{E}(x)=m \sigma^2\)</span> and <span class="math inline">\(\text{Var}(x)=2m\sigma^4\)</span>.</p>
-<p>Another name for the scaled chi-squared distribution is <strong>univariate Wishart distribution</strong> <span class="math inline">\(W_1(\sigma^2, m)\)</span> which uses the same parameters.</p>
-<p>The <strong>gamma distribution</strong> <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is a further variant of the scaled chi-squared distribution which uses a different parameterisation in terms of a shape parameter <span class="math inline">\(\alpha\)</span> and a scale parameter <span class="math inline">\(\beta\)</span>. The scaled chi-squared distribution <span class="math inline">\(\sigma^2 \text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\frac{m}{2}, 2 \sigma^2)\)</span>. The mean of <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is <span class="math inline">\(\alpha \beta\)</span> and its variance is <span class="math inline">\(\alpha \beta^2\)</span>.</p>
-<p>The <strong>chi-squared distribution</strong> is a special case with <span class="math inline">\(\sigma^2=1\)</span> with mean <span class="math inline">\(\text{E}(x)=m\)</span> and variance <span class="math inline">\(\text{Var}(x)=2m\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\frac{m}{2}, 2)\)</span>.</p>
-<p>The <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\beta)\)</span> with scale parameter <span class="math inline">\(\beta\)</span> (and mean <span class="math inline">\(\beta\)</span> and variance <span class="math inline">\(\beta^2\)</span>) is another special case of the gamma distribution with shape parameter <span class="math inline">\(\alpha=1\)</span>. Instead of the scale parameter the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\lambda= \frac{1}{\beta}\)</span>.</p>
+The mean and variance of a scaled chi-squared distributed variable is
+<span class="math inline">\(\text{E}(x)= \mu_x\)</span> and <span class="math inline">\(\text{Var}(x)= \frac{2 \mu^2_x}{m}\)</span>.</p>
+<p>Another name for the scaled chi-squared distribution is <strong>one-dimensional Wishart distribution</strong> <span class="math inline">\(W_1(\frac{\mu_x}{m}, m )\)</span>.</p>
+<p>The <strong>gamma distribution</strong> <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is another name for the scaled chi-squared distribution with a different parameterisation in terms of a shape parameter <span class="math inline">\(\alpha\)</span> and a scale parameter <span class="math inline">\(\beta\)</span>. The scaled chi-squared distribution <span class="math inline">\(\frac{\mu_x}{m} \text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=\frac{1}{2} m, \beta = 2 \frac{\mu_x}{m})\)</span>. The mean of <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is <span class="math inline">\(\alpha \beta = \mu_x\)</span> and its variance is <span class="math inline">\(\alpha \beta^2 =\frac{2 \mu^2_x}{m}\)</span>.</p>
+<p>The density of the gamma distribution (aka scaled chi-squared distribution) is available in the R function <code><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma()</a></code> and the quantile function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma()</a></code>.</p>
+</div>
+<div id="special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution" class="section level3" number="19.6.4">
+<h3>
+<span class="header-section-number">A.6.4</span> Special cases of the gamma distribution: exponential distribution and chi-squared distibution<a class="anchor" aria-label="anchor" href="#special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution"><i class="fas fa-link"></i></a>
+</h3>
+<p>The <strong>chi-squared distribution</strong> is a special case with <span class="math inline">\(\sigma^2_z=1\)</span>
+and hence <span class="math inline">\(\frac{\mu_x}{m} =1\)</span>. It has mean <span class="math inline">\(\text{E}(x)=m\)</span> and variance <span class="math inline">\(\text{Var}(x)=2m\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\frac{m}{2}, 2)\)</span>.</p>
+<p>The <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\beta)\)</span> with scale parameter <span class="math inline">\(\beta\)</span> is another special case of the gamma distribution with shape parameter <span class="math inline">\(\alpha=1\)</span> (or <span class="math inline">\(m=2\)</span>) and thus equals <span class="math inline">\(\text{Gam}(1, \beta)\)</span>. It has mean <span class="math inline">\(\beta\)</span> and variance <span class="math inline">\(\beta^2\)</span>.</p>
+<p>Instead of the scale parameter the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\lambda= \frac{1}{\beta}\)</span>.</p>
 <p>Here is a plot of the density of the chi-squared distribution
 for degrees of freedom <span class="math inline">\(m=1\)</span> and <span class="math inline">\(m=3\)</span>:</p>
 <div class="inline-figure"><img src="19-refresher_files/figure-html/unnamed-chunk-5-1.png" width="768"></div>
 <p>In R the density of the chi-squared distribution is given by <code><a href="https://rdrr.io/r/stats/Chisquare.html">dchisq()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq()</a></code> and
 the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">qchisq()</a></code>.</p>
-<p>The density of the gamma distribution (aka scaled chi-squared distribution) is available in the R function <code><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma()</a></code> and the quantile function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma()</a></code>.</p>
+<p>Likewise, in R <code><a href="https://rdrr.io/r/stats/Exponential.html">dexp()</a></code> gives the density of the exponential distribution, and
+<code><a href="https://rdrr.io/r/stats/Exponential.html">pexp()</a></code> and <code><a href="https://rdrr.io/r/stats/Exponential.html">qexp()</a></code> are the corresponding cumulutative density and quantile functions.</p>
 </div>
 </div>
 <div id="statistics" class="section level2" number="19.7">
@@ -896,7 +910,8 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <a class="nav-link" href="#distributions"><span class="header-section-number">A.6</span> Distributions</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#bernoulli-and-binomial-distribution"><span class="header-section-number">A.6.1</span> Bernoulli and Binomial distribution</a></li>
 <li><a class="nav-link" href="#normal-distribution"><span class="header-section-number">A.6.2</span> Normal distribution</a></li>
-<li><a class="nav-link" href="#scaled-chi-squared-wishart-gamma-distribution-and-exponential-distribution"><span class="header-section-number">A.6.3</span> Scaled chi-squared / Wishart / gamma distribution and exponential distribution</a></li>
+<li><a class="nav-link" href="#gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution"><span class="header-section-number">A.6.3</span> Gamma distribution aka scaled chi-squared and one-dimensional Wishart distribution</a></li>
+<li><a class="nav-link" href="#special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution"><span class="header-section-number">A.6.4</span> Special cases of the gamma distribution: exponential distribution and chi-squared distibution</a></li>
 </ul>
 </li>
 <li>
@@ -927,7 +942,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 June 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

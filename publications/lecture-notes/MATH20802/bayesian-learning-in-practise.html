@@ -206,13 +206,13 @@ f(p| x) = \frac{1}{B(\alpha+x, \beta+n-x)} p^{\alpha+x-1} (1-p)^{\beta+n-x-1}
 </h2>
 <p>The Beta-Binomial models allows to observe a number of intriguing features
 and properties of Bayesian learning. Many of these extend also to other models as we will see later.</p>
-<div id="prior-acting-as-pseudo-data" class="section level3" number="10.2.1">
+<div id="prior-acting-as-pseudodata" class="section level3" number="10.2.1">
 <h3>
-<span class="header-section-number">10.2.1</span> Prior acting as pseudo-data<a class="anchor" aria-label="anchor" href="#prior-acting-as-pseudo-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2.1</span> Prior acting as pseudodata<a class="anchor" aria-label="anchor" href="#prior-acting-as-pseudodata"><i class="fas fa-link"></i></a>
 </h3>
 <p>In the expression for the posterior mean and variance you can see that
 <span class="math inline">\(m=\alpha + \beta\)</span> behaves like an implicit sample size connected with prior information!</p>
-<p>Specifically, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> act as <strong>pseudo-counts</strong> that influence
+<p>Specifically, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> act as <strong>pseudocounts</strong> that influence
 both the posterior mean and the posterior variance, exactly in the same way as conventional data.</p>
 <p>For example, the larger <span class="math inline">\(m\)</span> (and thus larger <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>) the smaller is the posterior variance, with variance decreasing proportional to the inverse of <span class="math inline">\(m\)</span>. If the prior is highly concentrated, i.e. if it has low variance and large precision (=inverse variance) then the implicit data size <span class="math inline">\(m\)</span> is large. Conversely, if the prior has a large variance, then the prior is vague and the implicit data size <span class="math inline">\(m\)</span> is small.</p>
 <p>Hence, a prior has the same effect as if one would add data – but without actually adding data! This is precisely this why a prior acts as a regulariser and prevents overfitting, because it increases effective sample size.</p>
@@ -223,9 +223,9 @@ that may have been available previously as observations.</p>
 <h3>
 <span class="header-section-number">10.2.2</span> Linear shrinkage of mean<a class="anchor" aria-label="anchor" href="#linear-shrinkage-of-mean"><i class="fas fa-link"></i></a>
 </h3>
-<p>The posterior mean <span class="math inline">\(\mu_{\text{posterior}}\)</span> is a linearly adjusted <span class="math inline">\(\hat\mu_{ML}\)</span>. This becomes evident by writing <span class="math inline">\(\mu_{\text{posterior}}\)</span> as</p>
+<p>The posterior mean <span class="math inline">\(\mu_{\text{posterior}}\)</span> is a linearly adjusted <span class="math inline">\(\hat{\mu}_{ML}\)</span>. This becomes evident by writing <span class="math inline">\(\mu_{\text{posterior}}\)</span> as</p>
 <p><span class="math display">\[
-\mu_{\text{posterior}} = \lambda \mu_{\text{prior}} + (1-\lambda) \hat\mu_{ML}
+\mu_{\text{posterior}} = \lambda \mu_{\text{prior}} + (1-\lambda) \hat{\mu}_{ML}
 \]</span>
 with weight <span class="math inline">\(\lambda \in [0,1]\)</span>
 <span class="math display">\[
@@ -236,12 +236,16 @@ The <strong>posterior mean is a convex combination (i.e. the weighted average) 
 <li><p>This is called <em>shrinkage</em>, because the ML estimator is “shrunk” towards the prior mean (which is often called the “target”, and sometimes the target is zero, and then the terminology “shrinking” makes most sense).</p></li>
 <li>
 <p>If the shrinkage intensity is zero (<span class="math inline">\(\lambda = 0\)</span>) then the ML point estimator is recovered. This implies <span class="math inline">\(\alpha=0\)</span> and <span class="math inline">\(\beta=0\)</span>, or <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
-<p>Note that using maximum likelihood to estimate of the proportion <span class="math inline">\(p\)</span> (for moderate or small <span class="math inline">\(n\)</span>) is the same as Bayesian estimation using the Beta-Binomial model with prior <span class="math inline">\(\alpha=0\)</span> and <span class="math inline">\(\beta=0\)</span>. This prior is extremely “u-shaped” and the implicit prior for the ML estimation. (Would you use such a prior intentionally?)</p>
+<p>Note that using maximum likelihood to estimate the proportion <span class="math inline">\(p\)</span> (for moderate or small <span class="math inline">\(n\)</span>) is the same as Bayesian posterior mean estimation using the Beta-Binomial model with prior <span class="math inline">\(\alpha=0\)</span> and <span class="math inline">\(\beta=0\)</span>. This prior is extremely “u-shaped” and the implicit prior for the ML estimation. (Would you use such a prior intentionally?)</p>
 </li>
 <li><p>If the shrinkage intensity is large (<span class="math inline">\(\lambda \rightarrow 1\)</span>) then the posterior mean corresponds to the prior.
 This happens if <span class="math inline">\(n=0\)</span> or if <span class="math inline">\(m\)</span> is very large (implying that the prior is sharply concentrated around the prior mean).</p></li>
-<li><p>Since the ML estimate (=frequency) is unbiased the Bayesian point estimate is biased (for finite n)! And the bias is in fact the prior mean! So Bayesian statistics produces by default biased estimators (but asymptotically they will be unbiased like in ML).</p></li>
-<li><p>That the posterior mean is a linear combination of the ML estimate and the prior mean is not a coincidence. In fact, this is true for all distributions that are exponential families (see e.g. Diaconis and Ylvisaker, 1979). Furthermore, it is possible (and indeed quite useful for computational reasons!) to formulate Bayes theory completely in terms of linear shrinkage (e.g. Hartigan 1969). The resulting theory is called “Bayes linear statistics” (Goldstein and Wooff, 2007).</p></li>
+<li><p>Since the ML estimate <span class="math inline">\(\hat{\mu}_{ML}\)</span> is unbiased the Bayesian point estimate is biased (for finite n)! And the bias is induced by the prior mean deviating from the true mean. This is also true more generally, Bayesian learning typically produces biased estimators (but asymptotically they will be unbiased like in ML).</p></li>
+<li><p>That the posterior mean is a linear combination of the ML estimate and the prior mean is not a coincidence. In fact, this is true for all distributions that are exponential families, see e.g. Diaconis and Ylvisaker (1979)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Diaconis, P., and D Ylvisaker. 1979. &lt;em&gt;Conjugate Priors for Exponential Families.&lt;/em&gt;
+Ann. Statist. &lt;strong&gt;7&lt;/strong&gt;:269–281. &lt;a href="https://doi.org/10.1214/aos/1176344611" class="uri"&gt;https://doi.org/10.1214/aos/1176344611&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a>.</p></li>
+<li><p>Furthermore, it is possible (and indeed quite useful for computational reasons!) to formulate Bayes learning in terms of linear shrinkage and using only second moments, see e.g. Hartigan (1969)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hartigan, J. A. 1969. &lt;em&gt;Linear Bayesian methods.&lt;/em&gt; J. Roy. Statist. Soc. B &lt;strong&gt;31&lt;/strong&gt;:446-454
+&lt;a href="https://doi.org/10.1111/j.2517-6161.1969.tb00804.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1969.tb00804.x&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a>. The resulting theory is called “Bayes linear statistics” (Goldstein and Wooff, 2007)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Goldstein, M., and D. Wooff. 2007. &lt;em&gt;Bayes Linear Statistics: Theory and Methods.&lt;/em&gt; Wiley.
+&lt;a href="https://doi.org/10.1002/9780470065662" class="uri"&gt;https://doi.org/10.1002/9780470065662&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a>.</p></li>
 </ol>
 </div>
 <div id="conjugacy-of-prior-and-posterior-distribution" class="section level3" number="10.2.3">
@@ -411,14 +415,18 @@ x \sim \text{Inv-Gam}(\alpha, \beta)
 \]</span>
 This distribution is closely linked with the Gamma distribution — the inverse of <span class="math inline">\(x\)</span> is Gamma-distributed with inverted scale parameter:
 <span class="math display">\[\frac{1}{x} \sim \text{Gam}(\alpha, \beta^{-1})\]</span></p>
-<p>For use as prior and posterior we employ a different parameterisation with <span class="math inline">\(k=2(\alpha-1)\)</span> and <span class="math inline">\(v=\beta/(\alpha-1)\)</span>:
+<p>For use as prior and posterior we employ a different parameterisation with
+<span class="math inline">\(\mu=\beta/(\alpha-1)\)</span> and <span class="math inline">\(k=2(\alpha-1)\)</span>:
 <span class="math display">\[
-x \sim \text{Inv-Gam}(1+\frac{k}{2}, \frac{k}{2} v)
-\]</span></p>
+x \sim \text{Inv-Gam}\left(\alpha=\frac{k+2}{2}, \beta=\frac{k\mu}{2} \right) 
+     = \text{Inv-Gam}(\mu, k)
+\]</span>
+The reason for choosing the mean parameterisation using <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> instead of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is that this parameterisation simplifies the Bayesian update rule for the mean.</p>
 <p>The first two moments of the inverse Gamma distribution are
-<span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1} = v\]</span>
+<span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1} = \mu\]</span>
 and
-<span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)} =\frac{2 v^2}{k-2}\]</span></p>
+<span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)} =\frac{2 \mu^2}{k-2}\]</span></p>
+<p>The inverse Gamma distribution is also known under two further alternative names: 1) inverse scaled chi-squared distribution and 2) one-dimensional inverse Wishart distribution.</p>
 </div>
 <div id="normal-likelihoood" class="section level3" number="10.4.2">
 <h3>
@@ -433,9 +441,9 @@ normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> with g
 <span class="header-section-number">10.4.3</span> Inverse Gamma prior distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-prior-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <p>For the prior distribution we use the inverse Gamma
-distribution with with <span class="math inline">\(k=m\)</span> and <span class="math inline">\(v=\sigma^2_0\)</span>
+distribution with <span class="math inline">\(k=m\)</span> and <span class="math inline">\(\mu=\sigma^2_0\)</span>
 <span class="math display">\[
-\sigma^2 \sim \text{Inv-Gam}(k=m, v=\sigma^2_0) 
+\sigma^2 \sim \text{Inv-Gam}(\mu=\sigma^2_0, k=m) 
 \]</span>
 The corresponding prior mean is
 <span class="math display">\[
@@ -454,7 +462,7 @@ and the prior variance is
 <p>As the inverse Gammma distribution is conjugate to the
 normal likelihood the posterior distribution is inverse Gamma as well:
 <span class="math display">\[
-\sigma^2| x_1 \ldots, x_n \sim \text{Inv-Gam}(k=m+n, v=\sigma^2_1)
+\sigma^2| x_1 \ldots, x_n \sim \text{Inv-Gam}(\mu=\sigma^2_1, k=m+n)
 \]</span>
 with <span class="math inline">\(\sigma^2_1 = \frac{\sigma^2_0 m + n \widehat\sigma^2_{ML}}{m+n}\)</span>.</p>
 <p>The posterior mean is
@@ -484,12 +492,11 @@ with <span class="math inline">\(\lambda=\frac{m}{m+n}\)</span>.</p>
 \]</span>
 which is indeed the MLE of <span class="math inline">\(\sigma^2\)</span> and its asymptotic variance!</p>
 </div>
-<div id="estimating-precision" class="section level3" number="10.4.6">
+<div id="gamma-normal-model-for-the-precision" class="section level3" number="10.4.6">
 <h3>
-<span class="header-section-number">10.4.6</span> Estimating precision<a class="anchor" aria-label="anchor" href="#estimating-precision"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.6</span> Gamma-Normal model for the precision<a class="anchor" aria-label="anchor" href="#gamma-normal-model-for-the-precision"><i class="fas fa-link"></i></a>
 </h3>
-<p>Instead of estimating the variance it is actually a bit simpler to estimate the precision (i.e. the inverse variance). For this one would then use
-a Gamma prior and a normal likelihood, resulting in a Gamma posterior.</p>
+<p>Instead of estimating the variance we may wish to estimate the precision, i.e. the inverse variance. In the above we have used an inverse Gamma distribution for the prior and posterior of the variance. Thus, to model the precision we may therefore use a Gamma prior distribution and a normal likelihood, resulting in a Gamma posterior distribution.</p>
 </div>
 <div id="joint-estimation-of-mean-and-variance" class="section level3" number="10.4.7">
 <h3>
@@ -503,6 +510,7 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 </div>
 </div>
 </div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></div>
 <div class="next"><a href="bayesian-model-comparison.html"><span class="header-section-number">11</span> Bayesian model comparison</a></div>
@@ -520,7 +528,7 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 </li>
 <li>
 <a class="nav-link" href="#properties-of-bayesian-learning"><span class="header-section-number">10.2</span> Properties of Bayesian learning</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#prior-acting-as-pseudo-data"><span class="header-section-number">10.2.1</span> Prior acting as pseudo-data</a></li>
+<li><a class="nav-link" href="#prior-acting-as-pseudodata"><span class="header-section-number">10.2.1</span> Prior acting as pseudodata</a></li>
 <li><a class="nav-link" href="#linear-shrinkage-of-mean"><span class="header-section-number">10.2.2</span> Linear shrinkage of mean</a></li>
 <li><a class="nav-link" href="#conjugacy-of-prior-and-posterior-distribution"><span class="header-section-number">10.2.3</span> Conjugacy of prior and posterior distribution</a></li>
 <li><a class="nav-link" href="#large-sample-limits-of-mean-and-variance"><span class="header-section-number">10.2.4</span> Large sample limits of mean and variance</a></li>
@@ -543,7 +551,7 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 <li><a class="nav-link" href="#inverse-gamma-prior-distribution"><span class="header-section-number">10.4.3</span> Inverse Gamma prior distribution</a></li>
 <li><a class="nav-link" href="#inverse-gamma-posterior-distribution"><span class="header-section-number">10.4.4</span> Inverse Gamma posterior distribution</a></li>
 <li><a class="nav-link" href="#large-sample-asymptotics"><span class="header-section-number">10.4.5</span> Large sample asymptotics</a></li>
-<li><a class="nav-link" href="#estimating-precision"><span class="header-section-number">10.4.6</span> Estimating precision</a></li>
+<li><a class="nav-link" href="#gamma-normal-model-for-the-precision"><span class="header-section-number">10.4.6</span> Gamma-Normal model for the precision</a></li>
 <li><a class="nav-link" href="#joint-estimation-of-mean-and-variance"><span class="header-section-number">10.4.7</span> Joint estimation of mean and variance</a></li>
 </ul>
 </li>
@@ -563,7 +571,7 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 May 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 10 June 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
