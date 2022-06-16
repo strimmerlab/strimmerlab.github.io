@@ -473,24 +473,24 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <p>Scatter plots of Iris data:</p>
 <div class="inline-figure"><img src="3-clustering-b_files/figure-html/unnamed-chunk-1-1.png" width="480"></div>
 <p>The R output from a <span class="math inline">\(K\)</span>-means analysis with true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
-<pre><code>## K-means clustering with 3 clusters of sizes 96, 21, 33
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 47, 53
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1    0.5690971  -0.3705265    0.6888118   0.6609378
-## 2   -1.3232208  -0.3718921   -1.1334386  -1.1111395
-## 3   -0.8135055   1.3145538   -1.2825372  -1.2156393
+## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 2   1.13217737  0.08812645    0.9928284   1.0141287
+## 3  -0.05005221 -0.88042696    0.3465767   0.2805873
 ## 
 ## Clustering vector:
-##   [1] 3 2 2 2 3 3 3 3 2 2 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 2 2 3 3 3 2 2 3
-##  [38] 3 2 3 3 2 2 3 3 2 3 2 3 3 1 1 1 1 1 1 1 2 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1
-##  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1
-## [112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-## [149] 1 1
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3
+##  [75] 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2 2 3 2 2 2 2
+## [112] 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 2
+## [149] 2 3
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 149.25899  23.15862  17.33362
-##  (between_SS / total_SS =  68.2 %)
+## [1] 47.35062 47.45019 44.08754
+##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
 ## 
@@ -500,19 +500,19 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 is</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmeans.out</span><span class="op">$</span><span class="va">tot.withinss</span></code></pre></div>
-<pre><code>## [1] 189.7512</code></pre>
+<pre><code>## [1] 138.8884</code></pre>
 <p>and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmeans.out</span><span class="op">$</span><span class="va">betweenss</span></code></pre></div>
-<pre><code>## [1] 406.2488</code></pre>
+<pre><code>## [1] 457.1116</code></pre>
 <p>By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">L.iris</span>, <span class="va">kmeans.out</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa      0 17 33
-##   versicolor 46  4  0
-##   virginica  50  0  0</code></pre>
+##   setosa     50  0  0
+##   versicolor  0 11 39
+##   virginica   0 36 14</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <div class="inline-figure"><img src="3-clustering-b_files/figure-html/unnamed-chunk-6-1.png" width="480"></div>
@@ -1137,7 +1137,7 @@ unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 29 May 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 2 June 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
