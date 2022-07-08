@@ -207,25 +207,28 @@ p(y_i | x_i, \hat{\boldsymbol \theta}) = \frac{\hat{\pi}_{y_i} N(x_i| \hat{\mu}_
 because of the integration over the unobserved variable (or summation in case of a discrete latent variable). In contrast, the complete data log-likelihood function may be easier to compute.</p>
 <p>The widely used <strong>EM algorithm</strong>, formally described by Dempster and others (1977) but also used before, addresses this problem and maximises the observed data log-likelihood indirectly in an iterative procedure comprising two steps:</p>
 <ol style="list-style-type: decimal">
-<li>First, the missing data <span class="math inline">\(D_y\)</span> is imputed using Bayes’ theorem, providing a probabilities (“soft allocations”) of the internal states (“E” step).</li>
-<li>Subsequently, the expected complete data log-likelihood function is employed to estimate <span class="math inline">\(\boldsymbol \theta\)</span>, where the expectation is with regard to the distribution over the latent states (“M” step).</li>
+<li>First (“E” step), the missing data <span class="math inline">\(D_y\)</span> is imputed using Bayes’ theorem. This provides probabilities (“soft allocations”) for each possible state of the latent variable.</li>
+<li>Subsequently (“M” step), the expected complete data log-likelihood function is computed,
+where the expectation is taken with regard to the distribution over the latent states, and it is
+maximised with regard to <span class="math inline">\(\boldsymbol \theta\)</span> to estimate the model parameters.</li>
 </ol>
-<p>The EM algorithm leads to the exact same estimates as if the observed data log-likelihood would be optimised directly (therefore it is in fact <em>not</em> an approximation).</p>
+<p>The EM algorithm leads to the exact same estimates as if the observed data log-likelihood would be optimised directly. Therefore the EM algorithm is in fact <em>not</em> an approximation, it is just a different way to find the MLEs.</p>
 <p>The EM algorithm and application to clustering is discussed in more detail in the module <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH38161/">MATH38161 Multivariate Statistics and Machine Learning</a>.</p>
-<p>In a nutshell, the justication for the EM algorithm follows from the entropy chain rules and the corresponding bounds (see previous chapter). Specifically, given the data for <span class="math inline">\(x\)</span> and hence the empirical distribution <span class="math inline">\(\hat{Q}_x\)</span>, by minimising <span class="math inline">\(D_{\text{KL}}( \hat{Q}_{x} Q_{y| x}, P_{x, y}^{\boldsymbol \theta})\)</span> iteratively</p>
+<p>In a nutshell, the justication for the EM algorithm follows from the entropy chain rules and the corresponding bounds, such as <span class="math inline">\(D_{\text{KL}}(Q_{x,y} , P_{x, y}) \geq D_{\text{KL}}(Q_{x} , P_{x})\)</span> (see previous chapter). Given observed data for <span class="math inline">\(x\)</span> we know the empirical distribution <span class="math inline">\(\hat{Q}_x\)</span>.
+Hence, by minimising <span class="math inline">\(D_{\text{KL}}( \hat{Q}_{x} Q_{y| x}, P_{x, y}^{\boldsymbol \theta})\)</span> iteratively</p>
 <ol style="list-style-type: decimal">
 <li>with regard to <span class="math inline">\(Q_{y| x}\)</span> (“E” step) and</li>
 <li>with regard to the parameters <span class="math inline">\(\boldsymbol \theta\)</span> of <span class="math inline">\(P_{x, y}^{\boldsymbol \theta}\)</span> (“M” step")</li>
 </ol>
 <p>one minimises <span class="math inline">\(D_{\text{KL}}(\hat{Q}_{x} , P_{x}^{\boldsymbol \theta})\)</span> with regard to the parameters of <span class="math inline">\(P_{x}^{\boldsymbol \theta}\)</span>.</p>
 <p>Interestingly, in the “E” step the first argument of the KL divergence is optimised (“I” projection) and in the “M” step the second argument (“M” projection).</p>
-<p>Alternatively (and equivalently), instead of bounding the marginal KL divergence one can also minimise the upper bound or maximise the lower bound on
-the (negative) cross-entropy, all of this yielding the same EM algorithm.</p>
+<p>Alternatively, instead of bounding the marginal KL divergence one can also either minimise the upper bound of the cross-entropy or maximise the lower bound of the negative cross-entropy.
+All of these three procedures yield the same EM algorithm.</p>
 <p>Note that the optimisation of the entropy bound in the “E” step
 requires variational calculus since the argument is a distribution!
-The EM algorithm is in fact a special case of a <strong>variational Bayes algorithm</strong>
+The EM algorithm is therefore in fact a special case of a <strong>variational Bayes algorithm</strong>
 since it not only provides estimates of <span class="math inline">\(\boldsymbol \theta\)</span> but also yields the distribution of the latent states by means of the calculus of variations.</p>
-<p>Finally, in the above we see that we can learn about unobservable states by means of Bayes theorem. By extending this principle to learning about parameters and models we arrive at Bayesian learning.</p>
+<p>Finally, in the above we see that we can learn about unobservable states by means of Bayes theorem. By extending this same principle to learning about parameters and models we arrive at Bayesian learning.</p>
 
 </div>
 </div>
