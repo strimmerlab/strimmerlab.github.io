@@ -6,21 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>5 Multivariate dependencies | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta name="generator" content="bookdown 0.28 with bs4_book()">
 <meta property="og:title" content="5 Multivariate dependencies | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5 Multivariate dependencies | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="5.1 Measuring the linear association between two sets of random variables  5.1.1 Outline In this section we discuss how to measure the total linear association between two sets of random variables...">
-<meta property="og:description" content="5.1 Measuring the linear association between two sets of random variables  5.1.1 Outline In this section we discuss how to measure the total linear association between two sets of random variables...">
-<meta name="twitter:description" content="5.1 Measuring the linear association between two sets of random variables  5.1.1 Outline In this section we discuss how to measure the total linear association between two sets of random variables...">
+<meta name="description" content="5.1 Vector correlation and RV coefficient  5.1.1 Measuring the linear association between two sets of random variables The linear association between two scalar random variables \(x\) and \(y\) is...">
+<meta property="og:description" content="5.1 Vector correlation and RV coefficient  5.1.1 Measuring the linear association between two sets of random variables The linear association between two scalar random variables \(x\) and \(y\) is...">
+<meta name="twitter:description" content="5.1 Vector correlation and RV coefficient  5.1.1 Measuring the linear association between two sets of random variables The linear association between two scalar random variables \(x\) and \(y\) is...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -65,17 +65,19 @@
 <h1>
 <span class="header-section-number">5</span> Multivariate dependencies<a class="anchor" aria-label="anchor" href="#multivariate-dependencies"><i class="fas fa-link"></i></a>
 </h1>
-<div id="measuring-the-linear-association-between-two-sets-of-random-variables" class="section level2" number="5.1">
+<div id="vector-correlation-and-rv-coefficient" class="section level2" number="5.1">
 <h2>
-<span class="header-section-number">5.1</span> Measuring the linear association between two sets of random variables<a class="anchor" aria-label="anchor" href="#measuring-the-linear-association-between-two-sets-of-random-variables"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Vector correlation and RV coefficient<a class="anchor" aria-label="anchor" href="#vector-correlation-and-rv-coefficient"><i class="fas fa-link"></i></a>
 </h2>
-<div id="outline" class="section level3" number="5.1.1">
+<div id="measuring-the-linear-association-between-two-sets-of-random-variables" class="section level3" number="5.1.1">
 <h3>
-<span class="header-section-number">5.1.1</span> Outline<a class="anchor" aria-label="anchor" href="#outline"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.1</span> Measuring the linear association between two sets of random variables<a class="anchor" aria-label="anchor" href="#measuring-the-linear-association-between-two-sets-of-random-variables"><i class="fas fa-link"></i></a>
 </h3>
-<p>In this section we discuss how to measure the total linear association between two sets of
-random variables <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and
-<span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_q)^T\)</span>. We assume a joint correlation matrix
+<p>The linear association between two scalar random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is measured
+by the correlation <span class="math inline">\(\text{Cor}(x, y) = \rho\)</span>. We now would like to explore how to generalise this quantity to the case of two random vectors, i.e. the problem how to measure the total linear association between two
+random vectors (or equivalently two sets of random variables) <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and
+<span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_q)^T\)</span>.</p>
+<p>We assume a joint correlation matrix
 <span class="math display">\[
 \boldsymbol P= 
 \begin{pmatrix} 
@@ -95,34 +97,32 @@ becomes a diagonal block matrix
 0 &amp; \boldsymbol P_{\boldsymbol y} \\
 \end{pmatrix} \, .
 \]</span></p>
-</div>
-<div id="special-cases" class="section level3" number="5.1.2">
-<h3>
-<span class="header-section-number">5.1.2</span> Special cases<a class="anchor" aria-label="anchor" href="#special-cases"><i class="fas fa-link"></i></a>
-</h3>
-<p>In linear regression model the
+<p>Specifically, we are looking for a scalar
+quantity that quantifies the divergence of the general joint correlation matrix <span class="math inline">\(\boldsymbol P\)</span>
+from the joint correlation matrix <span class="math inline">\(\boldsymbol P_{\text{indep}}\)</span> assuming uncorrelated
+<span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
+<p>Ideally, in case of an univariate <span class="math inline">\(y\)</span>
+this measure should reduce to the
 <em>squared multiple correlation</em> or <em>coefficient of determination</em>
 <span class="math display">\[
 \text{Cor}(\boldsymbol x, y)^2 = \boldsymbol P_{y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}
-\]</span>
+\]</span></p>
+<p>In linear regression this
 is a standard measure to describe the strength of total linear association between the
-predictors <span class="math inline">\(\boldsymbol x\)</span> and the response <span class="math inline">\(y\)</span>. If <span class="math inline">\(\boldsymbol P_{\boldsymbol xy} =0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, y)^2=0\)</span>.</p>
+predictors <span class="math inline">\(\boldsymbol x\)</span> and the response <span class="math inline">\(y\)</span>. Note that if the marginal correlations
+vanish <span class="math inline">\(\boldsymbol P_{\boldsymbol xy} =0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, y)^2=0\)</span>.</p>
 <p>If there is only a single predictor <span class="math inline">\(x\)</span> then <span class="math inline">\(\boldsymbol P_{xy}=\rho\)</span> and <span class="math inline">\(\boldsymbol P_{x} = 1\)</span>
-and therefore the squared multiple correlation reduces to the squared Pearson correlation
+then the squared multiple correlation reduces to the squared Pearson correlation
 <span class="math display">\[
 \text{Cor}(x, y)^2 = \rho^2 \, .
 \]</span></p>
 </div>
-<div id="rozeboom-vector-correlation" class="section level3" number="5.1.3">
+<div id="vector-alienation-coefficient" class="section level3" number="5.1.2">
 <h3>
-<span class="header-section-number">5.1.3</span> Rozeboom vector correlation<a class="anchor" aria-label="anchor" href="#rozeboom-vector-correlation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1.2</span> Vector alienation coefficient<a class="anchor" aria-label="anchor" href="#vector-alienation-coefficient"><i class="fas fa-link"></i></a>
 </h3>
-<p>For the general case with two random vectors we are looking for a scalar
-quantity that quantifies the divergence of the general joint correlation matrix <span class="math inline">\(\boldsymbol P\)</span>
-from the joint correlation matrix <span class="math inline">\(\boldsymbol P_{\text{indep}}\)</span> assuming uncorrelated
-<span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
-<p>One such quantity is Hotelling’s <em>vector alienation
-coefficient</em> (given in his 1936 CCA paper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates. Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377. &lt;a href="https://doi.org/10.1093/biomet/28.3-4.321" class="uri"&gt;https://doi.org/10.1093/biomet/28.3-4.321&lt;/a&gt;&lt;/p&gt;'><sup>15</sup></a>)
+<p>Hotelling’s <em>vector alienation
+coefficient</em> given in his 1936 CCA paper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1936. Relations between two sets of variates. Biometrika &lt;strong&gt;28&lt;/strong&gt;:321–377. &lt;a href="https://doi.org/10.1093/biomet/28.3-4.321" class="uri"&gt;https://doi.org/10.1093/biomet/28.3-4.321&lt;/a&gt;&lt;/p&gt;'><sup>15</sup></a> is
 <span class="math display">\[
 \begin{split}
 a(\boldsymbol x, \boldsymbol y) &amp;= \frac{\det(\boldsymbol P)}{\det(\boldsymbol P_{\text{indep}}) } \\
@@ -144,9 +144,14 @@ for the pair <span class="math inline">\(\boldsymbol x\)</span> and <span class=
 <p>If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> und thus <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are uncorrelated then <span class="math inline">\(\boldsymbol P= \boldsymbol P_{\text{indep}}\)</span> and
 thus by construction the vector alienation coefficient <span class="math inline">\(a(\boldsymbol x, \boldsymbol y)=1\)</span>.
 Hence, it is itself not a generalisation of the squared multiple correlation.</p>
+</div>
+<div id="rozeboom-vector-correlation" class="section level3" number="5.1.3">
+<h3>
+<span class="header-section-number">5.1.3</span> Rozeboom vector correlation<a class="anchor" aria-label="anchor" href="#rozeboom-vector-correlation"><i class="fas fa-link"></i></a>
+</h3>
 <p>Instead, Rozeboom (1965)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Rozeboom, W. W. 1965. Linear correlations between sets of variables.
 Psychometrika &lt;strong&gt;30&lt;/strong&gt;:57–71. &lt;a href="https://doi.org/10.1007/BF02289747" class="uri"&gt;https://doi.org/10.1007/BF02289747&lt;/a&gt;&lt;/p&gt;'><sup>16</sup></a> proposed to use as squared <em>vector correlation</em>
-the complement
+the complement of the vector alienation
 <span class="math display">\[
 \begin{split}
 \text{Cor}(\boldsymbol x, \boldsymbol y)^2 &amp;= \rho^2_{\boldsymbol x\boldsymbol y} = 1 - a(\boldsymbol x, \boldsymbol y) \\
@@ -155,10 +160,12 @@ the complement
  &amp;  =1- \prod_{i=1}^m (1-\lambda_i^2) \\
 \end{split}
 \]</span>
-If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, \boldsymbol y)^2 = 0\)</span>.
-Moreover, if either <span class="math inline">\(p=1\)</span> or <span class="math inline">\(q=1\)</span> the squared vector correlation
+If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> then <span class="math inline">\(\text{Cor}(\boldsymbol x, \boldsymbol y)^2 = 0\)</span>.</p>
+<p>Moreover, if either <span class="math inline">\(p=1\)</span> or <span class="math inline">\(q=1\)</span> the squared vector correlation
 reduces to the corresponding squared multiple correlation,
-and for both <span class="math inline">\(p=1\)</span> and <span class="math inline">\(q=1\)</span> it becomes squared Pearson correlation.</p>
+and for both <span class="math inline">\(p=1\)</span> and <span class="math inline">\(q=1\)</span> it becomes squared Pearson correlation.
+Thus, Rozeboom’s vector correlation generalised both Pearson correlation
+and the cofficient of determination.</p>
 <p>A more general way to measure multivariate association is mutual information (MI)
 which not only covers linear but also non-linear association.
 As we will discuss in a subsequent section the Rozeboom vector
@@ -178,16 +185,65 @@ on the matrix trace rather than matrix determinant.</p>
 However, the RV coefficient does <em>not</em> reduce to the multiple correlation coefficient
 for <span class="math inline">\(q=1\)</span> and <span class="math inline">\(p &gt; 1\)</span>, and therefore the RV coefficient cannot be considered a coherent generalisation
 of Pearson and multiple correlation to the case of two random vectors.</p>
-<p>See also Worksheet 9.</p>
+<p>See also Worksheet 10.</p>
 </div>
 </div>
-<div id="mutual-information-as-generalisation-of-correlation" class="section level2" number="5.2">
+<div id="limits-of-linear-models-and-correlation" class="section level2" number="5.2">
 <h2>
-<span class="header-section-number">5.2</span> Mutual information as generalisation of correlation<a class="anchor" aria-label="anchor" href="#mutual-information-as-generalisation-of-correlation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2</span> Limits of linear models and correlation<a class="anchor" aria-label="anchor" href="#limits-of-linear-models-and-correlation"><i class="fas fa-link"></i></a>
 </h2>
-<div id="definition-of-mutual-information" class="section level3" number="5.2.1">
+<div id="correlation-measures-only-linear-dependence" class="section level3" number="5.2.1">
 <h3>
-<span class="header-section-number">5.2.1</span> Definition of mutual information<a class="anchor" aria-label="anchor" href="#definition-of-mutual-information"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2.1</span> Correlation measures only linear dependence<a class="anchor" aria-label="anchor" href="#correlation-measures-only-linear-dependence"><i class="fas fa-link"></i></a>
+</h3>
+<p>Linear models and measures of linear association (correlation) are very effective tools. However, it is important
+to recognise their limits especially when modelling complex nonlinear relationships.</p>
+<p>A very simple demonstration of this is given by the following example. Assume <span class="math inline">\(x\)</span> is a normally distributed
+random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span> — thus <span class="math inline">\(y\)</span> fully depends on <span class="math inline">\(x\)</span> with no added extra noise. What is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</p>
+<p>Let’s answer this question by running a small computer simulation:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -0.03078685</code></pre>
+<p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are dependent variables.
+This is because correlation only measures linear association, and the relationship between
+<span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is nonlinear.</p>
+</div>
+<div id="anscombe-data-sets" class="section level3" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> Anscombe data sets<a class="anchor" aria-label="anchor" href="#anscombe-data-sets"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using correlation, and more generally linear models, blindly can easily hide the underlying complexity of the analysed
+data. This is demonstrated by the classic “Anscombe quartet” of data sets presented in his 1973 paper<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Anscombe, F. J. 1973. Graphs in statistical analysis.
+The American Statistician 27:17-21, &lt;a href="http://doi.org/10.1080/00031305.1973.10478966" class="uri"&gt;http://doi.org/10.1080/00031305.1973.10478966&lt;/a&gt;&lt;/p&gt;'><sup>17</sup></a> -</p>
+<p><img src="5-dependence_files/figure-html/unnamed-chunk-2-1.png" width="672"><img src="5-dependence_files/figure-html/unnamed-chunk-2-2.png" width="672"></p>
+<p>As evident from the scatter plots the relationship between the
+two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is very different in the four cases!
+However, intriguingly all four data sets share exactly the same linear characteristics and summary statistics:</p>
+<ul>
+<li>Means <span class="math inline">\(m_x = 9\)</span> and <span class="math inline">\(m_y = 7.5\)</span>
+</li>
+<li>Variances <span class="math inline">\(s^2_x = 11\)</span> and <span class="math inline">\(s^2_y = 4.13\)</span>
+</li>
+<li>Correlation <span class="math inline">\(r = 0.8162\)</span>
+</li>
+<li>Linear model fit with intercept <span class="math inline">\(a=3.0\)</span> and slope <span class="math inline">\(b=0.5\)</span>
+</li>
+</ul>
+<p>Thus, in actual data analysis it is always a <strong>good idea to inspect the data visually</strong> to get a first impression whether using a linear model makes sense.</p>
+<p>In the above only data “a” follows a linear model. Data “b” represents a quadratic relationship. Data “c” is linear but with an outlier that disturbs the linear relationship. Finally data “d” also contains an outlier but also represent a case where <span class="math inline">\(y\)</span> is (apart from the outlier) is not dependent on <span class="math inline">\(x\)</span>.</p>
+<p>In the Worksheet 10 a more recent version of the Anscombe quartet will be analysed in the form of the “datasauRus” dozen - 13 highly nonlinear datasets that all share the
+same linear characteristics.</p>
+</div>
+</div>
+<div id="mutual-information-as-generalisation-of-correlation" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Mutual information as generalisation of correlation<a class="anchor" aria-label="anchor" href="#mutual-information-as-generalisation-of-correlation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="definition-of-mutual-information" class="section level3" number="5.3.1">
+<h3>
+<span class="header-section-number">5.3.1</span> Definition of mutual information<a class="anchor" aria-label="anchor" href="#definition-of-mutual-information"><i class="fas fa-link"></i></a>
 </h3>
 <p>Recall the definition
 of Kullback-Leibler divergence, or relative entropy, between two distributions:
@@ -207,9 +263,9 @@ distribution (which would be the appropriate joint distribution if <span class="
 Since MI is an application of KL divergence is shares all its properties. In particular,
 <span class="math inline">\(\text{MI}(\boldsymbol x, \boldsymbol y)=0\)</span> implies that the joint distribution and product distributions are the same. Hence the two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent if the mutual information vanishes.</p>
 </div>
-<div id="mutual-information-between-two-normal-variables" class="section level3" number="5.2.2">
+<div id="mutual-information-between-two-normal-variables" class="section level3" number="5.3.2">
 <h3>
-<span class="header-section-number">5.2.2</span> Mutual information between two normal variables<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normal-variables"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.2</span> Mutual information between two normal variables<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normal-variables"><i class="fas fa-link"></i></a>
 </h3>
 <p>The KL divergence between two multivariate normal distributions <span class="math inline">\(F_{\text{ref}}\)</span> and <span class="math inline">\(F\)</span> is
 <span class="math display">\[
@@ -259,12 +315,12 @@ has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = 2\)</span> and 
 \end{split}
 \]</span></p>
 <p>Thus <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> is is a one-to-one function of the squared correlation <span class="math inline">\(\rho^2\)</span> between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
-<div class="inline-figure"><img src="5-dependence_files/figure-html/unnamed-chunk-1-1.png" width="384"></div>
+<div class="inline-figure"><img src="5-dependence_files/figure-html/unnamed-chunk-3-1.png" width="384"></div>
 <p>For small values of correlation <span class="math inline">\(2 \, \text{MI}_{\text{norm}}(x,y) \approx \rho^2\)</span>.</p>
 </div>
-<div id="mutual-information-between-two-normally-distributed-random-vectors" class="section level3" number="5.2.3">
+<div id="mutual-information-between-two-normally-distributed-random-vectors" class="section level3" number="5.3.3">
 <h3>
-<span class="header-section-number">5.2.3</span> Mutual information between two normally distributed random vectors<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normally-distributed-random-vectors"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.3</span> Mutual information between two normally distributed random vectors<a class="anchor" aria-label="anchor" href="#mutual-information-between-two-normally-distributed-random-vectors"><i class="fas fa-link"></i></a>
 </h3>
 <p>The mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y)\)</span> between two multivariate normal random vector <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>
 can be computed in a similar fashion as in the bivariate case.</p>
@@ -342,9 +398,9 @@ vector correlation <span class="math inline">\(\rho^2_{\boldsymbol x, \boldsymbo
 for two univariate variables with squared Pearson correlation <span class="math inline">\(\rho^2\)</span>.</p>
 <p>Thus, Rozeboom’s vector correlation is directly linked to mutual information for jointly multivariate normally distributed variables.</p>
 </div>
-<div id="using-mi-for-variable-selection" class="section level3" number="5.2.4">
+<div id="using-mi-for-variable-selection" class="section level3" number="5.3.4">
 <h3>
-<span class="header-section-number">5.2.4</span> Using MI for variable selection<a class="anchor" aria-label="anchor" href="#using-mi-for-variable-selection"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.4</span> Using MI for variable selection<a class="anchor" aria-label="anchor" href="#using-mi-for-variable-selection"><i class="fas fa-link"></i></a>
 </h3>
 <p>A very general way to write down a model predicting <span class="math inline">\(\boldsymbol y\)</span> by <span class="math inline">\(\boldsymbol x\)</span> is as follows:</p>
 <ul>
@@ -382,14 +438,14 @@ we get
 \]</span></p>
 <p>Because of this link of MI with conditioning the MI between response and predictor variables is often used for variable and feature selection in general models.</p>
 </div>
-<div id="other-measures-of-general-dependence" class="section level3" number="5.2.5">
+<div id="other-measures-of-general-dependence" class="section level3" number="5.3.5">
 <h3>
-<span class="header-section-number">5.2.5</span> Other measures of general dependence<a class="anchor" aria-label="anchor" href="#other-measures-of-general-dependence"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3.5</span> Other measures of general dependence<a class="anchor" aria-label="anchor" href="#other-measures-of-general-dependence"><i class="fas fa-link"></i></a>
 </h3>
 <p>In principle, MI can be computed for any distribution and model and thus applies to both normal and non-normal models,
 and to both linear and nonlinear relationships.</p>
 <p>Besides mutual information there are others measures of general dependence between multivariate random variables.</p>
-<p>Two important measures that have been proposed in recent literature are</p>
+<p>Two important measures to capture nonlinear association that have been proposed in recent literature are</p>
 <ol style="list-style-type: lower-roman">
 <li>
 <a href="https://en.wikipedia.org/wiki/Distance_correlation">distance correlation</a> and</li>
@@ -398,13 +454,13 @@ and to both linear and nonlinear relationships.</p>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="graphical-models" class="section level2" number="5.3">
+<div id="graphical-models" class="section level2" number="5.4">
 <h2>
-<span class="header-section-number">5.3</span> Graphical models<a class="anchor" aria-label="anchor" href="#graphical-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4</span> Graphical models<a class="anchor" aria-label="anchor" href="#graphical-models"><i class="fas fa-link"></i></a>
 </h2>
-<div id="purpose" class="section level3" number="5.3.1">
+<div id="purpose" class="section level3" number="5.4.1">
 <h3>
-<span class="header-section-number">5.3.1</span> Purpose<a class="anchor" aria-label="anchor" href="#purpose"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.1</span> Purpose<a class="anchor" aria-label="anchor" href="#purpose"><i class="fas fa-link"></i></a>
 </h3>
 <p>Graphical models combine features from</p>
 <ul>
@@ -425,9 +481,9 @@ conditional dependencies. In this regard they generalise both the tree-based clu
 unsupervised learning models. It also includes regression, classification,
 time series models etc. See e.g. the reference book by <span class="citation">Murphy (<a href="bibliography.html#ref-Murphy2012" role="doc-biblioref">2012</a>)</span>.</p>
 </div>
-<div id="basic-notions-from-graph-theory" class="section level3" number="5.3.2">
+<div id="basic-notions-from-graph-theory" class="section level3" number="5.4.2">
 <h3>
-<span class="header-section-number">5.3.2</span> Basic notions from graph theory<a class="anchor" aria-label="anchor" href="#basic-notions-from-graph-theory"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.2</span> Basic notions from graph theory<a class="anchor" aria-label="anchor" href="#basic-notions-from-graph-theory"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>Mathematically, a graph <span class="math inline">\(G = (V, E)\)</span> consists of a a set of vertices or nodes <span class="math inline">\(V = \{v_1, v_2, \ldots\}\)</span> and a set of branches or edges <span class="math inline">\(E = \{ e_1, e_2, \ldots \}\)</span>.</li>
@@ -448,18 +504,18 @@ time series models etc. See e.g. the reference book by <span class="citation">M
 <li>A DAG, or directed acyclic graph, is a directed graph with no directed cycles. A (directed) tree is a special version of a DAG.</li>
 </ul>
 </div>
-<div id="probabilistic-graphical-models" class="section level3" number="5.3.3">
+<div id="probabilistic-graphical-models" class="section level3" number="5.4.3">
 <h3>
-<span class="header-section-number">5.3.3</span> Probabilistic graphical models<a class="anchor" aria-label="anchor" href="#probabilistic-graphical-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.3</span> Probabilistic graphical models<a class="anchor" aria-label="anchor" href="#probabilistic-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
 <p>A graphical model uses a graph to describe the relationship between random variables <span class="math inline">\(x_1, \ldots, x_d\)</span>. The variables are assumed to have a joint distribution with density/mass function <span class="math inline">\(p(x_1, x_2, \ldots, x_d)\)</span>.
 Each random variable is placed in a node of the graph.</p>
 <p>The structure of the graph and the type of the edges connecting (or not connecting) any pair of nodes/variables is used to describe the conditional dependencies, and to simplify the joint distribution.</p>
 <p>Thus, a graphical model is in essence a visualisation of the joint distribution using structural information from the graph helping to understand the mutual relationship among the variables.</p>
 </div>
-<div id="directed-graphical-models" class="section level3" number="5.3.4">
+<div id="directed-graphical-models" class="section level3" number="5.4.4">
 <h3>
-<span class="header-section-number">5.3.4</span> Directed graphical models<a class="anchor" aria-label="anchor" href="#directed-graphical-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.4</span> Directed graphical models<a class="anchor" aria-label="anchor" href="#directed-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
 <p>In a <strong>directed graphical model</strong> the graph structure is assumed to be
 a DAG (or a directed tree, which is also a DAG).</p>
@@ -500,9 +556,9 @@ on the positive side, this also implies that the search through all graphical mo
 demanding for anything but small toy data sets.</strong></p>
 <p>This also explains why heuristic and non-model based approaches (such as hierarchical clustering) are so popular even though full statistical modelling is in principle possible.</p>
 </div>
-<div id="undirected-graphical-models" class="section level3" number="5.3.5">
+<div id="undirected-graphical-models" class="section level3" number="5.4.5">
 <h3>
-<span class="header-section-number">5.3.5</span> Undirected graphical models<a class="anchor" aria-label="anchor" href="#undirected-graphical-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.5</span> Undirected graphical models<a class="anchor" aria-label="anchor" href="#undirected-graphical-models"><i class="fas fa-link"></i></a>
 </h3>
 <p>Another class of graphical models are models that contain only undirected edges. These <strong>undirected graphical models</strong>
 are used to represent the pairwise conditional (in)dependencies among the variables in the graph, and the resulting model is therefore also called <strong>conditional independence graph</strong>.</p>
@@ -522,9 +578,9 @@ or equivalently
  \]</span></p>
 <p>In a corresponding conditional independence graph, there is no edge between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>,
 as in such a graph <em>missing edges correspond to conditional independence</em> between the respective non-connected nodes.</p>
-<div id="gaussian-graphical-model" class="section level4" number="5.3.5.1">
+<div id="gaussian-graphical-model" class="section level4" number="5.4.5.1">
 <h4>
-<span class="header-section-number">5.3.5.1</span> Gaussian graphical model<a class="anchor" aria-label="anchor" href="#gaussian-graphical-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.5.1</span> Gaussian graphical model<a class="anchor" aria-label="anchor" href="#gaussian-graphical-model"><i class="fas fa-link"></i></a>
 </h4>
 <p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e. <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>,
 it turns out that it is straightforward to identify the pairwise conditional independencies.
@@ -540,9 +596,9 @@ Hence, from the precision matrix <span class="math inline">\(\boldsymbol \Omega\
 a <strong>Gaussian graphical model</strong>, or short <strong>GGM</strong>. A further alternative name
 commonly used is <strong>covariance selection model</strong>.</p>
 </div>
-<div id="related-quantity-partial-correlation" class="section level4" number="5.3.5.2">
+<div id="related-quantity-partial-correlation" class="section level4" number="5.4.5.2">
 <h4>
-<span class="header-section-number">5.3.5.2</span> Related quantity: partial correlation<a class="anchor" aria-label="anchor" href="#related-quantity-partial-correlation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.5.2</span> Related quantity: partial correlation<a class="anchor" aria-label="anchor" href="#related-quantity-partial-correlation"><i class="fas fa-link"></i></a>
 </h4>
 <p>From the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
 <p><span class="math display">\[
@@ -558,9 +614,9 @@ In other words, the partial correlation is exactly equivalent to the correlation
 the residuals that remain after regressing <span class="math inline">\(x_i\)</span> on the variables <span class="math inline">\(\{x_k\}\)</span> and <span class="math inline">\(x_j\)</span> on <span class="math inline">\(\{x_k\}\)</span>.</p>
 </div>
 </div>
-<div id="null-distribution-of-the-empirical-correlation-coefficient" class="section level3" number="5.3.6">
+<div id="null-distribution-of-the-empirical-correlation-coefficient" class="section level3" number="5.4.6">
 <h3>
-<span class="header-section-number">5.3.6</span> Null distribution of the empirical correlation coefficient<a class="anchor" aria-label="anchor" href="#null-distribution-of-the-empirical-correlation-coefficient"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.6</span> Null distribution of the empirical correlation coefficient<a class="anchor" aria-label="anchor" href="#null-distribution-of-the-empirical-correlation-coefficient"><i class="fas fa-link"></i></a>
 </h3>
 <p>Suppose we have two uncorrelated random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with <span class="math inline">\(\rho = \text{Cor}(x, y) =0\)</span>.
 After observing data <span class="math inline">\(x_1, \ldots, x_n\)</span> and <span class="math inline">\(y_1, \ldots, y_n\)</span> we compute the
@@ -578,9 +634,9 @@ Specifically, <span class="math inline">\(\kappa\)</span> is reduced by the numb
 If for <span class="math inline">\(d\)</span> dimensions we condition on <span class="math inline">\(d-2\)</span> variables the resulting degree of freedom is <span class="math inline">\(\kappa =n-1 - (d-2) = n-d+1\)</span>. For <span class="math inline">\(d=2\)</span> we get back the degree of freedom for
 standard empirical correlation.</p>
 </div>
-<div id="algorithm-for-learning-ggms" class="section level3" number="5.3.7">
+<div id="algorithm-for-learning-ggms" class="section level3" number="5.4.7">
 <h3>
-<span class="header-section-number">5.3.7</span> Algorithm for learning GGMs<a class="anchor" aria-label="anchor" href="#algorithm-for-learning-ggms"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.7</span> Algorithm for learning GGMs<a class="anchor" aria-label="anchor" href="#algorithm-for-learning-ggms"><i class="fas fa-link"></i></a>
 </h3>
 <p>From the above we can devise a simple algorithm to learn Gaussian graphical model (GGM)
 from data:</p>
@@ -594,9 +650,9 @@ independence between <span class="math inline">\(x_i\)</span> and <span class="m
 <p>If there are many edges tested simultaneously we may need to adjust (i.e reduce) the
 test threshold, for example applying Bonferroni or FDR methods.</p>
 </div>
-<div id="example-exam-score-data" class="section level3" number="5.3.8">
+<div id="example-exam-score-data" class="section level3" number="5.4.8">
 <h3>
-<span class="header-section-number">5.3.8</span> Example: exam score data<a class="anchor" aria-label="anchor" href="#example-exam-score-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.4.8</span> Example: exam score data<a class="anchor" aria-label="anchor" href="#example-exam-score-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>This is a data set from Mardia et al. (1979) and features <span class="math inline">\(d=5\)</span> variables measured on
 <span class="math inline">\(n=88\)</span> subjects.</p>
@@ -651,32 +707,38 @@ Therefore the conditional independence graph looks as follows:</p>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#multivariate-dependencies"><span class="header-section-number">5</span> Multivariate dependencies</a></li>
 <li>
-<a class="nav-link" href="#measuring-the-linear-association-between-two-sets-of-random-variables"><span class="header-section-number">5.1</span> Measuring the linear association between two sets of random variables</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#outline"><span class="header-section-number">5.1.1</span> Outline</a></li>
-<li><a class="nav-link" href="#special-cases"><span class="header-section-number">5.1.2</span> Special cases</a></li>
+<a class="nav-link" href="#vector-correlation-and-rv-coefficient"><span class="header-section-number">5.1</span> Vector correlation and RV coefficient</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#measuring-the-linear-association-between-two-sets-of-random-variables"><span class="header-section-number">5.1.1</span> Measuring the linear association between two sets of random variables</a></li>
+<li><a class="nav-link" href="#vector-alienation-coefficient"><span class="header-section-number">5.1.2</span> Vector alienation coefficient</a></li>
 <li><a class="nav-link" href="#rozeboom-vector-correlation"><span class="header-section-number">5.1.3</span> Rozeboom vector correlation</a></li>
 <li><a class="nav-link" href="#rv-coefficient"><span class="header-section-number">5.1.4</span> RV coefficient</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#mutual-information-as-generalisation-of-correlation"><span class="header-section-number">5.2</span> Mutual information as generalisation of correlation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#definition-of-mutual-information"><span class="header-section-number">5.2.1</span> Definition of mutual information</a></li>
-<li><a class="nav-link" href="#mutual-information-between-two-normal-variables"><span class="header-section-number">5.2.2</span> Mutual information between two normal variables</a></li>
-<li><a class="nav-link" href="#mutual-information-between-two-normally-distributed-random-vectors"><span class="header-section-number">5.2.3</span> Mutual information between two normally distributed random vectors</a></li>
-<li><a class="nav-link" href="#using-mi-for-variable-selection"><span class="header-section-number">5.2.4</span> Using MI for variable selection</a></li>
-<li><a class="nav-link" href="#other-measures-of-general-dependence"><span class="header-section-number">5.2.5</span> Other measures of general dependence</a></li>
+<a class="nav-link" href="#limits-of-linear-models-and-correlation"><span class="header-section-number">5.2</span> Limits of linear models and correlation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#correlation-measures-only-linear-dependence"><span class="header-section-number">5.2.1</span> Correlation measures only linear dependence</a></li>
+<li><a class="nav-link" href="#anscombe-data-sets"><span class="header-section-number">5.2.2</span> Anscombe data sets</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#graphical-models"><span class="header-section-number">5.3</span> Graphical models</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#purpose"><span class="header-section-number">5.3.1</span> Purpose</a></li>
-<li><a class="nav-link" href="#basic-notions-from-graph-theory"><span class="header-section-number">5.3.2</span> Basic notions from graph theory</a></li>
-<li><a class="nav-link" href="#probabilistic-graphical-models"><span class="header-section-number">5.3.3</span> Probabilistic graphical models</a></li>
-<li><a class="nav-link" href="#directed-graphical-models"><span class="header-section-number">5.3.4</span> Directed graphical models</a></li>
-<li><a class="nav-link" href="#undirected-graphical-models"><span class="header-section-number">5.3.5</span> Undirected graphical models</a></li>
-<li><a class="nav-link" href="#null-distribution-of-the-empirical-correlation-coefficient"><span class="header-section-number">5.3.6</span> Null distribution of the empirical correlation coefficient</a></li>
-<li><a class="nav-link" href="#algorithm-for-learning-ggms"><span class="header-section-number">5.3.7</span> Algorithm for learning GGMs</a></li>
-<li><a class="nav-link" href="#example-exam-score-data"><span class="header-section-number">5.3.8</span> Example: exam score data</a></li>
+<a class="nav-link" href="#mutual-information-as-generalisation-of-correlation"><span class="header-section-number">5.3</span> Mutual information as generalisation of correlation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#definition-of-mutual-information"><span class="header-section-number">5.3.1</span> Definition of mutual information</a></li>
+<li><a class="nav-link" href="#mutual-information-between-two-normal-variables"><span class="header-section-number">5.3.2</span> Mutual information between two normal variables</a></li>
+<li><a class="nav-link" href="#mutual-information-between-two-normally-distributed-random-vectors"><span class="header-section-number">5.3.3</span> Mutual information between two normally distributed random vectors</a></li>
+<li><a class="nav-link" href="#using-mi-for-variable-selection"><span class="header-section-number">5.3.4</span> Using MI for variable selection</a></li>
+<li><a class="nav-link" href="#other-measures-of-general-dependence"><span class="header-section-number">5.3.5</span> Other measures of general dependence</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#graphical-models"><span class="header-section-number">5.4</span> Graphical models</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#purpose"><span class="header-section-number">5.4.1</span> Purpose</a></li>
+<li><a class="nav-link" href="#basic-notions-from-graph-theory"><span class="header-section-number">5.4.2</span> Basic notions from graph theory</a></li>
+<li><a class="nav-link" href="#probabilistic-graphical-models"><span class="header-section-number">5.4.3</span> Probabilistic graphical models</a></li>
+<li><a class="nav-link" href="#directed-graphical-models"><span class="header-section-number">5.4.4</span> Directed graphical models</a></li>
+<li><a class="nav-link" href="#undirected-graphical-models"><span class="header-section-number">5.4.5</span> Undirected graphical models</a></li>
+<li><a class="nav-link" href="#null-distribution-of-the-empirical-correlation-coefficient"><span class="header-section-number">5.4.6</span> Null distribution of the empirical correlation coefficient</a></li>
+<li><a class="nav-link" href="#algorithm-for-learning-ggms"><span class="header-section-number">5.4.7</span> Algorithm for learning GGMs</a></li>
+<li><a class="nav-link" href="#example-exam-score-data"><span class="header-section-number">5.4.8</span> Example: exam score data</a></li>
 </ul>
 </li>
 </ul>
@@ -695,7 +757,7 @@ Therefore the conditional independence graph looks as follows:</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 2 June 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 7 September 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -708,7 +770,7 @@ Therefore the conditional independence graph looks as follows:</p>
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
