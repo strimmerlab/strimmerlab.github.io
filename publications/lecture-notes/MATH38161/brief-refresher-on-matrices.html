@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A Brief refresher on matrices | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.28 with bs4_book()">
+<meta name="generator" content="bookdown 0.29 with bs4_book()">
 <meta property="og:title" content="A Brief refresher on matrices | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -319,9 +319,17 @@ level we compute the</p>
 <p>The recursive nature of this algorithm leads to a complexity of order <span class="math inline">\(O(d!)\)</span> so it is not practical except for very small <span class="math inline">\(d\)</span>.
 Therefore, in practice other more efficient algorithms for computing determinants are used but these still have algorithmic complexity in the order of <span class="math inline">\(O(d^3)\)</span> so for large dimensions obtaining determinants is
 very expensive.</p>
-<p>However, some specially structured matrices do allow for very fast calculation.
-In particular, it turns out that the determinant of a triangular matrix (which includes diagonal matrices)
-is simply the product of the diagonal elements.</p>
+<p>However, some specially structured matrices do allow for very fast calculation.</p>
+<p>The determinant of a <strong>triangular matrix</strong> (and thus also of a <strong>diagonal matrix</strong>)
+<span class="math display">\[
+\boldsymbol A= \begin{pmatrix}
+ a_{11} &amp; 0       &amp; \cdots &amp; 0\\
+ a_{21} &amp; a_{22}  &amp; \cdots &amp; 0\\
+\vdots  &amp; \vdots &amp; \ddots &amp; 0 \\
+ a_{d1} &amp; a_{d2} &amp; \cdots &amp; a_{dd} \\
+\end{pmatrix}
+\]</span>
+is the product of its diagonal elements, i.e. <span class="math inline">\(\det(\boldsymbol A) = \prod_{i=1}^d a_{ii}\)</span>.</p>
 <p>For a two-dimensional matrix <span class="math inline">\(\boldsymbol A= \begin{pmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \\\end{pmatrix}\)</span>
 the determinant is <span class="math inline">\(\det(A) = a_{11} a_{22} - a_{12} a_{21}\)</span>.</p>
 <p>For a block-structured square matrix
@@ -344,15 +352,24 @@ and (Schur complement of <span class="math inline">\(\boldsymbol A_{11}\)</span>
 \]</span>
 Note that <span class="math inline">\(\boldsymbol C_1\)</span> and <span class="math inline">\(\boldsymbol C_2\)</span> are square matrices.</p>
 <p>For a block-diagonal matrix <span class="math inline">\(\boldsymbol A\)</span> with <span class="math inline">\(\boldsymbol A_{12} = 0\)</span> and <span class="math inline">\(\boldsymbol A_{21} = 0\)</span>
-the determinant is <span class="math inline">\(\det(\boldsymbol A) = \det(\boldsymbol A_{11}) \det(\boldsymbol A_{22})\)</span>.</p>
+the determinant is <span class="math inline">\(\det(\boldsymbol A) = \det(\boldsymbol A_{11}) \det(\boldsymbol A_{22})\)</span>, i.e. 
+the product of the determinants of the submatrices along the diagonal.</p>
 <p>Determinants have a multiplicative property,
 <span class="math display">\[\det(\boldsymbol A\boldsymbol B) = \det(\boldsymbol B\boldsymbol A) = \det(\boldsymbol A) \det(\boldsymbol B) \,.\]</span>
-For scalar <span class="math inline">\(a\)</span> this becomes
+In the above <span class="math inline">\(\boldsymbol A\)</span> and <span class="math inline">\(\boldsymbol B\)</span> are both square and of the same dimension.</p>
+<p>For rectangular <span class="math inline">\(\boldsymbol A\)</span> (<span class="math inline">\(n \times m\)</span>) and rectangular <span class="math inline">\(\boldsymbol B\)</span> (<span class="math inline">\(m \times n\)</span>)
+with <span class="math inline">\(m \geq n\)</span>
+this generalises to the Cauchy-Binet formula
+<span class="math display">\[
+\det(\boldsymbol A\boldsymbol B) = \sum_{w} \det(\boldsymbol A_{,w}) \det(\boldsymbol B_{w,})
+\]</span>
+where the summation is over all <span class="math inline">\(\binom{m}{n}\)</span> index subsets <span class="math inline">\(w\)</span> of size <span class="math inline">\(n\)</span> taken from <span class="math inline">\(\{1, \ldots, m\}\)</span> keeping the ordering
+and <span class="math inline">\(\boldsymbol A_{,w}\)</span> and <span class="math inline">\(\boldsymbol B_{w,}\)</span> are the corresponding square <span class="math inline">\(n \times n\)</span> submatrices. If <span class="math inline">\(m &lt; n\)</span> then <span class="math inline">\(\det(\boldsymbol A\boldsymbol B) = 0\)</span>.</p>
+<p>For scalar <span class="math inline">\(a\)</span>
 <span class="math inline">\(\det(a \boldsymbol B) = a^d \det(\boldsymbol B)\)</span> where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\boldsymbol B\)</span>.</p>
 <p>Another important identity is
 <span class="math display">\[\det(\boldsymbol I_n + \boldsymbol A\boldsymbol B) = \det(\boldsymbol I_m + \boldsymbol B\boldsymbol A)\]</span>
-where <span class="math inline">\(\boldsymbol A\)</span> is a <span class="math inline">\(n \times m\)</span> and <span class="math inline">\(\boldsymbol B\)</span> is a <span class="math inline">\(m \times n\)</span> matrix. This is called the
-Weinstein-Aronszajn determinant identity (also credited to Sylvester).</p>
+where <span class="math inline">\(\boldsymbol A\)</span> and <span class="math inline">\(\boldsymbol B\)</span> are rectangular matrices. This is called the Weinstein-Aronszajn determinant identity (also credited to Sylvester).</p>
 </div>
 </div>
 <div id="matrix-inverse" class="section level2" number="7.4">
@@ -446,9 +463,18 @@ form a group called the orthogonal group <span class="math inline">\(O(d)\)</spa
 The subset of orthogonal matrices with <span class="math inline">\(\det(\boldsymbol Q)=1\)</span> are called rotation matrices and form with multiplication the special orthogonal group <span class="math inline">\(SO(d)\)</span>.
 Orthogonal matrices with <span class="math inline">\(\det(\boldsymbol Q)=-1\)</span> are rotation-reflection matrices.</p>
 </div>
-<div id="generating-orthogonal-matrices" class="section level3" number="7.5.2">
+<div id="semi-orthogonal-matrices" class="section level3" number="7.5.2">
 <h3>
-<span class="header-section-number">A.5.2</span> Generating orthogonal matrices<a class="anchor" aria-label="anchor" href="#generating-orthogonal-matrices"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.5.2</span> Semi-orthogonal matrices<a class="anchor" aria-label="anchor" href="#semi-orthogonal-matrices"><i class="fas fa-link"></i></a>
+</h3>
+<p>A rectangular <span class="math inline">\(d \times k\)</span> matrix <span class="math inline">\(\boldsymbol Q\)</span> is semi-orthogonal
+if for <span class="math inline">\(k &lt; d\)</span> the <span class="math inline">\(k\)</span> column vectors are orthonormal and hence <span class="math inline">\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol I_k\)</span>, or if for <span class="math inline">\(k &gt; d\)</span> the <span class="math inline">\(d\)</span> row vectors are orthonormal with
+<span class="math inline">\(\boldsymbol Q\boldsymbol Q^T = \boldsymbol I_d\)</span>.</p>
+<p>The set of all (semi)-orthogonal matrices <span class="math inline">\(\boldsymbol Q\)</span> with <span class="math inline">\(k \leq d\)</span> column vectors is known as the Stiefel manifold <span class="math inline">\(\text{St}(d, k)\)</span>.</p>
+</div>
+<div id="generating-orthogonal-matrices" class="section level3" number="7.5.3">
+<h3>
+<span class="header-section-number">A.5.3</span> Generating orthogonal matrices<a class="anchor" aria-label="anchor" href="#generating-orthogonal-matrices"><i class="fas fa-link"></i></a>
 </h3>
 <p>In two dimensions <span class="math inline">\((d=2)\)</span> all orthogonal matrices <span class="math inline">\(\boldsymbol R\)</span> representing rotations with <span class="math inline">\(\det(\boldsymbol R)=1\)</span> are
 given by
@@ -495,9 +521,9 @@ The two-dimensional generator <span class="math inline">\(\boldsymbol G(\theta)\
 with <span class="math inline">\(\boldsymbol v= \begin{pmatrix} -\sin \frac{\theta}{2} \\ \cos \frac{\theta}{2} \end{pmatrix}\)</span>
 or <span class="math inline">\(\boldsymbol v= \begin{pmatrix} \sin \frac{\theta}{2} \\ -\cos \frac{\theta}{2} \end{pmatrix}\)</span>.</p>
 </div>
-<div id="permutation-matrix" class="section level3" number="7.5.3">
+<div id="permutation-matrix" class="section level3" number="7.5.4">
 <h3>
-<span class="header-section-number">A.5.3</span> Permutation matrix<a class="anchor" aria-label="anchor" href="#permutation-matrix"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.5.4</span> Permutation matrix<a class="anchor" aria-label="anchor" href="#permutation-matrix"><i class="fas fa-link"></i></a>
 </h3>
 <p>A special type of an orthogonal matrix is a permutation matrix <span class="math inline">\(\boldsymbol P\)</span> created by
 permuting rows and/or columns of the identity matrix <span class="math inline">\(\boldsymbol I\)</span>. Thus, each row and column
@@ -635,7 +661,7 @@ largest <span class="math inline">\(k\)</span> eigenvalues forms an upper bound 
 \sum_{i}^k \lambda_i \geq \sum_{i}^k p_i
 \]</span>
 This theorem is due to Schur (1923).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Schur, I. 1923. Über eine Klasse von Mittelbildungen mit Anwendungen auf die Determinantentheorie.
-Sitzungsber. Berl. Math. Ges. &lt;strong&gt;22&lt;/strong&gt;:9–29.&lt;/p&gt;"><sup>18</sup></a> The equality holds for <span class="math inline">\(k=d\)</span> (as the trace of <span class="math inline">\(\boldsymbol A\)</span> equals the sum
+Sitzungsber. Berl. Math. Ges. &lt;strong&gt;22&lt;/strong&gt;:9–29.&lt;/p&gt;"><sup>23</sup></a> The equality holds for <span class="math inline">\(k=d\)</span> (as the trace of <span class="math inline">\(\boldsymbol A\)</span> equals the sum
 of its eigenvalues) and for any <span class="math inline">\(k\)</span> if <span class="math inline">\(\boldsymbol A\)</span> is diagonal (as in this case of the diagonal elements equal the eigenvalues).</p>
 </div>
 <div id="eigenvalues-of-orthogonal-matrices" class="section level3" number="7.6.9">
@@ -1133,8 +1159,9 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 <li>
 <a class="nav-link" href="#orthogonal-matrices"><span class="header-section-number">A.5</span> Orthogonal matrices</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#properties-1"><span class="header-section-number">A.5.1</span> Properties</a></li>
-<li><a class="nav-link" href="#generating-orthogonal-matrices"><span class="header-section-number">A.5.2</span> Generating orthogonal matrices</a></li>
-<li><a class="nav-link" href="#permutation-matrix"><span class="header-section-number">A.5.3</span> Permutation matrix</a></li>
+<li><a class="nav-link" href="#semi-orthogonal-matrices"><span class="header-section-number">A.5.2</span> Semi-orthogonal matrices</a></li>
+<li><a class="nav-link" href="#generating-orthogonal-matrices"><span class="header-section-number">A.5.3</span> Generating orthogonal matrices</a></li>
+<li><a class="nav-link" href="#permutation-matrix"><span class="header-section-number">A.5.4</span> Permutation matrix</a></li>
 </ul>
 </li>
 <li>
@@ -1196,7 +1223,7 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 7 September 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 27 October 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
