@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Supervised learning and classification | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.29 with bs4_book()">
+<meta name="generator" content="bookdown 0.31 with bs4_book()">
 <meta property="og:title" content="4 Supervised learning and classification | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4 Supervised learning and classification | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.1/transition.js"></script><script src="libs/bs3compat-0.4.1/tabs.js"></script><script src="libs/bs3compat-0.4.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -202,8 +202,8 @@ d_k^{QDA}(\boldsymbol x) = -\frac{1}{2} (\boldsymbol x-\boldsymbol \mu_k)^T \bol
 <p>There are a number of noteworthy things here:</p>
 <ul>
 <li>Again terms are dropped that do not depend on <span class="math inline">\(k\)</span>, such as <span class="math inline">\(-\frac{d}{2}\log( 2\pi)\)</span>.</li>
-<li>Note the appearance of the Mahalanobis distance between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu_k\)</span>
-in the last term — recall <span class="math inline">\(d^{Mahalanobis}(\boldsymbol x, \boldsymbol \mu| \boldsymbol \Sigma) = (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)\)</span>.</li>
+<li>Note the appearance of the squared <strong>Mahalanobis distance</strong> between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu_k\)</span>
+— <span class="math inline">\(d^{Mahalanobis}(\boldsymbol x, \boldsymbol \mu| \boldsymbol \Sigma)^2 = (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)\)</span>.</li>
 <li>The <strong>QDA discriminant function is quadratic in <span class="math inline">\(\boldsymbol x\)</span></strong> - hence its name!<br>
 This implies that the <strong>decision boundaries for QDA classification are quadratic</strong> (i.e. parabolas in two dimensional settings).</li>
 </ul>
@@ -211,12 +211,9 @@ This implies that the <strong>decision boundaries for QDA classification are qua
 <span class="math display">\[
 d_k^{QDA (v2)}(\boldsymbol x) =  (\boldsymbol x-\boldsymbol \mu_k)^T \boldsymbol \Sigma_k^{-1} (\boldsymbol x-\boldsymbol \mu_k) + \log \det(\boldsymbol \Sigma_k)  -2 \log(\pi_k)
 \]</span>
-In the literature you will find both versions of Gaussian discriminant functions so you need to check carefully which convention is used.
-In the following we will use the first version only.</p>
+In the literature you will find both versions of Gaussian discriminant functions so you need to check carefully which convention is used. In the following we will use the first version only.</p>
 <p>Decision boundaries for the QDA classifier can be either linear or nonlinear (quadratic curve).
-The decision boundary between any two classes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>
-require that <span class="math inline">\(d^{QDA}_i(\boldsymbol x) = d^{QDA}_j(\boldsymbol x)\)</span>, or equivalently
-<span class="math inline">\(d^{QDA}_i(\boldsymbol x) - d^{QDA}_j(\boldsymbol x) = 0\)</span>, which is a quadratic equation.</p>
+The decision boundary between any two classes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> require that <span class="math inline">\(d^{QDA}_i(\boldsymbol x) = d^{QDA}_j(\boldsymbol x)\)</span>, or equivalently &lt;<span class="math inline">\(d^{QDA}_i(\boldsymbol x) - d^{QDA}_j(\boldsymbol x) = 0\)</span>, which is a quadratic equation.</p>
 </div>
 <div id="linear-discriminant-analysis-lda" class="section level3" number="4.3.2">
 <h3>
@@ -630,11 +627,11 @@ a free variance parameter) whereas the alternative is often modelled nonparametr
 <p>After fitting the mixture model, often assuming some additional constraints to make the mixture identifiable, one can compute false discovery rates (FDR) as follows:</p>
 <p>Local FDR:
 <span class="math display">\[
-\widehat{fdr}(z_i) = \hat{\text{Pr}}(\text{null} | z_i) = \frac{\hat{\pi}_0 \hat{f}_0(z_i)}{\hat{f}(z_i)}  
+\widehat{\text{fdr}}(z_i) = \widehat{\text{Pr}}(\text{null} | z_i) = \frac{\hat{\pi}_0 \hat{f}_0(z_i)}{\hat{f}(z_i)}  
 \]</span></p>
 <p>Tail-area-based FDR (=<span class="math inline">\(q\)</span>-value):
 <span class="math display">\[
-\widehat{Fdr}(z_i) = \hat{\text{Pr}}(\text{null} | Z &gt; z_i) = \frac{\hat{\pi}_0 \hat{F}_0(z_i)}{\hat{F}(z_i)}
+\widehat{\text{Fdr}}(z_i) = \widehat{\text{Pr}}(\text{null} | Z &gt; z_i) = \frac{\hat{\pi}_0 \hat{F}_0(z_i)}{\hat{F}(z_i)}
 \]</span>
 Note these are essentially <span class="math inline">\(p\)</span>-values adjusted for multiple testing (by a variant of the Benjamini-Hochberg method).</p>
 </li>
@@ -643,11 +640,11 @@ Note these are essentially <span class="math inline">\(p\)</span>-values adjuste
 variables that clearly belong to each of the two groups but also those features
 that cannot easily be discriminated to fall into either group:</p>
 <ul>
-<li>“alternative” variables have low local FDR, e.g, <span class="math inline">\(\widehat{fdr}(z_i) \leq 0.2\)</span>
+<li>“alternative” variables have low local FDR, e.g, <span class="math inline">\(\widehat{\text{fdr}}(z_i) \leq 0.2\)</span>
 </li>
-<li>“null” variables have high local FDR, e.g. <span class="math inline">\(\widehat{fdr}(z_i) \geq 0.8\)</span>
+<li>“null” variables have high local FDR, e.g. <span class="math inline">\(\widehat{\text{fdr}}(z_i) \geq 0.8\)</span>
 </li>
-<li>features that cannot easily classified as null or alternative, e.g. <span class="math inline">\(0.2 &lt; \widehat{fdr}(z_i) &lt; 0.8\)</span>
+<li>features that cannot easily classified as null or alternative, e.g. <span class="math inline">\(0.2 &lt; \widehat{\text{fdr}}(z_i) &lt; 0.8\)</span>
 </li>
 </ul>
 <p>For feature selection in prediction settings we generally aim to remove only those
@@ -726,7 +723,7 @@ a number of problems in the worksheets.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 27 October 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 15 December 2022.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
