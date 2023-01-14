@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta name="generator" content="bookdown 0.31 with bs4_book()">
 <meta property="og:title" content="16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -118,23 +118,26 @@ This also implies that OLS is generally a good method — but only if sample siz
 <h2>
 <span class="header-section-number">16.2</span> Maximum likelihood estimation of regression coefficients<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation-of-regression-coefficients"><i class="fas fa-link"></i></a>
 </h2>
+<div id="normal-log-likelihood-function-for-regression-coefficients-and-noise-variance" class="section level3" number="16.2.1">
+<h3>
+<span class="header-section-number">16.2.1</span> Normal log-likelihood function for regression coefficients and noise variance<a class="anchor" aria-label="anchor" href="#normal-log-likelihood-function-for-regression-coefficients-and-noise-variance"><i class="fas fa-link"></i></a>
+</h3>
 <p>We now show how to estimate regression coefficients using the method
 of maximum likelihood. This is a second method to derive <span class="math inline">\(\hat{\boldsymbol \beta}\)</span>.</p>
 <p>We recall the basic regression equation
 <span class="math display">\[
 y = \beta_0 + \boldsymbol \beta^T \boldsymbol x+ \varepsilon
 \]</span>
-with <span class="math inline">\(\text{E}(\varepsilon)=0\)</span> and observed data <span class="math inline">\(y_1, \ldots, y_n\)</span> and <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.
-The intercept is identified as
+with independent noise <span class="math inline">\(\varepsilon\)</span> and observed data <span class="math inline">\(y_1, \ldots, y_n\)</span> and <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+<p>Assuming <span class="math inline">\(\text{E}(\varepsilon)=0\)</span> the intercept is identified as
 <span class="math display">\[
 \beta_0 = \mu_{y}- \boldsymbol \beta^T \boldsymbol \mu_{\boldsymbol x}
 \]</span>
-so that we can solve for the noise variable
+Combining the two above equations we see that noise variable equals
 <span class="math display">\[
 \varepsilon = (y- \mu_{y}) - \boldsymbol \beta^T (\boldsymbol x-\boldsymbol \mu_{\boldsymbol x})
 \]</span></p>
-<p>Assuming joint (multivariate) normality for the response <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> we get as the MLEs for
-the respective means and (co)variances:</p>
+<p>Assuming joint (multivariate) normality for the observed data, the response <span class="math inline">\(y\)</span> and predictors <span class="math inline">\(\boldsymbol x\)</span>, we get as the MLEs for the respective means and (co)variances:</p>
 <ul>
 <li><span class="math inline">\(\hat{\mu}_y=\hat{\text{E}}(y)= \frac{1}{n}\sum^n_{i=1} y_i\)</span></li>
 <li><span class="math inline">\(\hat{\sigma}^2_y=\widehat{\text{Var}}(y)= \frac{1}{n}\sum^n_{i=1} (y_i - \hat{\mu}_y)^2\)</span></li>
@@ -142,26 +145,30 @@ the respective means and (co)variances:</p>
 <li><span class="math inline">\(\hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}=\widehat{\text{Var}}(\boldsymbol x)= \frac{1}{n}\sum^n_{i=1} (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x}) (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x})^T\)</span></li>
 <li><span class="math inline">\(\hat{\boldsymbol \Sigma}_{\boldsymbol xy}=\widehat{\text{Cov}}(\boldsymbol x, y)= \frac{1}{n}\sum^n_{i=1} (\boldsymbol x_i-\hat{\boldsymbol \mu}_{\boldsymbol x}) (y_i - \hat{\mu}_y)\)</span></li>
 </ul>
-<p>The noise <span class="math inline">\(\varepsilon \sim N(0, \sigma^2_{\varepsilon})\)</span>
-is normally distributed with mean 0 and variance <span class="math inline">\(\text{Var}(\varepsilon) = \sigma^2_{\varepsilon}\)</span>.
-Having obtained MLEs <span class="math inline">\(\hat{\mu}_y\)</span> and <span class="math inline">\(\hat{\boldsymbol \mu}_{\boldsymbol x}\)</span> corresponding (indirect) observations are given by
+<p>Note that these are are sufficient statistics and hence summarize perfectly
+the observed data for <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(y\)</span> under the normal assumption</p>
+<p>Consequently, the residuals (indirect observations of the noise variable) for a given choice of regression
+coefficients <span class="math inline">\(\boldsymbol \beta\)</span> and the observed data for <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(y\)</span> are
 <span class="math display">\[
-(y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})
-\]</span>
-which leads to the normal log-likelihood function
+\varepsilon_i = (y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})
+\]</span></p>
+<p>Assuming that the noise <span class="math inline">\(\varepsilon \sim N(0, \sigma^2_{\varepsilon})\)</span>
+is normally distributed with mean 0 and variance <span class="math inline">\(\text{Var}(\varepsilon) = \sigma^2_{\varepsilon}\)</span>.
+we can write down the normal log-likelihood function for <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>:
 <span class="math display">\[
 \begin{split}
 \log L(\boldsymbol \beta,\sigma^2_{\varepsilon} ) 
 &amp;= -\frac{n}{2} \log \sigma^2_{\varepsilon} - \frac{1}{2\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})\right)^2\\
 \end{split}
-\]</span></p>
-<p>We now only need to maximise the log-likelihood to obtain MLEs of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>!</p>
+\]</span>
+Maximising this function leads to the MLEs of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>!</p>
 <p>Note that the residual sum of squares appears in the log-likelihood function
 (with a minus sign), which implies that ML assuming normal distribution will recover
 the OLS estimator for the regression coefficients! So OLS is a special case of ML !</p>
-<div id="detailed-derivation-of-the-mles" class="section level3" number="16.2.1">
+</div>
+<div id="detailed-derivation-of-the-mles" class="section level3" number="16.2.2">
 <h3>
-<span class="header-section-number">16.2.1</span> Detailed derivation of the MLEs<a class="anchor" aria-label="anchor" href="#detailed-derivation-of-the-mles"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.2.2</span> Detailed derivation of the MLEs<a class="anchor" aria-label="anchor" href="#detailed-derivation-of-the-mles"><i class="fas fa-link"></i></a>
 </h3>
 <p>The gradient with regard to <span class="math inline">\(\boldsymbol \beta\)</span> is
 <span class="math display">\[
@@ -191,9 +198,9 @@ This leads to the MLE of the noise variance
 <p>Note that the MLE <span class="math inline">\(\widehat{\sigma^2_{\varepsilon}}\)</span> is a biased estimate of <span class="math inline">\(\sigma^2_{\varepsilon}\)</span>. The unbiased estimate is <span class="math inline">\(\frac{1}{n-d-1}\sum^n_{i=1}(y_i-\hat{y}_i)^2\)</span>, where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\boldsymbol \beta\)</span>
 (i.e. the number of predictors).</p>
 </div>
-<div id="asymptotics" class="section level3" number="16.2.2">
+<div id="asymptotics" class="section level3" number="16.2.3">
 <h3>
-<span class="header-section-number">16.2.2</span> Asymptotics<a class="anchor" aria-label="anchor" href="#asymptotics"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.2.3</span> Asymptotics<a class="anchor" aria-label="anchor" href="#asymptotics"><i class="fas fa-link"></i></a>
 </h3>
 <p>The advantage of using maximum likelihood is that we also get the (asympotic) variance associated with each estimator and typically can also assume asymptotic normality.</p>
 <p>Specifically, for <span class="math inline">\(\hat{\boldsymbol \beta}\)</span> we get via the observed Fisher information at the MLE
@@ -224,6 +231,10 @@ and
 <h2>
 <span class="header-section-number">16.3</span> Covariance plug-in estimator of regression coefficients<a class="anchor" aria-label="anchor" href="#covariance-plug-in-estimator-of-regression-coefficients"><i class="fas fa-link"></i></a>
 </h2>
+<div id="regression-coeffients-as-product-of-variances" class="section level3" number="16.3.1">
+<h3>
+<span class="header-section-number">16.3.1</span> Regression coeffients as product of variances<a class="anchor" aria-label="anchor" href="#regression-coeffients-as-product-of-variances"><i class="fas fa-link"></i></a>
+</h3>
 <p>We now try to understand regression coefficients in terms of covariances (thus obtaining a third way to compute and estimate them).</p>
 <p>We recall that the Gauss regression coefficients are given by</p>
 <p><span class="math display">\[\widehat{\boldsymbol \beta} = \left(\boldsymbol X^T\boldsymbol X\right)^{-1}\boldsymbol X^T \boldsymbol y\]</span>
@@ -244,9 +255,10 @@ We can write down a population version (with no hats!): <span class="math displa
 <p>Thus, OLS regression coefficients can be interpreted as plugin estimator using MLEs of covariances!
 In fact, we may also use the unbiased estimates since the scale factor (<span class="math inline">\(1/n\)</span> or <span class="math inline">\(1/(n-1)\)</span>) cancels out so it does not matter
 which one you use!</p>
-<div id="importance-of-positive-definiteness-of-estimated-covariance-matrix" class="section level3" number="16.3.1">
+</div>
+<div id="importance-of-positive-definiteness-of-estimated-covariance-matrix" class="section level3" number="16.3.2">
 <h3>
-<span class="header-section-number">16.3.1</span> Importance of positive definiteness of estimated covariance matrix<a class="anchor" aria-label="anchor" href="#importance-of-positive-definiteness-of-estimated-covariance-matrix"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.3.2</span> Importance of positive definiteness of estimated covariance matrix<a class="anchor" aria-label="anchor" href="#importance-of-positive-definiteness-of-estimated-covariance-matrix"><i class="fas fa-link"></i></a>
 </h3>
 <p>Note that <span class="math inline">\(\hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}\)</span> is inverted in <span class="math inline">\(\widehat{\boldsymbol \beta} = \left(\hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}\right)^{-1}\hat{\boldsymbol \Sigma}_{\boldsymbol xy}\)</span>.</p>
 <ul>
@@ -261,10 +273,56 @@ covariance estimators that improve over ML for small sample size.
 This leads to the so-called SCOUT method (=covariance-regularized regression by Witten and Tibshirani, 2008).</p>
 </div>
 </div>
-<div id="best-linear-predictor" class="section level2" number="16.4">
+<div id="standardised-regression-coefficients-and-their-relationship-to-correlation" class="section level2" number="16.4">
 <h2>
-<span class="header-section-number">16.4</span> Best linear predictor<a class="anchor" aria-label="anchor" href="#best-linear-predictor"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.4</span> Standardised regression coefficients and their relationship to correlation<a class="anchor" aria-label="anchor" href="#standardised-regression-coefficients-and-their-relationship-to-correlation"><i class="fas fa-link"></i></a>
 </h2>
+<p>We recall the relationship between regression coefficients <span class="math inline">\(\boldsymbol \beta\)</span> and the
+marginal covariance <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol xy}\)</span> and the covariances among the
+predictors <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}\)</span>:</p>
+<p><span class="math display">\[\boldsymbol \beta= \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\]</span></p>
+<p>We can rewrite the regression coefficients in terms of marginal correlations <span class="math inline">\(\boldsymbol P_{\boldsymbol xy}\)</span>
+and correlations <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol x}\)</span> among the predictors using the variance-correlation decompositions <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}= \boldsymbol V_{\boldsymbol x}^{1/2} \boldsymbol P_{\boldsymbol x\boldsymbol x} \boldsymbol V_{\boldsymbol x}^{1/2}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol xy}= \boldsymbol V_{\boldsymbol x}^{1/2} \boldsymbol P_{\boldsymbol xy} \sigma_y\)</span>:
+<span class="math display">\[
+\begin{split}
+\boldsymbol \beta&amp;= \underbrace{\boldsymbol V_{\boldsymbol x}^{-1/2}}_{\text{(inverse) scale of } x_i} \,\,
+          \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy} \,\,
+          \underbrace{\sigma_y}_{\text{ scale of }y} \\
+  &amp;= \boldsymbol V_{\boldsymbol x}^{-1/2} \,\, \boldsymbol \beta_{\text{std}} \,\,  \sigma_y \\
+\end{split}
+\]</span>
+Thus the regression coefficients <span class="math inline">\(\boldsymbol \beta\)</span> contain the scale of the variables, and
+take into account the correlations among the predictors (<span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol x}\)</span>)
+in addition to the marginal correlations between the response <span class="math inline">\(y\)</span> and the predictors <span class="math inline">\(x_i\)</span> (<span class="math inline">\(\boldsymbol P_{\boldsymbol xy}\)</span>).</p>
+<p>This decomposition allows to understand a number special cases for which the regression coefficients simplify further:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>If the response and the predictors are standardised to have variance one, i.e. <span class="math inline">\(\text{Var}(y)=1\)</span> and <span class="math inline">\(\text{Var}(x_i)=1\)</span>, then <span class="math inline">\(\boldsymbol \beta\)</span> becomes equal to the
+<strong>standardised regression coefficients</strong>
+<span class="math display">\[\boldsymbol \beta_{\text{std}} = \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}\]</span>
+Note that standardised regression coefficients do not make use of variances and and thus are scale-independent.</p></li>
+<li><p>If there is no correlation among the predictors , i.e. <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol x} = \boldsymbol I\)</span>
+the the regression coefficients reduce to
+<span class="math display">\[\boldsymbol \beta= \boldsymbol V_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\]</span>
+where <span class="math inline">\(\boldsymbol V_{\boldsymbol x}\)</span> is a diagonal matrix containing the variances of the predictors.
+This is also called <strong>marginal regression</strong>. Note that the inversion of <span class="math inline">\(\boldsymbol V_{\boldsymbol x}\)</span>
+is trival since you only need to invert each diagonal element individually.</p></li>
+<li><p>If both a) and b) apply simultaneously (i.e. there is no correlation among predictors and response and predictors and predictors
+are standardised) then
+the regression coefficients simplify even further to
+<span class="math display">\[
+\boldsymbol \beta= \boldsymbol P_{\boldsymbol xy}
+\]</span>
+Thus, in this very special case the regression coefficients are identical to the correlations between the response and the predictors!</p></li>
+</ol>
+</div>
+<div id="further-ways-to-obtain-regression-coefficients" class="section level2" number="16.5">
+<h2>
+<span class="header-section-number">16.5</span> Further ways to obtain regression coefficients<a class="anchor" aria-label="anchor" href="#further-ways-to-obtain-regression-coefficients"><i class="fas fa-link"></i></a>
+</h2>
+<div id="best-linear-predictor" class="section level3" number="16.5.1">
+<h3>
+<span class="header-section-number">16.5.1</span> Best linear predictor<a class="anchor" aria-label="anchor" href="#best-linear-predictor"><i class="fas fa-link"></i></a>
+</h3>
 <p>The <strong>best linear predictor</strong> is a fourth way to arrive at the linear model. This is closely related to OLS and minimising squared residual error.</p>
 <p>Without assuming normality the above multiple regression model
 can be shown to be optimal linear predictor under the minimum mean squared prediction error:</p>
@@ -282,10 +340,10 @@ can be shown to be optimal linear predictor under the minimum mean squared predi
 <span class="math inline">\(\text{E}( (y - y^{\star\star})^2 )\)</span>
 </li>
 </ul>
-<div id="result" class="section level3" number="16.4.1">
-<h3>
-<span class="header-section-number">16.4.1</span> Result:<a class="anchor" aria-label="anchor" href="#result"><i class="fas fa-link"></i></a>
-</h3>
+<div id="result" class="section level4" number="16.5.1.1">
+<h4>
+<span class="header-section-number">16.5.1.1</span> Result:<a class="anchor" aria-label="anchor" href="#result"><i class="fas fa-link"></i></a>
+</h4>
 <p>The mean squared prediction error <span class="math inline">\(MSPE\)</span> in dependence of <span class="math inline">\((b_0, \boldsymbol b)\)</span> is
 <span class="math display">\[
 \begin{split}
@@ -323,10 +381,10 @@ and setting this equal to zero yields
 Thus, the optimal values for <span class="math inline">\(b_0\)</span> and <span class="math inline">\(\boldsymbol b\)</span> in the best linear predictor
 correspond to the previously derived coefficients <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>!</p>
 </div>
-<div id="irreducible-error" class="section level3" number="16.4.2">
-<h3>
-<span class="header-section-number">16.4.2</span> Irreducible Error<a class="anchor" aria-label="anchor" href="#irreducible-error"><i class="fas fa-link"></i></a>
-</h3>
+<div id="irreducible-error" class="section level4" number="16.5.1.2">
+<h4>
+<span class="header-section-number">16.5.1.2</span> Irreducible Error<a class="anchor" aria-label="anchor" href="#irreducible-error"><i class="fas fa-link"></i></a>
+</h4>
 <p>The minimum achieved MSPE (=<strong>irreducible error</strong>) is
 <span class="math display">\[
 MSPE(\beta_0,\boldsymbol \beta)
@@ -352,16 +410,16 @@ as the squared multiple correlation coefficient between the response and the pre
 and plays a vital role in decomposition of variance, as discussed later.</p>
 </div>
 </div>
-<div id="regression-by-conditioning" class="section level2" number="16.5">
-<h2>
-<span class="header-section-number">16.5</span> Regression by conditioning<a class="anchor" aria-label="anchor" href="#regression-by-conditioning"><i class="fas fa-link"></i></a>
-</h2>
+<div id="regression-by-conditioning" class="section level3" number="16.5.2">
+<h3>
+<span class="header-section-number">16.5.2</span> Regression by conditioning<a class="anchor" aria-label="anchor" href="#regression-by-conditioning"><i class="fas fa-link"></i></a>
+</h3>
 <p><strong>Conditioning</strong> is a fifth way to arrive at the linear model. This is also the most general way and can be used to derive many other regression models
 (not just the simple linear model).</p>
-<div id="general-idea" class="section level3" number="16.5.1">
-<h3>
-<span class="header-section-number">16.5.1</span> General idea:<a class="anchor" aria-label="anchor" href="#general-idea"><i class="fas fa-link"></i></a>
-</h3>
+<div id="general-idea" class="section level4" number="16.5.2.1">
+<h4>
+<span class="header-section-number">16.5.2.1</span> General idea:<a class="anchor" aria-label="anchor" href="#general-idea"><i class="fas fa-link"></i></a>
+</h4>
 <ul>
 <li>two random variables <span class="math inline">\(y\)</span> (response, scalar) and <span class="math inline">\(\boldsymbol x\)</span> (predictor variables, vector)</li>
 <li>we assume that <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> have a joint distribution <span class="math inline">\(F_{y,\boldsymbol x}\)</span>
@@ -371,10 +429,10 @@ the corresponding distribution <span class="math inline">\(F_{y | \boldsymbol x}
 </li>
 </ul>
 </div>
-<div id="multivariate-normal-assumption" class="section level3" number="16.5.2">
-<h3>
-<span class="header-section-number">16.5.2</span> Multivariate normal assumption<a class="anchor" aria-label="anchor" href="#multivariate-normal-assumption"><i class="fas fa-link"></i></a>
-</h3>
+<div id="multivariate-normal-assumption" class="section level4" number="16.5.2.2">
+<h4>
+<span class="header-section-number">16.5.2.2</span> Multivariate normal assumption<a class="anchor" aria-label="anchor" href="#multivariate-normal-assumption"><i class="fas fa-link"></i></a>
+</h4>
 <p>Now we assume that <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> are (jointly) multivariate normal. Then the conditional distribution <span class="math inline">\(F_{y | \boldsymbol x}\)</span> is a univariate normal with the following moments (you can verify this by looking up the general conditional multivariate normal distribution):</p>
 <p><strong>a) Conditional expectation:</strong></p>
 <p><span class="math display">\[ \text{E}( y | \boldsymbol x) = y^{\star} = \beta_0 + \boldsymbol \beta^T \boldsymbol x\]</span></p>
@@ -403,42 +461,9 @@ and variance
 \end{split}
 \]</span>
 Note this is a constant so <span class="math inline">\(\text{E}(\text{Var}( y | \boldsymbol x)) = \sigma^2_y (1-\Omega^2)\)</span> as well.</p>
+
 </div>
 </div>
-<div id="standardised-regression-coefficients-and-relationship-to-correlation" class="section level2" number="16.6">
-<h2>
-<span class="header-section-number">16.6</span> Standardised regression coefficients and relationship to correlation<a class="anchor" aria-label="anchor" href="#standardised-regression-coefficients-and-relationship-to-correlation"><i class="fas fa-link"></i></a>
-</h2>
-<p>First we note that we can decompose regression coefficients into the product
-of marginal correlations and correlations among predictors.</p>
-<p>Using the variance-correlation decompositions <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}= \boldsymbol V_{\boldsymbol x}^{1/2} \boldsymbol P_{\boldsymbol x\boldsymbol x} \boldsymbol V_{\boldsymbol x}^{1/2}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol xy}= \boldsymbol V_{\boldsymbol x}^{1/2} \boldsymbol P_{\boldsymbol xy} \sigma_y\)</span> we rewrite the regression coefficients as
-<span class="math display">\[
-\boldsymbol \beta= {\underbrace{\boldsymbol V_{\boldsymbol x}^{-1/2}}_{\text{(inverse) scale of } x_i}} \,\, {\underbrace{\boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1}}_{\text{ (inverse) correlation among predictors }}} \underbrace{\boldsymbol P_{\boldsymbol xy}}_{\text{ marginal correlations}}\,\,
-\underbrace{\sigma_y}_{\text{ scale of }y}
-\]</span>
-Thus the regression coefficients <span class="math inline">\(\boldsymbol \beta\)</span> contain the scale of the variables, and
-take into account the correlations among the predictors (<span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol x}\)</span>)
-in addition to the marginal correlations between the response <span class="math inline">\(y\)</span> and the predictors <span class="math inline">\(x_i\)</span> (<span class="math inline">\(\boldsymbol P_{\boldsymbol xy}\)</span>).</p>
-<p>This decomposition allows to understand a number special cases when the regression coefficient simplify further:</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>If the response and the predictors are standardised to have variance one, i.e. <span class="math inline">\(\text{Var}(y)=1\)</span> and <span class="math inline">\(\text{Var}(x_i)=1\)</span>, then <span class="math inline">\(\boldsymbol \beta\)</span> becomes equal to the
-<strong>standardised regression coefficients</strong>
-<span class="math display">\[\boldsymbol \beta_{\text{std}} = \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}\]</span>
-Note that standardised regression coefficients do not make use of variances and and thus are scale-independent.</p></li>
-<li><p>If there is no correlation among the predictors , i.e. <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol x} = \boldsymbol I\)</span>
-the the regression coefficients reduce to
-<span class="math display">\[\boldsymbol \beta= \boldsymbol V_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\]</span>
-where <span class="math inline">\(\boldsymbol V_{\boldsymbol x}\)</span> is a diagonal matrix containing the variances oft the predictors.
-This is also called <strong>marginal regression</strong>. Note that the inversion of <span class="math inline">\(\boldsymbol V_{\boldsymbol x}\)</span>
-is trival since you only need to invert each diagonal element individually.</p></li>
-<li><p>If both a) and b) apply simultaneously (i.e. there is no correlation among predictors and response and predictors and predictors
-are standardised) then
-the regression coefficients simplify even further to
-<span class="math display">\[
-\boldsymbol \beta= \boldsymbol P_{\boldsymbol xy}
-\]</span>
-Thus, in this very special case the regression coefficients are identical to the correlations between the response and the predictors!</p></li>
-</ol>
 </div>
 </div>
   <div class="chapter-nav">
@@ -451,26 +476,24 @@ Thus, in this very special case the regression coefficients are identical to the
 <li><a class="nav-link" href="#ordinary-least-squares-ols-estimator-of-regression-coefficients"><span class="header-section-number">16.1</span> Ordinary Least Squares (OLS) estimator of regression coefficients</a></li>
 <li>
 <a class="nav-link" href="#maximum-likelihood-estimation-of-regression-coefficients"><span class="header-section-number">16.2</span> Maximum likelihood estimation of regression coefficients</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#detailed-derivation-of-the-mles"><span class="header-section-number">16.2.1</span> Detailed derivation of the MLEs</a></li>
-<li><a class="nav-link" href="#asymptotics"><span class="header-section-number">16.2.2</span> Asymptotics</a></li>
+<li><a class="nav-link" href="#normal-log-likelihood-function-for-regression-coefficients-and-noise-variance"><span class="header-section-number">16.2.1</span> Normal log-likelihood function for regression coefficients and noise variance</a></li>
+<li><a class="nav-link" href="#detailed-derivation-of-the-mles"><span class="header-section-number">16.2.2</span> Detailed derivation of the MLEs</a></li>
+<li><a class="nav-link" href="#asymptotics"><span class="header-section-number">16.2.3</span> Asymptotics</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#covariance-plug-in-estimator-of-regression-coefficients"><span class="header-section-number">16.3</span> Covariance plug-in estimator of regression coefficients</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#importance-of-positive-definiteness-of-estimated-covariance-matrix"><span class="header-section-number">16.3.1</span> Importance of positive definiteness of estimated covariance matrix</a></li></ul>
-</li>
-<li>
-<a class="nav-link" href="#best-linear-predictor"><span class="header-section-number">16.4</span> Best linear predictor</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#result"><span class="header-section-number">16.4.1</span> Result:</a></li>
-<li><a class="nav-link" href="#irreducible-error"><span class="header-section-number">16.4.2</span> Irreducible Error</a></li>
+<a class="nav-link" href="#covariance-plug-in-estimator-of-regression-coefficients"><span class="header-section-number">16.3</span> Covariance plug-in estimator of regression coefficients</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#regression-coeffients-as-product-of-variances"><span class="header-section-number">16.3.1</span> Regression coeffients as product of variances</a></li>
+<li><a class="nav-link" href="#importance-of-positive-definiteness-of-estimated-covariance-matrix"><span class="header-section-number">16.3.2</span> Importance of positive definiteness of estimated covariance matrix</a></li>
 </ul>
 </li>
+<li><a class="nav-link" href="#standardised-regression-coefficients-and-their-relationship-to-correlation"><span class="header-section-number">16.4</span> Standardised regression coefficients and their relationship to correlation</a></li>
 <li>
-<a class="nav-link" href="#regression-by-conditioning"><span class="header-section-number">16.5</span> Regression by conditioning</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#general-idea"><span class="header-section-number">16.5.1</span> General idea:</a></li>
-<li><a class="nav-link" href="#multivariate-normal-assumption"><span class="header-section-number">16.5.2</span> Multivariate normal assumption</a></li>
+<a class="nav-link" href="#further-ways-to-obtain-regression-coefficients"><span class="header-section-number">16.5</span> Further ways to obtain regression coefficients</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#best-linear-predictor"><span class="header-section-number">16.5.1</span> Best linear predictor</a></li>
+<li><a class="nav-link" href="#regression-by-conditioning"><span class="header-section-number">16.5.2</span> Regression by conditioning</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#standardised-regression-coefficients-and-relationship-to-correlation"><span class="header-section-number">16.6</span> Standardised regression coefficients and relationship to correlation</a></li>
 </ul>
 
       <div class="book-extra">
@@ -487,7 +510,7 @@ Thus, in this very special case the regression coefficients are identical to the
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 July 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 14 January 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -500,7 +523,7 @@ Thus, in this very special case the regression coefficients are identical to the
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

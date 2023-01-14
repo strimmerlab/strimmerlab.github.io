@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta name="generator" content="bookdown 0.31 with bs4_book()">
 <meta property="og:title" content="3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -98,7 +98,7 @@
 <ul>
 <li><span class="math inline">\(L_n(\boldsymbol \theta|D)=\prod_{i=1}^{n} f(x_i|\boldsymbol \theta)\)</span></li>
 </ul>
-<p>Historically, the likelihood is also often interpreted as the probability of the data given the model. However, this is not strictly correct. First this interpretation only applies to discrete random variables. Second, since the samples are iid even in this case one would still need to add a factor accounting for the multiplicity of possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(f(x |\boldsymbol \theta)\)</span> is a density, not a probability.</p>
+<p>Historically, the likelihood is also often interpreted as the probability of the data given the model. However, this is not strictly correct. First, this interpretation only applies to discrete random variables. Second, since the samples are iid even in this case one would still need to add a factor accounting for the multiplicity of possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(f(x |\boldsymbol \theta)\)</span> is a density, not a probability.</p>
 <p>As we have seen in the previous chapter the origin of the likelihood function
 lies in its connection to relative entropy. Specifically, the
 log-likelihood function</p>
@@ -119,14 +119,15 @@ given by maximising the (log)-likelihood</p>
 </h3>
 <p>In regular situations, i.e. when</p>
 <ul>
-<li>the log-likelihood function is twice differentiable,</li>
-<li>the second derivative is negative and not zero, and for more than
-one parameter the Hessian matrix is negative definite and not singular,</li>
+<li>the log-likelihood function is twice differentiable with regard to the parameters,</li>
+<li>the maximum (peak) of the likelihood function lies inside the parameter space
+and not at a boundary,</li>
 <li>the parameters of the model are all identifiable (in particular the model is not overparameterised), and</li>
-<li>the maximum (peak) of the likelihood function does not lie at a boundary of the parameter space,</li>
+<li>the second derivative of the log-likelihood at the maximum is negative and not zero (for more than
+one parameter: the Hessian matrix at the maximum is negative definite and not singular)</li>
 </ul>
 <p>then in order to maximise <span class="math inline">\(l_n(\boldsymbol \theta|D)\)</span> one may use the <strong>score function</strong> <span class="math inline">\(\boldsymbol S(\boldsymbol \theta)\)</span>
-which is the first order derivative of the log-likelihood function:</p>
+which is the first derivative of the log-likelihood function:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cc}
 S_n(\theta) = \frac{d l_n(\theta|D)}{d \theta}\\
@@ -255,7 +256,7 @@ S_n(p)=  \frac{dl_n(p| D)}{dp}= n \left( \frac{\bar{x}}{p}-\frac{1-\bar{x}}{1-p}
 of the successes among all observations.</p>
 </li>
 </ul>
-<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(p\)</span> we may equally well use the Binomial distribution <span class="math inline">\(\text{Bin}(n, p)\)</span> as model for the number of successes. In this case we then have only a single observation, namely the observed <span class="math inline">\(k\)</span> . This results in the same MLE for <span class="math inline">\(p\)</span> but the likelihood function based on the Binomial PMF includes the Binomial coefficient <span class="math inline">\(\binom{n}{k}\)</span> . However, as this factor does not depend on <span class="math inline">\(p\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
+<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(p\)</span> we may equally well use the binomial distribution <span class="math inline">\(\text{Bin}(n, p)\)</span> as model for the number of successes. In this case we then have only a single observation, namely the observed <span class="math inline">\(k\)</span> . This results in the same MLE for <span class="math inline">\(p\)</span> but the likelihood function based on the binomial PMF includes the binomial coefficient <span class="math inline">\(\binom{n}{k}\)</span> . However, as this factor does not depend on <span class="math inline">\(p\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
 </div>
 <div id="estimation-of-the-mean-and-variance-of-a-normal-distribution" class="section level3" number="3.2.2">
 <h3>
@@ -604,7 +605,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 1 July 2022.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 14 January 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -617,7 +618,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
