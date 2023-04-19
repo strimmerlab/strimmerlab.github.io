@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>1 Multivariate random variables | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.31 with bs4_book()">
+<meta name="generator" content="bookdown 0.33 with bs4_book()">
 <meta property="og:title" content="1 Multivariate random variables | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1 Multivariate random variables | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.1/transition.js"></script><script src="libs/bs3compat-0.4.1/tabs.js"></script><script src="libs/bs3compat-0.4.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -1306,8 +1306,8 @@ which is the well-known Pearson chi-squared statistic (note the <em>expected</em
 Specifically, we discuss properties of the</p>
 <ul>
 <li>the Dirichlet distribution (the generalisation of the Beta distribution),</li>
-<li>the Wishart distribution (the generalisation of the Gamma distribution, also known as scaled <span class="math inline">\(\chi^2\)</span> distribution), and of</li>
-<li>the inverse Wishart distribution (the generalisation of the inverse Gamma distribution).</li>
+<li>the Wishart distribution (the generalisation of the gamma distribution, also known as scaled <span class="math inline">\(\chi^2\)</span> distribution), and of</li>
+<li>the inverse Wishart distribution (the generalisation of the inverse gamma distribution).</li>
 </ul>
 <div id="dirichlet-distribution" class="section level3" number="1.5.1">
 <h3>
@@ -1321,16 +1321,13 @@ Specifically, we discuss properties of the</p>
 <p><span class="math display">\[x \sim \text{Beta}(\alpha,\beta)\]</span>
 <span class="math display">\[x \in [0,1]\]</span>
 <span class="math display">\[\alpha &gt; 0; \beta &gt; 0\]</span>
-<span class="math display">\[m = \alpha + \beta \]</span>
-<span class="math display">\[\mu = \frac{\alpha}{m} \in \left[0,1\right]\]</span>
+<span class="math display">\[k = \alpha + \beta \]</span>
+<span class="math display">\[\mu = \frac{\alpha}{k} \in \left[0,1\right]\]</span>
 <span class="math display">\[\text{E}(x) = \mu\]</span>
-<span class="math display">\[\text{Var}(x)=\frac{\mu(1-\mu)}{m+1}\]</span>
+<span class="math display">\[\text{Var}(x)=\frac{\mu(1-\mu)}{k+1}\]</span>
 <span class="math inline">\(\text{compare with unit standardised binomial!}\)</span></p>
 <p><span class="math inline">\(\textbf{Different shapes}\)</span></p>
 <div class="inline-figure"><img src="fig/fig1-betashapes.png" width="60%" style="display: block; margin: auto;"></div>
-<p><span class="math display">\[\text{Useful as distribution for a proportion } \pi\]</span></p>
-<p><span class="math display">\[ \text{ Bayesian Model:}\]</span><br><span class="math display">\[\text{Beta prior:} \; \pi \sim  \text{Beta}(\alpha,\beta)\]</span>
-<span class="math display">\[\text{Binomial likelihood:} \; x|\pi \sim \text{Bin}(n, \pi)\]</span></p>
 </div>
 <div id="multivariate-case-1" class="section level4" number="1.5.1.2">
 <h4>
@@ -1340,43 +1337,59 @@ Specifically, we discuss properties of the</p>
 <p><span class="math display">\[\boldsymbol x\sim \text{Dir}(\boldsymbol \alpha)\]</span>
 <span class="math display">\[x_i \in [0,1]; \, \sum^{d}_{i=1} x_i = 1\]</span>
 <span class="math display">\[\boldsymbol \alpha= (\alpha_1,...,\alpha_d)^T &gt;0\]</span>
-<span class="math display">\[m = \sum^{d}_{i=1}\alpha_i\]</span>
-<span class="math display">\[\mu_i = \frac{\alpha_i}{m} \in \left[0,1\right]\]</span>
-<span class="math display">\[\text{E}(x_i) = \mu_i\]</span>
-<span class="math display">\[\text{Var}(x_i)=\frac{\mu_i(1-\mu_i)}{m+1}\]</span>
-<span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\mu_i \mu_j}{m+1}\]</span>
+<span class="math display">\[k = \sum^{d}_{i=1}\alpha_i\]</span>
+<span class="math display">\[\boldsymbol \pi= \frac{\boldsymbol \alpha}{k}\]</span>
+<span class="math display">\[\pi_i \in \left[0,1\right]; \, \sum^{d}_{i=1}\pi_i = 1\]</span>
+<span class="math display">\[\text{E}(x_i) = \pi_i\]</span>
+<span class="math display">\[\text{Var}(x_i)=\frac{\pi_i(1-\pi_i)}{k+1}\]</span>
+<span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\pi_i \pi_j}{k+1}\]</span>
 <span class="math inline">\(\text{compare with unit standardised multinomial!}\)</span></p>
 <p>Stick breaking" model</p>
 <div class="inline-figure"><img src="fig/fig1-stickbreaking.png" width="60%" style="display: block; margin: auto;"></div>
-<p><span class="math display">\[\text{Useful as distribution for a proportion } \boldsymbol \pi\]</span></p>
-<p><span class="math display">\[\text{ Bayesian Model:}\]</span><br><span class="math display">\[\text{Dirichlet prior:} \,  \boldsymbol \pi\sim \text{Dir}(\boldsymbol \alpha)\]</span>
-<span class="math display">\[\text{Multinomial likelihood:} \, \boldsymbol x|\boldsymbol \pi\sim \text{Mult}(n, \boldsymbol \pi)\]</span></p>
+</div>
+<div id="dirichlet-multinomial-model" class="section level4" number="1.5.1.3">
+<h4>
+<span class="header-section-number">1.5.1.3</span> Dirichlet-multinomial model<a class="anchor" aria-label="anchor" href="#dirichlet-multinomial-model"><i class="fas fa-link"></i></a>
+</h4>
+<p>The Dirichlet distribution is useful as conjugate prior and posterior distribution
+for a proportion:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D=\{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> with <span class="math inline">\(\boldsymbol x_i \sim \text{Cat}(\boldsymbol \pi)\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\hat{\boldsymbol \pi}_{ML} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i\)</span></p></li>
+<li><p>Prior: <span class="math inline">\(k_0\)</span>, <span class="math inline">\(\boldsymbol \pi_0\)</span>
+<span class="math display">\[\boldsymbol \pi\sim \text{Dir}(k_0 \, \boldsymbol \pi_0)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \pi) = \boldsymbol \pi_0\]</span></p></li>
+<li><p>Posterior: <span class="math inline">\(k_1 = k_0+n\)</span>, <span class="math inline">\(\boldsymbol \pi_1 = \lambda \boldsymbol \pi_0 + (1-\lambda) \, \hat{\boldsymbol \pi}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span><br><span class="math display">\[\boldsymbol \pi\,| \, D \sim \text{Dir}(k_1 \, \boldsymbol \pi_1)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \pi\,| \, D) = \boldsymbol \pi_1\]</span></p></li>
+<li><p>Equivalent update rule: <span class="math inline">\(\boldsymbol \alpha_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\boldsymbol \alpha_1 = \boldsymbol \alpha_0 + \sum_{i=1}^n \boldsymbol x_i = \boldsymbol \alpha_0 + n \hat{\boldsymbol \pi}_{ML}\)</span></p></li>
+</ul>
 </div>
 </div>
 <div id="wishart-distribution" class="section level3" number="1.5.2">
 <h3>
 <span class="header-section-number">1.5.2</span> Wishart distribution<a class="anchor" aria-label="anchor" href="#wishart-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>The Wishart distribution is a multivariate generalisation of the gamma distribution,
-also known as univariate Wishart distribution and scaled chi-squared distribution. The exponential and chi-squared distribution are special cases.</p>
+<p>The Wishart distribution is a multivariate generalisation of the gamma distribution.</p>
 <div id="univariate-case-2" class="section level4" number="1.5.2.1">
 <h4>
 <span class="header-section-number">1.5.2.1</span> Univariate case<a class="anchor" aria-label="anchor" href="#univariate-case-2"><i class="fas fa-link"></i></a>
 </h4>
-<p>Gamma distribution:</p>
-<p><span class="math display">\[z_1,z_2,\ldots,z_m \stackrel{\text{iid}}\sim N(0,\sigma^2_z)\]</span>
-<span class="math display">\[x = \sum^{m}_{i=1}z_i^2\]</span>
-<span class="math display">\[\mu_x = m \sigma^2_z\]</span>
+<p>Gamma distribution / univariate Wishart distribution:</p>
+<p><span class="math display">\[z_1,z_2,\ldots,z_k \stackrel{\text{iid}}\sim N(0,s^2)\]</span>
+<span class="math display">\[x = \sum^{k}_{i=1}z_i^2\]</span>
 Then <span class="math inline">\(x\)</span> is distributed as:
 <span class="math display">\[
-x \sim  \text{W}_1\left(\frac{\mu_x}{m}, m\right) =
-        \text{Gam}\left(\alpha=\frac{1}{2} m, \beta=2 \frac{\mu_x}{m}\right) = 
-        \frac{\mu_x}{m} \chi^2_m
+\begin{split}
+x \sim &amp; \phantom{=} \text{Gam}\left(\alpha=\frac{k}{2}, \theta=2 s^2 \right)\\
+        &amp; = \text{W}_1\left( s^2, k\right) 
+\end{split}
 \]</span>
-where <span class="math inline">\(\alpha\)</span> is the shape and <span class="math inline">\(\beta\)</span> the scale parameter of the gamma distribution.</p>
+where <span class="math inline">\(\alpha\)</span> is the shape and <span class="math inline">\(\theta\)</span> the scale parameter of the gamma distribution.<br>
+The gamma distribution is also specified with a rate parameter <span class="math inline">\(\beta=1/\theta\)</span>.
+The corresponding univariate Wishart distribution has scale parameter <span class="math inline">\(s^2=\theta/2\)</span> and concentration parameter <span class="math inline">\(k=2 \alpha\)</span>.</p>
 <p>The mean and variance of <span class="math inline">\(x\)</span> are:
-<span class="math display">\[\text{E}(x) = \mu_x\]</span>
-<span class="math display">\[\text{Var}(x) = \frac{2 \mu^2_x}{m}\]</span></p>
+<span class="math display">\[\text{E}(x) = \alpha \theta = k s^2 = \mu\]</span>
+<span class="math display">\[\text{Var}(x) = \alpha \theta^2 = 2 k s^4 = \frac{2 \mu^2}{k}\]</span></p>
 <p>Useful as the distribution of sample variance:
 <span class="math display">\[y_1, \ldots, y_n \sim N(\mu_y, \sigma^2)\]</span>
 Known mean <span class="math inline">\(\mu_y\)</span>:
@@ -1390,18 +1403,18 @@ Unknown mean <span class="math inline">\(\mu_y\)</span> (estimated by <span clas
 <span class="header-section-number">1.5.2.2</span> Multivariate case<a class="anchor" aria-label="anchor" href="#multivariate-case-2"><i class="fas fa-link"></i></a>
 </h4>
 <p>Wishart distribution:</p>
-<p><span class="math display">\[\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_m \stackrel{\text{iid}}\sim N_d(0,\boldsymbol \Sigma_{\boldsymbol z})\]</span>
-<span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{m}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span><br><span class="math display">\[\boldsymbol M= (\mu_{ij}) = m \boldsymbol \Sigma_{\boldsymbol z}\]</span></p>
-<p>Then <span class="math inline">\(\boldsymbol X\)</span> (a random matrix!) is distributed as:
-<span class="math display">\[\boldsymbol X\sim  \text{W}_d\left(\frac{\boldsymbol M}{m}, m\right) \]</span>
+<p><span class="math display">\[\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_k \stackrel{\text{iid}}\sim N_d(0,\boldsymbol S)\]</span> with <span class="math inline">\(\boldsymbol S=(s_{ij})\)</span>
+<span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{k}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span></p>
+<p>Then <span class="math inline">\(\boldsymbol X\)</span> (a random <em>matrix</em>) is distributed as:
+<span class="math display">\[\boldsymbol X\sim  \text{W}_d\left(\boldsymbol S, k\right) \]</span>
 with mean and variances:
-<span class="math display">\[\text{E}(\boldsymbol X) = \boldsymbol M\]</span>
-<span class="math display">\[\text{Var}(x_{ij})= \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{m} \]</span></p>
+<span class="math display">\[\text{E}(\boldsymbol X) = k \boldsymbol S= \boldsymbol M= (\mu_{ij})\]</span>
+<span class="math display">\[\text{Var}(x_{ij})  = k (s^2_{ij}+s_{ii} s_{jj}  ) = \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{k}\]</span></p>
 <p>Useful as distribution of sample covariance:
 <span class="math display">\[\boldsymbol y_1, \ldots, \boldsymbol y_n \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span>
-<span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\boldsymbol \mu)(\boldsymbol y_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n\right)\]</span>
-<span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/n, n-1\right)\]</span>
-<span class="math display">\[\widehat{\boldsymbol \Sigma}_{UB} = \frac{1}{n-1}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\boldsymbol \Sigma/(n-1), n-1\right)\]</span></p>
+<span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\boldsymbol \mu)(\boldsymbol y_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n}, n\right)\]</span>
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n}, n-1\right)\]</span>
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{UB} = \frac{1}{n-1}\sum_{i=1}^n (\boldsymbol y_i -\bar{\boldsymbol y})(\boldsymbol y_i -\bar{\boldsymbol y})^T \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n-1}, n-1\right)\]</span></p>
 </div>
 </div>
 <div id="inverse-wishart-distribution" class="section level3" number="1.5.3">
@@ -1415,32 +1428,58 @@ distribution (also known as inverse scaled chi-squared distribution).</p>
 <span class="header-section-number">1.5.3.1</span> Univariate case<a class="anchor" aria-label="anchor" href="#univariate-case-3"><i class="fas fa-link"></i></a>
 </h4>
 <p>Inverse gamma distribution (with <span class="math inline">\(\alpha\)</span> shape
-and <span class="math inline">\(\beta\)</span> scale parameter):</p>
-<p><span class="math display">\[x \sim \text{W}^{-1}_1(k \mu, k+2) = \text{Inv-Gam}\left( \alpha = \frac{k+2}{2}, \beta=\frac{k \mu}{2} \right) = k \mu\,\text{Inv-$\chi^2_{k+2}$}\]</span></p>
-<p>Then <span class="math inline">\(x\)</span> has mean and variance</p>
-<p><span class="math display">\[\text{E}(x) = \mu\]</span>
-<span class="math display">\[\text{Var}(x)= \frac{2\mu^2}{k-2}\]</span></p>
-<p>Relationship to gamma distribution:
+and <span class="math inline">\(\beta\)</span> scale parameter):
 <span class="math display">\[
-\frac{1}{x} \sim W_1\left(\frac{1}{k \mu}, k+2\right) 
-=  \text{Gam}\left(\frac{k+2}{2}, \frac{2}{k \mu}\right) = \frac{1}{k \mu} \, \chi^2_{k+2}
+x  \sim \text{Inv-Gam}\left( \alpha, \beta \right)
 \]</span></p>
+<p>In (inverse) Wishart parameterisation (with <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span>) the same distribution is
+<span class="math display">\[
+x  \sim \text{W}^{-1}_1\left(\psi= 2\beta, \nu = 2\alpha \right)
+\]</span></p>
+<p>We may also use the inverse Wishart distribution in mean parameterisation (with <span class="math inline">\(\mu = \psi/(\nu-2)\)</span> and <span class="math inline">\(\kappa = \nu-2\)</span>):
+<span class="math display">\[
+x  \sim \text{W}^{-1}_1\left(\psi= \kappa \mu, \nu = \kappa+2 \right)
+\]</span></p>
+<p>Corresponding mean and variance:
+<span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1} = \frac{\psi}{\nu-2}   = \mu\]</span>
+<span class="math display">\[\text{Var}(x)= \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)}  =\frac{2 \psi^2}{(\nu-4) (\nu-2)^2}   = \frac{2\mu^2}{\kappa-2}\]</span></p>
+<p>Relationship to gamma distribution:</p>
+<p>If <span class="math inline">\(x\sim \text{Inv-Gam}\left( \alpha, \beta \right)\)</span> is inverse gamma-distributed
+then the inverse of <span class="math inline">\(x\)</span> is gamma-distributed with inverted scale parameter:
+<span class="math display">\[\frac{1}{x} \sim \text{Gam}(\alpha, \theta = \beta^{-1})\]</span></p>
+<p>Likewise, if <span class="math inline">\(x \sim \text{W}^{-1}_1(\psi, \nu)\)</span> is inverse Wishart distributed
+then the inverse of <span class="math inline">\(x\)</span> is Wishart distributed with inverted scale parameter
+<span class="math display">\[\frac{1}{x} \sim \text{W}_1(s^2 = \psi^{-1}, k=\nu)\]</span></p>
 </div>
 <div id="multivariate-case-3" class="section level4" number="1.5.3.2">
 <h4>
 <span class="header-section-number">1.5.3.2</span> Multivariate case<a class="anchor" aria-label="anchor" href="#multivariate-case-3"><i class="fas fa-link"></i></a>
 </h4>
-<p>Inverse Wishart distribution:</p>
-<p><span class="math display">\[\underbrace{\boldsymbol X}_{d\times d} \sim \text{W}^{-1}_d\left( k \underbrace{ \boldsymbol M}_{d\times d} \, , \, k+d+1\right)\]</span>
+<p>Inverse Wishart distribution (mean parameterisation with <span class="math inline">\(\boldsymbol M\)</span> and <span class="math inline">\(\kappa\)</span>):</p>
+<p><span class="math display">\[\underbrace{\boldsymbol X}_{d\times d} \sim \text{W}^{-1}_d\left(\boldsymbol \Psi=  \kappa \underbrace{ \boldsymbol M}_{d\times d} \, , \, \nu= \kappa+d+1\right)\]</span>
 <span class="math display">\[\text{E}(\boldsymbol X) =\boldsymbol M\]</span>
-<span class="math display">\[\text{Var}(x_{ij})= \frac{2 }{k-2} \frac{(k+2) \mu_{ij}^2 + k \, \mu_{ii} \mu_{jj} }{2 k + 2}\]</span></p>
+<span class="math display">\[\text{Var}(x_{ij})= \frac{(\kappa+2) \mu_{ij}^2 + \kappa \, \mu_{ii} \mu_{jj} }{(\kappa + 1)(\kappa-2)}\]</span></p>
 <p>Relationship to Wishart:
-<span class="math display">\[\boldsymbol X^{-1} \sim \text{W}_d\left( \frac{ \boldsymbol M^{-1}}{k}  \, , k+d+1\right)\]</span></p>
-<hr>
-<p>The inverse Wishart distribution is useful as prior and posterior distribution
-of the variance where <span class="math inline">\(k\)</span> is the sample size parameter and <span class="math inline">\(\boldsymbol M\)</span> resp. <span class="math inline">\(\mu\)</span> is
-mean of the distribution for <span class="math inline">\(\boldsymbol \Sigma\)</span> and <span class="math inline">\(\sigma^2\)</span> (in the univariate case).</p>
-<hr>
+<span class="math display">\[\boldsymbol X^{-1} \sim \text{W}_d\left( \boldsymbol S= \boldsymbol \Psi^{-1}   \, , k = \nu \right)\]</span></p>
+</div>
+<div id="inverse-wishart-normal-model" class="section level4" number="1.5.3.3">
+<h4>
+<span class="header-section-number">1.5.3.3</span> Inverse-Wishart-normal model<a class="anchor" aria-label="anchor" href="#inverse-wishart-normal-model"><i class="fas fa-link"></i></a>
+</h4>
+<p>The inverse Wishart (IW) distribution is useful as conjugate prior and posterior distribution
+of the covariance:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D =\{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> with <span class="math inline">\(\boldsymbol x_i \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with known mean <span class="math inline">\(\boldsymbol \mu\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n} \sum_{i=1}^n (\boldsymbol x_i-\boldsymbol \mu)(\boldsymbol x_i-\boldsymbol \mu)^T\)</span></p></li>
+<li><p>Prior: <span class="math inline">\(\kappa_0\)</span>, <span class="math inline">\(\boldsymbol \Sigma_0\)</span>
+<span class="math display">\[\boldsymbol \Sigma\sim \text{W}^{-1}_d\left( \kappa_0 \boldsymbol \Sigma_0 \, , \,  \kappa_0+d+1\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \Sigma) = \boldsymbol \Sigma_0\]</span></p></li>
+<li><p>Posterior: <span class="math inline">\(\kappa_1 = \kappa_0+n\)</span>, <span class="math inline">\(\boldsymbol \Sigma_1 = \lambda \boldsymbol \Sigma_0 + (1-\lambda) \widehat{\boldsymbol \Sigma}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{\kappa_0}{\kappa_1}\)</span><br><span class="math display">\[\boldsymbol \Sigma\, |\, D \sim \text{W}^{-1}_d\left( \kappa_1 \boldsymbol \Sigma_1 \, , \,  \kappa_1+d+1\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \Sigma\, |\, D) = \boldsymbol \Sigma_1\]</span></p></li>
+<li><p>Equivalent update rule:
+<span class="math inline">\(\nu_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\nu_1 = \nu_0+n\)</span>,
+<span class="math inline">\(\boldsymbol \Psi_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\boldsymbol \Psi_1 = \boldsymbol \Psi_0 + \sum_{i=1}^n (\boldsymbol x_i-\boldsymbol \mu)(\boldsymbol x_i-\boldsymbol \mu)^T = \boldsymbol \Psi_0 + n \widehat{\boldsymbol \Sigma}_{ML}\)</span></p></li>
+</ul>
 </div>
 </div>
 <div id="further-distributions" class="section level3" number="1.5.4">
@@ -1522,7 +1561,7 @@ mean of the distribution for <span class="math inline">\(\boldsymbol \Sigma\)</s
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 15 December 2022.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 19 April 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
