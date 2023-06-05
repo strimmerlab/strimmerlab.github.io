@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>5 Likelihood-based confidence interval and likelihood ratio | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.32 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="5 Likelihood-based confidence interval and likelihood ratio | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -67,7 +67,8 @@
 <li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -114,16 +115,16 @@ With its help we can write the likelihood CI follows:
 Essentially, by comparing with a normal CI!</p>
 <div class="example">
 <p><span id="exm:wilksproportion" class="example"><strong>Example 5.1  </strong></span>Wilks statistic for the proportion:</p>
-<p>The log-likelihood for the parameter <span class="math inline">\(p\)</span> is (cf. Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a>)
+<p>The log-likelihood for the parameter <span class="math inline">\(\theta\)</span> is (cf. Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a>)
 <span class="math display">\[
-l_n(p| D) = n ( \bar{x} \log p + (1-\bar{x}) \log(1-p) )
+l_n(\theta| D) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
 \]</span>
 Hence the Wilks statistic is
 <span class="math display">\[
 \begin{split}
-W(p_0) &amp; = 2 ( l_n( \hat{p}_{ML} | D)  -l_n( p_0 | D ) )\\
-&amp; = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{p_0}  \right)  
-                + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-p_0}  \right)  
+W(\theta_0) &amp; = 2 ( l_n( \hat{\theta}_{ML} | D)  -l_n( \theta_0 | D ) )\\
+&amp; = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{\theta_0}  \right)  
+                + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-\theta_0}  \right)  
     \right) \\
 \end{split}
 \]</span></p>
@@ -131,7 +132,7 @@ W(p_0) &amp; = 2 ( l_n( \hat{p}_{ML} | D)  -l_n( p_0 | D ) )\\
 statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two
 Bernoulli distributions:
 <span class="math display">\[
-W(p_0) =2 n D_{\text{KL}}( \text{Ber}( \hat{p}_{ML} ), \text{Ber}(p_0)  )
+W(\theta_0) =2 n D_{\text{KL}}( \text{Ber}( \hat{\theta}_{ML} ), \text{Ber}(\theta_0)  )
 \]</span></p>
 </div>
 <div class="example">
@@ -408,7 +409,7 @@ and another for the restricted model.</p>
 <p><span class="math display">\[W \overset{a}{\sim} \text{$\chi^2_{d-d_0}$}\]</span></p>
 <ul>
 <li><p>This result is due to Wilks (1938).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Wilks, S. S. 1938. &lt;em&gt;The large-sample distribution of the likelihood ratio for testing composite hypotheses.&lt;/em&gt;
-Ann. Math. Statist. &lt;strong&gt;9&lt;/strong&gt;:60–62. &lt;a href="https://doi.org/10.1214/aoms/1177732360" class="uri"&gt;https://doi.org/10.1214/aoms/1177732360&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> Note that it
+Ann. Math. Statist. &lt;strong&gt;9&lt;/strong&gt;:60–62. &lt;a href="https://doi.org/10.1214/aoms/1177732360" class="uri"&gt;https://doi.org/10.1214/aoms/1177732360&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a> Note that it
 assumes that the true model is contained among the investigated models.</p></li>
 <li><p>If <span class="math inline">\(H_0\)</span> is a simple hypothesis (i.e. <span class="math inline">\(d_0=0\)</span>) then the standard LRT (and corresponding CI) is recovered as special case of the GLRT.</p></li>
 </ul>
@@ -416,7 +417,7 @@ assumes that the true model is contained among the investigated models.</p></li>
 <p><span id="exm:glrtnormal" class="example"><strong>Example 5.7  </strong></span>GLRT example:</p>
 <p><em>Case-control study:</em> (e.g. “healthy” vs. “disease”)<br>
 we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span>
-(and <span class="math inline">\(n=n_1+n_2\)</span>):</p>
+(and <span class="math inline">\(n=n_1+n_2\)</span>), with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
 <p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span>
 and
 <span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
@@ -487,7 +488,9 @@ with
 <span class="math display">\[
 t_{ML} = \frac{\hat{\mu}_1-\hat{\mu}_2}{\sqrt{\left(\frac{1}{n_1}+\frac{1}{n_2}\right) \widehat{\sigma^2}}}
 \]</span>
-This is an example of a variance decomposition, with</p>
+(the <span class="math inline">\(t\)</span>-statistic based on the ML variance estimate
+<span class="math inline">\(\widehat{\sigma^2}\)</span>, see Appendix).</p>
+<p>The above is an example of a variance decomposition, with</p>
 <ul>
 <li>
 <span class="math inline">\(\widehat{\sigma^2_0}\)</span> being the estimated total variance,</li>
@@ -517,22 +520,28 @@ W &amp; = 2\log\left(\frac{L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} | D)}{L(
 \end{split}
 \]</span>
 The last step uses the decomposition for the total variance
-<span class="math inline">\(\widehat{\sigma^2_0}\)</span>.
-If an unbiased estimate of the variance is used ( <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}}=\frac{n}{n-2} \widehat{\sigma^2}\)</span>) rather than the MLE then
-<span class="math display">\[
-W=n\log\left(1+\frac{1}{n-2}t^2\right)
-\]</span>
-with
+<span class="math inline">\(\widehat{\sigma^2_0}\)</span>.</p>
+<p>We can express this also in terms of the conventional
+two sample <span class="math inline">\(t\)</span>-statistic
 <span class="math display">\[
 t = \frac{\hat{\mu}_1-\hat{\mu}_2}{\sqrt{\left(\frac{1}{n_1}+\frac{1}{n_2}\right)\widehat{\sigma^2}_{\text{UB}}  }}
+\]</span>
+that uses an unbiased estimate of the variance
+rather than the MLE, with <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}}=\frac{n}{n-2} \widehat{\sigma^2}\)</span> and thus
+<span class="math inline">\(t^2/(n-2) = t^2_{ML} / n\)</span>. This yields
+<span class="math display">\[
+W=n\log\left(1+\frac{t^2}{n-2}\right)
 \]</span></p>
-<p><span class="math inline">\(\longrightarrow\)</span> the GRLT is a monotone function of the (squared) two-sample <span class="math inline">\(t\)</span>-statistic!</p>
+<p>Thus, the log-likelihood ratio statistic <span class="math inline">\(W\)</span> is a monotonic function (a one-to-one transformation!) of the (squared) two sample <span class="math inline">\(t\)</span>-statistic!</p>
 <p><em>Asymptotic distribution:</em></p>
 <p>The degree of freedom of the full model is <span class="math inline">\(d=3\)</span> and that of the constrained model <span class="math inline">\(d_0=2\)</span> so the
 generalised log likelihood ratio statistic <span class="math inline">\(W\)</span> is distributed asymptotically as <span class="math inline">\(\text{$\chi^2_{1}$}\)</span>.
 Hence, we reject the null model on 5% significance level for all <span class="math inline">\(W &gt; 3.84\)</span>.</p>
-<p><strong>More generally, it turns out that not just the two-sample <span class="math inline">\(t\)</span>-test but many other commonly used familiar statistical tests can be interpreted as GLRTs!</strong></p>
 </div>
+<p><em>Other application of GLRTs</em></p>
+<p>As shown above, the two sample <span class="math inline">\(t\)</span> statistic
+can be derived as a likelihood ratio statistic.</p>
+<p>More generally, it turns out many other commonly used familiar statistical tests and test statistics can be interpreted as GLRTs. This shows the wide applicability of this procedure.</p>
 
 </div>
 </div>
@@ -571,7 +580,7 @@ Hence, we reject the null model on 5% significance level for all <span class="ma
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 28 February 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

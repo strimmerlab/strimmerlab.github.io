@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A Refresher | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.32 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="A Refresher | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -67,7 +67,8 @@
 <li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="active" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -278,11 +279,14 @@ For <span class="math inline">\(n=0\)</span> the factorial is defined as
 0! = 1 
 \]</span>
 as there is exactly one permutation of zero objects.</p>
-<p>The factorial can also be obtained using the <a href="https://en.wikipedia.org/wiki/Gamma_function">Gamma function</a>
+<p>The factorial can also be obtained using the
+<a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a>
 <span class="math display">\[
-n! = \Gamma(n+1)
+\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt
 \]</span>
-which can be viewed as continuous version of the factorial.</p>
+which can be viewed as continuous version of the factorial
+with
+<span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span>.</p>
 </div>
 <div id="multinomial-and-binomial-coefficient" class="section level3" number="19.4.2">
 <h3>
@@ -517,61 +521,78 @@ for a <em>convex</em> function <span class="math inline">\(h(\boldsymbol x)\)</s
 <h3>
 <span class="header-section-number">A.6.1</span> Bernoulli distribution and binomial distribution<a class="anchor" aria-label="anchor" href="#bernoulli-distribution-and-binomial-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>The Bernoulli distribution <span class="math inline">\(\text{Ber}(p)\)</span> is simplest distribution possible.
+<p>The Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is simplest distribution possible.
 It is named after <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a>
 who also invented the law of large numbers.</p>
 <p>It describes a discrete binary random variable
 with two states <span class="math inline">\(x=0\)</span> (“failure”) and <span class="math inline">\(x=1\)</span> (“success”),
-where the parameter <span class="math inline">\(p \in [0,1]\)</span> is the probability of “success”.
+where the parameter <span class="math inline">\(\theta \in [0,1]\)</span> is the probability of “success”.
 Often the Bernoulli distribution is also referred to as “coin tossing” model with
 the two outcomes “heads” and “tails”.</p>
-<p>Correspondingly, the probability mass function of <span class="math inline">\(\text{Ber}(p)\)</span> is
+<p>Correspondingly, the probability mass function of <span class="math inline">\(\text{Ber}(\theta)\)</span> is
 <span class="math display">\[
-f(x=0) = \text{Pr}(\text{"failure"}) = 1-p  
+p(x=0) = \text{Pr}(\text{"failure"}) = 1-\theta  
 \]</span>
 and
 <span class="math display">\[
-f(x=1) = \text{Pr}(\text{"success"}) = p 
+p(x=1) = \text{Pr}(\text{"success"}) = \theta 
 \]</span>
 A compact way to write the PMF of the Bernoulli distribution is
 <span class="math display">\[
-f(x | p ) = p^{x} (1-p)^{1-x}
+p(x | \theta ) = \theta^{x} (1-\theta)^{1-x}
 \]</span></p>
 <p>If a random variable <span class="math inline">\(x\)</span> follows the Bernoulli distribution we
 write
 <span class="math display">\[
-x \sim \text{Ber}(p) \,.
+x \sim \text{Ber}(\theta) \,.
 \]</span>
-The expected value is <span class="math inline">\(\text{E}(x) = p\)</span> and the variance is <span class="math inline">\(\text{Var}(x) = p (1 - p)\)</span>.</p>
+The expected value is <span class="math inline">\(\text{E}(x) = \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(x) = \theta (1 - \theta)\)</span>.</p>
 <p>Closely related to the Bernoulli distribution is the binomial distribution
-<span class="math inline">\(\text{Bin}(m, p)\)</span> which results from repeating a
-Bernoulli experiment <span class="math inline">\(m\)</span> times and counting the number of successes among
-the <span class="math inline">\(m\)</span> trials (without keeping track of the ordering of the experiments).</p>
+<span class="math inline">\(\text{Bin}(n, \theta)\)</span> which results from repeating a
+Bernoulli experiment <span class="math inline">\(n\)</span> times and counting the number of successes among
+the <span class="math inline">\(n\)</span> trials (without keeping track of the ordering of the experiments).
+Thus, if <span class="math inline">\(x_1, \ldots, x_n\)</span> are <span class="math inline">\(n\)</span> independent <span class="math inline">\(\text{Ber}(\theta)\)</span> random variables
+then <span class="math inline">\(y = \sum_{i=1}^n\)</span> is distributed as <span class="math inline">\(\text{Bin}(n, \theta)\)</span>.</p>
 <p>Its probability mass function is:
 <span class="math display">\[
-f(x | p) = \binom{m}{x} p^x (1 - p)^{m - x}
+p(y | n, \theta) = \binom{n}{y} \theta^y (1 - \theta)^{n - y}
 \]</span>
-for <span class="math inline">\(x = 0, 1, 2, \ldots, m\)</span>.
-The binomial coefficient <span class="math inline">\(\binom{m}{x}\)</span> is needed to account for the multiplicity
-of ways (orderings of samples) in which we can observe <span class="math inline">\(x\)</span> sucesses.</p>
-<p>The expected value is <span class="math inline">\(\text{E}(x) = mp\)</span> and the variance is <span class="math inline">\(\text{Var}(x) = mp (1 - p)\)</span>.</p>
-<p>If a random variable <span class="math inline">\(x\)</span> follows the binomial distribution we
+for <span class="math inline">\(y \in \{ 0, 1, 2, \ldots, n\}\)</span>.
+The binomial coefficient <span class="math inline">\(\binom{n}{x}\)</span> is needed to account for the multiplicity
+of ways (orderings of samples) in which we can observe <span class="math inline">\(y\)</span> sucesses.</p>
+<p>The expected value is <span class="math inline">\(\text{E}(y) = n \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(y) = n \theta (1 - \theta)\)</span>.</p>
+<p>If a random variable <span class="math inline">\(y\)</span> follows the binomial distribution we
 write
 <span class="math display">\[
-x \sim \text{Bin}(m, p)\,
+y \sim \text{Bin}(n, \theta)\,
 \]</span>
-For <span class="math inline">\(m=1\)</span> it reduces to the Bernoulli distribution <span class="math inline">\(\text{Ber}(p)\)</span>.</p>
+For <span class="math inline">\(n=1\)</span> it reduces to the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span>.</p>
 <p>In R the PMF of the binomial distribution is called <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code>. The binomial coefficient itself is computed by <code><a href="https://rdrr.io/r/base/Special.html">choose()</a></code>.</p>
 </div>
 <div id="normal-distribution" class="section level3" number="19.6.2">
 <h3>
 <span class="header-section-number">A.6.2</span> Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>Univariate normal distribution:</p>
-<p><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span>.</p>
-<p>Probability density function (PDF): <span class="math display">\[f(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>The normal distribution is the most important continuous probability distribution.
+It is also called Gaussian distribution named after <a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Carl Friedrich Gauss (1777–1855)</a>.</p>
+<p>The univariate normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> has two parameters <span class="math inline">\(\mu\)</span> (location) and <span class="math inline">\(\sigma^2\)</span> (scale):</p>
+<p><span class="math display">\[
+x \sim N(\mu,\sigma^2)
+\]</span>
+with mean
+<span class="math display">\[
+\text{E}(x)=\mu
+\]</span>
+and variance
+<span class="math display">\[
+\text{Var}(x) = \sigma^2
+\]</span></p>
+<p>Probability density function (PDF):
+<span class="math display">\[
+p(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+\]</span></p>
 <p>In R the density function is called <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm()</a></code>.</p>
-<p>The standard normal distribution is <span class="math inline">\(N(0, 1)\)</span> with mean 1 and variance 1.</p>
+<p>The standard normal distribution is <span class="math inline">\(N(0, 1)\)</span> with mean 0 and variance 1.</p>
 <p>Plot of the PDF of the standard normal:</p>
 <div class="inline-figure"><img src="19-refresher_files/figure-html/unnamed-chunk-2-1.png" width="384"></div>
 <p>The cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span>
@@ -586,47 +607,173 @@ There is no analytic expression for <span class="math inline">\(\Phi(x)\)</span>
 In R the function is called <code><a href="https://rdrr.io/r/stats/Normal.html">qnorm()</a></code>.</p>
 <div class="inline-figure"><img src="19-refresher_files/figure-html/unnamed-chunk-4-1.png" width="384"></div>
 <p>The sum of two normal random variables is also normal (with the appropriate mean and variance).</p>
+<p>The <strong>central limit theorem</strong> (first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a>) asserts
+that in many cases the distribution of the mean of identically distributed independent random variables converges to a normal distribution, even if the individual random variables are not normal.</p>
 </div>
-<div id="gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution" class="section level3" number="19.6.3">
+<div id="gamma-distribution" class="section level3" number="19.6.3">
 <h3>
-<span class="header-section-number">A.6.3</span> Gamma distribution aka scaled chi-squared and one-dimensional Wishart distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.6.3</span> Gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>Assume <span class="math inline">\(m\)</span> independent normal random variables
-<span class="math display">\[z_1,z_2,\dots,z_m\sim N(0,\sigma^2_z)\]</span>
+<div id="standard-parameterisation" class="section level4" number="19.6.3.1">
+<h4>
+<span class="header-section-number">A.6.3.1</span> Standard parameterisation<a class="anchor" aria-label="anchor" href="#standard-parameterisation"><i class="fas fa-link"></i></a>
+</h4>
+<p>Another important continous distribution is the gamma distribution
+<span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span>.
+It has two parameters <span class="math inline">\(\alpha&gt;0\)</span> (shape) and <span class="math inline">\(\theta&gt;0\)</span> (scale):
+<span class="math display">\[
+x \sim\text{Gam}(\alpha, \theta)
+\]</span>
+with mean
+<span class="math display">\[\text{E}(x)=\alpha \theta\]</span>
+and variance
+<span class="math display">\[\text{Var}(x) = \alpha \theta^2\]</span></p>
+<p>The gamma distribution is also often used with a rate
+parameter <span class="math inline">\(\beta=1/\theta\)</span> (so one needs to pay attention which parameterisation is used).</p>
+<p>Probability density function (PDF):
+<span class="math display">\[
+p(x| \alpha, \theta)=\frac{1}{\Gamma(\alpha) \theta^{\alpha} } x^{\alpha-1} e^{-x/\theta}
+\]</span>
+The density of the gamma distribution is available in the R function <code><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma()</a></code> and the quantile function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma()</a></code>.</p>
+</div>
+<div id="wishart-parameterisation-and-scaled-chi-squared-distribution" class="section level4" number="19.6.3.2">
+<h4>
+<span class="header-section-number">A.6.3.2</span> Wishart parameterisation and scaled chi-squared distribution<a class="anchor" aria-label="anchor" href="#wishart-parameterisation-and-scaled-chi-squared-distribution"><i class="fas fa-link"></i></a>
+</h4>
+<p>The gamma distribution is often used with a different set of parameters
+<span class="math inline">\(k=2 \alpha\)</span> and <span class="math inline">\(s^2 =\theta/2\)</span> (hence conversely <span class="math inline">\(\alpha = k/2\)</span> and <span class="math inline">\(\theta=2 s^2\)</span>).
+In this form it is known as <strong>one-dimensional Wishart distribution</strong>
+<span class="math display">\[
+W_1\left(s^2, k \right)
+\]</span>
+named after <a href="https://en.wikipedia.org/wiki/John_Wishart_(statistician)">John Wishart (1898–1954)</a>.
+In the Wishart parameterisation the mean is
+<span class="math display">\[
+\text{E}(x) = k s^2
+\]</span>
+and the variance
+<span class="math display">\[
+\text{Var}(x) = 2 k s^4
+\]</span></p>
+<p>Another name for the one-dimensional Wishart distribution with exactly the same
+parameterisation is <strong>scaled chi-squared distribution</strong> denoted as
+<span class="math display">\[
+s^2 \text{$\chi^2_{k}$} 
+\]</span></p>
+<p>Finally, note we often employ the Wishart distribution in <strong>mean parameterisation</strong>
+<span class="math inline">\(W_1\left(s^2= \mu / k, k \right)\)</span>
+with <span class="math inline">\(\mu = k s^2\)</span> and <span class="math inline">\(k\)</span> (and thus <span class="math inline">\(\theta = 2 \mu /k\)</span>). It has
+mean
+<span class="math display">\[
+\text{E}(x) = \mu
+\]</span>
+and variance
+<span class="math display">\[
+\text{Var}(x) = \frac{2 \mu^2}{k}
+\]</span></p>
+</div>
+<div id="construction-as-sum-of-squared-normals" class="section level4" number="19.6.3.3">
+<h4>
+<span class="header-section-number">A.6.3.3</span> Construction as sum of squared normals<a class="anchor" aria-label="anchor" href="#construction-as-sum-of-squared-normals"><i class="fas fa-link"></i></a>
+</h4>
+<p>A gamma distributed variable can be constructed as follows.
+Assume <span class="math inline">\(k\)</span> independent normal random variables with mean 0
+and variance <span class="math inline">\(s^2\)</span>:
+<span class="math display">\[z_1,z_2,\dots,z_k\sim N(0,s^2)\]</span>
 Then the sum of the squares
 <span class="math display">\[
-x = \sum_{i=1}^{m} z_i^2
+x = \sum_{i=1}^{k} z_i^2
 \]</span>
-with
+follows
 <span class="math display">\[
-\mu_x = m \sigma^2_z
+x \sim \sigma^2 \text{$\chi^2_{k}$} =  W_1\left( s^2, k \right)
 \]</span>
-follows a <strong>scaled chi-squared distribution</strong>
+or equivalently
 <span class="math display">\[
-x\sim \frac{\mu_x}{m} \text{$\chi^2_{m}$} = W_1\left(\frac{\mu_x}{m}, m\right) = \text{Gam}\left(\frac{1}{2} m, 2 \frac{\mu_x}{m}\right) 
-\]</span>
-with degree of freedom <span class="math inline">\(m\)</span> and <span class="math inline">\(x \geq 0\)</span>.
-The mean and variance of a scaled chi-squared distributed variable is
-<span class="math inline">\(\text{E}(x)= \mu_x\)</span> and <span class="math inline">\(\text{Var}(x)= \frac{2 \mu^2_x}{m}\)</span>.</p>
-<p>Another name for the scaled chi-squared distribution is <strong>one-dimensional Wishart distribution</strong> <span class="math inline">\(W_1(\frac{\mu_x}{m}, m )\)</span>.</p>
-<p>The <strong>gamma distribution</strong> <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is another name for the scaled chi-squared distribution with a different parameterisation in terms of a shape parameter <span class="math inline">\(\alpha\)</span> and a scale parameter <span class="math inline">\(\beta\)</span>. The scaled chi-squared distribution <span class="math inline">\(\frac{\mu_x}{m} \text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=\frac{1}{2} m, \beta = 2 \frac{\mu_x}{m})\)</span>. The mean of <span class="math inline">\(\text{Gam}(\alpha, \beta)\)</span> is <span class="math inline">\(\alpha \beta = \mu_x\)</span> and its variance is <span class="math inline">\(\alpha \beta^2 =\frac{2 \mu^2_x}{m}\)</span>.</p>
-<p>The density of the gamma distribution (aka scaled chi-squared distribution) is available in the R function <code><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma()</a></code> and the quantile function is <code><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma()</a></code>.</p>
+x \sim \text{Gam}\left(\alpha=\frac{k}{2}, \theta = 2 s^2\right)
+\]</span></p>
 </div>
-<div id="special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution" class="section level3" number="19.6.4">
+</div>
+<div id="special-cases-of-the-gamma-distribution" class="section level3" number="19.6.4">
 <h3>
-<span class="header-section-number">A.6.4</span> Special cases of the gamma distribution: exponential distribution and chi-squared distibution<a class="anchor" aria-label="anchor" href="#special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.6.4</span> Special cases of the gamma distribution<a class="anchor" aria-label="anchor" href="#special-cases-of-the-gamma-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>chi-squared distribution</strong> is a special case with <span class="math inline">\(\sigma^2_z=1\)</span>
-and hence <span class="math inline">\(\frac{\mu_x}{m} =1\)</span>. It has mean <span class="math inline">\(\text{E}(x)=m\)</span> and variance <span class="math inline">\(\text{Var}(x)=2m\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{m}$}\)</span> equals <span class="math inline">\(\text{Gam}(\frac{m}{2}, 2)\)</span>.</p>
-<p>The <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\beta)\)</span> with scale parameter <span class="math inline">\(\beta\)</span> is another special case of the gamma distribution with shape parameter <span class="math inline">\(\alpha=1\)</span> (or <span class="math inline">\(m=2\)</span>) and thus equals <span class="math inline">\(\text{Gam}(1, \beta)\)</span>. It has mean <span class="math inline">\(\beta\)</span> and variance <span class="math inline">\(\beta^2\)</span>.</p>
-<p>Instead of the scale parameter the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\lambda= \frac{1}{\beta}\)</span>.</p>
+<div id="chi-squared-distribution" class="section level4" number="19.6.4.1">
+<h4>
+<span class="header-section-number">A.6.4.1</span> Chi-squared distribution<a class="anchor" aria-label="anchor" href="#chi-squared-distribution"><i class="fas fa-link"></i></a>
+</h4>
+<p>The <strong>chi-squared distribution</strong>
+<span class="math inline">\(\text{$\chi^2_{k}$}\)</span> is a special one-parameter restriction of the
+gamma resp. Wishart distribution obtained when setting
+<span class="math inline">\(s^2=1\)</span> or, equivalently, <span class="math inline">\(\theta = 2\)</span> or <span class="math inline">\(\mu = k\)</span>.</p>
+<p>It has mean <span class="math inline">\(\text{E}(x)=k\)</span> and variance <span class="math inline">\(\text{Var}(x)=2k\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=k/2, \theta=2) = W_1\left(1, k \right)\)</span>.</p>
 <p>Here is a plot of the density of the chi-squared distribution
-for degrees of freedom <span class="math inline">\(m=1\)</span> and <span class="math inline">\(m=3\)</span>:</p>
+for degrees of freedom <span class="math inline">\(k=1\)</span> and <span class="math inline">\(k=3\)</span>:</p>
 <div class="inline-figure"><img src="19-refresher_files/figure-html/unnamed-chunk-5-1.png" width="768"></div>
 <p>In R the density of the chi-squared distribution is given by <code><a href="https://rdrr.io/r/stats/Chisquare.html">dchisq()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq()</a></code> and
 the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">qchisq()</a></code>.</p>
-<p>Likewise, in R <code><a href="https://rdrr.io/r/stats/Exponential.html">dexp()</a></code> gives the density of the exponential distribution, and
-<code><a href="https://rdrr.io/r/stats/Exponential.html">pexp()</a></code> and <code><a href="https://rdrr.io/r/stats/Exponential.html">qexp()</a></code> are the corresponding cumulutative density and quantile functions.</p>
+</div>
+<div id="exponential-distribution" class="section level4" number="19.6.4.2">
+<h4>
+<span class="header-section-number">A.6.4.2</span> Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"><i class="fas fa-link"></i></a>
+</h4>
+<p>The <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\theta)\)</span> with scale parameter <span class="math inline">\(\theta\)</span>
+is another special one-parameter restriction of the gamma distribution with shape parameter set to
+<span class="math inline">\(\alpha=1\)</span> (or equivalently <span class="math inline">\(k=2\)</span>).</p>
+<p>It thus equals
+<span class="math inline">\(\text{Gam}(\alpha=1, \theta) = W_1(s^2=\theta/2, k=2)\)</span>. It has mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\(\theta^2\)</span>.</p>
+<p>Just like the gamma distribution the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\beta= 1/\theta\)</span> instead of a scale parameter <span class="math inline">\(\theta\)</span>.</p>
+<p>In R the command <code><a href="https://rdrr.io/r/stats/Exponential.html">dexp()</a></code> returns the
+density of the exponential distribution,
+<code><a href="https://rdrr.io/r/stats/Exponential.html">pexp()</a></code> is the corresponding cumulative density function and <code><a href="https://rdrr.io/r/stats/Exponential.html">qexp()</a></code> is the quantile function.</p>
+</div>
+</div>
+<div id="location-scale-t-distribution-students-t-distribution-and-cauchy-distribution" class="section level3" number="19.6.5">
+<h3>
+<span class="header-section-number">A.6.5</span> Location-scale <span class="math inline">\(t\)</span>-distribution, Student’s <span class="math inline">\(t\)</span>-distribution and Cauchy distribution<a class="anchor" aria-label="anchor" href="#location-scale-t-distribution-students-t-distribution-and-cauchy-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<div id="location-scale-t-distribution" class="section level4" number="19.6.5.1">
+<h4>
+<span class="header-section-number">A.6.5.1</span> Location-scale <span class="math inline">\(t\)</span>-distribution<a class="anchor" aria-label="anchor" href="#location-scale-t-distribution"><i class="fas fa-link"></i></a>
+</h4>
+<p>The location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> is a generalisation of the normal distribution.
+It has an additional parameter <span class="math inline">\(\nu &gt; 0\)</span> (degrees of freedom) that controls the probability mass in the tails. For small values of <span class="math inline">\(\nu\)</span> the distribution is heavy-tailed — indeed so heavy that for <span class="math inline">\(\nu \leq 1\)</span> even the mean is not defined
+and for <span class="math inline">\(\nu \leq 2\)</span> the variance is undefined.</p>
+<p>The probability density of <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> is
+<span class="math display">\[
+p(x | \mu, \tau^2, \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\pi \nu \tau^2}  \,\Gamma(\frac{\nu}{2})} \left(1+\frac{(x-\mu)^2}{\nu \tau^2} \right)^{-(\nu+1)/2}
+\]</span>
+The mean is (for <span class="math inline">\(\nu&gt;1\)</span>)
+<span class="math display">\[
+\text{E}(x) = \mu
+\]</span>
+and the variance (for <span class="math inline">\(\nu&gt;2\)</span>)
+<span class="math display">\[
+\text{Var}(x) = \tau^2 \frac{\nu}{\nu-2}
+\]</span></p>
+<p>For <span class="math inline">\(\nu \rightarrow \infty\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> becomes
+the normal distribution <span class="math inline">\(N(\mu, \tau^2)\)</span>.</p>
+<p>For <span class="math inline">\(\nu=1\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution becomes the <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution</a> <span class="math inline">\(\text{Cau}(\mu, \tau)\)</span>
+with density <span class="math inline">\(p(x| \mu, \tau) = \frac{\tau}{\pi (\tau^2+(x-\mu)^2)}\)</span>.</p>
+<p>In the R <code>extraDistr</code> package the command <code>dlst()</code> returns the
+density of the location-scale <span class="math inline">\(t\)</span>-distribution,
+<code>plst()</code> is the corresponding cumulative density function and <code>qlst()</code> is the quantile function.</p>
+</div>
+<div id="students-t-distribution" class="section level4" number="19.6.5.2">
+<h4>
+<span class="header-section-number">A.6.5.2</span> Student’s <span class="math inline">\(t\)</span>-distribution<a class="anchor" aria-label="anchor" href="#students-t-distribution"><i class="fas fa-link"></i></a>
+</h4>
+<p>For <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\tau^2=1\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution becomes the
+<a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">Student’s <span class="math inline">\(t\)</span>-distribution</a> <span class="math inline">\(t_\nu\)</span>
+with mean 0 (for <span class="math inline">\(\nu&gt;1\)</span>) and variance <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> (for <span class="math inline">\(\nu&gt;2\)</span>).</p>
+<p>If <span class="math inline">\(y \sim t_\nu\)</span> then <span class="math inline">\(x = \mu + \tau y\)</span> is distributed as <span class="math inline">\(x \sim \text{lst}(\mu, \tau^2, \nu)\)</span>.</p>
+<p>For <span class="math inline">\(\nu \rightarrow \infty\)</span> the <span class="math inline">\(t\)</span>-distribution becomes equal to <span class="math inline">\(N(0,1)\)</span>.</p>
+<p>For <span class="math inline">\(\nu=1\)</span> the <span class="math inline">\(t\)</span>-distribution becomes the standard Cauchy distribution
+<span class="math inline">\(\text{Cau}(0, 1)\)</span> with density <span class="math inline">\(p(x) = \frac{1}{\pi (1+x^2)}\)</span>.</p>
+<p>In R the command <code><a href="https://rdrr.io/r/stats/TDist.html">dt()</a></code> returns the
+density of the <span class="math inline">\(t\)</span>-distribution,
+<code><a href="https://rdrr.io/r/stats/TDist.html">pt()</a></code> is the corresponding cumulative density function and <code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code> is the quantile function.</p>
+</div>
 </div>
 </div>
 <div id="statistics" class="section level2" number="19.7">
@@ -637,16 +784,17 @@ the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">
 <h3>
 <span class="header-section-number">A.7.1</span> Statistical learning<a class="anchor" aria-label="anchor" href="#statistical-learning"><i class="fas fa-link"></i></a>
 </h3>
-<p>The aim in statistics - data science - machine learning is to learn from data
+<p>The aim in statistics — data science — machine learning is to use data
 (from experiments, observations, measurements) to learn about and understand the world.</p>
-<p>Specifically, to identify the best model(s) for the data in order to</p>
+<p>Specifically, the aim is to identify the best model(s) for the data in order to</p>
 <ul>
 <li>to explain the current data, and</li>
 <li>to enable good prediction of future data</li>
 </ul>
-<p>Note that it is easy to get models that only explain the data but do not predict well!</p>
-<p>This is called <em>overfitting</em> the data and happens in particular if the model is overparameterized for the amount of data available.</p>
-<p>Specifically, we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> and models <span class="math inline">\(f(x| \theta)\)</span> that are indexed the parameter <span class="math inline">\(\theta\)</span>.</p>
+<p>Note that it is easy to find models that explain the data but do not predict well!</p>
+<p>Typically, one would like to avoid <em>overfitting</em> the data and prefers models that are
+appropriate for the data at hand (i.e. not too simple but also not too complex).</p>
+<p>Specifically, data are denoted <span class="math inline">\(D =\{x_1, \ldots, x_n\}\)</span> and models <span class="math inline">\(p(x| \theta)\)</span> that are indexed the parameter <span class="math inline">\(\theta\)</span>.</p>
 <p>Often (but not always) <span class="math inline">\(\theta\)</span> can be interpreted and/or is associated with some property of the model.</p>
 <p>If there is only a single parameter we write <span class="math inline">\(\theta\)</span> (scalar parameter). For a parameter vector we write <span class="math inline">\(\boldsymbol \theta\)</span> (in bold type).</p>
 </div>
@@ -668,7 +816,7 @@ to quantiles of the distribution representing the model.</p>
 <li>An <strong>interval estimator</strong> provides a set of possible values for each parameter.</li>
 </ul>
 <p>Simple estimators of mean and variance:</p>
-<p>Suppose we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> all sampled independently from a distribution <span class="math inline">\(F\)</span>.</p>
+<p>Suppose we have data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> all sampled independently from a distribution <span class="math inline">\(F\)</span>.</p>
 <ul>
 <li>The average (also known as empirical mean) <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is an estimate of the mean of <span class="math inline">\(F\)</span>.</li>
 <li>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> is an estimate of the variance of <span class="math inline">\(F\)</span>. Note the factor <span class="math inline">\(1/n\)</span>. It is the maximum likelihood estimate assuming a normal model.</li>
@@ -709,45 +857,9 @@ However, requiring strict unbiasedness is not always a good idea!</p>
 <p>In many situations it is better to allow for some small bias and in order to achieve a smaller variance and an overall total smaller MSE. This is called <em>bias-variance tradeoff</em> — as more bias
 is traded for smaller variance (or, conversely, less bias is traded for higher variance)</p>
 </div>
-<div id="sampling-distribution-of-mean-and-variance-estimators-for-normal-data" class="section level3" number="19.7.4">
+<div id="consistency" class="section level3" number="19.7.4">
 <h3>
-<span class="header-section-number">A.7.4</span> Sampling distribution of mean and variance estimators for normal data<a class="anchor" aria-label="anchor" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><i class="fas fa-link"></i></a>
-</h3>
-<p>Suppose we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> all sampled from a normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p>
-<ul>
-<li><p>The empirical estimator of the mean parameter <span class="math inline">\(\mu\)</span> is given by <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span>. Under the normal assumption the distribution of <span class="math inline">\(\hat{\mu}\)</span> is
-<span class="math display">\[
-\hat{\mu} \sim N\left(\mu, \frac{\sigma^2}{n}\right)
-\]</span>
-Thus <span class="math inline">\(\text{E}(\hat{\mu}) = \mu\)</span> and <span class="math inline">\(\text{Var}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.
-The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased since <span class="math inline">\(\text{E}(\hat{\mu})-\mu = 0\)</span> The mean
-squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\text{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
-<li><p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a scaled chi-squared distribution or equivalently a Gamma distribution
-<span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim \frac{\sigma^2}{n} \text{$\chi^2_{n-1}$} = \text{Gam}\left(\underbrace{\frac{n-1}{2}}_{\text{shape}}, \underbrace{\frac{2\sigma^2}{n}}_{\text{scale}}\right)
-\]</span>
-Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{n-1}{n}\sigma^2\)</span> and
-<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4\)</span>.
-The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is biased since
-<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} )-\sigma^2 = -\frac{1}{n}\sigma^2\)</span>.
-The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4 +\frac{1}{n^2}\sigma^4 =\frac{2 n-1}{n^2}\sigma^4\)</span>.</p></li>
-<li>
-<p>The unbiased variance <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a scaled chi-squared distribution or equivalently a Gamma distribution
-<span class="math display">\[
-\widehat{\sigma^2}_{\text{UB}} \sim \frac{\sigma^2}{n-1} \text{$\chi^2_{n-1}$} = \text{Gam}\left(\underbrace{\frac{n-1}{2}}_{\text{shape}}, \underbrace{\frac{2\sigma^2}{n-1}}_{\text{scale}}\right)
-\]</span>
-Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} ) = \sigma^2\)</span> and
-<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) = \frac{2}{n-1}\sigma^4\)</span>.
-The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is unbiased since
-<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} )-\sigma^2 =0\)</span>.
-The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) =\frac{2}{n-1}\sigma^4\)</span>.</p>
-<p>Note that for any <span class="math inline">\(n&gt;1\)</span> we find that <span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{Var}( \widehat{\sigma^2}_{\text{ML}} )\)</span> and <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{MSE}( \widehat{\sigma^2}_{\text{ML}} )\)</span> so that the biased empirical estimator has both lower variance and lower mean squared error than the unbiased estimator.</p>
-</li>
-</ul>
-</div>
-<div id="asymptotics-1" class="section level3" number="19.7.5">
-<h3>
-<span class="header-section-number">A.7.5</span> Asymptotics<a class="anchor" aria-label="anchor" href="#asymptotics-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.4</span> Consistency<a class="anchor" aria-label="anchor" href="#consistency"><i class="fas fa-link"></i></a>
 </h3>
 <p>Typically, <span class="math inline">\(\text{Bias}\)</span>, <span class="math inline">\(\text{Var}\)</span> and <span class="math inline">\(\text{MSE}\)</span> all decrease with increasing sample size
 so that with more data <span class="math inline">\(n \to \infty\)</span> the errors become smaller and smaller.</p>
@@ -766,9 +878,110 @@ estimators we typically prefer the estimator that is most efficient (i.e. with 
 cannot be achived but we still wish to get as close as possible
 to the true model when choosing model parameters.</p>
 </div>
-<div id="confidence-intervals" class="section level3" number="19.7.6">
+<div id="sampling-distribution-of-mean-and-variance-estimators-for-normal-data" class="section level3" number="19.7.5">
 <h3>
-<span class="header-section-number">A.7.6</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.5</span> Sampling distribution of mean and variance estimators for normal data<a class="anchor" aria-label="anchor" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><i class="fas fa-link"></i></a>
+</h3>
+<p>Suppose we have data <span class="math inline">\(x_1, \ldots, x_n\)</span> all sampled from a normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p>
+<ul>
+<li><p>The empirical estimator of the mean parameter <span class="math inline">\(\mu\)</span> is given by <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span>. Under the normal assumption the distribution of <span class="math inline">\(\hat{\mu}\)</span> is
+<span class="math display">\[
+\hat{\mu} \sim N\left(\mu, \frac{\sigma^2}{n}\right)
+\]</span>
+Thus <span class="math inline">\(\text{E}(\hat{\mu}) = \mu\)</span> and <span class="math inline">\(\text{Var}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.
+The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased since <span class="math inline">\(\text{E}(\hat{\mu})-\mu = 0\)</span> The mean
+squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\text{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
+<li><p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a one-dimensional Wishart distribution
+<span class="math display">\[
+\widehat{\sigma^2}_{\text{ML}} \sim 
+W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
+\]</span>
+Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{n-1}{n}\sigma^2\)</span> and
+<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4\)</span>.
+The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is biased since
+<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} )-\sigma^2 = -\frac{1}{n}\sigma^2\)</span>.
+The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{2(n-1)}{n^2}\sigma^4 +\frac{1}{n^2}\sigma^4 =\frac{2 n-1}{n^2}\sigma^4\)</span>.</p></li>
+<li>
+<p>The unbiased variance estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a one-dimensional Wishart distribution
+<span class="math display">\[
+\widehat{\sigma^2}_{\text{UB}} \sim 
+W_1\left(s^2 = \frac{\sigma^2}{n-1}, k = n-1 \right)
+\]</span>
+Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} ) = \sigma^2\)</span> and
+<span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) = \frac{2}{n-1}\sigma^4\)</span>.
+The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is unbiased since
+<span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} )-\sigma^2 =0\)</span>.
+The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) =\frac{2}{n-1}\sigma^4\)</span>.</p>
+<p>Interestingly, for any <span class="math inline">\(n&gt;1\)</span> we find that <span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{Var}( \widehat{\sigma^2}_{\text{ML}} )\)</span> and <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) &gt; \text{MSE}( \widehat{\sigma^2}_{\text{ML}} )\)</span> so that the biased empirical estimator has both lower variance and lower mean squared error than the unbiased estimator.</p>
+</li>
+</ul>
+</div>
+<div id="one-sample-t-statistic" class="section level3" number="19.7.6">
+<h3>
+<span class="header-section-number">A.7.6</span> One sample <span class="math inline">\(t\)</span>-statistic<a class="anchor" aria-label="anchor" href="#one-sample-t-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Supppose we observe <span class="math inline">\(n\)</span> independent data points <span class="math inline">\(x_1, \ldots, x_n \sim N(\mu, \sigma^2)\)</span>.
+Then the average <span class="math inline">\(\bar{x} = \sum_{i=1}^n x_i\)</span> is distributed as
+<span class="math inline">\(\bar{x} \sim N(\mu, \sigma^2/n)\)</span> and correspondingly
+<span class="math display">\[
+z = \frac{\bar{x}-\mu}{\sqrt{\sigma^2/n}} \sim N(0, 1)
+\]</span></p>
+<p>Note that <span class="math inline">\(z\)</span> uses the known variance <span class="math inline">\(\sigma^2\)</span>. If instead the variance is estimated
+by <span class="math inline">\(s^2_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\bar{x})^2\)</span>
+then the one sample <span class="math inline">\(t\)</span>-statistic
+<span class="math display">\[
+t = \frac{\bar{x}-\mu}{\sqrt{s^2_{\text{UB}}/n}} \sim t_{n-1}
+\]</span>
+is obtained. It is distributed according to a Student’s <span class="math inline">\(t\)</span>-distribution
+with <span class="math inline">\(n-1\)</span> degrees of freedom, with mean 0 for <span class="math inline">\(n&gt;2\)</span> and variance
+<span class="math inline">\((n-1)/(n-3)\)</span> for <span class="math inline">\(n&gt;3\)</span>.</p>
+<p>If instead of the unbiased estimate the empirical (ML) estimate of the variance <span class="math inline">\(s^2_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\bar{x})^2 = \frac{n-1}{n} s^2_{\text{UB}}\)</span> is used then this leads to a slightly different statistic
+<span class="math display">\[
+t_{\text{ML}} = \frac{\bar{x}-\mu}{ \sqrt{ s^2_{\text{ML}}/n}}  = \sqrt{\frac{n}{n-1}} t 
+\]</span>
+with
+<span class="math display">\[
+t_{\text{ML}} \sim \text{lst}\left(0, \tau^2=\frac{n}{n-1}, n-1\right)
+\]</span>
+Thus, <span class="math inline">\(t_{\text{ML}}\)</span> follows a location-scale <span class="math inline">\(t\)</span>-distribution, with mean 0 for <span class="math inline">\(n&gt;2\)</span> and variance
+<span class="math inline">\(n/(n-3)\)</span> for <span class="math inline">\(n&gt;3\)</span>.</p>
+</div>
+<div id="two-sample-t-statistic-with-common-variance" class="section level3" number="19.7.7">
+<h3>
+<span class="header-section-number">A.7.7</span> Two sample <span class="math inline">\(t\)</span>-statistic with common variance<a class="anchor" aria-label="anchor" href="#two-sample-t-statistic-with-common-variance"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now suppose we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups
+with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> (and <span class="math inline">\(n=n_1+n_2\)</span>) with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:
+<span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span>
+and
+<span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span>
+Then <span class="math inline">\(\hat{\mu}_1 = \frac{1}{n_1}\sum^{n_1}_{i=1}x_i\)</span> and
+<span class="math inline">\(\hat{\mu}_2 = \frac{1}{n_2}\sum^{n}_{i=n_1+1}x_i\)</span> are the sample averages with each group.</p>
+<p>The common variance <span class="math inline">\(\sigma^2\)</span> may be estimated either by
+the unbiased estimate <span class="math inline">\(s^2_{\text{UB}} = \frac{1}{n-2} \left(\sum^{n_1}_{i=1}(x_i-\hat{\mu}_1)^2+\sum^n_{i=n_1+1}(x_i-\hat{\mu}_2)^2\right)\)</span>
+(note the factor <span class="math inline">\(n-2\)</span>) or the empirical (ML) estimate <span class="math inline">\(s^2_{\text{ML}} = \frac{1}{n} \left(\sum^{n_1}_{i=1}(x_i-\hat{\mu}_1)^2+\sum^n_{i=n_1+1}(x_i-\hat{\mu}_2)^2\right) =\frac{n-2}{n} s^2_{\text{UB}}\)</span>. These two estimators
+for the common variance are a often referred to as <em>pooled variance estimate</em> as information is pooled from two groups to obtain the estimate.</p>
+<p>This gives rise to the two sample <span class="math inline">\(t\)</span>-statistic
+<span class="math display">\[
+t = \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{ s^2_{\text{UB}} \left(\frac{1}{n_1}+\frac{1}{n_2}\right)}   } \sim t_{n-2}
+\]</span>
+that is distributed according to a Student’s <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-2\)</span> degrees of freedom, with mean 0 for <span class="math inline">\(n&gt;3\)</span> and variance <span class="math inline">\((n-2)/(n-4)\)</span> for <span class="math inline">\(n&gt;4\)</span>.
+Large values of the two sample <span class="math inline">\(t\)</span>-statistic indicates that there are indeed two groups
+rather than just one.</p>
+<p>The two sample <span class="math inline">\(t\)</span>-statistic using the empirical (ML) estimate of the common variance is
+<span class="math display">\[
+t_{\text{ML}} = \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{ s^2_{\text{ML}} \left(\frac{1}{n_1}+\frac{1}{n_2}\right)}   } = \sqrt{\frac{n}{n-2}} t
+\]</span>
+with
+<span class="math display">\[
+t_{\text{ML}} \sim \text{lst}\left(0, \tau^2=\frac{n}{n-2}, n-2\right)
+\]</span>
+Thus, <span class="math inline">\(t_{\text{ML}}\)</span> follows a location-scale <span class="math inline">\(t\)</span>-distribution, with mean 0 for <span class="math inline">\(n&gt;3\)</span> and variance
+<span class="math inline">\(n/(n-4)\)</span> for <span class="math inline">\(n&gt;4\)</span>.</p>
+</div>
+<div id="confidence-intervals" class="section level3" number="19.7.8">
+<h3>
+<span class="header-section-number">A.7.8</span> Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>A <strong>confidence</strong> interval (CI) is an <strong>interval estimate</strong> with a <strong>frequentist</strong> interpretation.</li>
@@ -785,11 +998,11 @@ to the true model when choosing model parameters.</p>
 </li>
 <li>A good CI has high coverage and is compact.</li>
 </ul>
-<p><strong>Note:</strong> the coverage probability is <strong>not</strong> the probability that the true value is contained in a given estimated interval (that would be the Bayesian <em>Credible</em> Interval).</p>
+<p><strong>Note:</strong> the coverage probability is <strong>not</strong> the probability that the true value is contained in a given estimated interval (that would be the Bayesian <em>credible</em> interval).</p>
 </div>
-<div id="symmetric-normal-confidence-interval" class="section level3" number="19.7.7">
+<div id="symmetric-normal-confidence-interval" class="section level3" number="19.7.9">
 <h3>
-<span class="header-section-number">A.7.7</span> Symmetric normal confidence interval<a class="anchor" aria-label="anchor" href="#symmetric-normal-confidence-interval"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.9</span> Symmetric normal confidence interval<a class="anchor" aria-label="anchor" href="#symmetric-normal-confidence-interval"><i class="fas fa-link"></i></a>
 </h3>
 <p>For a normally distributed univariate random variable
 it is straightforward to construct a symmetric two-sided CI with a given desired coverage <span class="math inline">\(\kappa\)</span>.</p>
@@ -836,9 +1049,9 @@ Note <span class="math inline">\(\Phi(c)\)</span> is the cumulative distribution
 \]</span>
 where <span class="math inline">\(c\)</span> is chosen for desired coverage level <span class="math inline">\(\kappa\)</span>.</p>
 </div>
-<div id="confidence-interval-for-chi-squared-distribution" class="section level3" number="19.7.8">
+<div id="confidence-interval-based-on-the-chi-squared-distribution" class="section level3" number="19.7.10">
 <h3>
-<span class="header-section-number">A.7.8</span> Confidence interval for chi-squared distribution<a class="anchor" aria-label="anchor" href="#confidence-interval-for-chi-squared-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">A.7.10</span> Confidence interval based on the chi-squared distribution<a class="anchor" aria-label="anchor" href="#confidence-interval-based-on-the-chi-squared-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <div class="inline-figure"><img src="fig/refresher_p4_2.PNG" width="80%" style="display: block; margin: auto;"></div>
 <p>As for the normal CI we can compute critical values but for the
@@ -877,7 +1090,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></div>
-<div class="next"><a href="further-study.html"><span class="header-section-number">B</span> Further study</a></div>
+<div class="next"><a href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -914,8 +1127,9 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <a class="nav-link" href="#distributions"><span class="header-section-number">A.6</span> Distributions</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#bernoulli-distribution-and-binomial-distribution"><span class="header-section-number">A.6.1</span> Bernoulli distribution and binomial distribution</a></li>
 <li><a class="nav-link" href="#normal-distribution"><span class="header-section-number">A.6.2</span> Normal distribution</a></li>
-<li><a class="nav-link" href="#gamma-distribution-aka-scaled-chi-squared-and-one-dimensional-wishart-distribution"><span class="header-section-number">A.6.3</span> Gamma distribution aka scaled chi-squared and one-dimensional Wishart distribution</a></li>
-<li><a class="nav-link" href="#special-cases-of-the-gamma-distribution-exponential-distribution-and-chi-squared-distibution"><span class="header-section-number">A.6.4</span> Special cases of the gamma distribution: exponential distribution and chi-squared distibution</a></li>
+<li><a class="nav-link" href="#gamma-distribution"><span class="header-section-number">A.6.3</span> Gamma distribution</a></li>
+<li><a class="nav-link" href="#special-cases-of-the-gamma-distribution"><span class="header-section-number">A.6.4</span> Special cases of the gamma distribution</a></li>
+<li><a class="nav-link" href="#location-scale-t-distribution-students-t-distribution-and-cauchy-distribution"><span class="header-section-number">A.6.5</span> Location-scale \(t\)-distribution, Student’s \(t\)-distribution and Cauchy distribution</a></li>
 </ul>
 </li>
 <li>
@@ -923,11 +1137,13 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <li><a class="nav-link" href="#statistical-learning"><span class="header-section-number">A.7.1</span> Statistical learning</a></li>
 <li><a class="nav-link" href="#point-and-interval-estimation"><span class="header-section-number">A.7.2</span> Point and interval estimation</a></li>
 <li><a class="nav-link" href="#sampling-properties-of-a-point-estimator-hatboldsymbol-theta"><span class="header-section-number">A.7.3</span> Sampling properties of a point estimator \(\hat{\boldsymbol \theta}\)</a></li>
-<li><a class="nav-link" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><span class="header-section-number">A.7.4</span> Sampling distribution of mean and variance estimators for normal data</a></li>
-<li><a class="nav-link" href="#asymptotics-1"><span class="header-section-number">A.7.5</span> Asymptotics</a></li>
-<li><a class="nav-link" href="#confidence-intervals"><span class="header-section-number">A.7.6</span> Confidence intervals</a></li>
-<li><a class="nav-link" href="#symmetric-normal-confidence-interval"><span class="header-section-number">A.7.7</span> Symmetric normal confidence interval</a></li>
-<li><a class="nav-link" href="#confidence-interval-for-chi-squared-distribution"><span class="header-section-number">A.7.8</span> Confidence interval for chi-squared distribution</a></li>
+<li><a class="nav-link" href="#consistency"><span class="header-section-number">A.7.4</span> Consistency</a></li>
+<li><a class="nav-link" href="#sampling-distribution-of-mean-and-variance-estimators-for-normal-data"><span class="header-section-number">A.7.5</span> Sampling distribution of mean and variance estimators for normal data</a></li>
+<li><a class="nav-link" href="#one-sample-t-statistic"><span class="header-section-number">A.7.6</span> One sample \(t\)-statistic</a></li>
+<li><a class="nav-link" href="#two-sample-t-statistic-with-common-variance"><span class="header-section-number">A.7.7</span> Two sample \(t\)-statistic with common variance</a></li>
+<li><a class="nav-link" href="#confidence-intervals"><span class="header-section-number">A.7.8</span> Confidence intervals</a></li>
+<li><a class="nav-link" href="#symmetric-normal-confidence-interval"><span class="header-section-number">A.7.9</span> Symmetric normal confidence interval</a></li>
+<li><a class="nav-link" href="#confidence-interval-based-on-the-chi-squared-distribution"><span class="header-section-number">A.7.10</span> Confidence interval based on the chi-squared distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -946,7 +1162,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 28 February 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>10 Bayesian learning in practise | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.32 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="10 Bayesian learning in practise | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -18,9 +18,9 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the Beta-Binomial...">
-<meta property="og:description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the Beta-Binomial...">
-<meta name="twitter:description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the Beta-Binomial...">
+<meta name="description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the beta-binomial...">
+<meta property="og:description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the beta-binomial...">
+<meta name="twitter:description" content="In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.  10.1 Estimating a proportion using the beta-binomial...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -67,7 +67,8 @@
 <li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -83,120 +84,151 @@
 <p>In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.</p>
 <div id="estimating-a-proportion-using-the-beta-binomial-model" class="section level2" number="10.1">
 <h2>
-<span class="header-section-number">10.1</span> Estimating a proportion using the Beta-Binomial model<a class="anchor" aria-label="anchor" href="#estimating-a-proportion-using-the-beta-binomial-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.1</span> Estimating a proportion using the beta-binomial model<a class="anchor" aria-label="anchor" href="#estimating-a-proportion-using-the-beta-binomial-model"><i class="fas fa-link"></i></a>
 </h2>
 <div id="binomial-likelihood" class="section level3" number="10.1.1">
 <h3>
 <span class="header-section-number">10.1.1</span> Binomial likelihood<a class="anchor" aria-label="anchor" href="#binomial-likelihood"><i class="fas fa-link"></i></a>
 </h3>
 <p>In order to apply Bayes’ theorem we first need to find a suitable
-likelihood. We use the Bernoulli/ binomial model as in the analogous example in Part I:</p>
+likelihood. We use the Bernoulli model as in Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a>:</p>
 <p>Repeated Bernoulli experiment (binomial model):</p>
-<p><span class="math inline">\(x \in \{0, 1\}\)</span> (e.g. “tails” vs. “heads”)</p>
-<p>probability mass function (pmf): <span class="math inline">\(\text{Pr}(x=1) = p\)</span>, <span class="math inline">\(\text{Pr}(x=0) = 1-p\)</span><br>
-Mean: <span class="math inline">\(\text{E}(x) = p\)</span><br>
-Variance <span class="math inline">\(\text{Var}(x) = p (1-p)\)</span></p>
-<p><span class="math inline">\(\text{Bin}(n,p)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments)<br><span class="math inline">\(x \in \{0, 1, \ldots, n\}\)</span><br>
-Mean: <span class="math inline">\(\text{E}(x) = n p\)</span><br>
-Variance: <span class="math inline">\(\text{Var}(x) = n p (1-p)\)</span></p>
-<p>Standardised binomial (average of <span class="math inline">\(n\)</span> Bernoulli experiments):<br><span class="math inline">\(\frac{x}{n} \in \{0, \frac{1}{n}, \ldots,1\}\)</span><br>
-Mean: <span class="math inline">\(\text{E}(\frac{x}{n}) = p\)</span><br>
-Variance: <span class="math inline">\(\text{Var}(\frac{x}{n}) = \frac{p (1-p)}{n}\)</span></p>
-<p>From part I (likelihood theory) we know that the <em>maximum likelihood estimate</em> of the proportion
-is the frequency <span class="math inline">\(\hat p_{ML} = \frac{x}{n}\)</span> given <span class="math inline">\(x\)</span> (number of “heads”) is observed in <span class="math inline">\(n\)</span> repeats.</p>
-</div>
-<div id="excursion-properties-of-the-beta-distribution" class="section level3" number="10.1.2">
-<h3>
-<span class="header-section-number">10.1.2</span> Excursion: Properties of the Beta distribution<a class="anchor" aria-label="anchor" href="#excursion-properties-of-the-beta-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p>The density of the Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span>
-for <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span>
-is
-<span class="math display">\[f(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}\]</span>
-The mean is <span class="math inline">\(\text{E}(x) = \mu = \frac{\alpha}{\alpha+\beta}\)</span> and the variance
-<span class="math inline">\(\text{Var}(x)=\frac{\mu (1-\mu)}{\alpha+\beta+1}\)</span>.</p>
-<p>The density depends on the Beta function <span class="math inline">\(B(a, b) = \frac{ \Gamma(a) \Gamma(b)}{\Gamma(a + b)}\)</span>
-which in turn is defined via Euler’s Gamma function
+<p>Bernoulli data generating process:
 <span class="math display">\[
-\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt
-\]</span>
-Note that <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span></p>
-<p>A useful reparameterisation of the Beta distribution is in terms of the parameters
-<span class="math inline">\(\mu \in [0,1]\)</span> and <span class="math inline">\(m &gt; 0\)</span>, yielding the original parameters via
-<span class="math inline">\(\alpha= \mu m\)</span> and <span class="math inline">\(\beta=(1-\mu)m\)</span>. Conversely, <span class="math inline">\(m=\alpha+\beta\)</span> and <span class="math inline">\(\mu = \frac{\alpha}{\alpha+\beta}\)</span>.</p>
-<p>The Beta distribution is very flexible and can assume a number of different shapes, depending on the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>:</p>
-<div class="inline-figure"><img src="fig/bayes2-betashapes.png" width="80%" style="display: block; margin: auto;"></div>
-</div>
-<div id="beta-prior-distribution" class="section level3" number="10.1.3">
-<h3>
-<span class="header-section-number">10.1.3</span> Beta prior distribution<a class="anchor" aria-label="anchor" href="#beta-prior-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p><strong>In Bayesian learning we need to make explicit our uncertainty about <span class="math inline">\(p\)</span>.</strong></p>
-<p><span class="math inline">\(p\)</span> has support <span class="math inline">\([0,1]\)</span> <span class="math inline">\(\rightarrow\)</span> we use the <strong>Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> as prior for <span class="math inline">\(p\)</span></strong> with parameters <span class="math inline">\(\alpha \geq 0\)</span> and <span class="math inline">\(\beta \geq 0\)</span>:</p>
-<p><span class="math display">\[
-p \sim \text{Beta}(\alpha, \beta)
+x  \sim \text{Ber}(\theta)
 \]</span></p>
-<p>Note this does not actually mean that <span class="math inline">\(p\)</span> is random! It only means that we model the uncertainty about <span class="math inline">\(p\)</span> using a Beta random variable!</p>
-<p>The flexibility of the Beta distribution allows to accomodate a large variety of possible scenarios for our prior knowledge.</p>
-<p>The prior mean is
-<span class="math display">\[\text{E}(p) = \frac{\alpha}{m} = \mu_{\text{prior}}\]</span>
+<ul>
+<li>
+<span class="math inline">\(x \in \{0, 1\}\)</span> (e.g. “success” vs. “failure”)</li>
+<li>The “success” is indicated by outcome <span class="math inline">\(x=1\)</span> and the “failure” by <span class="math inline">\(x=0\)</span>
+</li>
+<li>Parameter: <span class="math inline">\(\theta\)</span> is the probability of “success”</li>
+<li>probability mass function (PMF): <span class="math inline">\(\text{Pr}(x=1) = \theta\)</span>, <span class="math inline">\(\text{Pr}(x=0) = 1-\theta\)</span>
+</li>
+<li>Mean: <span class="math inline">\(\text{E}(x) = \theta\)</span>
+</li>
+<li>Variance <span class="math inline">\(\text{Var}(x) = \theta (1-\theta)\)</span>
+</li>
+</ul>
+<p>Binomial model <span class="math inline">\(\text{Bin}(n,\theta)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments):</p>
+<ul>
+<li><span class="math inline">\(y \in \{0, 1, \ldots, n\} = \sum_{i=1}^n x_i\)</span></li>
+<li>Mean: <span class="math inline">\(\text{E}(y) = n \theta\)</span>
+</li>
+<li>Variance: <span class="math inline">\(\text{Var}(y) = n \theta (1-\theta)\)</span>
+</li>
+<li>Mean of standardised <span class="math inline">\(y\)</span>: <span class="math inline">\(\text{E}(y/n) = \theta\)</span>
+</li>
+<li>Variance of standardised <span class="math inline">\(y\)</span>: <span class="math inline">\(\text{Var}(y/n) = \frac{\theta (1-\theta)}{n}\)</span>
+</li>
+</ul>
+<p>Maximum likelihood estimate of <span class="math inline">\(\theta\)</span>:</p>
+<ul>
+<li>We conduct <span class="math inline">\(n\)</span> Bernoulli trials and observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>
+with average <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(n_1\)</span> successes and <span class="math inline">\(n_2 = n-n_1\)</span> failures.</li>
+<li>Binomial likelihood:
+<span class="math display">\[
+L(\theta|D) = \begin{pmatrix} n \\ n_1 \end{pmatrix} \theta^{n_1} (1-\theta)^{n_2}
+\]</span>
+Note that the binomial coefficient arises as the ordering of the <span class="math inline">\(x_i\)</span> is
+irrelevant but it may be discarded as is does not contain the parameter <span class="math inline">\(\theta\)</span>.</li>
+<li>From Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a> we know that the maximum likelihood estimate of the
+proportion <span class="math inline">\(\theta\)</span> is the frequency
+<span class="math display">\[\hat{\theta}_{ML} = \frac{n_1}{n} = \bar{x}\]</span>
+Thus, the MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> can be expressed as an average
+(of the individual data points). This seemingly trivial
+fact is important for Bayesian estimation of <span class="math inline">\(\theta\)</span> using linear shrinkage, as
+will become evident below.</li>
+</ul>
+</div>
+<div id="beta-prior-distribution" class="section level3" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> Beta prior distribution<a class="anchor" aria-label="anchor" href="#beta-prior-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>In Bayesian statistics we need not only to specify the data generating process
+but also a prior distribution over the parameters of the likelihood function.</p>
+<p>Therefore, we need to <strong>explicitly specify our prior uncertainty about <span class="math inline">\(\theta\)</span>.</strong></p>
+<p>The parameter <span class="math inline">\(\theta\)</span> has support <span class="math inline">\([0,1]\)</span>. Therefore we may use a <strong>beta distribution
+<span class="math inline">\(\text{Beta}(\alpha_1, \alpha_2)\)</span> as prior for <span class="math inline">\(\theta\)</span></strong> (see the Appendix for properties of this distribution). We will see below that the beta distribution is
+a natural choice as a prior in conjunction with a binomial likelihood.</p>
+<p>The parameters of a prior
+(here <span class="math inline">\(\alpha_1 \geq 0\)</span> and <span class="math inline">\(\alpha_2 \geq 0\)</span>) are also known as the <strong>hyperparameters</strong>
+of the model to distinguish them from the parameters of the likelihood function (here <span class="math inline">\(\theta\)</span>).</p>
+<p>We write for the prior distribution
+<span class="math display">\[
+\theta \sim \text{Beta}(\alpha_1, \alpha_2)
+\]</span>
+with density
+<span class="math display">\[
+p(\theta) = \frac{1}{B(\alpha_1, \alpha_2)} \theta^{\alpha_1-1} (1-\theta)^{\alpha_2-1}
+\]</span></p>
+<p>In terms of mean parameterisation <span class="math inline">\(\text{Beta}(\mu_0, k_0)\)</span> this corresponds to:</p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0 = \alpha_1 + \alpha_2\)</span>
+</li>
+<li>The prior mean parameter is set to <span class="math inline">\(\mu_0 = \alpha_1 / k_0\)</span>.</li>
+</ul>
+<p>The prior mean is therefore
+<span class="math display">\[
+\text{E}(\theta) = \mu_0
+\]</span>
 and the prior variance
 <span class="math display">\[
-\text{Var}(p)  = \frac{\mu_{\text{prior}} (1-\mu_{\text{prior}})}{m + 1}
-\]</span>
-where <span class="math inline">\(m = \alpha + \beta\)</span>.</p>
-<p>Note the similarity to the moments of the standardised binomial above!</p>
-</div>
-<div id="computing-the-posterior-distribution" class="section level3" number="10.1.4">
-<h3>
-<span class="header-section-number">10.1.4</span> Computing the posterior distribution<a class="anchor" aria-label="anchor" href="#computing-the-posterior-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p>Bayes’ theorem for continuous random variables to compute posterior density:
-<span class="math display">\[
-f(p | x) = \frac{f(x | p) f(p) }{\int_{p^{'}} f(x | p^{'})  f(p^{'}) dp^{'}}
-\]</span>
-We use in our analysis the Beta-Binomial model:</p>
-<ol style="list-style-type: lower-alpha">
-<li>
-<strong>Beta prior:</strong>
-<span class="math display">\[
-p \sim \text{Beta}(\alpha, \beta)
-\]</span>
-<span class="math display">\[
-f(p) = \frac{1}{B(\alpha, \beta)} p^{\alpha-1} (1-p)^{\beta-1}
-\]</span>
-</li>
-<li>
-<strong>Binomial likelihood:</strong>
-<span class="math display">\[
-x | p \sim \text{Bin}(n,p)
-\]</span>
-<span class="math display">\[
-f(x|p) = \begin{pmatrix} n \\ x \end{pmatrix} p^x (1-p)^{(n-x)}
-\]</span>
-</li>
-</ol>
-<p>Applying Bayes’ theorem results in</p>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>
-<strong>Beta posterior distribution</strong>
-<span class="math display">\[
-p| x \sim \text{Beta}(\alpha+x, \beta+n-x)
-\]</span>
-<span class="math display">\[
-f(p| x) = \frac{1}{B(\alpha+x, \beta+n-x)} p^{\alpha+x-1} (1-p)^{\beta+n-x-1}
-\]</span>
-(for a proof see Worksheet B1!)</li>
-</ol>
-<p>The posterior can be summarised by its first two moments (mean and variance):</p>
-<p>Posterior mean:
-<span class="math display">\[
-\mu_{\text{posterior}}= \text{E}(p | x) = \frac{x +\alpha}{n+ m }
+\text{Var}(\theta)  = \frac{\mu_0 (1-\mu_0)}{k_0 + 1} 
 \]</span></p>
-<p>Posterior variance:
+<p>It is important that this does not actually mean that <span class="math inline">\(\theta\)</span> is random.
+It only means that we model the uncertainty about <span class="math inline">\(\theta\)</span> using a beta-distributed random variable. The flexibility of the beta distribution allows to accommodate a large variety of possible scenarios for our prior knowledge using just two parameters.</p>
+<p>Note the mean and variance of the beta prior and the mean and variance of the standardised
+binomial variable <span class="math inline">\(y/n\)</span> have the same form. This is further indication that the binomial
+likelihood and the beta prior are well matched — see the discussion below about “conjugate priors”.</p>
+</div>
+<div id="computing-the-posterior-distribution" class="section level3" number="10.1.3">
+<h3>
+<span class="header-section-number">10.1.3</span> Computing the posterior distribution<a class="anchor" aria-label="anchor" href="#computing-the-posterior-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>After observing data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> with <span class="math inline">\(n_1\)</span> “successes”
+and <span class="math inline">\(n_2 = n-n_1\)</span> “failures”
+we can compute the posterior
+density over <span class="math inline">\(\theta\)</span> using Bayes’ theorem:
 <span class="math display">\[
-\sigma^2_{\text{posterior}}= \text{Var}(p | x) 
-= \frac{\mu_{\text{posterior}}(1-\mu_{\text{posterior}})}{n+m+1 }
+p(\theta| D) = \frac{p(\theta) L(\theta | D) }{p(D)}
+\]</span></p>
+<p>Applying Bayes’ theorem results in the posterior distribution:
+<span class="math display">\[
+\theta| D \sim \text{Beta}(\alpha_1+n_2, \alpha_2+n_2)
+\]</span>
+with density
+<span class="math display">\[
+p(\theta| D) = \frac{1}{B(\alpha_1+n_1, \alpha_2+n_2)} \theta^{\alpha_1+n_1-1} (1-\theta)^{\alpha_2+n_2-1}
+\]</span>
+(For a proof see Worksheet B1.)</p>
+<p>In the corresponding mean parameterisation <span class="math inline">\(\text{Beta}(\mu_1, k_1)\)</span> this results in the following updates:</p>
+<ul>
+<li>The concentration parameter is updated to <span class="math inline">\(k_1 = k_0+n\)</span>
+</li>
+<li>The mean parameter is updated to
+<span class="math display">\[
+\mu_1 = \frac{\alpha_1 + n_1}{k_1} 
+\]</span>
+This can be written as
+<span class="math display">\[
+\begin{split}
+\mu_1 &amp; =  \frac{\alpha_1}{k_1}  + \frac{n_1}{k_1}\\
+    &amp; =  \frac{k_0}{k_1} \frac{\alpha_1}{k_0}   + \frac{n}{k_1} \frac{n_1}{n}\\
+    &amp; = \lambda \mu_0 + (1-\lambda) \hat{\theta}_{ML}\\
+\end{split}
+\]</span>
+with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>. Hence, <span class="math inline">\(\mu_1\)</span> is a
+convex combination of the prior mean and the MLE.</li>
+</ul>
+<p>Therefore, the posterior mean is
+<span class="math display">\[
+\text{E}(\theta | D) = \mu_1 
+\]</span>
+and the posterior variance is
+<span class="math display">\[
+\text{Var}(\theta | D)
+= \frac{\mu_1 (1-\mu_1)}{k_1+1 } 
 \]</span></p>
 </div>
 </div>
@@ -204,78 +236,82 @@ f(p| x) = \frac{1}{B(\alpha+x, \beta+n-x)} p^{\alpha+x-1} (1-p)^{\beta+n-x-1}
 <h2>
 <span class="header-section-number">10.2</span> Properties of Bayesian learning<a class="anchor" aria-label="anchor" href="#properties-of-bayesian-learning"><i class="fas fa-link"></i></a>
 </h2>
-<p>The Beta-Binomial models allows to observe a number of intriguing features
-and properties of Bayesian learning. Many of these extend also to other models as we will see later.</p>
+<p>The beta-binomial model, even though it is one of the simplest possible models, already allows to observe a number of important features and properties of Bayesian learning. Many of these apply also to other models as we will see later.</p>
 <div id="prior-acting-as-pseudodata" class="section level3" number="10.2.1">
 <h3>
 <span class="header-section-number">10.2.1</span> Prior acting as pseudodata<a class="anchor" aria-label="anchor" href="#prior-acting-as-pseudodata"><i class="fas fa-link"></i></a>
 </h3>
-<p>In the expression for the posterior mean and variance you can see that
-<span class="math inline">\(m=\alpha + \beta\)</span> behaves like an implicit sample size connected with prior information!</p>
-<p>Specifically, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> act as <strong>pseudocounts</strong> that influence
-both the posterior mean and the posterior variance, exactly in the same way as conventional data.</p>
-<p>For example, the larger <span class="math inline">\(m\)</span> (and thus larger <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>) the smaller is the posterior variance, with variance decreasing proportional to the inverse of <span class="math inline">\(m\)</span>. If the prior is highly concentrated, i.e. if it has low variance and large precision (=inverse variance) then the implicit data size <span class="math inline">\(m\)</span> is large. Conversely, if the prior has a large variance, then the prior is vague and the implicit data size <span class="math inline">\(m\)</span> is small.</p>
-<p>Hence, a prior has the same effect as if one would add data – but without actually adding data! This is precisely this why a prior acts as a regulariser and prevents overfitting, because it increases effective sample size.</p>
-<p>Another interpretation is that any prior summarises data
+<p>In the expression for the mean and variance you can see that
+the concentration parameter <span class="math inline">\(k_0=\alpha_1 + \alpha_2\)</span> behaves like an
+implicit sample size connected with the prior information about <span class="math inline">\(\theta\)</span>.</p>
+<p>Specifically, <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> act as <strong>pseudocounts</strong> that influence
+both the posterior mean and the posterior variance, exactly in the same way as conventional
+observations.</p>
+<p>For example, the larger <span class="math inline">\(k_0\)</span> (and thus the larger <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>) the smaller is the posterior variance, with variance decreasing proportional to the inverse of <span class="math inline">\(k_0\)</span>. If the prior is highly concentrated, i.e. if it has low variance and large precision (=inverse variance) then the implicit data size <span class="math inline">\(k_0\)</span> is large. Conversely, if the prior has large variance, then the prior is vague and the implicit data size <span class="math inline">\(k_0\)</span> is small.</p>
+<p>Hence, a prior has the same effect as if one would add data — but without actually adding data! This is precisely this why a prior acts as a regulariser and prevents overfitting, because it increases the effective sample size.</p>
+<p>Another interpretation is that a prior summarises data
 that may have been available previously as observations.</p>
 </div>
 <div id="linear-shrinkage-of-mean" class="section level3" number="10.2.2">
 <h3>
 <span class="header-section-number">10.2.2</span> Linear shrinkage of mean<a class="anchor" aria-label="anchor" href="#linear-shrinkage-of-mean"><i class="fas fa-link"></i></a>
 </h3>
-<p>The posterior mean <span class="math inline">\(\mu_{\text{posterior}}\)</span> is a linearly adjusted <span class="math inline">\(\hat{\mu}_{ML}\)</span>. This becomes evident by writing <span class="math inline">\(\mu_{\text{posterior}}\)</span> as</p>
-<p><span class="math display">\[
-\mu_{\text{posterior}} = \lambda \mu_{\text{prior}} + (1-\lambda) \hat{\mu}_{ML}
+<p>In the beta-binomial model the <strong>posterior mean is a convex combination (i.e. the weighted average) of the ML estimate and the prior mean</strong> as can be seen from the update formula
+<span class="math display">\[
+\mu_1 = \lambda \mu_0 + (1-\lambda) \hat{\theta}_{ML}
 \]</span>
 with weight <span class="math inline">\(\lambda \in [0,1]\)</span>
 <span class="math display">\[
-\lambda = \frac{m}{m+n} \,.
+\lambda = \frac{k_0}{k_1} \,.
 \]</span>
-The <strong>posterior mean is a convex combination (i.e. the weighted average) of the ML estimate and the prior mean</strong>. The factor <span class="math inline">\(\lambda\)</span> is called the <strong>shrinkage intensity</strong> — note that it is the ratio of the “prior sample size” (<span class="math inline">\(m\)</span>) and the “effective overall sample size” (<span class="math inline">\(m+n\)</span>).</p>
+Thus, the posterior mean <span class="math inline">\(\mu_1\)</span> is a linearly adjusted <span class="math inline">\(\hat{\theta}_{ML}\)</span>. The factor <span class="math inline">\(\lambda\)</span> is called the <strong>shrinkage intensity</strong> — note that this is the ratio of the “prior sample size” (<span class="math inline">\(k_0\)</span>) and the “effective total sample size” (<span class="math inline">\(k_1\)</span>).</p>
 <ol style="list-style-type: decimal">
-<li><p>This is called <em>shrinkage</em>, because the ML estimator is “shrunk” towards the prior mean (which is often called the “target”, and sometimes the target is zero, and then the terminology “shrinking” makes most sense).</p></li>
+<li><p>This adjustment of the MLE is called <em>shrinkage</em>, because the <span class="math inline">\(\hat{\theta}_{ML}\)</span> is “shrunk” towards the prior mean <span class="math inline">\(\mu_0\)</span> (which is often called the “target”, and sometimes the target is zero, and then the terminology “shrinking” makes most sense).</p></li>
 <li>
-<p>If the shrinkage intensity is zero (<span class="math inline">\(\lambda = 0\)</span>) then the ML point estimator is recovered. This implies <span class="math inline">\(\alpha=0\)</span> and <span class="math inline">\(\beta=0\)</span>, or <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
-<p>Note that using maximum likelihood to estimate the proportion <span class="math inline">\(p\)</span> (for moderate or small <span class="math inline">\(n\)</span>) is the same as Bayesian posterior mean estimation using the Beta-Binomial model with prior <span class="math inline">\(\alpha=0\)</span> and <span class="math inline">\(\beta=0\)</span>. This prior is extremely “u-shaped” and the implicit prior for the ML estimation. (Would you use such a prior intentionally?)</p>
+<p>If the shrinkage intensity is zero (<span class="math inline">\(\lambda = 0\)</span>) then the ML point estimator is recovered. This happens when <span class="math inline">\(\alpha_1=0\)</span> and <span class="math inline">\(\alpha_2=0\)</span> or for <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Remark: using maximum likelihood to estimate <span class="math inline">\(\theta\)</span> (for moderate or small <span class="math inline">\(n\)</span>) is the same as Bayesian posterior mean estimation using the beta-binomial model with prior <span class="math inline">\(\alpha_1=0\)</span> and <span class="math inline">\(\alpha_2=0\)</span>. This prior is extremely “u-shaped” and the implicit prior for the ML estimation. Would you use such a prior intentionally?</p>
 </li>
 <li><p>If the shrinkage intensity is large (<span class="math inline">\(\lambda \rightarrow 1\)</span>) then the posterior mean corresponds to the prior.
-This happens if <span class="math inline">\(n=0\)</span> or if <span class="math inline">\(m\)</span> is very large (implying that the prior is sharply concentrated around the prior mean).</p></li>
-<li><p>Since the ML estimate <span class="math inline">\(\hat{\mu}_{ML}\)</span> is unbiased the Bayesian point estimate is biased (for finite n)! And the bias is induced by the prior mean deviating from the true mean. This is also true more generally, Bayesian learning typically produces biased estimators (but asymptotically they will be unbiased like in ML).</p></li>
-<li><p>That the posterior mean is a linear combination of the ML estimate and the prior mean is not a coincidence. In fact, this is true for all distributions that are exponential families, see e.g. Diaconis and Ylvisaker (1979)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Diaconis, P., and D Ylvisaker. 1979. &lt;em&gt;Conjugate Priors for Exponential Families.&lt;/em&gt;
-Ann. Statist. &lt;strong&gt;7&lt;/strong&gt;:269–281. &lt;a href="https://doi.org/10.1214/aos/1176344611" class="uri"&gt;https://doi.org/10.1214/aos/1176344611&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a>.</p></li>
-<li><p>Furthermore, it is possible (and indeed quite useful for computational reasons!) to formulate Bayes learning in terms of linear shrinkage and using only second moments, see e.g. Hartigan (1969)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hartigan, J. A. 1969. &lt;em&gt;Linear Bayesian methods.&lt;/em&gt; J. Roy. Statist. Soc. B &lt;strong&gt;31&lt;/strong&gt;:446-454
-&lt;a href="https://doi.org/10.1111/j.2517-6161.1969.tb00804.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1969.tb00804.x&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a>. The resulting theory is called “Bayes linear statistics” (Goldstein and Wooff, 2007)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Goldstein, M., and D. Wooff. 2007. &lt;em&gt;Bayes Linear Statistics: Theory and Methods.&lt;/em&gt; Wiley.
-&lt;a href="https://doi.org/10.1002/9780470065662" class="uri"&gt;https://doi.org/10.1002/9780470065662&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a>.</p></li>
+This happens if <span class="math inline">\(n=0\)</span> or if <span class="math inline">\(k_0\)</span> is very large (implying that the prior is sharply concentrated around the prior mean).</p></li>
+<li><p>Since the ML estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> is unbiased the Bayesian point estimate is biased (for finite <span class="math inline">\(n\)</span>!). And the bias is induced by the prior mean deviating from the true mean. This is also true more generally as Bayesian learning typically produces biased estimators (but asymptotically they will be unbiased like in ML).</p></li>
+<li><p>The fact that the posterior mean is a linear combination of the MLE and the prior mean is not a coincidence. In fact, this is true for all distributions that are exponential families, see e.g. Diaconis and Ylvisaker (1979)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Diaconis, P., and D Ylvisaker. 1979. &lt;em&gt;Conjugate Priors for Exponential Families.&lt;/em&gt;
+Ann. Statist. &lt;strong&gt;7&lt;/strong&gt;:269–281. &lt;a href="https://doi.org/10.1214/aos/1176344611" class="uri"&gt;https://doi.org/10.1214/aos/1176344611&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a>.
+Crucially, exponential families can always be parameterised such that the corresponding MLEs are expressed as averages of functions of the data (more technically: the MLE of the mean parameter in an EF is the average of the canonical statistic). In conjunction with a particular type of prior (conjugate priors, always existing for exponential families, see below) this allows to write the update from the prior to posterior mean as a linear adjustment of the MLE.</p></li>
+<li><p>Furthermore, it is possible (and indeed quite useful for computational reasons!) to formulate Bayes learning assuming only first and second moments (i.e. without full distributions) and in terms of linear shrinkage, see e.g. Hartigan (1969)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hartigan, J. A. 1969. &lt;em&gt;Linear Bayesian methods.&lt;/em&gt; J. Roy. Statist. Soc. B &lt;strong&gt;31&lt;/strong&gt;:446-454
+&lt;a href="https://doi.org/10.1111/j.2517-6161.1969.tb00804.x" class="uri"&gt;https://doi.org/10.1111/j.2517-6161.1969.tb00804.x&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a>. The resulting theory is called “Bayes linear statistics” (Goldstein and Wooff, 2007)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Goldstein, M., and D. Wooff. 2007. &lt;em&gt;Bayes Linear Statistics: Theory and Methods.&lt;/em&gt; Wiley.
+&lt;a href="https://doi.org/10.1002/9780470065662" class="uri"&gt;https://doi.org/10.1002/9780470065662&lt;/a&gt;&lt;/p&gt;'><sup>13</sup></a>.</p></li>
 </ol>
 </div>
 <div id="conjugacy-of-prior-and-posterior-distribution" class="section level3" number="10.2.3">
 <h3>
 <span class="header-section-number">10.2.3</span> Conjugacy of prior and posterior distribution<a class="anchor" aria-label="anchor" href="#conjugacy-of-prior-and-posterior-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>In the Beta-Binomial model for estimating the proportion <span class="math inline">\(p\)</span> the choice of the <strong>Beta distribution as prior distribution</strong> along with the binomial likelihood resulted in having the <strong>Beta distribution as posterior distribution</strong> as well.</p>
-<p>If the prior and posterior belong to the same distributional family the prior is called a <strong>conjugate prior</strong>. This will be the case if the prior has the same functional form as the likelihood.</p>
-<p>In the Beta-Binomial model the likelihood is based on the binomial distribution and has the following form
-(only terms depending on the parameter <span class="math inline">\(p\)</span> are shown):
+<p>In the beta-binomial model for estimating the proportion <span class="math inline">\(\theta\)</span> the choice of the <strong>beta distribution as prior distribution</strong> along with the binomial likelihood resulted in having the <strong>beta distribution as posterior distribution</strong> as well.</p>
+<p>If the prior and posterior belong to the same distributional family the prior is called a <strong>conjugate prior</strong>. This will be the case if the prior has the same functional form as the likelihood. Therefore one also says that the prior is conjugate for the likelihood.</p>
+<p>It can be shown that conjugate priors exist for all likelihood functions that are
+based on data generating models that are exponential families.</p>
+<p>In the beta-binomial model the likelihood is based on the binomial distribution and has the following form
+(only terms depending on the parameter <span class="math inline">\(\theta\)</span> are shown):
 <span class="math display">\[
-p^x (1-p)^{n-x}
+\theta^{n_1} (1-\theta)^{n_2}
 \]</span>
-The form of the Beta prior is (again, only showing terms depending on <span class="math inline">\(p\)</span>):
+The form of the beta prior is (again, only showing terms depending on <span class="math inline">\(\theta\)</span>):
 <span class="math display">\[
-p^{\alpha-1} (1-p)^{\beta-1}
+\theta^{\alpha_1-1} (1-\theta)^{\alpha_2-1}
 \]</span>
 Since the posterior is proportional to the product of prior
 and likelihood the posterior will have exactly the same form as
 the prior:
 <span class="math display">\[
-p^{\alpha+x-1} (1-p)^{\beta+n-x-1}
+\theta^{\alpha_1+n_1-1} (1-\theta)^{\alpha_2+n_2-1}
 \]</span>
-Choosing the prior distribution from a family conjugate to the likelihood
-greatly simplifies Bayesian analysis since the Bayes formula can then be written in form of an update formula for the parameters of the Beta distribution:
+Choosing the prior distribution from a family conjugate for the likelihood
+greatly simplifies Bayesian analysis since the Bayes formula can then be written in form of an update formula for the parameters of the beta distribution:
 <span class="math display">\[
-\alpha \rightarrow \alpha +x
+\alpha_1 \rightarrow \alpha_1 + n_1  = \alpha_1 + n \hat{\theta}_{ML}
 \]</span>
 <span class="math display">\[
-\beta \rightarrow \beta +n-x
+\alpha_2 \rightarrow \alpha_2 + n_2 = \alpha_2 + n (1-\hat{\theta}_{ML})
 \]</span></p>
 <p>Thus, conjugate prior distributions are very convenient choices. However, in their application it must be ensured that the prior distribution is flexible enough to encapsulate all prior information that may be available. In cases where this is not the case alternative priors should be used (and most likely this will then require to compute the posterior distribution numerically rather than analytically).</p>
 </div>
@@ -283,229 +319,371 @@ greatly simplifies Bayesian analysis since the Bayes formula can then be written
 <h3>
 <span class="header-section-number">10.2.4</span> Large sample limits of mean and variance<a class="anchor" aria-label="anchor" href="#large-sample-limits-of-mean-and-variance"><i class="fas fa-link"></i></a>
 </h3>
-<p>If <span class="math inline">\(n\)</span> is large and <span class="math inline">\(n &gt;&gt; \alpha, \beta\)</span> the posterior mean and variance become asympotically</p>
+<p>If <span class="math inline">\(n\)</span> is large and <span class="math inline">\(n &gt;&gt; \alpha, \beta\)</span> then <span class="math inline">\(\lambda \rightarrow 0\)</span>
+and hence the posterior mean and variance become asympotically</p>
 <p><span class="math display">\[
-\mu_{\text{posterior}} \overset{a}{=} \frac{x }{n} = \hat\mu_{ML}
+\text{E}(\theta| D)  \overset{a}{=} \frac{n_1 }{n} = \hat{\theta}_{ML}
 \]</span>
 and
 <span class="math display">\[
-\sigma^2_{\text{posterior}} \overset{a}{=}   \frac{\hat\mu_{ML} (1-\hat\mu_{ML})}{n}
+\text{Var}(\theta| D) \overset{a}{=}   \frac{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})}{n}
 \]</span></p>
-<p>Thus, if sample size is large the Bayes’ estimator turns into the ML estimator! Specifically,
-the posterior mean becomes the ML point estimate, and the posterior variance is equal to the asymptotic variance computed via the observed Fisher information!</p>
-<p>Thus, for large <span class="math inline">\(n\)</span> the data dominate and any details about the prior (such as values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> become irrelevant!</p>
+<p>Thus, if the sample size is large then the Bayes’ estimator turns into the ML estimator! Specifically,
+the posterior mean becomes the ML point estimate, and the posterior variance is equal to the asymptotic variance computed via the observed Fisher information.</p>
+<p>Thus, for large <span class="math inline">\(n\)</span> the data dominate and any details about the prior (such as the settings of the hyperparameters <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>) become irrelevant!</p>
 </div>
 <div id="asymptotic-normality-of-the-posterior-distribution" class="section level3" number="10.2.5">
 <h3>
-<span class="header-section-number">10.2.5</span> Asymptotic Normality of the Posterior distribution<a class="anchor" aria-label="anchor" href="#asymptotic-normality-of-the-posterior-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2.5</span> Asymptotic normality of the posterior distribution<a class="anchor" aria-label="anchor" href="#asymptotic-normality-of-the-posterior-distribution"><i class="fas fa-link"></i></a>
 </h3>
 <p>Also known as <strong>Bayesian Central Limit Theorem (CLT)</strong>.</p>
 <p>Under some regularity conditions (such as regular likelihood and positive prior probability for all
-parameter values, finite number of parameters, etc.) for large sample size the Bayesian posterior distribution converges to a Normal distribution
-centered around the MLE and with the variance of the MLE:</p>
+parameter values, finite number of parameters, etc.) for large sample size the Bayesian posterior distribution converges to a normal distribution
+centred around the MLE and with the variance of the MLE:</p>
 <p><span class="math display">\[
-\text{for large $n$:  }  p(\boldsymbol \theta| \boldsymbol x_1, \boldsymbol x_2, \ldots, \boldsymbol x_n) \to N(\hat{\boldsymbol \theta}_{ML}, \text{Var}(\hat{\boldsymbol \theta}_{ML}) )
+\text{for large $n$:  }  p(\boldsymbol \theta| D) \to N(\hat{\boldsymbol \theta}_{ML}, \text{Var}(\hat{\boldsymbol \theta}_{ML}) )
 \]</span></p>
 <p>So not only are the posterior mean and variance converging to the MLE and the variance of the MLE
 for large sample size, but also the posterior distribution itself converges to the sampling distribution!</p>
-<p>This holds generally in many regular cases, not just in our example of the Beta-Bernoulli model.</p>
+<p>This holds generally in many regular cases, not just in the simple case above.</p>
 <p>The Bayesian CLT is generally known
-as the <strong>Bernstein-van Mises theorem</strong> (who discovered it at around 1920-30), but special cases were already known as by Laplace.</p>
-<p>In the Worksheet B1 the asymptotic convergence of the posterior distribution to a normal distribution is demonstrated grapically.</p>
+as the <strong><a href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem">Bernstein-von Mises theorem</a></strong> (who discovered it at around 1920–30), but special cases were already known as by Laplace.</p>
+<p>In the Worksheet B1 the asymptotic convergence of the posterior distribution to a normal distribution is demonstrated graphically.</p>
 </div>
 <div id="posterior-variance-for-finite-n" class="section level3" number="10.2.6">
 <h3>
 <span class="header-section-number">10.2.6</span> Posterior variance for finite <span class="math inline">\(n\)</span><a class="anchor" aria-label="anchor" href="#posterior-variance-for-finite-n"><i class="fas fa-link"></i></a>
 </h3>
-<p>Previously we have the derived a Bayesian point estimate
-for the proportion <span class="math inline">\(p\)</span> as the posterior mean
+<p>From the Bayesian posterior we can obtain a Bayesian point estimate
+for the proportion <span class="math inline">\(\theta\)</span> by computing the posterior mean
 <span class="math display">\[
-\text{E}(p | x ) = \frac{x+\alpha}{n+m} = \hat{p}_{\text{Bayes}}
+\text{E}(\theta | D) = \frac{\alpha_1+n_1}{k_1} = \hat{\theta}_{\text{Bayes}}
 \]</span>
-with posterior variance
+along with the posterior variance
 <span class="math display">\[
-\text{Var}(p | x) = \frac{\hat{p}_{\text{Bayes}} (1-\hat{p}_{\text{Bayes}})}{n+m+1}
+\text{Var}(\theta | D) = \frac{\hat{\theta}_{\text{Bayes}} (1-\hat{\theta}_{\text{Bayes}})}{k_1+1}
 \]</span></p>
-<p>Asymptotically, we have seen that for large <span class="math inline">\(n\)</span> the posterior mean becomes the maximum likelihood estimate (MLE), and the
+<p>Asymptotically for large <span class="math inline">\(n\)</span> the posterior mean becomes the maximum likelihood estimate (MLE), and the
 posterior variance becomes the asymptotic variance of the MLE.
-Thus, for large <span class="math inline">\(n\)</span> the Bayesian estimate will be indistinguishable from the MLE
+Thus, for large <span class="math inline">\(n\)</span> the Bayesian point estimate will be indistinguishable from the MLE
 and shares its favourable properties.</p>
-<p>In addition, for finite sample size the posterior variance will tyically be <em>smaller</em> than both the asymptotic
+<p>In addition, for finite sample size the posterior variance will typically be <em>smaller</em> than both the asymptotic
 posterior variance (for large <span class="math inline">\(n\)</span>) and the prior variance, showing that combining the information
-in the prior and in the data leads to a more efficient estimate.</p>
+available in the prior and in the data leads to a more efficient estimate.</p>
 </div>
 </div>
 <div id="estimating-the-mean-using-the-normal-normal-model" class="section level2" number="10.3">
 <h2>
-<span class="header-section-number">10.3</span> Estimating the mean using the Normal-Normal model<a class="anchor" aria-label="anchor" href="#estimating-the-mean-using-the-normal-normal-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3</span> Estimating the mean using the normal-normal model<a class="anchor" aria-label="anchor" href="#estimating-the-mean-using-the-normal-normal-model"><i class="fas fa-link"></i></a>
 </h2>
 <div id="normal-likelihood" class="section level3" number="10.3.1">
 <h3>
 <span class="header-section-number">10.3.1</span> Normal likelihood<a class="anchor" aria-label="anchor" href="#normal-likelihood"><i class="fas fa-link"></i></a>
 </h3>
-<p>For the <strong>likelihood</strong> we assume as data-generating model the normal distribution with known fixed variance <span class="math inline">\(\sigma^2\)</span>
+<p>As in Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a> where we estimated the mean parameter by
+maximum likelihood we assume as data-generating model the normal distribution
+with unknown mean <span class="math inline">\(\mu\)</span> and known variance <span class="math inline">\(\sigma^2\)</span>:
 <span class="math display">\[
-x| \mu \sim N(\mu, \sigma^2)
+x \sim N(\mu, \sigma^2)
 \]</span>
-This yields as the MLE <span class="math inline">\(\hat\mu_{ML} = \bar{x}\)</span>.</p>
+We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(D = \{x_1, \ldots x_n\}\)</span>.
+This yields using maximum likelihood the estimate <span class="math inline">\(\hat{\mu}_{ML} = \bar{x}\)</span>.</p>
+<p>We note that the MLE <span class="math inline">\(\hat\mu_{ML}\)</span> is expressed as an average of the data points,
+which is what enables the linear shrinkage seen below.</p>
 </div>
 <div id="normal-prior-distribution" class="section level3" number="10.3.2">
 <h3>
 <span class="header-section-number">10.3.2</span> Normal prior distribution<a class="anchor" aria-label="anchor" href="#normal-prior-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>To model the uncertainty about <span class="math inline">\(\mu\)</span> we use the normal distribution <span class="math inline">\(N(\mu, \sigma^2/k)\)</span>
-parameterised by the two parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> (remember <span class="math inline">\(\sigma^2\)</span> is fixed).</p>
-<p>With <span class="math inline">\(\mu=\mu_0\)</span> and <span class="math inline">\(k=m\)</span> we get the <strong>normal prior</strong>
+<p>The <strong>normal distribution is the conjugate distribution for the mean parameter of a
+normal likelihood</strong>, so if we use a normal prior then posterior for <span class="math inline">\(\mu\)</span> is normal as well.</p>
+<p>To model the uncertainty about <span class="math inline">\(\mu\)</span> we use the normal distribution in the form
+<span class="math inline">\(N(\mu, \sigma^2/k)\)</span> with a mean parameter <span class="math inline">\(\mu\)</span> and a concentration
+parameter <span class="math inline">\(k &gt; 0\)</span> (remember that <span class="math inline">\(\sigma^2\)</span> is given and is also used in the likelihood).</p>
+<p>Specifically, we use as normal <strong>prior distribution</strong> for the mean
 <span class="math display">\[
-\mu \sim N(\mu_0, \sigma^2/m)
+\mu \sim N\left(\mu_0, \frac{\sigma^2}{k_0}\right)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0\)</span>
+</li>
+<li>The prior mean parameter is set to <span class="math inline">\(\mu_0\)</span>
+</li>
+</ul>
+<p>Hence the prior mean is
+<span class="math display">\[
+\text{E}(\mu) =  \mu_0
 \]</span>
-with prior mean
-<span class="math inline">\(\text{E}(\mu) = \mu_0\)</span>
-and prior variance
-<span class="math inline">\(\text{Var}(\mu) = \frac{\sigma^2}{m}\)</span>
-where <span class="math inline">\(m\)</span> is the implied sample size from the prior. Note that <span class="math inline">\(m\)</span> does not need to be an integer value!</p>
+and the prior variance
+<span class="math display">\[
+\text{Var}(\mu)  = \frac{\sigma^2}{k_0}
+\]</span>
+where the concentration parameter <span class="math inline">\(k_0\)</span> corresponds the implied sample size of the prior.
+Note that <span class="math inline">\(k_0\)</span> does not need to be an integer value.</p>
 </div>
 <div id="normal-posterior-distribution" class="section level3" number="10.3.3">
 <h3>
 <span class="header-section-number">10.3.3</span> Normal posterior distribution<a class="anchor" aria-label="anchor" href="#normal-posterior-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>posterior distribution</strong> after observing <span class="math inline">\(n\)</span> samples <span class="math inline">\(x_1, \ldots x_n\)</span>
-is normal with <span class="math inline">\(\mu=\mu_1\)</span> and <span class="math inline">\(k=m+n\)</span>
+<p>After observing data <span class="math inline">\(D\)</span> the <strong>posterior distribution</strong>
+is also normal with updated parameters <span class="math inline">\(\mu=\mu_1\)</span> and <span class="math inline">\(k_1\)</span>
 <span class="math display">\[
-\mu | x_1, \ldots x_n \sim N(\mu_1, \sigma^2/(m+n))
-\]</span>
-with posterior mean
+\mu | D \sim N\left(\mu_1, \frac{\sigma^2}{k_1}\right)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(k_1 = k_0 +n\)</span>
+</li>
+<li>The posterior mean parameter is updated to
 <span class="math display">\[
-\text{E}(\mu |  x_1, \ldots x_n) = \mu_1 =\frac{m \mu_0 + n \bar{x}}{n+m}  = \lambda \mu_0 + (1-\lambda) \hat\mu_{ML}
+\mu_1 = \lambda \mu_0 + (1-\lambda) \hat\mu_{ML}
 \]</span>
-with <span class="math inline">\(\lambda = \frac{m}{n+m}\)</span>. Note the linear shrinkage of
-<span class="math inline">\(\hat\mu_{ML}\)</span> towards <span class="math inline">\(\mu_0\)</span>!</p>
-<p>The corresponding posterior variance is
+with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>.
+This can be seen as linear shrinkage of
+<span class="math inline">\(\hat\mu_{ML}\)</span> towards the prior mean <span class="math inline">\(\mu_0\)</span>.</li>
+</ul>
+<p>(For a proof see Worksheet B2.)</p>
+<p>The posterior mean is
 <span class="math display">\[
-\text{Var}(\mu |  x_1, \ldots x_n) = \frac{\sigma^2}{n+m}
+\text{E}(\mu | D) = \mu_1
 \]</span>
-Thus, the <strong>normal distribution is the conjugate distribution to the mean parameter in the normal likelihood</strong>.</p>
+and the posterior variance is
+<span class="math display">\[
+\text{Var}(\mu | D)  = \frac{\sigma^2}{k_1}
+\]</span></p>
 </div>
-<div id="large-sample-asymptotics-and-stein-paradox" class="section level3" number="10.3.4">
+<div id="large-sample-asymptotics" class="section level3" number="10.3.4">
 <h3>
-<span class="header-section-number">10.3.4</span> Large sample asymptotics and Stein paradox<a class="anchor" aria-label="anchor" href="#large-sample-asymptotics-and-stein-paradox"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3.4</span> Large sample asymptotics<a class="anchor" aria-label="anchor" href="#large-sample-asymptotics"><i class="fas fa-link"></i></a>
 </h3>
-<p>For <span class="math inline">\(n\)</span> large and <span class="math inline">\(n &gt;&gt; m\)</span> we get
+<p>For <span class="math inline">\(n\)</span> large and <span class="math inline">\(n &gt;&gt; k_0\)</span> the shrinkage intensity <span class="math inline">\(\lambda \rightarrow 0\)</span>
+and and <span class="math inline">\(k_1 \rightarrow n\)</span>. As a result
 <span class="math display">\[
-\text{E}(\mu |  x_1, \ldots x_n) \overset{a}{=}  \hat\mu_{ML}
+\text{E}(\mu |  D) \overset{a}{=}  \hat\mu_{ML}
 \]</span>
 <span class="math display">\[
-\text{Var}(\mu |  x_1, \ldots x_n) \overset{a}{=} \frac{\sigma^2}{n}
+\text{Var}(\mu |  D) \overset{a}{=} \frac{\sigma^2}{n}
 \]</span>
-i.e. the MLE and its asymptotic variance!</p>
-<p>Note that the posterior variance <span class="math inline">\(\frac{\sigma^2}{n+m}\)</span> is smaller than the asymptotic variance <span class="math inline">\(\frac{\sigma^2}{n}\)</span> and the prior variance <span class="math inline">\(\frac{\sigma^2}{m}\)</span>.</p>
+i.e. we recover the MLE and its asymptotic variance!</p>
+<p>Note that for finite <span class="math inline">\(n\)</span> the posterior variance <span class="math inline">\(\frac{\sigma^2}{n+k_0}\)</span> is smaller
+than both the asymptotic variance <span class="math inline">\(\frac{\sigma^2}{n}\)</span> of the MLE and the prior variance <span class="math inline">\(\frac{\sigma^2}{k_0}\)</span>.</p>
 </div>
 </div>
 <div id="estimating-the-variance-using-the-inverse-gamma-normal-model" class="section level2" number="10.4">
 <h2>
-<span class="header-section-number">10.4</span> Estimating the variance using the inverse-Gamma-Normal model<a class="anchor" aria-label="anchor" href="#estimating-the-variance-using-the-inverse-gamma-normal-model"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4</span> Estimating the variance using the inverse-gamma-normal model<a class="anchor" aria-label="anchor" href="#estimating-the-variance-using-the-inverse-gamma-normal-model"><i class="fas fa-link"></i></a>
 </h2>
-<div id="inverse-gamma-distribution" class="section level3" number="10.4.1">
+<div id="normal-likelihood-1" class="section level3" number="10.4.1">
 <h3>
-<span class="header-section-number">10.4.1</span> Inverse Gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.1</span> Normal likelihood<a class="anchor" aria-label="anchor" href="#normal-likelihood-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Next, we study a common Bayesian model for estimating the variance parameter of the normal distribution. For this we use the inverse Gamma distribution:
+<p>As data generating model we use
+normal distribution
 <span class="math display">\[
-x \sim \text{Inv-Gam}(\alpha, \beta)
+x  \sim N(\mu, \sigma^2)
 \]</span>
-This distribution is closely linked with the Gamma distribution — the inverse of <span class="math inline">\(x\)</span> is Gamma-distributed with inverted scale parameter:
-<span class="math display">\[\frac{1}{x} \sim \text{Gam}(\alpha, \beta^{-1})\]</span></p>
-<p>For use as prior and posterior we employ a different parameterisation with
-<span class="math inline">\(\mu=\beta/(\alpha-1)\)</span> and <span class="math inline">\(k=2(\alpha-1)\)</span>:
+with unknown variance <span class="math inline">\(\sigma^2\)</span> and known mean <span class="math inline">\(\mu\)</span>. This yields as maximum likelihood estimate for the variance
 <span class="math display">\[
-x \sim \text{Inv-Gam}\left(\alpha=\frac{k+2}{2}, \beta=\frac{k\mu}{2} \right) 
-     = \text{Inv-Gam}(\mu, k)
-\]</span>
-The reason for choosing the mean parameterisation using <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> instead of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is that this parameterisation simplifies the Bayesian update rule for the mean.</p>
-<p>The first two moments of the inverse Gamma distribution are
-<span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1} = \mu\]</span>
-and
-<span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)} =\frac{2 \mu^2}{k-2}\]</span></p>
-<p>The inverse Gamma distribution is also known under two further alternative names: 1) inverse scaled chi-squared distribution and 2) one-dimensional inverse Wishart distribution.</p>
+\widehat{\sigma^2}_{ML}= \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\]</span></p>
+<p>Note that, again, the MLE is an average (of a quadratic function of the
+individual data points). This enables linear shrinkage of the MLE as seen below.</p>
 </div>
-<div id="normal-likelihoood" class="section level3" number="10.4.2">
+<div id="ig-prior-distribution" class="section level3" number="10.4.2">
 <h3>
-<span class="header-section-number">10.4.2</span> Normal likelihoood<a class="anchor" aria-label="anchor" href="#normal-likelihoood"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.2</span> IG prior distribution<a class="anchor" aria-label="anchor" href="#ig-prior-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>As data likelihood / generating model we use
-normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> with given fixed mean <span class="math inline">\(\mu\)</span>.</p>
-<p>This yields as MLE <span class="math inline">\(\widehat\sigma^2_{ML}= \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2\)</span></p>
-</div>
-<div id="inverse-gamma-prior-distribution" class="section level3" number="10.4.3">
-<h3>
-<span class="header-section-number">10.4.3</span> Inverse Gamma prior distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-prior-distribution"><i class="fas fa-link"></i></a>
-</h3>
-<p>For the prior distribution we use the inverse Gamma
-distribution with <span class="math inline">\(k=m\)</span> and <span class="math inline">\(\mu=\sigma^2_0\)</span>
+<p>To model the uncertainty about the variance we use the inverse-gamma (IG) distribution, also known
+as inverse Wishart (IW) distribution (see Appendix for details of this distribution).
+The IG distribution is conjugate for the variance parameter in the normal likelihood, hence both the prior and the posterior distribution are IG.<br>
+As we use the Wishart parameterisation we may equally well call this
+an inverse Wishart (IW) prior, and the whole model IW-normal model.</p>
+<p>Specifically, as prior distribution for <span class="math inline">\(\sigma^2\)</span> we assume using
+the mean parameter <span class="math inline">\(\mu\)</span> and concentration parameter <span class="math inline">\(\kappa\)</span>:
 <span class="math display">\[
-\sigma^2 \sim \text{Inv-Gam}(\mu=\sigma^2_0, k=m) 
-\]</span>
-The corresponding prior mean is
+\sigma^2 \sim  W^{-1}_1(\psi=\kappa_0 \sigma^2_0, \nu=\kappa_0+2)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(\kappa_0\)</span>
+</li>
+<li>The prior mean parameter is set to <span class="math inline">\(\sigma^2_0\)</span>
+</li>
+</ul>
+<p>The corresponding prior mean is
 <span class="math display">\[
 \text{E}(\sigma^2) = \sigma^2_0
 \]</span>
 and the prior variance is
 <span class="math display">\[
-\text{Var}(\sigma^2) = \frac{2 \sigma_0^4}{m-2}
+\text{Var}(\sigma^2) = \frac{2 \sigma_0^4}{\kappa_0-2}
 \]</span>
-(note that <span class="math inline">\(m &gt; 2\)</span>)</p>
+(note that <span class="math inline">\(\kappa_0 &gt; 2\)</span> for the variance to exist)</p>
 </div>
-<div id="inverse-gamma-posterior-distribution" class="section level3" number="10.4.4">
+<div id="ig-posterior-distribution" class="section level3" number="10.4.3">
 <h3>
-<span class="header-section-number">10.4.4</span> Inverse Gamma posterior distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-posterior-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.3</span> IG posterior distribution<a class="anchor" aria-label="anchor" href="#ig-posterior-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>As the inverse Gammma distribution is conjugate to the
-normal likelihood the posterior distribution is inverse Gamma as well:
+<p>After observing <span class="math inline">\(D = \{ x_1 \ldots, x_n\}\)</span> the posterior distribution is
+also IG with updated parameters:
 <span class="math display">\[
-\sigma^2| x_1 \ldots, x_n \sim \text{Inv-Gam}(\mu=\sigma^2_1, k=m+n)
+\sigma^2| D \sim W^{-1}_1(\psi=\kappa_1 \sigma^2_1, \nu=\kappa_1+2)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(\kappa_1 = \kappa_0+n\)</span>
+</li>
+<li>The posterior mean parameter update follows the standard linear shrinkage rule:
+<span class="math display">\[
+\sigma^2_1 =  \lambda \sigma^2_0 + (1-\lambda) \widehat{\sigma^2}_{ML}
 \]</span>
-with <span class="math inline">\(\sigma^2_1 = \frac{\sigma^2_0 m + n \widehat\sigma^2_{ML}}{m+n}\)</span>.</p>
+with <span class="math inline">\(\lambda=\frac{\kappa_0}{\kappa_1}\)</span>.</li>
+</ul>
 <p>The posterior mean is
 <span class="math display">\[
-\text{E}(\sigma^2 | x_1 \ldots, x_n) = \sigma^2_1
+\text{E}(\sigma^2 | D) = \sigma^2_1
 \]</span>
 and the posterior variance
 <span class="math display">\[
-\text{Var}(\sigma^2 | x_1 \ldots, x_n) = \frac{ 2 \sigma^4_1}{m+n-2}
-\]</span>
-The update formula for the posterior mean of the variance follows the usual linear shrinkage rule:
-<span class="math display">\[
-\sigma^2_1 =  \lambda \sigma^2_0 + (1-\lambda) \widehat\sigma^2_{ML}
-\]</span>
-with <span class="math inline">\(\lambda=\frac{m}{m+n}\)</span>.</p>
+\text{Var}(\sigma^2 | D) = \frac{ 2 \sigma^4_1}{\kappa_1-2}
+\]</span></p>
 </div>
-<div id="large-sample-asymptotics" class="section level3" number="10.4.5">
+<div id="large-sample-asymptotics-1" class="section level3" number="10.4.4">
 <h3>
-<span class="header-section-number">10.4.5</span> Large sample asymptotics<a class="anchor" aria-label="anchor" href="#large-sample-asymptotics"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.4</span> Large sample asymptotics<a class="anchor" aria-label="anchor" href="#large-sample-asymptotics-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>For <span class="math inline">\(n\)</span> large and <span class="math inline">\(n &gt;&gt; m\)</span> we get
+<p>For large sample size <span class="math inline">\(n\)</span> with <span class="math inline">\(n &gt;&gt; \kappa_0\)</span>
+the shrinkage intensity vanishes
+(<span class="math inline">\(\lambda \rightarrow 0\)</span>) and therefore <span class="math inline">\(\sigma^2_1 \rightarrow \widehat{\sigma^2}_{ML}\)</span>. We also find that <span class="math inline">\(\kappa_1-2 \rightarrow n\)</span>.</p>
+<p>This results in the asymptotic posterior mean
 <span class="math display">\[
-\text{E}(\sigma^2 |  x_1, \ldots x_n) \overset{a}{=}  \widehat\sigma^2_{ML}
+\text{E}(\sigma^2 |  D) \overset{a}{=}  \widehat{\sigma^2}_{ML}
 \]</span>
+and the asymptotic
+posterior variance
 <span class="math display">\[
-\text{Var}(\sigma^2 |  x_1, \ldots x_n) \overset{a}{=} \frac{2 \sigma^4}{n}
+\text{Var}(\sigma^2 |  D) \overset{a}{=} \frac{2 (\widehat{\sigma^2}_{ML})^2}{n}
 \]</span>
-which is indeed the MLE of <span class="math inline">\(\sigma^2\)</span> and its asymptotic variance!</p>
+Thus we recover the MLE of <span class="math inline">\(\sigma^2\)</span> and its asymptotic variance.</p>
 </div>
-<div id="gamma-normal-model-for-the-precision" class="section level3" number="10.4.6">
+<div id="other-equivalent-update-rules" class="section level3" number="10.4.5">
 <h3>
-<span class="header-section-number">10.4.6</span> Gamma-Normal model for the precision<a class="anchor" aria-label="anchor" href="#gamma-normal-model-for-the-precision"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4.5</span> Other equivalent update rules<a class="anchor" aria-label="anchor" href="#other-equivalent-update-rules"><i class="fas fa-link"></i></a>
 </h3>
-<p>Instead of estimating the variance we may wish to estimate the precision, i.e. the inverse variance. In the above we have used an inverse Gamma distribution for the prior and posterior of the variance. Thus, to model the precision we may therefore use a Gamma prior distribution and a normal likelihood, resulting in a Gamma posterior distribution.</p>
+<p>Above the update rule from prior to posterior inverse gamma distribution is
+stated for the mean parameterisation:</p>
+<ul>
+<li><span class="math inline">\(\kappa_0 \rightarrow \kappa_1 = \kappa_0+n\)</span></li>
+<li>
+<span class="math inline">\(\sigma^2_0 \rightarrow \sigma^2_1 = \lambda \sigma^2_0 + (1-\lambda) \widehat{\sigma^2}_{ML}\)</span> with
+<span class="math inline">\(\lambda=\frac{\kappa_0}{\kappa_1}\)</span>
+</li>
+</ul>
+<p>This has the advantage that the mean of the inverse gamma distribution
+is updated directly, and that the prior and posterior variance is also
+straightforward to compute.</p>
+<p>The same update rule can also be expressed in terms of the other parameterisations.
+In terms of the conventional parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> of the inverse gamma
+distribution the update rule is</p>
+<ul>
+<li><span class="math inline">\(\alpha_0 \rightarrow \alpha_1 = \alpha_0 +\frac{n}{2}\)</span></li>
+<li><span class="math inline">\(\beta_0 \rightarrow \beta_1 = \beta_0 + \frac{n}{2} \widehat{\sigma^2}_{ML} = \beta_0 + \frac{1}{2} \sum_{i=1}^n (x_i-\mu)^2\)</span></li>
+</ul>
+<p>For the parameters <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span> of the univariate inverse Wishart distribution
+the update rule is</p>
+<ul>
+<li><span class="math inline">\(\nu_0 \rightarrow \nu_1 = \nu_0 +n\)</span></li>
+<li><span class="math inline">\(\psi_0 \rightarrow \psi_1 = \psi_0 + n \widehat{\sigma^2}_{ML} = \psi_0 + \sum_{i=1}^n (x_i-\mu)^2\)</span></li>
+</ul>
+<p>For the parameters <span class="math inline">\(\tau^2\)</span> and <span class="math inline">\(\nu\)</span> of the scaled inverse chi-squared
+distribution the update rule is</p>
+<ul>
+<li><span class="math inline">\(\nu_0 \rightarrow \nu_1 = \nu_0 +n\)</span></li>
+<li><span class="math inline">\(\tau^2_0 \rightarrow \tau^2_1 = \frac{\nu_0}{\nu_1} \tau^2_0 + \frac{n}{\nu_1} \widehat{\sigma^2}_{ML}\)</span></li>
+</ul>
+<p>(See Worksheet B3 for proof of equivalence of all above update rules.)</p>
 </div>
-<div id="joint-estimation-of-mean-and-variance" class="section level3" number="10.4.7">
+</div>
+<div id="estimating-the-precision-using-the-gamma-normal-model" class="section level2" number="10.5">
+<h2>
+<span class="header-section-number">10.5</span> Estimating the precision using the gamma-normal model<a class="anchor" aria-label="anchor" href="#estimating-the-precision-using-the-gamma-normal-model"><i class="fas fa-link"></i></a>
+</h2>
+<div id="mle-of-the-precision" class="section level3" number="10.5.1">
 <h3>
-<span class="header-section-number">10.4.7</span> Joint estimation of mean and variance<a class="anchor" aria-label="anchor" href="#joint-estimation-of-mean-and-variance"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.5.1</span> MLE of the precision<a class="anchor" aria-label="anchor" href="#mle-of-the-precision"><i class="fas fa-link"></i></a>
 </h3>
-<p>It is possible to combine the Normal-Normal for the mean
-and the Inverse-Gamma-Normal model into a joint model for the mean and variance.</p>
-<p>This implies having a joint prior and a joint posterior for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
-<p>The resulting joint point estimates are identical to the above individual estimates.</p>
+<p>Instead of estimating the variance <span class="math inline">\(\sigma^2\)</span> we may wish to estimate the precision <span class="math inline">\(w1/\sigma^2\)</span>, i.e. the inverse of variance.</p>
+<p>As above the data generating model is a
+normal distribution
+<span class="math display">\[
+x  \sim N(\mu, 1/w)
+\]</span>
+with unknown precision <span class="math inline">\(w\)</span> and known mean <span class="math inline">\(\mu\)</span>. This yields as maximum likelihood estimate
+(easily derived thanks to the invariance principle)
+<span class="math display">\[
+\hat{w}_{ML} =  \frac{ 1}{\widehat{\sigma^2}_{ML} } = \frac{1}{\frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2}
+\]</span>
+Crucially, the MLE of the precision <span class="math inline">\(w\)</span> is not an average itself (instead, it is a function of an average).
+As a consequence, as seen below, the posterior mean of <span class="math inline">\(w\)</span> cannot be written as linear adjustment of the MLE.</p>
+</div>
+<div id="gamma-wishart-prior" class="section level3" number="10.5.2">
+<h3>
+<span class="header-section-number">10.5.2</span> Gamma (Wishart) prior<a class="anchor" aria-label="anchor" href="#gamma-wishart-prior"><i class="fas fa-link"></i></a>
+</h3>
+<p>For modelling the variance we have used an inverse gamma (inverse Wishart) distribution for the prior and posterior distributions. Thus, in order to model the precision we therefore now use a gamma (Wishart) distribution.</p>
+<p>Specifically, we use the Wishart distribution in the mean parameterisation (see Appendix):
+<span class="math display">\[
+w \sim  W_1(s^2 = w_0/k_0, k=k_0)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0\)</span>
+</li>
+<li>The prior mean parameter is set to <span class="math inline">\(w_0\)</span>
+</li>
+</ul>
+<p>The corresponding prior mean is
+<span class="math display">\[
+\text{E}(w) = w_0
+\]</span>
+and the prior variance is
+<span class="math display">\[
+\text{Var}(\sigma^2) = 2 w_0^2/ k_0
+\]</span></p>
+</div>
+<div id="gamma-wishart-posterior" class="section level3" number="10.5.3">
+<h3>
+<span class="header-section-number">10.5.3</span> Gamma / Wishart posterior<a class="anchor" aria-label="anchor" href="#gamma-wishart-posterior"><i class="fas fa-link"></i></a>
+</h3>
+<p>After observing <span class="math inline">\(D = \{ x_1 \ldots, x_n\}\)</span> the posterior distribution is
+also gamma resp. Wishart with updated parameters:</p>
+<p><span class="math display">\[
+w | D \sim   W_1(s^2 = w_1/k_1, k=k_1)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(k_1 = k_0+n\)</span>
+</li>
+<li>The posterior mean parameter update follows the update:
+<span class="math display">\[
+\frac{1}{w_1} =  \lambda \frac{1}{w_0}  + (1-\lambda)  \frac{1}{\hat{w}_{ML}} 
+\]</span>
+with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>.
+Crucially, the linear update is applied to the inverse of the precision
+but <strong>not</strong> to the precision itself. This is because the MLE of the precision parameter cannot be expressed as an average.</li>
+<li>Equivalent update rules are for the inverse scale parameter <span class="math inline">\(s^2\)</span>
+<span class="math display">\[
+\frac{1}{s^2_1} =  \frac{1}{s^2_0}  + n \widehat{\sigma^2}_{ML} 
+\]</span>
+and for the rate parameter <span class="math inline">\(\beta = 1/(2 s^2)\)</span> of the gamma distribution
+<span class="math display">\[
+\beta_1 =  \beta_0 + \frac{n}{2} \widehat{\sigma^2}_{ML} 
+\]</span>
+This is the form you will find most often in textbooks.</li>
+</ul>
+<p>The posterior mean is
+<span class="math display">\[
+\text{E}(w | D) = w_1
+\]</span>
+and the posterior variance
+<span class="math display">\[
+\text{Var}(w | D) = 2 w_1^2/ k_1
+\]</span></p>
 
 </div>
 </div>
@@ -519,11 +697,10 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#bayesian-learning-in-practise"><span class="header-section-number">10</span> Bayesian learning in practise</a></li>
 <li>
-<a class="nav-link" href="#estimating-a-proportion-using-the-beta-binomial-model"><span class="header-section-number">10.1</span> Estimating a proportion using the Beta-Binomial model</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#estimating-a-proportion-using-the-beta-binomial-model"><span class="header-section-number">10.1</span> Estimating a proportion using the beta-binomial model</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#binomial-likelihood"><span class="header-section-number">10.1.1</span> Binomial likelihood</a></li>
-<li><a class="nav-link" href="#excursion-properties-of-the-beta-distribution"><span class="header-section-number">10.1.2</span> Excursion: Properties of the Beta distribution</a></li>
-<li><a class="nav-link" href="#beta-prior-distribution"><span class="header-section-number">10.1.3</span> Beta prior distribution</a></li>
-<li><a class="nav-link" href="#computing-the-posterior-distribution"><span class="header-section-number">10.1.4</span> Computing the posterior distribution</a></li>
+<li><a class="nav-link" href="#beta-prior-distribution"><span class="header-section-number">10.1.2</span> Beta prior distribution</a></li>
+<li><a class="nav-link" href="#computing-the-posterior-distribution"><span class="header-section-number">10.1.3</span> Computing the posterior distribution</a></li>
 </ul>
 </li>
 <li>
@@ -532,27 +709,32 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 <li><a class="nav-link" href="#linear-shrinkage-of-mean"><span class="header-section-number">10.2.2</span> Linear shrinkage of mean</a></li>
 <li><a class="nav-link" href="#conjugacy-of-prior-and-posterior-distribution"><span class="header-section-number">10.2.3</span> Conjugacy of prior and posterior distribution</a></li>
 <li><a class="nav-link" href="#large-sample-limits-of-mean-and-variance"><span class="header-section-number">10.2.4</span> Large sample limits of mean and variance</a></li>
-<li><a class="nav-link" href="#asymptotic-normality-of-the-posterior-distribution"><span class="header-section-number">10.2.5</span> Asymptotic Normality of the Posterior distribution</a></li>
+<li><a class="nav-link" href="#asymptotic-normality-of-the-posterior-distribution"><span class="header-section-number">10.2.5</span> Asymptotic normality of the posterior distribution</a></li>
 <li><a class="nav-link" href="#posterior-variance-for-finite-n"><span class="header-section-number">10.2.6</span> Posterior variance for finite \(n\)</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#estimating-the-mean-using-the-normal-normal-model"><span class="header-section-number">10.3</span> Estimating the mean using the Normal-Normal model</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#estimating-the-mean-using-the-normal-normal-model"><span class="header-section-number">10.3</span> Estimating the mean using the normal-normal model</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#normal-likelihood"><span class="header-section-number">10.3.1</span> Normal likelihood</a></li>
 <li><a class="nav-link" href="#normal-prior-distribution"><span class="header-section-number">10.3.2</span> Normal prior distribution</a></li>
 <li><a class="nav-link" href="#normal-posterior-distribution"><span class="header-section-number">10.3.3</span> Normal posterior distribution</a></li>
-<li><a class="nav-link" href="#large-sample-asymptotics-and-stein-paradox"><span class="header-section-number">10.3.4</span> Large sample asymptotics and Stein paradox</a></li>
+<li><a class="nav-link" href="#large-sample-asymptotics"><span class="header-section-number">10.3.4</span> Large sample asymptotics</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#estimating-the-variance-using-the-inverse-gamma-normal-model"><span class="header-section-number">10.4</span> Estimating the variance using the inverse-Gamma-Normal model</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#inverse-gamma-distribution"><span class="header-section-number">10.4.1</span> Inverse Gamma distribution</a></li>
-<li><a class="nav-link" href="#normal-likelihoood"><span class="header-section-number">10.4.2</span> Normal likelihoood</a></li>
-<li><a class="nav-link" href="#inverse-gamma-prior-distribution"><span class="header-section-number">10.4.3</span> Inverse Gamma prior distribution</a></li>
-<li><a class="nav-link" href="#inverse-gamma-posterior-distribution"><span class="header-section-number">10.4.4</span> Inverse Gamma posterior distribution</a></li>
-<li><a class="nav-link" href="#large-sample-asymptotics"><span class="header-section-number">10.4.5</span> Large sample asymptotics</a></li>
-<li><a class="nav-link" href="#gamma-normal-model-for-the-precision"><span class="header-section-number">10.4.6</span> Gamma-Normal model for the precision</a></li>
-<li><a class="nav-link" href="#joint-estimation-of-mean-and-variance"><span class="header-section-number">10.4.7</span> Joint estimation of mean and variance</a></li>
+<a class="nav-link" href="#estimating-the-variance-using-the-inverse-gamma-normal-model"><span class="header-section-number">10.4</span> Estimating the variance using the inverse-gamma-normal model</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#normal-likelihood-1"><span class="header-section-number">10.4.1</span> Normal likelihood</a></li>
+<li><a class="nav-link" href="#ig-prior-distribution"><span class="header-section-number">10.4.2</span> IG prior distribution</a></li>
+<li><a class="nav-link" href="#ig-posterior-distribution"><span class="header-section-number">10.4.3</span> IG posterior distribution</a></li>
+<li><a class="nav-link" href="#large-sample-asymptotics-1"><span class="header-section-number">10.4.4</span> Large sample asymptotics</a></li>
+<li><a class="nav-link" href="#other-equivalent-update-rules"><span class="header-section-number">10.4.5</span> Other equivalent update rules</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#estimating-the-precision-using-the-gamma-normal-model"><span class="header-section-number">10.5</span> Estimating the precision using the gamma-normal model</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mle-of-the-precision"><span class="header-section-number">10.5.1</span> MLE of the precision</a></li>
+<li><a class="nav-link" href="#gamma-wishart-prior"><span class="header-section-number">10.5.2</span> Gamma (Wishart) prior</a></li>
+<li><a class="nav-link" href="#gamma-wishart-posterior"><span class="header-section-number">10.5.3</span> Gamma / Wishart posterior</a></li>
 </ul>
 </li>
 </ul>
@@ -571,7 +753,7 @@ and the Inverse-Gamma-Normal model into a joint model for the mean and variance.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 28 February 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

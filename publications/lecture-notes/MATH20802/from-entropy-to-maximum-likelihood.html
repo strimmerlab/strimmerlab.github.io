@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.32 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -67,7 +67,8 @@
 <li><a class="" href="prediction-and-variable-selection.html"><span class="header-section-number">18</span> Prediction and variable selection</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -426,12 +427,12 @@ In statistics and information theory it was introduced by Kullback and Leibler (
 <span class="header-section-number">2.2.4</span> KL divergence examples<a class="anchor" aria-label="anchor" href="#kl-divergence-examples"><i class="fas fa-link"></i></a>
 </h3>
 <div class="example">
-<p><span id="exm:klbernoulli" class="example"><strong>Example 2.8  </strong></span>KL divergence between two Bernoulli distributions <span class="math inline">\(\text{Ber}(p)\)</span> and <span class="math inline">\(\text{Ber}(q)\)</span>:</p>
-<p>The “success” probabilities for the two distributions are <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>,
-respectively, and the complementary “failure” probabilities are <span class="math inline">\(1-p\)</span> and <span class="math inline">\(1-q\)</span>.
+<p><span id="exm:klbernoulli" class="example"><strong>Example 2.8  </strong></span>KL divergence between two Bernoulli distributions <span class="math inline">\(\text{Ber}(\theta_1)\)</span> and <span class="math inline">\(\text{Ber}(\theta_2)\)</span>:</p>
+<p>The “success” probabilities for the two distributions are <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>,
+respectively, and the complementary “failure” probabilities are <span class="math inline">\(1-\theta_1\)</span> and <span class="math inline">\(1-\theta_2\)</span>.
 With this we get for the KL divergence
 <span class="math display">\[
-D_{\text{KL}}(\text{Ber}(p), \text{Ber}(q))=p \log\left( \frac{p}{q}\right) + (1-p) \log\left(\frac{1-p}{1-q}\right)
+D_{\text{KL}}(\text{Ber}(\theta_1), \text{Ber}(\theta_2))=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span></p>
 </div>
 <div class="example">
@@ -465,43 +466,34 @@ the variances are equal. Then we get
 </h3>
 <p>KL information measures the divergence of two distributions.
 We may thus use relative entropy to measure the divergence between two distributions in the same family, separated in parameter space only by some small <span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
-<p>Let <span class="math inline">\(h(\boldsymbol \theta) = D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta}) = \text{E}_{F_{\boldsymbol \theta_0}}\left( \log f(\boldsymbol x| \boldsymbol \theta_0) - \log f(\boldsymbol x| \boldsymbol \theta) \right)\)</span>.
-Note that the first distribution in the KL divergence is fixed
-at <span class="math inline">\(F_{\boldsymbol \theta_0}\)</span> and the second distribution is varied. Then <span class="math inline">\(h(\boldsymbol \theta_0+\boldsymbol \varepsilon) = D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon})\)</span>.
-Since the KL divergence vanishes only when the two arguments are identical <span class="math inline">\(h(\boldsymbol \theta)\)</span> reaches a minimum at <span class="math inline">\(\boldsymbol \theta_0\)</span> with <span class="math inline">\(h(\boldsymbol \theta_0)=0\)</span> and flat gradient <span class="math inline">\(\nabla h(\boldsymbol \theta_0) =0\)</span>.</p>
-<p>We can therefore approximate <span class="math inline">\(h(\boldsymbol \theta_0+\boldsymbol \varepsilon)\)</span> by
-a quadratic function around <span class="math inline">\(\boldsymbol \theta_0\)</span>
+<p>First, we consider <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon}) = \text{E}_{F_{\boldsymbol \theta}}\left( \log f(\boldsymbol x| \boldsymbol \theta) - \log f(\boldsymbol x| \boldsymbol \theta+\boldsymbol \varepsilon) \right) = h(\boldsymbol \varepsilon)\)</span>
+where <span class="math inline">\(\boldsymbol \theta\)</span> is kept constant and <span class="math inline">\(\boldsymbol \varepsilon\)</span> is varying. From the properties
+of the KL divergence we know that <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon})\geq 0\)</span>
+and that it becomes zero only if <span class="math inline">\(\boldsymbol \varepsilon=0\)</span>. Thus, by construction the function
+<span class="math inline">\(h(\boldsymbol \varepsilon)\)</span> achieves a true minimum of <span class="math inline">\(h(0)=0\)</span> at <span class="math inline">\(\boldsymbol \varepsilon=0\)</span>,
+with a vanishing gradient <span class="math inline">\(\nabla h(0)=0\)</span> and a positive definite Hessian matrix <span class="math inline">\(\nabla \nabla^T h(0)\)</span>. Therfore we can approximate it by a quadratic function around <span class="math inline">\(\boldsymbol \varepsilon=0\)</span>:
 <span class="math display">\[
-\begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta_0}, F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}) = h(\boldsymbol \theta_0+\boldsymbol \varepsilon) &amp; \approx \frac{1}{2} \boldsymbol \varepsilon^T  \nabla \nabla^T h(\boldsymbol \theta_0) \boldsymbol \varepsilon\\
-&amp; = \frac{1}{2} \boldsymbol \varepsilon^T \left( -\text{E}_{F_{\boldsymbol \theta_0}} \nabla \nabla^T  \log f(\boldsymbol x| \boldsymbol \theta_0)   \right)   \boldsymbol \varepsilon\\
-&amp; = \frac{1}{2} \boldsymbol \varepsilon^T  \underbrace{\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0)}_{\text{expected Fisher information} }\boldsymbol \varepsilon\\
-\end{split}
+h(\boldsymbol \varepsilon) \approx \frac{1}{2} \boldsymbol \varepsilon^T \, \nabla \nabla^T h(0) \, \boldsymbol \varepsilon
 \]</span>
-This yields the <strong>expected Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta_0\)</span> as the negative
-expected Hessian matrix of the log-density at <span class="math inline">\(\boldsymbol \theta_0\)</span>.
-Since <span class="math inline">\(\boldsymbol \theta_0\)</span> is a minimum the expected Fisher information matrix must be positive definite!</p>
-<p>We can use the above approximation also to compute the divergence <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \theta_0})\)</span> where the first argument varies and the second is kept fixed:
+The Hessian matrix <span class="math inline">\(\nabla \nabla^T h(0)\)</span> is computed as <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{F_{\boldsymbol \theta}} \nabla \nabla^T \log f(\boldsymbol x| \boldsymbol \theta)\)</span> and is the negative expected Hessian matrix of the log-density at <span class="math inline">\(\boldsymbol \theta\)</span>. It is called the <strong>expected Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta\)</span>.
+The KL divergence can thus be locally be approximated by
+<span class="math display">\[
+D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon})\approx \frac{1}{2} \boldsymbol \varepsilon^T  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \boldsymbol \varepsilon
+\]</span></p>
+<p>As second possibility we may also vary the first argument in the KL divergence.
+It is straightforward to show that this leads to the same approximation to second order
+in <span class="math inline">\(\boldsymbol \varepsilon\)</span>:
 <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \theta_0}) &amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0+\boldsymbol \varepsilon)\, \boldsymbol \varepsilon\\
+D_{\text{KL}}(F_{\boldsymbol \theta+\boldsymbol \varepsilon}, F_{\boldsymbol \theta}) 
+&amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\, \boldsymbol \varepsilon\\
 \end{split} 
-\]</span>
-In a linear approximation <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0+\boldsymbol \varepsilon) \approx \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0) + \boldsymbol \Delta_{\boldsymbol \varepsilon}\)</span>
-each element of the matrix <span class="math inline">\(\boldsymbol \Delta_{\boldsymbol \varepsilon}\)</span> is the scalar product of <span class="math inline">\(\boldsymbol \varepsilon\)</span>
-and the gradient of the corresponding element in <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0)\)</span>
-evaluated at <span class="math inline">\(\boldsymbol \theta_0\)</span>. Therefore <span class="math inline">\(\boldsymbol \varepsilon^T \boldsymbol \Delta_{\boldsymbol \varepsilon} \boldsymbol \varepsilon\)</span>
-is of <em>cubic order</em> in <span class="math inline">\(\boldsymbol \varepsilon\)</span> and hence
-<span class="math display">\[
-\begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta_0+\boldsymbol \varepsilon}, F_{\boldsymbol \theta_0}) &amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0+\boldsymbol \varepsilon) \boldsymbol \varepsilon\\
-&amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0) \boldsymbol \varepsilon+ \boldsymbol \varepsilon^T \boldsymbol \Delta_{\boldsymbol \varepsilon} \boldsymbol \varepsilon\\
-&amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta_0) \boldsymbol \varepsilon
-\end{split} 
-\]</span>
-keeping only terms quadratic in <span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
-<p>Note that there is no data involved in computing the expected Fisher information, hence it is purely a property of the model, or more precisely of the space of the models indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
-In the next Chapter we will study a related quantity, the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
+\]</span></p>
+<p>Computing the expected Fisher information involves no observed data,
+it is purely a property of the model, or more precisely of the
+model family indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
+In the next Chapter we will study a related quantity,
+the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
 </div>
 <div id="examples" class="section level3" number="2.3.2">
 <h3>
@@ -509,21 +501,21 @@ In the next Chapter we will study a related quantity, the <em>observed Fisher in
 </h3>
 <div class="example">
 <p><span id="exm:expectedfisherbernoulli" class="example"><strong>Example 2.11  </strong></span>Expected Fisher information for the Bernoulli distribution:</p>
-<p>The log-probability mass function of the Bernoulli <span class="math inline">\(\text{Ber}(p)\)</span> distribution is
+<p>The log-probability mass function of the Bernoulli <span class="math inline">\(\text{Ber}(\theta)\)</span> distribution is
 <span class="math display">\[
-\log f(x | p) = x \log(p) + (1-x) \log(1-p)
+\log p(x | \theta) = x \log(\theta) + (1-x) \log(1-\theta)
 \]</span>
-where <span class="math inline">\(p\)</span> is the proportion of “success”.
-The second derivative with regard to the parameter <span class="math inline">\(p\)</span> is
+where <span class="math inline">\(\theta\)</span> is the probability of “success”.
+The second derivative with regard to the parameter <span class="math inline">\(\theta\)</span> is
 <span class="math display">\[
-\frac{d^2}{dp^2} \log f(x | p)  =  -\frac{x}{p^2}-  \frac{1-x}{(1-p)^2}
+\frac{d^2}{d\theta^2} \log p(x | \theta)  =  -\frac{x}{\theta^2}-  \frac{1-x}{(1-\theta)^2}
 \]</span>
-Since <span class="math inline">\(\text{E}(x) = p\)</span> we get as Fisher information
+Since <span class="math inline">\(\text{E}(x) = \theta\)</span> we get as Fisher information
 <span class="math display">\[
 \begin{split}
-I^{\text{Fisher}}(p) &amp; = -\text{E}\left(\frac{d^2}{dp^2} \log f(x | p)  \right)\\
-                           &amp;= \frac{p}{p^2}+  \frac{1-p}{(1-p)^2} \\
-                            &amp;= \frac{1}{p(1-p)}\\
+I^{\text{Fisher}}(\theta) &amp; = -\text{E}\left(\frac{d^2}{d\theta^2} \log p(x | \theta)  \right)\\
+                           &amp;= \frac{\theta}{\theta^2}+  \frac{1-\theta}{(1-\theta)^2} \\
+                            &amp;= \frac{1}{\theta(1-\theta)}\\
 \end{split}
 \]</span></p>
 </div>
@@ -531,17 +523,17 @@ I^{\text{Fisher}}(p) &amp; = -\text{E}\left(\frac{d^2}{dp^2} \log f(x | p)  \rig
 <p><span id="exm:quadapproxklbernoulli" class="example"><strong>Example 2.12  </strong></span>Quadratic approximations of the KL divergence between two Bernoulli distributions:</p>
 <p>From Example <a href="from-entropy-to-maximum-likelihood.html#exm:klbernoulli">2.8</a> we have as KL divergence
 <span class="math display">\[
-D_{\text{KL}}\left (\text{Ber}(p_1), \text{Ber}(p_2) \right)=p_1 \log\left( \frac{p_1}{p_2}\right) + (1-p_1) \log\left(\frac{1-p_1}{1-p_2}\right)
+D_{\text{KL}}\left (\text{Ber}(\theta_1), \text{Ber}(\theta_2) \right)=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span>
 and from
 Example <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisherbernoulli">2.11</a> the corresponding expected Fisher information.</p>
 <p>The quadratic approximation implies that
 <span class="math display">\[
-D_{\text{KL}}\left( \text{Ber}(p), \text{Ber}(p + \varepsilon) \right) \approx \frac{\varepsilon^2}{2}  I^{\text{Fisher}}(p) =  \frac{\varepsilon^2}{2 p (1-p)}
+D_{\text{KL}}\left( \text{Ber}(\theta), \text{Ber}(\theta + \varepsilon) \right) \approx \frac{\varepsilon^2}{2}  I^{\text{Fisher}}(\theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
 \]</span>
 and also that
 <span class="math display">\[
-D_{\text{KL}}\left( \text{Ber}(p+\varepsilon), \text{Ber}(p) \right) \approx \frac{\varepsilon^2}{2} I^{\text{Fisher}}(p) =  \frac{\varepsilon^2}{2 p (1-p)}
+D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \approx \frac{\varepsilon^2}{2} I^{\text{Fisher}}(\theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
 \]</span></p>
 <p>In Worksheet E1 this is verified by using a second order Taylor series applied to the KL divergence.</p>
 </div>
@@ -561,7 +553,7 @@ The gradient with respect to <span class="math inline">\(\mu\)</span> and <span 
 \end{pmatrix}
 \]</span>
 Hint for calculating the gradient: replace <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(v\)</span> and then take the partial derivative with regard to <span class="math inline">\(v\)</span>, then substitute back.</p>
-<p>The Hessian matrix is
+<p>The corresponding Hessian matrix is
 <span class="math display">\[
 \nabla \nabla^T \log f(x | \mu, \sigma^2) =
 \begin{pmatrix}
@@ -577,6 +569,15 @@ the expected Fisher information matrix as the negative expected Hessian matrix i
 \boldsymbol I^{\text{Fisher}}\left(\mu,\sigma^2\right) = \begin{pmatrix} \frac{1}{\sigma^2} &amp; 0 \\ 0 &amp; \frac{1}{2\sigma^4} \end{pmatrix}
 \]</span></p>
 </div>
+<div class="example">
+<p><span id="exm:expectedfisheriidset" class="example"><strong>Example 2.14  </strong></span>Expected Fisher information for a set of independent and identically distributed random variables.</p>
+<p>Assume that a random variable <span class="math inline">\(x \sim F_{\boldsymbol \theta}\)</span> has log-density <span class="math inline">\(\log f(x| \boldsymbol \theta)\)</span>
+and expected Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>.
+The expected Fisher information <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta)\)</span>
+for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim F_{\boldsymbol \theta}\)</span>
+is computed from the joint log-density <span class="math inline">\(\log f(x_1, \ldots, x_n) = \sum_{i}^n \log f(x_i| \boldsymbol \theta)\)</span>.
+This yields <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{F_{\boldsymbol \theta}} \nabla \nabla^T \sum_{i}^n \log f(x_i| \boldsymbol \theta) = \sum_{i}^n \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = n \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>.</p>
+</div>
 </div>
 </div>
 <div id="entropy-learning-and-maximum-likelihood" class="section level2" number="2.4">
@@ -587,7 +588,7 @@ the expected Fisher information matrix as the negative expected Hessian matrix i
 <h3>
 <span class="header-section-number">2.4.1</span> The relative entropy between true model and approximating model<a class="anchor" aria-label="anchor" href="#the-relative-entropy-between-true-model-and-approximating-model"><i class="fas fa-link"></i></a>
 </h3>
-<p>Assume we have observations <span class="math inline">\(x_1, \ldots, x_n\)</span>. The data is sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(G_{\boldsymbol \theta}\)</span>
+<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data is sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(G_{\boldsymbol \theta}\)</span>
 indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
 <p>The relative entropy <span class="math inline">\(D_{\text{KL}}(F,G_{\boldsymbol \theta})\)</span> then measures the divergence of the approximation <span class="math inline">\(G_{\boldsymbol \theta}\)</span>
 from the unknown true model <span class="math inline">\(F\)</span>. It can be written as:
@@ -641,10 +642,7 @@ However, since we actually don’t know <span class="math inline">\(F\)</span> t
 is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section.
 Thus, instead of minimising the KL divergence
 <span class="math inline">\(D_{\text{KL}}(F, G_{\boldsymbol \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, G_{\boldsymbol \theta})\)</span> which
-is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\boldsymbol \theta}| D)\)</span>.
-Note that the entropy of the true distribution <span class="math inline">\(F\)</span> (and the corresponding empirical
-distribution <span class="math inline">\(\hat{F}\)</span>) that does not depend on the parameters <span class="math inline">\(\boldsymbol \theta\)</span>
-and hence it does not matter when minimising the divergence.</p>
+is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\boldsymbol \theta}| D)\)</span>.</p>
 <p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>) to minimising the KL divergence of the approximating model and the unknown true model!</p>
 <p><span class="math display">\[
 \begin{split}
@@ -654,7 +652,7 @@ and hence it does not matter when minimising the divergence.</p>
 \end{split}
 \]</span></p>
 <p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(G_{\boldsymbol \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>.</p>
-<p>As a consequence of the close link of maximum likelhood and relative entropy
+<p>As a consequence of the close link of maximum likelihood and relative entropy
 maximum likelihood inherits for large <span class="math inline">\(n\)</span> (and only then!) all the optimality properties from KL divergence. These will be discussed in more detail later in the course.</p>
 </div>
 <div id="further-connections" class="section level3" number="2.4.3">
@@ -733,7 +731,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 28 February 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
