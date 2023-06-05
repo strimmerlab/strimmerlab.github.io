@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>4 Quadratic approximation and normal asymptotics | Statistics 2: Likelihood and Bayes</title>
+<meta name="author" content="Korbinian Strimmer">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="4 Quadratic approximation and normal asymptotics | Statistics 2: Likelihood and Bayes">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4 Quadratic approximation and normal asymptotics | Statistics 2: Likelihood and Bayes">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="4.1 Multivariate statistics for random vectors  4.1.1 Covariance and correlation Assume a scalar random variable \(x\) with mean \(\text{E}(x) = \mu\). The corresponding variance is given by \[...">
+<meta property="og:description" content="4.1 Multivariate statistics for random vectors  4.1.1 Covariance and correlation Assume a scalar random variable \(x\) with mean \(\text{E}(x) = \mu\). The corresponding variance is given by \[...">
+<meta name="twitter:description" content="4.1 Multivariate statistics for random vectors  4.1.1 Covariance and correlation Assume a scalar random variable \(x\) with mean \(\text{E}(x) = \mu\). The corresponding variance is given by \[...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistics 2: Likelihood and Bayes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="active" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="" href="conditioning-and-bayes-rule.html"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></li>
+<li><a class="" href="models-with-latent-variables-and-missing-data.html"><span class="header-section-number">8</span> Models with latent variables and missing data</a></li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="bayesian-learning-in-practise.html"><span class="header-section-number">10</span> Bayesian learning in practise</a></li>
+<li><a class="" href="bayesian-model-comparison.html"><span class="header-section-number">11</span> Bayesian model comparison</a></li>
+<li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="quadratic-approximation-and-normal-asymptotics" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Quadratic approximation and normal asymptotics<a class="anchor" aria-label="anchor" href="#quadratic-approximation-and-normal-asymptotics"><i class="fas fa-link"></i></a>
+</h1>
+<div id="multivariate-statistics-for-random-vectors" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Multivariate statistics for random vectors<a class="anchor" aria-label="anchor" href="#multivariate-statistics-for-random-vectors"><i class="fas fa-link"></i></a>
+</h2>
+<div id="covariance-and-correlation" class="section level3" number="4.1.1">
+<h3>
+<span class="header-section-number">4.1.1</span> Covariance and correlation<a class="anchor" aria-label="anchor" href="#covariance-and-correlation"><i class="fas fa-link"></i></a>
+</h3>
+<p>Assume a scalar random variable <span class="math inline">\(x\)</span> with mean <span class="math inline">\(\text{E}(x) = \mu\)</span>. The corresponding variance is given by
+<span class="math display">\[
+\begin{split}
+\text{Var}(x) &amp; = \text{E}\left((x-\mu)^2 \right) \\
+        &amp; =\text{E}\left( (x-\mu)(x-\mu) \right) \\
+        &amp; = \text{E}(x^2)-\mu^2 \\
+\end{split}
+\]</span></p>
+<p>For a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T\)</span> the mean <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> is simply comprised of the means of its components, i.e. <span class="math inline">\(\boldsymbol \mu= (\mu_1, \ldots, \mu_d)^T\)</span>. Thus, the mean of a random vector of dimension is a vector of of the same length.</p>
+<p>The variance of a random vector of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>:
+<span class="math display">\[
+\begin{split}
+\text{Var}(\boldsymbol x) &amp;= \underbrace{\boldsymbol \Sigma}_{d\times d} = (\sigma_{ij}) = \begin{pmatrix}
+    \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    \sigma_{d1} &amp; \dots &amp; \sigma_{dd}
+\end{pmatrix} \\
+  &amp;=\text{E}\left(\underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d\times 1} \underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1\times d}\right) \\
+  &amp; = \text{E}(\boldsymbol x\boldsymbol x^T)-\boldsymbol \mu\boldsymbol \mu^T \\
+\end{split}
+\]</span>
+The entries of the covariance matrix <span class="math inline">\(\sigma_{ij} =\text{Cov}(x_i, x_j)\)</span> describe the covariance between the random variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>. The covariance matrix is symmetric, hence <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. The diagonal entries <span class="math inline">\(\sigma_{ii} = \text{Cov}(x_i, x_i) = \text{Var}(x_i) = \sigma_i^2\)</span> correspond to the variances of the components of <span class="math inline">\(\boldsymbol x\)</span>. The covariance matrix is <strong>positive semi-definite</strong>, i.e. the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> are all positive or equal to zero. However, in practise one aims to use non-singular covariance matrices, with all eigenvalues positive, so that they are invertible.</p>
+<p>A covariance matrix can be factorised into the product
+<span class="math display">\[
+\boldsymbol \Sigma= \boldsymbol V^{\frac{1}{2}} \boldsymbol P\boldsymbol V^{\frac{1}{2}}
+\]</span>
+where <span class="math inline">\(\boldsymbol V\)</span> is a diagonal matrix containing the variances
+<span class="math display">\[
+\boldsymbol V= \begin{pmatrix}
+    \sigma_{11} &amp; \dots &amp; 0\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    0 &amp; \dots &amp; \sigma_{dd}
+\end{pmatrix}
+\]</span>
+and the matrix <span class="math inline">\(\boldsymbol P\)</span> (“upper case rho”) is the symmetric <strong>correlation matrix</strong>
+<span class="math display">\[
+\boldsymbol P= (\rho_{ij}) = \begin{pmatrix}
+    1 &amp; \dots &amp; \rho_{1d}\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    \rho_{d1} &amp; \dots &amp; 1
+\end{pmatrix}   = \boldsymbol V^{-\frac{1}{2}} \boldsymbol \Sigma\boldsymbol V^{-\frac{1}{2}}
+\]</span>
+Thus, the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is defined as
+<span class="math display">\[
+\rho_{ij} = \text{Cor}(x_i,x_j) = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}
+\]</span></p>
+<p>For univariate <span class="math inline">\(x\)</span> and scalar constant <span class="math inline">\(a\)</span> the variance of <span class="math inline">\(a x\)</span> equals <span class="math inline">\(\text{Var}(a x) = a^2 \text{Var}(x)\)</span>. For a random vector <span class="math inline">\(\boldsymbol x\)</span> of dimension <span class="math inline">\(d\)</span> and matrix <span class="math inline">\(\boldsymbol A\)</span> of dimension <span class="math inline">\(m \times d\)</span> this generalises to <span class="math inline">\(\text{Var}(\boldsymbol Ax) = \boldsymbol A\text{Var}(\boldsymbol x) \boldsymbol A^T\)</span>.</p>
+</div>
+<div id="multivariate-normal-distribution" class="section level3" number="4.1.2">
+<h3>
+<span class="header-section-number">4.1.2</span> Multivariate normal distribution<a class="anchor" aria-label="anchor" href="#multivariate-normal-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>The density of a normally distributed scalar variable <span class="math inline">\(x \sim N(\mu, \sigma^2)\)</span> with mean <span class="math inline">\(\text{E}(x) = \mu\)</span> and variance <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span> is
+<span class="math display">\[
+f(x |\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
+\]</span></p>
+<p>The univariate normal distribution for a scalar <span class="math inline">\(x\)</span> generalises to the <strong>multivariate normal distribution</strong> for a vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with with mean <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> and covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma\)</span>. The corresponding density is
+<span class="math display">\[
+f(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = (2\pi)^{-\frac{d}{2}} \det(\boldsymbol \Sigma)^{-\frac{1}{2}} \exp\left({{-\frac{1}{2}} \underbrace{\underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1 \times d} \underbrace{\boldsymbol \Sigma^{-1}}_{d \times d} \underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d \times 1} }_{1 \times 1 = \text{scalar!}}}\right)
+\]</span></p>
+<p>For <span class="math inline">\(d=1\)</span> we have <span class="math inline">\(\boldsymbol x=x\)</span>, <span class="math inline">\(\boldsymbol \mu= \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma= \sigma^2\)</span> so that the multivariate normal density reduces to the univariate normal density.</p>
+<div class="example">
+<p><span id="exm:mlemultinorm" class="example"><strong>Example 4.1  </strong></span>Maximum likelihood estimates of the parameters of the multivariate normal distribution:</p>
+<p>Maximising the log-likelihood based on the multivariate normal density yields the
+MLEs for <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span>. These are generalisations of the MLEs for the mean <span class="math inline">\(\mu\)</span>
+and variance <span class="math inline">\(\sigma^2\)</span> of the univariate normal as encountered in Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmeanvar">3.4</a>.</p>
+<p>The estimates can be written in three different ways:</p>
+<p><strong>a) data vector notation</strong></p>
+<p>with <span class="math inline">\(\boldsymbol x_1,\ldots, \boldsymbol x_n\)</span> the <span class="math inline">\(n\)</span> vector-valued observations from the multivariate normal:</p>
+<p>MLE for the mean:
+<span class="math display">\[
+\hat{\boldsymbol \mu}_{ML} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k = \bar{\boldsymbol x}
+\]</span></p>
+<p>MLE for the covariance:
+<span class="math display">\[\underbrace{\widehat{\boldsymbol \Sigma}_{ML}}_{d \times d} = \frac{1}{n}\sum^{n}_{k=1} \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)}_{d \times 1} \; \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)^T}_{1 \times d}\]</span>
+Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the estimator of the covariance matrix.</p>
+<p>With <span class="math inline">\(\overline{\boldsymbol x\boldsymbol x^T} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k \boldsymbol x_k^T\)</span>
+we can also write
+<span class="math display">\[
+\widehat{\boldsymbol \Sigma}_{ML} = \overline{\boldsymbol x\boldsymbol x^T} - \bar{\boldsymbol x} \bar{\boldsymbol x}^T
+\]</span></p>
+<p><strong>b) data component notation</strong></p>
+<p>with <span class="math inline">\(x_{ki}\)</span> the <span class="math inline">\(i\)</span>-th component of the <span class="math inline">\(k\)</span>-th sample <span class="math inline">\(\boldsymbol x_k\)</span>:</p>
+<p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki} \text{ with } 
+\hat{\boldsymbol \mu}=\begin{pmatrix}
+    \hat{\mu}_{1}       \\
+    \vdots \\
+    \hat{\mu}_{d}
+\end{pmatrix}\]</span></p>
+<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} \left(x_{ki}-\hat{\mu}_i\right) (\
+x_{kj}-\hat{\mu}_j) \text{ with } \widehat{\boldsymbol \Sigma} = (\hat{\sigma}_{ij})
+\]</span></p>
+<p><strong>c) data matrix notation</strong></p>
+<p>with <span class="math inline">\(\boldsymbol X= \begin{pmatrix} \boldsymbol x_1^T \\ ... \\ \boldsymbol x_n^T \\\end{pmatrix}\)</span> as a data matrix containing the samples in its rows. Note that this is the <em>statistics convention</em> — in much of the engineering and computer science literature the data matrix is often transposed and samples are stored in the columns. Thus, the formulas below are only correct assuming the statistics convention.</p>
+<p><span class="math display">\[
+\hat{\boldsymbol \mu} = \frac{1}{n} \boldsymbol X^T \boldsymbol 1_n
+\]</span>
+Here <span class="math inline">\(\boldsymbol 1_n\)</span> is a vector of length <span class="math inline">\(n\)</span> containing 1 at each component.</p>
+<p><span class="math display">\[
+\hat{\boldsymbol \Sigma} = \frac{1}{n} \boldsymbol X^T \boldsymbol X- \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T
+\]</span>
+To simplify the expression for the estimate of the covariance matrix
+one often assumes that the data matrix is centered, i.e. that <span class="math inline">\(\hat{\boldsymbol \mu} = 0\)</span>.</p>
+<p>Because of the ambiguity in convention (machine learning versus statistics convention) and the often implicit use
+of centered data matrices the matrix notation is often a source of confusion. Hence, using the other two
+notations is generally preferable.</p>
+</div>
+</div>
+</div>
+<div id="approximate-distribution-of-maximum-likelihood-estimates" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> Approximate distribution of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#approximate-distribution-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+</h2>
+<div id="quadratic-log-likelihood-resulting-from-normal-model" class="section level3" number="4.2.1">
+<h3>
+<span class="header-section-number">4.2.1</span> Quadratic log-likelihood resulting from normal model<a class="anchor" aria-label="anchor" href="#quadratic-log-likelihood-resulting-from-normal-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>Assume we observe a single sample <span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma^2)\)</span> with known covariance. The corresponding log-likelihood for <span class="math inline">\(\boldsymbol \mu\)</span> is
+<span class="math display">\[
+l_1(\boldsymbol \mu| \boldsymbol x) = C - \frac{1}{2}(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)
+\]</span>
+where <span class="math inline">\(C\)</span> is a constant that does not depend on <span class="math inline">\(\boldsymbol \mu\)</span>.
+Note that the log-likelihood is exactly quadratic and the maximum lies
+at <span class="math inline">\((\boldsymbol x, C)\)</span>.</p>
+</div>
+<div id="quadratic-approximation-of-a-log-likelihood-function" class="section level3" number="4.2.2">
+<h3>
+<span class="header-section-number">4.2.2</span> Quadratic approximation of a log-likelihood function<a class="anchor" aria-label="anchor" href="#quadratic-approximation-of-a-log-likelihood-function"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now consider the quadratic approximation of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta| D)\)</span> for
+around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
+<div class="inline-figure"><img src="fig/lecture4_p1.PNG" width="80%" style="display: block; margin: auto;"></div>
+<p>We assume the underlying model is regular and that
+<span class="math inline">\(\nabla l_n(\hat{\boldsymbol \theta}_{ML} | D) = 0\)</span>.</p>
+<p>The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> is
+<span class="math display">\[
+f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla f(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
+(\boldsymbol x-\boldsymbol x_0)^T \nabla \nabla^T f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \ldots
+\]</span>
+Applied to the log-likelihood function this yields</p>
+<p><span class="math display">\[l_n(\boldsymbol \theta| D) \approx l_n(\hat{\boldsymbol \theta}_{ML} | D)- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)\]</span></p>
+<p>This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, l_n(\hat{\boldsymbol \theta}_{ML} | D) )\)</span>.
+Note the natural appearance
+of the observed Fisher information <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> in the quadratic term.
+There is no linear term because of the vanishing gradient at the MLE.</p>
+<p>Crucially, we realise that the approximation has the same form as if <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> was a sample
+from a multivariate normal distribution with mean <span class="math inline">\(\boldsymbol \theta\)</span> and with covariance given by the <em>inverse</em>
+observed Fisher information! Note that this requires a positive definite observed
+Fisher information matrix so that <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> is actually invertible!</p>
+<div class="example">
+<p><span id="exm:quadapproxproportion" class="example"><strong>Example 4.2  </strong></span>Quadratic approximation of the log-likelihood for a proportion:</p>
+<p>From Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a> we have the log-likelihood
+<span class="math display">\[
+l_n(p | D) = n \left( \bar{x} \log p + (1-\bar{x}) \log(1-p) \right)
+\]</span>
+and the MLE
+<span class="math display">\[
+\hat{p}_{ML} = \bar{x} 
+\]</span>
+and from Example <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.5</a> the observed Fisher information
+<span class="math display">\[
+\begin{split}
+J_n(\hat{p}_{ML}) = \frac{n}{\bar{x} (1-\bar{x})}
+\end{split}
+\]</span>
+The log-likelihood at the MLE is
+<span class="math display">\[
+l_n(\hat{p}_{ML} | D) = n \left( \bar{x} \log \bar{x} + (1-\bar{x}) \log(1-\bar{x}) \right)
+\]</span>
+This allows us to construct the quadratic approximation of the log-likelihood
+around the MLE as
+<span class="math display">\[
+\begin{split}
+l_n(p| D) &amp; \approx  l_n(\hat{p}_{ML} | D) - \frac{1}{2} J_n(\hat{p}_{ML}) (p-\hat{p}_{ML})^2 \\
+   &amp;= n \left( \bar{x} \log \bar{x} + (1-\bar{x}) \log(1-\bar{x}) - \frac{(p-\bar{x})^2}{2 \bar{x} (1-\bar{x})}  \right) \\
+&amp;=  C + \frac{ \bar{x} p -\frac{1}{2} p^2}{ \bar{x} (1-\bar{x})/n} \\
+\end{split}
+\]</span>
+The constant <span class="math inline">\(C\)</span> does not depend on <span class="math inline">\(p\)</span>, its function is to match the approximate log-likelihood at the MLE with that of the corresponding original log-likelihood. The
+approximate log-likelihood takes on the form of a normal log-likelihood
+(Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>) for one observation
+of <span class="math inline">\(\hat{p}_{ML}=\bar{x}\)</span> from <span class="math inline">\(N\left(p, \frac{\bar{x} (1-\bar{x})}{n} \right)\)</span>.</p>
+<p>The following figure shows the above log-likelihood function and its quadratic approximation
+for example data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>:</p>
+<div class="inline-figure"><img src="04-likelihood4_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+</div>
+</div>
+<div id="asymptotic-normality-of-maximum-likelihood-estimates" class="section level3" number="4.2.3">
+<h3>
+<span class="header-section-number">4.2.3</span> Asymptotic normality of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#asymptotic-normality-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+</h3>
+<p>Intuitively, it makes sense to associate large amount of curvature of the log-likelihood at the MLE with low variance of the MLE (and conversely, low amount of curvature with high variance).</p>
+<p>From the above we see that</p>
+<ul>
+<li>normality implies a quadratic log-likelihood,</li>
+<li>conversely, taking an quadratic approximation of the log-likelihood implies
+approximate normality, and</li>
+<li>in the quadratic approximation <strong>the inverse observed Fisher information plays the role of the covariance</strong> of the MLE.</li>
+</ul>
+<p>This suggests the following theorem: <strong>Asymptotically, the MLE is normally distributed around the true parameter and with covariance equal to the inverse of the observed Fisher information</strong>:</p>
+<p><span class="math display">\[\hat{\boldsymbol \theta}_{ML} \overset{a}{\sim}\underbrace{N_d}_{\text{multivariate normal}}\left(\underbrace{\boldsymbol \theta}_{\text{mean vector}},\underbrace{\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{-1}}_{\text{ covariance matrix}}\right)\]</span></p>
+<p>This theorem about the distributional properties of MLEs greatly enhances the usefulness of the method of maximum likelihood. It implies that in regular settings maximum likelihood is not just a method for obtaining point estimates but also also provides estimates of their uncertainty.</p>
+<p>However, we need to clarify what “asymptotic” actually means in the context of the above theorem:</p>
+<ol style="list-style-type: decimal">
+<li><p>Primarily, it means to have sufficient sample size so that the log-likelihood <span class="math inline">\(l_n(\boldsymbol \theta)\)</span>
+is sufficiently well approximated by a quadratic function around <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.
+The better the local quadratic approximation the better the normal approximation!</p></li>
+<li><p>In a regular model with positive definite observed Fisher information matrix this is guaranteed for large sample size <span class="math inline">\(n \rightarrow \infty\)</span> thanks to the central limit theorem).</p></li>
+<li><p>However, <span class="math inline">\(n\)</span> going to infinity is in fact not always required for the normal approximation to hold!
+Depending on the particular model a good local fit to a quadratic log-likelihood
+may be available also for finite <span class="math inline">\(n\)</span>. As a trivial example, for the normal log-likelihood it is valid for any <span class="math inline">\(n\)</span>.</p></li>
+<li><p>In the other hand, in non-regular models (with nondifferentiable log-likelihood at the MLE and/or a singular Fisher information matrix) no amount of data, not even <span class="math inline">\(n\rightarrow \infty\)</span>, will make the quadratic approximation work.</p></li>
+</ol>
+<p>Remarks:</p>
+<ul>
+<li>The asymptotic normality of MLEs was first discussed in Fisher (1925)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher R. A. 1925. &lt;em&gt;Theory of statistical estimation.&lt;/em&gt; Math. Proc. Cambridge Philos. Soc. &lt;strong&gt;22&lt;/strong&gt;:700–725. &lt;a href="https://doi.org/10.1017/S0305004100009580" class="uri"&gt;https://doi.org/10.1017/S0305004100009580&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a>
+</li>
+</ul>
+<ul>
+<li><p>The technical details of the above considerations are worked out in the theory of <a href="https://en.wikipedia.org/wiki/Local_asymptotic_normality">locally asymptotically normal (LAN) models</a> pioneered in 1960 by <a href="https://en.wikipedia.org/wiki/Lucien_Le_Cam">Lucien LeCam (1924–2000)</a>.</p></li>
+<li><p>There are also methods to obtain higher-order (higher than quadratic and thus non-normal) asymptotic approximations. These relate to so-called <a href="https://en.wikipedia.org/wiki/Saddlepoint_approximation_method">saddle point approximations</a>.</p></li>
+</ul>
+</div>
+<div id="asymptotic-optimal-efficiency" class="section level3" number="4.2.4">
+<h3>
+<span class="header-section-number">4.2.4</span> Asymptotic optimal efficiency<a class="anchor" aria-label="anchor" href="#asymptotic-optimal-efficiency"><i class="fas fa-link"></i></a>
+</h3>
+<p>Assume now that <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> is an arbitrary and unbiased estimator for <span class="math inline">\(\boldsymbol \theta\)</span> and
+the underlying data generating model is regular with density <span class="math inline">\(f(\boldsymbol x| \boldsymbol \theta)\)</span>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Harald_Cram%C3%A9r">H. Cramér (1893–1985)</a>,
+<a href="https://en.wikipedia.org/wiki/C._R._Rao">C. R. Rao (1920–)</a>
+and others demonstrated in 1945 the so-called <strong>information inequality</strong>,
+<span class="math display">\[
+\text{Var}(\hat{\boldsymbol \theta}) \geq \frac{1}{n} \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)^{-1}
+\]</span>
+which puts a lower bound on the variance of an estimator for <span class="math inline">\(\boldsymbol \theta\)</span>.
+(Note for <span class="math inline">\(d&gt;1\)</span> this is a matrix inequality, meaning that the difference matrix is positive semidefinite).</p>
+<p>For large sample size with <span class="math inline">\(n \rightarrow \infty\)</span> and <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta\)</span> the observed
+Fisher information becomes
+<span class="math inline">\(J_n(\hat{\boldsymbol \theta}) \rightarrow n \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>
+and therefore we can write the asymptotic distribution of <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> as
+<span class="math display">\[
+\hat{\boldsymbol \theta}_{ML} \overset{a}{\sim} N_d\left(  \boldsymbol \theta,  \frac{1}{n} \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)^{-1}  \right)
+\]</span>
+This means that for large <span class="math inline">\(n\)</span> in regular models <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> achieves the lowest variance possible according to the Cramér-Rao information inequality. In other words, for large sample size maximum likelihood is optimally efficient and thus the best available estimator will in fact be the MLE!</p>
+<p>However, as we will see later this does not hold for small sample size where it is indeed possible (and necessary) to improve over the MLE (e.g. via Bayesian estimation or regularisation).</p>
+</div>
+</div>
+<div id="quantifying-the-uncertainty-of-maximum-likelihood-estimates" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> Quantifying the uncertainty of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#quantifying-the-uncertainty-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+</h2>
+<div id="estimating-the-variance-of-mles" class="section level3" number="4.3.1">
+<h3>
+<span class="header-section-number">4.3.1</span> Estimating the variance of MLEs<a class="anchor" aria-label="anchor" href="#estimating-the-variance-of-mles"><i class="fas fa-link"></i></a>
+</h3>
+<p>In the previous section we saw that MLEs are asymptotically normally distributed,
+with the inverse Fisher information (both expected and observed) linked to the asymptotic variance.</p>
+<p>This leads to the question whether to use the observed Fisher information
+<span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> or the expected Fisher information at the MLE
+<span class="math inline">\(n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span> to estimate the variance of the MLE?</p>
+<ul>
+<li>Clearly, for <span class="math inline">\(n\rightarrow \infty\)</span> both can be used interchangeably.</li>
+<li>However, they can be very different for finite <span class="math inline">\(n\)</span>
+in particular for models that are not exponential families.</li>
+<li>Also normality may occur well before <span class="math inline">\(n\)</span> goes to <span class="math inline">\(\infty\)</span>.</li>
+</ul>
+<p>Therefore one needs to choose between the two, considering also that</p>
+<ul>
+<li>the expected Fisher information at the MLE is the average curvature at the MLE,
+whereas the observed Fisher information is the actual observed curvature, and</li>
+<li>the observed Fisher information naturally occurs in the quadratic approximation of the log-likelihood.</li>
+</ul>
+<p>All in all, the observed Fisher information as estimator of the variance is more appropriate
+as it is based on the actual observed data and also works for large <span class="math inline">\(n\)</span> (in which case it yields
+the same result as using expected Fisher information):
+<span class="math display">\[
+\widehat{\text{Var}}(\hat{\boldsymbol \theta}_{ML}) = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{-1}
+\]</span>
+and its square-root as the estimate of the standard deviation
+<span class="math display">\[
+\widehat{\text{SD}}(\hat{\boldsymbol \theta}_{ML}) = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{-1/2}
+\]</span>
+Note that in the above we use <em>matrix inversion</em> and the (inverse) <em>matrix square root</em>.</p>
+<p>The reasons for preferring observed Fisher information are made mathematically precise in a classic paper by
+Efron and Hinkley (1978)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B., and D. V. Hinkley. 1978. &lt;em&gt;Assessing the accuracy of the maximum likelihood estimator: observed versus expected Fisher information.&lt;/em&gt; Biometrika &lt;strong&gt;65&lt;/strong&gt;:457–482. &lt;a href="https://doi.org/10.1093/biomet/65.3.457" class="uri"&gt;https://doi.org/10.1093/biomet/65.3.457&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> .</p>
+<div class="example">
+<p><span id="exm:distproportion" class="example"><strong>Example 4.3  </strong></span>Estimated variance and distribution of the MLE of a proportion:</p>
+<p>From Examples <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a> and <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.5</a>
+we know the MLE
+<span class="math display">\[
+\hat{p}_{ML} = \bar{x} = \frac{k}{n}
+\]</span>
+and the corresponding observed Fisher information
+<span class="math display">\[
+J_n(\hat{p}_{ML})=\frac{n}{\hat{p}_{ML}(1-\hat{p}_{ML})}
+\]</span>
+The estimated variance of the MLE is therefore
+<span class="math display">\[
+\widehat{\text{Var}}(   \hat{p}_{ML}  ) = \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}
+\]</span>
+and the corresponding asymptotic normal distribution is
+<span class="math display">\[
+ \hat{p}_{ML} \overset{a}{\sim} N\left(p,   \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}   \right)
+\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:distnormalmean" class="example"><strong>Example 4.4  </strong></span>Estimated variance and distribution of the MLE of the mean parameter for the normal distribution with known variance:</p>
+<p>From Examples <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a> and <a href="maximum-likelihood-estimation.html#exm:obsfishernormalmean">3.6</a> we know that
+<span class="math display">\[\hat{\mu}_{ML} =\bar{x}\]</span>
+and that the corresponding observed Fisher information at <span class="math inline">\(\hat{\mu}_{ML}\)</span> is
+<span class="math display">\[J_n(\hat{\mu}_{ML})=\frac{n}{\sigma^2}\]</span></p>
+<p>The estimated variance of the MLE is therefore
+<span class="math display">\[
+\widehat{\text{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}
+\]</span>
+and the corresponding asymptotic normal distribution is
+<span class="math display">\[
+\hat{\mu}_{ML} \sim N\left(\mu,\frac{\sigma^2}{n}\right)
+\]</span></p>
+<p>Note that in this case the distribution is not asymptotic but is <strong>exact</strong>, i.e. valid
+also for small <span class="math inline">\(n\)</span> (as long as the data <span class="math inline">\(x_i\)</span> are actually from <span class="math inline">\(N(\mu, \sigma^2)\)</span>!).</p>
+</div>
+</div>
+<div id="wald-statistic" class="section level3" number="4.3.2">
+<h3>
+<span class="header-section-number">4.3.2</span> Wald statistic<a class="anchor" aria-label="anchor" href="#wald-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Centering the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> with <span class="math inline">\(\boldsymbol \theta_0\)</span> followed by
+standardising with <span class="math inline">\(\widehat{\text{SD}}(\hat{\boldsymbol \theta}_{ML})\)</span> yields the <strong>Wald statistic</strong>
+(named after <a href="https://en.wikipedia.org/wiki/Abraham_Wald">Abraham Wald, 1902–1950</a>):
+<span class="math display">\[
+\begin{split}
+\boldsymbol t(\boldsymbol \theta_0) &amp; = \widehat{\text{SD}}(\hat{\boldsymbol \theta}_{ML})^{-1}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
+ &amp; = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
+\end{split}
+\]</span>
+The <strong>squared Wald statistic</strong> is a scalar defined as
+<span class="math display">\[
+\begin{split}
+t(\boldsymbol \theta_0)^2 &amp;= \boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0) \\
+&amp;= 
+(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)^T
+\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) 
+(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
+\end{split}
+\]</span>
+Note that in the literature both <span class="math inline">\(\boldsymbol t(\boldsymbol \theta_0)\)</span> and <span class="math inline">\(t(\boldsymbol \theta_0)^2\)</span> are commonly referred to as Wald statistics. In this text we use the qualifier “squared” if we refer to the latter.</p>
+<p>We now assume that the true underlying parameter is <span class="math inline">\(\boldsymbol \theta_0\)</span>. Since the MLE is asymptotically normal the Wald statistic
+is asymptotically <strong>standard normal</strong> distributed:
+<span class="math display">\[\begin{align*}
+\begin{array}{cc}
+\boldsymbol t(\boldsymbol \theta_0) \overset{a}{\sim}\\
+t(\theta_0) \overset{a}{\sim}\\
+\end{array}
+\begin{array}{ll}
+N_d(\boldsymbol 0_d,\boldsymbol I_d)\\
+N(0,1)\\
+\end{array}
+\begin{array}{ll}
+  \text{for vector } \boldsymbol \theta\\
+  \text{for scalar } \theta\\
+\end{array}
+\end{align*}\]</span>
+Correspondingly, the <strong>squared</strong> Wald statistic is chi-squared distributed:
+<span class="math display">\[\begin{align*}
+\begin{array}{cc}
+t(\boldsymbol \theta_0)^2 \\
+t(\theta_0)^2\\
+\end{array}
+\begin{array}{ll}
+\overset{a}{\sim}\chi^2_d\\
+\overset{a}{\sim}\chi^2_1\\
+\end{array}
+\begin{array}{ll}
+  \text{for vector } \boldsymbol \theta\\
+  \text{for scalar } \theta\\
+\end{array}
+\end{align*}\]</span>
+The degree of freedom of the chi-squared distribution is the dimension <span class="math inline">\(d\)</span>
+of the parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<div class="example">
+<p><span id="exm:waldproportion" class="example"><strong>Example 4.5  </strong></span>Wald statistic for a proportion:</p>
+<p>We continue from Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:distproportion">4.3</a>.
+With <span class="math inline">\(\hat{p}_{ML} = \bar{x}\)</span>
+and
+<span class="math inline">\(\widehat{\text{Var}}( \hat{p}_{ML} ) = \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}\)</span>
+and thus <span class="math inline">\(\widehat{\text{SD}}( \hat{p}_{ML} ) =\sqrt{ \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n} }\)</span>
+we get as <strong>Wald statistic</strong>:</p>
+<p><span class="math display">\[
+t(p_0) = \frac{\bar{x}-p_0}{ \sqrt{\bar{x}(1-\bar{x}) / n }  }\overset{a}{\sim} N(0,1)
+\]</span></p>
+<p>The <strong>squared Wald statistic</strong> is:
+<span class="math display">\[t(p_0)^2 = n \frac{(\bar{x}-p_0)^2}{ \bar{x}(1-\bar{x})   }\overset{a}{\sim} \chi^2_1 \]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:waldnormalmean" class="example"><strong>Example 4.6  </strong></span>Wald statistic for the mean parameter of a normal distribution with known variance:</p>
+<p>We continue from Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:distnormalmean">4.4</a>.
+With <span class="math inline">\(\hat{\mu}_{ML} =\bar{x}\)</span> and
+<span class="math inline">\(\widehat{\text{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}\)</span>
+and thus <span class="math inline">\(\widehat{\text{SD}}(\hat{\mu}_{ML}) = \frac{\sigma}{\sqrt{n}}\)</span>
+we get as <strong>Wald statistic</strong>:</p>
+<p><span class="math display">\[t(\mu_0) = \frac{\bar{x}-\mu_0}{\sigma / \sqrt{n}}\sim N(0,1)\]</span>
+Note this is the one sample <span class="math inline">\(t\)</span>-statistic with given <span class="math inline">\(\sigma\)</span>.
+The <strong>squared Wald statistic</strong> is:
+<span class="math display">\[t(\mu_0)^2 = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}\sim \chi^2_1 \]</span></p>
+<p>Again, in this instance this is the exact distribution, not just the asymptotic one.</p>
+<p>Using the Wald statistic or the squared Wald statistic we can test whether a particular
+<span class="math inline">\(\mu_0\)</span> can be rejected as underlying true parameter, and we can also
+construct corresponding confidence intervals.</p>
+</div>
+</div>
+<div id="normal-confidence-intervals-using-the-wald-statistic" class="section level3" number="4.3.3">
+<h3>
+<span class="header-section-number">4.3.3</span> Normal confidence intervals using the Wald statistic<a class="anchor" aria-label="anchor" href="#normal-confidence-intervals-using-the-wald-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>The asymptotic normality of MLEs derived from regular models enables us to construct a
+corresponding normal confidence interval (CI):</p>
+<div class="inline-figure"><img src="fig/lecture4_p2.PNG" width="80%" style="display: block; margin: auto;"></div>
+<p>For example, to construct the asymptotic normal CI for the MLE of
+a scalar parameter <span class="math inline">\(\theta\)</span> we use the MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> as estimate of the mean
+and its standard deviation <span class="math inline">\(\widehat{\text{SD}}(\hat{\theta}_{ML})\)</span> computed from the observed Fisher information:</p>
+<p><span class="math display">\[\text{CI}=[\hat{\theta}_{ML} \pm c_{\text{normal}} \widehat{\text{SD}}(\hat{\theta}_{ML})]\]</span></p>
+<p><span class="math inline">\(c_{normal}\)</span> is a critical value for the standard-normal symmetric confidence interval
+chosen to achieve the desired nominal coverage-
+The critical values are computed using the inverse standard normal distribution function via
+<span class="math inline">\(c_{\text{normal}}=\Phi^{-1}\left(\frac{1+\kappa}{2}\right)\)</span>
+(cf. refresher section in the Appendix).</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>coverage <span class="math inline">\(\kappa\)</span>
+</th>
+<th>Critical value <span class="math inline">\(c_{\text{normal}}\)</span>
+</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>0.9</td>
+<td>1.64</td>
+</tr>
+<tr class="even">
+<td>0.95</td>
+<td>1.96</td>
+</tr>
+<tr class="odd">
+<td>0.99</td>
+<td>2.58</td>
+</tr>
+</tbody>
+</table></div>
+<p>For example, for a CI with 95% coverage one uses the factor 1.96 so that
+<span class="math display">\[\text{CI}=[\hat{\theta}_{ML} \pm 1.96\, \widehat{\text{SD}}(\hat{\theta}_{ML}) ]\]</span></p>
+<p>The normal CI can be expressed using Wald statistic as follows:</p>
+<p><span class="math display">\[\text{CI}=\{\theta_0:  | t(\theta_0)| &lt; c_{\text{normal}} \}\]</span></p>
+<p>Similary, it can also be expressed using the squared Wald statistic:</p>
+<p><span class="math display">\[\text{CI}=\{\theta_0:   t(\boldsymbol \theta_0)^2 &lt; c_{\text{chisq}} \}\]</span>
+Note that this form facilitates the construction of normal confidence intervals
+for a parameter vector <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
+<p>The following lists containst the critical values resulting from the chi-squared distribution
+with degree of freedom <span class="math inline">\(m=1\)</span> for the three most common choices of
+coverage <span class="math inline">\(\kappa\)</span> for a normal CI for a univariate parameter:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>coverage <span class="math inline">\(\kappa\)</span>
+</th>
+<th>Critical value <span class="math inline">\(c_{\text{chisq}}\)</span> (<span class="math inline">\(m=1\)</span>)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>0.9</td>
+<td>2.71</td>
+</tr>
+<tr class="even">
+<td>0.95</td>
+<td>3.84</td>
+</tr>
+<tr class="odd">
+<td>0.99</td>
+<td>6.63</td>
+</tr>
+</tbody>
+</table></div>
+<div class="example">
+<p><span id="exm:ciproportion" class="example"><strong>Example 4.7  </strong></span>Asymptotic normal confidence interval for a proportion:</p>
+<p>We continue from Examples <a href="quadratic-approximation-and-normal-asymptotics.html#exm:distproportion">4.3</a> and <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldproportion">4.5</a>.
+Assume we observe <span class="math inline">\(n=30\)</span> measurements with average <span class="math inline">\(\bar{x} = 0.7\)</span>.
+Then <span class="math inline">\(\hat{p}_{ML} = \bar{x} = 0.7\)</span> and
+<span class="math inline">\(\widehat{\text{SD}}(\hat{p}_{ML}) = \sqrt{ \frac{ \bar{x}(1-\bar{x})}{n} } \approx 0.084\)</span>.</p>
+<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by
+<span class="math inline">\(\hat{p}_{ML} \pm 1.96 \, \widehat{\text{SD}}(\hat{p}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([0.536, 0.864]\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:cinormalmean" class="example"><strong>Example 4.8  </strong></span>Normal confidence interval for the mean:</p>
+<p>We continue from Examples <a href="quadratic-approximation-and-normal-asymptotics.html#exm:distnormalmean">4.4</a> and <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldnormalmean">4.6</a>.
+Assume that we observe <span class="math inline">\(n=25\)</span> measurements with average <span class="math inline">\(\bar{x} = 10\)</span>, from a normal
+with unknown mean and variance <span class="math inline">\(\sigma^2=4\)</span>.</p>
+<p>Then <span class="math inline">\(\hat{\mu}_{ML} = \bar{x} = 10\)</span> and
+<span class="math inline">\(\widehat{\text{SD}}(\hat{\mu}_{ML}) = \sqrt{ \frac{ \sigma^2}{n} } = \frac{2}{5}\)</span>.</p>
+<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by
+<span class="math inline">\(\hat{\mu}_{ML} \pm 1.96 \, \widehat{\text{SD}}(\hat{\mu}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([9.216, 10.784]\)</span>.</p>
+</div>
+</div>
+<div id="normal-tests-using-the-wald-statistic" class="section level3" number="4.3.4">
+<h3>
+<span class="header-section-number">4.3.4</span> Normal tests using the Wald statistic<a class="anchor" aria-label="anchor" href="#normal-tests-using-the-wald-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Finally, recall the <strong>duality between confidence intervals and statistical tests</strong>. Specifically,
+a confidence interval with coverage <span class="math inline">\(\kappa\)</span> can be also used for testing as follows.</p>
+<ul>
+<li>for every <span class="math inline">\(\theta_0\)</span> inside the CI the data do not allow to reject the hypothesis that <span class="math inline">\(\theta_0\)</span> is the true parameter with significance level <span class="math inline">\(1-\kappa\)</span>.</li>
+<li>Conversely, all values <span class="math inline">\(\theta_0\)</span> outside the CI can be rejected to be the true parameter with significance level <span class="math inline">\(1-\kappa\)</span> .</li>
+</ul>
+<p>Hence, in order to test whether <span class="math inline">\(\boldsymbol \theta_0\)</span> is the true underlying parameter value we can
+compute the corresponding (squared) Wald statistic, find the desired critical
+value and then decide on rejection.</p>
+<div class="example">
+<p><span id="exm:normaltestproportion" class="example"><strong>Example 4.9  </strong></span>Asymptotic normal test for a proportion:</p>
+<p>We continue from Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:ciproportion">4.7</a>.</p>
+<p>We now consider two possible values (<span class="math inline">\(p_0=0.5\)</span> and <span class="math inline">\(p_0=0.8\)</span>) as potentially true underlying proportion.</p>
+<p>The value <span class="math inline">\(p_0=0.8\)</span> lies inside the 95% confidence interval <span class="math inline">\([0.536, 0.864]\)</span>. This implies we cannot reject the hypthesis that this is the true underlying parameter on 5% significance
+level. In contrast, <span class="math inline">\(p_0=0.5\)</span> is outside the
+confidence interval so we can indeed reject this value. In other words, data plus model
+exclude this value as statistically implausible.</p>
+<p>This can be verified more directly by computing the corresponding (squared) Wald statistics
+(see Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldproportion">4.5</a>) and comparing them with the relevant critical value (3.84 from chi-squared distribution for 5% significance level):</p>
+<ul>
+<li>
+<span class="math inline">\(t(0.5)^2 = \frac{(0.7-0.5)^2}{0.084^2} = 5.71 &gt; 3.84\)</span> hence <span class="math inline">\(p_0=0.5\)</span> can be rejected.</li>
+<li>
+<span class="math inline">\(t(0.8)^2 = \frac{(0.7-0.8)^2}{0.084^2} = 1.43 &lt; 3.84\)</span> hence <span class="math inline">\(p_0=0.8\)</span> cannot be rejected.</li>
+</ul>
+<p>Note that the squared Wald statistic at the boundaries of the normal confidence interval
+is equal to the critical value.</p>
+</div>
+<div class="example">
+<p><span id="exm:normaltestnormalmean" class="example"><strong>Example 4.10  </strong></span>Normal confidence interval and test for the mean:</p>
+<p>We continue from Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:cinormalmean">4.8</a>.</p>
+<p>We now consider two possible values (<span class="math inline">\(\mu_0=9.5\)</span> and <span class="math inline">\(\mu_0=11\)</span>) as potentially true underlying mean parameter.</p>
+<p>The value <span class="math inline">\(\mu_0=9.5\)</span> lies inside the 95% confidence interval <span class="math inline">\([9.216, 10.784]\)</span>. This implies we cannot reject the hypthesis that this is the true underlying parameter on 5% significance
+level. In contrast, <span class="math inline">\(\mu_0=11\)</span> is outside the
+confidence interval so we can indeed reject this value. In other words, data plus model
+exclude this value as a statistically implausible.</p>
+<p>This can be verified more directly by computing the corresponding (squared) Wald statistics
+(see Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldnormalmean">4.6</a>) and comparing them with the relevant critical values:</p>
+<ul>
+<li>
+<span class="math inline">\(t(9.5)^2 = \frac{(10-9.5)^2}{4/25}= 1.56 &lt; 3.84\)</span> hence <span class="math inline">\(\mu_0=9.5\)</span> cannot be rejected.</li>
+<li>
+<span class="math inline">\(t(11)^2 = \frac{(10-11)^2}{4/25} = 6.25 &gt; 3.84\)</span> hence <span class="math inline">\(\mu_0=11\)</span> can be rejected.</li>
+</ul>
+<p>The squared Wald statistic at the boundaries of the confidence interval
+equals the critical value.</p>
+<p>Note that this is the standard one-sample test of the mean, and that it is exact,
+not an approximation.</p>
+</div>
+</div>
+</div>
+<div id="example-of-a-non-regular-model" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Example of a non-regular model<a class="anchor" aria-label="anchor" href="#example-of-a-non-regular-model"><i class="fas fa-link"></i></a>
+</h2>
+<p>Not all models allow a quadratic approximation of the log-likelihood function around the MLE. This is the case when the log-likelihood function is not differentiable at the MLE. These models are called non-regular and for those models the normal approximation is not available.</p>
+<div class="example">
+<p><span id="exm:nonregular" class="example"><strong>Example 4.11  </strong></span>Uniform distribution with upper bound <span class="math inline">\(\theta\)</span>:
+<span class="math display">\[x_1,\dots,x_n \sim U(0,\theta)\]</span>
+With <span class="math inline">\(x_{[i]}\)</span> we denote the <em>ordered</em> observations with
+<span class="math inline">\(0 \leq x_{[1]} &lt; x_{[2]} &lt; \ldots &lt; x_{[n]} \leq \theta\)</span> and
+<span class="math inline">\(x_{[n]} = \max(x_1,\dots,x_n)\)</span>.</p>
+<p>We would like to obtain both the maximum likelihood estimator
+<span class="math inline">\(\hat{\theta}_{ML}\)</span> and its distribution.</p>
+<p>The probability density function of <span class="math inline">\(U(0,\theta)\)</span> is
+<span class="math display">\[f(x|\theta) =\begin{cases}
+    \frac{1}{\theta} &amp;\text{if } x \in [0,\theta] \\
+    0              &amp; \text{otherwise.}
+\end{cases}
+\]</span>
+<img src="fig/lecture5_p4.PNG" width="70%" style="display: block; margin: auto;">
+and on the log-scale
+<span class="math display">\[
+\log f(x|\theta) =\begin{cases}
+    - \log \theta &amp;\text{if } x \in [0,\theta] \\
+    - \infty              &amp; \text{otherwise.}
+\end{cases}
+\]</span></p>
+<p>Since all observed data <span class="math inline">\(D =\{x_1, \ldots, x_n\}\)</span> lie in the interval <span class="math inline">\([0,\theta]\)</span>
+we get as log-likelihood function
+<span class="math display">\[
+l_n(\theta| D) =\begin{cases}
+    -n\log \theta  &amp;\text{for } x_{[n]} \leq \theta \\
+    - \infty              &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<p>Obtaining the MLE of <span class="math inline">\(\theta\)</span> is straightforward: <span class="math inline">\(-n\log \theta\)</span> is monotonically decreasing with <span class="math inline">\(\theta\)</span>
+and <span class="math inline">\(\theta \geq x_{[n]}\)</span> hence the log-likelihood function has a maximum at <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>.</p>
+<p>However, there is a discontinuity in <span class="math inline">\(l_n(\theta| D)\)</span> at <span class="math inline">\(x_{[n]}\)</span> and therefore
+<span class="math inline">\(l_n(\theta| D)\)</span> <strong>is not differentiable</strong> at <span class="math inline">\(\hat{\theta}_{ML}\)</span>.
+Thus, <strong>there is no quadratic approximation around <span class="math inline">\(\hat{\theta}_{ML}\)</span></strong>
+and the <strong>observed Fisher information cannot be computed</strong>.
+Hence, the normal approximation for the distribution of <span class="math inline">\(\hat{\theta}_{ML}\)</span> is not valid regardless of sample size, i.e. not even asymptotically for <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Nonetheless, we can in fact still obtain the sampling distribution of <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>. However, <em>not</em> via asymptotic arguments but instead by understanding that <span class="math inline">\(x_{[n]}\)</span> is an order statistic (see <a href="https://en.wikipedia.org/wiki/Order_statistic" class="uri">https://en.wikipedia.org/wiki/Order_statistic</a> ) with the following properties:
+<span class="math display">\[\begin{align*}
+\begin{array}{cc}
+x_{[n]}\sim \theta \, \text{Beta}(n,1)\\
+\\
+\text{E}(x_{[n]})=\frac{n}{n+1} \theta\\
+\\
+\text{Var}(x_{[n]})=\frac{n}{(n+1)^2(n+2)}\theta^2\\
+\end{array}
+\begin{array}{ll}
+\text{"n-th order statistic" }\\
+\\
+\\
+\\
+\approx \frac{\theta^2}{n^2}\\
+\end{array}
+\end{align*}\]</span></p>
+<p>Note that the variance decreases with <span class="math inline">\(\frac{1}{n^2}\)</span> which is much faster than the usual <span class="math inline">\(\frac{1}{n}\)</span> of an “efficient” estimator. Correspondingly,
+<span class="math inline">\(\hat{\theta}_{ML}\)</span> is a so-called “super efficient” estimator.</p>
+</div>
+
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></div>
+<div class="next"><a href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#quadratic-approximation-and-normal-asymptotics"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li>
+<a class="nav-link" href="#multivariate-statistics-for-random-vectors"><span class="header-section-number">4.1</span> Multivariate statistics for random vectors</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#covariance-and-correlation"><span class="header-section-number">4.1.1</span> Covariance and correlation</a></li>
+<li><a class="nav-link" href="#multivariate-normal-distribution"><span class="header-section-number">4.1.2</span> Multivariate normal distribution</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#approximate-distribution-of-maximum-likelihood-estimates"><span class="header-section-number">4.2</span> Approximate distribution of maximum likelihood estimates</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#quadratic-log-likelihood-resulting-from-normal-model"><span class="header-section-number">4.2.1</span> Quadratic log-likelihood resulting from normal model</a></li>
+<li><a class="nav-link" href="#quadratic-approximation-of-a-log-likelihood-function"><span class="header-section-number">4.2.2</span> Quadratic approximation of a log-likelihood function</a></li>
+<li><a class="nav-link" href="#asymptotic-normality-of-maximum-likelihood-estimates"><span class="header-section-number">4.2.3</span> Asymptotic normality of maximum likelihood estimates</a></li>
+<li><a class="nav-link" href="#asymptotic-optimal-efficiency"><span class="header-section-number">4.2.4</span> Asymptotic optimal efficiency</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#quantifying-the-uncertainty-of-maximum-likelihood-estimates"><span class="header-section-number">4.3</span> Quantifying the uncertainty of maximum likelihood estimates</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#estimating-the-variance-of-mles"><span class="header-section-number">4.3.1</span> Estimating the variance of MLEs</a></li>
+<li><a class="nav-link" href="#wald-statistic"><span class="header-section-number">4.3.2</span> Wald statistic</a></li>
+<li><a class="nav-link" href="#normal-confidence-intervals-using-the-wald-statistic"><span class="header-section-number">4.3.3</span> Normal confidence intervals using the Wald statistic</a></li>
+<li><a class="nav-link" href="#normal-tests-using-the-wald-statistic"><span class="header-section-number">4.3.4</span> Normal tests using the Wald statistic</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#example-of-a-non-regular-model"><span class="header-section-number">4.4</span> Example of a non-regular model</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

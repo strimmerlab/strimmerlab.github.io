@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>5 Likelihood-based confidence interval and likelihood ratio | Statistics 2: Likelihood and Bayes</title>
+<meta name="author" content="Korbinian Strimmer">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="5 Likelihood-based confidence interval and likelihood ratio | Statistics 2: Likelihood and Bayes">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5 Likelihood-based confidence interval and likelihood ratio | Statistics 2: Likelihood and Bayes">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="5.1 Likelihood-based confidence intervals and Wilks statistic  5.1.1 General idea and definition of Wilks statistic Instead of relying on normal / quadratic approximation, we can also use the...">
+<meta property="og:description" content="5.1 Likelihood-based confidence intervals and Wilks statistic  5.1.1 General idea and definition of Wilks statistic Instead of relying on normal / quadratic approximation, we can also use the...">
+<meta name="twitter:description" content="5.1 Likelihood-based confidence intervals and Wilks statistic  5.1.1 General idea and definition of Wilks statistic Instead of relying on normal / quadratic approximation, we can also use the...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Statistics 2: Likelihood and Bayes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li class="book-part">Likelihood estimation and inference</li>
+<li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
+<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
+<li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
+<li><a class="active" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li><a class="" href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></li>
+<li class="book-part">Bayesian Statistics</li>
+<li><a class="" href="conditioning-and-bayes-rule.html"><span class="header-section-number">7</span> Conditioning and Bayes rule</a></li>
+<li><a class="" href="models-with-latent-variables-and-missing-data.html"><span class="header-section-number">8</span> Models with latent variables and missing data</a></li>
+<li><a class="" href="essentials-of-bayesian-statistics.html"><span class="header-section-number">9</span> Essentials of Bayesian statistics</a></li>
+<li><a class="" href="bayesian-learning-in-practise.html"><span class="header-section-number">10</span> Bayesian learning in practise</a></li>
+<li><a class="" href="bayesian-model-comparison.html"><span class="header-section-number">11</span> Bayesian model comparison</a></li>
+<li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
+<li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
+<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="likelihood-based-confidence-interval-and-likelihood-ratio" class="section level1" number="5">
+<h1>
+<span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio<a class="anchor" aria-label="anchor" href="#likelihood-based-confidence-interval-and-likelihood-ratio"><i class="fas fa-link"></i></a>
+</h1>
+<div id="likelihood-based-confidence-intervals-and-wilks-statistic" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Likelihood-based confidence intervals and Wilks statistic<a class="anchor" aria-label="anchor" href="#likelihood-based-confidence-intervals-and-wilks-statistic"><i class="fas fa-link"></i></a>
+</h2>
+<div id="general-idea-and-definition-of-wilks-statistic" class="section level3" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> General idea and definition of Wilks statistic<a class="anchor" aria-label="anchor" href="#general-idea-and-definition-of-wilks-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Instead of relying on normal / quadratic approximation, we can also use the log-likelihood directly to find the so called <strong>likelihood confidence intervals</strong>:</p>
+<div class="inline-figure"><img src="fig/lecture5_p5_2.PNG" width="80%" style="display: block; margin: auto;"></div>
+<p>Idea: find all <span class="math inline">\(\boldsymbol \theta_0\)</span> that have a log-likelihood that is almost as good as <span class="math inline">\(l_n(\hat{\boldsymbol \theta}_{ML} | D)\)</span>.
+<span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: l_n(\hat{\boldsymbol \theta}_{ML}| D) - l_n(\boldsymbol \theta_0 | D) \leq \Delta\}\]</span>
+Here <span class="math inline">\(\Delta\)</span> is our tolerated deviation from the maximum log-likelihood.
+We will see below how to determine a suitable <span class="math inline">\(\Delta\)</span>.</p>
+<p>The above leads naturally to the <strong>Wilks log likelihood ratio statistic</strong> <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> defined as:
+<span class="math display">\[
+\begin{split}
+W(\boldsymbol \theta_0) &amp; = 2 \log \left(\frac{L(\hat{\boldsymbol \theta}_{ML}| D)}{L(\boldsymbol \theta_0| D)}\right) \\
+&amp; =2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0 |D))\\
+\end{split}
+\]</span>
+With its help we can write the likelihood CI follows:
+<span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: W(\boldsymbol \theta_0) \leq 2 \Delta\}\]</span></p>
+<p>The Wilks statistic is named after <a href="https://en.wikipedia.org/wiki/Samuel_S._Wilks">Samuel S. Wilks (1906–1964)</a>.</p>
+<p>Advantages of using a likelihood-based CI:</p>
+<ul>
+<li>not restricted to be symmetric</li>
+<li>enables to construct multivariate CIs for parameter vector easily even in non-normal cases</li>
+<li>contains normal CI as special case</li>
+</ul>
+<p><strong>Question</strong>: how to choose <span class="math inline">\(\Delta\)</span>, i.e how to calibrate the likelihood interval?<br>
+Essentially, by comparing with a normal CI!</p>
+<div class="example">
+<p><span id="exm:wilksproportion" class="example"><strong>Example 5.1  </strong></span>Wilks statistic for the proportion:</p>
+<p>The log-likelihood for the parameter <span class="math inline">\(\theta\)</span> is (cf. Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a>)
+<span class="math display">\[
+l_n(\theta| D) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
+\]</span>
+Hence the Wilks statistic is
+<span class="math display">\[
+\begin{split}
+W(\theta_0) &amp; = 2 ( l_n( \hat{\theta}_{ML} | D)  -l_n( \theta_0 | D ) )\\
+&amp; = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{\theta_0}  \right)  
+                + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-\theta_0}  \right)  
+    \right) \\
+\end{split}
+\]</span></p>
+<p>Comparing with Example <a href="from-entropy-to-maximum-likelihood.html#exm:klbernoulli">2.8</a> we see that in this case the Wilks
+statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two
+Bernoulli distributions:
+<span class="math display">\[
+W(\theta_0) =2 n D_{\text{KL}}( \text{Ber}( \hat{\theta}_{ML} ), \text{Ber}(\theta_0)  )
+\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:wilksnormalmean" class="example"><strong>Example 5.2  </strong></span>Wilks statistic for the mean parameter of a normal model:</p>
+<p>The Wilks statistic is
+<span class="math display">\[
+W(\mu_0)^2 = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}
+\]</span></p>
+<p>See Worksheet L3 for a derivation
+of the Wilks statistic directly from the log-likelihood function.</p>
+<p>Note this is the same as the squared Wald statistic discussed in
+Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldnormalmean">4.6</a>.</p>
+<p>Comparing with Example <a href="from-entropy-to-maximum-likelihood.html#exm:klnormalequalvar">2.10</a> we see that in this case the Wilks
+statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two
+normal distributions with different means and variance equal to <span class="math inline">\(\sigma^2\)</span>:
+<span class="math display">\[
+W(p_0) =2 n D_{\text{KL}}( N( \hat{\mu}_{ML}, \sigma^2 ), N(\mu_0, \sigma^2)  )
+\]</span></p>
+</div>
+</div>
+<div id="quadratic-approximation-of-wilks-statistic-and-squared-wald-statistic" class="section level3" number="5.1.2">
+<h3>
+<span class="header-section-number">5.1.2</span> Quadratic approximation of Wilks statistic and squared Wald statistic<a class="anchor" aria-label="anchor" href="#quadratic-approximation-of-wilks-statistic-and-squared-wald-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Recall the <em>quadratic approximation</em> of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta_0| D)\)</span> (= second order Taylor series around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>):</p>
+<p><span class="math display">\[l_n(\boldsymbol \theta_0| D)\approx l_n(\hat{\boldsymbol \theta}_{ML}| D)-\frac{1}{2}(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\]</span></p>
+<p>With this we can then approximate the Wilks statistic:
+<span class="math display">\[
+\begin{split}
+W(\boldsymbol \theta_0) &amp; = 2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0| D))\\
+&amp; \approx (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\\
+&amp; =t(\boldsymbol \theta_0)^2 \\
+\end{split}
+\]</span></p>
+<p>Thus the quadratic approximation of the Wilks statistic yields the squared Wald statistic!</p>
+<p>Conversely, the Wilks statistic can be understood a generalisation of the squared Wald statistic.</p>
+<div class="example">
+<p><span id="exm:wilksproportionquadraticapprox" class="example"><strong>Example 5.3  </strong></span>Quadratic approximation of the Wilks statistic for a proportion (continued from Example <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:wilksproportion">5.1</a>):</p>
+<p>A Taylor series of second order (for <span class="math inline">\(p_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields
+<span class="math display">\[
+\log \left( \frac{  \bar{x}  }{p_0} \right) \approx -\frac{p_0-\bar{x}}{\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}^2   }
+\]</span>
+and
+<span class="math display">\[
+\log \left( \frac{ 1- \bar{x}  }{1- p_0} \right) \approx \frac{p_0-\bar{x}}{1-\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x})^2   }
+\]</span>
+With this we can approximate the Wilks statistic of the proportion as
+<span class="math display">\[
+\begin{split}
+W(p_0) &amp; \approx  2 n \left(  - (p_0-\bar{x})  +\frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}  } 
++ (p_0-\bar{x}) + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x}) } \right)   \\
+&amp; = n \left(    \frac{ ( p_0-\bar{x} )^2    }{  \bar{x}  } + \frac{ ( p_0-\bar{x} )^2    }{  (1-\bar{x}) } \right)  \\
+&amp; = n \left(    \frac{ ( p_0-\bar{x} )^2    }{  \bar{x} (1-\bar{x})  } \right)   \\
+&amp;= t(p_0)^2 \,.
+\end{split}
+\]</span>
+This verifies that the quadratic approximation of the Wilks statistic leads
+back to the squared Wald statistic of Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:waldproportion">4.5</a>.</p>
+</div>
+<div class="example">
+<p><span id="exm:wilksnormalmeanquadraticapprox" class="example"><strong>Example 5.4  </strong></span>Quadratic approximation of the Wilks statistic for the mean parameter of a normal model
+(continued from Example <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:wilksnormalmean">5.2</a>):</p>
+<p>The normal log-likelihood is already quadratic in the mean parameter (cf. Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>).
+Correspondingly, the Wilks statistic is quadratic in the mean parameter as well.
+Hence in this particular case the quadratic “approximation” is in fact exact
+and the Wilks statistic and the squared Wald statistic are identical!</p>
+<p>Correspondingly, confidence intervals and tests based on the Wilks statistic
+are identical to those obtained using the Wald statistic.</p>
+</div>
+</div>
+<div id="distribution-of-the-wilks-statistic" class="section level3" number="5.1.3">
+<h3>
+<span class="header-section-number">5.1.3</span> Distribution of the Wilks statistic<a class="anchor" aria-label="anchor" href="#distribution-of-the-wilks-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>The connection with the squared Wald statistic implies that both have asympotically the
+same distribution.</p>
+<p>Hence, under <span class="math inline">\(\boldsymbol \theta_0\)</span> the Wilks statistic is distributed asymptotically as
+<span class="math display">\[W(\boldsymbol \theta_0) \overset{a}{\sim} \chi^2_d\]</span>
+where <span class="math inline">\(d\)</span> is the number of parameters in <span class="math inline">\(\boldsymbol \theta\)</span>, i.e. the dimension of the model.</p>
+<p>For scalar <span class="math inline">\(\theta\)</span> (i.e. single parameter and <span class="math inline">\(d=1\)</span>) this becomes
+<span class="math display">\[
+W(\theta_0) \overset{a}{\sim} \chi^2_1
+\]</span></p>
+<p>This fact is known as <strong>Wilks’ theorem</strong>.</p>
+</div>
+<div id="cutoff-values-for-the-likelihood-ci" class="section level3" number="5.1.4">
+<h3>
+<span class="header-section-number">5.1.4</span> Cutoff values for the likelihood CI<a class="anchor" aria-label="anchor" href="#cutoff-values-for-the-likelihood-ci"><i class="fas fa-link"></i></a>
+</h3>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>coverage <span class="math inline">\(\kappa\)</span>
+</th>
+<th>
+<span class="math inline">\(\Delta = \frac{c_{\text{chisq}}}{2}\)</span> (<span class="math inline">\(m=1\)</span>)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>0.9</td>
+<td>1.35</td>
+</tr>
+<tr class="even">
+<td>0.95</td>
+<td>1.92</td>
+</tr>
+<tr class="odd">
+<td>0.99</td>
+<td>3.32</td>
+</tr>
+</tbody>
+</table></div>
+<p>The asymptotic distribution for <span class="math inline">\(W\)</span> is useful to choose a suitable <span class="math inline">\(\Delta\)</span> for the likelihood
+CI — note that <span class="math inline">\(2 \Delta = c_{\text{chisq}}\)</span> where <span class="math inline">\(c_{\text{chisq}}\)</span> is the critical value for a specified coverage <span class="math inline">\(\kappa\)</span>. This yields the above table for scalar parameter</p>
+<div class="example">
+<p><span id="exm:likciproportion" class="example"><strong>Example 5.5  </strong></span>Likelihood confidence interval for a proportion:</p>
+<p>We continue from Example <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:wilksproportion">5.1</a>, and as in Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:ciproportion">4.7</a> we asssume we have data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>.</p>
+<p>This yields (via numerical root finding) as the 95% likelihood confidence interval
+the interval <span class="math inline">\([0.524, 0.843]\)</span>.
+It is similar but not identical to the corresponding
+asymptotic normal interval <span class="math inline">\([0.536, 0.864]\)</span> obtained in Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:ciproportion">4.7</a>.</p>
+<p>The following figure illustrate the relationship between the normal CI, the likelihood
+CI and also shows the role of the quadratic approximation (see also Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:quadapproxproportion">4.2</a>). Note that:</p>
+<ul>
+<li>the normal CI is symmetric around the MLE whereas the likelihood CI is not symmetric</li>
+<li>the normal CI is identical to the likelihood CI when using the quadratic approximation!</li>
+</ul>
+<div class="inline-figure"><img src="05-likelihood5_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+</div>
+</div>
+<div id="likelihood-ratio-test-lrt-using-wilks-statistic" class="section level3" number="5.1.5">
+<h3>
+<span class="header-section-number">5.1.5</span> Likelihood ratio test (LRT) using Wilks statistic<a class="anchor" aria-label="anchor" href="#likelihood-ratio-test-lrt-using-wilks-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>As in the normal case (with Wald statistic and normal CIs) one can also construct
+a test using the Wilks statistic:</p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{ll}
+H_0: \boldsymbol \theta= \boldsymbol \theta_0\\
+H_1: \boldsymbol \theta\neq \boldsymbol \theta_0\\
+\end{array}
+\begin{array}{ll}
+  \text{ True model is } \boldsymbol \theta_0\\
+  \text{ True model is } \textbf{not } \boldsymbol \theta_0\\
+\end{array}
+\begin{array}{ll}
+ \text{  Null hypothesis}\\
+ \text{  Alternative hypothesis}\\
+\end{array}
+\end{align*}\]</span></p>
+<p>As test statistic we use the Wilks log likelihood ratio <span class="math inline">\(W(\boldsymbol \theta_0)\)</span>.
+Extreme values of this test statistic imply evidence against <span class="math inline">\(H_0\)</span>.</p>
+<p>Note that the null model is “simple” (= a single parameter value)
+whereas the alternative model is “composite” (= a set of parameter values).</p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li>The composite alternative <span class="math inline">\(H_1\)</span> is represented by a single point (the MLE).</li>
+<li>
+<strong>Reject</strong> <span class="math inline">\(H_0\)</span> for <strong>large values of <span class="math inline">\(W(\boldsymbol \theta_0)\)</span></strong>
+</li>
+<li>under <span class="math inline">\(H_0\)</span> and for large <span class="math inline">\(n\)</span> the statistic <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> is chi-squared distributed, i.e. <span class="math inline">\(W(\boldsymbol \theta_0) \overset{a}{\sim} \chi^2_d\)</span>. This allows to compute
+critical values (i.e tresholds to declared rejection under a given significance level) and also <span class="math inline">\(p\)</span>-values corresponding to the observed test statistics.</li>
+<li>Models <strong>outside</strong> the CI are <strong>rejected</strong>
+</li>
+<li>Models <strong>inside</strong> the CI <strong>cannot be rejected</strong>, i.e. they can’t be statistically distinguished from the best alternative model.</li>
+</ul>
+<p>A statistic equivalent to <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> is the <strong>likelihood ratio</strong>
+<span class="math display">\[
+\Lambda(\boldsymbol \theta_0)  = \frac{L(\boldsymbol \theta_0| D)}{L(\hat{\boldsymbol \theta}_{ML}| D)}
+\]</span>
+The two statistics can be transformed into each other by <span class="math inline">\(W(\boldsymbol \theta_0) = -2\log \Lambda(\boldsymbol \theta_0)\)</span>
+and <span class="math inline">\(\Lambda(\boldsymbol \theta_0) = e^{ - W(\boldsymbol \theta_0) / 2 }\)</span>.
+We <strong>reject</strong> <span class="math inline">\(H_0\)</span> for <strong>small values of <span class="math inline">\(\Lambda\)</span></strong>.</p>
+<p>It can be shown that the likelihood ratio test to compare two simple models is optimal in the sense that for any given specified type I error (=probability of wrongly rejecting <span class="math inline">\(H_0\)</span>, i.e.
+the sigificance level) it will maximise the power (=1- type II error, probability of correctly
+accepting <span class="math inline">\(H_1\)</span>). This is known as the <strong>Neyman-Pearson theorem</strong>.</p>
+<div class="example">
+<p><span id="exm:liktestproportion" class="example"><strong>Example 5.6  </strong></span>Likelihood test for a proportion:</p>
+<p>We continue from Example <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:likciproportion">5.5</a> with 95% likelihood confidence
+interval <span class="math inline">\([0.524, 0.843]\)</span>.</p>
+<p>The value <span class="math inline">\(p_0=0.5\)</span> is outside the CI and hence can be rejected whereas <span class="math inline">\(p_0=0.8\)</span>
+is insided the CI and hence cannot be rejected on 5% significance level.</p>
+<p>The Wilks statistic for <span class="math inline">\(p_0=0.5\)</span> and <span class="math inline">\(p_0=0.8\)</span> takes on the following values:</p>
+<ul>
+<li>
+<span class="math inline">\(W(0.5) = 4.94 &gt; 3.84\)</span> hence <span class="math inline">\(p_0=0.5\)</span> can be rejected.</li>
+<li>
+<span class="math inline">\(W(0.8) = 1.69 &lt; 3.84\)</span> hence <span class="math inline">\(p_0=0.8\)</span> cannot be rejected.</li>
+</ul>
+<p>Note that the Wilks statistic at the boundaries of the likelihood confidence interval
+is equal to the critical value (3.84 corresponding to 5% significance level for a chi-squared
+distribution with 1 degree of freedom).</p>
+<p>Compare also with the normal test for a proportion in Example <a href="quadratic-approximation-and-normal-asymptotics.html#exm:normaltestproportion">4.9</a>.</p>
+</div>
+</div>
+<div id="origin-of-likelihood-ratio-statistic" class="section level3" number="5.1.6">
+<h3>
+<span class="header-section-number">5.1.6</span> Origin of likelihood ratio statistic<a class="anchor" aria-label="anchor" href="#origin-of-likelihood-ratio-statistic"><i class="fas fa-link"></i></a>
+</h3>
+<p>The likelihood ratio statistic is asymptotically linked to differences in the KL divergences of the two compared models with the underlying true model.</p>
+<p>Assume that <span class="math inline">\(F\)</span> is the true (and unknown) data generating model and that
+<span class="math inline">\(G_{\boldsymbol \theta}\)</span> is a family of models
+and we would like to compare two candidate models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> corresponding
+to parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the
+basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>.
+The KL divergences <span class="math inline">\(D_{\text{KL}}(F, G_A)\)</span> and <span class="math inline">\(D_{\text{KL}}(F, G_B)\)</span> indicate how close
+each of the models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> fit the true <span class="math inline">\(F\)</span>.
+The difference of the two divergences is a way to measure the relative fit of the two models,
+and can be computed as
+<span class="math display">\[
+D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A) = \text{E}_{F} \log \frac{g(x|\boldsymbol \theta_A )}{g(x| \boldsymbol \theta_B)}
+\]</span>
+Replacing <span class="math inline">\(F\)</span> by the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> leads to the
+large sample approximation
+<span class="math display">\[
+2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (l_n(\boldsymbol \theta_A| D) - l_n(\boldsymbol \theta_B| D))
+\]</span>
+Hence, the difference in the log-likelihoods provides an estimate of the difference
+in the KL divergence of the two models involved.</p>
+<p>The Wilks log likelihood ratio statistic
+<span class="math display">\[
+W(\boldsymbol \theta_0) = 2 ( l_n( \hat{\boldsymbol \theta}_{ML}| D ) - l_n(\boldsymbol \theta_0| D) ) 
+\]</span>
+thus compares the best-fit distribution with <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>
+as the parameter to the distribution with parameter <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
+<p>For some specific models the Wilks statistic
+can also be written in the form of the KL divergence:
+<span class="math display">\[
+W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( F_{\hat{\boldsymbol \theta}_{ML}}, F_{\boldsymbol \theta_0})
+\]</span>
+This is the case for the examples <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:wilksproportion">5.1</a> and <a href="likelihood-based-confidence-interval-and-likelihood-ratio.html#exm:wilksnormalmean">5.2</a> and also more generally for exponential
+family models, but it is not true in general.</p>
+</div>
+</div>
+<div id="generalised-likelihood-ratio-test-glrt" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Generalised likelihood ratio test (GLRT)<a class="anchor" aria-label="anchor" href="#generalised-likelihood-ratio-test-glrt"><i class="fas fa-link"></i></a>
+</h2>
+<p>Also known as <strong>maximum likelihood ratio test (MLRT)</strong>. The Generalised Likelihood Ratio Test (GLRT) works just like the standard likelihood ratio test with the difference that now the null model <span class="math inline">\(H_0\)</span> is also a composite model.<br><span class="math display">\[\begin{align*}
+\begin{array}{ll}
+H_0: \boldsymbol \theta\in \omega_0 \subset \Omega \\
+H_1: \boldsymbol \theta\in \omega_1  = \Omega \setminus \omega_0\\
+\end{array}
+\begin{array}{ll}
+\text{ True model lies in restricted model space }\\
+\text{ True model is not the restricted model space } \\
+\end{array}
+\end{align*}\]</span></p>
+<p>Both <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> are now composite hypotheses.
+<span class="math inline">\(\Omega\)</span> represents the unrestricted model space with dimension
+(=number of free parameters)
+<span class="math inline">\(d = |\Omega|\)</span>. The constrained space <span class="math inline">\(\omega_0\)</span> has degree of freedom
+<span class="math inline">\(d_0 = |\omega_0|\)</span> with <span class="math inline">\(d_0 &lt; d\)</span>.
+Note that in the standard LRT the set <span class="math inline">\(\omega_0\)</span> is a simple point
+with <span class="math inline">\(d_0=0\)</span>
+as the null model is a simple distribution. Thus, LRT is contained in GLRT
+as special case!</p>
+<p>The corresponding generalised (log) likelihood ratio statistic is given by</p>
+<p><span class="math display">\[
+W = 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}\right)
+\text{ and }
+\Lambda = \frac{\underset{\theta \in \omega_0}{\max}\, L(\theta| D)}{\underset{\theta \in \Omega}{\max}\, L(\theta | D)}
+\]</span></p>
+<p>where <span class="math inline">\(L(\hat{\theta}_{ML}| D)\)</span> is the maximised likelihood assuming the full model
+(with parameter space <span class="math inline">\(\Omega\)</span>) and <span class="math inline">\(L(\hat{\theta}_{ML}^0| D)\)</span> is the maximised likelihood for the restricted model (with parameter space <span class="math inline">\(\omega_0\)</span>).
+Hence, to compute the GRLT test statistic we need to perform two optimisations, one for the full
+and another for the restricted model.</p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li>MLE in the restricted model space <span class="math inline">\(\omega_0\)</span> is taken as a representative of <span class="math inline">\(H_0\)</span>.</li>
+<li>The likelihood is <strong>maximised</strong> in <strong>both numerator</strong> and <strong>denominator</strong>.</li>
+<li>The restricted model is a special case of the full model (i.e. the two models are nested).</li>
+<li>The asymptotic distribution of <span class="math inline">\(W\)</span> is chi-squared with degree of freedom depending on both <span class="math inline">\(d\)</span> and <span class="math inline">\(d_0\)</span>:</li>
+</ul>
+<p><span class="math display">\[W \overset{a}{\sim} \text{$\chi^2_{d-d_0}$}\]</span></p>
+<ul>
+<li><p>This result is due to Wilks (1938).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Wilks, S. S. 1938. &lt;em&gt;The large-sample distribution of the likelihood ratio for testing composite hypotheses.&lt;/em&gt;
+Ann. Math. Statist. &lt;strong&gt;9&lt;/strong&gt;:60–62. &lt;a href="https://doi.org/10.1214/aoms/1177732360" class="uri"&gt;https://doi.org/10.1214/aoms/1177732360&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a> Note that it
+assumes that the true model is contained among the investigated models.</p></li>
+<li><p>If <span class="math inline">\(H_0\)</span> is a simple hypothesis (i.e. <span class="math inline">\(d_0=0\)</span>) then the standard LRT (and corresponding CI) is recovered as special case of the GLRT.</p></li>
+</ul>
+<div class="example">
+<p><span id="exm:glrtnormal" class="example"><strong>Example 5.7  </strong></span>GLRT example:</p>
+<p><em>Case-control study:</em> (e.g. “healthy” vs. “disease”)<br>
+we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span>
+(and <span class="math inline">\(n=n_1+n_2\)</span>), with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span>
+and
+<span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
+<p>Question: are the two means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> the same in the two groups?</p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{ll}
+H_0: \mu_1=\mu_2  \text{ (with variance unknown, i.e. treated as nuisance parameter)}
+\\
+H_1: \mu_1\neq\mu_2\\
+\end{array}
+\end{align*}\]</span></p>
+<p><em>Restricted and full models:</em></p>
+<p><span class="math inline">\(\omega_0\)</span>: restricted model with two parameters <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma^2_0\)</span>
+(so that <span class="math inline">\(x_{1},\dots,x_{n} \sim N(\mu_0, \sigma_0^2)\)</span> ).</p>
+<p><span class="math inline">\(\Omega\)</span>: full model with three parameters <span class="math inline">\(\mu_1, \mu_2, \sigma^2\)</span>.</p>
+<p><em>Corresponding log-likelihood functions:</em></p>
+<p>Restricted model <span class="math inline">\(\omega_0\)</span>:
+<span class="math display">\[
+\log L(\mu_0, \sigma_0^2 | D) = -\frac{n}{2} \log(\sigma_0^2) 
+- \frac{1}{2\sigma_0^2} \sum_{i=1}^n (x_i-\mu_0)^2
+\]</span></p>
+<p>Full model <span class="math inline">\(\Omega\)</span>:
+<span class="math display">\[
+\begin{split}
+\log L(\mu_1, \mu_2, \sigma^2 | D) &amp; =
+ \left(-\frac{n_1}{2} \log(\sigma^2) - \frac{1}{2\sigma^2}  \sum_{i=1}^{n_1} (x_i-\mu_1)^2   \right) + \\
+&amp; \phantom{==}
+\left(-\frac{n_2}{2} \log(\sigma^2) - \frac{1}{2\sigma^2}  \sum_{i=n_1+1}^{n} (x_i-\mu_2)^2   \right)
+ \\
+&amp;= -\frac{n}{2} \log(\sigma^2) - \frac{1}{2\sigma^2} \left( \sum_{i=1}^{n_1} (x_i-\mu_1)^2 + \sum_{i=n_1+1}^n (x_i-\mu_2)^2 \right) \\
+\end{split}
+\]</span></p>
+<p><em>Corresponding MLEs:</em></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{ll}
+\omega_0:\\
+\\
+\Omega:\\
+\\
+\end{array}
+\begin{array}{ll}
+\hat{\mu}_0 = \frac{1}{n}\sum^n_{i=1}x_i\\
+\\
+\hat{\mu}_1 = \frac{1}{n_1}\sum^{n_1}_{i=1}x_i\\
+\hat{\mu}_2 = \frac{1}{n_2}\sum^{n}_{i=n_1+1}x_i\\
+\end{array}
+\begin{array}{ll}
+ \widehat{\sigma^2_0} = \frac{1}{n}\sum^n_{i=1}(x_i-\hat{\mu}_0)^2\\
+\\
+ \widehat{\sigma^2} = \frac{1}{n}\left\{\sum^{n_1}_{i=1}(x_i-\hat{\mu}_1)^2+\sum^n_{i=n_1+1}(x_i-\hat{\mu}_2)^2\right\}\\
+\\
+\end{array}
+\end{align*}\]</span></p>
+<p>Note that the estimated means are related by
+<span class="math display">\[
+\hat{\mu}_0  = \frac{n_1}{n} \hat{\mu}_1 + \frac{n_2}{n} \hat{\mu}_2 
+\]</span>
+so the overall mean is the weighted average of the two individual group means.</p>
+<p>Moreover, the two estimated variances are related by
+<span class="math display">\[
+\begin{split}
+\widehat{\sigma^2_0} &amp; = \widehat{\sigma^2} + \frac{n_1 n_2}{n^2} (\hat{\mu}_1 - \hat{\mu}_2)^2\\
+&amp; =  \widehat{\sigma^2} \left( 1+   \frac{1}{n}     \frac{(\hat{\mu}_1 - \hat{\mu}_2)^2}{ \frac{n}{n_1 n_2} \widehat{\sigma^2}}\right) \\
+&amp; = \widehat{\sigma^2} \left( 1 +  \frac{t^2_{ML}}{n}\right)
+\end{split}
+\]</span>
+with
+<span class="math display">\[
+t_{ML} = \frac{\hat{\mu}_1-\hat{\mu}_2}{\sqrt{\left(\frac{1}{n_1}+\frac{1}{n_2}\right) \widehat{\sigma^2}}}
+\]</span>
+(the <span class="math inline">\(t\)</span>-statistic based on the ML variance estimate
+<span class="math inline">\(\widehat{\sigma^2}\)</span>, see Appendix).</p>
+<p>The above is an example of a variance decomposition, with</p>
+<ul>
+<li>
+<span class="math inline">\(\widehat{\sigma^2_0}\)</span> being the estimated total variance,</li>
+<li>
+<span class="math inline">\(\widehat{\sigma^2}\)</span> the estimated within-group variance and</li>
+<li>
+<span class="math inline">\(\widehat{\sigma^2}\frac{t^2_{ML}}{n}= \frac{n_1 n_2}{n^2} (\hat{\mu}_1 - \hat{\mu}_2)^2\)</span> the estimated between-group variance.</li>
+</ul>
+<p>and</p>
+<ul>
+<li><span class="math inline">\(\frac{\widehat{\sigma^2}}{ \widehat{\sigma^2_0} } = 1 + \frac{t^2_{ML}}{n}\)</span></li>
+</ul>
+<p><em>Corresponding maximised log-likelihood:</em></p>
+<p>Restricted model:</p>
+<p><span class="math display">\[\log L(\hat{\mu}_0,\widehat{\sigma^2_0}| D) = -\frac{n}{2} \log(\widehat{\sigma^2_0}) -\frac{n}{2} \]</span></p>
+<p>Full model:</p>
+<p><span class="math display">\[
+\log L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}| D) = -\frac{n}{2} \log(\widehat{\sigma^2}) -\frac{n}{2}
+\]</span></p>
+<p><em>Likelihood ratio statistic:</em></p>
+<p><span class="math display">\[
+\begin{split}
+W &amp; = 2\log\left(\frac{L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} | D)}{L(\hat{\mu}_0,\widehat{\sigma^2_0} | D)}\right)\\
+ &amp; = 2 \log L\left(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}| D\right) - 2 \log L\left(\hat{\mu}_0,\widehat{\sigma^2_0}| D\right) \\
+ &amp; = n\log\left(\frac{\widehat{\sigma^2_0}}{\widehat{\sigma^2}} \right) \\
+ &amp; = n\log\left(1+\frac{t^2_{ML}}{n}\right) \\
+\end{split}
+\]</span>
+The last step uses the decomposition for the total variance
+<span class="math inline">\(\widehat{\sigma^2_0}\)</span>.</p>
+<p>We can express this also in terms of the conventional
+two sample <span class="math inline">\(t\)</span>-statistic
+<span class="math display">\[
+t = \frac{\hat{\mu}_1-\hat{\mu}_2}{\sqrt{\left(\frac{1}{n_1}+\frac{1}{n_2}\right)\widehat{\sigma^2}_{\text{UB}}  }}
+\]</span>
+that uses an unbiased estimate of the variance
+rather than the MLE, with <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}}=\frac{n}{n-2} \widehat{\sigma^2}\)</span> and thus
+<span class="math inline">\(t^2/(n-2) = t^2_{ML} / n\)</span>. This yields
+<span class="math display">\[
+W=n\log\left(1+\frac{t^2}{n-2}\right)
+\]</span></p>
+<p>Thus, the log-likelihood ratio statistic <span class="math inline">\(W\)</span> is a monotonic function (a one-to-one transformation!) of the (squared) two sample <span class="math inline">\(t\)</span>-statistic!</p>
+<p><em>Asymptotic distribution:</em></p>
+<p>The degree of freedom of the full model is <span class="math inline">\(d=3\)</span> and that of the constrained model <span class="math inline">\(d_0=2\)</span> so the
+generalised log likelihood ratio statistic <span class="math inline">\(W\)</span> is distributed asymptotically as <span class="math inline">\(\text{$\chi^2_{1}$}\)</span>.
+Hence, we reject the null model on 5% significance level for all <span class="math inline">\(W &gt; 3.84\)</span>.</p>
+</div>
+<p><em>Other application of GLRTs</em></p>
+<p>As shown above, the two sample <span class="math inline">\(t\)</span> statistic
+can be derived as a likelihood ratio statistic.</p>
+<p>More generally, it turns out many other commonly used familiar statistical tests and test statistics can be interpreted as GLRTs. This shows the wide applicability of this procedure.</p>
+
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></div>
+<div class="next"><a href="optimality-properties-and-conclusion.html"><span class="header-section-number">6</span> Optimality properties and conclusion</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#likelihood-based-confidence-interval-and-likelihood-ratio"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
+<li>
+<a class="nav-link" href="#likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">5.1</span> Likelihood-based confidence intervals and Wilks statistic</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-idea-and-definition-of-wilks-statistic"><span class="header-section-number">5.1.1</span> General idea and definition of Wilks statistic</a></li>
+<li><a class="nav-link" href="#quadratic-approximation-of-wilks-statistic-and-squared-wald-statistic"><span class="header-section-number">5.1.2</span> Quadratic approximation of Wilks statistic and squared Wald statistic</a></li>
+<li><a class="nav-link" href="#distribution-of-the-wilks-statistic"><span class="header-section-number">5.1.3</span> Distribution of the Wilks statistic</a></li>
+<li><a class="nav-link" href="#cutoff-values-for-the-likelihood-ci"><span class="header-section-number">5.1.4</span> Cutoff values for the likelihood CI</a></li>
+<li><a class="nav-link" href="#likelihood-ratio-test-lrt-using-wilks-statistic"><span class="header-section-number">5.1.5</span> Likelihood ratio test (LRT) using Wilks statistic</a></li>
+<li><a class="nav-link" href="#origin-of-likelihood-ratio-statistic"><span class="header-section-number">5.1.6</span> Origin of likelihood ratio statistic</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#generalised-likelihood-ratio-test-glrt"><span class="header-section-number">5.2</span> Generalised likelihood ratio test (GLRT)</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
