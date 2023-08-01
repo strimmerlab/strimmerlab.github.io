@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Supervised learning and classification | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="4 Supervised learning and classification | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4 Supervised learning and classification | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="4.1 Aims of supervised learning  4.1.1 Supervised learning vs. unsupervised learning Unsupervised learning: Starting point: unlabelled data \(\boldsymbol x_1, \ldots, \boldsymbol x_n\). Aim: find...">
 <meta property="og:description" content="4.1 Aims of supervised learning  4.1.1 Supervised learning vs. unsupervised learning Unsupervised learning: Starting point: unlabelled data \(\boldsymbol x_1, \ldots, \boldsymbol x_n\). Aim: find...">
@@ -164,7 +186,7 @@ where each possible class <span class="math inline">\(k \in \{ 1, \ldots, K\}\)<
 the test sample <span class="math inline">\(\boldsymbol x\)</span>.</p>
 <p>The <em>discriminant function</em> is the logarithm of the posterior probability:
 <span class="math display">\[
-d_k(\boldsymbol x) = \log \text{Pr}(k | \boldsymbol x) = \log \pi_k  + \log f_k(\boldsymbol x)  - \log f(\boldsymbol x) 
+d_k(\boldsymbol x) = \log \text{Pr}(k | \boldsymbol x) = \log \pi_k  + \log f_k(\boldsymbol x)  - \log f(\boldsymbol x)
 \]</span>
 Since we use <span class="math inline">\(d_k\)</span> to compare the different classes <span class="math inline">\(k\)</span> we can
 simplify the discriminant function by dropping all constant terms that do not depend on <span class="math inline">\(k\)</span> — in the above this is the term <span class="math inline">\(\log f(\boldsymbol x)\)</span>. Hence we get for the Bayes discriminant function
@@ -177,8 +199,8 @@ d_k(\boldsymbol x) = \log \pi_k + \log f_k(\boldsymbol x) \,.
 \]</span></p>
 <p>The discriminant functions <span class="math inline">\(d_k(\boldsymbol x)\)</span> can be mapped back to the probabilistic class assignment by using the softargmax function (also known as softmax function):
 <span class="math display">\[
-\text{Pr}(k | \boldsymbol x) = 
-\frac{\exp( d_k(\boldsymbol x) )}{\sum_{c=1}^K \exp( d_c(\boldsymbol x) ) } = 
+\text{Pr}(k | \boldsymbol x) =
+\frac{\exp( d_k(\boldsymbol x) )}{\sum_{c=1}^K \exp( d_c(\boldsymbol x) ) } =
 \frac{\exp( d_k(\boldsymbol x) - d_{\max} ) }{\sum_{c=1}^K \exp( d_c(\boldsymbol x) - d_{\max} ) } \,.
 \]</span>
 Note that subtracting <span class="math inline">\(d_{\max} = \max\{ d_1(\boldsymbol x), \ldots, d_K(\boldsymbol x) \}\)</span> avoids numerical overflow problems when computing the exponential
@@ -337,7 +359,7 @@ the individual group means).</p>
 \]</span></p>
 <p>In order to get the ML estimate of the pooled variance <span class="math inline">\(\boldsymbol \Sigma\)</span> for use with LDA we compute
 <span class="math display">\[
-\widehat{\boldsymbol \Sigma} = \frac{1}{n} \sum_{k=1}^K \sum_{i \in g_k} ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k) ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k)^T =  \sum_{k=1}^K \hat{\pi}_k \widehat{\boldsymbol \Sigma}_k 
+\widehat{\boldsymbol \Sigma} = \frac{1}{n} \sum_{k=1}^K \sum_{i \in g_k} ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k) ( \boldsymbol x_i^{\text{train}} -\hat{\boldsymbol \mu}_k)^T =  \sum_{k=1}^K \hat{\pi}_k \widehat{\boldsymbol \Sigma}_k
 \]</span></p>
 <p>Note that the pooled variance <span class="math inline">\(\boldsymbol \Sigma\)</span> differs (substantially!) from the global variance <span class="math inline">\(\Sigma_0\)</span> that results from simply
 ignoring class labels and that is computed as
@@ -414,7 +436,7 @@ PE = \text{E}(\text{err}(\hat{y}, y))
 and thus the empirical mean prediction error is
 <span class="math display">\[
 \widehat{PE} = \frac{1}{m} \sum_{i=1}^m \text{err}(\hat{y}_i, y_i)
- \]</span>
+\]</span>
 where <span class="math inline">\(m\)</span> is the sample size of the validation data set.</p>
 <p>More generally, we can also quantify prediction error in the framework of so-called <strong>proper scoring rules</strong>, where the whole probabilistic forecast is taken into account (e.g. the individual probabilities for each class, rather than just the selected most probable class). A commonly used scoring rule is the negative log-probability (“surprise”), and the expected surprise is the cross-entropy (cf. Statistical Methods module). So this leads back to entropy and likelihood (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH20802/">MATH20802 Statistical Methods</a>).</p>
 <p>Once we have an estimate of the prediction error of a model we can use it to compare and choose among a set of candidate models, selecting those with a sufficiently low prediction
@@ -440,7 +462,7 @@ or 10% for validation.</p>
 <p>If <span class="math inline">\(K=n\)</span> there are as many folds as there are samples and the validation data set consists only of a single data point. This is called “leave one out” cross-validation (LOOCV). There are analytic approximations for the prediction error obtained by LOOCV
 so that this approach is computationally inexpensive for some standard models (including regression).</p>
 <p><strong>Further reading:</strong></p>
-<p>To study the technical details of cross-validation: read <strong>Section 5.1 Cross-Validation</strong> in <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2021" role="doc-biblioref">2021</a>)</span> <a href="https://www.statlearning.com"><em>An introduction to statistical learning with applications in R (2nd edition)</em></a>. Springer.</p>
+<p>To study the technical details of cross-validation: read <strong>Section 5.1 Cross-Validation</strong> in <span class="citation">James et al. (<a href="bibliography.html#ref-JWHT2021" role="doc-biblioref">2021</a>)</span> (R version) or <span class="citation">James et al. (<a href="bibliography.html#ref-JWHTT2023" role="doc-biblioref">2023</a>)</span> (Python version).</p>
 </div>
 </div>
 <div id="goodness-of-fit-and-variable-ranking" class="section level2" number="4.6">
@@ -466,7 +488,7 @@ Since <span class="math inline">\(d_k(\boldsymbol x)\)</span> is the log-posteri
 <span class="math inline">\(\Delta^{LDA}\)</span> is in fact the <strong>log-posterior odds of class 1 versus class 2</strong> (see Statistical Methods, Bayesian inference).</p>
 <p>The difference <span class="math inline">\(\Delta_{12}^{LDA}\)</span> is
 <span class="math display">\[
-\underbrace{ \Delta_{12}^{LDA}}_{\text{log posterior odds}} = 
+\underbrace{ \Delta_{12}^{LDA}}_{\text{log posterior odds}} =
 \underbrace{(\boldsymbol \mu_1 -\boldsymbol \mu_2)^T \boldsymbol \Sigma^{-1} \left(\boldsymbol x- \frac{\boldsymbol \mu_1+\boldsymbol \mu_2}{2}\right)}_{\text{log Bayes factor } \log B_{12}} + \underbrace{\log\left( \frac{\pi_1}{\pi_2} \right)}_{\text{log prior odds}}
 \]</span>
 Note that since we only consider simple non-composite models here the log-Bayes factor is identical
@@ -544,7 +566,7 @@ if there would be only a single class. The corresponding probability (for a sing
 is called <span class="math inline">\(F_0\)</span>.</p>
 <p>The LDA discriminant function for this “group 0” is
 <span class="math display">\[
-d_0^{LDA}(\boldsymbol x) = \boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol x- \frac{1}{2}\boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol \mu_0 
+d_0^{LDA}(\boldsymbol x) = \boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol x- \frac{1}{2}\boldsymbol \mu_0^T \boldsymbol \Sigma^{-1} \boldsymbol \mu_0
 \]</span>
 and the log posterior odds for comparison of group <span class="math inline">\(k\)</span> with the pooled group <span class="math inline">\(0\)</span>
 is
@@ -580,7 +602,7 @@ pooled mean
 and with <span class="math inline">\(c_1 = \sqrt{n \frac{\pi_1}{\pi_2}}\)</span>
 this yields
 <span class="math display">\[
-\boldsymbol \tau_1^{adj} = \sqrt{n \pi_1 \pi_2 } \boldsymbol P^{-1/2} \boldsymbol V^{-1/2} (\boldsymbol \mu_1 - \boldsymbol \mu_2) , 
+\boldsymbol \tau_1^{adj} = \sqrt{n \pi_1 \pi_2 } \boldsymbol P^{-1/2} \boldsymbol V^{-1/2} (\boldsymbol \mu_1 - \boldsymbol \mu_2) ,
 \]</span>
 i.e. the exact same score as in the two-class setting.</p>
 </div>
@@ -723,7 +745,7 @@ a number of problems in the worksheets.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 19 April 2023.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 1 August 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

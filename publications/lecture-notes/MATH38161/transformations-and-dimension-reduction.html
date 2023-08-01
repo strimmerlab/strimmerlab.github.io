@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 Transformations and dimension reduction | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="2 Transformations and dimension reduction | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2 Transformations and dimension reduction | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="Motivation: In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more...">
 <meta property="og:description" content="Motivation: In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more...">
@@ -93,13 +115,13 @@ for probability distributions are known as “normalising flows”.</p>
 <span class="math display">\[\text{Var}(\boldsymbol y)= \boldsymbol B\boldsymbol \Sigma_{\boldsymbol x} \boldsymbol B^T\]</span></p>
 <p>Cross-covariance <span class="math inline">\(\boldsymbol \Phi= \Sigma_{\boldsymbol x\boldsymbol y} = \text{Cov}(\boldsymbol x, \boldsymbol y)\)</span> between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>:
 <span class="math display">\[
-\boldsymbol \Phi= \text{Cov}(\boldsymbol x, \boldsymbol B\boldsymbol x) = \boldsymbol \Sigma_{\boldsymbol x}  \boldsymbol B^T 
+\boldsymbol \Phi= \text{Cov}(\boldsymbol x, \boldsymbol B\boldsymbol x) = \boldsymbol \Sigma_{\boldsymbol x}  \boldsymbol B^T
 \]</span>
 Note that <span class="math inline">\(\boldsymbol \Phi\)</span> is a matrix of dimensions <span class="math inline">\(d \times m\)</span>
 as the dimension of <span class="math inline">\(\boldsymbol x\)</span> is <span class="math inline">\(d\)</span> and the dimension of <span class="math inline">\(\boldsymbol y\)</span> is <span class="math inline">\(m\)</span>.</p>
 <p>Cross-correlation <span class="math inline">\(\boldsymbol \Psi= \boldsymbol P_{\boldsymbol x\boldsymbol y} = \text{Cor}(\boldsymbol x, \boldsymbol y)\)</span> between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>:
 <span class="math display">\[
-\boldsymbol \Psi= \boldsymbol V_{\boldsymbol x}^{-1/2}  \boldsymbol \Phi\boldsymbol V_{\boldsymbol y}^{-1/2} 
+\boldsymbol \Psi= \boldsymbol V_{\boldsymbol x}^{-1/2}  \boldsymbol \Phi\boldsymbol V_{\boldsymbol y}^{-1/2}
 \]</span>
 where <span class="math inline">\(\boldsymbol V_{\boldsymbol x} = \text{Diag}(\boldsymbol \Sigma_{\boldsymbol x})\)</span> and <span class="math inline">\(\boldsymbol V_{\boldsymbol y} = \text{Diag}(\boldsymbol B\boldsymbol \Sigma_{\boldsymbol x} \boldsymbol B^T)\)</span>
 are diagonal matrices containing the variances for the components
@@ -145,7 +167,7 @@ note that <span class="math inline">\(\text{Cov}(y_1, y_2) = b_1 b_2\text{Cov}(x
 <span class="math display">\[
 \begin{split}
 \text{MCor}(y, \boldsymbol x)^2 &amp;= \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy} / \sigma^2_y\\
- &amp;=\boldsymbol P_{y \boldsymbol x} \boldsymbol P_{ \boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}\\
+&amp;=\boldsymbol P_{y \boldsymbol x} \boldsymbol P_{ \boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}\\
 \end{split}
 \]</span>
 If <span class="math inline">\(y\)</span> can be perfectly linearly predicted by <span class="math inline">\(\boldsymbol x\)</span> then <span class="math inline">\(\text{MCor}(y, \boldsymbol x)^2 = 1\)</span>.</p>
@@ -282,10 +304,10 @@ random variable <span class="math inline">\(\boldsymbol y\)</span>?
 \]</span></p>
 <p>In general, for a transformation <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> the exact mean and variance of the transformed variable cannot be obtained analytically.</p>
 <p>However, we can find a <strong>linear approximation</strong> and then compute its mean and variance.
-This approximation is called the “Delta Method”, or the “law of propagation of errors”, and is credited to Gauss.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Gorroochurn, P. 2020. Who Invented the Delta Method, Really? The Mathematical Intelligencer &lt;strong&gt;42&lt;/strong&gt;:46–49. &lt;a href="https://doi.org/10.1007/s00283-020-09982-0" class="uri"&gt;https://doi.org/10.1007/s00283-020-09982-0&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a></p>
+This approximation is called the “Delta Method”, or the “law of propagation of errors”, and is credited to Gauss <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Gorroochurn, P. 2020. Who Invented the Delta Method, Really? The Mathematical Intelligencer &lt;strong&gt;42&lt;/strong&gt;:46–49. &lt;a href="https://doi.org/10.1007/s00283-020-09982-0" class="uri"&gt;https://doi.org/10.1007/s00283-020-09982-0&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a>.</p>
 <p>Linearisation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> is achieved by a Taylor series approximation of first order
 of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span>:
-<span class="math display">\[\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol x_0) + \underbrace{J_{\boldsymbol h}(\boldsymbol x_0)}_{\text{Jacobian matrix}}(\boldsymbol x-\boldsymbol x_0)  = 
+<span class="math display">\[\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol x_0) + \underbrace{J_{\boldsymbol h}(\boldsymbol x_0)}_{\text{Jacobian matrix}}(\boldsymbol x-\boldsymbol x_0)  =
 \underbrace{\boldsymbol h(\boldsymbol x_0) - J_{\boldsymbol h}(\boldsymbol x_0)\, \boldsymbol x_0}_{\boldsymbol a} + \underbrace{J_{\boldsymbol h}(\boldsymbol x_0)}_{\boldsymbol B} \boldsymbol x\]</span></p>
 <p>If <span class="math inline">\(h(\boldsymbol x)\)</span> is scalar-valued then <strong>gradient</strong> <span class="math inline">\(\nabla h(\boldsymbol x)\)</span> is given by the vector of partial correlations
 <span class="math display">\[
@@ -366,7 +388,7 @@ the importance of nonlinear transformations</p>
 simple models) and for simplification and dimension reduction.</p>
 <p>If you are interested in normalising flows then a good start to learn more are the review papers
 by Kobyzev et al (2021 )<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Kobyzev et al. 2021. &lt;em&gt;Normalizing Flows: Introduction and Ideas&lt;/em&gt;.
-&lt;a href="https://doi.org/10.1109/TPAMI.2020.2992934"&gt;IEEE Trans. Pattern Anal. Mach. Intell. &lt;strong&gt;43&lt;/strong&gt;:3964-3979&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> and Papamakarios et al. (2021).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Papamakarios et al. 2021. &lt;em&gt;Normalizing Flows for Probabilistic Modeling and Inference&lt;/em&gt;.&lt;br&gt;&lt;a href="https://jmlr.csail.mit.edu/papers/v22/19-1028.html"&gt;JMLR &lt;strong&gt;22&lt;/strong&gt;:1-64&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a></p>
+&lt;a href="https://doi.org/10.1109/TPAMI.2020.2992934"&gt;IEEE Trans. Pattern Anal. Mach. Intell. &lt;strong&gt;43&lt;/strong&gt;:3964-3979&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> and Papamakarios et al. (2021) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Papamakarios et al. 2021. &lt;em&gt;Normalizing Flows for Probabilistic Modeling and Inference&lt;/em&gt;.&lt;br&gt;&lt;a href="https://jmlr.csail.mit.edu/papers/v22/19-1028.html"&gt;JMLR &lt;strong&gt;22&lt;/strong&gt;:1-64&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a>.</p>
 
 </div>
 </div>
@@ -439,7 +461,7 @@ positive definite invertible correlation matrix <span class="math inline">\(\bol
 <span class="math display">\[
 \boldsymbol W= \boldsymbol Q_1 \boldsymbol \Sigma^{-1/2}
 \]</span>
-where <span class="math inline">\(\boldsymbol Q_1\)</span> is an orthogonal matrix.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In this Chapter we will make frequent use of orthogonal matrices. Check the Appendix to review their most important properties.&lt;/p&gt;"><sup>7</sup></a></p>
+where <span class="math inline">\(\boldsymbol Q_1\)</span> is an orthogonal matrix <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;In this Chapter we will make frequent use of orthogonal matrices. Check the Appendix to review their most important properties.&lt;/p&gt;"><sup>7</sup></a>.</p>
 <p>Recall that an orthogonal matrix <span class="math inline">\(\boldsymbol Q\)</span> has the property that <span class="math inline">\(\boldsymbol Q^{-1} = \boldsymbol Q^T\)</span> and
 and as a consequence <span class="math inline">\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)</span>.</p>
 <p>As a result, the above <span class="math inline">\(\boldsymbol W\)</span> satisfies the whitening constraint:</p>
@@ -569,14 +591,14 @@ is therefore just the sum of the corresponding squared correlations
 \begin{split}
 \text{MCor}(x_i, \boldsymbol z)^2 &amp;=  \boldsymbol P_{x_i \boldsymbol z} \boldsymbol P_{\boldsymbol z}^{-1} \boldsymbol P_{\boldsymbol zx_i} = \\
              &amp; \sum_{j=1}^d  \text{Cor}(x_i, z_j)^2  \\
- &amp;  = \sum_{j=1}^d \psi_{ij}^2 = 1
+&amp;  = \sum_{j=1}^d \psi_{ij}^2 = 1
 \end{split}
 \]</span>
 As shown earlier for a general linear one-to-one- transformation (which includes whitening as special case) the squared multiple correlation must be 1 because there is
 no error. We can confirm this by computing the <strong>row sums of squares</strong> of the cross-correlation matrix <span class="math inline">\(\boldsymbol \Psi\)</span> in matrix notation
 <span class="math display">\[
 \begin{split}
- \text{Diag}\left(\boldsymbol \Psi\boldsymbol \Psi^T\right) &amp;= \text{Diag}\left(\boldsymbol P^{1/2} \boldsymbol Q_2^T \boldsymbol Q_2\boldsymbol P^{1/2}\right) \\
+\text{Diag}\left(\boldsymbol \Psi\boldsymbol \Psi^T\right) &amp;= \text{Diag}\left(\boldsymbol P^{1/2} \boldsymbol Q_2^T \boldsymbol Q_2\boldsymbol P^{1/2}\right) \\
 &amp;= \text{Diag}(\boldsymbol P) \\
 &amp;= (1, \ldots, 1)^T\\
 \end{split}
@@ -590,7 +612,7 @@ equal the variances of the original variables, regardless of <span class="math i
 or in matrix notation
 <span class="math display">\[
 \begin{split}
- \text{Diag}\left(\boldsymbol \Phi\boldsymbol \Phi^T\right) &amp;= \text{Diag}\left(\boldsymbol \Sigma^{1/2} \boldsymbol Q_1^T \boldsymbol Q_1 \boldsymbol \Sigma^{1/2}\right) \\
+\text{Diag}\left(\boldsymbol \Phi\boldsymbol \Phi^T\right) &amp;= \text{Diag}\left(\boldsymbol \Sigma^{1/2} \boldsymbol Q_1^T \boldsymbol Q_1 \boldsymbol \Sigma^{1/2}\right) \\
 &amp;= \text{Diag}(\boldsymbol \Sigma) \\
 &amp;= (\text{Var}(x_1), \ldots, \text{Var}(x_d)^T\\
 \end{split}
@@ -624,7 +646,7 @@ Interestingly, there is unique choice such that the trace is maximised.</p>
 &amp;= \text{Tr}\left(\boldsymbol \Lambda^{1/2} \, \boldsymbol U^T \boldsymbol Q_1^T \boldsymbol U\right) \\
 &amp; = \text{Tr}\left(\boldsymbol \Lambda^{1/2} \, \boldsymbol B\right) \\
 &amp; = \sum_{i=1}^d \lambda_i^{1/2} b_{ii}.
-\end{split} 
+\end{split}
 \]</span>
 Note that the product of two orthogonal matrices is itself an orthogonal matrix.
 Therefore, <span class="math inline">\(\boldsymbol B= \boldsymbol U^T \boldsymbol Q_1^T \boldsymbol U\)</span> is an orthogonal matrix and
@@ -786,7 +808,7 @@ and the cross-covariance matrix is
 \]</span>
 and the cross-correlation matrix
 <span class="math display">\[
-\boldsymbol \Psi^{\text{ZCA}} = \boldsymbol V^{-1/2} \boldsymbol \Sigma^{1/2} 
+\boldsymbol \Psi^{\text{ZCA}} = \boldsymbol V^{-1/2} \boldsymbol \Sigma^{1/2}
 \]</span></p>
 <p>Note that <span class="math inline">\(\boldsymbol \Sigma^{1/2}\)</span> is a symmetric positive definite matrix,
 hence its diagonal elements are all positive. As a result,
@@ -814,7 +836,7 @@ latent component <span class="math inline">\(z_i\)</span> is the ratio <span cla
 \begin{split}
 \text{E}\left( || \boldsymbol V^{-1/2} \boldsymbol x_c -\boldsymbol z_c||^2_F   \right)&amp;=\text{E}\left( || \boldsymbol V^{-1/2} \boldsymbol x_c ||^2_F   \right)  -2 \text{E}\left(  \text{Tr}\left( \boldsymbol V^{-1/2} \boldsymbol x_c \boldsymbol z_c^T  \right) \right) +  \text{E}\left( || \boldsymbol z_c ||^2_F   \right)\\
 &amp; = \text{Tr}(  \text{E}(\boldsymbol V^{-1/2} \boldsymbol x_c \boldsymbol x_c^T \boldsymbol V^{-1/2}) )  
-- 2 \text{Tr}( \text{E}( \boldsymbol V^{-1/2} \boldsymbol x_c \boldsymbol z_c^T  ) ) 
+- 2 \text{Tr}( \text{E}( \boldsymbol V^{-1/2} \boldsymbol x_c \boldsymbol z_c^T  ) )
 +\text{Tr}( \text{E}( \boldsymbol z_c \boldsymbol z_c^T ) )
   \\
 &amp; = \text{Tr}(  \text{Cor}(\boldsymbol x, \boldsymbol x) ) - 2 \text{Tr}( \text{Cor}(\boldsymbol x, \boldsymbol z) ) + \text{Tr}( \text{Var}(\boldsymbol z) )   \\
@@ -845,7 +867,7 @@ The corresponding whitening matrix for ZCA-cor is therefore
 \]</span>
 and the cross-covariance matrix is
 <span class="math display">\[
-\boldsymbol \Phi^{\text{ZCA-Cor}} = \boldsymbol V^{1/2} \boldsymbol P^{1/2} 
+\boldsymbol \Phi^{\text{ZCA-Cor}} = \boldsymbol V^{1/2} \boldsymbol P^{1/2}
 \]</span>
 and the cross-correlation matrix is
 <span class="math display">\[
@@ -918,11 +940,11 @@ The corresponding whitening matrix is
 \]</span><br>
 and the cross-covariance matrix is
 <span class="math display">\[
-\boldsymbol \Phi^{\text{PCA}} = \boldsymbol U\boldsymbol \Lambda^{1/2} 
+\boldsymbol \Phi^{\text{PCA}} = \boldsymbol U\boldsymbol \Lambda^{1/2}
 \]</span>
 and the cross-correlation matrix is
 <span class="math display">\[
-\boldsymbol \Psi^{\text{PCA}} = \boldsymbol V^{-1/2} \boldsymbol U\boldsymbol \Lambda^{1/2} 
+\boldsymbol \Psi^{\text{PCA}} = \boldsymbol V^{-1/2} \boldsymbol U\boldsymbol \Lambda^{1/2}
 \]</span></p>
 <p><em>Identifiability:</em></p>
 <p>Note that all of the above (i.e. <span class="math inline">\(\boldsymbol Q_1^{\text{PCA}}, \boldsymbol W^{\text{PCA}}, \boldsymbol \Phi^{\text{PCA}}, \boldsymbol \Psi^{\text{PCA}}\)</span>) is not unique
@@ -988,11 +1010,11 @@ The corresponding whitening matrix is<br><span class="math display">\[
 \]</span><br>
 and the cross-covariance matrix is
 <span class="math display">\[
-\boldsymbol \Phi^{\text{PCA-Cor}} = \boldsymbol V^{1/2} \boldsymbol G\boldsymbol \Theta^{1/2} 
+\boldsymbol \Phi^{\text{PCA-Cor}} = \boldsymbol V^{1/2} \boldsymbol G\boldsymbol \Theta^{1/2}
 \]</span>
 and the cross-correlation matrix is
 <span class="math display">\[
-\boldsymbol \Psi^{\text{PCA-Cor}} = \boldsymbol G\boldsymbol \Theta^{1/2} 
+\boldsymbol \Psi^{\text{PCA-Cor}} = \boldsymbol G\boldsymbol \Theta^{1/2}
 \]</span></p>
 <p><em>Identifiability:</em></p>
 <p>As with PCA whitening, there are sign ambiguities in the above because the column signs of <span class="math inline">\(\boldsymbol G\)</span>
@@ -1071,7 +1093,7 @@ Hence two corresponding components <span class="math inline">\(x_i\)</span> and 
 \]</span>
 and
 <span class="math display">\[
-\boldsymbol Q_2^{\text{Chol}} =  \boldsymbol \Psi^T \boldsymbol P^{-1/2} =  \boldsymbol L^T \boldsymbol V^{-1/2} \boldsymbol P^{-1/2} 
+\boldsymbol Q_2^{\text{Chol}} =  \boldsymbol \Psi^T \boldsymbol P^{-1/2} =  \boldsymbol L^T \boldsymbol V^{-1/2} \boldsymbol P^{-1/2}
 \]</span></p>
 <p><em>Application to correlation instead of covariance</em>:</p>
 <p>We may also apply the Cholesky decomposition to the correlation rather than the covariance matrix.
@@ -1172,9 +1194,9 @@ latent variables depending on the response)</p></li>
 <h3>
 <span class="header-section-number">2.5.1</span> PCA transformation<a class="anchor" aria-label="anchor" href="#pca-transformation"><i class="fas fa-link"></i></a>
 </h3>
-<p>Principal component analysis was proposed in 1933 by Harald Hotelling<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components.
+<p>Principal component analysis was proposed in 1933 by Harald Hotelling <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components.
 Journal of Educational Psychology &lt;strong&gt;24&lt;/strong&gt;:417–441 (Part 1) and &lt;strong&gt;24&lt;/strong&gt;:498–520 (Part 2).
-&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
+&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
 points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572. &lt;a href="https://doi.org/10.1080/14786440109462720" class="uri"&gt;https://doi.org/10.1080/14786440109462720&lt;/a&gt;&lt;/p&gt;'><sup>9</sup></a> for the problem of orthogonal regression.</p>
 <p>Assume random vector <span class="math inline">\(\boldsymbol x\)</span> with <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>.
 PCA is a particular orthogonal transformation of the original <span class="math inline">\(\boldsymbol x\)</span>
@@ -1221,7 +1243,7 @@ by the the principal components.</p>
 </h3>
 <p>In an earlier section we have learned that for a general whitening transformation the cross-correlations <span class="math inline">\(\boldsymbol \Psi=\text{Cor}(\boldsymbol x, \boldsymbol z)\)</span> play the role of correlation loadings in the inverse transformation:
 <span class="math display">\[
-\boldsymbol V^{-1/2} \boldsymbol x= \boldsymbol \Psi\boldsymbol z\, , 
+\boldsymbol V^{-1/2} \boldsymbol x= \boldsymbol \Psi\boldsymbol z\, ,
 \]</span>
 i.e. they are the coefficients linking the whitened variable <span class="math inline">\(\boldsymbol z\)</span> with the standardised original variable <span class="math inline">\(\boldsymbol x\)</span>.
 This relationship holds therefore also for PCA-whitening
@@ -1340,7 +1362,7 @@ PCA components and all four variables of the iris flower data set discussed earl
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 19 April 2023.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 1 August 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

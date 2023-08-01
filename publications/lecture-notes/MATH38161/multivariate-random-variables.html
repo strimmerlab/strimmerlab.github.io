@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>1 Multivariate random variables | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.33 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="1 Multivariate random variables | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1 Multivariate random variables | Multivariate Statistics and Machine Learning">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="1.1 Essentials in multivariate statistics  1.1.1 Why multivariate statistics? In science we use experiments to learn about underlying mechanisms of interest, both deterministic and stochastic, to...">
 <meta property="og:description" content="1.1 Essentials in multivariate statistics  1.1.1 Why multivariate statistics? In science we use experiments to learn about underlying mechanisms of interest, both deterministic and stochastic, to...">
@@ -168,9 +190,9 @@ The dimension <span class="math inline">\(d\)</span> is also often denoted by <s
 <p><span class="math display">\[\text{E}(x) = \mu\]</span></p>
 <p><span class="math display">\[\text{Var}(x) = \sigma^2 = \text{E}( (x-\mu)^2 )=\text{E}( (x-\mu)(x-\mu) ) = \text{E}(x^2)-\mu^2\]</span></p>
 <p>Definition of <strong>variance of a random vector:</strong></p>
-<p><span class="math display">\[\text{Var}(\boldsymbol x) = \underbrace{\boldsymbol \Sigma}_{d\times d} = 
-\text{E}\left(\underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d\times 1} \underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1\times d} \right) 
- = \text{E}(\boldsymbol x\boldsymbol x^T)-\boldsymbol \mu\boldsymbol \mu^T\]</span></p>
+<p><span class="math display">\[\text{Var}(\boldsymbol x) = \underbrace{\boldsymbol \Sigma}_{d\times d} =
+\text{E}\left(\underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d\times 1} \underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1\times d} \right)
+= \text{E}(\boldsymbol x\boldsymbol x^T)-\boldsymbol \mu\boldsymbol \mu^T\]</span></p>
 <p>The variance of a random vector is, therefore, <strong>not</strong> a vector but a <strong>matrix</strong>!</p>
 <p><span class="math display">\[\boldsymbol \Sigma= (\sigma_{ij}) = \begin{pmatrix}
     \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
@@ -234,7 +256,7 @@ with <span class="math inline">\(\sigma_{ij} = \sigma_{ji}\)</span>.</p>
 <p>For large dimension <span class="math inline">\(d\)</span> the covariance matrix has many components!</p>
 <p>–&gt; computationally expensive (both for storage and in handling)
 –&gt; very challenging to estimate in high dimensions <span class="math inline">\(d\)</span>.</p>
-<p>Note: matrix inversion requires <span class="math inline">\(O(d^3)\)</span> operations using standard algorithms such as <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Gauss Jordan elimination</a>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra"&gt;Specialised matrix algorithms improve this&lt;/a&gt; to about &lt;span class="math inline"&gt;\(O(d^{2.373})\)&lt;/span&gt;.
+<p>Note: matrix inversion requires <span class="math inline">\(O(d^3)\)</span> operations using standard algorithms such as <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Gauss Jordan elimination</a>. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra"&gt;Specialised matrix algorithms improve this&lt;/a&gt; to about &lt;span class="math inline"&gt;\(O(d^{2.373})\)&lt;/span&gt;.
 Matrices with special symmetries (e.g. diagonal and block diagonal matrices) or properties (e.g. orthogonal matrix) can also be inverted much easier (see Appendix A).&lt;/p&gt;'><sup>1</sup></a> Hence, computing <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> is computationally expensive for large <span class="math inline">\(d\)</span>!</p>
 </div>
 <div id="eigenvalue-decomposition-of-boldsymbol-sigma" class="section level3" number="1.1.7">
@@ -263,8 +285,8 @@ where <span class="math inline">\(\boldsymbol z\)</span> is a non-random vector.
 <span class="math display">\[
 \begin{split}
 \boldsymbol z^T  \boldsymbol \Sigma\boldsymbol z&amp; = \boldsymbol z^T \text{E}\left(  (\boldsymbol x-\boldsymbol \mu) (\boldsymbol x-\boldsymbol \mu)^T  \right) \boldsymbol z\\
- &amp; =  \text{E}\left( \boldsymbol z^T (\boldsymbol x-\boldsymbol \mu) (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol z\right) \\
- &amp; =  \text{E}\left( \left( \boldsymbol z^T (\boldsymbol x-\boldsymbol \mu) \right)^2 \right) \geq 0 \, .\\
+&amp; =  \text{E}\left( \boldsymbol z^T (\boldsymbol x-\boldsymbol \mu) (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol z\right) \\
+&amp; =  \text{E}\left( \left( \boldsymbol z^T (\boldsymbol x-\boldsymbol \mu) \right)^2 \right) \geq 0 \, .\\
 \end{split}
 \]</span>
 Furthermore, with <span class="math inline">\(\boldsymbol y= \boldsymbol U^T \boldsymbol z\)</span> we get
@@ -292,16 +314,16 @@ and covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol z) = \b
 This induces a corresponding partition
 in the expectation
 <span class="math display">\[
- \boldsymbol \mu_{\boldsymbol z} =  \begin{pmatrix} \boldsymbol \mu_{\boldsymbol x} \\ \boldsymbol \mu_{\boldsymbol y} \end{pmatrix}
+\boldsymbol \mu_{\boldsymbol z} =  \begin{pmatrix} \boldsymbol \mu_{\boldsymbol x} \\ \boldsymbol \mu_{\boldsymbol y} \end{pmatrix}
 \]</span>
 where <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu_{\boldsymbol x}\)</span> and <span class="math inline">\(\text{E}(\boldsymbol y) = \boldsymbol \mu_{\boldsymbol y}\)</span>.</p>
 <p>Furthermore, the covariance matrix can then be written as
 <span class="math display">\[
-\boldsymbol \Sigma_{\boldsymbol z} = 
-\begin{pmatrix} 
+\boldsymbol \Sigma_{\boldsymbol z} =
+\begin{pmatrix}
 \boldsymbol \Sigma_{\boldsymbol x} &amp;  \boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \\
 \boldsymbol \Sigma_{\boldsymbol y\boldsymbol x} &amp; \boldsymbol \Sigma_{\boldsymbol y} \\
-\end{pmatrix} 
+\end{pmatrix}
 \]</span>
 containing the within-group group covariance matrices
 <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol y}\)</span> on the diagonal and the
@@ -341,11 +363,11 @@ for <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inl
 <p>As with the covariance matrix, in many applications it makes sense to
 partition a joint correlation matrix
 <span class="math display">\[
-\boldsymbol P_{\boldsymbol z} = 
-\begin{pmatrix} 
+\boldsymbol P_{\boldsymbol z} =
+\begin{pmatrix}
 \boldsymbol P_{\boldsymbol x} &amp;  \boldsymbol P_{\boldsymbol x\boldsymbol y} \\
 \boldsymbol P_{\boldsymbol y\boldsymbol x} &amp; \boldsymbol P_{\boldsymbol y} \\
-\end{pmatrix} 
+\end{pmatrix}
 \]</span>
 into within-group group correlation matrices
 <span class="math inline">\(\boldsymbol P_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol P_{\boldsymbol y}\)</span> and a
@@ -359,8 +381,8 @@ cross-correlation matrix <span class="math inline">\(\boldsymbol P_{\boldsymbol 
 <p><span class="math inline">\(\boldsymbol \Omega\)</span> (“Omega”) is the inverse of the covariance matrix.</p>
 <p>The inverse of the covariance matrix can be obtained via
 the spectral decomposition, followed by inverting the eigenvalues <span class="math inline">\(\lambda_i\)</span>:
-<span class="math display">\[\boldsymbol \Sigma^{-1} = \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T = 
- \boldsymbol U\begin{pmatrix}
+<span class="math display">\[\boldsymbol \Sigma^{-1} = \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T =
+\boldsymbol U\begin{pmatrix}
     \lambda_{1}^{-1} &amp; \dots &amp; 0\\
      \vdots &amp; \ddots &amp; \vdots \\
     0 &amp; \dots &amp; \lambda_{d}^{-1}
@@ -423,16 +445,16 @@ from dimension 1 to dimension <span class="math inline">\(d\)</span>.</p>
 <p>Special case: <strong>standard normal</strong> with <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma^2=1\)</span>:</p>
 <p><span class="math display">\[f(x |\mu=0,\sigma^2=1)=\frac{1}{\sqrt{2\pi}} \exp\left( {-\frac{x^2}{2}} \right) \]</span></p>
 <p><strong>Differential entropy</strong>:<br><span class="math display">\[
-H(F) = \frac{1}{2} (\log(2 \pi \sigma^2) + 1) 
+H(F) = \frac{1}{2} (\log(2 \pi \sigma^2) + 1)
 \]</span></p>
 <p><strong>Cross-entropy</strong>:<br><span class="math display">\[
-H(F_{\text{ref}}, F) = \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
- +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)
+H(F_{\text{ref}}, F) = \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 }
++\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)
 \]</span>
 <strong>KL divergence</strong>:<br><span class="math display">\[
-D_{\text{KL}}(F_{\text{ref}}, F) = H(F_{\text{ref}}, F) - H(F_{\text{ref}}) = 
-\frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
- +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  -\log\left(\frac{\sigma^2_{\text{ref}}}{ \sigma^2}\right) -1
+D_{\text{KL}}(F_{\text{ref}}, F) = H(F_{\text{ref}}, F) - H(F_{\text{ref}}) =
+\frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 }
++\frac{\sigma^2_{\text{ref}}}{\sigma^2}  -\log\left(\frac{\sigma^2_{\text{ref}}}{ \sigma^2}\right) -1
 \right)
 \]</span></p>
 <p><strong>Maximum entropy characterisation:</strong> the normal distribution is the unique distribution
@@ -486,13 +508,13 @@ which is equivalent to the product of <span class="math inline">\(d\)</span> uni
 <p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> of the bivariate normal density plot
 is available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
 <p><strong>Differential entropy</strong>:<br><span class="math display">\[
-H = \frac{1}{2} (\log \det(2 \pi \boldsymbol \Sigma) + d) 
+H = \frac{1}{2} (\log \det(2 \pi \boldsymbol \Sigma) + d)
 \]</span></p>
 <p><strong>Cross-entropy</strong>:<br><span class="math display">\[
 H(F_{\text{ref}}, F) = \frac{1}{2}   \biggl\{
         (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
       + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
-    + \log \det \biggl( 2 \pi \boldsymbol \Sigma\biggr)    \biggr\} 
+    + \log \det \biggl( 2 \pi \boldsymbol \Sigma\biggr)    \biggr\}
 \]</span>
 <strong>KL divergence</strong>:<br><span class="math display">\[
 \begin{split}
@@ -500,7 +522,7 @@ D_{\text{KL}}(F_{\text{ref}}, F) &amp;= H(F_{\text{ref}}, F) - H(F_{\text{ref}})
 &amp;= \frac{1}{2}   \biggl\{
         (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
       + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
-    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr) 
+    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
      - d   \biggr\} \\
 \end{split}
 \]</span></p>
@@ -586,7 +608,7 @@ with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} \approx 2.20\)</sp
 with a spherical covariance <span class="math inline">\(\boldsymbol I_d\)</span> and sample <span class="math inline">\(\boldsymbol x\)</span>. The squared Euclidean length of <span class="math inline">\(\boldsymbol x\)</span> is
 <span class="math inline">\(r^2= || \boldsymbol x||^2 = \boldsymbol x^T \boldsymbol x= \sum_{i=1}^d x_i^2\)</span>. The corresponding density of the <span class="math inline">\(d\)</span>-dimensional standard multivariate normal distribution is
 <span class="math display">\[
-g_d(\boldsymbol x) = (2\pi)^{-d/2} e^{-\boldsymbol x^T \boldsymbol x/2} 
+g_d(\boldsymbol x) = (2\pi)^{-d/2} e^{-\boldsymbol x^T \boldsymbol x/2}
 \]</span>
 A natural way to define the main part of the “bell” of the standard multivariate normal as the set of
 all <span class="math inline">\(\boldsymbol x\)</span> for which the density is larger than a specified fraction <span class="math inline">\(\eta\)</span> (say 0.001) of the maximum value of the density <span class="math inline">\(g_d(0)\)</span> at the peak at zero.
@@ -603,7 +625,8 @@ The probability <span class="math inline">\(\text{Pr}(\boldsymbol x\in B)\)</spa
 cumulative density function of a chi-squared distribution with <span class="math inline">\(d\)</span> degrees
 of freedom at <span class="math inline">\(r^2_{\max}\)</span>. Computing this probability for fixed <span class="math inline">\(\eta\)</span> as a function of the dimension <span class="math inline">\(d\)</span> we obtain the following curve:</p>
 <p><img src="1-multivariate-b_files/figure-html/unnamed-chunk-3-1.png" width="672">
-The above plot is for <span class="math inline">\(\eta=0.001\)</span>. You can see that for dimensions up to around <span class="math inline">\(d=10\)</span> the probability mass is indeed concentrated the bell in the center but from <span class="math inline">\(d=30\)</span> onwards it has moved completely to the tail of the distribution.</p>
+The above plot is for <span class="math inline">\(\eta=0.001\)</span>. You can see that for dimensions up to around <span class="math inline">\(d=10\)</span> the probability mass is indeed concentrated in the center of the distribution
+but from <span class="math inline">\(d=30\)</span> onwards it has moved completely to the tails.</p>
 </div>
 </div>
 <div id="estimation-in-large-and-small-sample-settings" class="section level2" number="1.3">
@@ -644,13 +667,13 @@ as the average over the observations:
 <p><strong>Simple recipe to obtain an empirical estimator</strong>: simply replace the expectation operator
 by the sample average.</p>
 <p><strong>What does this work:</strong> the empirical distribution <span class="math inline">\(\widehat{F}_n\)</span> is the nonparametric maximum likelihood estimate of <span class="math inline">\(F\)</span> (see below for likelihood estimation).</p>
-<p>Note: the approximation of <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}_n\)</span> is also the basis other approaches such as Efron’s bootstrap method (1979).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B. 1979. Bootstrap methods: Another look at the jackknife. The Annals of Statistics &lt;strong&gt;7&lt;/strong&gt;:1–26. &lt;a href="https://doi.org/10.1214/aos/1176344552" class="uri"&gt;https://doi.org/10.1214/aos/1176344552&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a></p>
+<p>Note: the approximation of <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}_n\)</span> is also the basis other approaches such as Efron’s bootstrap method (1979) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B. 1979. Bootstrap methods: Another look at the jackknife. The Annals of Statistics &lt;strong&gt;7&lt;/strong&gt;:1–26. &lt;a href="https://doi.org/10.1214/aos/1176344552" class="uri"&gt;https://doi.org/10.1214/aos/1176344552&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>.</p>
 </div>
 <div id="maximum-likelihood-estimation-outline" class="section level4" number="1.3.1.2">
 <h4>
 <span class="header-section-number">1.3.1.2</span> Maximum likelihood estimation (outline)<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation-outline"><i class="fas fa-link"></i></a>
 </h4>
-<p>R.A. Fisher (1922):<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher, R. A. 1922. On the mathematical foundations of theoretical statistics. Philosophical Transactions of the Royal Society A &lt;strong&gt;222&lt;/strong&gt;:309–368. &lt;a href="https://doi.org/10.1098/rsta.1922.0009" class="uri"&gt;https://doi.org/10.1098/rsta.1922.0009&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a> model-based estimators using the density or probability mass function</p>
+<p>R.A. Fisher (1922) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher, R. A. 1922. On the mathematical foundations of theoretical statistics. Philosophical Transactions of the Royal Society A &lt;strong&gt;222&lt;/strong&gt;:309–368. &lt;a href="https://doi.org/10.1098/rsta.1922.0009" class="uri"&gt;https://doi.org/10.1098/rsta.1922.0009&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>: model-based estimators using the density or probability mass function</p>
 <p><strong>log-likelihood function</strong>:
 <span class="math display">\[\log L(\boldsymbol \theta) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\underbrace{x_i}_{\text{data}} |\underbrace{\boldsymbol \theta}_{\text{parameters}})\]</span>
 likelihood = probability to observe data given the model parameters</p>
@@ -697,7 +720,7 @@ corresponding sample averages.</p>
 <p><strong>Component notation:</strong></p>
 <p>The corresponding component notation with <span class="math inline">\(\boldsymbol X= (x_{ki})\)</span> is:</p>
 <p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki}\]</span></p>
-<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} (x_{ki}-\hat{\mu}_i) ( 
+<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} (x_{ki}-\hat{\mu}_i) (
 x_{kj}-\hat{\mu}_j )\]</span></p>
 <p><span class="math display">\[\hat{\boldsymbol \mu}=\begin{pmatrix}
     \hat{\mu}_{1}       \\
@@ -908,15 +931,15 @@ Note that the variance matrix <span class="math inline">\(\text{Var}(\boldsymbol
 <p>The corresponding probability mass function (pmf)
 can be written conveniently in terms of <span class="math inline">\(x_k\)</span> as
 <span class="math display">\[
-f(\boldsymbol x) = \prod_{k=1}^K \pi_k^{x_k} = 
-\begin{cases} 
+f(\boldsymbol x) = \prod_{k=1}^K \pi_k^{x_k} =
+\begin{cases}
    \pi_k  &amp; \text{if } x_k = 1 \\
 \end{cases}
 \]</span>
 and the log pmf as
 <span class="math display">\[
 \log f(\boldsymbol x) = \sum_{k=1}^K x_k \log \pi_k   =
-\begin{cases} 
+\begin{cases}
    \log \pi_k  &amp; \text{if } x_k = 1 \\
 \end{cases}
 \]</span></p>
@@ -926,7 +949,7 @@ we rewrite the log-density with
 <span class="math display">\[
 \begin{split}
 \log f(\boldsymbol x) &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + x_K \log \pi_K \\
- &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \\
+&amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \\
 \end{split}
 \]</span>
 Note that there is no particular reason to choose <span class="math inline">\(\pi_K\)</span> as derived, in its place any other of the
@@ -990,7 +1013,7 @@ just like the binomial distribution arises from repeated Bernoulli sampling.</p>
 <p>With <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> and <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> and corresponding
 probabilities <span class="math inline">\(p_1,\dots,p_K\)</span> and <span class="math inline">\(q_1,\dots,q_K\)</span> satisfying <span class="math inline">\(\sum_{i=1}^K p_i =1\)</span> and <span class="math inline">\(\sum_{i=1}^K q_i = 1\)</span> we get:</p>
 <p><span class="math display">\[\begin{equation*}
-D_{\text{KL}}(P, Q)=\sum_{i=1}^K p_i\log\left(\frac{p_i}{q_i}\right) 
+D_{\text{KL}}(P, Q)=\sum_{i=1}^K p_i\log\left(\frac{p_i}{q_i}\right)
 \end{equation*}\]</span></p>
 <p>To be explicit that there are only <span class="math inline">\(K-1\)</span> parameters in a categorical distribution we can also write
 <span class="math display">\[\begin{equation*}
@@ -1012,7 +1035,7 @@ differentiation is with regard to <span class="math inline">\(\pi_1, \ldots, \pi
 and its off-diagonal entries are (with <span class="math inline">\(j=1, \ldots, K-1\)</span>)
 <span class="math display">\[
 \frac{\partial^2}{\partial \pi_i \partial \pi_j} \log f(\boldsymbol x) =
- -\frac{ x_K}{\pi_K^2}
+-\frac{ x_K}{\pi_K^2}
 \]</span>
 Recalling that <span class="math inline">\(\text{E}(x_i) = \pi_i\)</span> we can compute the expected Fisher information matrix for a categorical distribution as
 <span class="math display">\[
@@ -1020,7 +1043,7 @@ Recalling that <span class="math inline">\(\text{E}(x_i) = \pi_i\)</span> we can
 \boldsymbol I^{\text{Fisher}}\left( \pi_1, \ldots, \pi_{K-1}  \right) &amp;= -\text{E}\left( \nabla \nabla^T \log f(\boldsymbol x) \right) \\
 &amp; =
 \begin{pmatrix}
- \frac{1}{\pi_1} + \frac{1}{\pi_K} &amp; \cdots &amp; \frac{1}{\pi_K} \\
+\frac{1}{\pi_1} + \frac{1}{\pi_K} &amp; \cdots &amp; \frac{1}{\pi_K} \\
 \vdots &amp; \ddots &amp; \vdots \\
 \frac{1}{\pi_K} &amp; \cdots &amp; \frac{1}{\pi_{K-1}} + \frac{1}{\pi_K} \\
 \end{pmatrix}\\
@@ -1054,14 +1077,14 @@ Thus <span class="math inline">\(\varepsilon_K = -\sum_{k=1}^{K-1} \varepsilon_k
 \begin{split}
 D_{\text{KL}}(P, Q=P+\varepsilon) &amp;  = D_{\text{KL}}(\text{Cat}(\boldsymbol p), \text{Cat}(\boldsymbol p+\boldsymbol \varepsilon)) \\
 &amp;  \approx \frac{1}{2} (\varepsilon_1, \ldots,  \varepsilon_{K-1}) \,
-\boldsymbol I^{\text{Fisher}}\left( p_1, \ldots, p_{K-1}  \right) 
+\boldsymbol I^{\text{Fisher}}\left( p_1, \ldots, p_{K-1}  \right)
 \begin{pmatrix} \varepsilon_1 \\ \vdots \\  \varepsilon_{K-1}\\
 \end{pmatrix} \\
 &amp;= \frac{1}{2} \left( \sum_{k=1}^{K-1} \frac{\varepsilon_k^2}{p_k}   + \frac{ \left(\sum_{k=1}^{K-1} \varepsilon_k\right)^2}{p_K} \right)  \\
 &amp;= \frac{1}{2}  \sum_{k=1}^{K} \frac{\varepsilon_k^2}{p_k}\\
 &amp;= \frac{1}{2}  \sum_{k=1}^{K} \frac{(p_k-q_k)^2}{p_k}\\
 &amp; = \frac{1}{2} D_{\text{Neyman}}(P, Q)\\
-\end{split} 
+\end{split}
 \]</span>
 Similarly, if we keep <span class="math inline">\(Q\)</span> fixed and consider <span class="math inline">\(P\)</span> as a disturbed version of <span class="math inline">\(Q\)</span> we get
 <span class="math display">\[
@@ -1097,7 +1120,7 @@ The number of samples for class <span class="math inline">\(k\)</span> is <span 
 l_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
 &amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \right)\\
 &amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \left(
-1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\ 
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\
 &amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \bar{x}_K \log \pi_K \right) \\  
 \end{split}
 \]</span></p></li>
@@ -1105,9 +1128,9 @@ l_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
 <span class="math display">\[
 \begin{split}
 \boldsymbol S_n(\pi_1, \ldots, \pi_{K-1}) &amp;=  \nabla l_n(\pi_1, \ldots, \pi_{K-1} ) \\
-&amp; = 
+&amp; =
 \begin{pmatrix}
- \frac{\partial}{\partial \pi_1} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\frac{\partial}{\partial \pi_1} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
 \vdots\\
 \frac{\partial}{\partial \pi_{K-1}} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
 \end{pmatrix}\\
@@ -1132,7 +1155,7 @@ for <span class="math inline">\(i=1, \ldots, K-1\)</span> and with solution
 \hat{\pi}_i^{ML} = \bar{x}_i
 \]</span>
 It also follows that
-<span class="math display">\[ 
+<span class="math display">\[
 \hat{\pi}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
 \]</span>
 The maximum likelihood estimator is therefore the frequency
@@ -1147,22 +1170,22 @@ MLEs <span class="math inline">\(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}\
 <p>The diagonal entries of the Hessian matrix (with <span class="math inline">\(i=1, \ldots, K-1\)</span>) are
 <span class="math display">\[
 \frac{\partial^2}{\partial \pi_i^2} l_n(\pi_1, \ldots, \pi_{K-1} ) =
- -n \left( \frac{\bar{x}_i}{\pi_i^2} +\frac{\bar{x}_K}{\pi_K^2}\right)
+-n \left( \frac{\bar{x}_i}{\pi_i^2} +\frac{\bar{x}_K}{\pi_K^2}\right)
 \]</span>
 and its off-diagonal entries are (with <span class="math inline">\(j=1, \ldots, K-1\)</span>)
 <span class="math display">\[
 \frac{\partial^2}{\partial \pi_i \partial \pi_j} l_n(\pi_1, \ldots, \pi_{K-1} ) =
- -\frac{n \bar{x}_K}{\pi_K^2}
+-\frac{n \bar{x}_K}{\pi_K^2}
 \]</span>
 Thus, the observed Fisher information matrix at the MLE for a categorical distribution is
 <span class="math display">\[
 \boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =
-n 
+n
 \begin{pmatrix}
- \frac{1}{\hat{\pi}_1^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_K^{ML}} \\
+\frac{1}{\hat{\pi}_1^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_K^{ML}} \\
 \vdots &amp; \ddots &amp; \vdots \\
 \frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_{K-1}^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} \\
-\end{pmatrix} 
+\end{pmatrix}
 \]</span></p>
 <p>For <span class="math inline">\(K=2\)</span> this reduces to the observed Fisher information of a Bernoulli variable
 <span class="math display">\[
@@ -1174,7 +1197,7 @@ J_n(\hat{p}_{ML}) &amp; = n \left(\frac{1}{\hat{p}_{ML}} + \frac{1}{1-\hat{p}_{M
 <p>The inverse of the observed Fisher information is:
 <span class="math display">\[
 \boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )^{-1} =
-\frac{1}{n} 
+\frac{1}{n}
 \begin{pmatrix}
 \hat{\pi}_1^{ML} (1- \hat{\pi}_1^{ML} )  &amp; \cdots &amp; -  \hat{\pi}_{1}^{ML} \hat{\pi}_{K-1}^{ML}   \\
 \vdots &amp; \ddots &amp; \vdots \\
@@ -1218,7 +1241,7 @@ the asymptotic variance of the maximum likelihood estimate.</p>
 <p>The squared Wald statistic is
 <span class="math display">\[
 \begin{split}
-t(\boldsymbol p_0)^2 &amp;= 
+t(\boldsymbol p_0)^2 &amp;=
 (\hat{\pi}_{1}^{ML}-p_1^0, \ldots,  \hat{\pi}_{K-1}^{ML}-p_{K-1}^0)   \boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML} ) \begin{pmatrix} \hat{\pi}_{1}^{ML}-p_1^0 \\
 \vdots \\
 \hat{\pi}_{K-1}^{ML}-p_{K-1}^0\\
@@ -1250,16 +1273,16 @@ with <span class="math inline">\(\boldsymbol p_0 = c(p_1^{0}, \ldots, p_{K}^{0} 
 As the probabilities sum up to 1 there are only <span class="math inline">\(K-1\)</span> free parameters.</p>
 <p>The log-likelihood at the MLE is
 <span class="math display">\[
-l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log \hat{\pi}_k^{ML}  =  n   \sum_{k=1}^{K}  \bar{x}_k \log \bar{x}_k 
+l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log \hat{\pi}_k^{ML}  =  n   \sum_{k=1}^{K}  \bar{x}_k \log \bar{x}_k
 \]</span>
 with <span class="math inline">\(\hat{\pi}_k^{ML} = \frac{n_k}{n} = \bar{x}_k\)</span>.
 Note that here and in the following the sums run from <span class="math inline">\(1\)</span> to <span class="math inline">\(K\)</span> where the <span class="math inline">\(K\)</span>-th component is always computed from the components <span class="math inline">\(1\)</span> to <span class="math inline">\(K-1\)</span>, as in the previous section.
 The log-likelihood at <span class="math inline">\(\boldsymbol p_0\)</span> is
-<span class="math display">\[l_n( p_1^{0}, \ldots, p_{K-1}^{0}    ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0} 
+<span class="math display">\[l_n( p_1^{0}, \ldots, p_{K-1}^{0}    ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0}
 \]</span>
 so that the Wilks statistic becomes
 <span class="math display">\[
-W(\boldsymbol p_0) = 2 n   \sum_{k=1}^{K}  \bar{x}_k \log\left(\frac{\bar{x}_k}{ p_k^{0}} \right) 
+W(\boldsymbol p_0) = 2 n   \sum_{k=1}^{K}  \bar{x}_k \log\left(\frac{\bar{x}_k}{ p_k^{0}} \right)
 \]</span>
 It is asymptotically chi-squared distributed with <span class="math inline">\(K-1\)</span> degrees of freedom.</p>
 <p>Note that for this model the Wilks statistic is equal to the KL Divergence
@@ -1271,7 +1294,7 @@ W(\boldsymbol p_0) = 2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), 
 we can write the Wilks statistic respectively the <span class="math inline">\(G\)</span>-statistic
 as follows:
 <span class="math display">\[
-W(\boldsymbol p_0) = 2   \sum_{k=1}^{K}  n_k \log\left(\frac{  n_k }{  n_k^{\text{expect}}   } \right) 
+W(\boldsymbol p_0) = 2   \sum_{k=1}^{K}  n_k \log\left(\frac{  n_k }{  n_k^{\text{expect}}   } \right)
 \]</span></p>
 </div>
 <div class="example">
@@ -1286,7 +1309,7 @@ W(\boldsymbol p_0)&amp; = 2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{M
 \end{split}
 \]</span></p>
 <p>If instead we approximate the KL divergence assuming <span class="math inline">\(\boldsymbol p_0\)</span> as fixed we arrive at
-<span class="math display">\[ 
+<span class="math display">\[
 \begin{split}
 2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), \text{Cat}(\boldsymbol p_0 ) ) &amp;\approx n D_{\text{Pearson}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}),  \text{Cat}(\boldsymbol p_0 ) )\\
 &amp; = \sum_{k=1}^K \frac{(n_k-n_k^{\text{expect}})^2}{n_k^{\text{expect}}} \\
@@ -1344,7 +1367,7 @@ Specifically, we discuss properties of the</p>
 <span class="math display">\[\text{Var}(x_i)=\frac{\pi_i(1-\pi_i)}{k+1}\]</span>
 <span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\pi_i \pi_j}{k+1}\]</span>
 <span class="math inline">\(\text{compare with unit standardised multinomial!}\)</span></p>
-<p>Stick breaking" model</p>
+<p>Stick breaking” model</p>
 <div class="inline-figure"><img src="fig/fig1-stickbreaking.png" width="60%" style="display: block; margin: auto;"></div>
 </div>
 <div id="dirichlet-multinomial-model" class="section level4" number="1.5.1.3">
@@ -1381,7 +1404,7 @@ Then <span class="math inline">\(x\)</span> is distributed as:
 <span class="math display">\[
 \begin{split}
 x \sim &amp; \phantom{=} \text{Gam}\left(\alpha=\frac{k}{2}, \theta=2 s^2 \right)\\
-        &amp; = \text{W}_1\left( s^2, k\right) 
+        &amp; = \text{W}_1\left( s^2, k\right)
 \end{split}
 \]</span>
 where <span class="math inline">\(\alpha\)</span> is the shape and <span class="math inline">\(\theta\)</span> the scale parameter of the gamma distribution.<br>
@@ -1561,7 +1584,7 @@ of the covariance:</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 19 April 2023.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 1 August 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
