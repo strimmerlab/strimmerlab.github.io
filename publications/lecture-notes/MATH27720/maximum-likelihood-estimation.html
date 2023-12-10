@@ -6,21 +6,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 Maximum likelihood estimation | Statistics 2: Likelihood and Bayes</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
 <meta property="og:title" content="3 Maximum likelihood estimation | Statistics 2: Likelihood and Bayes">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 Maximum likelihood estimation | Statistics 2: Likelihood and Bayes">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
-<meta property="og:description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
-<meta name="twitter:description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<meta name="description" content="3.1 Outline of maximum likelihood estimation  3.1.1 General procedure The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
+<meta property="og:description" content="3.1 Outline of maximum likelihood estimation  3.1.1 General procedure The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
+<meta name="twitter:description" content="3.1 Outline of maximum likelihood estimation  3.1.1 General procedure The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -61,8 +83,9 @@
 <li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
 <li class="book-part">Appendix</li>
 <li><a class="" href="refresher.html"><span class="header-section-number">A</span> Refresher</a></li>
-<li><a class="" href="distributions-used-in-bayesian-analysis.html"><span class="header-section-number">B</span> Distributions used in Bayesian analysis</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">C</span> Further study</a></li>
+<li><a class="" href="essential-distributions.html"><span class="header-section-number">B</span> Essential distributions</a></li>
+<li><a class="" href="further-distributions-used-in-bayesian-analysis.html"><span class="header-section-number">C</span> Further distributions used in Bayesian analysis</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">D</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -75,13 +98,13 @@
 <h1>
 <span class="header-section-number">3</span> Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"><i class="fas fa-link"></i></a>
 </h1>
-<div id="principle-of-maximum-likelihood-estimation" class="section level2" number="3.1">
+<div id="outline-of-maximum-likelihood-estimation" class="section level2" number="3.1">
 <h2>
-<span class="header-section-number">3.1</span> Principle of maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#principle-of-maximum-likelihood-estimation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1</span> Outline of maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#outline-of-maximum-likelihood-estimation"><i class="fas fa-link"></i></a>
 </h2>
-<div id="outline" class="section level3" number="3.1.1">
+<div id="general-procedure" class="section level3" number="3.1.1">
 <h3>
-<span class="header-section-number">3.1.1</span> Outline<a class="anchor" aria-label="anchor" href="#outline"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1.1</span> General procedure<a class="anchor" aria-label="anchor" href="#general-procedure"><i class="fas fa-link"></i></a>
 </h3>
 <p>The starting points in an ML analysis are</p>
 <ul>
@@ -106,7 +129,12 @@ Note that the log-likelihood is additive over the samples <span class="math inli
 given by maximising the (log)-likelihood</p>
 <p><span class="math display">\[\hat{\boldsymbol \theta}^{ML} = \text{arg max}\, l_n(\boldsymbol \theta|D)\]</span></p>
 <div class="inline-figure"><img src="fig/lecture3_p3.PNG" width="70%" style="display: block; margin: auto;"></div>
-<p>Thus, finding the MLE is an optimisation problem that in practise is most often solved numerically on the computer, using approaches such as <em>gradient ascent</em> (or for negative log-likelihood <em>gradient descent</em>) and related algorithms. Depending on the complexity of the likelihood function finding the maximum can be very difficult.</p>
+<p>Thus, finding the MLE is an optimisation problem that in practise is most often solved numerically on the computer, using approaches such as <em>gradient ascent</em> (or for negative log-likelihood <em>gradient descent</em>) and related algorithms. The numerical optimisation is usually done on the log-likelihood rather than on
+the likelihood function to avoid problems with the computer representation of small
+floating point numbers.</p>
+<p>Depending on the complexity of the likelihood function finding the maximum can indeed
+be very difficult. On the other hand, for likelihood functions constructed from
+exponential families maximum likelihood estimation is very straightforward.</p>
 </div>
 <div id="obtaining-mles-for-a-regular-model" class="section level3" number="3.1.2">
 <h3>
@@ -122,7 +150,7 @@ and not at a boundary,</li>
 one parameter: the Hessian matrix at the maximum is negative definite and not singular)</li>
 </ul>
 <p>then in order to maximise <span class="math inline">\(l_n(\boldsymbol \theta|D)\)</span> one may use the <strong>score function</strong> <span class="math inline">\(\boldsymbol S(\boldsymbol \theta)\)</span>
-which is the first derivative of the log-likelihood function:</p>
+which is the first derivative of the log-likelihood function with regard to the parameter:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cc}
 S_n(\theta) = \frac{d l_n(\theta|D)}{d \theta}\\
@@ -147,7 +175,7 @@ S_n(\theta) = \frac{d l_n(\theta|D)}{d \theta}\\
 maximum at <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> the curvature
 at the MLE must negative, i.e. that the log-likelihood must be locally concave at the MLE.</p>
 <p>In the case of a single parameter (scalar <span class="math inline">\(\theta\)</span>) this requires to check
-that the second derivative of the log-likelihood function is negative:
+that the second derivative of the log-likelihood function with regard to the parameter is negative:
 <span class="math display">\[
 \frac{d^2 l_n(\hat{\theta}_{ML}| D)}{d \theta^2} &lt;0
 \]</span>
@@ -159,37 +187,6 @@ at the MLE:
 \]</span>
 and then verify that this matrix is negative definite (i.e. all its eigenvalues must be negative).</p>
 <p>As we will see later the second order derivatives of the log-likelihood function also play an important role for assessing the uncertainty of the MLE.</p>
-</div>
-<div id="invariance-property-of-the-maximum-likelihood" class="section level3" number="3.1.3">
-<h3>
-<span class="header-section-number">3.1.3</span> Invariance property of the maximum likelihood<a class="anchor" aria-label="anchor" href="#invariance-property-of-the-maximum-likelihood"><i class="fas fa-link"></i></a>
-</h3>
-<p>The invariance principle states that the <strong>maximum likelihood is invariant against reparameterisation</strong>.</p>
-<p>Assume we transform a parameter <span class="math inline">\(\theta\)</span> into another parameter <span class="math inline">\(\omega\)</span> using some invertible function <span class="math inline">\(g()\)</span>
-so that <span class="math inline">\(\omega= g(\theta)\)</span>.
-Then the maximum likelihood estimate <span class="math inline">\(\hat{\omega}_{ML}\)</span> of the new parameter <span class="math inline">\(\omega\)</span> is simply
-the transformation of the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the original parameter <span class="math inline">\(\theta\)</span>
-with <span class="math inline">\(\hat{\omega}_{ML}= g( \hat{\theta}_{ML})\)</span>. The achieved
-maximum likelihood is the same in both cases.</p>
-<p>The reason why this works is that maximisation is a procedure that is invariant against transformations of the argument
-of the function that is maximised. Consider a function <span class="math inline">\(h(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h(x)\)</span>. Now we relabel the argument using
-<span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h( g^{-1}(y))\)</span>.
-and clearly this function has a maximum at <span class="math inline">\(y_{\max} = g(x_{\max})\)</span> since
-<span class="math inline">\(h(g^{-1}(y_{\max} ) ) = h( x_{\max} )\)</span>.</p>
-<p>The invariance property can be very useful in practise because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
-<p>See Worksheet L1 for an example application of the invariance principle.</p>
-</div>
-<div id="consistency-of-maximum-likelihood-estimates" class="section level3" number="3.1.4">
-<h3>
-<span class="header-section-number">3.1.4</span> Consistency of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#consistency-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
-</h3>
-<p>One important property of maximum likelihood is that it produces <strong>consistent estimates</strong>.</p>
-<p>Specifically, if the true underlying model <span class="math inline">\(F_{\text{true}}\)</span> with parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> is contained in the set of specified candidates models <span class="math inline">\(F_{\boldsymbol \theta}\)</span>
-<span class="math display">\[\underbrace{F_{\text{true}}}_{\text{true model}} \subset \underbrace{F_{\boldsymbol \theta}}_{\text{specified models}}\]</span> then <span class="math display">\[\hat{\boldsymbol \theta}_{ML} \overset{\text{large }n}{\longrightarrow} \boldsymbol \theta_{\text{true}}\]</span></p>
-<p>This is a consequence of <span class="math inline">\(D_{\text{KL}}(F_{\text{true}},F_{\boldsymbol \theta})\rightarrow 0\)</span> for <span class="math inline">\(F_{\boldsymbol \theta} \rightarrow F_{\text{true}}\)</span>, and that maximisation of the likelihood function is for large <span class="math inline">\(n\)</span> equivalent to minimising the relative entropy.</p>
-<p>Thus given sufficient data the MLE will converge to the true value. As a consequence, <strong>MLEs are asympotically unbiased</strong>. As we will see in the examples they can still be biased in finite samples.</p>
-<p>Note that even if the candidate model <span class="math inline">\(F_{\boldsymbol \theta}\)</span> is misspecified (i.e. it does not contain the actual true model) the MLE is still optimal in the sense in that it will find the closest possible model.</p>
-<p>It is possible to find inconsistent MLEs, but this occurs only in situations where the dimension of the model / number of parameters increases with sample size, or when the MLE is at a boundary or when there are singularities in the likelihood function.</p>
 </div>
 </div>
 <div id="maximum-likelihood-estimation-in-practise" class="section level2" number="3.2">
@@ -221,10 +218,10 @@ outcomes, say the proportion of “successes” vs. “failures” or of “hea
 <li><p>the average of the data points is <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i = \frac{n_1}{n}\)</span>.</p></li>
 <li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is:
 <span class="math display">\[
-p(x| \theta) = \theta^x (1-\theta)^{1-x} = 
+p(x| \theta) = \theta^x (1-\theta)^{1-x} =
 \begin{cases}
 \theta &amp;  \text{if $x=1$ }\\
-1-\theta &amp; \text{if $x=0$} \\ 
+1-\theta &amp; \text{if $x=0$} \\
 \end{cases}
 \]</span></p></li>
 <li><p>log-PMF:
@@ -286,7 +283,7 @@ l_n(\mu| D) &amp;= \sum_{i=1}^n \log f(x_i| \mu)\\
 Note how the non-constant terms of the log-likelihood depend on the data only through <span class="math inline">\(\bar{x}\)</span>!</p></li>
 <li><p>Score function:
 <span class="math display">\[
-S_n(\mu) = 
+S_n(\mu) =
 \frac{n}{\sigma^2} ( \bar{x}- \mu)
 \]</span></p></li>
 <li><p>Maximum likelihood estimate:
@@ -316,8 +313,8 @@ S_n(\mu) =
 <span class="math display">\[
 \begin{split}
 l_n(\sigma | D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \sigma^2)\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
 \end{split}
 \]</span>
 Note how the log-likelihood function depends on the data only through <span class="math inline">\(\overline{(x-\mu)^2}\)</span>!</p></li>
@@ -331,11 +328,11 @@ S_n(\sigma^2) =
 </li>
 <li><p>Maximum likelihood estimate:
 <span class="math display">\[
-S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow 
+S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 \]</span>
 <span class="math display">\[
-\widehat{\sigma^2}_{ML} 
- =\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\widehat{\sigma^2}_{ML}
+=\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
 \]</span></p></li>
 <li><p>To confirm that we actually have maximum we need to verify that
 the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(\frac{dS_n(\sigma^2)}{d\sigma^2} = -\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2} \overline{(x-\mu)^2} -1\right)\)</span>
@@ -371,8 +368,8 @@ score function is now vector-valued and the second derivative of the log-likelih
 <span class="math display">\[
 \begin{split}
 l_n(\boldsymbol \theta| D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \mu, \sigma^2)\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
 \end{split}
 \]</span>
 Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span>
@@ -390,15 +387,15 @@ and <span class="math inline">\(\overline{x^2}\)</span>!</p></li>
 \]</span></p></li>
 <li><p>Maximum likelihood estimate:
 <span class="math display">\[
-\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow 
+\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow
 \]</span>
 <span class="math display">\[
 \hat{\boldsymbol \theta}_{ML}=
 \begin{pmatrix}
- \hat{\mu}_{ML}  \\
- \widehat{\sigma^2}_{ML} \\
+\hat{\mu}_{ML}  \\
+\widehat{\sigma^2}_{ML} \\
 \end{pmatrix}
- =
+=
 \begin{pmatrix}
 \bar{x} \\
 \overline{x^2} -\bar{x}^2\\
@@ -408,21 +405,151 @@ The ML estimate of the variance can also be written
 <span class="math inline">\(\widehat{\sigma^2}_{ML} = \overline{x^2} -\bar{x}^2 =\overline{(x-\bar{x})^2} =  \frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2\)</span>.</p></li>
 <li><p>To confirm that we actually have maximum we need to verify that the eigenvalues
 of the Hessian matrix at the optimum are all negative. This is indeed the case, for
-details see Example <a href="maximum-likelihood-estimation.html#exm:obsfishernormalmeanvar">3.7</a>.</p></li>
+details see Example <a href="maximum-likelihood-estimation.html#exm:obsfishernormalmeanvar">3.9</a>.</p></li>
+</ul>
+<div class="example">
+<p><span id="exm:mlemultinorm" class="example"><strong>Example 3.5  </strong></span>Maximum likelihood estimates of the parameters of the multivariate normal distribution:</p>
+<p>The results from Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmeanvar">3.4</a> can be generalised to the
+multivariate normal distribution:</p>
+<ul>
+<li>
+<span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu,\boldsymbol \Sigma)\)</span> with <span class="math inline">\(\text{E}(\boldsymbol x)=\boldsymbol \mu\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma\)</span>
+</li>
+<li>both <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> need to be estimated.</li>
+</ul>
+<p>With</p>
+<ul>
+<li>the data <span class="math inline">\(D= \{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> containing real vector-valued observations,</li>
+</ul>
+<p>the maximum likelihood can be written as follows:</p>
+<p>MLE for the mean:
+<span class="math display">\[
+\hat{\boldsymbol \mu}_{ML} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k = \bar{\boldsymbol x}
+\]</span></p>
+<p>MLE for the covariance:
+<span class="math display">\[
+\underbrace{\widehat{\boldsymbol \Sigma}_{ML}}_{d \times d} = \frac{1}{n}\sum^{n}_{k=1} \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)}_{d \times 1} \; \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)^T}_{1 \times d}\]</span>
+Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the estimator of the covariance matrix.</p>
+<p>With <span class="math inline">\(\overline{\boldsymbol x\boldsymbol x^T} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k \boldsymbol x_k^T\)</span>
+we can also write
+<span class="math display">\[
+\widehat{\boldsymbol \Sigma}_{ML} = \overline{\boldsymbol x\boldsymbol x^T} - \bar{\boldsymbol x} \bar{\boldsymbol x}^T
+\]</span></p>
+<p>Hence, the MLEs correspond to the well-known empirical estimates.</p>
+<p>The derivation of the MLEs is discussed in more detail in the module <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH38161/">MATH38161 Multivariate Statistics and Machine Learning</a>.</p>
+</div>
+<div class="example">
+<p><span id="exm:catmle" class="example"><strong>Example 3.6  </strong></span>Maximum likelihood estimation of the parameters of the categorical distribution:</p>
+<p>Maximum likelihood estimation seems trivial at first sight but it is in fact a bit more complicated since there are only <span class="math inline">\(K-1\)</span> free parameters, and not <span class="math inline">\(K\)</span>. So we either need to optimise with regard to a specific set of <span class="math inline">\(K-1\)</span> parameters (which is what we do below) or use a constrained optimisation procedure to enforce that <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> (for example by using a Lagrange multiplier).</p>
+<ul>
+<li><p>The data: We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.
+The data matrix of dimension <span class="math inline">\(n \times K\)</span> is
+<span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T = (x_{ik})\)</span>.
+It contains each <span class="math inline">\(\boldsymbol x_i = (x_{i1}, \ldots, x_{iK})^T\)</span>. The corresponding summary
+(minimal sufficient) statistics are
+<span class="math inline">\(\bar{\boldsymbol x} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = (\bar{x}_1, \ldots, \bar{x}_K)^T\)</span>
+with
+<span class="math inline">\(\bar{x}_k = \frac{1}{n} \sum_{i=1}^n x_{ik}\)</span>. We can also write
+<span class="math inline">\(\bar{x}_{K} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k}\)</span>.
+The number of samples for class <span class="math inline">\(k\)</span> is <span class="math inline">\(n_k = n \bar{x}_k\)</span> with
+<span class="math inline">\(\sum_{k=1}^K n_k = n\)</span>.</p></li>
+<li><p>The log-likelihood is
+<span class="math display">\[
+\begin{split}
+l_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
+&amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \right)\\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \bar{x}_K \log \pi_K \right) \\  
+\end{split}
+\]</span></p></li>
+<li><p>Score function (gradient)
+<span class="math display">\[
+\begin{split}
+\boldsymbol S_n(\pi_1, \ldots, \pi_{K-1}) &amp;=  \nabla l_n(\pi_1, \ldots, \pi_{K-1} ) \\
+&amp; =
+\begin{pmatrix}
+\frac{\partial}{\partial \pi_1} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\vdots\\
+\frac{\partial}{\partial \pi_{K-1}} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\end{pmatrix}\\
+&amp; = n
+\begin{pmatrix}
+\frac{\bar{x}_1}{\pi_1}-\frac{\bar{x}_K}{\pi_K}  \\
+\vdots\\
+\frac{\bar{x}_{K-1}}{\pi_{K-1}}-\frac{\bar{x}_K}{\pi_K}  \\
+\end{pmatrix}\\
+\end{split}
+\]</span>
+Note in particular the need for the second term that arises because <span class="math inline">\(\pi_K\)</span> depends on all
+the <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>.</p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(\boldsymbol S_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML})=0\)</span> yields
+<span class="math inline">\(K-1\)</span> equations
+<span class="math display">\[
+\bar{x}_i \left(1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML}\right)  = \hat{\pi}_i^{ML} \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right)
+\]</span>
+for <span class="math inline">\(i=1, \ldots, K-1\)</span> and with solution
+<span class="math display">\[
+\hat{\pi}_i^{ML} = \bar{x}_i
+\]</span>
+It also follows that
+<span class="math display">\[
+\hat{\pi}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
+\]</span>
+The maximum likelihood estimator is therefore the frequency
+of of the occurance of a class among the <span class="math inline">\(n\)</span> samples.</p></li>
 </ul>
 </div>
-<div id="relationship-of-maximum-likelihood-with-least-squares-estimation" class="section level3" number="3.2.3">
+</div>
+</div>
+<div id="properties-of-maximum-likelihood-estimation" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Properties of maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#properties-of-maximum-likelihood-estimation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="invariance-property-of-the-maximum-likelihood" class="section level3" number="3.3.1">
 <h3>
-<span class="header-section-number">3.2.3</span> Relationship of maximum likelihood with least squares estimation<a class="anchor" aria-label="anchor" href="#relationship-of-maximum-likelihood-with-least-squares-estimation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3.1</span> Invariance property of the maximum likelihood<a class="anchor" aria-label="anchor" href="#invariance-property-of-the-maximum-likelihood"><i class="fas fa-link"></i></a>
+</h3>
+<p>The invariance principle states that the <strong>maximum likelihood is invariant against reparameterisation</strong>.</p>
+<p>Assume we transform a parameter <span class="math inline">\(\theta\)</span> into another parameter <span class="math inline">\(\omega\)</span> using some invertible function <span class="math inline">\(g()\)</span>
+so that <span class="math inline">\(\omega= g(\theta)\)</span>.
+Then the maximum likelihood estimate <span class="math inline">\(\hat{\omega}_{ML}\)</span> of the new parameter <span class="math inline">\(\omega\)</span> is simply
+the transformation of the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the original parameter <span class="math inline">\(\theta\)</span>
+with <span class="math inline">\(\hat{\omega}_{ML}= g( \hat{\theta}_{ML})\)</span>. The achieved
+maximum likelihood is the same in both cases.</p>
+<p>The reason why this works is that maximisation is a procedure that is invariant against transformations of the argument
+of the function that is maximised. Consider a function <span class="math inline">\(h(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h(x)\)</span>. Now we relabel the argument using
+<span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h( g^{-1}(y))\)</span>.
+and clearly this function has a maximum at <span class="math inline">\(y_{\max} = g(x_{\max})\)</span> since
+<span class="math inline">\(h(g^{-1}(y_{\max} ) ) = h( x_{\max} )\)</span>.</p>
+<p>The invariance property can be very useful in practise because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
+<p>See Worksheet L1 for an example application of the invariance principle.</p>
+</div>
+<div id="consistency-of-maximum-likelihood-estimates" class="section level3" number="3.3.2">
+<h3>
+<span class="header-section-number">3.3.2</span> Consistency of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#consistency-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+</h3>
+<p>One important property of the method of maximum likelihood is that in general it produces <strong>consistent estimates</strong>.</p>
+<p>Specifically, if the true underlying model <span class="math inline">\(F_{\text{true}}\)</span> with parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> is contained in the set of specified candidates models <span class="math inline">\(F_{\boldsymbol \theta}\)</span>
+<span class="math display">\[\underbrace{F_{\text{true}}}_{\text{true model}} \subset \underbrace{F_{\boldsymbol \theta}}_{\text{specified models}}\]</span> then <span class="math display">\[\hat{\boldsymbol \theta}_{ML} \overset{\text{large }n}{\longrightarrow} \boldsymbol \theta_{\text{true}}\]</span></p>
+<p>This is a consequence of <span class="math inline">\(D_{\text{KL}}(F_{\text{true}},F_{\boldsymbol \theta})\rightarrow 0\)</span> for <span class="math inline">\(F_{\boldsymbol \theta} \rightarrow F_{\text{true}}\)</span>, and that maximisation of the likelihood function is for large <span class="math inline">\(n\)</span> equivalent to minimising the relative entropy.</p>
+<p>Thus given sufficient data the MLE will converge to the true value. As a consequence, <strong>MLEs are asympotically unbiased</strong>. As we will see in the examples they can still be biased in finite samples.</p>
+<p>Note that even if the candidate model <span class="math inline">\(F_{\boldsymbol \theta}\)</span> is misspecified (i.e. it does not contain the actual true model) the MLE is still optimal in the sense in that it will find the closest possible model.</p>
+<p>It is possible to find inconsistent MLEs, but this occurs only in situations where the dimension of the model / number of parameters increases with sample size, or when the MLE is at a boundary or when there are singularities in the likelihood function.</p>
+</div>
+<div id="relationship-of-maximum-likelihood-with-least-squares-estimation" class="section level3" number="3.3.3">
+<h3>
+<span class="header-section-number">3.3.3</span> Relationship of maximum likelihood with least squares estimation<a class="anchor" aria-label="anchor" href="#relationship-of-maximum-likelihood-with-least-squares-estimation"><i class="fas fa-link"></i></a>
 </h3>
 <p>In Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>
 the form of the log-likelihood function
 is a function of the sum of squared differences. Maximising <span class="math inline">\(l_n(\mu| D) =-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\)</span> is equivalent to <em>minimising</em> <span class="math inline">\(\sum_{i=1}^n(x_i-\mu)^2\)</span>. Hence, finding the mean by <strong>maximum likelihood assuming a normal model</strong> is <strong>equivalent to least-squares estimation</strong>!</p>
-<p>Note that least-squares estimation has been in use at least since the early 1800s<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Stigler, S. M. 1981. &lt;em&gt;Gauss and the invention of least squares&lt;/em&gt;. Ann. Statist. &lt;strong&gt;9&lt;/strong&gt;:465–474. &lt;a href="https://doi.org/10.1214/aos/1176345451" class="uri"&gt;https://doi.org/10.1214/aos/1176345451&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well!</p>
+<p>Note that least-squares estimation has been in use at least since the early 1800s <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Stigler, S. M. 1981. &lt;em&gt;Gauss and the invention of least squares&lt;/em&gt;. Ann. Statist. &lt;strong&gt;9&lt;/strong&gt;:465–474. &lt;a href="https://doi.org/10.1214/aos/1176345451" class="uri"&gt;https://doi.org/10.1214/aos/1176345451&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well!</p>
 </div>
-<div id="bias-and-maximum-likelihood-estimates" class="section level3" number="3.2.4">
+<div id="bias-of-maximum-likelihood-estimates" class="section level3" number="3.3.4">
 <h3>
-<span class="header-section-number">3.2.4</span> Bias and maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#bias-and-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3.4</span> Bias of maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#bias-of-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
 </h3>
 <p>Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmeanvar">3.4</a> is interesting because it shows that maximum likelihood can result in both biased and as well as unbiased estimators.</p>
 <p>Recall that <span class="math inline">\(x \sim N(\mu, \sigma^2)\)</span>. As a result
@@ -430,7 +557,7 @@ is a function of the sum of squared differences. Maximising <span class="math in
 with <span class="math inline">\(\text{E}( \hat{\mu}_{ML} ) = \mu\)</span>
 and
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim 
+\widehat{\sigma^2}_{\text{ML}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
 \]</span>
 (see Appendix) with mean <span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \sigma^2\)</span>.</p>
@@ -449,13 +576,13 @@ In other words, the unbiased variance estimate is not a maximum likelihood estim
 For large <span class="math inline">\(n\)</span>, however, the bias disappears as MLEs are consistent.</p>
 </div>
 </div>
-<div id="observed-fisher-information" class="section level2" number="3.3">
+<div id="observed-fisher-information" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">3.3</span> Observed Fisher information<a class="anchor" aria-label="anchor" href="#observed-fisher-information"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Observed Fisher information<a class="anchor" aria-label="anchor" href="#observed-fisher-information"><i class="fas fa-link"></i></a>
 </h2>
-<div id="motivation-and-definition" class="section level3" number="3.3.1">
+<div id="motivation-and-definition-of-observed-fisher-information" class="section level3" number="3.4.1">
 <h3>
-<span class="header-section-number">3.3.1</span> Motivation and definition<a class="anchor" aria-label="anchor" href="#motivation-and-definition"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.1</span> Motivation and definition of observed Fisher information<a class="anchor" aria-label="anchor" href="#motivation-and-definition-of-observed-fisher-information"><i class="fas fa-link"></i></a>
 </h3>
 <div class="inline-figure"><img src="03-likelihood3_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
 <p>By inspection of some log-likelihood curves it is apparent that the log-likelihood function contains more information about the parameter <span class="math inline">\(\boldsymbol \theta\)</span> than just the maximum point <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
@@ -478,12 +605,43 @@ To avoid confusion with the expected Fisher information introduced earlier<br><s
 \]</span>
 it is necessary to always use the qualifier “observed” when referring to <span class="math inline">\({\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML})\)</span>.</p>
 </div>
-<div id="examples-of-observed-fisher-information" class="section level3" number="3.3.2">
+<div id="relationship-between-observed-and-expected-fisher-information" class="section level3" number="3.4.2">
 <h3>
-<span class="header-section-number">3.3.2</span> Examples of observed Fisher information<a class="anchor" aria-label="anchor" href="#examples-of-observed-fisher-information"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.2</span> Relationship between observed and expected Fisher information<a class="anchor" aria-label="anchor" href="#relationship-between-observed-and-expected-fisher-information"><i class="fas fa-link"></i></a>
+</h3>
+<p>The observed Fisher information <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})\)</span> and the expected Fisher information
+<span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> are related but also two clearly different entities:</p>
+<ul>
+<li><p>Both types of Fisher information are based on computing second order derivatives
+(Hessian matrix), thus both are based on the curvature of a function.</p></li>
+<li><p>The observed Fisher information is computed from the log-likelihood function.
+Therefore it takes the observed data <span class="math inline">\(D\)</span> into account and explicitly depends on the sample size <span class="math inline">\(n\)</span>. It contains estimates of the parameters but not the parameters themselves. While the curvature of the log-likelihood function may be computed for any point of the log-likelihood function the observed Fisher information specifically refers to the curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>. It is linked to the (asymptotic) variance of the MLE (see the examples and as will discuss in more detail later).</p></li>
+<li><p>In contrast, the expected Fisher information is derived directly from the log-density. It does not depend on the observed data, and thus does not depend on sample size. It can be computed for any value of the parameters. It describes the geometry of the space of the models, and is the local approximation of relative entropy.</p></li>
+<li><p>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_0\)</span>.
+It follows from the construction of
+the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol I^{\text{Fisher}}( \boldsymbol \theta_0 )\)</span> (i.e. the expected Fisher information for a set of iid random variables, see Chapter 2).</p></li>
+<li><p>In a very important class of models, namely in an <strong>exponential family model</strong>, we find that
+<span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span> is valid also for finite sample size <span class="math inline">\(n\)</span>. This is in fact the case for all the examples discussed above (e.g. see
+Examples <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.7</a> and <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisherbernoulli">2.12</a>
+for the Bernoulli distribution and Examples <a href="maximum-likelihood-estimation.html#exm:obsfishernormalmeanvar">3.9</a> and <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfishernormal">2.14</a>
+for the normal distribution).</p></li>
+<li><p>However, this is an exception. In a general model <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \neq n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span>
+for finite sample size <span class="math inline">\(n\)</span>. An example is provided by the Cauchy distribution with median parameter <span class="math inline">\(\theta\)</span>. It is not an exponential family model and has expected Fisher information <span class="math inline">\(I^{\text{Fisher}}(\theta )=\frac{1}{2}\)</span> regardless of the choice
+the median parameter whereas the observed Fisher information <span class="math inline">\(J_n(\hat{\theta}_{ML})\)</span> depends on the
+MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median parameter and is not simply <span class="math inline">\(\frac{n}{2}\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div id="observed-fisher-information-examples" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> Observed Fisher information examples<a class="anchor" aria-label="anchor" href="#observed-fisher-information-examples"><i class="fas fa-link"></i></a>
+</h2>
+<div id="models-with-a-single-parameter-1" class="section level3" number="3.5.1">
+<h3>
+<span class="header-section-number">3.5.1</span> Models with a single parameter<a class="anchor" aria-label="anchor" href="#models-with-a-single-parameter-1"><i class="fas fa-link"></i></a>
 </h3>
 <div class="example">
-<p><span id="exm:obsfisherproportion" class="example"><strong>Example 3.5  </strong></span>Bernoulli model <span class="math inline">\(\text{Ber}(\theta)\)</span>:</p>
+<p><span id="exm:obsfisherproportion" class="example"><strong>Example 3.7  </strong></span>Bernoulli model <span class="math inline">\(\text{Ber}(\theta)\)</span>:</p>
 <p>We continue Example <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a>. Recall that
 <span class="math inline">\(\hat{\theta}_{ML} = \bar{x}=\frac{n_1}{n}\)</span> and the score function
 <span class="math inline">\(S_n(\theta)=n \left( \frac{\bar{x} }{\theta} - \frac{1-\bar{x}}{1-\theta} \right)\)</span>. The negative second derivative of the log-likelihood function is
@@ -504,7 +662,7 @@ J_n(\hat{\theta}_{ML}) &amp; = n \left(\frac{ \bar{x} }{\hat{\theta}_{ML}^2} + \
 <span class="math inline">\(x \sim \text{Bin}(n, \theta)\)</span>.</p>
 </div>
 <div class="example">
-<p><span id="exm:obsfishernormalmean" class="example"><strong>Example 3.6  </strong></span>Normal distribution with unknown mean and known variance:</p>
+<p><span id="exm:obsfishernormalmean" class="example"><strong>Example 3.8  </strong></span>Normal distribution with unknown mean and known variance:</p>
 <p>This is the continuation of Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>.
 Recall the MLE for the mean
 <span class="math inline">\(\hat{\mu}_{ML}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{x}\)</span>
@@ -512,11 +670,11 @@ and the score function
 <span class="math inline">\(\boldsymbol S_n(\mu) = \frac{n}{\sigma^2} (\bar{x} -\mu)\)</span>.
 The negative second derivative of the score function is
 <span class="math display">\[
--\frac{d S_n(\mu)}{d\mu}= \frac{n}{\sigma^2} 
+-\frac{d S_n(\mu)}{d\mu}= \frac{n}{\sigma^2}
 \]</span>
 The observed Fisher information at the MLE is therefore
 <span class="math display">\[
-J_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2} 
+J_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2}
 \]</span>
 and the inverse of the observed Fisher information is
 <span class="math display">\[
@@ -526,14 +684,19 @@ J_n(\hat{\mu}_{ML})^{-1} = \frac{\sigma^2}{n}
 and hence <span class="math inline">\(\text{Var}(\bar{x}) = \frac{\sigma^2}{n}\)</span>,
 which is equal to the inverse observed Fisher information.</p>
 </div>
+</div>
+<div id="models-with-multiple-parameters-1" class="section level3" number="3.5.2">
+<h3>
+<span class="header-section-number">3.5.2</span> Models with multiple parameters<a class="anchor" aria-label="anchor" href="#models-with-multiple-parameters-1"><i class="fas fa-link"></i></a>
+</h3>
 <div class="example">
-<p><span id="exm:obsfishernormalmeanvar" class="example"><strong>Example 3.7  </strong></span>Normal distribution with mean and variance parameter:</p>
+<p><span id="exm:obsfishernormalmeanvar" class="example"><strong>Example 3.9  </strong></span>Normal distribution with mean and variance parameter:</p>
 <p>This is the continuation of Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmeanvar">3.4</a>.
 Recall the MLE for the mean and variance:
 <span class="math display">\[\hat{\mu}_{ML}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{x}\]</span>
 <span class="math display">\[\widehat{\sigma^2}_{ML} = \frac{1}{n}\sum_{i=1}^n(x_i-\bar{x})^2 =  \overline{x^2} - \bar{x}^2\]</span>
 with score function
-<span class="math display">\[\boldsymbol S_n(\mu,\sigma^2)=\nabla l_n(\mu, \sigma^2| D) = 
+<span class="math display">\[\boldsymbol S_n(\mu,\sigma^2)=\nabla l_n(\mu, \sigma^2| D) =
 \begin{pmatrix}
 \frac{n}{\sigma^2}   (\bar{x}-\mu) \\
 -\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
@@ -541,7 +704,7 @@ with score function
 \]</span>
 The Hessian matrix of the log-likelihood function is
 <span class="math display">\[\nabla \nabla^T l_n(\mu,\sigma^2| D) =
- \begin{pmatrix}
+\begin{pmatrix}
     - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
     - \frac{n}{\sigma^4} (\bar{x} -\mu) &amp; \frac{n}{2\sigma^4}-\frac{n}{\sigma^6} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
     \end{pmatrix}
@@ -574,37 +737,82 @@ with the
 first diagonal entry of the inverse observed Fisher information matrix you see that this is essentially the same expression (apart from the “hat”).</p>
 <p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> follows a one-dimensional Wishart distribution
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim 
+\widehat{\sigma^2}_{\text{ML}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
 \]</span>
 (see Appendix) with variance
 <span class="math inline">\(\text{Var}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \frac{2 \sigma ^4}{n}\)</span>. For large <span class="math inline">\(n\)</span> this becomes <span class="math inline">\(\text{Var}(\widehat{\sigma^2}_{ML})\overset{a}{=} \frac{2 \sigma ^4}{n}\)</span> which is essentially (apart from the “hat”) the second diagonal entry of the inverse observed Fisher information matrix.</p>
-</div>
-<div id="relationship-between-observed-and-expected-fisher-information" class="section level3" number="3.3.3">
-<h3>
-<span class="header-section-number">3.3.3</span> Relationship between observed and expected Fisher information<a class="anchor" aria-label="anchor" href="#relationship-between-observed-and-expected-fisher-information"><i class="fas fa-link"></i></a>
-</h3>
-<p>The observed Fisher information <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})\)</span> and the expected Fisher information
-<span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> are related but also two clearly different entities:</p>
+<div class="example">
+<p><span id="exm:catobsfisher" class="example"><strong>Example 3.10  </strong></span>Observed Fisher information of the categorical distribution:</p>
+<p>We continue Example <a href="maximum-likelihood-estimation.html#exm:catmle">3.6</a>.
+We first need to compute the negative Hessian matrix of the log likelihood function
+<span class="math inline">\(- \nabla \nabla^T l_n(\pi_1, \ldots, \pi_{K-1} )\)</span> and then evaluate it at the
+MLEs <span class="math inline">\(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}\)</span>.</p>
+<p>The diagonal entries of the Hessian matrix (with <span class="math inline">\(i=1, \ldots, K-1\)</span>) are
+<span class="math display">\[
+\frac{\partial^2}{\partial \pi_i^2} l_n(\pi_1, \ldots, \pi_{K-1} ) =
+-n \left( \frac{\bar{x}_i}{\pi_i^2} +\frac{\bar{x}_K}{\pi_K^2}\right)
+\]</span>
+and its off-diagonal entries are (with <span class="math inline">\(j=1, \ldots, K-1\)</span>)
+<span class="math display">\[
+\frac{\partial^2}{\partial \pi_i \partial \pi_j} l_n(\pi_1, \ldots, \pi_{K-1} ) =
+-\frac{n \bar{x}_K}{\pi_K^2}
+\]</span>
+Thus, the observed Fisher information matrix at the MLE for a categorical distribution is
+<span class="math display">\[
+\boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =
+n
+\begin{pmatrix}
+\frac{1}{\hat{\pi}_1^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_K^{ML}} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_{K-1}^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} \\
+\end{pmatrix}
+\]</span></p>
+<p>For <span class="math inline">\(K=2\)</span> (cf. Example <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.7</a>) this reduces to the observed Fisher information of a Bernoulli variable
+<span class="math display">\[
+\begin{split}
+J_n(\hat{\theta}_{ML}) &amp; = n \left(\frac{1}{\hat{\theta}_{ML}} + \frac{1}{1-\hat{\theta}_{ML}} \right) \\
+  &amp;= \frac{n}{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})} \\
+\end{split}
+\]</span></p>
+<p>The inverse of the observed Fisher information is:
+<span class="math display">\[
+\boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )^{-1} =
+\frac{1}{n}
+\begin{pmatrix}
+\hat{\pi}_1^{ML} (1- \hat{\pi}_1^{ML} )  &amp; \cdots &amp; -  \hat{\pi}_{1}^{ML} \hat{\pi}_{K-1}^{ML}   \\
+\vdots &amp; \ddots &amp; \vdots \\
+-  \hat{\pi}_{K-1}^{ML} \hat{\pi}_{1}^{ML} &amp; \cdots &amp; \hat{\pi}_{K-1}^{ML} (1- \hat{\pi}_{K-1}^{ML} )  \\
+\end{pmatrix}
+\]</span></p>
+<p>To show that this is indeed the inverse we use the
+<a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">Woodbury matrix identity</a></p>
+<p><span class="math display">\[
+(\boldsymbol A+ \boldsymbol U\boldsymbol B\boldsymbol V)^{-1} = \boldsymbol A^{-1} - \boldsymbol A^{-1} \boldsymbol U(\boldsymbol B^{-1} + \boldsymbol V\boldsymbol A^{-1} \boldsymbol U)^{-1} \boldsymbol V\boldsymbol A^{-1}
+\]</span>
+with</p>
 <ul>
-<li><p>Both types of Fisher information are based on computing second order derivatives
-(Hessian matrix), thus both are based on the curvature of a function.</p></li>
-<li><p>The observed Fisher information is computed from the log-likelihood function.
-Therefore it takes the observed data <span class="math inline">\(D\)</span> into account and explicitly depends on the sample size <span class="math inline">\(n\)</span>. It contains estimates of the parameters but not the parameters themselves. While the curvature of the log-likelihood function may be computed for any point of the log-likelihood function the observed Fisher information specifically refers to curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>. It is linked to the (asymptotic) variance of the MLE as we have seen in the examples and will discuss in more detail later.</p></li>
-<li><p>In contrast, the expected Fisher information is derived directly from the log-density. It does not depend on the observed data, and thus does not depend on sample size. It can be computed for any value of the parameters. It describes the geometry of the space of the models, and is the local approximation of relative entropy.</p></li>
-<li><p>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_0\)</span>.
-It follows from the construction of
-the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol I^{\text{Fisher}}( \boldsymbol \theta_0 )\)</span> (i.e. the expected Fisher information for a set of iid random variables, see Example <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisheriidset">2.14</a>).</p></li>
-<li><p>In a very important class of models, namely in an <strong>exponential family model</strong>, we find that
-<span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span> is valid also for finite sample size <span class="math inline">\(n\)</span>. This is in fact the case for all the examples discussed above (e.g. see
-Examples <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.5</a> and <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisherbernoulli">2.11</a>
-for the Bernoulli distribution and Examples <a href="maximum-likelihood-estimation.html#exm:obsfishernormalmeanvar">3.7</a> and <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfishernormal">2.13</a>
-for the normal distribution).</p></li>
-<li><p>However, this is an exception. In a general model <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \neq n \boldsymbol I^{\text{Fisher}}( \hat{\boldsymbol \theta}_{ML} )\)</span>
-for finite sample size <span class="math inline">\(n\)</span>. An example is provided by the Cauchy distribution with median parameter <span class="math inline">\(\theta\)</span>. It is not an exponential family model and has expected Fisher information <span class="math inline">\(I^{\text{Fisher}}(\theta )=\frac{1}{2}\)</span> regardless of the choice
-the median parameter whereas the observed Fisher information <span class="math inline">\(J_n(\hat{\theta}_{ML})\)</span> depends on the
-MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median parameter and is not simply <span class="math inline">\(\frac{n}{2}\)</span>.</p></li>
+<li>
+<span class="math inline">\(B=1\)</span>,</li>
+<li>
+<span class="math inline">\(\boldsymbol u= (\pi_1, \ldots, \pi_{K-1})^T\)</span>,</li>
+<li>
+<span class="math inline">\(\boldsymbol v=-\boldsymbol u^T\)</span>,</li>
+<li>
+<span class="math inline">\(\boldsymbol A= \text{Diag}(\boldsymbol u)\)</span> and its inverse <span class="math inline">\(\boldsymbol A^{-1} = \text{Diag}(\pi_1^{-1}, \ldots, \pi_{K-1}^{-1})\)</span>.</li>
 </ul>
+<p>Then <span class="math inline">\(\boldsymbol A^{-1} \boldsymbol u= \boldsymbol 1_{K-1}\)</span> and <span class="math inline">\(1-\boldsymbol u^T \boldsymbol A^{-1} \boldsymbol u= \pi_K\)</span>.
+With this
+<span class="math display">\[
+\boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )^{-1} = \frac{1}{n}
+\left( \boldsymbol A- \boldsymbol u\boldsymbol u^T \right)
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) = n \left( \boldsymbol A^{-1} + \frac{1}{\pi_K} \boldsymbol 1_{K-1 \times K-1}  \right)
+\]</span></p>
+</div>
+
 </div>
 </div>
 </div>
@@ -617,26 +825,35 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#maximum-likelihood-estimation"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
 <li>
-<a class="nav-link" href="#principle-of-maximum-likelihood-estimation"><span class="header-section-number">3.1</span> Principle of maximum likelihood estimation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#outline"><span class="header-section-number">3.1.1</span> Outline</a></li>
+<a class="nav-link" href="#outline-of-maximum-likelihood-estimation"><span class="header-section-number">3.1</span> Outline of maximum likelihood estimation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-procedure"><span class="header-section-number">3.1.1</span> General procedure</a></li>
 <li><a class="nav-link" href="#obtaining-mles-for-a-regular-model"><span class="header-section-number">3.1.2</span> Obtaining MLEs for a regular model</a></li>
-<li><a class="nav-link" href="#invariance-property-of-the-maximum-likelihood"><span class="header-section-number">3.1.3</span> Invariance property of the maximum likelihood</a></li>
-<li><a class="nav-link" href="#consistency-of-maximum-likelihood-estimates"><span class="header-section-number">3.1.4</span> Consistency of maximum likelihood estimates</a></li>
 </ul>
 </li>
 <li>
 <a class="nav-link" href="#maximum-likelihood-estimation-in-practise"><span class="header-section-number">3.2</span> Maximum likelihood estimation in practise</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#likelihood-estimation-for-a-single-parameter"><span class="header-section-number">3.2.1</span> Likelihood estimation for a single parameter</a></li>
 <li><a class="nav-link" href="#likelihood-estimation-for-multiple-parameters"><span class="header-section-number">3.2.2</span> Likelihood estimation for multiple parameters</a></li>
-<li><a class="nav-link" href="#relationship-of-maximum-likelihood-with-least-squares-estimation"><span class="header-section-number">3.2.3</span> Relationship of maximum likelihood with least squares estimation</a></li>
-<li><a class="nav-link" href="#bias-and-maximum-likelihood-estimates"><span class="header-section-number">3.2.4</span> Bias and maximum likelihood estimates</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#observed-fisher-information"><span class="header-section-number">3.3</span> Observed Fisher information</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#motivation-and-definition"><span class="header-section-number">3.3.1</span> Motivation and definition</a></li>
-<li><a class="nav-link" href="#examples-of-observed-fisher-information"><span class="header-section-number">3.3.2</span> Examples of observed Fisher information</a></li>
-<li><a class="nav-link" href="#relationship-between-observed-and-expected-fisher-information"><span class="header-section-number">3.3.3</span> Relationship between observed and expected Fisher information</a></li>
+<a class="nav-link" href="#properties-of-maximum-likelihood-estimation"><span class="header-section-number">3.3</span> Properties of maximum likelihood estimation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#invariance-property-of-the-maximum-likelihood"><span class="header-section-number">3.3.1</span> Invariance property of the maximum likelihood</a></li>
+<li><a class="nav-link" href="#consistency-of-maximum-likelihood-estimates"><span class="header-section-number">3.3.2</span> Consistency of maximum likelihood estimates</a></li>
+<li><a class="nav-link" href="#relationship-of-maximum-likelihood-with-least-squares-estimation"><span class="header-section-number">3.3.3</span> Relationship of maximum likelihood with least squares estimation</a></li>
+<li><a class="nav-link" href="#bias-of-maximum-likelihood-estimates"><span class="header-section-number">3.3.4</span> Bias of maximum likelihood estimates</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#observed-fisher-information"><span class="header-section-number">3.4</span> Observed Fisher information</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#motivation-and-definition-of-observed-fisher-information"><span class="header-section-number">3.4.1</span> Motivation and definition of observed Fisher information</a></li>
+<li><a class="nav-link" href="#relationship-between-observed-and-expected-fisher-information"><span class="header-section-number">3.4.2</span> Relationship between observed and expected Fisher information</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#observed-fisher-information-examples"><span class="header-section-number">3.5</span> Observed Fisher information examples</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#models-with-a-single-parameter-1"><span class="header-section-number">3.5.1</span> Models with a single parameter</a></li>
+<li><a class="nav-link" href="#models-with-multiple-parameters-1"><span class="header-section-number">3.5.2</span> Models with multiple parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -655,7 +872,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 10 December 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
