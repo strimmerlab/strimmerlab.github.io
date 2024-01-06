@@ -18,9 +18,9 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distributions. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of large...">
-<meta property="og:description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distributions. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of large...">
-<meta name="twitter:description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distributions. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of large...">
+<meta name="description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distribution families. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of...">
+<meta property="og:description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distribution families. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of...">
+<meta name="twitter:description" content="3.1 Bernoulli distribution The Bernoulli distribution \(\text{Ber}(\theta)\) is simplest of all distribution families. It is named after Jacob Bernoulli (1655-1705) who also discovered the law of...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -62,7 +62,7 @@
 <h2>
 <span class="header-section-number">3.1</span> Bernoulli distribution<a class="anchor" aria-label="anchor" href="#bernoulli-distribution"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <strong>Bernoulli distribution</strong> <span class="math inline">\(\text{Ber}(\theta)\)</span> is simplest of all distributions.
+<p>The <strong>Bernoulli distribution</strong> <span class="math inline">\(\text{Ber}(\theta)\)</span> is simplest of all distribution families.
 It is named after <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a>
 who also discovered the law of large numbers.</p>
 <p>It describes a discrete binary random variable
@@ -72,11 +72,11 @@ Often the Bernoulli distribution is also referred to as “coin tossing” model
 the two outcomes “heads” and “tails”.</p>
 <p>Correspondingly, the probability mass function of <span class="math inline">\(\text{Ber}(\theta)\)</span> is
 <span class="math display">\[
-p(x=0) = \text{Pr}(\text{"failure"}) = 1-\theta  
+p(x=0 | \theta) = \text{Pr}(\text{"failure"}| \theta) = 1-\theta  
 \]</span>
 and
 <span class="math display">\[
-p(x=1) = \text{Pr}(\text{"success"}) = \theta
+p(x=1| \theta) = \text{Pr}(\text{"success"}| \theta) = \theta
 \]</span>
 A compact way to write the PMF of the Bernoulli distribution is
 <span class="math display">\[
@@ -103,20 +103,27 @@ Bernoulli experiment <span class="math inline">\(n\)</span> times and counting t
 the <span class="math inline">\(n\)</span> trials (without keeping track of the ordering of the experiments).
 Thus, if <span class="math inline">\(x_1, \ldots, x_n\)</span> are <span class="math inline">\(n\)</span> independent <span class="math inline">\(\text{Ber}(\theta)\)</span> random variables
 then <span class="math inline">\(y = \sum_{i=1}^n x_i\)</span> is distributed as <span class="math inline">\(\text{Bin}(n, \theta)\)</span>.</p>
-<p>Its probability mass function is:
-<span class="math display">\[
-p(y | n, \theta) = \binom{n}{y} \theta^y (1 - \theta)^{n - y}
-\]</span>
-for <span class="math inline">\(y \in \{ 0, 1, 2, \ldots, n\}\)</span>.
-The binomial coefficient <span class="math inline">\(\binom{n}{y}\)</span> is needed to account for the multiplicity
-of ways (orderings of samples) in which we can observe <span class="math inline">\(y\)</span> sucesses.</p>
-<p>The expected value is <span class="math inline">\(\text{E}(y) = n \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(y) = n \theta (1 - \theta)\)</span>.</p>
 <p>If a random variable <span class="math inline">\(y\)</span> follows the binomial distribution we
 write
 <span class="math display">\[
 y \sim \text{Bin}(n, \theta)\,
+\]</span></p>
+<p>The corresponding probability mass function is:
+<span class="math display">\[
+p(y | n, \theta) = \binom{n}{y} \theta^y (1 - \theta)^{n - y}
 \]</span>
-For <span class="math inline">\(n=1\)</span> it reduces to the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span>.</p>
+with support <span class="math inline">\(y \in \{ 0, 1, 2, \ldots, n\}\)</span>.
+The binomial coefficient <span class="math inline">\(\binom{n}{y}\)</span> is needed to account for the multiplicity
+of ways (orderings of samples) in which we can observe <span class="math inline">\(y\)</span> successes.</p>
+<p>The expected value is <span class="math inline">\(\text{E}(y) = n \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(y) = n \theta (1 - \theta)\)</span>.</p>
+<p>If we standardise the support of the binomial variable to the unit interval
+with <span class="math inline">\(\frac{y}{n} \in \left\{0,\frac{1}{n},...,1\right\}\)</span> then the mean
+is <span class="math inline">\(\text{E}\left(\frac{y}{n}\right) = \theta\)</span> and the variance is
+<span class="math inline">\(\text{Var}\left(\frac{y}{n}\right)=\frac{\theta (1-\theta)}{n}\)</span>.</p>
+<p>The binomial distribution may be illustrated by an urn model
+distributing <span class="math inline">\(n\)</span> balls into <span class="math inline">\(2\)</span> bins:</p>
+<div class="inline-figure"><img src="fig/urn-binom.png" width="60%" style="display: block; margin: auto;"></div>
+<p>For <span class="math inline">\(n=1\)</span> the binomial distribution reduces to the Bernoulli distribution.</p>
 <p>In R the PMF of the binomial distribution is called <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code>. The binomial coefficient itself is computed by <code><a href="https://rdrr.io/r/base/Special.html">choose()</a></code>.</p>
 </div>
 <div id="beta-distribution" class="section level2" number="3.3">
@@ -127,30 +134,32 @@ For <span class="math inline">\(n=1\)</span> it reduces to the Bernoulli distrib
 <h3>
 <span class="header-section-number">3.3.1</span> Standard parameterisation<a class="anchor" aria-label="anchor" href="#standard-parameterisation"><i class="fas fa-link"></i></a>
 </h3>
+<p>A beta-distributed random variable is denoted by
+<span class="math display">\[
+x \sim \text{Beta}(\alpha, \beta)
+\]</span>
+where the support is <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span>.</p>
+<p>The beta random variable can be visualised as
+breaking a unit stick of length one
+into two pieces of length <span class="math inline">\(x\)</span> and <span class="math inline">\(1-x\)</span>:</p>
+<div class="inline-figure"><img src="fig/stick-beta.png" width="60%" style="display: block; margin: auto;"></div>
 <p>The density of the beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> is
 <span class="math display">\[
 p(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}
 \]</span>
-with <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span>.
-The density depends on the beta function <span class="math inline">\(B(z_1, z_1) = \frac{ \Gamma(z_1) \Gamma(z_2)}{\Gamma(z_1 + z_2)}\)</span>
-which in turn is defined via Euler’s gamma function <span class="math inline">\(\Gamma(x)\)</span>.
-Note that <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span>.</p>
-<p>The mean of the beta distribution is
+This depends on the beta function
+defined as
 <span class="math display">\[
-\text{E}(x) = \frac{\alpha}{\alpha+\beta}
-\]</span>
-and its variance is
-<span class="math display">\[
-\text{Var}(x)=\frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}
+B(z_1, z_1) = \frac{ \Gamma(z_1) \Gamma(z_2)}{\Gamma(z_1 + z_2)}
 \]</span></p>
-<p>The beta distribution is very flexible and can assume a number of different shapes, depending on the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>:</p>
+<p>The beta distribution is very flexible and can assume a number of different shapes, depending on the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. For example, for <span class="math inline">\(\alpha=\beta=1\)</span> it becomes the uniform distribution over the unit interval:</p>
 <div class="inline-figure"><img src="fig/bayes2-betashapes.png" width="80%" style="display: block; margin: auto;"></div>
 </div>
 <div id="mean-parameterisation" class="section level3" number="3.3.2">
 <h3>
 <span class="header-section-number">3.3.2</span> Mean parameterisation<a class="anchor" aria-label="anchor" href="#mean-parameterisation"><i class="fas fa-link"></i></a>
 </h3>
-<p>A useful reparameterisation <span class="math inline">\(\text{Beta}(\mu, k)\)</span> of the beta distribution is in terms of a mean parameter
+<p>Instead of employing <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> as parameters another useful reparameterisation <span class="math inline">\(\text{Beta}(\mu, k)\)</span> of the beta distribution is in terms of a mean parameter
 <span class="math inline">\(\mu \in [0,1]\)</span> and a concentration parameter <span class="math inline">\(k &gt; 0\)</span>. These are given by
 <span class="math display">\[
 k=\alpha+\beta
@@ -159,7 +168,7 @@ and
 <span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}
 \]</span>
 The original parameters can be recovered by
-<span class="math display">\[\alpha= \mu k\]</span> and <span class="math display">\[\beta=(1-\mu) k\]</span></p>
+<span class="math inline">\(\alpha= \mu k\)</span> and <span class="math inline">\(\beta=(1-\mu) k\)</span>.</p>
 <p>The mean and variance of the beta distribution expressed in terms of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> are
 <span class="math display">\[
 \text{E}(x) = \mu
@@ -169,6 +178,9 @@ and
 \text{Var}(x)=\frac{\mu (1-\mu)}{k+1}
 \]</span>
 With increasing concentration parameter <span class="math inline">\(k\)</span> the variance decreases and thus the probability mass becomes more concentrated around the mean.</p>
+<p>The uniform distribution (with <span class="math inline">\(\alpha=\beta=1\)</span>) corresponds to <span class="math inline">\(\mu=1/2\)</span> and <span class="math inline">\(k=2\)</span>.</p>
+<p>Finally, note that the mean and variance of the continuous beta distribution
+closely match those of the unit-standardised discrete binomial distribution above.</p>
 </div>
 </div>
 <div id="normal-distribution" class="section level2" number="3.4">
@@ -177,7 +189,7 @@ With increasing concentration parameter <span class="math inline">\(k\)</span> t
 </h2>
 <p>The <strong>normal distribution</strong> is the most important continuous probability distribution.
 It is also called <strong>Gaussian distribution</strong> named after <a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Carl Friedrich Gauss (1777–1855)</a>.</p>
-<p>The univariate normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> has two parameters <span class="math inline">\(\mu\)</span> (location) and <span class="math inline">\(\sigma^2\)</span> (scale):</p>
+<p>The univariate normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> has two parameters <span class="math inline">\(\mu\)</span> (location) and <span class="math inline">\(\sigma^2\)</span> (scale) and support <span class="math inline">\(x \in ]-\infty, \infty[\)</span>.</p>
 <p><span class="math display">\[
 x \sim N(\mu,\sigma^2)
 \]</span>
@@ -196,7 +208,7 @@ p(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\s
 <p>In R the density function is called <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm()</a></code>.</p>
 <p>The standard normal distribution is <span class="math inline">\(N(0, 1)\)</span> with mean 0 and variance 1.</p>
 <p>Plot of the PDF of the standard normal:</p>
-<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-2-1.png" width="384"></div>
+<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-4-1.png" width="384"></div>
 <p>The cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span>
 is
 <span class="math display">\[
@@ -204,10 +216,10 @@ is
 \]</span>
 There is no analytic expression for <span class="math inline">\(\Phi(x)\)</span>. In R the function is called <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code>.</p>
 <p>Plot of the CDF of the standard normal:</p>
-<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-3-1.png" width="384"></div>
+<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-5-1.png" width="384"></div>
 <p>The inverse <span class="math inline">\(\Phi^{-1}(p)\)</span> is called the quantile function of the standard normal.
 In R the function is called <code><a href="https://rdrr.io/r/stats/Normal.html">qnorm()</a></code>.</p>
-<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-4-1.png" width="384"></div>
+<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-6-1.png" width="384"></div>
 </div>
 <div id="gamma-distribution-and-special-cases" class="section level2" number="3.5">
 <h2>
@@ -220,19 +232,20 @@ scaled chi-squared distribution</p>
 <h3>
 <span class="header-section-number">3.5.1</span> Standard parameterisation<a class="anchor" aria-label="anchor" href="#standard-parameterisation-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Another important continuous distribution is the gamma distribution
-<span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span>.
-It has two parameters <span class="math inline">\(\alpha&gt;0\)</span> (shape) and <span class="math inline">\(\theta&gt;0\)</span> (scale):
+<p>The gamma distribution
+<span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span> is a continuous distribution with
+two parameters <span class="math inline">\(\alpha&gt;0\)</span> (shape) and <span class="math inline">\(\theta&gt;0\)</span> (scale):
 <span class="math display">\[
 x \sim\text{Gam}(\alpha, \theta)
 \]</span>
+and support <span class="math inline">\(x \in [0, \infty[\)</span>
 with mean
 <span class="math display">\[\text{E}(x)=\alpha \theta\]</span>
 and variance
 <span class="math display">\[\text{Var}(x) = \alpha \theta^2\]</span></p>
 <p>The gamma distribution is also often used with a rate
 parameter <span class="math inline">\(\beta=1/\theta\)</span> (so one needs to pay attention which parameterisation is used).</p>
-<p>Probability density function (PDF):
+<p>The probability density function (PDF) is:
 <span class="math display">\[
 p(x| \alpha, \theta)=\frac{1}{\Gamma(\alpha) \theta^{\alpha} } x^{\alpha-1} e^{-x/\theta}
 \]</span>
@@ -246,7 +259,7 @@ The density of the gamma distribution is available in the R function <code><a hr
 <span class="math inline">\(k=2 \alpha\)</span> and <span class="math inline">\(s^2 =\theta/2\)</span> (hence conversely <span class="math inline">\(\alpha = k/2\)</span> and <span class="math inline">\(\theta=2 s^2\)</span>).
 In this form it is known as <strong>univariate or one-dimensional Wishart distribution</strong>
 <span class="math display">\[
-W_1\left(s^2, k \right)
+\text{W}_1\left(s^2, k \right)
 \]</span>
 named after <a href="https://en.wikipedia.org/wiki/John_Wishart_(statistician)">John Wishart (1898–1954)</a>.
 In the Wishart parameterisation the mean is
@@ -263,7 +276,9 @@ parameterisation is <strong>scaled chi-squared distribution</strong> denoted as
 s^2 \text{$\chi^2_{k}$}
 \]</span></p>
 <p>Finally, we also often employ the Wishart distribution in <strong>mean parameterisation</strong>
-<span class="math inline">\(W_1\left(s^2= \mu / k, k \right)\)</span>
+<span class="math display">\[
+\text{W}_1\left(s^2= \frac{\mu}{k}, k \right)
+\]</span>
 with parameters <span class="math inline">\(\mu = k s^2\)</span> and <span class="math inline">\(k\)</span> (and thus <span class="math inline">\(\theta = 2 \mu /k\)</span>). In this parameterisation the mean is
 <span class="math display">\[
 \text{E}(x) = \mu
@@ -287,11 +302,11 @@ x = \sum_{i=1}^{k} z_i^2
 \]</span>
 follows
 <span class="math display">\[
-x \sim \sigma^2 \text{$\chi^2_{k}$} =  W_1\left( s^2, k \right)
-\]</span>
-or equivalently
-<span class="math display">\[
-x \sim \text{Gam}\left(\alpha=\frac{k}{2}, \theta = 2 s^2\right)
+\begin{split}
+x \sim &amp; \phantom{=} s^2 \text{$\chi^2_{k}$} \\
+       &amp; = \text{W}_1\left( s^2, k \right)\\
+       &amp; =\text{Gam}\left(\alpha=\frac{k}{2}, \theta = 2 s^2\right)
+\end{split}
 \]</span></p>
 </div>
 <div id="chi-squared-distribution" class="section level3" number="3.5.4">
@@ -302,10 +317,10 @@ x \sim \text{Gam}\left(\alpha=\frac{k}{2}, \theta = 2 s^2\right)
 <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> is a special one-parameter restriction of the
 gamma resp. Wishart distribution obtained when setting
 <span class="math inline">\(s^2=1\)</span> or, equivalently, <span class="math inline">\(\theta = 2\)</span> or <span class="math inline">\(\mu = k\)</span>.</p>
-<p>It has mean <span class="math inline">\(\text{E}(x)=k\)</span> and variance <span class="math inline">\(\text{Var}(x)=2k\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=k/2, \theta=2) = W_1\left(1, k \right)\)</span>.</p>
+<p>It has mean <span class="math inline">\(\text{E}(x)=k\)</span> and variance <span class="math inline">\(\text{Var}(x)=2k\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=k/2, \theta=2) = \text{W}_1\left(1, k \right)\)</span>.</p>
 <p>Here is a plot of the density of the chi-squared distribution
 for degrees of freedom <span class="math inline">\(k=1\)</span> and <span class="math inline">\(k=3\)</span>:</p>
-<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-5-1.png" width="768"></div>
+<div class="inline-figure"><img src="03-univariate_files/figure-html/unnamed-chunk-7-1.png" width="768"></div>
 <p>In R the density of the chi-squared distribution is given by <code><a href="https://rdrr.io/r/stats/Chisquare.html">dchisq()</a></code>. The cumulative density function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq()</a></code> and
 the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">qchisq()</a></code>.</p>
 </div>
@@ -317,7 +332,7 @@ the quantile function is <code><a href="https://rdrr.io/r/stats/Chisquare.html">
 is another special one-parameter restriction of the gamma distribution with shape parameter set to
 <span class="math inline">\(\alpha=1\)</span> (or equivalently <span class="math inline">\(k=2\)</span>).</p>
 <p>It thus equals
-<span class="math inline">\(\text{Gam}(\alpha=1, \theta) = W_1(s^2=\theta/2, k=2)\)</span>. It has mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\(\theta^2\)</span>.</p>
+<span class="math inline">\(\text{Gam}(\alpha=1, \theta) = \text{W}_1(s^2=\theta/2, k=2)\)</span>. It has mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\(\theta^2\)</span>.</p>
 <p>Just like the gamma distribution the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\beta= 1/\theta\)</span> instead of a scale parameter <span class="math inline">\(\theta\)</span>.</p>
 <p>In R the command <code><a href="https://rdrr.io/r/stats/Exponential.html">dexp()</a></code> returns the
 density of the exponential distribution,
@@ -333,22 +348,27 @@ density of the exponential distribution,
 <h3>
 <span class="header-section-number">3.6.1</span> Standard parameterisation<a class="anchor" aria-label="anchor" href="#standard-parameterisation-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>The inverse gamma (IG) distribution <span class="math inline">\(\text{Inv-Gam}(\alpha, \beta)\)</span>
-has density
+<p>A random variable <span class="math inline">\(x\)</span> following an <strong>inverse gamma distribution</strong> is denoted by
 <span class="math display">\[
-\frac{\beta^{\alpha}}{\Gamma(\alpha)} (1/x)^{\alpha+1} e^{-\beta/x}
+x \sim \text{Inv-Gam}(\alpha, \beta)
 \]</span>
 with two parameters <span class="math inline">\(\alpha &gt;0\)</span> (shape parameter) and <span class="math inline">\(\beta &gt;0\)</span> (scale parameter) and support <span class="math inline">\(x &gt;0\)</span>.</p>
+<p>The inverse of <span class="math inline">\(x\)</span> is then gamma distributed
+<span class="math display">\[
+\frac{1}{x} \sim \text{Gam}(\alpha, \theta=\beta^{-1})
+\]</span>
+where <span class="math inline">\(\alpha\)</span> is the shared shape parameter and <span class="math inline">\(\theta\)</span> the scale parameter of the gamma distribution.</p>
+<p>The inverse gamma distribution <span class="math inline">\(\text{Inv-Gam}(\alpha, \beta)\)</span>
+has density
+<span class="math display">\[
+p(x | \alpha, \beta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)} (1/x)^{\alpha+1} e^{-\beta/x}
+\]</span></p>
 <p>The mean of the inverse gamma distribution is
 <span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1}\]</span>
 and the variance
 <span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)}\]</span></p>
 <p>Thus, for the mean to exist we have the restriction
 <span class="math inline">\(\alpha&gt;1\)</span> and for the variance to exist <span class="math inline">\(\alpha&gt;2\)</span>.</p>
-<p>The IG distribution is closely linked with the gamma distribution.
-If <span class="math inline">\(x \sim \text{Inv-Gam}(\alpha, \beta)\)</span> is IG-distributed then the inverse of <span class="math inline">\(x\)</span> is gamma distributed:
-<span class="math display">\[\frac{1}{x} \sim \text{Gam}(\alpha, \theta=\beta^{-1})\]</span>
-where <span class="math inline">\(\alpha\)</span> is the shared shape parameter and <span class="math inline">\(\theta\)</span> the scale parameter of the gamma distribution.</p>
 </div>
 <div id="wishart-parameterisation" class="section level3" number="3.6.2">
 <h3>
@@ -359,25 +379,42 @@ set of parameters
 <span class="math inline">\(\psi = 2\beta\)</span> (scale parameter) and <span class="math inline">\(\nu = 2\alpha\)</span> (shape parameter), or
 conversely <span class="math inline">\(\alpha=\nu/2\)</span> and <span class="math inline">\(\beta=\psi/2\)</span>.
 In this form it is called <strong>one-dimensional inverse Wishart distribution</strong>
-<span class="math inline">\(W^{-1}_1(\psi, \nu)\)</span> with mean and variance given by
 <span class="math display">\[
-\text{E}(x) = \frac{\psi}{\nu-2} = \mu
+\text{W}^{-1}_1(\psi, \nu)
 \]</span>
-for <span class="math inline">\(\nu&gt;2\)</span> and
+with mean given by
 <span class="math display">\[
-\text{Var}(x) =\frac{2 \psi^2}{(\nu-4) (\nu-2)^2}  = \frac{2 \mu^2}{\nu-4}
+\text{E}(x) = \frac{\psi}{\nu-2}
+\]</span>
+for <span class="math inline">\(\nu&gt;2\)</span> and variance
+<span class="math display">\[
+\text{Var}(x) =\frac{2 \psi^2}{(\nu-2)^2 (\nu-4) }  
 \]</span>
 for <span class="math inline">\(\nu &gt;4\)</span>.</p>
-<p>Instead of <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span> we may also equivalently use <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\kappa=\nu-2\)</span> as parameters for the inverse
-Wishart distribution, so that <span class="math inline">\(W^{-1}_1(\psi=\kappa \mu, \nu=\kappa+2)\)</span>
+<p>The inverse univariate Wishart and univariate Wishart distributions are linked.
+If a random variable <span class="math inline">\(x\)</span> is inverse Wishart distributed
+<span class="math display">\[
+x \sim \text{W}^{-1}_1(\psi, \nu)
+\]</span>
+then the inverse of <span class="math inline">\(x\)</span> is Wishart distributed with inverted scale parameter:
+<span class="math display">\[\frac{1}{x} \sim \text{W}_1(s^2=\psi^{-1}, k=\nu)\]</span>
+where <span class="math inline">\(k\)</span> is the shape parameter and <span class="math inline">\(s^2\)</span> the scale parameter of the Wishart distribution.</p>
+<p>Instead of <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span> we may also equivalently use
+<span class="math inline">\(\kappa=\nu-2\)</span> and
+<span class="math inline">\(\mu = \psi/(\nu-2)\)</span>
+as parameters for the inverse
+Wishart distribution, so that
+<span class="math display">\[
+\text{W}^{-1}_1(\psi=\kappa \mu, \nu=\kappa+2)
+\]</span>
 has mean
 <span class="math display">\[\text{E}(x) = \mu\]</span>
 with <span class="math inline">\(\kappa&gt;0\)</span> and the variance is
 <span class="math display">\[\text{Var}(x) = \frac{2 \mu^2}{\kappa-2}\]</span> with
 <span class="math inline">\(\kappa&gt;2\)</span>.
-This <strong>mean parameterisation</strong> is useful when employing the IG distribution
+This <strong>mean parameterisation</strong> is useful when employing the inverse gamma distribution
 as prior and posterior.</p>
-<p>Finally, with <span class="math inline">\(W^{-1}_1(\psi=\nu \tau^2, \nu)\)</span>, where
+<p>Finally, with <span class="math inline">\(\text{W}^{-1}_1(\psi=\nu \tau^2, \nu)\)</span>, where
 <span class="math inline">\(\tau^2 = \mu \frac{ \kappa}{\kappa+2} = \frac{\psi}{\nu}\)</span> is a
 biased mean parameter, we get
 the <strong>scaled inverse chi-squared distribution</strong> <span class="math inline">\(\tau^2 \text{Inv-$\chi^2_{\nu}$}\)</span>
@@ -390,10 +427,6 @@ for <span class="math inline">\(\nu&gt;2\)</span> and
 \text{Var}(x) =\frac{2 \tau^4}{\nu-4} \frac{\nu^2}{(\nu-2)^2}
 \]</span>
 for <span class="math inline">\(\nu &gt;4\)</span>.</p>
-<p>The inverse univariate Wishart and univariate Wishart distributions are linked.
-If <span class="math inline">\(x \sim W^{-1}_1(\psi, \nu)\)</span> is inverse-Wishart distributed then the inverse of <span class="math inline">\(x\)</span> is Wishart distributed with inverted scale parameter:
-<span class="math display">\[\frac{1}{x} \sim W_1(s^2=\psi^{-1}, k=\nu)\]</span>
-where <span class="math inline">\(k\)</span> is the shape parameter and <span class="math inline">\(s^2\)</span> the scale parameter of the Wishart distribution.</p>
 </div>
 </div>
 <div id="location-scale-t-distribution-and-special-cases" class="section level2" number="3.7">
@@ -411,6 +444,7 @@ and for <span class="math inline">\(\nu \leq 2\)</span> the variance is undefine
 <span class="math display">\[
 p(x | \mu, \tau^2, \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\pi \nu \tau^2}  \,\Gamma(\frac{\nu}{2})} \left(1+\frac{(x-\mu)^2}{\nu \tau^2} \right)^{-(\nu+1)/2}
 \]</span>
+with support <span class="math inline">\(x \in ]-\infty, \infty[\)</span>.
 The mean is (for <span class="math inline">\(\nu&gt;1\)</span>)
 <span class="math display">\[
 \text{E}(x) = \mu
@@ -436,7 +470,7 @@ x | s^2 \sim N(\mu,s^2)
 and mean <span class="math inline">\(\text{E}(x | s^2) = \mu\)</span> and variance <span class="math inline">\(\text{Var}(x|s^2) = s^2\)</span>.</p>
 <p>Now let the variance <span class="math inline">\(s^2\)</span> be distributed as inverse gamma / inverse Wishart
 <span class="math display">\[
-s^2 \sim  W^{-1}(\psi=\kappa \sigma^2, \nu=\kappa+2) = W^{-1}(\psi=\tau^2\nu, \nu)
+s^2 \sim  \text{W}^{-1}(\psi=\kappa \sigma^2, \nu=\kappa+2) = \text{W}^{-1}(\psi=\tau^2\nu, \nu)
 \]</span>
 with corresponding density <span class="math inline">\(p(s^2)\)</span> and mean <span class="math inline">\(\text{E}(s^2) = \sigma^2 = \tau^2 \nu/(\nu-2)\)</span>.
 Note we use here both the mean parameterisation (<span class="math inline">\(\sigma^2, \kappa\)</span>)
@@ -552,7 +586,7 @@ with density <span class="math inline">\(p(x| \mu, \tau) = \frac{\tau}{\pi (\tau
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 3 January 2024.</p>
+    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 6 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

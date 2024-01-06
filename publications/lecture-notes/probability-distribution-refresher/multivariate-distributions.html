@@ -110,8 +110,6 @@ we rewrite the log-density with
 Note that there is no particular reason to choose <span class="math inline">\(\pi_K\)</span> as
 dependent of the probabilities of the other classes,
 in its place any other of the <span class="math inline">\(\pi_k\)</span> may be selected.</p>
-<p>For <span class="math inline">\(K=2\)</span> the categorical distribution reduces to the Bernoulli <span class="math inline">\(\text{Ber}(\theta)\)</span> distribution,
-with <span class="math inline">\(\pi_1=\theta\)</span> and <span class="math inline">\(\pi_2=1-\theta\)</span>.</p>
 <p>The expected value is <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \pi\)</span>, in component notation
 <span class="math inline">\(\text{E}(x_k) = \pi_k\)</span>.
 The covariance matrix is <span class="math inline">\(\text{Var}(\boldsymbol x) = \text{Diag}(\boldsymbol \pi) - \boldsymbol \pi\boldsymbol \pi^T\)</span>, which in
@@ -121,6 +119,8 @@ variance <span class="math inline">\(\text{Var}(\boldsymbol x) = \text{E}( \bold
 and noting that <span class="math inline">\(x_i^2 = x_i\)</span> and <span class="math inline">\(x_i x_j = 0\)</span> if <span class="math inline">\(i \neq j\)</span>.
 Furthermore, the categorical covariance matrix is singular by construction, as the <span class="math inline">\(K\)</span> random variables
 <span class="math inline">\(x_1, \ldots, x_K\)</span> are dependent through the constraint <span class="math inline">\(\sum_{k=1}^K x_k = 1\)</span>.</p>
+<p>For <span class="math inline">\(K=2\)</span> the categorical distribution reduces to the Bernoulli <span class="math inline">\(\text{Ber}(\theta)\)</span> distribution,
+with <span class="math inline">\(\pi_1=\theta\)</span> and <span class="math inline">\(\pi_2=1-\theta\)</span>.</p>
 </div>
 <div id="multinomial-distribution" class="section level2" number="4.2">
 <h2>
@@ -139,10 +139,80 @@ where <span class="math inline">\(\binom{n}{y_1, \ldots, y_n}\)</span> is the mu
 <span class="math inline">\(\text{E}(y_k) = n \pi_k\)</span>.
 The covariance matrix is <span class="math inline">\(\text{Var}(\boldsymbol y) = n \text{Diag}(\boldsymbol \pi) - n \boldsymbol \pi\boldsymbol \pi^T\)</span>, which in
 component notation is <span class="math inline">\(\text{Var}(x_i) = n \pi_i (1-\pi_i)\)</span> and <span class="math inline">\(\text{Cov}(x_i, x_j) = -n \pi_i \pi_j\)</span>.</p>
+<p>Standardised to unit interval:
+<span class="math display">\[\frac{y_i}{n} \in \left\{0,\frac{1}{n},\frac{2}{n},...,1\right\}\]</span>
+<span class="math display">\[\text{E}\left(\frac{\boldsymbol y}{n}\right) = \boldsymbol \pi\]</span>
+<span class="math display">\[\text{Var}\left(\frac{\boldsymbol y}{n}\right) = \frac{ \text{Diag}(\boldsymbol \pi)}{n} - \frac{ \boldsymbol \pi\boldsymbol \pi^T}{n}\]</span>
+<span class="math display">\[\text{Var}\left(\frac{y_i}{n}\right)=\frac{\pi_i(1-\pi_i)}{n}\]</span>
+<span class="math display">\[\text{Cov}\left(\frac{y_i}{n},\frac{y_j}{n}\right)=-\frac{\pi_i\pi_j}{n} \]</span></p>
+<p>The multinomial distribution may be illustrated by an urn model
+distributing <span class="math inline">\(n\)</span> balls into <span class="math inline">\(K\)</span> bins:</p>
+<div class="inline-figure"><img src="fig/urn-multinom.png" width="60%" style="display: block; margin: auto;"></div>
+<p>For <span class="math inline">\(n=1\)</span> the multinomial distribution reduces to the categorical distribution.</p>
+<p>For <span class="math inline">\(K=2\)</span> the multinomial distribution reduced to the Binomial distribution.</p>
 </div>
-<div id="multivariate-normal-distribution" class="section level2" number="4.3">
+<div id="dirichlet-distribution" class="section level2" number="4.3">
 <h2>
-<span class="header-section-number">4.3</span> Multivariate normal distribution<a class="anchor" aria-label="anchor" href="#multivariate-normal-distribution"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.3</span> Dirichlet distribution<a class="anchor" aria-label="anchor" href="#dirichlet-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<div id="standard-parameterisation-3" class="section level3" number="4.3.1">
+<h3>
+<span class="header-section-number">4.3.1</span> Standard parameterisation<a class="anchor" aria-label="anchor" href="#standard-parameterisation-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>The Dirichlet distribution is the multivariate generalisation of the beta distribution.</p>
+<p>A Dirichlet distributed random vector is denoted by
+<span class="math display">\[
+\boldsymbol x\sim \text{Dir}(\boldsymbol \alpha)
+\]</span>
+with parameter <span class="math inline">\(\boldsymbol \alpha= (\alpha_1,...,\alpha_K)^T &gt;0\)</span>
+and <span class="math inline">\(K\geq 2\)</span> and
+where the support of <span class="math inline">\(\boldsymbol x\)</span> is the <span class="math inline">\(K-1\)</span> dimensional simplex
+with <span class="math inline">\(x_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1} x_i = 1\)</span>.</p>
+<p>The Dirichlet random variable can be visualised as
+breaking a unit stick of length one
+in <span class="math inline">\(K\)</span> pieces of length <span class="math inline">\(x_1\)</span> to <span class="math inline">\(x_K\)</span>:</p>
+<div class="inline-figure"><img src="fig/stick-dirichlet.png" width="60%" style="display: block; margin: auto;"></div>
+<p>The density of the Dirichlet distribution <span class="math inline">\(\text{Dir}(\boldsymbol \alpha)\)</span> is
+<span class="math display">\[
+p(\boldsymbol x| \boldsymbol \alpha) = \frac{1}{B(\boldsymbol \alpha)}  \prod_{k=1}^K x_k^{\alpha_k-1}
+\]</span>
+This depends on the beta function with multivariate argument
+defined as
+<span class="math display">\[
+B(\boldsymbol z) = \frac{ \prod_{k=1}^K \Gamma(z_k) }{\Gamma\left( \sum_{k=1}^K   z_k\right)}
+\]</span></p>
+<p>For <span class="math inline">\(K=2\)</span> the Dirichlet distribution reduces to the beta distribution.</p>
+</div>
+<div id="mean-parameterisation-1" class="section level3" number="4.3.2">
+<h3>
+<span class="header-section-number">4.3.2</span> Mean parameterisation<a class="anchor" aria-label="anchor" href="#mean-parameterisation-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Instead of employing <span class="math inline">\(\boldsymbol \alpha\)</span> as parameter vector another useful reparameterisation <span class="math inline">\(\text{Dir}(\boldsymbol \pi, k)\)</span> of the Dirichlet
+distribution is in terms of a mean parameter
+<span class="math inline">\(\boldsymbol \pi\)</span>, with <span class="math inline">\(\pi_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1}\pi_i = 1\)</span>,
+and a concentration parameter <span class="math inline">\(k &gt; 0\)</span>. These are given by
+<span class="math display">\[
+k = \sum^{K}_{i=1}\alpha_i
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol \pi= \frac{\boldsymbol \alpha}{k}
+\]</span>
+The original parameters can be recovered by <span class="math inline">\(\alpha= \boldsymbol \pi k\)</span>.</p>
+<p>The mean and variance of the Dirichlet distribution expressed in terms of <span class="math inline">\(\boldsymbol \pi\)</span> and <span class="math inline">\(k\)</span> are
+<span class="math display">\[
+\text{E}(\boldsymbol x) = \boldsymbol \pi
+\]</span>
+and
+<span class="math display">\[\text{Var}(x_i)=\frac{\pi_i(1-\pi_i)}{k+1}\]</span>
+<span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\pi_i \pi_j}{k+1}\]</span></p>
+<p>Finally, note that the mean and variance of the continuous Dirichlet distribution
+closely match those of the unit-standardised discrete multinomial distribution above.</p>
+</div>
+</div>
+<div id="multivariate-normal-distribution" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Multivariate normal distribution<a class="anchor" aria-label="anchor" href="#multivariate-normal-distribution"><i class="fas fa-link"></i></a>
 </h2>
 <p>The univariate normal distribution for a random scalar <span class="math inline">\(x\)</span> generalises to the <strong>multivariate normal distribution</strong> for a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T\)</span>.</p>
 <p>If <span class="math inline">\(\boldsymbol x\)</span> follows a multivariate normal distribution we write
@@ -157,9 +227,91 @@ the density can also be written as
 <span class="math display">\[
 p(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = (2\pi)^{-\frac{d}{2}} \det(\boldsymbol \Sigma)^{-\frac{1}{2}} \exp\left(-\frac{1}{2} (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)   \right)
 \]</span>
-with explicit occurance of the dimension <span class="math inline">\(d\)</span>.</p>
+with explicit occurence of the dimension <span class="math inline">\(d\)</span>.</p>
 <p>The expectation of <span class="math inline">\(\boldsymbol x\)</span> is <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> and the variance is <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma\)</span>.</p>
 <p>For <span class="math inline">\(d=1\)</span> the random vector <span class="math inline">\(\boldsymbol x=x\)</span> is a scalar and <span class="math inline">\(\boldsymbol \mu= \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma= \sigma^2\)</span> and the multivariate normal density reduces to the univariate normal density.</p>
+</div>
+<div id="wishart-distribution" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> Wishart distribution<a class="anchor" aria-label="anchor" href="#wishart-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Wishart distribution is a multivariate generalisation of the gamma distribution.</p>
+<p>Recall that the gamma distribution can be motivated as the distribution of
+sums of squared normal random variables. Likewise, the Wishart distribution
+can be understood as the sum of squared multivariate normal variables:
+<span class="math display">\[
+\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_k \stackrel{\text{iid}}\sim N_d(0,\boldsymbol S)
+\]</span><br>
+with <span class="math inline">\(\boldsymbol S=(s_{ij})\)</span> the specified covariance matrix.
+The random variable
+<span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{k}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span><br>
+is a random <em>matrix</em> and is distributed as
+<span class="math display">\[
+\boldsymbol X\sim  \text{W}_d\left(\boldsymbol S, k\right)
+\]</span>
+with mean
+<span class="math display">\[
+\text{E}(\boldsymbol X) = k \boldsymbol S
+\]</span>
+and variances
+<span class="math display">\[
+\text{Var}(x_{ij})  = k \left(s^2_{ij}+s_{ii} s_{jj}  \right)
+\]</span></p>
+<p>We often also employ the Wishart distribution in <strong>mean parameterisation</strong>
+<span class="math display">\[
+\text{W}_d\left(\boldsymbol S= \frac{\boldsymbol M}{k}, k \right)
+\]</span>
+with parameters <span class="math inline">\(\boldsymbol M= k \boldsymbol S\)</span> and <span class="math inline">\(k\)</span>. In this parameterisation the
+mean is
+<span class="math display">\[
+\text{E}(\boldsymbol X) = \boldsymbol M= (\mu_{ij})
+\]</span>
+and variances are
+<span class="math display">\[
+\text{Var}(x_{ij})  = \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{k}
+\]</span></p>
+<p>If <span class="math inline">\(\boldsymbol S\)</span> or <span class="math inline">\(\boldsymbol M\)</span> is a scalar rather than a matrix then the multivariate Wishart distribution reduces to the univariate Wishart aka gamma distribution.</p>
+</div>
+<div id="inverse-wishart-distribution" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> Inverse Wishart distribution<a class="anchor" aria-label="anchor" href="#inverse-wishart-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p>The inverse Wishart distribution is a multivariate generalisation of the inverse gamma distribution and is linked to the Wishart distribution.</p>
+<p>A random matrix <span class="math inline">\(\boldsymbol X\)</span> following an <strong>inverse Wishart distribution</strong>
+is denoted by
+<span class="math display">\[
+\boldsymbol X\sim \text{W}^{-1}_d\left(\boldsymbol \Psi, \nu\right)
+\]</span>
+where <span class="math inline">\(\boldsymbol \Psi\)</span> is the scale parameter and <span class="math inline">\(\nu\)</span> the shape parameter.
+The corresponding mean is given by
+<span class="math display">\[
+\text{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{\nu-d-1}
+\]</span>
+and the
+variances are
+<span class="math display">\[
+\text{Var}(x_{ij})= \frac{(\nu-d+1) \psi_{ij}^2 + (\nu-d-1) \, \psi_{ii} \psi_{jj} }{(\nu-d)(\nu-d-1)^2(\nu-d-3)}
+\]</span></p>
+<p>The inverse of <span class="math inline">\(\boldsymbol X\)</span> is then Wishart distributed:
+<span class="math display">\[
+\boldsymbol X^{-1} \sim \text{W}_d\left( \boldsymbol S= \boldsymbol \Psi^{-1}   \, , k = \nu \right)
+\]</span></p>
+<p>Instead of <span class="math inline">\(\boldsymbol \Psi\)</span> and <span class="math inline">\(\nu\)</span> we may use the mean parameterisation with
+parameters
+<span class="math inline">\(\kappa = \nu-d-1\)</span> and
+<span class="math inline">\(\boldsymbol M= \boldsymbol \Psi/(\nu-d-1)\)</span>:
+<span class="math display">\[
+\boldsymbol X\sim \text{W}^{-1}_d\left(\boldsymbol \Psi=  \kappa  \boldsymbol M\, , \, \nu= \kappa+d+1\right)
+\]</span>
+with mean
+<span class="math display">\[
+\text{E}(\boldsymbol X) =\boldsymbol M
+\]</span>
+and variances
+<span class="math display">\[
+\text{Var}(x_{ij})= \frac{(\kappa+2) \mu_{ij}^2 + \kappa \, \mu_{ii} \mu_{jj} }{(\kappa + 1)(\kappa-2)}
+\]</span></p>
+<p>If <span class="math inline">\(\boldsymbol \Psi\)</span> or <span class="math inline">\(\boldsymbol M\)</span> is a scalar rather than a matrix then the multivariate inverse Wishart distribution reduces to the univariate inverse Wishart aka inverse gamma distribution.</p>
 
 </div>
 </div>
@@ -178,7 +330,15 @@ with explicit occurance of the dimension <span class="math inline">\(d\)</span>.
 <li><a class="nav-link" href="#multivariate-distributions"><span class="header-section-number">4</span> Multivariate distributions</a></li>
 <li><a class="nav-link" href="#categorical-distribution"><span class="header-section-number">4.1</span> Categorical distribution</a></li>
 <li><a class="nav-link" href="#multinomial-distribution"><span class="header-section-number">4.2</span> Multinomial distribution</a></li>
-<li><a class="nav-link" href="#multivariate-normal-distribution"><span class="header-section-number">4.3</span> Multivariate normal distribution</a></li>
+<li>
+<a class="nav-link" href="#dirichlet-distribution"><span class="header-section-number">4.3</span> Dirichlet distribution</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#standard-parameterisation-3"><span class="header-section-number">4.3.1</span> Standard parameterisation</a></li>
+<li><a class="nav-link" href="#mean-parameterisation-1"><span class="header-section-number">4.3.2</span> Mean parameterisation</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#multivariate-normal-distribution"><span class="header-section-number">4.4</span> Multivariate normal distribution</a></li>
+<li><a class="nav-link" href="#wishart-distribution"><span class="header-section-number">4.5</span> Wishart distribution</a></li>
+<li><a class="nav-link" href="#inverse-wishart-distribution"><span class="header-section-number">4.6</span> Inverse Wishart distribution</a></li>
 </ul>
 
       <div class="book-extra">
@@ -195,7 +355,7 @@ with explicit occurance of the dimension <span class="math inline">\(d\)</span>.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 3 January 2024.</p>
+    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 6 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
