@@ -66,9 +66,10 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome</a></li>
 <li><a class="" href="preface.html">Preface</a></li>
+<li><a class="" href="prerequisites.html">Prerequisites</a></li>
 <li class="book-part">Likelihood estimation and inference</li>
 <li><a class="active" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
-<li><a class="" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="" href="entropy-and-fisher-information.html"><span class="header-section-number">2</span> Entropy and Fisher information</a></li>
 <li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
 <li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
 <li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
@@ -82,10 +83,8 @@
 <li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
 <li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
 <li class="book-part">Appendix</li>
-<li><a class="" href="matrix-and-calculus-refresher.html"><span class="header-section-number">A</span> Matrix and calculus refresher</a></li>
-<li><a class="" href="probability-and-distribution-refresher.html"><span class="header-section-number">B</span> Probability and distribution refresher</a></li>
-<li><a class="" href="statistics-refresher.html"><span class="header-section-number">C</span> Statistics refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">D</span> Further study</a></li>
+<li><a class="" href="statistics-refresher.html"><span class="header-section-number">A</span> Statistics refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -204,13 +203,13 @@ more elementary building blocks. For example, the following parametric distribut
 frequently occur in statistical analysis:</p>
 <ul>
 <li><p><strong>Bernoulli distribution</strong> <span class="math inline">\(\text{Ber}(\theta)\)</span> and <strong>categorical distribution</strong> <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span>: used
-to model frequencies (on the domain <span class="math inline">\([0,1]\)</span>). Repeated application yields the
+to model frequencies (on the support <span class="math inline">\([0,1]\)</span>). Repeated application yields the
 <strong>binomial distribution</strong> <span class="math inline">\(\text{Bin}(n, \theta)\)</span> and <strong>multinomial distribution</strong> <span class="math inline">\(\text{Mult}(n, \boldsymbol \pi)\)</span>.</p></li>
 <li><p><strong>Normal distribution</strong> in both the univariate <span class="math inline">\(N(\mu, \sigma^2)\)</span> and
 multivariate <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> version: commonly used to model mean values
-(on the domain <span class="math inline">\([-\infty, \infty]\)</span>).</p></li>
+(on the support <span class="math inline">\(]-\infty, \infty[\)</span>).</p></li>
 <li><p><strong>Gamma distribution</strong> <span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span>: used to model scale factors
-(on the domain <span class="math inline">\([0, \infty]\)</span>). It is also known (with different parameterisation) as univariate
+(on the support <span class="math inline">\([0, \infty[\)</span>). It is also known (with different parameterisation) as univariate
 <strong>Wishart distribution</strong> <span class="math inline">\(W_1\left(s^2, k \right)\)</span> or as <strong>scaled chi-squared distribution</strong>
 <span class="math inline">\(s^2 \text{$\chi^2_{k}$}\)</span>. Special cases include the <strong>chi-squared distribution</strong> <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> and
 the <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\theta)\)</span>.</p></li>
@@ -243,14 +242,17 @@ its density or probability mass function can be written as
 <span class="math display">\[
 p(x|\boldsymbol \eta) =  b(x) \, e^{ \boldsymbol \eta^T \boldsymbol u(x)} / e^{ \psi(\boldsymbol \eta)}
 \]</span>
-where <span class="math inline">\(b(x)\)</span> is the base density and <span class="math inline">\(\boldsymbol u(x)\)</span> are the canonical statistics
-and
+where <span class="math inline">\(b(x)\)</span> is the base density and <span class="math inline">\(\boldsymbol u(x)\)</span> are the canonical statistics.
+Note the the dimension of the the canonical statistic <span class="math inline">\(\boldsymbol u(x)\)</span>
+matches the dimension of the parameter vector <span class="math inline">\(\boldsymbol \eta\)</span>.</p>
+<p>The <strong>log-normaliser</strong> or <strong>log-partition function</strong>
 <span class="math display">\[
 \psi(\boldsymbol \eta) = \log \int_x b(x) \, e^{ \boldsymbol \eta^T \boldsymbol u(x)} \, dx
 \]</span>
-is the <strong>log-normaliser</strong> or <strong>log-partition function</strong> that ensures that
-<span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one. Exponential families have many favourable properties that facilitate estimation and inference, such as existence of all moments, easy to optimise, analytic solutions for parameter estimates, among many others.</p>
-<p>Exponential families are studied in more detail the module about generalised linear models
+ensures that <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one. This function is also useful
+to express the mean and the variance of the canonical statistics.</p>
+<p>Exponential families have many favourable properties that facilitate estimation and inference, such as existence of all moments, easy to optimise, analytic solutions for parameter estimates, among many others.
+They are studied in more detail the module about generalised linear models
 but in this course we will also highlight if there are general results that apply specifically to them.</p>
 </div>
 </div>
@@ -302,8 +304,8 @@ statistical analysis and</li>
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="preface.html">Preface</a></div>
-<div class="next"><a href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></div>
+<div class="prev"><a href="prerequisites.html">Prerequisites</a></div>
+<div class="next"><a href="entropy-and-fisher-information.html"><span class="header-section-number">2</span> Entropy and Fisher information</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -329,7 +331,7 @@ statistical analysis and</li>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 3 January 2024.</p>
+    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 12 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

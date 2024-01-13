@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>2 From entropy to maximum likelihood | Statistics 2: Likelihood and Bayes</title>
+<title>2 Entropy and Fisher information | Statistics 2: Likelihood and Bayes</title>
 <meta name="author" content="Korbinian Strimmer">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="2 From entropy to maximum likelihood | Statistics 2: Likelihood and Bayes">
+<meta property="og:title" content="2 Entropy and Fisher information | Statistics 2: Likelihood and Bayes">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2 From entropy to maximum likelihood | Statistics 2: Likelihood and Bayes">
+<meta name="twitter:title" content="2 Entropy and Fisher information | Statistics 2: Likelihood and Bayes">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -40,9 +40,9 @@
       margin-left: 2em;
     }
   </style>
-<meta name="description" content="2.1 Overview The purpose of this chapter is to introduce various important information criteria used in statistics and machine learning. These are based on entropy and provide the foundation for...">
-<meta property="og:description" content="2.1 Overview The purpose of this chapter is to introduce various important information criteria used in statistics and machine learning. These are based on entropy and provide the foundation for...">
-<meta name="twitter:description" content="2.1 Overview The purpose of this chapter is to introduce various important information criteria used in statistics and machine learning. These are based on entropy and provide the foundation for...">
+<meta name="description" content="2.1 Information theory and statistics Information theory and statistical learning is closely linked. The purpose of this chapter is to introduce various important information criteria used in...">
+<meta property="og:description" content="2.1 Information theory and statistics Information theory and statistical learning is closely linked. The purpose of this chapter is to introduce various important information criteria used in...">
+<meta name="twitter:description" content="2.1 Information theory and statistics Information theory and statistical learning is closely linked. The purpose of this chapter is to introduce various important information criteria used in...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -66,9 +66,10 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome</a></li>
 <li><a class="" href="preface.html">Preface</a></li>
+<li><a class="" href="prerequisites.html">Prerequisites</a></li>
 <li class="book-part">Likelihood estimation and inference</li>
 <li><a class="" href="overview-of-statistical-learning.html"><span class="header-section-number">1</span> Overview of statistical learning</a></li>
-<li><a class="active" href="from-entropy-to-maximum-likelihood.html"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
+<li><a class="active" href="entropy-and-fisher-information.html"><span class="header-section-number">2</span> Entropy and Fisher information</a></li>
 <li><a class="" href="maximum-likelihood-estimation.html"><span class="header-section-number">3</span> Maximum likelihood estimation</a></li>
 <li><a class="" href="quadratic-approximation-and-normal-asymptotics.html"><span class="header-section-number">4</span> Quadratic approximation and normal asymptotics</a></li>
 <li><a class="" href="likelihood-based-confidence-interval-and-likelihood-ratio.html"><span class="header-section-number">5</span> Likelihood-based confidence interval and likelihood ratio</a></li>
@@ -82,10 +83,8 @@
 <li><a class="" href="choosing-priors-in-bayesian-analysis.html"><span class="header-section-number">12</span> Choosing priors in Bayesian analysis</a></li>
 <li><a class="" href="optimality-properties-and-summary.html"><span class="header-section-number">13</span> Optimality properties and summary</a></li>
 <li class="book-part">Appendix</li>
-<li><a class="" href="matrix-and-calculus-refresher.html"><span class="header-section-number">A</span> Matrix and calculus refresher</a></li>
-<li><a class="" href="probability-and-distribution-refresher.html"><span class="header-section-number">B</span> Probability and distribution refresher</a></li>
-<li><a class="" href="statistics-refresher.html"><span class="header-section-number">C</span> Statistics refresher</a></li>
-<li><a class="" href="further-study.html"><span class="header-section-number">D</span> Further study</a></li>
+<li><a class="" href="statistics-refresher.html"><span class="header-section-number">A</span> Statistics refresher</a></li>
+<li><a class="" href="further-study.html"><span class="header-section-number">B</span> Further study</a></li>
 <li><a class="" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -94,18 +93,19 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="from-entropy-to-maximum-likelihood" class="section level1" number="2">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="entropy-and-fisher-information" class="section level1" number="2">
 <h1>
-<span class="header-section-number">2</span> From entropy to maximum likelihood<a class="anchor" aria-label="anchor" href="#from-entropy-to-maximum-likelihood"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> Entropy and Fisher information<a class="anchor" aria-label="anchor" href="#entropy-and-fisher-information"><i class="fas fa-link"></i></a>
 </h1>
-<div id="overview" class="section level2" number="2.1">
+<div id="information-theory-and-statistics" class="section level2" number="2.1">
 <h2>
-<span class="header-section-number">2.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.1</span> Information theory and statistics<a class="anchor" aria-label="anchor" href="#information-theory-and-statistics"><i class="fas fa-link"></i></a>
 </h2>
-<p>The purpose of this chapter is to introduce various
+<p>Information theory and statistical learning is closely linked.
+The purpose of this chapter is to introduce various
 important information criteria used in statistics and machine learning.
-These are based on entropy and provide the foundation for the method of maximum likelihood.
-Thus, this will also enable a better understanding the properties of maximum likelihood.</p>
+These are all based on entropy and provide the foundation for the method of maximum likelihood as well as Bayesian learning. They also provides the basis for the asymptotic validity
+of maximum likelihood estimation.</p>
 <p>The modern definition of (relative) entropy was first discovered in the 1870s by physicist <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a>
 in the context of thermodynamics. The probabilistic interpretation of statistical mechanics and entropy was further developed by <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a>.</p>
 <p>In essence, in physics entropy describes the
@@ -214,7 +214,7 @@ H(P) &amp;=-\text{E}_P\left(\log p(x)\right) \\
 As all <span class="math inline">\(p_k \in [0,1]\)</span> by construction Shannon entropy must be larger or equal to 0.</p>
 <p>Furthermore, it is bounded above by <span class="math inline">\(\log K\)</span>. This can be seen by maximising Shannon entropy
 as a function with regard to the <span class="math inline">\(p_k\)</span> under the constraint <span class="math inline">\(\sum_{k=1}^K p_k= 1\)</span>, e.g., by constrained optimisation using Lagrange
-multipliers. The maximum is achieved for <span class="math inline">\(P\)</span> being the discrete uniform - see Example <a href="from-entropy-to-maximum-likelihood.html#exm:entropyuniform">2.3</a>.</p>
+multipliers. The maximum is achieved for <span class="math inline">\(P\)</span> being the discrete uniform - see Example <a href="entropy-and-fisher-information.html#exm:entropyuniform">2.3</a>.</p>
 <p>Hence for any categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have
 <span class="math display">\[\log K \geq  H(P) \geq 0\]</span></p>
 <p>In statistical physics, the Shannon entropy is known as <a href="https://en.wikipedia.org/wiki/Entropy_(statistical_thermodynamics)#Gibbs_entropy_formula">Gibbs entropy (1878)</a>.</p>
@@ -440,9 +440,22 @@ In statistics and information theory it was introduced by Kullback and Leibler (
 </ul>
 <p>Optimising (i.e. minimising) the KL divergence with regard to <span class="math inline">\(G\)</span> amounts to <em>approximation</em> and optimising with regard to <span class="math inline">\(F\)</span> to <em>imputation</em>. Later we will see how this leads to the method of maximum likelihood and to Bayesian learning, respectively.</p>
 </div>
-<div id="cross-entropy-and-kl-divergence-examples" class="section level3" number="2.3.5">
+<div id="link-of-kl-divergence-with-other-divergence-measures" class="section level3" number="2.3.5">
 <h3>
-<span class="header-section-number">2.3.5</span> Cross-entropy and KL divergence examples<a class="anchor" aria-label="anchor" href="#cross-entropy-and-kl-divergence-examples"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.5</span> Link of KL divergence with other divergence measures<a class="anchor" aria-label="anchor" href="#link-of-kl-divergence-with-other-divergence-measures"><i class="fas fa-link"></i></a>
+</h3>
+<p>The KL divergence is not the only measure of divergence.</p>
+<p>Two large classes of measures of similarity and divergence between two probability distributions are the
+<a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>
+(which include the total variation distance and the Pearson and Neyman divergence)
+and so-called <a href="https://en.wikipedia.org/wiki/Bregman_divergence">Bregman-divergences</a>
+(which includes quadratic distance).</p>
+<p>Crucially, the relative entropy <span class="math inline">\(D_{\text{KL}}(F, G)\)</span> is the <em>only divergence measure</em> that is both a Bregman and an <span class="math inline">\(f\)</span>-divergence. This highlights the
+special status of the KL divergence.</p>
+</div>
+<div id="cross-entropy-and-kl-divergence-examples" class="section level3" number="2.3.6">
+<h3>
+<span class="header-section-number">2.3.6</span> Cross-entropy and KL divergence examples<a class="anchor" aria-label="anchor" href="#cross-entropy-and-kl-divergence-examples"><i class="fas fa-link"></i></a>
 </h3>
 <ol style="list-style-type: upper-alpha">
 <li>Models with a single parameter</li>
@@ -495,7 +508,7 @@ using <span class="math inline">\(\text{E}_{F_{\text{ref}}} ((x-\mu)^2) = (\mu_{
 </div>
 <div class="example">
 <p><span id="exm:crossentropylowerbound" class="example"><strong>Example 2.10  </strong></span>If <span class="math inline">\(\mu_{\text{ref}} = \mu\)</span> and <span class="math inline">\(\sigma^2_{\text{ref}} = \sigma^2\)</span>
-then the cross-entropy <span class="math inline">\(H(F_{\text{ref}},F)\)</span> in Example <a href="from-entropy-to-maximum-likelihood.html#exm:crossentropynormals">2.9</a>
+then the cross-entropy <span class="math inline">\(H(F_{\text{ref}},F)\)</span> in Example <a href="entropy-and-fisher-information.html#exm:crossentropynormals">2.9</a>
 degenerates to the differential entropy
 <span class="math inline">\(H(F_{\text{ref}}) = \frac{1}{2} \left(\log( 2 \pi \sigma^2_{\text{ref}}) +1 \right)\)</span>.</p>
 </div>
@@ -511,7 +524,7 @@ D_{\text{KL}}(F_{\text{ref}},F) &amp;= H(F_{\text{ref}}, F) - H(F_{\text{ref}}) 
    \right) \\
 \end{split}
 \]</span></p>
-<p>If variances are equal then we recover the previous Example <a href="from-entropy-to-maximum-likelihood.html#exm:klnormalequalvar">2.7</a>
+<p>If variances are equal then we recover the previous Example <a href="entropy-and-fisher-information.html#exm:klnormalequalvar">2.7</a>
 as special case.</p>
 </div>
 </div>
@@ -551,16 +564,18 @@ D_{\text{KL}}(F_{\boldsymbol \theta+\boldsymbol \varepsilon}, F_{\boldsymbol \th
 \]</span></p>
 <p>Computing the expected Fisher information involves no observed data,
 it is purely a property of the model, or more precisely of the
-model family indexed by <span class="math inline">\(\boldsymbol \theta\)</span>.
-In the next Chapter we will study a related quantity,
+model family indexed by <span class="math inline">\(\boldsymbol \theta\)</span>. In the next Chapter we will study a related quantity,
 the <em>observed Fisher information</em> that in contrast <em>is</em> a function of the observed data.</p>
+<p>In the field of <em>information geometry</em> the manifold of distributions
+is studied using tools from differential geometry. It turns out that
+the expected Fisher information plays the role of the <a href="https://en.wikipedia.org/wiki/Fisher_information_metric">metric tensor in the space of distributions</a>.</p>
 </div>
 <div id="expected-fisher-information-for-a-set-of-independent-and-identically-distributed-random-variables" class="section level3" number="2.4.2">
 <h3>
 <span class="header-section-number">2.4.2</span> Expected Fisher information for a set of independent and identically distributed random variables<a class="anchor" aria-label="anchor" href="#expected-fisher-information-for-a-set-of-independent-and-identically-distributed-random-variables"><i class="fas fa-link"></i></a>
 </h3>
 <p>Furthermore, we can also compute the expected Fisher information for a set of
-iid random variables.</p>
+independent and identically distributed (iid) random variables.</p>
 <p>Assume that a random variable <span class="math inline">\(x \sim F_{\boldsymbol \theta}\)</span> has log-density <span class="math inline">\(\log f(x| \boldsymbol \theta)\)</span>
 and expected Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>.
 The expected Fisher information <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta)\)</span>
@@ -607,12 +622,12 @@ I^{\text{Fisher}}(\theta) &amp; = -\text{E}\left(\frac{d^2}{d\theta^2} \log p(x 
 </div>
 <div class="example">
 <p><span id="exm:quadapproxklbernoulli" class="example"><strong>Example 2.13  </strong></span>Quadratic approximations of the KL divergence between two Bernoulli distributions:</p>
-<p>From Example <a href="from-entropy-to-maximum-likelihood.html#exm:klbernoulli">2.6</a> we have as KL divergence
+<p>From Example <a href="entropy-and-fisher-information.html#exm:klbernoulli">2.6</a> we have as KL divergence
 <span class="math display">\[
 D_{\text{KL}}\left (\text{Ber}(\theta_1), \text{Ber}(\theta_2) \right)=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span>
 and from
-Example <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisherbernoulli">2.12</a> the corresponding expected Fisher information.</p>
+Example <a href="entropy-and-fisher-information.html#exm:expectedfisherbernoulli">2.12</a> the corresponding expected Fisher information.</p>
 <p>The quadratic approximation implies that
 <span class="math display">\[
 D_{\text{KL}}\left( \text{Ber}(\theta), \text{Ber}(\theta + \varepsilon) \right) \approx \frac{\varepsilon^2}{2}  I^{\text{Fisher}}(\theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
@@ -702,7 +717,7 @@ matrix for a categorical distribution as
 \end{split}
 \]</span></p>
 <p>For <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\pi_1=\theta\)</span> this reduces to the expected Fisher information of a
-Bernoulli variable, see Example <a href="from-entropy-to-maximum-likelihood.html#exm:expectedfisherbernoulli">2.12</a>.
+Bernoulli variable, see Example <a href="entropy-and-fisher-information.html#exm:expectedfisherbernoulli">2.12</a>.
 <span class="math display">\[
 \begin{split}
 I^{\text{Fisher}}(\theta) &amp; =  \left(\frac{1}{\theta} + \frac{1}{1-\theta} \right) \\
@@ -715,9 +730,9 @@ I^{\text{Fisher}}(\theta) &amp; =  \left(\frac{1}{\theta} + \frac{1}{1-\theta} \
 Neyman and Pearson divergence:</p>
 <p>We now consider the local approximation of the KL divergence <span class="math inline">\(D_{\text{KL}}(P, Q)\)</span> between
 the categorical distribution <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> with probabilities <span class="math inline">\(\boldsymbol p=(p_1, \ldots, p_K)^T\)</span> with the categorical distribution <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> with probabilities <span class="math inline">\(\boldsymbol q= (q_1, \ldots, q_K)^T\)</span>.</p>
-<p>From Example <a href="from-entropy-to-maximum-likelihood.html#exm:catkl">2.8</a> we already know the KL divergence
+<p>From Example <a href="entropy-and-fisher-information.html#exm:catkl">2.8</a> we already know the KL divergence
 and from
-Example <a href="from-entropy-to-maximum-likelihood.html#exm:catexpectfisher">2.15</a> the corresponding expected Fisher information.</p>
+Example <a href="entropy-and-fisher-information.html#exm:catexpectfisher">2.15</a> the corresponding expected Fisher information.</p>
 <p>First, we keep <span class="math inline">\(P\)</span> fixed and assume that <span class="math inline">\(Q\)</span> is a perturbed version of <span class="math inline">\(P\)</span> with <span class="math inline">\(\boldsymbol q= \boldsymbol p+\boldsymbol \varepsilon\)</span>.
 Note that the perturbations <span class="math inline">\(\boldsymbol \varepsilon=(\varepsilon_1, \ldots, \varepsilon_K)^T\)</span> satisfy
 <span class="math inline">\(\sum_{k=1}^K \varepsilon_k = 0\)</span> because <span class="math inline">\(\sum_{k=1}^K p_i=1\)</span> and <span class="math inline">\(\sum_{k=1}^K q_i=1\)</span>.
@@ -748,104 +763,6 @@ is kept fixed.</p>
 <p>Note the appearance of the <em>Pearson <span class="math inline">\(\chi^2\)</span> divergence</em> and the <em>Neyman <span class="math inline">\(\chi^2\)</span> divergence</em> in the above. Both are, like the KL divergence, part of the family of <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>. The Neyman <span class="math inline">\(\chi^2\)</span>
 divergence is also known as the reverse Pearson divergence as <span class="math inline">\(D_{\text{Neyman}}(P, Q) = D_{\text{Pearson}}(Q, P)\)</span>.</p>
 </div>
-</div>
-</div>
-<div id="from-entropy-learning-to-maximum-likelihood" class="section level2" number="2.6">
-<h2>
-<span class="header-section-number">2.6</span> From entropy learning to maximum likelihood<a class="anchor" aria-label="anchor" href="#from-entropy-learning-to-maximum-likelihood"><i class="fas fa-link"></i></a>
-</h2>
-<div id="the-relative-entropy-between-true-model-and-approximating-model" class="section level3" number="2.6.1">
-<h3>
-<span class="header-section-number">2.6.1</span> The relative entropy between true model and approximating model<a class="anchor" aria-label="anchor" href="#the-relative-entropy-between-true-model-and-approximating-model"><i class="fas fa-link"></i></a>
-</h3>
-<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data is sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(G_{\boldsymbol \theta}\)</span>
-indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
-<p>The relative entropy <span class="math inline">\(D_{\text{KL}}(F,G_{\boldsymbol \theta})\)</span> then measures the divergence of the approximation <span class="math inline">\(G_{\boldsymbol \theta}\)</span>
-from the unknown true model <span class="math inline">\(F\)</span>. It can be written as:
-<span class="math display">\[
-\begin{split}
-D_{\text{KL}}(F,G_{\boldsymbol \theta}) &amp;= H(F,G_{\boldsymbol \theta}) - H(F) \\
-&amp;= \underbrace{- \text{E}_{F}\log g_{\boldsymbol \theta}(x)}_{\text{cross-entropy}}
--(\underbrace{-\text{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\boldsymbol \theta$}})\\
-\end{split}
-\]</span></p>
-<p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use
-the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,G_{\boldsymbol \theta})\)</span> that becomes more and more accurate with growing sample size.</p>
-<hr>
-<p>Recall the “Law of Large Numbers” :</p>
-<ul>
-<li><p>The empirical distribution <span class="math inline">\(\hat{F}_n\)</span> based on observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> converges
-strongly (almost surely) to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>:
-<span class="math display">\[
-\hat{F}_n\overset{a. s.}{\to} F
-\]</span></p></li>
-<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
-</ul>
-<hr>
-<p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate cross-entropy and as a result the KL divergence. The cross-entropy <span class="math inline">\(H(F, G_{\boldsymbol \theta})\)</span> is approximated by the <strong>empirical cross-entropy</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>:
-<span class="math display">\[
-\begin{split}
-H(F, G_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, G_{\boldsymbol \theta}) \\
-                  &amp; = - \text{E}_{\hat{F}_n} (\log g(x|\boldsymbol \theta))  \\
-                  &amp; = -\frac{1}{n} \sum_{i=1}^n \log g(x_i | \boldsymbol \theta) \\
-                  &amp; = -\frac{1}{n} l_n ({\boldsymbol \theta}| D)
-\end{split}
-\]</span>
-This turns out to be equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>! Or in other words, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
-<p>From the link of the multinomial coefficient with Shannon entropy (Example <a href="from-entropy-to-maximum-likelihood.html#exm:entropymultinomial">2.1</a>) we already know that for large sample size
-<span class="math display">\[
-H(\hat{F}) \approx \frac{1}{n} \log \binom{n}{n_1, \ldots, n_K}
-\]</span></p>
-<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,G_{\boldsymbol \theta})\)</span> can therefore be approximated by
-<span class="math display">\[
-D_{\text{KL}}(F,G_{\boldsymbol \theta}) \approx -\frac{1}{n} \left( \log \binom{n}{n_1, \ldots, n_K} + l_n ({\boldsymbol \theta}| D)  \right)
-\]</span>
-Thus, with the KL divergence we obtain not just the log-likelihood (the cross-entropy part) but also the multiplicity factor taking account of the possible orderings of the data (the entropy part).</p>
-</div>
-<div id="minimum-kl-divergence-and-maximum-likelihood" class="section level3" number="2.6.2">
-<h3>
-<span class="header-section-number">2.6.2</span> Minimum KL divergence and maximum likelihood<a class="anchor" aria-label="anchor" href="#minimum-kl-divergence-and-maximum-likelihood"><i class="fas fa-link"></i></a>
-</h3>
-<p>If we knew <span class="math inline">\(F\)</span> we would simply minimise <span class="math inline">\(D_{\text{KL}}(F, G_{\boldsymbol \theta})\)</span> to find the particular model <span class="math inline">\(G_{\boldsymbol \theta}\)</span> that is closest to the true model. Equivalently, we would minimise the cross-entropy <span class="math inline">\(H(F, G_{\boldsymbol \theta})\)</span>.
-However, since we actually don’t know <span class="math inline">\(F\)</span> this is not possible.</p>
-<p>However, for large sample size <span class="math inline">\(n\)</span> when the empirical distribution <span class="math inline">\(\hat{F}_n\)</span>
-is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section.
-Thus, instead of minimising the KL divergence
-<span class="math inline">\(D_{\text{KL}}(F, G_{\boldsymbol \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, G_{\boldsymbol \theta})\)</span> which
-is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\boldsymbol \theta}| D)\)</span>.</p>
-<p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>) to minimising the KL divergence of the approximating model and the unknown true model!</p>
-<p><span class="math display">\[
-\begin{split}
-\hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta| D) \\
-&amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, G_{\boldsymbol \theta}) \\
-&amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, G_{\boldsymbol \theta}) \\
-\end{split}
-\]</span></p>
-<p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(G_{\boldsymbol \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>.
-In other words, <strong>maximum likelihood estimators are minimum empirical relative entropy estimators</strong>.</p>
-<p>As the relative entropy is a functional of the true distribution <span class="math inline">\(F\)</span>
-<strong>maximum likelihood provides empirical estimators for
-parametric models</strong>.</p>
-<p>As a consequence of the close link of maximum likelihood and relative entropy
-maximum likelihood inherits for large <span class="math inline">\(n\)</span> (and only then!) all the optimality properties from KL divergence. These will be discussed in more detail later in the course.</p>
-</div>
-<div id="further-connections" class="section level3" number="2.6.3">
-<h3>
-<span class="header-section-number">2.6.3</span> Further connections<a class="anchor" aria-label="anchor" href="#further-connections"><i class="fas fa-link"></i></a>
-</h3>
-<p>Since minimising KL divergence contains ML estimation as special case you may wonder whether there is a broader justification of relative entropy in the context of statistical data analysis?</p>
-<p>Indeed, KL divergence has strong geometrical interpretation that forms the basis of <em>information geometry</em>.
-In this field the manifold of distributions
-is studied using tools from differential geometry. The expected Fisher information
-plays an important role as <a href="https://en.wikipedia.org/wiki/Fisher_information_metric">metric tensor in the space of distributions</a>.</p>
-<p>Furthermore, it is also linked to probabilistic forecasting.
-In the framework of so-called <a href="https://en.wikipedia.org/wiki/Scoring_rule"><strong>scoring rules</strong></a>.
-the only local proper scoring rule is the negative log-probability (“surprise”).
-The expected “surprise” is the cross-entropy
-and relative entropy is the corresponding natural divergence connected with the log scoring rule.</p>
-<p>Furthermore, another intriguing property of KL divergence is that the relative entropy <span class="math inline">\(D_{\text{KL}}(F, G)\)</span> is the <em>only divergence measure</em> that is both a Bregman and an <span class="math inline">\(f\)</span>-divergence.
-Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> and <a href="https://en.wikipedia.org/wiki/Bregman_divergence">Bregman-divergences</a> (in turn related to proper scoring rules) are two large classes of measures of similarity and divergence between two probability distributions.</p>
-<p>Finally, not only the likelihood estimation but also the Bayesian update rule (as discussed later in this module) is another special case of entropy learning.</p>
 
 </div>
 </div>
@@ -857,8 +774,8 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#from-entropy-to-maximum-likelihood"><span class="header-section-number">2</span> From entropy to maximum likelihood</a></li>
-<li><a class="nav-link" href="#overview"><span class="header-section-number">2.1</span> Overview</a></li>
+<li><a class="nav-link" href="#entropy-and-fisher-information"><span class="header-section-number">2</span> Entropy and Fisher information</a></li>
+<li><a class="nav-link" href="#information-theory-and-statistics"><span class="header-section-number">2.1</span> Information theory and statistics</a></li>
 <li>
 <a class="nav-link" href="#shannon-entropy-and-differential-entropy"><span class="header-section-number">2.2</span> Shannon entropy and differential entropy</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#surprise-surprisal-or-shannon-information"><span class="header-section-number">2.2.1</span> Surprise, surprisal or Shannon information</a></li>
@@ -875,7 +792,8 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <li><a class="nav-link" href="#definition-of-kl-divergence"><span class="header-section-number">2.3.2</span> Definition of KL divergence</a></li>
 <li><a class="nav-link" href="#properties-of-kl-divergence"><span class="header-section-number">2.3.3</span> Properties of KL divergence</a></li>
 <li><a class="nav-link" href="#origin-of-kl-divergence-and-application-in-statistics"><span class="header-section-number">2.3.4</span> Origin of KL divergence and application in statistics</a></li>
-<li><a class="nav-link" href="#cross-entropy-and-kl-divergence-examples"><span class="header-section-number">2.3.5</span> Cross-entropy and KL divergence examples</a></li>
+<li><a class="nav-link" href="#link-of-kl-divergence-with-other-divergence-measures"><span class="header-section-number">2.3.5</span> Link of KL divergence with other divergence measures</a></li>
+<li><a class="nav-link" href="#cross-entropy-and-kl-divergence-examples"><span class="header-section-number">2.3.6</span> Cross-entropy and KL divergence examples</a></li>
 </ul>
 </li>
 <li>
@@ -888,13 +806,6 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <a class="nav-link" href="#expected-fisher-information-examples"><span class="header-section-number">2.5</span> Expected Fisher information examples</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#models-with-a-single-parameter"><span class="header-section-number">2.5.1</span> Models with a single parameter</a></li>
 <li><a class="nav-link" href="#models-with-multiple-parameters"><span class="header-section-number">2.5.2</span> Models with multiple parameters</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#from-entropy-learning-to-maximum-likelihood"><span class="header-section-number">2.6</span> From entropy learning to maximum likelihood</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#the-relative-entropy-between-true-model-and-approximating-model"><span class="header-section-number">2.6.1</span> The relative entropy between true model and approximating model</a></li>
-<li><a class="nav-link" href="#minimum-kl-divergence-and-maximum-likelihood"><span class="header-section-number">2.6.2</span> Minimum KL divergence and maximum likelihood</a></li>
-<li><a class="nav-link" href="#further-connections"><span class="header-section-number">2.6.3</span> Further connections</a></li>
 </ul>
 </li>
 </ul>
@@ -913,7 +824,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 3 January 2024.</p>
+    <p>"<strong>Statistics 2: Likelihood and Bayes</strong>" was written by Korbinian Strimmer. It was last built on 12 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
