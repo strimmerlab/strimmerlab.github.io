@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>2 Multivariate estimation in large sample and small sample settings | Multivariate Statistics and Machine Learning</title>
+<meta name="author" content="Korbinian Strimmer">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="2 Multivariate estimation in large sample and small sample settings | Multivariate Statistics and Machine Learning">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2 Multivariate estimation in large sample and small sample settings | Multivariate Statistics and Machine Learning">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<meta name="description" content="2.1 Overview In practical application of multivariate normal model we need to learn its parameters from observed data points: \[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n...">
+<meta property="og:description" content="2.1 Overview In practical application of multivariate normal model we need to learn its parameters from observed data points: \[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n...">
+<meta name="twitter:description" content="2.1 Overview In practical application of multivariate normal model we need to learn its parameters from observed data points: \[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Multivariate Statistics and Machine Learning</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="preface.html">Preface</a></li>
+<li><a class="" href="multivariate-random-variables.html"><span class="header-section-number">1</span> Multivariate random variables</a></li>
+<li><a class="active" href="multivariate-estimation-in-large-sample-and-small-sample-settings.html"><span class="header-section-number">2</span> Multivariate estimation in large sample and small sample settings</a></li>
+<li><a class="" href="transformations-and-dimension-reduction.html"><span class="header-section-number">3</span> Transformations and dimension reduction</a></li>
+<li><a class="" href="unsupervised-learning-and-clustering.html"><span class="header-section-number">4</span> Unsupervised learning and clustering</a></li>
+<li><a class="" href="supervised-learning-and-classification.html"><span class="header-section-number">5</span> Supervised learning and classification</a></li>
+<li><a class="" href="multivariate-dependencies.html"><span class="header-section-number">6</span> Multivariate dependencies</a></li>
+<li><a class="" href="nonlinear-and-nonparametric-models.html"><span class="header-section-number">7</span> Nonlinear and nonparametric models</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="further-study.html"><span class="header-section-number">A</span> Further study</a></li>
+<li><a class="" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="multivariate-estimation-in-large-sample-and-small-sample-settings" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Multivariate estimation in large sample and small sample settings<a class="anchor" aria-label="anchor" href="#multivariate-estimation-in-large-sample-and-small-sample-settings"><i class="fas fa-link"></i></a>
+</h1>
+<div id="overview" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview"><i class="fas fa-link"></i></a>
+</h2>
+<p>In practical application of multivariate normal model we need to
+learn its parameters from observed data points:</p>
+<p><span class="math display">\[\boldsymbol x_1,\boldsymbol x_2,...,\boldsymbol x_n \stackrel{\text{iid}}\sim F_{\boldsymbol \theta}\]</span></p>
+<p>We first consider the case when
+there are many measurements available (<span class="math inline">\(n\)</span> large), and then subsequently the case when
+the number of data points <span class="math inline">\(n\)</span> is small compared to the dimensions and the number of parameters.</p>
+<p>In a previous course in year 2
+(see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>)
+the method of maximum likelihood as well as the essentials of Bayesian statistics
+were introduced. Below we apply these approaches to the problem of estimating the parameters of the
+multivariate normal distribution and also show how the main Bayesian modelling strategies extend to the multivariate case.</p>
+</div>
+<div id="empirical-estimates" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Empirical estimates<a class="anchor" aria-label="anchor" href="#empirical-estimates"><i class="fas fa-link"></i></a>
+</h2>
+<div id="general-principle" class="section level3" number="2.2.1">
+<h3>
+<span class="header-section-number">2.2.1</span> General principle<a class="anchor" aria-label="anchor" href="#general-principle"><i class="fas fa-link"></i></a>
+</h3>
+<p>For large <span class="math inline">\(n\)</span> we have thanks to the law of large numbers:
+<span class="math display">\[\underbrace{F}_{\text{true}} \approx \underbrace{\widehat{F}_n}_{\text{empirical}}\]</span></p>
+<p>We now would like to estimate <span class="math inline">\(A\)</span> which is a <em>functional</em> <span class="math inline">\(A=m(F)\)</span> of the distribution <span class="math inline">\(F\)</span>
+— recall that a functional is a function that takes another function as argument.
+For example all standard distributional summaries such as the mean, the median etc. are derived from <span class="math inline">\(F\)</span> and hence are
+functionals of <span class="math inline">\(F\)</span>.</p>
+<p>The <em>empirical estimate</em> is obtained by replacing the unknown true distribution
+<span class="math inline">\(F\)</span> with the observed empirical distribution: <span class="math inline">\(\hat{A} = m(\widehat{F}_n)\)</span>.</p>
+<p>For example, the expectation of a random variable is approximated/estimated
+as the average over the observations:
+<span class="math display">\[\text{E}_F(\boldsymbol x) \approx \text{E}_{\widehat{F}_n}(\boldsymbol x) = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k\]</span>
+<span class="math display">\[\text{E}_F(g(\boldsymbol x)) \approx  \text{E}_{\widehat{F}_n}(g(\boldsymbol x)) = \frac{1}{n}\sum^{n}_{k=1} g(\boldsymbol x_k)\]</span></p>
+<p><strong>Simple recipe to obtain an empirical estimator</strong>: simply replace the expectation operator
+by the sample average.</p>
+<p><strong>What does this work:</strong> the empirical distribution <span class="math inline">\(\widehat{F}_n\)</span> is the nonparametric maximum likelihood estimate of <span class="math inline">\(F\)</span> (see below for likelihood estimation).</p>
+<p>Note: the approximation of <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}_n\)</span> is also the basis other approaches such as Efron’s bootstrap method (1979) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B. 1979. Bootstrap methods: Another look at the jackknife. The Annals of Statistics &lt;strong&gt;7&lt;/strong&gt;:1–26. &lt;a href="https://doi.org/10.1214/aos/1176344552" class="uri"&gt;https://doi.org/10.1214/aos/1176344552&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>.</p>
+</div>
+<div id="empirical-estimates-of-mean-and-covariance" class="section level3" number="2.2.2">
+<h3>
+<span class="header-section-number">2.2.2</span> Empirical estimates of mean and covariance<a class="anchor" aria-label="anchor" href="#empirical-estimates-of-mean-and-covariance"><i class="fas fa-link"></i></a>
+</h3>
+<p>Recall the definitions:
+<span class="math display">\[
+\boldsymbol \mu= \text{E}(\boldsymbol x)
+\]</span>
+and
+<span class="math display">\[
+\boldsymbol \Sigma= \text{E}\left(   (\boldsymbol x-\boldsymbol \mu) (\boldsymbol x-\boldsymbol \mu)^T \right)
+\]</span></p>
+<p>For the empirical estimate we replace the expectations by the
+corresponding sample averages.</p>
+<p>These resulting estimators can be written in three different ways:</p>
+<p><strong>Vector notation:</strong></p>
+<p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k\]</span></p>
+<p><span class="math display">\[
+\widehat{\boldsymbol \Sigma} = \frac{1}{n}\sum^{n}_{k=1} (\boldsymbol x_k-\hat{\boldsymbol \mu})  (\boldsymbol x_k-\hat{\boldsymbol \mu})^T
+= \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k  \boldsymbol x_k^T - \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T
+\]</span></p>
+<p><strong>Component notation:</strong></p>
+<p>The corresponding component notation with <span class="math inline">\(\boldsymbol X= (x_{ki})\)</span>
+and following the statistics convention with samples
+contained in rows of <span class="math inline">\(\boldsymbol X\)</span> we get:</p>
+<p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki}\]</span></p>
+<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} (x_{ki}-\hat{\mu}_i) (
+x_{kj}-\hat{\mu}_j )\]</span></p>
+<p><span class="math display">\[\hat{\boldsymbol \mu}=\begin{pmatrix}
+    \hat{\mu}_{1}       \\
+    \vdots \\
+    \hat{\mu}_{d}
+\end{pmatrix}, \widehat{\boldsymbol \Sigma} = (\hat{\sigma}_{ij})\]</span></p>
+<p>Variance estimate:<br><span class="math display">\[\hat{\sigma}_{ii} = \frac{1}{n}\sum^{n}_{k=1} \left(x_{ki}-\hat{\mu}_i\right)^2\]</span>
+Note the factor <span class="math inline">\(\frac{1}{n}\)</span> (not <span class="math inline">\(\frac{1}{n-1}\)</span>)</p>
+<p><strong>Data matrix notation:</strong></p>
+<p>The empirical mean and covariance can also be written in terms of the data matrix <span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>If the data matrix <span class="math inline">\(\boldsymbol X\)</span> follows the <strong>statistics convention</strong>
+we can write</p>
+<p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n} \boldsymbol X^T \boldsymbol 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma} = \frac{1}{n} \boldsymbol X^T \boldsymbol X- \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T\]</span></p>
+<p>On the other hand, if <span class="math inline">\(\boldsymbol X\)</span> follows the <strong>engineering convention</strong>
+with samples in columns
+the estimators are written as:</p>
+<p><span class="math display">\[\hat{\boldsymbol \mu} = \frac{1}{n} \boldsymbol X\boldsymbol 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma} = \frac{1}{n} \boldsymbol X\boldsymbol X^T - \hat{\boldsymbol \mu} \hat{\boldsymbol \mu}^T\]</span></p>
+<p>To avoid confusion when using matrix or component notation you need to always state which
+convention is used! In these notes we exlusively follow the statistics convention.</p>
+</div>
+</div>
+<div id="maximum-likelihood-estimation" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> Maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="general-principle-1" class="section level3" number="2.3.1">
+<h3>
+<span class="header-section-number">2.3.1</span> General principle<a class="anchor" aria-label="anchor" href="#general-principle-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>R.A. Fisher (1922) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher, R. A. 1922. On the mathematical foundations of theoretical statistics. Philosophical Transactions of the Royal Society A &lt;strong&gt;222&lt;/strong&gt;:309–368. &lt;a href="https://doi.org/10.1098/rsta.1922.0009" class="uri"&gt;https://doi.org/10.1098/rsta.1922.0009&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>: model-based estimators using the density or probability mass function</p>
+<p><strong>log-likelihood function</strong>:
+<span class="math display">\[\log L(\boldsymbol \theta) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\underbrace{x_i}_{\text{data}} |\underbrace{\boldsymbol \theta}_{\text{parameters}})\]</span>
+likelihood = probability to observe data given the model parameters</p>
+<p><strong>Maximum likelihood estimate:</strong>
+<span class="math display">\[\hat{\boldsymbol \theta}^{\text{ML}}=\underset{\boldsymbol \theta}{\arg\,\max} \log L(\boldsymbol \theta)\]</span></p>
+<p>Maximum likelihood (ML) finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
+<p>Recall from <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>
+that maximum likelihood is closely linked to minimising the relative entropy (KL divergence)
+<span class="math inline">\(D_{\text{KL}}(F, F_{\boldsymbol \theta})\)</span> between the unknown true model <span class="math inline">\(F\)</span> to the specified model <span class="math inline">\(F_{\boldsymbol \theta}\)</span>. Specifically, for large
+sample size <span class="math inline">\(n\)</span> the model <span class="math inline">\(F_{\hat{\boldsymbol \theta}}\)</span> fit by maximum likelihood is indeed the model that is closest to <span class="math inline">\(F\)</span>.</p>
+<p>Correspondingly, the great appeal of <strong>maximum likelihood estimates</strong> (MLEs) is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e. so that <strong>for large sample size no estimator can be constructed that outperforms the MLE</strong> (note the emphasis on “for large <span class="math inline">\(n\)</span>”!).
+A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the observed Fisher information which is related to the curvature of the log-likelihood function).</p>
+</div>
+<div id="maximum-likelihood-estimates-of-the-parameters-of-the-multivariate" class="section level3" number="2.3.2">
+<h3>
+<span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate"><i class="fas fa-link"></i></a>
+</h3>
+<p>normal distribution</p>
+<p>We now derive the MLE of the parameters <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> of the multivariate normal distribution.
+The corresponding log-likelihood function is
+<span class="math display">\[
+\begin{split}
+\log L(\boldsymbol \mu, \boldsymbol \Sigma) &amp; = \sum_{k=1}^n \log f( \boldsymbol x_k | \boldsymbol \mu, \boldsymbol \Sigma) \\
+  &amp; = -\frac{n d}{2} \log(2\pi) -\frac{n}{2} \log \det(\boldsymbol \Sigma)  
+   - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x_k-\boldsymbol \mu) \,.\\
+\end{split}
+\]</span>
+Written in terms of the precision matrix <span class="math inline">\(\boldsymbol \Omega= \boldsymbol \Sigma^{-1}\)</span> this becomes
+<span class="math display">\[
+\log L(\boldsymbol \mu, \boldsymbol \Omega) = -\frac{n d}{2} \log(2\pi) +\frac{n}{2} \log \det(\boldsymbol \Omega)  - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu) \,.
+\]</span>
+First, to find the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we compute
+<span class="math display">\[\nabla_{\boldsymbol \mu} \log L(\boldsymbol \mu, \boldsymbol \Omega) =  \frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \mu}= \sum_{k=1}^n  \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu)\]</span>
+noting that <span class="math inline">\(\boldsymbol \Omega\)</span> is symmetric.
+Setting this equal to zero we get <span class="math inline">\(\sum_{k=1}^n \boldsymbol x_k = n \hat{\boldsymbol \mu}_{ML}\)</span> and thus
+<span class="math display">\[\hat{\boldsymbol \mu}_{ML} = \frac{1}{n} \sum_{k=1}^n \boldsymbol x_k\,.\]</span></p>
+<p>Next, to obtain the MLE for <span class="math inline">\(\boldsymbol \Omega\)</span> we compute
+<span class="math display">\[\frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \Omega}=\frac{n}{2}\boldsymbol \Omega^{-1} - \frac{1}{2}  \sum_{k=1}^n (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T\]</span>.
+Setting this equal to zero and substituting the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we get
+<span class="math display">\[\widehat{\boldsymbol \Omega}^{-1}_{ML}=  \frac{1}{n} \sum_{k=1}^n  (\boldsymbol x_k-\hat{\boldsymbol \mu}) (\boldsymbol x_k-\hat{\boldsymbol \mu})^T=\widehat{\boldsymbol \Sigma}_{ML}\,.\]</span></p>
+<p>See the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-refresher/index.html">Matrix Refresher</a> notes for the relevant formulas in vector and matrix calculus.</p>
+<p>Therefore, the MLEs are identical to the empirical estimates.</p>
+<p>Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the MLE of the covariance matrix.</p>
+</div>
+</div>
+<div id="sampling-distribution-of-the-empirical-maximum-likelihood-estimates" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> Sampling distribution of the empirical / maximum likelihood estimates<a class="anchor" aria-label="anchor" href="#sampling-distribution-of-the-empirical-maximum-likelihood-estimates"><i class="fas fa-link"></i></a>
+</h2>
+<p>With <span class="math inline">\(\boldsymbol x_1,...,\boldsymbol x_n \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> one can find the exact distributions
+of the estimators.
+The sample average is denoted by <span class="math inline">\(\bar{\boldsymbol x}= \frac{1}{n}\sum_{i=1}^n \boldsymbol x_i\)</span></p>
+<p><strong>1. Distribution of the estimate of the mean:</strong></p>
+<p>The empirical estimate of the mean is normally distributed:</p>
+<p><span class="math display">\[\hat{\boldsymbol \mu}_{ML}=\bar{\boldsymbol x} \sim N_d\left(\boldsymbol \mu, \frac{\boldsymbol \Sigma}{n}\right)\]</span>
+Since
+<span class="math inline">\(\text{E}(\hat{\boldsymbol \mu}_{ML}) = \boldsymbol \mu\Longrightarrow \hat{\boldsymbol \mu}_{ML}\)</span> is unbiased.</p>
+<p><strong>2. Distribution of the covariance estimate:</strong></p>
+<p>The empirical and unbiased estimate of the covariance matrix
+is Wishart distributed:</p>
+<p>Case of unknown mean <span class="math inline">\(\boldsymbol \mu\)</span> (estimated by <span class="math inline">\(\bar{\boldsymbol x}\)</span>):</p>
+<p><span class="math display">\[\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\boldsymbol x_i -\bar{\boldsymbol x})(\boldsymbol x_i -\bar{\boldsymbol x})^T \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n}, n-1\right)\]</span></p>
+<p>Since
+<span class="math inline">\(\text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = \frac{n-1}{n}\boldsymbol \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\boldsymbol \Sigma}_{ML}\)</span> is biased, with <span class="math inline">\(\text{Bias}(\widehat{\boldsymbol \Sigma}_{ML} ) = \boldsymbol \Sigma- \text{E}(\widehat{\boldsymbol \Sigma}_{ML}) = -\frac{\boldsymbol \Sigma}{n}\)</span>.</p>
+<p>Easy to make unbiased:
+<span class="math inline">\(\widehat{\boldsymbol \Sigma}_{UB} = \frac{n}{n-1}\widehat{\boldsymbol \Sigma}_{ML}= \frac{1}{n-1}\sum^n_{k=1}\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)^T\)</span>
+which is distributed as
+<span class="math display">\[\widehat{\boldsymbol \Sigma}_{UB}  \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n-1}, n-1\right)\]</span></p>
+<p>Hence <span class="math inline">\(\text{E}(\widehat{\boldsymbol \Sigma}_{UB}) = \boldsymbol \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\boldsymbol \Sigma}_{UB}\)</span> is unbiased.</p>
+<p>But unbiasedness of an estimator is <strong>not</strong> a very relevant criterion in multivariate statistics, especially when the number of samples is
+small compared to the dimension (see further below).</p>
+<p>Covariance estimator for known mean <span class="math inline">\(\boldsymbol \mu\)</span>:</p>
+<p><span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\boldsymbol x_i -\boldsymbol \mu)(\boldsymbol x_i -\boldsymbol \mu)^T \sim \text{W}_d\left(\frac{\boldsymbol \Sigma}{n}, n\right)\]</span></p>
+</div>
+<div id="small-sample-estimation" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Small sample estimation<a class="anchor" aria-label="anchor" href="#small-sample-estimation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" class="section level3" number="2.5.1">
+<h3>
+<span class="header-section-number">2.5.1</span> Problems with maximum likelihood in small sample settings and high dimensions<a class="anchor" aria-label="anchor" href="#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Modern data is high dimensional!</strong></p>
+<p>Data sets with <span class="math inline">\(n&lt;d\)</span>, i.e. high dimension <span class="math inline">\(d\)</span> and small sample size <span class="math inline">\(n\)</span> are now common in
+many fields, e.g., medicine, biology but also finance and business analytics.</p>
+<p><span class="math display">\[n = 100 \, \text{(e.g, patients/samples)}\]</span>
+<span class="math display">\[d = 20000 \, \text{(e.g., genes/SNPs/proteins/variables)}\]</span>
+Reasons:</p>
+<ul>
+<li>the number of measured variables is increasing quickly with technological advances (e.g. genomics)</li>
+<li>but the number of samples cannot be similary increased (for cost and ethical reasons)</li>
+</ul>
+<p><strong>General problems of MLEs:</strong></p>
+<ol style="list-style-type: decimal">
+<li>ML estimators are optimal only if <strong>sample size is large</strong> compared to the number of parameters. However, this optimality is not any more valid if sample size is moderate or smaller than the number of parameters.</li>
+<li>If there is not enough data the <strong>ML estimate overfits</strong>. This means ML fits the current data perfectly but the resulting model does not generalise well (i.e. model will perform poorly in prediction)</li>
+<li>If there is a choice between different models with different complexity <strong>ML will always select the model with the largest number of parameters</strong>.</li>
+</ol>
+<p><strong>-&gt; for high-dimensional data with small sample size maximum likelihood estimation does not work!!!</strong></p>
+<p><strong>History of Statistics:</strong></p>
+<p>Much of modern statistics (from 1960 onwards) is devoted to the development of inference and estimation techniques that work with complex, high-dimensional data.</p>
+<div class="inline-figure"><img src="fig/fig1-history.png" width="90%" style="display: block; margin: auto;"></div>
+<ul>
+<li>Maximum likelihood is a method from classical statistics (time up to about 1960).</li>
+<li>From 1960 modern (computational) statistics emerges, starting with
+<strong>“Stein Paradox” (1956):</strong> Charles Stein showed that in a <strong>multivariate setting</strong> ML estimators are <strong>dominated by</strong> (= are always worse than) shrinkage estimators!</li>
+<li>For example, there is a shrinkage estimator for the mean that is better (in terms of MSE) than the average (which is the MLE)!</li>
+</ul>
+<p>Modern statistics has developed many different (but related) methods for use in high-dimensional, small sample settings:</p>
+<ul>
+<li>regularised estimators</li>
+<li>shrinkage estimators</li>
+<li>penalised maximum likelihood estimators</li>
+<li>Bayesian estimators</li>
+<li>Empirical Bayes estimators</li>
+<li>KL / entropy-based estimators</li>
+</ul>
+<p>Most of this is out of scope for our class, but will be covered in advanced statistical courses.</p>
+<p>Next, we describe a <strong>simple regularised estimator for the estimation of the covariance</strong>
+that we will use later (i.e. in classification).</p>
+</div>
+<div id="estimation-of-covariance-matrix-in-small-sample-settings" class="section level3" number="2.5.2">
+<h3>
+<span class="header-section-number">2.5.2</span> Estimation of covariance matrix in small sample settings<a class="anchor" aria-label="anchor" href="#estimation-of-covariance-matrix-in-small-sample-settings"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Problems with ML estimate of <span class="math inline">\(\boldsymbol \Sigma\)</span></strong></p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(\Sigma\)</span> has O(<span class="math inline">\(d^2\)</span>) number of parameters!
+<span class="math inline">\(\Longrightarrow \hat{\boldsymbol \Sigma}^{\text{MLE}}\)</span> requires <em>a lot</em> of data! <span class="math inline">\(n\gg d \text{ or } d^2\)</span></p></li>
+<li><p>if <span class="math inline">\(n &lt; d\)</span> then <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> is positive <strong>semi</strong>-definite (even if the true <span class="math inline">\(\Sigma\)</span> is positive definite!)<br><span class="math inline">\(\Longrightarrow \hat{\boldsymbol \Sigma}\)</span> will have <strong>vanishing eigenvalues</strong> (some <span class="math inline">\(\lambda_i=0\)</span>) and thus <strong>cannot be inverted</strong> and is singular!</p></li>
+</ol>
+<p>Note that in many expression in multivariate statistics we actually need to use the inverse of the covariance matrix, e.g., in the density of the multivariate normal distribution, so it is essential that we obtain a non-singular invertible estimate of the covariance matrix.</p>
+<p><strong>Making the ML estimate of <span class="math inline">\(\boldsymbol \Sigma\)</span> invertible</strong></p>
+<p>There is a simple numerical trick credited to <a href="https://en.wikipedia.org/wiki/Andrey_Nikolayevich_Tikhonov">A. N. Tikhonov</a> to make <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> invertible, by adding a small
+number (say <span class="math inline">\(\varepsilon=10^{-6}\)</span> to the diagonal elements of <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span>:
+<span class="math display">\[
+\boldsymbol S_{\text{Tik}} = \hat{\boldsymbol \Sigma} + \varepsilon \boldsymbol I
+\]</span></p>
+<p>The resulting <span class="math inline">\(\boldsymbol S_{\text{Tik}}\)</span> is <strong>positive definite</strong> because the sum of a symmetric positive definite matrix (<span class="math inline">\(\varepsilon \boldsymbol I\)</span>) and a symmetric positive semi-definite matrix (<span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span>) is
+always positive definite.</p>
+<p>However, while this simple regularisation results in an invertible matrix the estimator itself has not improved over the MLE, and the matrix <span class="math inline">\(\boldsymbol S_{\text{Tik}}\)</span> will also be poorly conditioned (i.e. large condition number).</p>
+<p><strong>Simple regularised estimate of <span class="math inline">\(\boldsymbol \Sigma\)</span></strong></p>
+<p>Regularised estimator <span class="math inline">\(\boldsymbol S^\ast\)</span> = convex combination of <span class="math inline">\(\boldsymbol S= \hat{\boldsymbol \Sigma}^\text{MLE}\)</span> and <span class="math inline">\(\boldsymbol I_d\)</span> (identity matrix) to get</p>
+<p>Regularisation:
+<span class="math display">\[
+\underbrace{\boldsymbol S^\ast}_{\text{regularised estimate}} = (1-\lambda)\underbrace{\boldsymbol S}_{\text{ML estimate}} +\underbrace{\lambda}_{\text{shrinkage intensity}} \, \underbrace{\boldsymbol I_d}_{\text{target}}\]</span></p>
+<p>Idea: choose <span class="math inline">\(\lambda \in [0,1]\)</span> such that <span class="math inline">\(\boldsymbol S^\ast\)</span> is better (e.g. in terms of MSE) than both <span class="math inline">\(\boldsymbol S\)</span> and <span class="math inline">\(\boldsymbol I_d\)</span>. Note that <span class="math inline">\(\lambda\)</span> does not need to be small like <span class="math inline">\(\varepsilon\)</span>.</p>
+<p>This form of estimator is corresponds to computing the mean of the Bayesian posterior
+by directly shrinking the MLE towards a prior mean (target):
+<span class="math display">\[
+\underbrace{\boldsymbol S^\ast}_{\text{posterior mean}} = \underbrace{\lambda \boldsymbol I_d}_{\text{prior information}}  + (1-\lambda)\underbrace{\boldsymbol S}_{\text{data summarised by maximum likelihood}}
+\]</span></p>
+<ul>
+<li>Prior information helps to infer <span class="math inline">\(\boldsymbol \Sigma\)</span> even in small samples.</li>
+<li>also called shrinkage estimator since the off-diagonal entries are shrunk towards zero.</li>
+<li>this type of linear shrinkage/regularisation is natural for exponential family models (Diaconis and Ylvisaker, 1979).</li>
+<li>Instead of a diagonal target other options are possible, e.g. block-diagonal or banded covariances.</li>
+<li>If <span class="math inline">\(\lambda\)</span> is not prespecified but learned from data (see below) then the resulting estimate is an empirical Bayes estimator.</li>
+<li>The resulting estimate will typically be biased as mixing in the target will increase the bias.</li>
+</ul>
+<p><strong>How to find optimal shrinkage / regularisation parameter <span class="math inline">\(\lambda\)</span>?</strong></p>
+<p>One way to do this is to minimise <span class="math inline">\(\text{MSE}\)</span> (Mean Squared Error). This is also called L2 regularisation
+or Ridge regularisation.</p>
+<p>Bias-variance trade-off: <span class="math inline">\(\text{MSE}\)</span> is composed of squared bias and variance.</p>
+<p><span class="math display">\[\text{MSE}(\theta) = \text{E}((\hat{\theta}-\theta)^2) = \text{Bias}(\hat{\theta})^2 + \text{Var}(\hat{\theta})\]</span>
+with <span class="math inline">\(\text{Bias}(\hat{\theta}) = \text{E}(\hat{\theta})-\theta\)</span></p>
+<p><span class="math inline">\(\boldsymbol S\)</span>: ML estimate, many parameters, low bias, high variance<br><span class="math inline">\(\boldsymbol I_d\)</span>: “target”, no parameters, high bias, low variance<br><span class="math inline">\(\Longrightarrow\)</span> <strong>reduce high variance of <span class="math inline">\(\boldsymbol S\)</span> by <em>introducing</em> a bit of bias through <span class="math inline">\(\boldsymbol I_d\)</span></strong>!<br><span class="math inline">\(\Longrightarrow\)</span> overall, <span class="math inline">\(\text{MSE}\)</span> is decreased</p>
+<div class="inline-figure"><img src="fig/fig1-biasvariance.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Challenge: since we don’t know the true <span class="math inline">\(\boldsymbol \Sigma\)</span> we cannot actually compute the <span class="math inline">\(\text{MSE}\)</span> directly but have to estimate it! How is this done in practise?</p>
+<ul>
+<li>by cross-validation (=resampling procedure)</li>
+<li>by using some analytic approximation (e.g. Stein’s formula)</li>
+</ul>
+<p>In Worksheet 3 the empirical estimator of covariance is compared with the regularised covariance estimator implemented in the R package “corpcor”. This uses a regularisation similar as above (but for the correlation rather than the covariance matrix) and it employs an analytic data-adaptive estimate of the shrinkage intensity <span class="math inline">\(\lambda\)</span>.
+This estimator is a variant of an empirical Bayes / James-Stein estimator (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>).</p>
+
+</div>
+</div>
+<div id="full-bayesian-multivariate-modelling" class="section level2" number="2.6">
+<h2>
+<span class="header-section-number">2.6</span> Full Bayesian multivariate modelling<a class="anchor" aria-label="anchor" href="#full-bayesian-multivariate-modelling"><i class="fas fa-link"></i></a>
+</h2>
+<p>See also the <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/multivariate-distributions.html">section about multivariate distributions in
+the Probability and Distribution refresher</a> for details about the distributions used
+below.</p>
+<div id="three-main-scenarios" class="section level3" number="2.6.1">
+<h3>
+<span class="header-section-number">2.6.1</span> Three main scenarios<a class="anchor" aria-label="anchor" href="#three-main-scenarios"><i class="fas fa-link"></i></a>
+</h3>
+<p>As discussed in <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a> there are three main
+Bayesian models in the univariate case that cover a large range of applications:</p>
+<ol style="list-style-type: decimal">
+<li>the beta-binomial model to estimate proportions</li>
+<li>the normal-normal model to estimate means</li>
+<li>the inverse gamma-normal model to estimate variances</li>
+</ol>
+<p>Below we briefly sketch the extensions of these three elementary models to the multivariate case.</p>
+</div>
+<div id="dirichlet-multinomial-model" class="section level3" number="2.6.2">
+<h3>
+<span class="header-section-number">2.6.2</span> Dirichlet-multinomial model<a class="anchor" aria-label="anchor" href="#dirichlet-multinomial-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>This generalises the univariate beta-binomial model.</p>
+<p>The Dirichlet distribution is useful as conjugate prior and posterior distribution for the parameters of a categorical distribution.</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D=\{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> with <span class="math inline">\(\boldsymbol x_i \sim \text{Cat}(\boldsymbol \pi)\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\hat{\boldsymbol \pi}_{ML} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i\)</span></p></li>
+<li><p>Prior parameters (Dirichlet in mean parameterisation): <span class="math inline">\(k_0\)</span>, <span class="math inline">\(\boldsymbol \pi_0\)</span>,<br><span class="math display">\[\boldsymbol \pi\sim \text{Dir}(\boldsymbol \pi_0, k_0)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \pi) = \boldsymbol \pi_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(k_1 = k_0+n\)</span>, <span class="math inline">\(\boldsymbol \pi_1 = \lambda \boldsymbol \pi_0 + (1-\lambda) \, \hat{\boldsymbol \pi}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span><br><span class="math display">\[\boldsymbol \pi\,| \, D \sim \text{Dir}(\boldsymbol \pi_1, k_1)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \pi\,| \, D) = \boldsymbol \pi_1\]</span></p></li>
+<li><p>Equivalent update rule (for Dirichlet with <span class="math inline">\(\boldsymbol \alpha\)</span> parameter): <span class="math inline">\(\boldsymbol \alpha_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\boldsymbol \alpha_1 = \boldsymbol \alpha_0 + \sum_{i=1}^n \boldsymbol x_i = \boldsymbol \alpha_0 + n \hat{\boldsymbol \pi}_{ML}\)</span></p></li>
+</ul>
+</div>
+<div id="multivariate-normal-normal-model" class="section level3" number="2.6.3">
+<h3>
+<span class="header-section-number">2.6.3</span> Multivariate normal-normal model<a class="anchor" aria-label="anchor" href="#multivariate-normal-normal-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>This generalises the univariate normal-normal model.</p>
+<p>The multivariate normal distribution is useful as conjugate prior and posterior distribution of the mean:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D =\{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> with <span class="math inline">\(\boldsymbol x_i \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with known mean <span class="math inline">\(\boldsymbol \Sigma\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\widehat{\boldsymbol \mu}_{ML} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i\)</span></p></li>
+<li><p>Prior parameters: <span class="math inline">\(k_0\)</span>, <span class="math inline">\(\boldsymbol \mu_0\)</span>
+<span class="math display">\[\boldsymbol \mu\sim N_d\left(\boldsymbol \mu_0, \frac{\boldsymbol \Sigma}{k_0}\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \mu) = \boldsymbol \mu_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(k_1 = k_0+n\)</span>, <span class="math inline">\(\boldsymbol \mu_1 = \lambda \boldsymbol \mu_0 + (1-\lambda) \widehat{\boldsymbol \mu}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span><br><span class="math display">\[\boldsymbol \mu\, |\, D \sim N_d\left( \boldsymbol \mu_1, \frac{\boldsymbol \Sigma}{k_1}  \right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \mu\, |\, D) = \boldsymbol \mu_1\]</span></p></li>
+</ul>
+</div>
+<div id="inverse-wishart-normal-model" class="section level3" number="2.6.4">
+<h3>
+<span class="header-section-number">2.6.4</span> Inverse Wishart-normal model<a class="anchor" aria-label="anchor" href="#inverse-wishart-normal-model"><i class="fas fa-link"></i></a>
+</h3>
+<p>This generalises the univariate inverse gamma-normal model for the variance.</p>
+<p>The inverse Wishart distribution is useful as conjugate prior and posterior distribution
+of the covariance:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D =\{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> with <span class="math inline">\(\boldsymbol x_i \sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with known mean <span class="math inline">\(\boldsymbol \mu\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\widehat{\boldsymbol \Sigma}_{ML} = \frac{1}{n} \sum_{i=1}^n (\boldsymbol x_i-\boldsymbol \mu)(\boldsymbol x_i-\boldsymbol \mu)^T\)</span></p></li>
+<li><p>Prior parameters: <span class="math inline">\(\kappa_0\)</span>, <span class="math inline">\(\boldsymbol \Sigma_0\)</span>
+<span class="math display">\[\boldsymbol \Sigma\sim \text{W}^{-1}_d\left( \kappa_0 \boldsymbol \Sigma_0 \, , \,  \kappa_0+d+1\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \Sigma) = \boldsymbol \Sigma_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(\kappa_1 = \kappa_0+n\)</span>, <span class="math inline">\(\boldsymbol \Sigma_1 = \lambda \boldsymbol \Sigma_0 + (1-\lambda) \widehat{\boldsymbol \Sigma}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{\kappa_0}{\kappa_1}\)</span><br><span class="math display">\[\boldsymbol \Sigma\, |\, D \sim \text{W}^{-1}_d\left( \kappa_1 \boldsymbol \Sigma_1 \, , \,  \kappa_1+d+1\right)\]</span>
+<span class="math display">\[\text{E}(\boldsymbol \Sigma\, |\, D) = \boldsymbol \Sigma_1\]</span></p></li>
+<li><p>Equivalent update rule:
+<span class="math inline">\(\nu_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\nu_1 = \nu_0+n\)</span>,
+<span class="math inline">\(\boldsymbol \Psi_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\boldsymbol \Psi_1 = \boldsymbol \Psi_0 + \sum_{i=1}^n (\boldsymbol x_i-\boldsymbol \mu)(\boldsymbol x_i-\boldsymbol \mu)^T = \boldsymbol \Psi_0 + n \widehat{\boldsymbol \Sigma}_{ML}\)</span></p></li>
+</ul>
+</div>
+</div>
+<div id="conclusion" class="section level2" number="2.7">
+<h2>
+<span class="header-section-number">2.7</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>Multivariate models are often high-dimensional with
+large number of parameters but often only a small number of samples are available. In this instance it is useful (and often necessary) to introduce additional information (via priors or by regularisation).</li>
+<li>Unbiased estimation, a highly valued property in classical univariate statistics when sample size is large and number of parameters is small, is typically not a good idea in multivariate settings and often leads to poor estimators.</li>
+<li>Regularisation introduces bias and reduces variance, minimising overall MSE. Likewise, Bayesian estimators also introduce bias and regularise (via the prior) and thus are useful in multivariate settings.</li>
+</ul>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="multivariate-random-variables.html"><span class="header-section-number">1</span> Multivariate random variables</a></div>
+<div class="next"><a href="transformations-and-dimension-reduction.html"><span class="header-section-number">3</span> Transformations and dimension reduction</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#multivariate-estimation-in-large-sample-and-small-sample-settings"><span class="header-section-number">2</span> Multivariate estimation in large sample and small sample settings</a></li>
+<li><a class="nav-link" href="#overview"><span class="header-section-number">2.1</span> Overview</a></li>
+<li>
+<a class="nav-link" href="#empirical-estimates"><span class="header-section-number">2.2</span> Empirical estimates</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-principle"><span class="header-section-number">2.2.1</span> General principle</a></li>
+<li><a class="nav-link" href="#empirical-estimates-of-mean-and-covariance"><span class="header-section-number">2.2.2</span> Empirical estimates of mean and covariance</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#maximum-likelihood-estimation"><span class="header-section-number">2.3</span> Maximum likelihood estimation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-principle-1"><span class="header-section-number">2.3.1</span> General principle</a></li>
+<li><a class="nav-link" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate"><span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#sampling-distribution-of-the-empirical-maximum-likelihood-estimates"><span class="header-section-number">2.4</span> Sampling distribution of the empirical / maximum likelihood estimates</a></li>
+<li>
+<a class="nav-link" href="#small-sample-estimation"><span class="header-section-number">2.5</span> Small sample estimation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><span class="header-section-number">2.5.1</span> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
+<li><a class="nav-link" href="#estimation-of-covariance-matrix-in-small-sample-settings"><span class="header-section-number">2.5.2</span> Estimation of covariance matrix in small sample settings</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#full-bayesian-multivariate-modelling"><span class="header-section-number">2.6</span> Full Bayesian multivariate modelling</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#three-main-scenarios"><span class="header-section-number">2.6.1</span> Three main scenarios</a></li>
+<li><a class="nav-link" href="#dirichlet-multinomial-model"><span class="header-section-number">2.6.2</span> Dirichlet-multinomial model</a></li>
+<li><a class="nav-link" href="#multivariate-normal-normal-model"><span class="header-section-number">2.6.3</span> Multivariate normal-normal model</a></li>
+<li><a class="nav-link" href="#inverse-wishart-normal-model"><span class="header-section-number">2.6.4</span> Inverse Wishart-normal model</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#conclusion"><span class="header-section-number">2.7</span> Conclusion</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 18 January 2024.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
