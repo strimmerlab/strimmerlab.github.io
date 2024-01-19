@@ -187,11 +187,11 @@ convention is used! In these notes we exlusively follow the statistics conventio
 <span class="header-section-number">2.3.1</span> General principle<a class="anchor" aria-label="anchor" href="#general-principle-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>R.A. Fisher (1922) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher, R. A. 1922. On the mathematical foundations of theoretical statistics. Philosophical Transactions of the Royal Society A &lt;strong&gt;222&lt;/strong&gt;:309–368. &lt;a href="https://doi.org/10.1098/rsta.1922.0009" class="uri"&gt;https://doi.org/10.1098/rsta.1922.0009&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>: model-based estimators using the density or probability mass function</p>
-<p><strong>log-likelihood function</strong>:
-<span class="math display">\[\log L(\boldsymbol \theta) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\underbrace{x_i}_{\text{data}} |\underbrace{\boldsymbol \theta}_{\text{parameters}})\]</span>
-likelihood = probability to observe data given the model parameters</p>
+<p><strong>Log-likelihood function</strong>:</p>
+<p>Observing data <span class="math inline">\(D=\{ \boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> the log-likelihood function is</p>
+<p><span class="math display">\[\log L(\boldsymbol \theta| D ) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\boldsymbol x_k |\boldsymbol \theta)\]</span></p>
 <p><strong>Maximum likelihood estimate:</strong>
-<span class="math display">\[\hat{\boldsymbol \theta}^{\text{ML}}=\underset{\boldsymbol \theta}{\arg\,\max} \log L(\boldsymbol \theta)\]</span></p>
+<span class="math display">\[\hat{\boldsymbol \theta}_{\text{ML}}=\underset{\boldsymbol \theta}{\arg\,\max} \log L(\boldsymbol \theta| D)\]</span></p>
 <p>Maximum likelihood (ML) finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
 <p>Recall from <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>
 that maximum likelihood is closely linked to minimising the relative entropy (KL divergence)
@@ -200,31 +200,30 @@ sample size <span class="math inline">\(n\)</span> the model <span class="math i
 <p>Correspondingly, the great appeal of <strong>maximum likelihood estimates</strong> (MLEs) is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e. so that <strong>for large sample size no estimator can be constructed that outperforms the MLE</strong> (note the emphasis on “for large <span class="math inline">\(n\)</span>”!).
 A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the observed Fisher information which is related to the curvature of the log-likelihood function).</p>
 </div>
-<div id="maximum-likelihood-estimates-of-the-parameters-of-the-multivariate" class="section level3" number="2.3.2">
+<div id="maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution" class="section level3" number="2.3.2">
 <h3>
-<span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution<a class="anchor" aria-label="anchor" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution"><i class="fas fa-link"></i></a>
 </h3>
-<p>normal distribution</p>
 <p>We now derive the MLE of the parameters <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> of the multivariate normal distribution.
 The corresponding log-likelihood function is
 <span class="math display">\[
 \begin{split}
-\log L(\boldsymbol \mu, \boldsymbol \Sigma) &amp; = \sum_{k=1}^n \log f( \boldsymbol x_k | \boldsymbol \mu, \boldsymbol \Sigma) \\
+\log L(\boldsymbol \mu, \boldsymbol \Sigma| D) &amp; = \sum_{k=1}^n \log f( \boldsymbol x_k | \boldsymbol \mu, \boldsymbol \Sigma) \\
   &amp; = -\frac{n d}{2} \log(2\pi) -\frac{n}{2} \log \det(\boldsymbol \Sigma)  
    - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x_k-\boldsymbol \mu) \,.\\
 \end{split}
 \]</span>
 Written in terms of the precision matrix <span class="math inline">\(\boldsymbol \Omega= \boldsymbol \Sigma^{-1}\)</span> this becomes
 <span class="math display">\[
-\log L(\boldsymbol \mu, \boldsymbol \Omega) = -\frac{n d}{2} \log(2\pi) +\frac{n}{2} \log \det(\boldsymbol \Omega)  - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu) \,.
+\log L(\boldsymbol \mu, \boldsymbol \Omega| D) = -\frac{n d}{2} \log(2\pi) +\frac{n}{2} \log \det(\boldsymbol \Omega)  - \frac{1}{2}  \sum_{k=1}^n  (\boldsymbol x_k-\boldsymbol \mu)^T \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu) \,.
 \]</span>
 First, to find the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we compute
-<span class="math display">\[\nabla_{\boldsymbol \mu} \log L(\boldsymbol \mu, \boldsymbol \Omega) =  \frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \mu}= \sum_{k=1}^n  \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu)\]</span>
+<span class="math display">\[\nabla_{\boldsymbol \mu} \log L(\boldsymbol \mu, \boldsymbol \Omega| D) =  \frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega| D) }{\partial \boldsymbol \mu}= \sum_{k=1}^n  \boldsymbol \Omega(\boldsymbol x_k-\boldsymbol \mu)\]</span>
 noting that <span class="math inline">\(\boldsymbol \Omega\)</span> is symmetric.
 Setting this equal to zero we get <span class="math inline">\(\sum_{k=1}^n \boldsymbol x_k = n \hat{\boldsymbol \mu}_{ML}\)</span> and thus
 <span class="math display">\[\hat{\boldsymbol \mu}_{ML} = \frac{1}{n} \sum_{k=1}^n \boldsymbol x_k\,.\]</span></p>
 <p>Next, to obtain the MLE for <span class="math inline">\(\boldsymbol \Omega\)</span> we compute
-<span class="math display">\[\frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega) }{\partial \boldsymbol \Omega}=\frac{n}{2}\boldsymbol \Omega^{-1} - \frac{1}{2}  \sum_{k=1}^n (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T\]</span>.
+<span class="math display">\[\frac{\partial \log L(\boldsymbol \mu, \boldsymbol \Omega| D) }{\partial \boldsymbol \Omega}=\frac{n}{2}\boldsymbol \Omega^{-1} - \frac{1}{2}  \sum_{k=1}^n (\boldsymbol x_k-\boldsymbol \mu) (\boldsymbol x_k-\boldsymbol \mu)^T\]</span>.
 Setting this equal to zero and substituting the MLE for <span class="math inline">\(\boldsymbol \mu\)</span> we get
 <span class="math display">\[\widehat{\boldsymbol \Omega}^{-1}_{ML}=  \frac{1}{n} \sum_{k=1}^n  (\boldsymbol x_k-\hat{\boldsymbol \mu}) (\boldsymbol x_k-\hat{\boldsymbol \mu})^T=\widehat{\boldsymbol \Sigma}_{ML}\,.\]</span></p>
 <p>See the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-refresher/index.html">Matrix Refresher</a> notes for the relevant formulas in vector and matrix calculus.</p>
@@ -468,7 +467,7 @@ large number of parameters but often only a small number of samples are availabl
 <li>
 <a class="nav-link" href="#maximum-likelihood-estimation"><span class="header-section-number">2.3</span> Maximum likelihood estimation</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#general-principle-1"><span class="header-section-number">2.3.1</span> General principle</a></li>
-<li><a class="nav-link" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate"><span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate</a></li>
+<li><a class="nav-link" href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution"><span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#sampling-distribution-of-the-empirical-maximum-likelihood-estimates"><span class="header-section-number">2.4</span> Sampling distribution of the empirical / maximum likelihood estimates</a></li>
