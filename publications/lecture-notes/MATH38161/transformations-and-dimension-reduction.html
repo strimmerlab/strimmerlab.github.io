@@ -40,9 +40,9 @@
       margin-left: 2em;
     }
   </style>
-<meta name="description" content="Motivation: In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more...">
-<meta property="og:description" content="Motivation: In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more...">
-<meta name="twitter:description" content="Motivation: In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more...">
+<meta name="description" content="In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more complex...">
+<meta property="og:description" content="In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more complex...">
+<meta name="twitter:description" content="In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more complex...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -87,12 +87,10 @@
 <h1>
 <span class="header-section-number">3</span> Transformations and dimension reduction<a class="anchor" aria-label="anchor" href="#transformations-and-dimension-reduction"><i class="fas fa-link"></i></a>
 </h1>
-<p>Motivation:
-In the following we study transformations of random vectors and their distributions.
+<p>In the following we study transformations of random vectors and their distributions.
 These transformation are very important
-since they either transform simple distributions into more complex distributions or allow to simplify
-complex models. In machine learning invertible mappings of transformations
-for probability distributions are known as “normalising flows”.</p>
+since they either transform simple distributions into more complex distributions or allow to simplify complex models. Futhermore, they enable dimension reduction.
+We first consider affine transformation, and then also nonlinear transformations.</p>
 <div id="linear-transformations" class="section level2" number="3.1">
 <h2>
 <span class="header-section-number">3.1</span> Linear Transformations<a class="anchor" aria-label="anchor" href="#linear-transformations"><i class="fas fa-link"></i></a>
@@ -107,12 +105,14 @@ for probability distributions are known as “normalising flows”.</p>
 <span class="math display">\[\boldsymbol a: m \times 1 \text{ vector, location parameter}\]</span>
 <span class="math display">\[\boldsymbol B: m \times d \text{ matrix, scale parameter },  m \geq 1\]</span>
 <span class="math display">\[\boldsymbol x: d \times 1 \text{ random vector}\]</span></p>
+<p><strong>Mean and variance:</strong></p>
 <p>Mean and variance of the original vector <span class="math inline">\(\boldsymbol x\)</span>:</p>
 <p><span class="math display">\[\text{E}(\boldsymbol x)=\boldsymbol \mu_{\boldsymbol x}\]</span>
 <span class="math display">\[\text{Var}(\boldsymbol x)=\boldsymbol \Sigma_{\boldsymbol x}\]</span></p>
 <p>Mean and variance of the transformed random vector <span class="math inline">\(\boldsymbol y\)</span>:</p>
 <p><span class="math display">\[\text{E}(\boldsymbol y)=\boldsymbol a+ \boldsymbol B\boldsymbol \mu_{\boldsymbol x}\]</span>
 <span class="math display">\[\text{Var}(\boldsymbol y)= \boldsymbol B\boldsymbol \Sigma_{\boldsymbol x} \boldsymbol B^T\]</span></p>
+<p><strong>Cross-covariance and cross-correlation:</strong></p>
 <p>Cross-covariance <span class="math inline">\(\boldsymbol \Phi= \Sigma_{\boldsymbol x\boldsymbol y} = \text{Cov}(\boldsymbol x, \boldsymbol y)\)</span> between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>:
 <span class="math display">\[
 \boldsymbol \Phi= \text{Cov}(\boldsymbol x, \boldsymbol B\boldsymbol x) = \boldsymbol \Sigma_{\boldsymbol x}  \boldsymbol B^T
@@ -201,7 +201,37 @@ This can be shown directly by computing
 <span class="math display">\[\boldsymbol x= \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\]</span></p>
 <p>Invertible transformations thus provide a one-to-one map between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
 <div class="example">
-<p><span id="exm:mahatrans" class="example"><strong>Example 3.5  </strong></span><strong>Mahalanobis transform</strong></p>
+<p><span id="exm:orthotrans" class="example"><strong>Example 3.5  </strong></span><strong>Orthogonal transformation</strong></p>
+<p>Setting <span class="math inline">\(\boldsymbol a=0\)</span> and <span class="math inline">\(\boldsymbol B=\boldsymbol Q\)</span> to an orthogonal matrix <span class="math inline">\(\boldsymbol Q\)</span> yields
+an orthogonal transformation. The inverse transformation is given by setting
+<span class="math inline">\(\boldsymbol B^{-1} = \boldsymbol Q^T\)</span>.</p>
+<p>Assume that <span class="math inline">\(\boldsymbol x\)</span> has a positive definite
+covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol x)=\boldsymbol \Sigma_{\boldsymbol x}\)</span> with eigenvalue decomposition
+<span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x} = \boldsymbol U_1 \boldsymbol \Lambda\boldsymbol U_1^T\)</span>. After orthogonal transformation
+<span class="math inline">\(\boldsymbol y= \boldsymbol Q\boldsymbol x\)</span> the covariance matrix for <span class="math inline">\(\boldsymbol y\)</span> is
+<span class="math inline">\(\text{Var}(\boldsymbol y)= \boldsymbol \Sigma_{\boldsymbol y} = \boldsymbol Q\boldsymbol \Sigma_{\boldsymbol x} \boldsymbol Q^T = \boldsymbol Q\boldsymbol U_1 \boldsymbol \Lambda\boldsymbol U_1^T\boldsymbol Q^T = \boldsymbol U_2 \boldsymbol \Lambda\boldsymbol U_2^T\)</span> where <span class="math inline">\(\boldsymbol U_2 = \boldsymbol Q\boldsymbol U_1\)</span> is another orthogonal matrix.
+This shows that an orthogonal transformation reorientates the principal axes of
+the ellipse corresponding to covariance matrix, without changing the shape of the ellipse itself as the eigenvalues stay the same.</p>
+<p>If you set <span class="math inline">\(\boldsymbol Q=\boldsymbol U_1^T\)</span> then <span class="math inline">\(\boldsymbol U_2= \boldsymbol I\)</span> and the reoriented principal axes are now parallel to the coordinate axes. This special type of orthogonal transformation is called <strong>principal component analysis</strong> (PCA). We revisit PCA in a later chapter.</p>
+</div>
+<div class="example">
+<p><span id="exm:whitetrans" class="example"><strong>Example 3.6  </strong></span><strong>Whitening transformation</strong></p>
+<p>Assume that <span class="math inline">\(\boldsymbol x\)</span> has a positive definite
+covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol x)=\boldsymbol \Sigma_{\boldsymbol x}\)</span>.
+The <strong>inverse principal matrix square
+root</strong> is denoted by <span class="math inline">\(\boldsymbol \Sigma^{-1/2}_{\boldsymbol x}\)</span>. This can be obtained
+by eigendecomposition of <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x} = \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> so that
+<span class="math inline">\(\boldsymbol \Sigma^{-1/2}_{\boldsymbol x} =\boldsymbol U\boldsymbol \Lambda^{-1/2} \boldsymbol U^T\)</span>.</p>
+<p>Setting <span class="math inline">\(\boldsymbol a=0\)</span> and <span class="math inline">\(\boldsymbol B=\boldsymbol Q\boldsymbol \Sigma_{\boldsymbol x}^{-1/2}\)</span> where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal
+matrix yields the covariance-based parameterisation of the general whitening transformation. The matrix <span class="math inline">\(\boldsymbol B\)</span> is called the <em>whitening matrix</em> and is also often denoted by <span class="math inline">\(\boldsymbol W\)</span>.<br>
+The inverse transformation is
+given by setting <span class="math inline">\(\boldsymbol B^{-1} = \boldsymbol \Sigma_{\boldsymbol x}^{1/2} \boldsymbol Q^T\)</span>.</p>
+<p>After transformation <span class="math inline">\(\boldsymbol y= \boldsymbol Q\boldsymbol \Sigma_{\boldsymbol x}^{-1/2} \boldsymbol x\)</span> the covariance matrix for <span class="math inline">\(\boldsymbol y\)</span> is
+<span class="math inline">\(\text{Var}(\boldsymbol y)= \boldsymbol \Sigma_{\boldsymbol y} = \boldsymbol Q\boldsymbol \Sigma_{\boldsymbol x}^{-1/2} \boldsymbol \Sigma_{\boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x}^{-1/2} \boldsymbol Q^T = \boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)</span>, hence the name of the transformation. Whitening transformations are discussed
+in detail later.</p>
+</div>
+<div class="example">
+<p><span id="exm:mahatrans" class="example"><strong>Example 3.7  </strong></span><strong>Mahalanobis transform</strong></p>
 </div>
 <p>We assume <span class="math inline">\(\text{E}(\boldsymbol x)=\boldsymbol \mu_{\boldsymbol x}\)</span> and a positive definite
 covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol x)=\boldsymbol \Sigma_{\boldsymbol x}\)</span> with <span class="math inline">\(\det(\boldsymbol \Sigma_{\boldsymbol x}) &gt; 0\)</span>.</p>
@@ -211,10 +241,6 @@ covariance matrix <span class="math inline">\(\text{Var}(\boldsymbol x)=\boldsym
 \]</span>
 This corresponds to an affine transformation with
 <span class="math inline">\(\boldsymbol a= - \boldsymbol \Sigma^{-1/2}_{\boldsymbol x} \boldsymbol \mu_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol B= \boldsymbol \Sigma^{-1/2}_{\boldsymbol x}\)</span>.</p>
-<p>Note that this transformation contains the <strong>inverse principal matrix square
-root</strong> <span class="math inline">\(\boldsymbol \Sigma^{-1/2}_{\boldsymbol x}\)</span>. This can be obtained
-by eigendecomposition of <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x} = \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> so that
-<span class="math inline">\(\boldsymbol \Sigma^{-1/2}_{\boldsymbol x} =\boldsymbol U\boldsymbol \Lambda^{-1/2} \boldsymbol U^T\)</span>.</p>
 <p>The mean and the variance of <span class="math inline">\(\boldsymbol y\)</span> becomes
 <span class="math display">\[
 \text{E}(\boldsymbol y) = \boldsymbol 0\]</span>
@@ -234,10 +260,9 @@ becomes
 <span class="math display">\[y = \frac{x-\mu_x}{\sigma_x}\]</span>
 i.e. it applies centering + standardisation.</p>
 <p>The <strong>Mahalanobis transformation</strong> appears implicitly in many places in multivariate statistics,
-e.g. in the multivariate normal density. It is a particular example of a whitening transformation (of which there
-are infinitely many, see later in the course).</p>
+e.g. in the multivariate normal density. It is a particular example of a whitening transformation (plus centering).</p>
 <div class="example">
-<p><span id="exm:coltrans" class="example"><strong>Example 3.6  </strong></span><strong>Inverse Mahalanobis transformation</strong></p>
+<p><span id="exm:coltrans" class="example"><strong>Example 3.8  </strong></span><strong>Inverse Mahalanobis transformation</strong></p>
 </div>
 <p>The inverse of the Mahalanobis transform is given by
 <span class="math display">\[
@@ -263,8 +288,7 @@ and
 <p>After linear transformation <span class="math inline">\(\boldsymbol y= \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span> we get <span class="math inline">\(\boldsymbol y\sim F_{\boldsymbol y}\)</span> with density
 <span class="math display">\[f_{\boldsymbol y}(\boldsymbol y)=|\det(\boldsymbol B)|^{-1} f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)\]</span></p>
 <div class="example">
-<p><span id="exm:invmahanorm" class="example"><strong>Example 3.7  </strong></span>Transformation of standard normal with inverse Mahalanobis transform</p>
-</div>
+<p><span id="exm:invmahanorm" class="example"><strong>Example 3.9  </strong></span>Transformation of standard normal with inverse Mahalanobis transform</p>
 <p>Assume <span class="math inline">\(\boldsymbol x\)</span> is multivariate standard normal <span class="math inline">\(\boldsymbol x\sim N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> with density
 <span class="math display">\[f_{\boldsymbol x}(\boldsymbol x) = (2\pi)^{-d/2}\exp\left( -\frac{1}{2} \boldsymbol x^T \boldsymbol x\right)\]</span>
 Then the density after applying the inverse Mahalanobis transform<br><span class="math inline">\(\boldsymbol y= \boldsymbol \mu_{\boldsymbol y}+\boldsymbol \Sigma^{1/2}_{\boldsymbol y} \boldsymbol x\)</span> is
@@ -277,6 +301,7 @@ f_{\boldsymbol y}(\boldsymbol y) &amp;= |\det(\boldsymbol \Sigma^{1/2}_{\boldsym
 <span class="math inline">\(\Longrightarrow\)</span> <span class="math inline">\(\boldsymbol y\)</span> has multivariate normal density <span class="math inline">\(N_d(\boldsymbol \mu_{\boldsymbol y}, \boldsymbol \Sigma_{\boldsymbol y})\)</span></p>
 <p><em>Application:</em> e.g. random number generation: draw from <span class="math inline">\(N_d(\boldsymbol 0,\boldsymbol I_d)\)</span> (easy!) then convert to multivariate normal by tranformation
 (see Worksheet 4).</p>
+</div>
 </div>
 </div>
 <div id="nonlinear-transformations" class="section level2" number="3.2">
@@ -309,7 +334,7 @@ random variable <span class="math inline">\(\boldsymbol y\)</span>?
 \]</span></p>
 <p>In general, for a transformation <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> the exact mean and variance of the transformed variable cannot be obtained analytically.</p>
 <p>However, we can find a <strong>linear approximation</strong> and then compute its mean and variance.
-This approximation is called the “Delta Method”, or the “law of propagation of errors”, and is credited to Gauss <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Gorroochurn, P. 2020. Who Invented the Delta Method, Really? The Mathematical Intelligencer &lt;strong&gt;42&lt;/strong&gt;:46–49. &lt;a href="https://doi.org/10.1007/s00283-020-09982-0" class="uri"&gt;https://doi.org/10.1007/s00283-020-09982-0&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a>.</p>
+This approximation is called the “Delta Method”, or the “law of propagation of errors”, and is credited to Gauss <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Gorroochurn, P. 2020. Who Invented the Delta Method, Really? The Mathematical Intelligencer &lt;strong&gt;42&lt;/strong&gt;:46–49. &lt;a href="https://doi.org/10.1007/s00283-020-09982-0" class="uri"&gt;https://doi.org/10.1007/s00283-020-09982-0&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a>.</p>
 <p>Linearisation of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> is achieved by a Taylor series approximation of first order
 of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span>:
 <span class="math display">\[\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol x_0) + \underbrace{J_{\boldsymbol h}(\boldsymbol x_0)}_{\text{Jacobian matrix}}(\boldsymbol x-\boldsymbol x_0)  =
@@ -342,7 +367,7 @@ Note that in the Jacobian matrix by convention the gradient for each individual 
 <p>Note that the Delta approximation breaks down if <span class="math inline">\(\text{Var}(\boldsymbol y)\)</span> is singular,
 for example if the first derivative (or gradient or Jacobian matrix) at <span class="math inline">\(\boldsymbol \mu_{\boldsymbol x}\)</span> is zero.</p>
 <div class="example">
-<p><span id="exm:varoddsration" class="example"><strong>Example 3.8  </strong></span><strong>Variance of the odds ratio</strong></p>
+<p><span id="exm:varoddsration" class="example"><strong>Example 3.10  </strong></span><strong>Variance of the odds ratio</strong></p>
 <p>The proportion <span class="math inline">\(\hat{p} = \frac{n_1}{n}\)</span> resulting from
 <span class="math inline">\(n\)</span> repeats of a Bernoulli experiment has expectation <span class="math inline">\(\text{E}(\hat{p})=p\)</span>
 and variance <span class="math inline">\(\text{Var}(\hat{p}) = \frac{p (1-p)}{n}\)</span>.
@@ -354,7 +379,7 @@ Delta method
 <span class="math inline">\(\text{Var}( \widehat{OR} )\approx h'(p)^2 \text{Var}( \hat{p} ) = \frac{p}{n (1-p)^3}\)</span>.</p>
 </div>
 <div class="example">
-<p><span id="exm:logtransform" class="example"><strong>Example 3.9  </strong></span><strong>Log-transform as variance stabilisation</strong></p>
+<p><span id="exm:logtransform" class="example"><strong>Example 3.11  </strong></span><strong>Log-transform as variance stabilisation</strong></p>
 <p>Assume <span class="math inline">\(x\)</span> has some mean <span class="math inline">\(\text{E}(x)=\mu\)</span> and variance <span class="math inline">\(\text{Var}(x) = \sigma^2 \mu^2\)</span>,
 i.e. the standard deviation <span class="math inline">\(\text{SD}(x)\)</span> is proportional to the mean <span class="math inline">\(\mu\)</span>.
 What are the (approximate) mean and the variance of the log-transformed variable <span class="math inline">\(\log(x)\)</span>?</p>
@@ -393,7 +418,7 @@ the importance of nonlinear transformations</p>
 simple models) and for simplification and dimension reduction.</p>
 <p>If you are interested in normalising flows then a good start to learn more are the review papers
 by Kobyzev et al (2021 )<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Kobyzev et al. 2021. &lt;em&gt;Normalizing Flows: Introduction and Ideas&lt;/em&gt;.
-&lt;a href="https://doi.org/10.1109/TPAMI.2020.2992934"&gt;IEEE Trans. Pattern Anal. Mach. Intell. &lt;strong&gt;43&lt;/strong&gt;:3964-3979&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> and Papamakarios et al. (2021) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Papamakarios et al. 2021. &lt;em&gt;Normalizing Flows for Probabilistic Modeling and Inference&lt;/em&gt;.&lt;br&gt;&lt;a href="https://jmlr.csail.mit.edu/papers/v22/19-1028.html"&gt;JMLR &lt;strong&gt;22&lt;/strong&gt;:1-64&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a>.</p>
+&lt;a href="https://doi.org/10.1109/TPAMI.2020.2992934"&gt;IEEE Trans. Pattern Anal. Mach. Intell. &lt;strong&gt;43&lt;/strong&gt;:3964-3979&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a> and Papamakarios et al. (2021) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Papamakarios et al. 2021. &lt;em&gt;Normalizing Flows for Probabilistic Modeling and Inference&lt;/em&gt;.&lt;br&gt;&lt;a href="https://jmlr.csail.mit.edu/papers/v22/19-1028.html"&gt;JMLR &lt;strong&gt;22&lt;/strong&gt;:1-64&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a>.</p>
 
 </div>
 </div>
@@ -406,12 +431,13 @@ by Kobyzev et al (2021 )<a class="footnote-ref" tabindex="0" data-toggle="popove
 <span class="header-section-number">3.3.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Whitening transformations are a special and widely used class of invertible location-scale
-transformations.</p>
+transformations (Example <a href="transformations-and-dimension-reduction.html#exm:whitetrans">3.6</a>)</p>
 <p><em>Terminology:</em> whitening refers to the fact that after the transformation the covariance matrix is spherical, isotropic, white (<span class="math inline">\(\boldsymbol I_d\)</span>)</p>
 <p>Whitening is <strong>useful in preprocessing</strong>, as they allow to <strong>turn multivariate models into uncorrelated univariate models</strong> (via decorrelation property). Some whitening transformations <strong>reduce the dimension in an optimal way</strong> (via compression property).</p>
 <p>The <em>Mahalanobis</em> transform is a specific example of a <strong>whitening transformation</strong>.
 It is also know as “zero-phase component analysis” or short ZCA transform.</p>
-<p>In so-called latent variable models whitening procedures link observed (correlated) variables and latent variables (which typically are uncorrelated and standardised):</p>
+<p>In so-called latent variable models whitening procedures are implicitly used
+in linear models to link observed (correlated) variables and latent variables (which typically are uncorrelated and standardised):</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cl}
 \text{Whitening} \\
@@ -445,7 +471,7 @@ positive definite invertible correlation matrix <span class="math inline">\(\bol
 <p><strong>Whitening transformation:</strong></p>
 <p><span class="math display">\[\underbrace{\boldsymbol z}_{d \times 1 \text{ vector }} = \underbrace{\boldsymbol W}_{d \times d \text{ whitening matrix }} \underbrace{\boldsymbol x}_{d \times 1 \text{ vector }}\]</span>
 <strong>Objective</strong>: choose <span class="math inline">\(\boldsymbol W\)</span> so that <span class="math inline">\(\text{Var}(\boldsymbol z)=\boldsymbol I_d\)</span></p>
-<p>For Mahalanobis/ZCA whitening we already know from Example <a href="transformations-and-dimension-reduction.html#exm:mahatrans">3.5</a> that <span class="math inline">\(\boldsymbol W^{\text{ZCA}}=\boldsymbol \Sigma^{-1/2}\)</span>.</p>
+<p>For Mahalanobis/ZCA whitening we already know from Example <a href="transformations-and-dimension-reduction.html#exm:mahatrans">3.7</a> that <span class="math inline">\(\boldsymbol W^{\text{ZCA}}=\boldsymbol \Sigma^{-1/2}\)</span>.</p>
 <p>In general, the whitening matrix <span class="math inline">\(\boldsymbol W\)</span> needs to satisfy a constraint:
 <span class="math display">\[
 \begin{array}{lll}
@@ -770,7 +796,7 @@ whitened vector <span class="math inline">\(\boldsymbol z\)</span> does not diff
 z_1\leftrightarrow x_1 \\
 z_2\leftrightarrow x_2\\
 z_3\leftrightarrow x_3 \\
-\hdots\\
+\ldots\\
 z_d\leftrightarrow x_d \\
 \end{array}
 \]</span>
@@ -909,7 +935,7 @@ the second component <span class="math inline">\(z_2\)</span> and so on:</p>
 \begin{array}{c}
 z_1 \rightarrow   x_1, x_2, \ldots, x_d \\
 z_2 \rightarrow   x_1, x_2, \ldots, x_d \\
-\hdots\\
+\ldots\\
 z_d \rightarrow   x_1, x_2, \ldots, x_d \\
 \end{array}
 \]</span>
@@ -1058,23 +1084,23 @@ Its inverse <span class="math inline">\(\boldsymbol L^{-1}\)</span> is also lowe
 If <span class="math inline">\(\boldsymbol D\)</span> is a diagonal matrix with positive elements then <span class="math inline">\(\boldsymbol D\boldsymbol L\)</span> is also a lower triangular matrix with a positive diagonal and the Cholesky factor for the matrix <span class="math inline">\(\boldsymbol D\boldsymbol A\boldsymbol D\)</span>.</p>
 <p><strong>Aim in Cholesky whitening:</strong></p>
 <p>Find a whitening transformation such that the cross-covariance <span class="math inline">\(\boldsymbol \Phi\)</span> and cross-correlation <span class="math inline">\(\boldsymbol \Psi\)</span> have lower triangular structure. Specifically, we wish that the
-the first latent variable <span class="math inline">\(z_1\)</span> is linked to all original variables <span class="math inline">\(x_1, \ldots, x_d\)</span>,
-the second latent variable <span class="math inline">\(z_2\)</span> is <span class="math inline">\(x_3, \ldots, x_d\)</span>, and so on,
-the last variable <span class="math inline">\(z_d\)</span> is linked only with <span class="math inline">\(x_d\)</span>.
+the first whitened variable <span class="math inline">\(z_1\)</span> is linked to all original variables <span class="math inline">\(x_1, \ldots, x_d\)</span>,
+the second latent variable <span class="math inline">\(z_2\)</span> is linked to <span class="math inline">\(x_2, \ldots, x_d\)</span>, and so on,
+and the last variable <span class="math inline">\(z_d\)</span> is linked only to <span class="math inline">\(x_d\)</span>.
 <span class="math display">\[
 \begin{array}{cc}
-z_1 \rightarrow &amp;  x_1, x_2, \ldots, x_d \\
-z_2 \rightarrow &amp;  x_2, \ldots, x_d \\
-\hdots\\
+z_1 \rightarrow &amp;  x_1, x_2, x_3, \ldots, x_d \\
+z_2 \rightarrow &amp;  x_2, x_3, \ldots, x_d \\
+z_3 \rightarrow &amp;  x_3, \ldots, x_d \\
+\ldots\\
 z_d \rightarrow &amp; x_d \\
 \end{array}
 \]</span>
-We also impose that (as in the other whitening transformations discussed earlier)
-that the cross-correlation between each pair <span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span> is positive.</p>
-<p>Thus, Cholesky whitening imposes a structural (sparsity!) constraint on the loadings,
-where the non-zero coefficients are all in the lower half whereas in the upper half
-the coefficients all vanish.</p>
-<p>Therefore this procedure can be seen as a hybrid with ZCA and PCA whitening.</p>
+We also assume that <span class="math inline">\(\text{Cor}(x_i, z_i)&gt; 0\)</span>, i.e. that the cross-correlations between corresponding pairs of original and whitened variables are positive.
+This requirement of a positive diagonal <span class="math inline">\(\boldsymbol \Psi\)</span> ensures the uniqueness of the whitening
+transformation (similar as in PCA whitening above).</p>
+<p>The Cholesky whitening procedure can be viewed as a middle ground between ZCA
+whitening and PCA whitening.</p>
 <p><em>Solution</em>: In order to find such a whitening transformation we use the
 Cholesky decomposition and apply it to the covariance matrix <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol L\boldsymbol L^T\)</span></p>
 <p>The resulting whitening matrix is
@@ -1183,14 +1209,7 @@ equal weight for each latent variable.</p>
 <p>If data are standardised then <span class="math inline">\(\boldsymbol \Phi\)</span> and <span class="math inline">\(\boldsymbol \Psi\)</span> will be the same and
 hence ZCA will become ZCA-cor and PCA becomes PCA-cor. The triangular shape constraint of
 Cholesky whitening depends on the ordering of the original variables.</p>
-<p><strong>Related methods not discussed in this course:</strong></p>
-<ul>
-<li><p>Factor models: essentially whitening plus an additional error term, factors have rotational
-freedom just like in whitening</p></li>
-<li><p>Partial Least Squares (PLS): similar to Principal Components Analysis (PCA) but in a regression setting (with the choice of
-latent variables depending on the response)</p></li>
-<li><p>Nonlinear dimension reduction methods such as SNE, tSNE, UMAP.</p></li>
-</ul>
+
 </div>
 </div>
 <div id="principal-component-analysis-pca" class="section level2" number="3.5">
@@ -1203,10 +1222,10 @@ latent variables depending on the response)</p></li>
 </h3>
 <p>Principal component analysis was proposed in 1933 by Harald Hotelling <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components.
 Journal of Educational Psychology &lt;strong&gt;24&lt;/strong&gt;:417–441 (Part 1) and &lt;strong&gt;24&lt;/strong&gt;:498–520 (Part 2).
-&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
-points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572. &lt;a href="https://doi.org/10.1080/14786440109462720" class="uri"&gt;https://doi.org/10.1080/14786440109462720&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a> for the problem of orthogonal regression.</p>
+&lt;a href="https://doi.org/10.1037/h0071325" class="uri"&gt;https://doi.org/10.1037/h0071325&lt;/a&gt; and &lt;a href="https://doi.org/10.1037/h0070888" class="uri"&gt;https://doi.org/10.1037/h0070888&lt;/a&gt;&lt;/p&gt;'><sup>9</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Pearson, K. 1901. On lines and planes of closest fit to systems of
+points in space. Philosophical Magazine &lt;strong&gt;2&lt;/strong&gt;:559–572. &lt;a href="https://doi.org/10.1080/14786440109462720" class="uri"&gt;https://doi.org/10.1080/14786440109462720&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> for the problem of orthogonal regression.</p>
 <p>Assume random vector <span class="math inline">\(\boldsymbol x\)</span> with <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span>.
-PCA is a particular orthogonal transformation of the original <span class="math inline">\(\boldsymbol x\)</span>
+PCA is a particular orthogonal transformation (Example <a href="transformations-and-dimension-reduction.html#exm:orthotrans">3.5</a>) of the original <span class="math inline">\(\boldsymbol x\)</span>
 such that the resulting components are orthogonal:
 <span class="math display">\[
 \underbrace{\boldsymbol t^{\text{PCA}}}_{\text{Principal components}} = \underbrace{\boldsymbol U^T}_{\text{Orthogonal matrix}}   \boldsymbol x
@@ -1296,7 +1315,22 @@ by the two latent variables will have strong correlation and thus lie near the o
 PCA components and all four variables of the iris flower data set discussed earlier.</p>
 <div class="inline-figure"><img src="03-transformations-c_files/figure-html/fig4-1.png" width="384"></div>
 <p>The interpretation of this plot is discussed in Worksheet 5.</p>
-
+</div>
+<div id="outlook" class="section level3" number="3.5.6">
+<h3>
+<span class="header-section-number">3.5.6</span> Outlook<a class="anchor" aria-label="anchor" href="#outlook"><i class="fas fa-link"></i></a>
+</h3>
+<p>Related methods not discussed in this course:</p>
+<ul>
+<li><p>Factor models: essentially this is a probabilistic version of
+whitening / PCA with dimension reduction and an additional error term.
+Factors have rotational freedom exactly as whitened variables</p></li>
+<li><p>Partial Least Squares (PLS): similar to Principal Components Analysis (PCA) but in a regression setting, with the choice of
+latent variables depending both on predictors and on the response variable. One can also use PCA with regression
+(yielding principal components regression, PCR) but in this case the PCA components only depend
+on the predictor variables.</p></li>
+<li><p>Nonlinear dimension reduction methods such as SNE, tSNE and UMAP.</p></li>
+</ul>
 </div>
 </div>
 </div>
@@ -1353,6 +1387,7 @@ PCA components and all four variables of the iris flower data set discussed earl
 <li><a class="nav-link" href="#iris-flower-data-example"><span class="header-section-number">3.5.3</span> Iris flower data example</a></li>
 <li><a class="nav-link" href="#pca-correlation-loadings"><span class="header-section-number">3.5.4</span> PCA correlation loadings</a></li>
 <li><a class="nav-link" href="#pca-correlation-loadings-plot"><span class="header-section-number">3.5.5</span> PCA correlation loadings plot</a></li>
+<li><a class="nav-link" href="#outlook"><span class="header-section-number">3.5.6</span> Outlook</a></li>
 </ul>
 </li>
 </ul>
@@ -1371,7 +1406,7 @@ PCA components and all four variables of the iris flower data set discussed earl
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 18 January 2024.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 20 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

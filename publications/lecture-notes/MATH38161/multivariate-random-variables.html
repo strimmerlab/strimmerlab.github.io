@@ -257,7 +257,7 @@ with <span class="math inline">\(\sigma_{ij} = \sigma_{ji}\)</span>.</p>
 <p>–&gt; computationally expensive (both for storage and in handling)
 –&gt; very challenging to estimate in high dimensions <span class="math inline">\(d\)</span>.</p>
 <p>Note: matrix inversion requires <span class="math inline">\(O(d^3)\)</span> operations using standard algorithms such as <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Gauss Jordan elimination</a>. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra"&gt;Specialised matrix algorithms improve this&lt;/a&gt; to about &lt;span class="math inline"&gt;\(O(d^{2.373})\)&lt;/span&gt;.
-Matrices with special symmetries (e.g. diagonal and block diagonal matrices) or properties (e.g. orthogonal matrix) can also be inverted much easier.&lt;/p&gt;'><sup>1</sup></a> Hence, computing <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> is computationally expensive for large <span class="math inline">\(d\)</span>!</p>
+Matrices with special symmetries (e.g. diagonal and block diagonal matrices) or particular properties (e.g. orthogonal matrix) can also be inverted much easier.&lt;/p&gt;'><sup>1</sup></a> Hence, computing <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> is computationally expensive for large <span class="math inline">\(d\)</span>!</p>
 </div>
 <div id="eigenvalue-decomposition-of-boldsymbol-sigma" class="section level3" number="1.1.7">
 <h3>
@@ -265,12 +265,16 @@ Matrices with special symmetries (e.g. diagonal and block diagonal matrices) or
 </h3>
 <p>Recall from linear matrix algebra that any real symmetric matrix
 has real eigenvalues and a complete set of orthogonal eigenvectors.
-These can be obtained by orthogonal eigendecomposition.</p>
+These can be obtained by orthogonal eigendecomposition. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;A brief summary of eigenvalue decompositon is found in the supplementary
+&lt;a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-calculus-refresher/index.html"&gt;Matrix and Calculus Refresher notes&lt;/a&gt;.&lt;/p&gt;'><sup>2</sup></a></p>
 <p>Applying eigenvalue decomposition to the covariance matrix yields
 <span class="math display">\[
 \boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T
 \]</span>
-where <span class="math inline">\(\boldsymbol U\)</span> is an orthogonal matrix containing the eigenvectors of the covariance matrix
+where <span class="math inline">\(\boldsymbol U\)</span> is an <strong>orthogonal matrix</strong> <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;An orthogonal matrix &lt;span class="math inline"&gt;\(\boldsymbol Q\)&lt;/span&gt; satisfies &lt;span class="math inline"&gt;\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol I\)&lt;/span&gt;, &lt;span class="math inline"&gt;\(\boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)&lt;/span&gt;
+and &lt;span class="math inline"&gt;\(\boldsymbol Q^{-1} = \boldsymbol Q^T\)&lt;/span&gt; and is also called rotation-reflection matrix.
+We will make frequent use of orthogonal matrices so this might be a good time to
+revisit their properties, see e.g. the &lt;a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-calculus-refresher/index.html"&gt;Matrix and Calculus Refresher notes&lt;/a&gt;..&lt;/p&gt;'><sup>3</sup></a> containing the eigenvectors of the covariance matrix
 and
 <span class="math display">\[\boldsymbol \Lambda= \begin{pmatrix}
     \lambda_{1} &amp; \dots &amp; 0\\
@@ -587,31 +591,34 @@ D_{\text{KL}}(F_{\text{ref}}, F) &amp;= H(F_{\text{ref}}, F) - H(F_{\text{ref}})
 <h3>
 <span class="header-section-number">1.3.3</span> Shape of the multivariate normal density<a class="anchor" aria-label="anchor" href="#shape-of-the-multivariate-normal-density"><i class="fas fa-link"></i></a>
 </h3>
-<p>Now we show that the contour lines of the multivariate normal density always take on the form of an ellipse, and that the radii of the ellipse is determined by the eigenvalues of
+<p>Now we show that the contour lines of the multivariate normal density always take on the form of an ellipse, and that the radii and orientation of the ellipse is determined by the eigenvalues of
 <span class="math inline">\(\boldsymbol \Sigma\)</span>.</p>
 <p>We start by observing that a circle with radius <span class="math inline">\(r\)</span> around the origin can be described as the set of points <span class="math inline">\((x_1,x_2)\)</span> satisfying
 <span class="math inline">\(x_1^2+x_2^2 = r^2\)</span>, or equivalently, <span class="math inline">\(\frac{x_1^2}{r^2} + \frac{x_2^2}{r^2} = 1\)</span>.
 This is generalised to the shape of an ellipse by allowing (in two dimensions) for two radii
 <span class="math inline">\(r_1\)</span> and <span class="math inline">\(r_2\)</span> with
 <span class="math inline">\(\frac{x_1^2}{r_1^2} + \frac{x_2^2}{r_2^2} = 1\)</span>, or in vector notation
-<span class="math inline">\(\boldsymbol x^T \text{Diag}(r_1^2, r_2^2)^{-1} \boldsymbol x= 1\)</span>. In <span class="math inline">\(d\)</span> dimensions and allowing for rotation of
+<span class="math inline">\(\boldsymbol x^T \text{Diag}(r_1^2, r_2^2)^{-1} \boldsymbol x= 1\)</span>. Here two axes of the ellipse are parallel
+to the two coordinate axes.</p>
+<p>In <span class="math inline">\(d\)</span> dimensions and allowing for rotation of
 the axes and a shift of the origin from 0 to <span class="math inline">\(\boldsymbol \mu\)</span> the condition for an ellipse is
 <span class="math display">\[(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol Q\, \text{Diag}(r_1^2, \ldots , r_d^2)^{-1} \boldsymbol Q^T (\boldsymbol x-\boldsymbol \mu) = 1\]</span>
-where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal matrix whose column vectors indicate the direction of the axes. These are also called the <strong>principal axes</strong> of the ellipse.</p>
-<p>A contour line of a probability density function is a set of connected points where the density assumes the same constant value. In the case of the multivariate normal distribution keeping the density at some fixed value implies that <span class="math inline">\((\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) = c\)</span> where <span class="math inline">\(c\)</span> is a constant. Using the eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> we can rewrite this condition as
+where <span class="math inline">\(\boldsymbol Q\)</span> is an orthogonal matrix whose column vectors indicate the direction of the axes. These are also called the <strong>principal axes</strong> of the ellipse, and by construction
+all <span class="math inline">\(d\)</span> principal axes are <strong>perpendicular</strong> to each other.</p>
+<p>A contour line of a probability density function is a set of connected points where the density assumes the same constant value. In the case of the multivariate normal distribution keeping the density <span class="math inline">\(f(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma)\)</span> at some fixed value implies that <span class="math inline">\((\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) = c\)</span> where <span class="math inline">\(c\)</span> is a constant. Using the eigenvalue decomposition of <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> we can rewrite this condition as
 <span class="math display">\[
 (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol U\boldsymbol \Lambda^{-1} \boldsymbol U^T (\boldsymbol x-\boldsymbol \mu) = c \,.
 \]</span>
 This implies that</p>
-<ul>
+<ol style="list-style-type: lower-roman">
 <li>the contour lines of the multivariate normal density are indeed ellipses,</li>
-<li>the squared radii of the ellipse are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> and</li>
-<li>the direction of the axes of the ellipse are given the principal axes and
-correspond to the colum vectors in <span class="math inline">\(\boldsymbol U\)</span> (i.e. the eigenvectors of <span class="math inline">\(\boldsymbol \Sigma\)</span>).</li>
-</ul>
-<p>Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for a singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</p>
+<li>the direction of the principal axes of the ellipse are given
+correspond to the colum vectors in <span class="math inline">\(\boldsymbol U\)</span> (i.e. the eigenvectors of <span class="math inline">\(\boldsymbol \Sigma\)</span>), and</li>
+<li>the squared radii of the ellipse are proportional to the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span>
+Equivalently, the positive square roots of the eigenvalues are proportional to the radii of the ellipse. Hence, for a singular covariance matrix with one or more <span class="math inline">\(\lambda_i=0\)</span> the corresponding radii are zero.</li>
+</ol>
 <p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> to play with the contour lines of the
-bivariate normal distribution is online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
+bivariate normal distribution is available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/bvn/</a> .</p>
 </div>
 <div id="three-types-of-covariances" class="section level3" number="1.3.4">
 <h3>
@@ -635,14 +642,13 @@ with spherical contour lines, 1 free parameter (<span class="math inline">\(\bol
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
 with <span class="math inline">\(\sqrt{\lambda_1/ \lambda_2} = 1\)</span>:</p>
 <div class="inline-figure"><img src="01-multivariate-b-distributions_files/figure-html/fig2-1.png" width="672"></div>
-<p><strong>Type 2</strong>: <strong>diagonal covariance</strong> <span class="math inline">\(\boldsymbol \Sigma= \kappa \boldsymbol A\)</span>, with elliptical contour lines and the axes of the ellipse oriented parallel to the coordinates, <span class="math inline">\(d\)</span> free parameters (<span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
+<p><strong>Type 2</strong>: <strong>diagonal covariance</strong> <span class="math inline">\(\boldsymbol \Sigma= \kappa \boldsymbol A\)</span>, with elliptical contour lines and the principal axes of the ellipse oriented parallel to the coordinate axes, <span class="math inline">\(d\)</span> free parameters (<span class="math inline">\(\boldsymbol U=\boldsymbol I\)</span>).</p>
 <p>Example:
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>
 with <span class="math inline">\(\sqrt{\lambda_1 / \lambda_2} \approx 1.41\)</span>:</p>
 <div class="inline-figure"><img src="01-multivariate-b-distributions_files/figure-html/fig3-1.png" width="672"></div>
 <p><strong>Type 3</strong>: <strong>general unrestricted covariance</strong> <span class="math inline">\(\boldsymbol \Sigma\)</span>,
-with elliptical contour lines, with the axes of the ellipse oriented according to the
-column vectors in <span class="math inline">\(\boldsymbol U\)</span>,
+with elliptical contour lines, with the principal axes of the ellipse oriented according to the column vectors in <span class="math inline">\(\boldsymbol U\)</span>,
 <span class="math inline">\(d (d+1)/2\)</span> free parameters.</p>
 <p>Example:
 <span class="math inline">\(\boldsymbol \Sigma= \begin{pmatrix} 2 &amp; 0.6 \\ 0.6 &amp; 1 \end{pmatrix}\)</span>
@@ -734,7 +740,7 @@ but from <span class="math inline">\(d=30\)</span> onwards it has moved complete
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 18 January 2024.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 20 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
