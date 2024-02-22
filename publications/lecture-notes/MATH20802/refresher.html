@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A Refresher | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="A Refresher | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Refresher | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="Statistics is a mathematical science that requires practical use of tools from probability, vector and matrices, analysis etc. Here we briefly list some essentials that are needed for “Statistical...">
 <meta property="og:description" content="Statistics is a mathematical science that requires practical use of tools from probability, vector and matrices, analysis etc. Here we briefly list some essentials that are needed for “Statistical...">
@@ -132,7 +154,7 @@ of <span class="math inline">\(h(\boldsymbol x)\)</span> with regard to each <sp
 \vdots\\
 \frac{\partial h(\boldsymbol x)}{\partial x_d}
 \end{pmatrix}\\
- &amp;=  \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} \\
+&amp;=  \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} \\
 &amp; = \text{grad } h(\boldsymbol x) \\
 \end{split}
 \]</span>
@@ -163,19 +185,19 @@ function with vector-valued argument is called the <strong>Hessian matrix</stron
 \nabla \nabla^T h(\boldsymbol x) &amp;=
 \begin{pmatrix}
   \frac{\partial^2 h(\boldsymbol x)}{\partial x_1^2}
-     &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_1 \partial x_2} 
-     &amp; \cdots 
+     &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_1 \partial x_2}
+     &amp; \cdots
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_1 \partial x_d} \\
-  \frac{\partial^2 h(\boldsymbol x)}{\partial x_2 \partial x_1} 
+  \frac{\partial^2 h(\boldsymbol x)}{\partial x_2 \partial x_1}
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_2^2}
-     &amp; \cdots 
+     &amp; \cdots
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_2 \partial x_d} \\
   \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
-  \frac{\partial^2 h(\boldsymbol x)}{\partial x_d \partial x_1} 
+  \frac{\partial^2 h(\boldsymbol x)}{\partial x_d \partial x_1}
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_d \partial x_2}  
-     &amp; \cdots 
+     &amp; \cdots
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_d^2}
- \end{pmatrix} \\
+\end{pmatrix} \\
 &amp;= \left(\frac{\partial h(\boldsymbol x)}{\partial x_i \partial x_j}\right)  \\
 &amp; = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} \\
 \end{split}
@@ -215,7 +237,7 @@ h(x_0+ \varepsilon) \approx h(x_0) + h'(x_0) \, \varepsilon + \frac{1}{2} h''(x_
 \]</span></p>
 <p>Applied to scalar-valued function of a vector:
 <span class="math display">\[
-h(\boldsymbol x) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
+h(\boldsymbol x) \approx h(\boldsymbol x_0) + \nabla h(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2}
 (\boldsymbol x-\boldsymbol x_0)^T \, \nabla \nabla^T h(\boldsymbol x_0) \, (\boldsymbol x-\boldsymbol x_0)
 \]</span>
 Note that <span class="math inline">\(\nabla h(\boldsymbol x_0)\)</span> is the gradient of <span class="math inline">\(h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>
@@ -276,7 +298,7 @@ n! = \prod_{i=1}^n i = 1 \times 2 \times \ldots \times n
 where <span class="math inline">\(n\)</span> is a positive integer.
 For <span class="math inline">\(n=0\)</span> the factorial is defined as
 <span class="math display">\[
-0! = 1 
+0! = 1
 \]</span>
 as there is exactly one permutation of zero objects.</p>
 <p>The factorial can also be obtained using the
@@ -296,7 +318,7 @@ with
 to put <span class="math inline">\(n\)</span> items into <span class="math inline">\(K\)</span> bins with <span class="math inline">\(n_1\)</span> items in the first bin, <span class="math inline">\(n_2\)</span> in the second and so on.
 It is given by the <strong>multinomial</strong> coefficient
 <span class="math display">\[
-\binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! } 
+\binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
 \]</span>
 with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span> and <span class="math inline">\(K \leq n\)</span>.
 Note that it equals the number of permutation of all items divided by the number of permutations of the items in each bin (or of each type).</p>
@@ -304,7 +326,7 @@ Note that it equals the number of permutation of all items divided by the number
 <p>If there are only two bins / types (<span class="math inline">\(K=2\)</span>) the multinomial coefficients becomes the
 <strong>binomial coefficient</strong>
 <span class="math display">\[
- \binom{n}{n_1} = \binom{n}{n_1, n-n_1}    =  \frac {n!}{n_1! (n - n_1)!} 
+\binom{n}{n_1} = \binom{n}{n_1, n-n_1}    =  \frac {n!}{n_1! (n - n_1)!}
 \]</span>
 which counts the number of ways to choose <span class="math inline">\(n_1\)</span> elements from a set of <span class="math inline">\(n\)</span> elements.</p>
 </div>
@@ -323,7 +345,7 @@ or equivalently on logarithmic scale
 The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes
 more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to
 <span class="math display">\[
-\log n! \approx  n \log n  -n 
+\log n! \approx  n \log n  -n
 \]</span></p>
 </div>
 </div>
@@ -403,7 +425,7 @@ probability
 <span class="math display">\[
 F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
 \begin{cases}
- \sum_{x \in A} f(x) &amp; \text{discrete case} \\
+\sum_{x \in A} f(x) &amp; \text{discrete case} \\
 \int_{x \in A} f(x) dx &amp; \text{continuous case} \\
 \end{cases}
 \]</span>
@@ -427,9 +449,9 @@ The 50% quantile <span class="math inline">\(F^{-1}\left(\frac{1}{2}\right)\)</s
 <p>The expected value <span class="math inline">\(\text{E}(x)\)</span> of a random variable is defined as
 the weighted average over all possible outcomes, with the weight given by the PMF / PDF <span class="math inline">\(f(x)\)</span>:
 <span class="math display">\[
-\text{E}(x) = 
+\text{E}(x) =
 \begin{cases}
- \sum_{x \in \Omega} f(x) x &amp; \text{discrete case} \\
+\sum_{x \in \Omega} f(x) x &amp; \text{discrete case} \\
 \int_{x \in \Omega} f(x) x dx &amp; \text{continuous case} \\
 \end{cases}
 \]</span>
@@ -439,9 +461,9 @@ random variable as the integral may diverge.</p>
 <p>The expected value of a function of a random variable <span class="math inline">\(h(x)\)</span> is
 obtained similarly:
 <span class="math display">\[
-\text{E}(h(x)) = 
+\text{E}(h(x)) =
 \begin{cases}
- \sum_{x \in \Omega} f(x) h(x) &amp; \text{discrete case} \\
+\sum_{x \in \Omega} f(x) h(x) &amp; \text{discrete case} \\
 \int_{x \in \Omega} f(x) h(x) dx &amp; \text{continuous case} \\
 \end{cases}
 \]</span>
@@ -535,7 +557,7 @@ p(x=0) = \text{Pr}(\text{"failure"}) = 1-\theta
 \]</span>
 and
 <span class="math display">\[
-p(x=1) = \text{Pr}(\text{"success"}) = \theta 
+p(x=1) = \text{Pr}(\text{"success"}) = \theta
 \]</span>
 A compact way to write the PMF of the Bernoulli distribution is
 <span class="math display">\[
@@ -598,7 +620,7 @@ p(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\s
 <p>The cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span>
 is
 <span class="math display">\[
-\Phi (x ) = \int_{-\infty}^{x} f(x'| \mu=0, \sigma^2=1) dx' 
+\Phi (x ) = \int_{-\infty}^{x} f(x'| \mu=0, \sigma^2=1) dx'
 \]</span>
 There is no analytic expression for <span class="math inline">\(\Phi(x)\)</span>. In R the function is called <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code>.</p>
 <p>Plot of the CDF of the standard normal:</p>
@@ -658,7 +680,7 @@ and the variance
 <p>Another name for the one-dimensional Wishart distribution with exactly the same
 parameterisation is <strong>scaled chi-squared distribution</strong> denoted as
 <span class="math display">\[
-s^2 \text{$\chi^2_{k}$} 
+s^2 \text{$\chi^2_{k}$}
 \]</span></p>
 <p>Finally, note we often employ the Wishart distribution in <strong>mean parameterisation</strong>
 <span class="math inline">\(W_1\left(s^2= \mu / k, k \right)\)</span>
@@ -893,7 +915,7 @@ The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased since <s
 squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\text{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
 <li><p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a one-dimensional Wishart distribution
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim 
+\widehat{\sigma^2}_{\text{ML}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
 \]</span>
 Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}} ) = \frac{n-1}{n}\sigma^2\)</span> and
@@ -904,7 +926,7 @@ The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigm
 <li>
 <p>The unbiased variance estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\hat{\mu})^2\)</span> for normal data follows a one-dimensional Wishart distribution
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{UB}} \sim 
+\widehat{\sigma^2}_{\text{UB}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n-1}, k = n-1 \right)
 \]</span>
 Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}} ) = \sigma^2\)</span> and
@@ -937,7 +959,7 @@ with <span class="math inline">\(n-1\)</span> degrees of freedom, with mean 0 fo
 <span class="math inline">\((n-1)/(n-3)\)</span> for <span class="math inline">\(n&gt;3\)</span>.</p>
 <p>If instead of the unbiased estimate the empirical (ML) estimate of the variance <span class="math inline">\(s^2_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\bar{x})^2 = \frac{n-1}{n} s^2_{\text{UB}}\)</span> is used then this leads to a slightly different statistic
 <span class="math display">\[
-t_{\text{ML}} = \frac{\bar{x}-\mu}{ \sqrt{ s^2_{\text{ML}}/n}}  = \sqrt{\frac{n}{n-1}} t 
+t_{\text{ML}} = \frac{\bar{x}-\mu}{ \sqrt{ s^2_{\text{ML}}/n}}  = \sqrt{\frac{n}{n-1}} t
 \]</span>
 with
 <span class="math display">\[
@@ -1162,7 +1184,7 @@ for <span class="math inline">\(m=1\)</span> (one degree of freedom):</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 6 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

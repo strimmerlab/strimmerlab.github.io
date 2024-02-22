@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Quadratic approximation and normal asymptotics | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="4 Quadratic approximation and normal asymptotics | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4 Quadratic approximation and normal asymptotics | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="4.1 Multivariate statistics for random vectors  4.1.1 Covariance and correlation Assume a scalar random variable \(x\) with mean \(\text{E}(x) = \mu\). The corresponding variance is given by \[...">
 <meta property="og:description" content="4.1 Multivariate statistics for random vectors  4.1.1 Covariance and correlation Assume a scalar random variable \(x\) with mean \(\text{E}(x) = \mu\). The corresponding variance is given by \[...">
@@ -172,7 +194,7 @@ we can also write
 \]</span></p>
 <p><strong>b) data component notation</strong></p>
 <p>with <span class="math inline">\(x_{ki}\)</span> the <span class="math inline">\(i\)</span>-th component of the <span class="math inline">\(k\)</span>-th sample <span class="math inline">\(\boldsymbol x_k\)</span>:</p>
-<p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki} \text{ with } 
+<p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki} \text{ with }
 \hat{\boldsymbol \mu}=\begin{pmatrix}
     \hat{\mu}_{1}       \\
     \vdots \\
@@ -225,7 +247,7 @@ around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span
 <span class="math inline">\(\nabla l_n(\hat{\boldsymbol \theta}_{ML} | D) = 0\)</span>.</p>
 <p>The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> is
 <span class="math display">\[
-f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla f(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2} 
+f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla f(\boldsymbol x_0)^T (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2}
 (\boldsymbol x-\boldsymbol x_0)^T \nabla \nabla^T f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \ldots
 \]</span>
 Applied to the log-likelihood function this yields</p>
@@ -246,7 +268,7 @@ l_n(p | D) = n \left( \bar{x} \log p + (1-\bar{x}) \log(1-p) \right)
 \]</span>
 and the MLE
 <span class="math display">\[
-\hat{p}_{ML} = \bar{x} 
+\hat{p}_{ML} = \bar{x}
 \]</span>
 and from Example <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.5</a> the observed Fisher information
 <span class="math display">\[
@@ -304,7 +326,8 @@ may be available also for finite <span class="math inline">\(n\)</span>. As a tr
 </ol>
 <p>Remarks:</p>
 <ul>
-<li>The asymptotic normality of MLEs was first discussed in Fisher (1925)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher R. A. 1925. &lt;em&gt;Theory of statistical estimation.&lt;/em&gt; Math. Proc. Cambridge Philos. Soc. &lt;strong&gt;22&lt;/strong&gt;:700–725. &lt;a href="https://doi.org/10.1017/S0305004100009580" class="uri"&gt;https://doi.org/10.1017/S0305004100009580&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a>
+<li>The asymptotic normality of MLEs was first discussed in Fisher (1925)
+<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Fisher R. A. 1925. &lt;em&gt;Theory of statistical estimation.&lt;/em&gt; Math. Proc. Cambridge Philos. Soc. &lt;strong&gt;22&lt;/strong&gt;:700–725. &lt;a href="https://doi.org/10.1017/S0305004100009580" class="uri"&gt;https://doi.org/10.1017/S0305004100009580&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a>
 </li>
 </ul>
 <ul>
@@ -374,7 +397,7 @@ and its square-root as the estimate of the standard deviation
 \]</span>
 Note that in the above we use <em>matrix inversion</em> and the (inverse) <em>matrix square root</em>.</p>
 <p>The reasons for preferring observed Fisher information are made mathematically precise in a classic paper by
-Efron and Hinkley (1978)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B., and D. V. Hinkley. 1978. &lt;em&gt;Assessing the accuracy of the maximum likelihood estimator: observed versus expected Fisher information.&lt;/em&gt; Biometrika &lt;strong&gt;65&lt;/strong&gt;:457–482. &lt;a href="https://doi.org/10.1093/biomet/65.3.457" class="uri"&gt;https://doi.org/10.1093/biomet/65.3.457&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> .</p>
+Efron and Hinkley (1978) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Efron, B., and D. V. Hinkley. 1978. &lt;em&gt;Assessing the accuracy of the maximum likelihood estimator: observed versus expected Fisher information.&lt;/em&gt; Biometrika &lt;strong&gt;65&lt;/strong&gt;:457–482. &lt;a href="https://doi.org/10.1093/biomet/65.3.457" class="uri"&gt;https://doi.org/10.1093/biomet/65.3.457&lt;/a&gt;&lt;/p&gt;'><sup>6</sup></a> .</p>
 <div class="example">
 <p><span id="exm:distproportion" class="example"><strong>Example 4.3  </strong></span>Estimated variance and distribution of the MLE of a proportion:</p>
 <p>From Examples <a href="maximum-likelihood-estimation.html#exm:mleproportion">3.1</a> and <a href="maximum-likelihood-estimation.html#exm:obsfisherproportion">3.5</a>
@@ -392,7 +415,7 @@ The estimated variance of the MLE is therefore
 \]</span>
 and the corresponding asymptotic normal distribution is
 <span class="math display">\[
- \hat{p}_{ML} \overset{a}{\sim} N\left(p,   \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}   \right)
+\hat{p}_{ML} \overset{a}{\sim} N\left(p,   \frac{\hat{p}_{ML}(1-\hat{p}_{ML})}{n}   \right)
 \]</span></p>
 </div>
 <div class="example">
@@ -423,16 +446,16 @@ standardising with <span class="math inline">\(\widehat{\text{SD}}(\hat{\boldsym
 <span class="math display">\[
 \begin{split}
 \boldsymbol t(\boldsymbol \theta_0) &amp; = \widehat{\text{SD}}(\hat{\boldsymbol \theta}_{ML})^{-1}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
- &amp; = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
+&amp; = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \end{split}
 \]</span>
 The <strong>squared Wald statistic</strong> is a scalar defined as
 <span class="math display">\[
 \begin{split}
 t(\boldsymbol \theta_0)^2 &amp;= \boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0) \\
-&amp;= 
+&amp;=
 (\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)^T
-\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) 
+\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})
 (\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \end{split}
 \]</span>
@@ -758,7 +781,7 @@ x_{[n]}\sim \theta \, \text{Beta}(n,1)\\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 6 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

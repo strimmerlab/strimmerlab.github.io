@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2 From entropy to maximum likelihood | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="2.1 Entropy  2.1.1 Overview In this chapter we discuss various information criteria and their connection to maximum likelihood. The modern definition of (relative) entropy, or “disorder”, was...">
 <meta property="og:description" content="2.1 Entropy  2.1.1 Overview In this chapter we discuss various information criteria and their connection to maximum likelihood. The modern definition of (relative) entropy, or “disorder”, was...">
@@ -180,7 +202,7 @@ and <span class="math inline">\(\sum_{k=1}^K p_k= 1\)</span>. The probability ma
 is <span class="math inline">\(p(x = \text{"class k"})= p_k\)</span>.</p>
 <p>As the random variable <span class="math inline">\(x\)</span> is discrete the categorical distribution
 <span class="math inline">\(P\)</span> is a discrete distribution but <span class="math inline">\(P\)</span> is generally also known as <em>the</em> discrete distribution.</p>
-<p>The <strong>Shannon entropy</strong> (1948)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal &lt;strong&gt;27&lt;/strong&gt;:379–423. &lt;a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri"&gt;https://doi.org/10.1002/j.1538-7305.1948.tb01338.x&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a> of the distribution <span class="math inline">\(P\)</span> is defined as the
+<p>The <strong>Shannon entropy</strong> (1948) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal &lt;strong&gt;27&lt;/strong&gt;:379–423. &lt;a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri"&gt;https://doi.org/10.1002/j.1538-7305.1948.tb01338.x&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a> of the distribution <span class="math inline">\(P\)</span> is defined as the
 <strong>expected surprise</strong>, i.e. the negative expected log-probability
 <span class="math display">\[
 \begin{split}
@@ -216,13 +238,13 @@ means the <strong>distribution is concentrated</strong>.</p>
 <p><span id="exm:entropymultinomial" class="example"><strong>Example 2.3  </strong></span>Large sample asymptotics of the log-multinomial coefficient and link to Shannon entropy:</p>
 <p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types, with <span class="math inline">\(n_1\)</span> of type 1, <span class="math inline">\(n_2\)</span> of type 2 and so on, is given by the multinomial coefficient
 <span class="math display">\[
-W = \binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! } 
+W = \binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
 \]</span>
 with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span> and <span class="math inline">\(K \leq n\)</span>.</p>
 <p>Now recall the Moivre-Sterling formula which for large <span class="math inline">\(n\)</span> allow to approximate
 the factorial by
 <span class="math display">\[
-\log n! \approx  n \log n  -n 
+\log n! \approx  n \log n  -n
 \]</span></p>
 <p>With this
 <span class="math display">\[
@@ -329,7 +351,7 @@ H(F, G) \geq H(F)
 with equality for <span class="math inline">\(F=G\)</span>. This is known as <a href="https://en.wikipedia.org/wiki/Gibbs%27_inequality"><strong>Gibbs’ inequality</strong></a>.</p>
 <p>Equivalently we can write
 <span class="math display">\[
- \underbrace{H(F, G)-H(F)}_{\text{relative entropy}} \geq 0
+\underbrace{H(F, G)-H(F)}_{\text{relative entropy}} \geq 0
 \]</span><br>
 In fact, this recalibrated cross-entropy (known as KL divergence or relative entropy) turns out to be more fundamental than both cross-entropy and entropy. It will be studied in detail in the next section.</p>
 <div class="example">
@@ -340,8 +362,8 @@ The cross-entropy <span class="math inline">\(H(F_{\text{ref}}, F)\)</span> is
 \begin{split}
 H(F_{\text{ref}}, F) &amp;=  -\text{E}_{F_{\text{ref}}} \left( \log p(x |\mu, \sigma^2) \right)\\
 &amp;=  \frac{1}{2}  \text{E}_{F_{\text{ref}}} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right) \\
-&amp;= \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 } 
- +\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)  \\
+&amp;= \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 }
++\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)  \\
 \end{split}
 \]</span>
 using <span class="math inline">\(\text{E}_{F_{\text{ref}}} ((x-\mu)^2) = (\mu_{\text{ref}}-\mu)^2 + \sigma^2_{\text{ref}}\)</span>.</p>
@@ -370,8 +392,8 @@ of a distribution <span class="math inline">\(G\)</span> from the distribution <
 D_{\text{KL}}(F,G) &amp;= \text{E}_F\log\left(\frac{dF}{dG}\right) \\
 &amp; = \text{E}_F\log\left(\frac{f(x)}{g(x)}\right) \\
 &amp; =
-\underbrace{-\text{E}_F(\log g(x))}_{\text{cross-entropy}} - 
- (\underbrace{-\text{E}_F (\log f(x))  }_\text{(differential) entropy})  \\
+\underbrace{-\text{E}_F(\log g(x))}_{\text{cross-entropy}} -
+(\underbrace{-\text{E}_F (\log f(x))  }_\text{(differential) entropy})  \\
 &amp; = H(F, G)-H(F) \\
 \end{split}
 \]</span></p>
@@ -409,9 +431,9 @@ i.e. it is an invariant geometric quantity.</li>
 <h3>
 <span class="header-section-number">2.2.3</span> Origin of KL divergence and application in statistics<a class="anchor" aria-label="anchor" href="#origin-of-kl-divergence-and-application-in-statistics"><i class="fas fa-link"></i></a>
 </h3>
-<p>Historically, in physics (negative) relative entropy was discovered by Boltzmann (1878).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Boltzmann, L. 1878. Weitere Bemerkungen über einige Probleme der mechanischen
+<p>Historically, in physics (negative) relative entropy was discovered by Boltzmann (1878). <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Boltzmann, L. 1878. Weitere Bemerkungen über einige Probleme der mechanischen
 Wärmetheorie. Wien Ber. &lt;strong&gt;78&lt;/strong&gt;:7–46. &lt;a href="https://doi.org/10.1017/CBO9781139381437.013" class="uri"&gt;https://doi.org/10.1017/CBO9781139381437.013&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>
-In statistics and information theory it was introduced by Kullback and Leibler (1951).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Kullback, S., and R. A. Leibler. 1951. On information and sufficiency. Ann. Math. Statist. &lt;strong&gt;22&lt;/strong&gt; 79–86.
+In statistics and information theory it was introduced by Kullback and Leibler (1951). <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Kullback, S., and R. A. Leibler. 1951. On information and sufficiency. Ann. Math. Statist. &lt;strong&gt;22&lt;/strong&gt; 79–86.
 &lt;a href="https://doi.org/10.1214/aoms/1177729694" class="uri"&gt;https://doi.org/10.1214/aoms/1177729694&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a></p>
 <p>In statistics the typical roles of the distribution <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> in <span class="math inline">\(D_{\text{KL}}(F, G)\)</span> are:</p>
 <ul>
@@ -485,9 +507,9 @@ It is straightforward to show that this leads to the same approximation to secon
 in <span class="math inline">\(\boldsymbol \varepsilon\)</span>:
 <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta+\boldsymbol \varepsilon}, F_{\boldsymbol \theta}) 
+D_{\text{KL}}(F_{\boldsymbol \theta+\boldsymbol \varepsilon}, F_{\boldsymbol \theta})
 &amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\, \boldsymbol \varepsilon\\
-\end{split} 
+\end{split}
 \]</span></p>
 <p>Computing the expected Fisher information involves no observed data,
 it is purely a property of the model, or more precisely of the
@@ -541,7 +563,7 @@ D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \
 <p><span id="exm:expectedfishernormal" class="example"><strong>Example 2.13  </strong></span>Expected Fisher information for the normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p>
 <p>The log-density is
 <span class="math display">\[
-\log f(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2) 
+\log f(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2)
 -\frac{1}{2 \sigma^2} (x-\mu)^2 - \frac{1}{2}\log(2 \pi)
 \]</span>
 The gradient with respect to <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> (!) is the vector
@@ -647,8 +669,8 @@ is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\
 <p><span class="math display">\[
 \begin{split}
 \hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta| D) \\
- &amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, G_{\boldsymbol \theta}) \\
- &amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, G_{\boldsymbol \theta}) \\
+&amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, G_{\boldsymbol \theta}) \\
+&amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, G_{\boldsymbol \theta}) \\
 \end{split}
 \]</span></p>
 <p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(G_{\boldsymbol \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>.</p>
@@ -731,7 +753,7 @@ Note that <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 6 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 Maximum likelihood estimation | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
 <meta property="og:description" content="3.1 Principle of maximum likelihood estimation  3.1.1 Outline The starting points in an ML analysis are the observed data \(D = \{x_1,\ldots,x_n\}\) with \(n\) independent and identically...">
@@ -227,10 +249,10 @@ outcomes, say the proportion of “successes” vs. “failures” or of “hea
 <li><p>the average of the data points is <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i = \frac{n_1}{n}\)</span>.</p></li>
 <li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is:
 <span class="math display">\[
-p(x| \theta) = \theta^x (1-\theta)^{1-x} = 
+p(x| \theta) = \theta^x (1-\theta)^{1-x} =
 \begin{cases}
 \theta &amp;  \text{if $x=1$ }\\
-1-\theta &amp; \text{if $x=0$} \\ 
+1-\theta &amp; \text{if $x=0$} \\
 \end{cases}
 \]</span></p></li>
 <li><p>log-PMF:
@@ -292,7 +314,7 @@ l_n(\mu| D) &amp;= \sum_{i=1}^n \log f(x_i| \mu)\\
 Note how the non-constant terms of the log-likelihood depend on the data only through <span class="math inline">\(\bar{x}\)</span>!</p></li>
 <li><p>Score function:
 <span class="math display">\[
-S_n(\mu) = 
+S_n(\mu) =
 \frac{n}{\sigma^2} ( \bar{x}- \mu)
 \]</span></p></li>
 <li><p>Maximum likelihood estimate:
@@ -322,8 +344,8 @@ S_n(\mu) =
 <span class="math display">\[
 \begin{split}
 l_n(\sigma | D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \sigma^2)\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
 \end{split}
 \]</span>
 Note how the log-likelihood function depends on the data only through <span class="math inline">\(\overline{(x-\mu)^2}\)</span>!</p></li>
@@ -337,11 +359,11 @@ S_n(\sigma^2) =
 </li>
 <li><p>Maximum likelihood estimate:
 <span class="math display">\[
-S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow 
+S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 \]</span>
 <span class="math display">\[
-\widehat{\sigma^2}_{ML} 
- =\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\widehat{\sigma^2}_{ML}
+=\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
 \]</span></p></li>
 <li><p>To confirm that we actually have maximum we need to verify that
 the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(\frac{dS_n(\sigma^2)}{d\sigma^2} = -\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2} \overline{(x-\mu)^2} -1\right)\)</span>
@@ -377,8 +399,8 @@ score function is now vector-valued and the second derivative of the log-likelih
 <span class="math display">\[
 \begin{split}
 l_n(\boldsymbol \theta| D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \mu, \sigma^2)\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
- &amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
 \end{split}
 \]</span>
 Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span>
@@ -396,15 +418,15 @@ and <span class="math inline">\(\overline{x^2}\)</span>!</p></li>
 \]</span></p></li>
 <li><p>Maximum likelihood estimate:
 <span class="math display">\[
-\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow 
+\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow
 \]</span>
 <span class="math display">\[
 \hat{\boldsymbol \theta}_{ML}=
 \begin{pmatrix}
- \hat{\mu}_{ML}  \\
- \widehat{\sigma^2}_{ML} \\
+\hat{\mu}_{ML}  \\
+\widehat{\sigma^2}_{ML} \\
 \end{pmatrix}
- =
+=
 \begin{pmatrix}
 \bar{x} \\
 \overline{x^2} -\bar{x}^2\\
@@ -424,7 +446,7 @@ details see Example <a href="maximum-likelihood-estimation.html#exm:obsfishernor
 <p>In Example <a href="maximum-likelihood-estimation.html#exm:mlenormalmean">3.2</a>
 the form of the log-likelihood function
 is a function of the sum of squared differences. Maximising <span class="math inline">\(l_n(\mu| D) =-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\)</span> is equivalent to <em>minimising</em> <span class="math inline">\(\sum_{i=1}^n(x_i-\mu)^2\)</span>. Hence, finding the mean by <strong>maximum likelihood assuming a normal model</strong> is <strong>equivalent to least-squares estimation</strong>!</p>
-<p>Note that least-squares estimation has been in use at least since the early 1800s<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Stigler, S. M. 1981. &lt;em&gt;Gauss and the invention of least squares&lt;/em&gt;. Ann. Statist. &lt;strong&gt;9&lt;/strong&gt;:465–474. &lt;a href="https://doi.org/10.1214/aos/1176345451" class="uri"&gt;https://doi.org/10.1214/aos/1176345451&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well!</p>
+<p>Note that least-squares estimation has been in use at least since the early 1800s <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Stigler, S. M. 1981. &lt;em&gt;Gauss and the invention of least squares&lt;/em&gt;. Ann. Statist. &lt;strong&gt;9&lt;/strong&gt;:465–474. &lt;a href="https://doi.org/10.1214/aos/1176345451" class="uri"&gt;https://doi.org/10.1214/aos/1176345451&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well!</p>
 </div>
 <div id="bias-and-maximum-likelihood-estimates" class="section level3" number="3.2.4">
 <h3>
@@ -436,7 +458,7 @@ is a function of the sum of squared differences. Maximising <span class="math in
 with <span class="math inline">\(\text{E}( \hat{\mu}_{ML} ) = \mu\)</span>
 and
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim 
+\widehat{\sigma^2}_{\text{ML}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
 \]</span>
 (see Appendix) with mean <span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \sigma^2\)</span>.</p>
@@ -518,11 +540,11 @@ and the score function
 <span class="math inline">\(\boldsymbol S_n(\mu) = \frac{n}{\sigma^2} (\bar{x} -\mu)\)</span>.
 The negative second derivative of the score function is
 <span class="math display">\[
--\frac{d S_n(\mu)}{d\mu}= \frac{n}{\sigma^2} 
+-\frac{d S_n(\mu)}{d\mu}= \frac{n}{\sigma^2}
 \]</span>
 The observed Fisher information at the MLE is therefore
 <span class="math display">\[
-J_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2} 
+J_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2}
 \]</span>
 and the inverse of the observed Fisher information is
 <span class="math display">\[
@@ -539,7 +561,7 @@ Recall the MLE for the mean and variance:
 <span class="math display">\[\hat{\mu}_{ML}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{x}\]</span>
 <span class="math display">\[\widehat{\sigma^2}_{ML} = \frac{1}{n}\sum_{i=1}^n(x_i-\bar{x})^2 =  \overline{x^2} - \bar{x}^2\]</span>
 with score function
-<span class="math display">\[\boldsymbol S_n(\mu,\sigma^2)=\nabla l_n(\mu, \sigma^2| D) = 
+<span class="math display">\[\boldsymbol S_n(\mu,\sigma^2)=\nabla l_n(\mu, \sigma^2| D) =
 \begin{pmatrix}
 \frac{n}{\sigma^2}   (\bar{x}-\mu) \\
 -\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
@@ -547,7 +569,7 @@ with score function
 \]</span>
 The Hessian matrix of the log-likelihood function is
 <span class="math display">\[\nabla \nabla^T l_n(\mu,\sigma^2| D) =
- \begin{pmatrix}
+\begin{pmatrix}
     - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
     - \frac{n}{\sigma^4} (\bar{x} -\mu) &amp; \frac{n}{2\sigma^4}-\frac{n}{\sigma^6} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
     \end{pmatrix}
@@ -580,7 +602,7 @@ with the
 first diagonal entry of the inverse observed Fisher information matrix you see that this is essentially the same expression (apart from the “hat”).</p>
 <p>The empirical variance <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> follows a one-dimensional Wishart distribution
 <span class="math display">\[
-\widehat{\sigma^2}_{\text{ML}} \sim 
+\widehat{\sigma^2}_{\text{ML}} \sim
 W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
 \]</span>
 (see Appendix) with variance
@@ -661,7 +683,7 @@ MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the median paramet
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 6 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

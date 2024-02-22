@@ -6,17 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="16 Estimating regression coefficients | Statistical Methods: Likelihood, Bayes and Regression">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <meta name="description" content="In this chapter we discuss various ways to estimate the regression coefficients. First, we discuss estimation by Ordinary Least Squares (OLS) by minimising the residual sum of squares. This yields...">
 <meta property="og:description" content="In this chapter we discuss various ways to estimate the regression coefficients. First, we discuss estimation by Ordinary Least Squares (OLS) by minimising the residual sum of squares. This yields...">
@@ -158,7 +180,7 @@ is normally distributed with mean 0 and variance <span class="math inline">\(\te
 we can write down the normal log-likelihood function for <span class="math inline">\(\sigma^2_{\varepsilon}\)</span> and <span class="math inline">\(\boldsymbol \beta\)</span>:
 <span class="math display">\[
 \begin{split}
-\log L(\boldsymbol \beta,\sigma^2_{\varepsilon} ) 
+\log L(\boldsymbol \beta,\sigma^2_{\varepsilon} )
 &amp;= -\frac{n}{2} \log \sigma^2_{\varepsilon} - \frac{1}{2\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((y_i- \hat{\mu}_{y}) - \boldsymbol \beta^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})\right)^2\\
 \end{split}
 \]</span>
@@ -175,7 +197,7 @@ the OLS estimator for the regression coefficients! So OLS is a special case of M
 <span class="math display">\[
 \begin{split}
 \nabla_{\boldsymbol \beta} \log L(\boldsymbol \beta,\sigma^2_{\varepsilon} ) &amp;= \frac{1}{\sigma^2_{\varepsilon}} \sum^n_{i=1} \left((\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} ) (y_i - \hat{\mu}_{y}) - (\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x} )(\boldsymbol x_i -\hat{\boldsymbol \mu}_{\boldsymbol x})^T \boldsymbol \beta\right)  \\
- &amp;= \frac{n}{\sigma^2_{\varepsilon}} \left( \hat{\boldsymbol \Sigma}_{\boldsymbol xy} -  \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}\boldsymbol \beta\right)\\
+&amp;= \frac{n}{\sigma^2_{\varepsilon}} \left( \hat{\boldsymbol \Sigma}_{\boldsymbol xy} -  \hat{\boldsymbol \Sigma}_{\boldsymbol x\boldsymbol x}\boldsymbol \beta\right)\\
 \end{split}
 \]</span>
 Setting this equal to zero yields the Gauss estimator
@@ -350,7 +372,7 @@ can be shown to be optimal linear predictor under the minimum mean squared predi
 \begin{split}
 \text{E}( (y - y^{\star\star} )^2) &amp; = \text{Var}(y - y^{\star\star}) + \text{E}(y - y^{\star\star})^2 \\
   &amp; = \text{Var}(y - b_0 -\boldsymbol b^T \boldsymbol x) + ( \text{E}(y) -b_0 - \boldsymbol b^T \text{E}(\boldsymbol x) )^2 \\
- &amp; = \sigma^2_y + \text{Var}(\boldsymbol b^T \boldsymbol x) + 2 \, \text{Cov}(y, -\boldsymbol b^T \boldsymbol x)  + ( \mu_y -b_0 - \boldsymbol b^T \boldsymbol \mu_{\boldsymbol x} )^2 \\
+&amp; = \sigma^2_y + \text{Var}(\boldsymbol b^T \boldsymbol x) + 2 \, \text{Cov}(y, -\boldsymbol b^T \boldsymbol x)  + ( \mu_y -b_0 - \boldsymbol b^T \boldsymbol \mu_{\boldsymbol x} )^2 \\
   &amp; = \sigma^2_y + \boldsymbol b^T \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x} \boldsymbol b- 2 \, \boldsymbol b^T \boldsymbol \Sigma_{\boldsymbol xy} + ( \mu_y -b_0 - \boldsymbol b^T \boldsymbol \mu_{\boldsymbol x} )^2 \\
   &amp; = MSPE(b_0, \boldsymbol b) \\
 \end{split}
@@ -361,8 +383,8 @@ can be shown to be optimal linear predictor under the minimum mean squared predi
 \]</span></p>
 <p>In order to find the minimum we compute the gradient with regard to <span class="math inline">\((b_0, \boldsymbol b)\)</span>
 <span class="math display">\[
-\nabla MSPE = 
-\begin{pmatrix} 
+\nabla MSPE =
+\begin{pmatrix}
 -2( \mu_y -b_0 - \boldsymbol b^T \boldsymbol \mu_{\boldsymbol x} ) \\
 2 \, \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x} \boldsymbol b- 2 \, \boldsymbol \Sigma_{\boldsymbol xy} -2 \boldsymbol \mu_{\boldsymbol x} (\mu_y -b_0 - \boldsymbol b^T \boldsymbol \mu_{\boldsymbol x}) \\
 \end{pmatrix}
@@ -373,7 +395,7 @@ and setting this equal to zero yields
 \beta_0\\
 \boldsymbol \beta\\
 \end{pmatrix}
-= 
+=
 \begin{pmatrix}
 \mu_y- \boldsymbol \beta^T \boldsymbol \mu_{\boldsymbol x} \\
 \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\\
@@ -389,7 +411,7 @@ correspond to the previously derived coefficients <span class="math inline">\(\b
 <p>The minimum achieved MSPE (=<strong>irreducible error</strong>) is
 <span class="math display">\[
 MSPE(\beta_0,\boldsymbol \beta)
-= \sigma^2_{y} - \boldsymbol \beta^T \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x} \boldsymbol \beta= \sigma^2_{y} -  \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy} 
+= \sigma^2_{y} - \boldsymbol \beta^T \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x} \boldsymbol \beta= \sigma^2_{y} -  \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}
 \]</span>
 With the abbreviation
 <span class="math inline">\(\Omega^2 = \boldsymbol P_{y \boldsymbol x} \boldsymbol P_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy} = \sigma_y^{-2} \boldsymbol \Sigma_{y \boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\)</span>
@@ -511,7 +533,7 @@ Note this is a constant so <span class="math inline">\(\text{E}(\text{Var}( y | 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 5 June 2023.</p>
+    <p>"<strong>Statistical Methods: Likelihood, Bayes and Regression</strong>" was written by Korbinian Strimmer. It was last built on 6 June 2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
