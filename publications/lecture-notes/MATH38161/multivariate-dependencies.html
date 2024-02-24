@@ -323,16 +323,18 @@ of Pearson and multiple correlation to the case when <span class="math inline">\
 <span class="header-section-number">6.4.1</span> Correlation measures only linear dependence<a class="anchor" aria-label="anchor" href="#correlation-measures-only-linear-dependence"><i class="fas fa-link"></i></a>
 </h3>
 <p>Linear models and measures of linear association (correlation) are very effective tools. However, it is important
-to recognise their limits especially when modelling complex nonlinear relationships.</p>
+to recognise their limits especially when modelling nonlinear relationships.</p>
 <p>A very simple demonstration of this is given by the following example. Assume <span class="math inline">\(x\)</span> is a normally distributed
-random variable with <span class="math inline">\(x \sim N(0,1)\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span> — thus <span class="math inline">\(y\)</span> fully depends on <span class="math inline">\(x\)</span> with no added extra noise. What is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</p>
-<p>Let’s answer this question by running a small computer simulation:</p>
+random variable with <span class="math inline">\(x \sim N(0, \sigma^2)\)</span> with mean zero and some variance <span class="math inline">\(\sigma^2\)</span>. From <span class="math inline">\(x\)</span> we construct a second random variable <span class="math inline">\(y = x^2\)</span>. Despite that <span class="math inline">\(y\)</span> is a function of <span class="math inline">\(x\)</span> with no extra added noise it is easy to show that <span class="math inline">\(\text{Cov}(x, y) = \text{Cov}(x, x^2)=0\)</span>.
+Hence, the correlation <span class="math inline">\(\text{Cor}(x, y)= \text{Cor}(x, x^2) = 0\)</span> also vanishes.</p>
+<p>This can be empirically verified by simulating data from a normal distribution (here with <span class="math inline">\(\sigma^2=4)\)</span>
+and estimating the correlation:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1000000</span>, mean<span class="op">=</span><span class="fl">0</span>, sd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">=</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] -0.02437633</code></pre>
-<p>Thus, correlation is (almost) zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are dependent variables.
+<pre><code>## [1] 0.001217943</code></pre>
+<p>Thus, correlation is zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent variables.
 This is because correlation only measures linear association, and the relationship between
 <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is nonlinear.</p>
 </div>
@@ -909,7 +911,7 @@ Therefore the conditional independence graph looks as follows:</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 21 January 2024.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
