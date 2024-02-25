@@ -122,7 +122,7 @@ gradient vectors of the component of <span class="math inline">\(\boldsymbol h(\
 <p>The transpose of this matrix is called the <strong>Jacobian matrix</strong> (of size <span class="math inline">\(m\)</span> rows and <span class="math inline">\(d\)</span> columns):
 <span class="math display">\[
 \begin{split}
-J_{\boldsymbol h}(\boldsymbol x) &amp;=
+\boldsymbol J_{\boldsymbol h}(\boldsymbol x) &amp;=
 \left( {\begin{array}{c}
 \nabla h_1(\boldsymbol x)^T   \\
 \vdots   \\
@@ -135,19 +135,20 @@ J_{\boldsymbol h}(\boldsymbol x) &amp;=
 Note that by convention the Jacobian matrix contains the gradients in its rows.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-5" class="example"><strong>Example 2.2  </strong></span><span class="math inline">\(\boldsymbol h(\boldsymbol x)=\boldsymbol A^T \boldsymbol x+ \boldsymbol b\)</span>. Then <span class="math inline">\(\frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol A\)</span>
-and <span class="math inline">\(J_{\boldsymbol h}(\boldsymbol x) =\boldsymbol A^T\)</span>.</p>
+and <span class="math inline">\(\boldsymbol J_{\boldsymbol h}(\boldsymbol x) =\boldsymbol A^T\)</span>.</p>
 </div>
-<p>If <span class="math inline">\(m=d\)</span> then the Jacobian matrix is a square matrix and this allows to compute the
-<strong>Jacobian determinant</strong> <span class="math inline">\(\det J_{\boldsymbol h}(\boldsymbol x)\)</span>.</p>
-<p>Both the Jacobian matrix and the Jacobian determinant are often called simply “the Jacobian”.</p>
+<p>If <span class="math inline">\(m=d\)</span> then the Jacobian matrix is a square matrix.</p>
+<p>This allows to compute the <strong>determinant of the Jacobian matrix</strong> <span class="math inline">\(\det \boldsymbol J_{\boldsymbol h}(\boldsymbol x)\)</span>.
+Both the Jacobian matrix and the Jacobian determinant are often called “the Jacobian”
+so one needs to determine from the context whether this refers to the matrix or the determinant.</p>
 <p>If <span class="math inline">\(\boldsymbol y= \boldsymbol h(\boldsymbol x)\)</span> is an invertible function with <span class="math inline">\(\boldsymbol x= \boldsymbol h^{-1}(\boldsymbol y)\)</span>
-then the Jacobian matrix is invertible and the inverted matrix is in fact the
-Jacobian of the inverse function!</p>
-<p>This allows to compute the Jacobian determinant of the backtransformation as
+then the Jacobian matrix is invertible and the inverted matrix is the
+Jacobian matrix of the inverse function.
+In this case the Jacobian determinant of the backtransformation can be computed
 as the inverse of the Jacobian determinant the original function:
-<span class="math display">\[\det  J_{\boldsymbol h^{-1}}(\boldsymbol y) = ( \det  J_{\boldsymbol h}(\boldsymbol x) )^{-1}\]</span>
+<span class="math display">\[\det  \boldsymbol J_{\boldsymbol h^{-1}}(\boldsymbol y) = ( \det  \boldsymbol J_{\boldsymbol h}(\boldsymbol x) )^{-1}\]</span>
 or in alternative notation
-<span class="math display">\[\det  J_{\boldsymbol x}(\boldsymbol y) = \frac{1}{ \det J_{\boldsymbol y}(\boldsymbol x) }\]</span></p>
+<span class="math display">\[\det  \boldsymbol J_{\boldsymbol x}(\boldsymbol y) = \frac{1}{ \det \boldsymbol J_{\boldsymbol y}(\boldsymbol x) }\]</span></p>
 </div>
 </div>
 <div id="second-order-vector-derivatives" class="section level2" number="2.2">
@@ -183,9 +184,27 @@ By construction the Hessian matrix is square and symmetric.</p>
 <p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.3  </strong></span><span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x) = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} = (\boldsymbol A+ \boldsymbol A^T)\)</span>.</p>
 </div>
 </div>
-<div id="first-order-matrix-derivatives" class="section level2" number="2.3">
+<div id="chain-rules-for-gradient-vector-and-hessian-matrix" class="section level2" number="2.3">
 <h2>
-<span class="header-section-number">2.3</span> First order matrix derivatives<a class="anchor" aria-label="anchor" href="#first-order-matrix-derivatives"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3</span> Chain rules for gradient vector and Hessian matrix<a class="anchor" aria-label="anchor" href="#chain-rules-for-gradient-vector-and-hessian-matrix"><i class="fas fa-link"></i></a>
+</h2>
+<p>Suppose <span class="math inline">\(h(\boldsymbol x)\)</span> is a scalar-valued function and <span class="math inline">\(g(\boldsymbol y) = h(\boldsymbol x(\boldsymbol y))\)</span>
+is a composite scalar-valued function where <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span> a map from <span class="math inline">\(\boldsymbol y\)</span> to <span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>The gradient of the composite function <span class="math inline">\(g(\boldsymbol y) = h(\boldsymbol x(\boldsymbol y))\)</span> can be
+computed using from the gradient of <span class="math inline">\(h(\boldsymbol x)\)</span> and
+the Jacobian matrix for <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span> as follows:
+<span class="math display">\[
+\nabla_{\boldsymbol y} g(\boldsymbol y)  =   \boldsymbol J_{\boldsymbol x}(\boldsymbol y)^T\,  \nabla_{\boldsymbol x} h(\boldsymbol x(\boldsymbol y))
+\]</span></p>
+<p>Similarly, the Hessian matrix of <span class="math inline">\(g(\boldsymbol y)\)</span> can be computed from the Hessian
+of <span class="math inline">\(h(\boldsymbol x)\)</span> and the Jacobian matrix for <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span>:
+<span class="math display">\[
+\nabla_{\boldsymbol y} \nabla_{\boldsymbol y}^T g(\boldsymbol y) = \boldsymbol J_{\boldsymbol x}(\boldsymbol y)^T\, \nabla_{\boldsymbol x} \nabla_{\boldsymbol x}^T h(\boldsymbol x(\boldsymbol y))\, \boldsymbol J_{\boldsymbol x}(\boldsymbol y)
+\]</span></p>
+</div>
+<div id="first-order-matrix-derivatives" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> First order matrix derivatives<a class="anchor" aria-label="anchor" href="#first-order-matrix-derivatives"><i class="fas fa-link"></i></a>
 </h2>
 <p>The derivative of a scalar-valued function <span class="math inline">\(f(\boldsymbol X)\)</span> with regard to a matrix argument <span class="math inline">\(\boldsymbol X\)</span>
 can also be defined and results in a matrix. Below you find some matrix calculus rules (written in
@@ -204,9 +223,9 @@ can also be defined and results in a matrix. Below you find some matrix calculus
 <p><span id="exm:unlabeled-div-10" class="example"><strong>Example 2.7  </strong></span><span class="math inline">\(\frac{\partial \log \det(\boldsymbol X)}{\partial \boldsymbol X} = \frac{\partial \text{Tr}(\log \boldsymbol X)}{\partial \boldsymbol X} = (\boldsymbol X^{-1})^T\)</span></p>
 </div>
 </div>
-<div id="conditions-for-a-local-extremum-of-a-function" class="section level2" number="2.4">
+<div id="conditions-for-a-local-extremum-of-a-function" class="section level2" number="2.5">
 <h2>
-<span class="header-section-number">2.4</span> Conditions for a local extremum of a function<a class="anchor" aria-label="anchor" href="#conditions-for-a-local-extremum-of-a-function"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.5</span> Conditions for a local extremum of a function<a class="anchor" aria-label="anchor" href="#conditions-for-a-local-extremum-of-a-function"><i class="fas fa-link"></i></a>
 </h2>
 <p>To check if <span class="math inline">\(x_0\)</span> or <span class="math inline">\(\boldsymbol x_0\)</span> is a local extremum, i.e. a local maximum or a local minimum,
 of a differentiable function <span class="math inline">\(h(x)\)</span> or <span class="math inline">\(h(\boldsymbol x)\)</span> we can use the following conditions:</p>
@@ -233,9 +252,9 @@ at <span class="math inline">\(x_0=0\)</span>. However, the second derivative <s
 that a positive second derivative is not necessary for a minimum.</p>
 </div>
 </div>
-<div id="convex-and-concave-functions" class="section level2" number="2.5">
+<div id="convex-and-concave-functions" class="section level2" number="2.6">
 <h2>
-<span class="header-section-number">2.5</span> Convex and concave functions<a class="anchor" aria-label="anchor" href="#convex-and-concave-functions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.6</span> Convex and concave functions<a class="anchor" aria-label="anchor" href="#convex-and-concave-functions"><i class="fas fa-link"></i></a>
 </h2>
 <p>A function <span class="math inline">\(h(\boldsymbol x)\)</span> is <strong>convex</strong> if for all <span class="math inline">\(\boldsymbol x_1\)</span> and <span class="math inline">\(\boldsymbol x_2\)</span> the
 line segment from point <span class="math inline">\((\boldsymbol x_1, h(\boldsymbol x_1))\)</span>
@@ -293,9 +312,9 @@ to either <span class="math inline">\(x &gt;0\)</span> or <span class="math inli
 </ul>
 </div>
 </div>
-<div id="linear-and-quadratic-approximation" class="section level2" number="2.6">
+<div id="linear-and-quadratic-approximation" class="section level2" number="2.7">
 <h2>
-<span class="header-section-number">2.6</span> Linear and quadratic approximation<a class="anchor" aria-label="anchor" href="#linear-and-quadratic-approximation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.7</span> Linear and quadratic approximation<a class="anchor" aria-label="anchor" href="#linear-and-quadratic-approximation"><i class="fas fa-link"></i></a>
 </h2>
 <p>A linear and quadratic approximation of a differentiable function is given by a Taylor series of first and second order, respectively.</p>
 <p>Applied to a scalar-valued function of a scalar:
@@ -360,10 +379,11 @@ Note this is a quadratic approximation with the linear term missing due to the g
 </ul>
 </li>
 <li><a class="nav-link" href="#second-order-vector-derivatives"><span class="header-section-number">2.2</span> Second order vector derivatives</a></li>
-<li><a class="nav-link" href="#first-order-matrix-derivatives"><span class="header-section-number">2.3</span> First order matrix derivatives</a></li>
-<li><a class="nav-link" href="#conditions-for-a-local-extremum-of-a-function"><span class="header-section-number">2.4</span> Conditions for a local extremum of a function</a></li>
-<li><a class="nav-link" href="#convex-and-concave-functions"><span class="header-section-number">2.5</span> Convex and concave functions</a></li>
-<li><a class="nav-link" href="#linear-and-quadratic-approximation"><span class="header-section-number">2.6</span> Linear and quadratic approximation</a></li>
+<li><a class="nav-link" href="#chain-rules-for-gradient-vector-and-hessian-matrix"><span class="header-section-number">2.3</span> Chain rules for gradient vector and Hessian matrix</a></li>
+<li><a class="nav-link" href="#first-order-matrix-derivatives"><span class="header-section-number">2.4</span> First order matrix derivatives</a></li>
+<li><a class="nav-link" href="#conditions-for-a-local-extremum-of-a-function"><span class="header-section-number">2.5</span> Conditions for a local extremum of a function</a></li>
+<li><a class="nav-link" href="#convex-and-concave-functions"><span class="header-section-number">2.6</span> Convex and concave functions</a></li>
+<li><a class="nav-link" href="#linear-and-quadratic-approximation"><span class="header-section-number">2.7</span> Linear and quadratic approximation</a></li>
 </ul>
 
       <div class="book-extra">
@@ -380,7 +400,7 @@ Note this is a quadratic approximation with the linear term missing due to the g
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Matrix and Calculus Refresher</strong>" was written by Korbinian Strimmer. It was last built on 7 January 2024.</p>
+    <p>"<strong>Matrix and Calculus Refresher</strong>" was written by Korbinian Strimmer. It was last built on 1 February 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
