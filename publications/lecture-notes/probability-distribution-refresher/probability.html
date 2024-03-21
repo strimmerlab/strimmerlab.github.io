@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 Probability | Probability and Distribution Refresher</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="2 Probability | Probability and Distribution Refresher">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -46,8 +46,9 @@
 <li><a class="" href="preface.html">Preface</a></li>
 <li><a class="" href="combinatorics.html"><span class="header-section-number">1</span> Combinatorics</a></li>
 <li><a class="active" href="probability.html"><span class="header-section-number">2</span> Probability</a></li>
-<li><a class="" href="univariate-distributions.html"><span class="header-section-number">3</span> Univariate distributions</a></li>
-<li><a class="" href="multivariate-distributions.html"><span class="header-section-number">4</span> Multivariate distributions</a></li>
+<li><a class="" href="transforming-and-combining-random-variables.html"><span class="header-section-number">3</span> Transforming and combining random variables</a></li>
+<li><a class="" href="univariate-distributions.html"><span class="header-section-number">4</span> Univariate distributions</a></li>
+<li><a class="" href="multivariate-distributions.html"><span class="header-section-number">5</span> Multivariate distributions</a></li>
 </ul>
 
         <div class="book-extra">
@@ -106,7 +107,10 @@ Likewise the probability of the event “<span class="math inline">\(A\)</span> 
 <h2>
 <span class="header-section-number">2.2</span> Probability mass and density function<a class="anchor" aria-label="anchor" href="#probability-mass-and-density-function"><i class="fas fa-link"></i></a>
 </h2>
-<p>To describe a random variable <span class="math inline">\(x\)</span> with state space <span class="math inline">\(\Omega\)</span> we need a way to effectively store the probabilities of the corresponding elementary outcomes <span class="math inline">\(x \in \Omega\)</span>. Note that for convenience we use the same symbol to denote the random variable and its elementary outcomes.</p>
+<p>To describe a random variable <span class="math inline">\(x\)</span> with state space <span class="math inline">\(\Omega\)</span> we need a way to effectively store the probabilities of the corresponding elementary outcomes <span class="math inline">\(x \in \Omega\)</span>.</p>
+<p><strong>For simplicity of notation we use the same symbol to denote the random variable and its elementary outcomes.</strong> <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;For scalar random variables many texts use upper case to designate the random variable and lower case for its realisations. However, this notation quickly breaks down
+for random vectors and random matrices and for distributions describing the uncertainty of parameters. Hence, we use upper case primarily to indicate a matrix quantity (in bold type). Upper case (in plain type) may denote sets and some scalar quantities traditionally written in upper case (e.g. &lt;span class="math inline"&gt;\(R^2\)&lt;/span&gt;, &lt;span class="math inline"&gt;\(K\)&lt;/span&gt;).
+If a quantity is random we will always specify this explicitly in the context.&lt;/p&gt;'><sup>1</sup></a> This convention greatly facilitates working with random vectors and matrices (multivariate statistics) and random parameters (Bayesian statistics).</p>
 <p>For a discrete random variable we define the
 event <span class="math inline">\(A = \{x: x=a\} = \{a\}\)</span> and get the probability
 <span class="math display">\[
@@ -217,7 +221,7 @@ From the above it then follows
 <span class="math display">\[
 \text{E}( 1_{x \in A} ) = \text{Pr}(A) \, ,
 \]</span></p>
-<p>Interestingly, one can develop the whole theory of probability from this perspective. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Whittle, P. 2000. Probability via Expectation (3rd ed.). Springer. &lt;a href="https://doi.org/10.1007/978-1-4612-0509-8" class="uri"&gt;https://doi.org/10.1007/978-1-4612-0509-8&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a></p>
+<p>Interestingly, one can develop the whole theory of probability from this perspective. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Whittle, P. 2000. Probability via Expectation (3rd ed.). Springer. &lt;a href="https://doi.org/10.1007/978-1-4612-0509-8" class="uri"&gt;https://doi.org/10.1007/978-1-4612-0509-8&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a></p>
 </div>
 <div id="moments-and-variance-of-a-random-variable" class="section level2" number="2.8">
 <h2>
@@ -238,31 +242,16 @@ with <span class="math inline">\(\text{E}(x^2) =\text{E}(x)^2 + \text{Var}(x) \g
 <p>A distribution does not necessarily need to have any finite first or higher moments.
 An example is the <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution</a> that does not have a mean or variance (or any other higher moment).</p>
 </div>
-<div id="distribution-of-sums-of-random-variables" class="section level2" number="2.9">
+<div id="random-vectors-and-their-mean-and-variance" class="section level2" number="2.9">
 <h2>
-<span class="header-section-number">2.9</span> Distribution of sums of random variables<a class="anchor" aria-label="anchor" href="#distribution-of-sums-of-random-variables"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.9</span> Random vectors and their mean and variance<a class="anchor" aria-label="anchor" href="#random-vectors-and-their-mean-and-variance"><i class="fas fa-link"></i></a>
 </h2>
-<p>The sum of two normal random variables is also normal (with the appropriate mean and variance).</p>
-<p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a>, asserts
-that in many cases the distribution of the sum of identically distributed random variables converges to a normal distribution, even if the individual random variables are not normal.</p>
-<p>For example, as a result the binomial distribution (as sum of Bernoulli random variables) can be approximated by a normal distribution.</p>
-</div>
-<div id="transformation-of-random-variables" class="section level2" number="2.10">
-<h2>
-<span class="header-section-number">2.10</span> Transformation of random variables<a class="anchor" aria-label="anchor" href="#transformation-of-random-variables"><i class="fas fa-link"></i></a>
-</h2>
-<p>Linear transformation of random variables: if <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants and <span class="math inline">\(x\)</span> is a random variable, then the random variable <span class="math inline">\(y= a + b x\)</span> has mean <span class="math inline">\(\text{E}(y) = a + b \text{E}(x)\)</span> and variance <span class="math inline">\(\text{Var}(y) = b^2 \text{Var}(x)\)</span>.</p>
-<p>For a general invertible coordinate transformation <span class="math inline">\(y = h(x) = y(x)\)</span> the backtransformation is <span class="math inline">\(x = h^{-1}(y) = x(y)\)</span>.</p>
-<p>The transformation of the infinitesimal volume element is <span class="math inline">\(dy = \left|\frac{dy}{dx}\right| dx\)</span>.</p>
-<p>The transformation of the density is <span class="math inline">\(f_y(y) =\left|\frac{dx}{dy}\right| f_x(x(y))\)</span>.</p>
-<p>Note that <span class="math inline">\(\left|\frac{dx}{dy}\right| = \left|\frac{dy}{dx}\right|^{-1}\)</span>.</p>
-</div>
-<div id="random-vectors-and-their-mean-and-variance" class="section level2" number="2.11">
-<h2>
-<span class="header-section-number">2.11</span> Random vectors and their mean and variance<a class="anchor" aria-label="anchor" href="#random-vectors-and-their-mean-and-variance"><i class="fas fa-link"></i></a>
-</h2>
-<p>Instead of scalar random variables one often also considers random vectors and also random matrices.</p>
-<p>For a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T\)</span> the mean <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> is simply comprised of the means of its components, i.e. <span class="math inline">\(\boldsymbol \mu= (\mu_1, \ldots, \mu_d)^T\)</span>. Thus, the mean of a random vector of dimension is a vector of of the same length.</p>
+<p>In addition to scalar random variables we often make use of random vectors and
+also random matrices. <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In our notational conventions, a &lt;strong&gt;vector&lt;/strong&gt; &lt;span class="math inline"&gt;\(\boldsymbol x\)&lt;/span&gt; is written in &lt;em&gt;lower case in bold type&lt;/em&gt;, a &lt;strong&gt;matrix&lt;/strong&gt; &lt;span class="math inline"&gt;\(\boldsymbol M\)&lt;/span&gt; in &lt;em&gt;upper case in bold type&lt;/em&gt;. Hence random vectors and matrices as well as their realisations are indicated in bold type, with vectors given in lower case and matrices in upper case. Hence, as for scalar variables, upper vs. lower case does not indicate
+randomness vs. realisation.&lt;/p&gt;'><sup>3</sup></a></p>
+<p>For a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T \sim F\)</span> the mean <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> is
+given by the means of its components, i.e. <span class="math inline">\(\boldsymbol \mu= (\mu_1, \ldots, \mu_d)^T\)</span> with
+<span class="math inline">\(\mu_i = \text{E}(x_i)\)</span>. Thus, the mean of a random vector of dimension <span class="math inline">\(d\)</span> is a vector of the same length.</p>
 <p>The variance of a random vector of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>:
 <span class="math display">\[
 \begin{split}
@@ -277,17 +266,14 @@ that in many cases the distribution of the sum of identically distributed random
 \]</span>
 The entries of the covariance matrix <span class="math inline">\(\sigma_{ij} =\text{Cov}(x_i, x_j)\)</span> describe the covariance between the random variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>. The covariance matrix is symmetric, hence <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. The diagonal entries <span class="math inline">\(\sigma_{ii} = \text{Cov}(x_i, x_i) = \text{Var}(x_i) = \sigma_i^2\)</span> correspond to the variances of the components of <span class="math inline">\(\boldsymbol x\)</span>. The covariance matrix is by construction <strong>positive semi-definite</strong>, i.e. the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> are all positive or equal to zero.</p>
 <p>However, wherever possible one will aim to use models with non-singular covariance matrices, with all eigenvalues positive, so that the covariance matrix is invertible.</p>
-<p>For univariate <span class="math inline">\(x\)</span> and scalar constant <span class="math inline">\(a\)</span> the variance of <span class="math inline">\(a x\)</span> equals <span class="math inline">\(\text{Var}(a x) = a^2 \text{Var}(x)\)</span>. For a random vector <span class="math inline">\(\boldsymbol x\)</span> of dimension <span class="math inline">\(d\)</span> and constant matrix <span class="math inline">\(\boldsymbol A\)</span> of dimension <span class="math inline">\(m \times d\)</span> this generalises to <span class="math inline">\(\text{Var}(\boldsymbol Ax) = \boldsymbol A\text{Var}(\boldsymbol x) \boldsymbol A^T\)</span>.</p>
 </div>
-<div id="correlation-matrix" class="section level2" number="2.12">
+<div id="correlation-matrix" class="section level2" number="2.10">
 <h2>
-<span class="header-section-number">2.12</span> Correlation matrix<a class="anchor" aria-label="anchor" href="#correlation-matrix"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.10</span> Correlation matrix<a class="anchor" aria-label="anchor" href="#correlation-matrix"><i class="fas fa-link"></i></a>
 </h2>
-<p>A covariance matrix can be factorised into the product
-<span class="math display">\[
-\boldsymbol \Sigma= \boldsymbol V^{\frac{1}{2}} \boldsymbol P\boldsymbol V^{\frac{1}{2}}
-\]</span>
-where <span class="math inline">\(\boldsymbol V\)</span> is a diagonal matrix containing the variances
+<p>The <strong>correlation matrix</strong> <span class="math inline">\(\boldsymbol P\)</span> (“upper case rho”, not “upper case p”)
+is the variance standardised version of the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span>.</p>
+<p>Specifically, denote by <span class="math inline">\(\boldsymbol V\)</span> the diagonal matrix containing the variances
 <span class="math display">\[
 \boldsymbol V= \begin{pmatrix}
     \sigma_{11} &amp; \dots &amp; 0\\
@@ -295,7 +281,7 @@ where <span class="math inline">\(\boldsymbol V\)</span> is a diagonal matrix co
     0 &amp; \dots &amp; \sigma_{dd}
 \end{pmatrix}
 \]</span>
-and the matrix <span class="math inline">\(\boldsymbol P\)</span> (“upper case rho”) is the symmetric <strong>correlation matrix</strong>
+then the correlation matrix <span class="math inline">\(\boldsymbol P\)</span> is given by
 <span class="math display">\[
 \boldsymbol P= (\rho_{ij}) = \begin{pmatrix}
     1 &amp; \dots &amp; \rho_{1d}\\
@@ -303,9 +289,16 @@ and the matrix <span class="math inline">\(\boldsymbol P\)</span> (“upper case
     \rho_{d1} &amp; \dots &amp; 1
 \end{pmatrix}   = \boldsymbol V^{-\frac{1}{2}} \boldsymbol \Sigma\boldsymbol V^{-\frac{1}{2}}
 \]</span>
-Thus, the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is defined as
+Like the covariance matrix the correlation
+matrix is symmetric, and note that the diagonal of <span class="math inline">\(\boldsymbol P\)</span> contains only 1s.</p>
+<p>Equivalently, in component notation the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is given by
 <span class="math display">\[
 \rho_{ij} = \text{Cor}(x_i,x_j) = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}
+\]</span></p>
+<p>Using the above, a covariance matrix can be factorised into the product
+of standard deviations <span class="math inline">\(\boldsymbol V^{\frac{1}{2}}\)</span> and the correlation matrix as follows:
+<span class="math display">\[
+\boldsymbol \Sigma= \boldsymbol V^{\frac{1}{2}} \boldsymbol P\boldsymbol V^{\frac{1}{2}}
 \]</span></p>
 
 </div>
@@ -313,7 +306,7 @@ Thus, the correlation between <span class="math inline">\(x_i\)</span> and <span
 
   <div class="chapter-nav">
 <div class="prev"><a href="combinatorics.html"><span class="header-section-number">1</span> Combinatorics</a></div>
-<div class="next"><a href="univariate-distributions.html"><span class="header-section-number">3</span> Univariate distributions</a></div>
+<div class="next"><a href="transforming-and-combining-random-variables.html"><span class="header-section-number">3</span> Transforming and combining random variables</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -326,10 +319,8 @@ Thus, the correlation between <span class="math inline">\(x_i\)</span> and <span
 <li><a class="nav-link" href="#jensens-inequality-for-the-expectation"><span class="header-section-number">2.6</span> Jensen’s inequality for the expectation</a></li>
 <li><a class="nav-link" href="#probability-as-expectation"><span class="header-section-number">2.7</span> Probability as expectation</a></li>
 <li><a class="nav-link" href="#moments-and-variance-of-a-random-variable"><span class="header-section-number">2.8</span> Moments and variance of a random variable</a></li>
-<li><a class="nav-link" href="#distribution-of-sums-of-random-variables"><span class="header-section-number">2.9</span> Distribution of sums of random variables</a></li>
-<li><a class="nav-link" href="#transformation-of-random-variables"><span class="header-section-number">2.10</span> Transformation of random variables</a></li>
-<li><a class="nav-link" href="#random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.11</span> Random vectors and their mean and variance</a></li>
-<li><a class="nav-link" href="#correlation-matrix"><span class="header-section-number">2.12</span> Correlation matrix</a></li>
+<li><a class="nav-link" href="#random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.9</span> Random vectors and their mean and variance</a></li>
+<li><a class="nav-link" href="#correlation-matrix"><span class="header-section-number">2.10</span> Correlation matrix</a></li>
 </ul>
 
       <div class="book-extra">
@@ -346,7 +337,7 @@ Thus, the correlation between <span class="math inline">\(x_i\)</span> and <span
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 8 January 2024.</p>
+    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 29 February 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

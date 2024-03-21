@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>1 Combinatorics | Probability and Distribution Refresher</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="1 Combinatorics | Probability and Distribution Refresher">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -46,8 +46,9 @@
 <li><a class="" href="preface.html">Preface</a></li>
 <li><a class="active" href="combinatorics.html"><span class="header-section-number">1</span> Combinatorics</a></li>
 <li><a class="" href="probability.html"><span class="header-section-number">2</span> Probability</a></li>
-<li><a class="" href="univariate-distributions.html"><span class="header-section-number">3</span> Univariate distributions</a></li>
-<li><a class="" href="multivariate-distributions.html"><span class="header-section-number">4</span> Multivariate distributions</a></li>
+<li><a class="" href="transforming-and-combining-random-variables.html"><span class="header-section-number">3</span> Transforming and combining random variables</a></li>
+<li><a class="" href="univariate-distributions.html"><span class="header-section-number">4</span> Univariate distributions</a></li>
+<li><a class="" href="multivariate-distributions.html"><span class="header-section-number">5</span> Multivariate distributions</a></li>
 </ul>
 
         <div class="book-extra">
@@ -79,6 +80,9 @@
 0 &amp; \text{if $A$ is not true}\\
 \end{cases}
 \]</span></p>
+<p>Scalar: plain type, typically lower case (<span class="math inline">\(x\)</span>, <span class="math inline">\(\theta\)</span>), sometimes upper case (<span class="math inline">\(K\)</span>).</p>
+<p>Vector: bold type, lower case (<span class="math inline">\(\boldsymbol x\)</span>, <span class="math inline">\(\boldsymbol \theta\)</span>).</p>
+<p>Matrix: bold type, upper case (<span class="math inline">\(\boldsymbol X\)</span>, <span class="math inline">\(\boldsymbol \Sigma\)</span>).</p>
 </div>
 <div id="number-of-permutations" class="section level2" number="1.2">
 <h2>
@@ -105,9 +109,27 @@ which can be viewed as continuous version of the factorial
 with
 <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span>.</p>
 </div>
-<div id="multinomial-and-binomial-coefficient" class="section level2" number="1.3">
+<div id="de-moivre-sterling-approximation-of-the-factorial" class="section level2" number="1.3">
 <h2>
-<span class="header-section-number">1.3</span> Multinomial and binomial coefficient<a class="anchor" aria-label="anchor" href="#multinomial-and-binomial-coefficient"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial<a class="anchor" aria-label="anchor" href="#de-moivre-sterling-approximation-of-the-factorial"><i class="fas fa-link"></i></a>
+</h2>
+<p>The factorial is frequently approximated by the following formula derived by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and <a href="https://en.wikipedia.org/wiki/James_Stirling_(mathematician)">James Stirling (1692-1770)</a>
+<span class="math display">\[
+n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
+\]</span>
+or equivalently on logarithmic scale
+<span class="math display">\[
+\log n!  \approx \left(n+\frac{1}{2}\right) \log n  -n + \frac{1}{2}\log \left( 2 \pi\right)
+\]</span>
+The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes
+more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to
+<span class="math display">\[
+\log n! \approx  n \log n  -n
+\]</span></p>
+</div>
+<div id="multinomial-and-binomial-coefficient" class="section level2" number="1.4">
+<h2>
+<span class="header-section-number">1.4</span> Multinomial and binomial coefficient<a class="anchor" aria-label="anchor" href="#multinomial-and-binomial-coefficient"><i class="fas fa-link"></i></a>
 </h2>
 <p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types, with <span class="math inline">\(n_1\)</span> of type 1, <span class="math inline">\(n_2\)</span> of type 2 and so on, equals the number of ways
 to put <span class="math inline">\(n\)</span> items into <span class="math inline">\(K\)</span> bins with <span class="math inline">\(n_1\)</span> items in the first bin, <span class="math inline">\(n_2\)</span> in the second and so on.
@@ -124,24 +146,13 @@ Note that it equals the number of permutation of all items divided by the number
 \binom{n}{n_1} = \binom{n}{n_1, n-n_1}    =  \frac {n!}{n_1! (n - n_1)!}
 \]</span>
 which counts the number of ways to choose <span class="math inline">\(n_1\)</span> elements from a set of <span class="math inline">\(n\)</span> elements.</p>
-</div>
-<div id="de-moivre-sterling-approximation-of-the-factorial" class="section level2" number="1.4">
-<h2>
-<span class="header-section-number">1.4</span> De Moivre-Sterling approximation of the factorial<a class="anchor" aria-label="anchor" href="#de-moivre-sterling-approximation-of-the-factorial"><i class="fas fa-link"></i></a>
-</h2>
-<p>The factorial is frequently approximated by the following formula derived by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and <a href="https://en.wikipedia.org/wiki/James_Stirling_(mathematician)">James Stirling (1692-1770)</a>
+<p>For large <span class="math inline">\(n\)</span> and <span class="math inline">\(n_k\)</span> we can apply the De Moivre-Sterling approximation to the multinomial
+cofficient, yielding
 <span class="math display">\[
-n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
+\log\binom{n}{n_1, \ldots, n_K} = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)
 \]</span>
-or equivalently on logarithmic scale
-<span class="math display">\[
-\log n!  \approx \left(n+\frac{1}{2}\right) \log n  -n + \frac{1}{2}\log \left( 2 \pi\right)
-\]</span>
-The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes
-more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to
-<span class="math display">\[
-\log n! \approx  n \log n  -n
-\]</span></p>
+Note this is <span class="math inline">\(n\)</span> times the Shannon entropy of a categorical distribution with <span class="math inline">\(n_k/n\)</span> as class
+probabilities.</p>
 
 </div>
 </div>
@@ -154,8 +165,8 @@ more and more accurate with increasing <span class="math inline">\(n\)</span>. F
 <li><a class="nav-link" href="#combinatorics"><span class="header-section-number">1</span> Combinatorics</a></li>
 <li><a class="nav-link" href="#some-basic-mathematical-notation"><span class="header-section-number">1.1</span> Some basic mathematical notation</a></li>
 <li><a class="nav-link" href="#number-of-permutations"><span class="header-section-number">1.2</span> Number of permutations</a></li>
-<li><a class="nav-link" href="#multinomial-and-binomial-coefficient"><span class="header-section-number">1.3</span> Multinomial and binomial coefficient</a></li>
-<li><a class="nav-link" href="#de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.4</span> De Moivre-Sterling approximation of the factorial</a></li>
+<li><a class="nav-link" href="#de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial</a></li>
+<li><a class="nav-link" href="#multinomial-and-binomial-coefficient"><span class="header-section-number">1.4</span> Multinomial and binomial coefficient</a></li>
 </ul>
 
       <div class="book-extra">
@@ -172,7 +183,7 @@ more and more accurate with increasing <span class="math inline">\(n\)</span>. F
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 8 January 2024.</p>
+    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 29 February 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
