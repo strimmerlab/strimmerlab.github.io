@@ -77,7 +77,7 @@ an invertible transformation the density for <span class="math inline">\(y\)</sp
 <span class="math display">\[
 f_{y}(y)=|b|^{-1} f_{x} \left( \frac{y-a}{b}\right)
 \]</span>
-and the corresponding infinitesimal volume element
+and the corresponding infinitesimal line element
 <span class="math display">\[
 dy = |b| \,dx
 \]</span></p>
@@ -122,7 +122,7 @@ where <span class="math inline">\(h'(x) = \frac{dy}{dx}\)</span> is the first de
 <span class="math display">\[
 f_y(y) =\left|\frac{dx}{dy}\right| f_x(x(y))
 \]</span>
-and of the infinitesimal volume element<br><span class="math display">\[
+and of the infinitesimal line element<br><span class="math display">\[
 dy = \left|\frac{dy}{dx}\right| dx  = \left|\frac{dx}{dy}\right|^{-1}  dx
 \]</span>
 Note in the above the use of the inverse transformation <span class="math inline">\(x(y)\)</span> and its gradient
@@ -157,13 +157,12 @@ and <span class="math inline">\(J_{\boldsymbol x}(\boldsymbol y) = \boldsymbol B
 <p>Suppose there is a vector valued function <span class="math inline">\(\boldsymbol u(x)\)</span> where each component is a transformation of <span class="math inline">\(x\)</span>,
 usually a simple function such the identity <span class="math inline">\(x\)</span>, the square <span class="math inline">\(x^2\)</span>,
 the logarithm <span class="math inline">\(\log(x)\)</span> etc. These are called the <strong>canonical statistics</strong>.
-Typically, the dimension of <span class="math inline">\(\boldsymbol u(x)\)</span> is small
-and often <span class="math inline">\(b(u)\)</span> is just a scalar function.</p>
+Typically, the dimension of <span class="math inline">\(\boldsymbol u(x)\)</span> is small.</p>
 <p>The exponential tilt of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with density or probability mass function <span class="math inline">\(b(x)\)</span>
 towards the linear combination <span class="math inline">\(\boldsymbol \eta^T \boldsymbol u(x)\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol u(x)\)</span>
 yields the distribution family <span class="math inline">\(P_{\boldsymbol \eta}\)</span> with density or probability mass function
 <span class="math display">\[
-p(x|\boldsymbol \eta) =  b(x) \, \underbrace{e^{ \boldsymbol \eta^T \boldsymbol u(x)}}_{\text{exponential tilt}} / e^{ \psi(\boldsymbol \eta)}
+p(x|\boldsymbol \eta) =    \underbrace{e^{ \boldsymbol \eta^T \boldsymbol u(x)}}_{\text{exponential tilt}}\, b(x) \, /\, e^{ \psi(\boldsymbol \eta)}
 \]</span>
 where <span class="math inline">\(\boldsymbol \eta\)</span> are the canonical parameters. The normalising factor <span class="math inline">\(e^{ \psi(\boldsymbol \eta)}\)</span> ensures that <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one following the exponential tilt.</p>
 <p>The corresponding log-density / log probability mass function is
@@ -172,7 +171,7 @@ where <span class="math inline">\(\boldsymbol \eta\)</span> are the canonical pa
 \]</span>
 The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math inline">\(\psi(\boldsymbol \eta)\)</span> is obtained by computing
 <span class="math display">\[
-\psi(\boldsymbol \eta) = \log \int_x b(x) \, e^{ \boldsymbol \eta^T \boldsymbol u(x)} \, dx
+\psi(\boldsymbol \eta) = \log \int_x \, e^{ \boldsymbol \eta^T \boldsymbol u(x)}\, b(x) \, dx
 \]</span>
 The set of
 values of <span class="math inline">\(\boldsymbol \eta\)</span> for which the integral is finite and hence
@@ -189,9 +188,9 @@ Furthermore, exponential families often enable
 to generalise probabilistic results valid for the normal distribution
 to more general settings.</p>
 </div>
-<div id="sums-of-iid-random-variables-convolutions-and-central-limit-theorem" class="section level2" number="3.4">
+<div id="sums-of-iid-random-variables-and-convolution" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">3.4</span> Sums of iid random variables, convolutions and central limit theorem<a class="anchor" aria-label="anchor" href="#sums-of-iid-random-variables-convolutions-and-central-limit-theorem"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Sums of iid random variables and convolution<a class="anchor" aria-label="anchor" href="#sums-of-iid-random-variables-and-convolution"><i class="fas fa-link"></i></a>
 </h2>
 <p>Suppose we have a sum of <span class="math inline">\(n\)</span> independent and identically distributed (iid) random variables.
 <span class="math display">\[
@@ -199,27 +198,29 @@ y = x_1 + x_2 + \ldots + x_n
 \]</span>
 where each <span class="math inline">\(x_i \sim F_x\)</span> with density or probability mass function <span class="math inline">\(f_x(x)\)</span>.
 The density or probability mass function for <span class="math inline">\(y\)</span> is obtained by repeated
-application of <strong>convolution</strong> (symbolised by the <span class="math inline">\(\ast\)</span> operator).
-Convolution is an operation defined for two functions:
-<span class="math display">\[
-(f_{x_1}\ast f_{x_2})(y)=\int_{-\infty}^{\infty} f_{x_1}(x) f_{x_2}(y-x) dx
-\]</span>
-Convolution of probability densities yields another probability density.
-It is commutative and associative so it can be applied in any order
-to compute the convolution of all <span class="math inline">\(n\)</span> density functions:
+application of <strong>convolution</strong> (symbolised by the <span class="math inline">\(\ast\)</span> operator):
 <span class="math display">\[
 f_y(y) = (f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n})(y)
 \]</span></p>
+<p>The convolution of two functions is defined as (continous case)
+<span class="math display">\[
+(f_{x_1}\ast f_{x_2})(y)=\int_x f_{x_1}(x)\, f_{x_2}(y-x) dx
+\]</span>
+and (discrete case)
+<span class="math display">\[
+(f_{x_1}\ast f_{x_2})(y)=\sum_x f_{x_1}(x)\, f_{x_2}(y-x)
+\]</span>
+Convolution is commutative and associative so it can be applied in any order
+to compute the convolution of multiple functions.
+Furthermore, the convolution of probability densities / mass function
+yields another probability density / mass function.</p>
 <p>Many commonly used random variables can be viewed as the outcome of convolutions.
 For example, the sum of Bernoulli variables yields a binomial random variable
 and the sum of normal variables yields another normal random variable.
-(see also: <a href="https://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions">list of convolutions of probability distributions</a>).</p>
+See also: <a href="https://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions">list of convolutions of probability distributions</a>.</p>
 <p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a>, asserts
-that the distribution of the sum of identically distributed random variables
-converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution, even if the individual random variables are not normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span>
-distributions typically converges to the normal distribution.</p>
-<p>As a result, e.g., the binomial distribution (originating as the sum of Bernoulli random variables) can
-for large <span class="math inline">\(n\)</span> be well approximated by a normal distribution.</p>
+that, under appropriate conditions, the distribution of the sum of independent and identically distributed random variables converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution, even if the individual random variables are not normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span>
+identical distributions typically converges to the normal distribution.</p>
 
 </div>
 </div>
@@ -233,7 +234,7 @@ for large <span class="math inline">\(n\)</span> be well approximated by a norma
 <li><a class="nav-link" href="#affine-or-location-scale-transformation-of-random-variables"><span class="header-section-number">3.1</span> Affine or location-scale transformation of random variables</a></li>
 <li><a class="nav-link" href="#general-invertible-transformation-of-random-variables"><span class="header-section-number">3.2</span> General invertible transformation of random variables</a></li>
 <li><a class="nav-link" href="#exponential-tilting-and-exponential-families"><span class="header-section-number">3.3</span> Exponential tilting and exponential families</a></li>
-<li><a class="nav-link" href="#sums-of-iid-random-variables-convolutions-and-central-limit-theorem"><span class="header-section-number">3.4</span> Sums of iid random variables, convolutions and central limit theorem</a></li>
+<li><a class="nav-link" href="#sums-of-iid-random-variables-and-convolution"><span class="header-section-number">3.4</span> Sums of iid random variables and convolution</a></li>
 </ul>
 
       <div class="book-extra">
@@ -250,7 +251,7 @@ for large <span class="math inline">\(n\)</span> be well approximated by a norma
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 29 February 2024.</p>
+    <p>"<strong>Probability and Distribution Refresher</strong>" was written by Korbinian Strimmer. It was last built on 1 March 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
