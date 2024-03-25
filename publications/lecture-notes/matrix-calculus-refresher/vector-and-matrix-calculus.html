@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 Vector and matrix calculus | Matrix and Calculus Refresher</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="2 Vector and matrix calculus | Matrix and Calculus Refresher">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -18,9 +18,9 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="2.1 First order vector derivatives  2.1.1 Gradient The gradient of a scalar-valued function \(h(\boldsymbol x)\) with vector argument \(\boldsymbol x= (x_1, \ldots, x_d)^T\) is the vector...">
-<meta property="og:description" content="2.1 First order vector derivatives  2.1.1 Gradient The gradient of a scalar-valued function \(h(\boldsymbol x)\) with vector argument \(\boldsymbol x= (x_1, \ldots, x_d)^T\) is the vector...">
-<meta name="twitter:description" content="2.1 First order vector derivatives  2.1.1 Gradient The gradient of a scalar-valued function \(h(\boldsymbol x)\) with vector argument \(\boldsymbol x= (x_1, \ldots, x_d)^T\) is the vector...">
+<meta name="description" content="2.1 First order vector derivatives  2.1.1 Derivative and gradient The derivative of a scalar-valued function \(h(\boldsymbol x)\) with regard to its vector argument \(\boldsymbol x= (x_1, \ldots,...">
+<meta property="og:description" content="2.1 First order vector derivatives  2.1.1 Derivative and gradient The derivative of a scalar-valued function \(h(\boldsymbol x)\) with regard to its vector argument \(\boldsymbol x= (x_1, \ldots,...">
+<meta name="twitter:description" content="2.1 First order vector derivatives  2.1.1 Derivative and gradient The derivative of a scalar-valued function \(h(\boldsymbol x)\) with regard to its vector argument \(\boldsymbol x= (x_1, \ldots,...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -61,38 +61,63 @@
 <h2>
 <span class="header-section-number">2.1</span> First order vector derivatives<a class="anchor" aria-label="anchor" href="#first-order-vector-derivatives"><i class="fas fa-link"></i></a>
 </h2>
-<div id="gradient" class="section level3" number="2.1.1">
+<div id="derivative-and-gradient" class="section level3" number="2.1.1">
 <h3>
-<span class="header-section-number">2.1.1</span> Gradient<a class="anchor" aria-label="anchor" href="#gradient"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.1.1</span> Derivative and gradient<a class="anchor" aria-label="anchor" href="#derivative-and-gradient"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>gradient</strong> of a scalar-valued function
-<span class="math inline">\(h(\boldsymbol x)\)</span> with vector argument <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span>
-is the vector containing the first order partial derivatives
-of <span class="math inline">\(h(\boldsymbol x)\)</span> with regard to each <span class="math inline">\(x_1, \ldots, x_d\)</span>:
+<p>The <strong>derivative</strong> of a scalar-valued function
+<span class="math inline">\(h(\boldsymbol x)\)</span> with regard to its vector argument <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_d)^T\)</span>
+is the <em>row vector</em>
 <span class="math display">\[
-\begin{split}
-\nabla h(\boldsymbol x) &amp;= \begin{pmatrix}
+D h(\boldsymbol x) =  \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x}
+= \begin{pmatrix}
+\frac{\partial h(\boldsymbol x)}{\partial x_1} &amp;
+\hdots &amp;
+\frac{\partial h(\boldsymbol x)}{\partial x_d} \\
+\end{pmatrix}
+\]</span></p>
+<p>The above notation follows the <strong>numerator layout</strong> convention, where the dimension
+of the numerator (here 1) determines the number of rows and the dimension of the denominator
+(here <span class="math inline">\(d\)</span>) the number of columns of the resulting matrix
+(see <a href="https://en.wikipedia.org/wiki/Matrix_calculus" class="uri">https://en.wikipedia.org/wiki/Matrix_calculus</a> for details). For a scalar
+function this results in a vector of the same dimension as <span class="math inline">\(\boldsymbol x^T\)</span>.</p>
+<p>The <strong>gradient</strong> of <span class="math inline">\(h(\boldsymbol x)\)</span> is a <em>column vector</em> and the transpose of the derivative
+<span class="math display">\[
+\text{grad } h(\boldsymbol x) = \left( \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} \right)^T \\
+\]</span>
+It is often written using the <strong>nabla operator</strong> <span class="math inline">\(\nabla\)</span> as
+<span class="math display">\[
+\nabla h(\boldsymbol x) = \begin{pmatrix}
 \frac{\partial h(\boldsymbol x)}{\partial x_1} \\
 \vdots\\
 \frac{\partial h(\boldsymbol x)}{\partial x_d}
-\end{pmatrix}\\
-&amp;=  \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} \\
-&amp; = \text{grad } h(\boldsymbol x) \\
-\end{split}
+\end{pmatrix}
 \]</span>
-The symbol <span class="math inline">\(\nabla\)</span> is called the <strong>nabla operator</strong> (also known as <strong>del operator</strong>).</p>
-<p>Note that we write the gradient as a <strong>column vector</strong>. This is called the
-<strong>denominator layout</strong> convention, see <a href="https://en.wikipedia.org/wiki/Matrix_calculus" class="uri">https://en.wikipedia.org/wiki/Matrix_calculus</a> for details.
-In contrast, many textbooks (and also earlier versions of these lecture notes) assume that gradients are row vectors, following the so-called numerator layout convention.</p>
+with
+<span class="math display">\[
+\nabla = \begin{pmatrix}
+\frac{\partial }{\partial x_1} \\
+\vdots\\
+\frac{\partial }{\partial x_d}
+\end{pmatrix}
+\]</span></p>
+<p>Note that
+<span class="math display">\[
+(\nabla h(\boldsymbol x))^T = \nabla^T h(\boldsymbol x) = D h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x}
+\]</span></p>
 <div class="example">
-<p><span id="exm:gradientexamples" class="example"><strong>Example 2.1  </strong></span>Examples for the gradient:</p>
+<p><span id="exm:gradientexamples" class="example"><strong>Example 2.1  </strong></span>Examples for the gradient and derivative:</p>
 <ul>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol a^T \boldsymbol x+ b\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol a\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol a^T \boldsymbol x+ b\)</span>.<br>
+Then <span class="math inline">\(\nabla h(\boldsymbol x) = \boldsymbol a\)</span> and <span class="math inline">\(D h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol a^T\)</span>.</li>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = 2 \boldsymbol x\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol x\)</span>.<br>
+Then <span class="math inline">\(\nabla h(\boldsymbol x) = 2 \boldsymbol x\)</span> and <span class="math inline">\(D h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = 2 \boldsymbol x^T\)</span>.</li>
 <li>
-<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = (\boldsymbol A+ \boldsymbol A^T) \boldsymbol x\)</span>.</li>
+<span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>.<br>
+Then <span class="math inline">\(\nabla h(\boldsymbol x) = (\boldsymbol A+ \boldsymbol A^T) \boldsymbol x\)</span> and
+<span class="math inline">\(D h(\boldsymbol x) = \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol x^T (\boldsymbol A+ \boldsymbol A^T)\)</span>.</li>
 </ul>
 </div>
 </div>
@@ -100,57 +125,56 @@ In contrast, many textbooks (and also earlier versions of these lecture notes) a
 <h3>
 <span class="header-section-number">2.1.2</span> Jacobian matrix<a class="anchor" aria-label="anchor" href="#jacobian-matrix"><i class="fas fa-link"></i></a>
 </h3>
-<p>For a vector-valued function
+<p>Similarly, we can also compute the <strong>derivative</strong> of
+a vector-valued function
 <span class="math display">\[
 \boldsymbol h(\boldsymbol x) = ( h_1(\boldsymbol x), \ldots, h_m(\boldsymbol x) )^T
 \]</span>
-we can also compute the vector derivative
+with regard to <span class="math inline">\(\boldsymbol x\)</span>. This yields (again in numerator layout convention) a matrix of size <span class="math inline">\(m\)</span> rows and <span class="math inline">\(d\)</span> columns
+whose rows contain the derivatives of the components of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span>.
 <span class="math display">\[
 \begin{split}
-\frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x}  &amp;=
-\begin{pmatrix}
-\frac{\partial h_1(\boldsymbol x)}{\partial x_1} &amp; \cdots  &amp; \frac{\partial h_m(\boldsymbol x)}{\partial x_1} \\
+D\boldsymbol h(\boldsymbol x) &amp;= \frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x}  = \left(\frac{\partial h_i(\boldsymbol x)}{\partial x_j}\right) \\
+&amp;=\begin{pmatrix}
+\frac{\partial h_1(\boldsymbol x)}{\partial x_1} &amp; \cdots  &amp; \frac{\partial h_1(\boldsymbol x)}{\partial x_d} \\
 \vdots &amp;\ddots &amp; \vdots \\
-\frac{\partial h_1(\boldsymbol x)}{\partial x_d} &amp; \cdots &amp; \frac{\partial h_m(\boldsymbol x)}{\partial x_d} \\
+\frac{\partial h_m(\boldsymbol x)}{\partial x_1} &amp; \cdots &amp; \frac{\partial h_m(\boldsymbol x)}{\partial x_d} \\
 \end{pmatrix} \\
-&amp;=\left(\frac{\partial h_j(\boldsymbol x)}{\partial x_i}\right) \\
-&amp; = \left(\nabla h_1(\boldsymbol x), \ldots, \nabla h_m(\boldsymbol x)  \right)
-\end{split}
-\]</span>
-which yields a matrix whose columns contain the
-gradient vectors of the component of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span>.</p>
-<p>The transpose of this matrix is called the <strong>Jacobian matrix</strong> (of size <span class="math inline">\(m\)</span> rows and <span class="math inline">\(d\)</span> columns):
-<span class="math display">\[
-\begin{split}
-\boldsymbol J_{\boldsymbol h}(\boldsymbol x) &amp;=
+&amp;=
 \left( {\begin{array}{c}
-\nabla h_1(\boldsymbol x)^T   \\
+\nabla^T h_1(\boldsymbol x)   \\
 \vdots   \\
-\nabla h_m(\boldsymbol x)^T  \\
+\nabla^T h_m(\boldsymbol x)  \\
 \end{array} } \right) \\
-&amp; = \left(\frac{\partial h_i(\boldsymbol x)}{\partial x_j}\right) \\
-&amp; = \left( \frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x}   \right)^T
+&amp;= \boldsymbol J_{\boldsymbol h}(\boldsymbol x)
 \end{split}
-\]</span>
-Note that by convention the Jacobian matrix contains the gradients in its rows.</p>
+\]</span></p>
+<p>This matrix is also called the <strong>Jacobian matrix</strong></p>
 <div class="example">
-<p><span id="exm:unlabeled-div-5" class="example"><strong>Example 2.2  </strong></span><span class="math inline">\(\boldsymbol h(\boldsymbol x)=\boldsymbol A^T \boldsymbol x+ \boldsymbol b\)</span>. Then <span class="math inline">\(\frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol A\)</span>
-and <span class="math inline">\(\boldsymbol J_{\boldsymbol h}(\boldsymbol x) =\boldsymbol A^T\)</span>.</p>
+<p><span id="exm:unlabeled-div-5" class="example"><strong>Example 2.2  </strong></span><span class="math inline">\(\boldsymbol h(\boldsymbol x)=\boldsymbol A^T \boldsymbol x+ \boldsymbol b\)</span>. Then <span class="math inline">\(D \boldsymbol h(\boldsymbol x) = \frac{\partial \boldsymbol h(\boldsymbol x)}{\partial \boldsymbol x} = \boldsymbol J_{\boldsymbol h}(\boldsymbol x) =\boldsymbol A^T\)</span>.</p>
 </div>
-<p>If <span class="math inline">\(m=d\)</span> then the Jacobian matrix is a square matrix.</p>
-<p>This allows to compute the <strong>determinant of the Jacobian matrix</strong> <span class="math inline">\(\det \boldsymbol J_{\boldsymbol h}(\boldsymbol x)\)</span>.
+<p>If <span class="math inline">\(m=d\)</span> then the Jacobian matrix is a square and this
+allows to compute the <strong>determinant of the Jacobian matrix</strong>.
 Both the Jacobian matrix and the Jacobian determinant are often called “the Jacobian”
 so one needs to determine from the context whether this refers to the matrix or the determinant.</p>
 <p>If <span class="math inline">\(\boldsymbol y= \boldsymbol h(\boldsymbol x)\)</span> is an invertible function with <span class="math inline">\(\boldsymbol x= \boldsymbol h^{-1}(\boldsymbol y)\)</span>
 then the Jacobian matrix is invertible and the inverted matrix is the
 Jacobian matrix of the inverse function:
 <span class="math display">\[
-\boldsymbol J_{\boldsymbol h^{-1}}(\boldsymbol y) = ( \boldsymbol J_{\boldsymbol h}(\boldsymbol h^{-1}(\boldsymbol y)) )^{-1}
+D\boldsymbol x(\boldsymbol y) = \left( D\boldsymbol y(\boldsymbol x)\right)^{-1} \rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
 \]</span>
-In this case the Jacobian determinant of the backtransformation can be computed
-as the inverse of the Jacobian determinant the original function:
+or in alternative notation
 <span class="math display">\[
-\det  \boldsymbol J_{\boldsymbol h^{-1}}(\boldsymbol y) = ( \det  \boldsymbol J_{\boldsymbol h}(\boldsymbol h^{-1}(\boldsymbol y)) )^{-1}
+\frac{\partial \boldsymbol x(\boldsymbol y)}{\partial \boldsymbol y} = \left. \left( \frac{\partial \boldsymbol y(\boldsymbol x)}{\partial \boldsymbol x}  \right)^{-1} \right\rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
+\]</span></p>
+<p>In this case the Jacobian determinant of the backtransformation can be computed
+as the inverse of the Jacobian determinant of the original function:
+<span class="math display">\[
+\det D\boldsymbol x(\boldsymbol y) = \det \left( D\boldsymbol y(\boldsymbol x)\right)^{-1} \rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
+\]</span>
+and
+<span class="math display">\[
+\det \left(\frac{\partial \boldsymbol x(\boldsymbol y)}{\partial \boldsymbol y}\right) = \left. \det \left( \frac{\partial \boldsymbol y(\boldsymbol x)}{\partial \boldsymbol x}  \right)^{-1} \right\rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
 \]</span></p>
 </div>
 </div>
@@ -179,12 +203,13 @@ function with vector-valued argument is called the <strong>Hessian matrix</stron
      &amp; \frac{\partial^2 h(\boldsymbol x)}{\partial x_d^2}
 \end{pmatrix} \\
 &amp;= \left(\frac{\partial h(\boldsymbol x)}{\partial x_i \partial x_j}\right) \\
-&amp; = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} \\
+&amp; =   \frac{\partial }{\partial \boldsymbol x} \left( \frac{\partial h(\boldsymbol x)}{\partial \boldsymbol x}\right)^T \\
+&amp; = D (Dh(\boldsymbol x))^T \\
 \end{split}
 \]</span>
 By construction the Hessian matrix is square and symmetric.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.3  </strong></span><span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x) = \frac{\partial^2 h(\boldsymbol x)}{\partial \boldsymbol x\partial \boldsymbol x^T} = (\boldsymbol A+ \boldsymbol A^T)\)</span>.</p>
+<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.3  </strong></span><span class="math inline">\(h(\boldsymbol x)=\boldsymbol x^T \boldsymbol A\boldsymbol x\)</span>. Then <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x) = (\boldsymbol A+ \boldsymbol A^T)\)</span>.</p>
 </div>
 </div>
 <div id="chain-rules-for-gradient-vector-and-hessian-matrix" class="section level2" number="2.3">
@@ -197,33 +222,43 @@ is a composite scalar-valued function where <span class="math inline">\(\boldsym
 computed from the gradient of <span class="math inline">\(h(\boldsymbol x)\)</span> and
 the Jacobian matrix for <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span> as follows:
 <span class="math display">\[
-\nabla_{\boldsymbol y} g(\boldsymbol y)  =   \boldsymbol J_{\boldsymbol x}(\boldsymbol y)^T\,  \nabla_{\boldsymbol x} h(\boldsymbol x(\boldsymbol y))
+\nabla g(\boldsymbol y)  =   (D\boldsymbol x(\boldsymbol y))^T\,  \nabla h(\boldsymbol x)   \rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
+\]</span>
+and
+<span class="math display">\[
+\nabla g(\boldsymbol y)  =   \left(\frac{\partial \boldsymbol x(\boldsymbol y)}{\partial \boldsymbol y}\right)^T\,  \nabla h(\boldsymbol x)   \rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}
 \]</span></p>
 <p>Similarly, the Hessian matrix of <span class="math inline">\(g(\boldsymbol y)\)</span> can be computed from the Hessian
 of <span class="math inline">\(h(\boldsymbol x)\)</span> and the Jacobian matrix for <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span>:
 <span class="math display">\[
-\nabla_{\boldsymbol y} \nabla_{\boldsymbol y}^T g(\boldsymbol y) = \boldsymbol J_{\boldsymbol x}(\boldsymbol y)^T\, \nabla_{\boldsymbol x} \nabla_{\boldsymbol x}^T h(\boldsymbol x(\boldsymbol y))\, \boldsymbol J_{\boldsymbol x}(\boldsymbol y)
+\nabla \nabla^T g(\boldsymbol y) = (D \boldsymbol x(\boldsymbol y))^T\, \nabla \nabla^T h(\boldsymbol x)\rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}  \,   D\boldsymbol x(\boldsymbol y)
+\]</span>
+and
+<span class="math display">\[
+\nabla \nabla^T g(\boldsymbol y) = \left(\frac{\partial \boldsymbol x(\boldsymbol y)}{\partial \boldsymbol y}\right)^T\,
+\nabla \nabla^T h(\boldsymbol x)\rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}  \,  \frac{\partial \boldsymbol x(\boldsymbol y)}{\partial \boldsymbol y}
 \]</span></p>
 </div>
 <div id="first-order-matrix-derivatives" class="section level2" number="2.4">
 <h2>
 <span class="header-section-number">2.4</span> First order matrix derivatives<a class="anchor" aria-label="anchor" href="#first-order-matrix-derivatives"><i class="fas fa-link"></i></a>
 </h2>
-<p>The derivative of a scalar-valued function <span class="math inline">\(f(\boldsymbol X)\)</span> with regard to a matrix argument <span class="math inline">\(\boldsymbol X\)</span>
-can also be defined and results in a matrix. Below you find some matrix calculus rules (written in
-<strong>denominator layout</strong> convention). See
-<a href="https://en.wikipedia.org/wiki/Matrix_calculus" class="uri">https://en.wikipedia.org/wiki/Matrix_calculus</a> for further examples.</p>
+<p>The derivative of a scalar-valued function <span class="math inline">\(h(\boldsymbol X)\)</span> with regard to a matrix argument <span class="math inline">\(\boldsymbol X= (x_{ij})\)</span>
+is defined as below and and results (in numerator layout convention) in a matrix of the same dimension as <span class="math inline">\(\boldsymbol X^T\)</span>:
+<span class="math display">\[
+D h(\boldsymbol X) = \frac{\partial h(\boldsymbol X)}{\partial \boldsymbol X}  = \left(\frac{\partial h(\boldsymbol X)}{\partial x_{ji}}\right)
+\]</span></p>
 <div class="example">
-<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 2.4  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol A^T \boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol A\)</span></p>
+<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 2.4  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol A^T \boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol A^T\)</span></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 2.5  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol A^T \boldsymbol X\boldsymbol B)}{\partial \boldsymbol X} = \boldsymbol A\boldsymbol B^T\)</span></p>
+<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 2.5  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol A^T \boldsymbol X\boldsymbol B)}{\partial \boldsymbol X} = \boldsymbol B\boldsymbol A^T\)</span></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 2.6  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol X^T \boldsymbol A\boldsymbol X)}{\partial \boldsymbol X} = (\boldsymbol A+ \boldsymbol A^T) \boldsymbol X\)</span></p>
+<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 2.6  </strong></span><span class="math inline">\(\frac{\partial \text{Tr}(\boldsymbol X^T \boldsymbol A\boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol X^T (\boldsymbol A+ \boldsymbol A^T)\)</span></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 2.7  </strong></span><span class="math inline">\(\frac{\partial \log \det(\boldsymbol X)}{\partial \boldsymbol X} = \frac{\partial \text{Tr}(\log \boldsymbol X)}{\partial \boldsymbol X} = (\boldsymbol X^{-1})^T\)</span></p>
+<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 2.7  </strong></span><span class="math inline">\(\frac{\partial \log \det(\boldsymbol X)}{\partial \boldsymbol X} = \frac{\partial \text{Tr}(\log \boldsymbol X)}{\partial \boldsymbol X} = \boldsymbol X^{-1}\)</span></p>
 </div>
 </div>
 <div id="conditions-for-a-local-extremum-of-a-function" class="section level2" number="2.5">
@@ -377,7 +412,7 @@ Note this is a quadratic approximation with the linear term missing due to the g
 <li><a class="nav-link" href="#vector-and-matrix-calculus"><span class="header-section-number">2</span> Vector and matrix calculus</a></li>
 <li>
 <a class="nav-link" href="#first-order-vector-derivatives"><span class="header-section-number">2.1</span> First order vector derivatives</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#gradient"><span class="header-section-number">2.1.1</span> Gradient</a></li>
+<li><a class="nav-link" href="#derivative-and-gradient"><span class="header-section-number">2.1.1</span> Derivative and gradient</a></li>
 <li><a class="nav-link" href="#jacobian-matrix"><span class="header-section-number">2.1.2</span> Jacobian matrix</a></li>
 </ul>
 </li>
@@ -403,7 +438,7 @@ Note this is a quadratic approximation with the linear term missing due to the g
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Matrix and Calculus Refresher</strong>" was written by Korbinian Strimmer. It was last built on 2 February 2024.</p>
+    <p>"<strong>Matrix and Calculus Refresher</strong>" was written by Korbinian Strimmer. It was last built on 1 March 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
