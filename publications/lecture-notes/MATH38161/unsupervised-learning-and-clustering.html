@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Unsupervised learning and clustering | Multivariate Statistics and Machine Learning</title>
 <meta name="author" content="Korbinian Strimmer">
-<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
 <meta property="og:title" content="4 Unsupervised learning and clustering | Multivariate Statistics and Machine Learning">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
@@ -500,24 +500,24 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans.out</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">X.iris</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">kmeans.out</span></span></code></pre></div>
-<pre><code>## K-means clustering with 3 clusters of sizes 33, 96, 21
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1   -0.8135055   1.3145538   -1.2825372  -1.2156393
-## 2    0.5690971  -0.3705265    0.6888118   0.6609378
-## 3   -1.3232208  -0.3718921   -1.1334386  -1.1111395
+## 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 2  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 3   1.13217737  0.08812645    0.9928284   1.0141287
 ## 
 ## Clustering vector:
-##   [1] 1 3 3 3 1 1 1 1 3 3 1 1 3 3 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 3 3 1 1 1 3 3 1
-##  [38] 1 3 1 1 3 3 1 1 3 1 3 1 1 2 2 2 2 2 2 2 3 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2
-##  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2
-## [112] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-## [149] 2 2
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
+## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
+## [149] 3 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1]  17.33362 149.25899  23.15862
-##  (between_SS / total_SS =  68.2 %)
+## [1] 47.35062 44.08754 47.45019
+##  (between_SS / total_SS =  76.7 %)
 ## 
 ## Available components:
 ## 
@@ -527,19 +527,19 @@ By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <sp
 is</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans.out</span><span class="op">$</span><span class="va">tot.withinss</span></span></code></pre></div>
-<pre><code>## [1] 189.7512</code></pre>
+<pre><code>## [1] 138.8884</code></pre>
 <p>and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans.out</span><span class="op">$</span><span class="va">betweenss</span></span></code></pre></div>
-<pre><code>## [1] 406.2488</code></pre>
+<pre><code>## [1] 457.1116</code></pre>
 <p>By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">L.iris</span>, <span class="va">kmeans.out</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##             
 ## L.iris        1  2  3
-##   setosa     33  0 17
-##   versicolor  0 46  4
-##   virginica   0 50  0</code></pre>
+##   setosa     50  0  0
+##   versicolor  0 39 11
+##   virginica   0 14 36</code></pre>
 <p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute
 within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
 <div class="inline-figure"><img src="04-clustering-b_files/figure-html/unnamed-chunk-6-1.png" width="480"></div>
@@ -1204,7 +1204,7 @@ incremental, sparse, and other variants. In Jordan, M.I. (eds.). Learning in Gra
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 22 January 2024.</p>
+    <p>"<strong>Multivariate Statistics and Machine Learning</strong>" was written by Korbinian Strimmer. It was last built on 1 March 2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
