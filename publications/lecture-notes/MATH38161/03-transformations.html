@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Multivariate Statistics and Machine Learning - 3&nbsp; Transformations and dimension reduction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-clustering.html" rel="next">
+<link href="./02-estimation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-transformations.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and dimension reduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multivariate Statistics and Machine Learning</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multivariate random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multivariate estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and dimension reduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unsupervised learning and clustering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Supervised learning and classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate dependencies</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Nonlinear and nonparametric models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#linear-transformations" id="toc-linear-transformations" class="nav-link active" data-scroll-target="#linear-transformations"><span class="header-section-number">3.1</span> Linear Transformations</a>
+  <ul class="collapse">
+  <li><a href="#location-scale-transformation" id="toc-location-scale-transformation" class="nav-link" data-scroll-target="#location-scale-transformation"><span class="header-section-number">3.1.1</span> Location-scale transformation</a></li>
+  <li><a href="#squared-multiple-correlation" id="toc-squared-multiple-correlation" class="nav-link" data-scroll-target="#squared-multiple-correlation"><span class="header-section-number">3.1.2</span> Squared multiple correlation</a></li>
+  <li><a href="#invertible-location-scale-transformation" id="toc-invertible-location-scale-transformation" class="nav-link" data-scroll-target="#invertible-location-scale-transformation"><span class="header-section-number">3.1.3</span> Invertible location-scale transformation</a></li>
+  <li><a href="#transformation-of-a-density-under-an-invertible-location-scale-transformation" id="toc-transformation-of-a-density-under-an-invertible-location-scale-transformation" class="nav-link" data-scroll-target="#transformation-of-a-density-under-an-invertible-location-scale-transformation"><span class="header-section-number">3.1.4</span> Transformation of a density under an invertible location-scale transformation:</a></li>
+  </ul></li>
+  <li><a href="#nonlinear-transformations" id="toc-nonlinear-transformations" class="nav-link" data-scroll-target="#nonlinear-transformations"><span class="header-section-number">3.2</span> Nonlinear transformations</a>
+  <ul class="collapse">
+  <li><a href="#general-transformation" id="toc-general-transformation" class="nav-link" data-scroll-target="#general-transformation"><span class="header-section-number">3.2.1</span> General transformation</a></li>
+  <li><a href="#delta-method" id="toc-delta-method" class="nav-link" data-scroll-target="#delta-method"><span class="header-section-number">3.2.2</span> Delta method</a></li>
+  <li><a href="#transformation-of-a-probability-density-function-under-a-general-invertible-transformation" id="toc-transformation-of-a-probability-density-function-under-a-general-invertible-transformation" class="nav-link" data-scroll-target="#transformation-of-a-probability-density-function-under-a-general-invertible-transformation"><span class="header-section-number">3.2.3</span> Transformation of a probability density function under a general invertible transformation</a></li>
+  <li><a href="#normalising-flows" id="toc-normalising-flows" class="nav-link" data-scroll-target="#normalising-flows"><span class="header-section-number">3.2.4</span> Normalising flows</a></li>
+  </ul></li>
+  <li><a href="#general-whitening-transformations" id="toc-general-whitening-transformations" class="nav-link" data-scroll-target="#general-whitening-transformations"><span class="header-section-number">3.3</span> General whitening transformations</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">3.3.1</span> Overview</a></li>
+  <li><a href="#whitening-transformation-and-whitening-constraint" id="toc-whitening-transformation-and-whitening-constraint" class="nav-link" data-scroll-target="#whitening-transformation-and-whitening-constraint"><span class="header-section-number">3.3.2</span> Whitening transformation and whitening constraint</a></li>
+  <li><a href="#parameterisation-of-whitening-matrix" id="toc-parameterisation-of-whitening-matrix" class="nav-link" data-scroll-target="#parameterisation-of-whitening-matrix"><span class="header-section-number">3.3.3</span> Parameterisation of whitening matrix</a></li>
+  <li><a href="#cross-covariance-and-cross-correlation-for-general-whitening-transformations" id="toc-cross-covariance-and-cross-correlation-for-general-whitening-transformations" class="nav-link" data-scroll-target="#cross-covariance-and-cross-correlation-for-general-whitening-transformations"><span class="header-section-number">3.3.4</span> Cross-covariance and cross-correlation for general whitening transformations</a></li>
+  <li><a href="#inverse-whitening-transformation-and-loadings" id="toc-inverse-whitening-transformation-and-loadings" class="nav-link" data-scroll-target="#inverse-whitening-transformation-and-loadings"><span class="header-section-number">3.3.5</span> Inverse whitening transformation and loadings</a></li>
+  <li><a href="#summaries-of-cross-covariance-symbfit-phi-and-cross-correlation-symbfit-psi-resulting-from-whitening-transformations" id="toc-summaries-of-cross-covariance-symbfit-phi-and-cross-correlation-symbfit-psi-resulting-from-whitening-transformations" class="nav-link" data-scroll-target="#summaries-of-cross-covariance-symbfit-phi-and-cross-correlation-symbfit-psi-resulting-from-whitening-transformations"><span class="header-section-number">3.3.6</span> Summaries of cross-covariance <span class="math inline">\(\symbfit \Phi\)</span> and cross-correlation <span class="math inline">\(\symbfit \Psi\)</span> resulting from whitening transformations</a></li>
+  </ul></li>
+  <li><a href="#natural-whitening-procedures" id="toc-natural-whitening-procedures" class="nav-link" data-scroll-target="#natural-whitening-procedures"><span class="header-section-number">3.4</span> Natural whitening procedures</a>
+  <ul class="collapse">
+  <li><a href="#zca-whitening" id="toc-zca-whitening" class="nav-link" data-scroll-target="#zca-whitening"><span class="header-section-number">3.4.1</span> ZCA whitening</a></li>
+  <li><a href="#zca-cor-whitening" id="toc-zca-cor-whitening" class="nav-link" data-scroll-target="#zca-cor-whitening"><span class="header-section-number">3.4.2</span> ZCA-Cor whitening</a></li>
+  <li><a href="#pca-whitening" id="toc-pca-whitening" class="nav-link" data-scroll-target="#pca-whitening"><span class="header-section-number">3.4.3</span> PCA whitening</a></li>
+  <li><a href="#pca-cor-whitening" id="toc-pca-cor-whitening" class="nav-link" data-scroll-target="#pca-cor-whitening"><span class="header-section-number">3.4.4</span> PCA-cor whitening</a></li>
+  <li><a href="#cholesky-whitening" id="toc-cholesky-whitening" class="nav-link" data-scroll-target="#cholesky-whitening"><span class="header-section-number">3.4.5</span> Cholesky whitening</a></li>
+  <li><a href="#comparison-of-whitening-procedures---simulated-data" id="toc-comparison-of-whitening-procedures---simulated-data" class="nav-link" data-scroll-target="#comparison-of-whitening-procedures---simulated-data"><span class="header-section-number">3.4.6</span> Comparison of whitening procedures - simulated data</a></li>
+  <li><a href="#comparison-of-whitening-procedures---iris-flowers" id="toc-comparison-of-whitening-procedures---iris-flowers" class="nav-link" data-scroll-target="#comparison-of-whitening-procedures---iris-flowers"><span class="header-section-number">3.4.7</span> Comparison of whitening procedures - iris flowers</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">3.4.8</span> Recap</a></li>
+  </ul></li>
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca"><span class="header-section-number">3.5</span> Principal Component Analysis (PCA)</a>
+  <ul class="collapse">
+  <li><a href="#pca-transformation" id="toc-pca-transformation" class="nav-link" data-scroll-target="#pca-transformation"><span class="header-section-number">3.5.1</span> PCA transformation</a></li>
+  <li><a href="#application-to-data" id="toc-application-to-data" class="nav-link" data-scroll-target="#application-to-data"><span class="header-section-number">3.5.2</span> Application to data</a></li>
+  <li><a href="#iris-flower-data-example" id="toc-iris-flower-data-example" class="nav-link" data-scroll-target="#iris-flower-data-example"><span class="header-section-number">3.5.3</span> Iris flower data example</a></li>
+  <li><a href="#pca-correlation-loadings" id="toc-pca-correlation-loadings" class="nav-link" data-scroll-target="#pca-correlation-loadings"><span class="header-section-number">3.5.4</span> PCA correlation loadings</a></li>
+  <li><a href="#pca-correlation-loadings-plot" id="toc-pca-correlation-loadings-plot" class="nav-link" data-scroll-target="#pca-correlation-loadings-plot"><span class="header-section-number">3.5.5</span> PCA correlation loadings plot</a></li>
+  <li><a href="#outlook" id="toc-outlook" class="nav-link" data-scroll-target="#outlook"><span class="header-section-number">3.5.6</span> Outlook</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and dimension reduction</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In the following we study transformations of random vectors and their distributions. These transformation are very important since they either transform simple distributions into more complex distributions or allow to simplify complex models. Futhermore, they enable dimension reduction. We first consider affine transformation, and then also nonlinear transformations.</p>
+<section id="linear-transformations" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="linear-transformations"><span class="header-section-number">3.1</span> Linear Transformations</h2>
+<section id="location-scale-transformation" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="location-scale-transformation"><span class="header-section-number">3.1.1</span> Location-scale transformation</h3>
+<p>Also known as affine transformation.</p>
+<p><span class="math display">\[\symbfit y= \underbrace{\symbfit a}_{\text{location parameter}}+\underbrace{\symbfit B}_{\text{scale parameter}} \symbfit x\space\]</span> <span class="math display">\[\symbfit y: m \times 1 \text{ random vector}\]</span> <span class="math display">\[\symbfit a: m \times 1 \text{ vector, location parameter}\]</span> <span class="math display">\[\symbfit B: m \times d \text{ matrix, scale parameter },  m \geq 1\]</span> <span class="math display">\[\symbfit x: d \times 1 \text{ random vector}\]</span></p>
+<p><strong>Mean and variance:</strong></p>
+<p>Mean and variance of the original vector <span class="math inline">\(\symbfit x\)</span>:</p>
+<p><span class="math display">\[\text{E}(\symbfit x)=\symbfit \mu_{\symbfit x}\]</span> <span class="math display">\[\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\]</span></p>
+<p>Mean and variance of the transformed random vector <span class="math inline">\(\symbfit y\)</span>:</p>
+<p><span class="math display">\[\text{E}(\symbfit y)=\symbfit a+ \symbfit B\symbfit \mu_{\symbfit x}\]</span> <span class="math display">\[\text{Var}(\symbfit y)= \symbfit B\symbfit \Sigma_{\symbfit x} \symbfit B^T\]</span></p>
+<p><strong>Cross-covariance and cross-correlation:</strong></p>
+<p>Cross-covariance <span class="math inline">\(\symbfit \Phi= \Sigma_{\symbfit x\symbfit y} =  \text{Cov}(\symbfit x, \symbfit y)\)</span> between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>: <span class="math display">\[
+\symbfit \Phi= \text{Cov}(\symbfit x, \symbfit B\symbfit x) = \symbfit \Sigma_{\symbfit x}  \symbfit B^T
+\]</span> Note that <span class="math inline">\(\symbfit \Phi\)</span> is a matrix of dimensions <span class="math inline">\(d \times m\)</span> as the dimension of <span class="math inline">\(\symbfit x\)</span> is <span class="math inline">\(d\)</span> and the dimension of <span class="math inline">\(\symbfit y\)</span> is <span class="math inline">\(m\)</span>.</p>
+<p>Cross-correlation <span class="math inline">\(\symbfit \Psi= \symbfit P_{\symbfit x\symbfit y} = \text{Cor}(\symbfit x, \symbfit y)\)</span> between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>: <span class="math display">\[
+\symbfit \Psi= \symbfit V_{\symbfit x}^{-1/2}  \symbfit \Phi\symbfit V_{\symbfit y}^{-1/2}
+\]</span> where <span class="math inline">\(\symbfit V_{\symbfit x} = \text{Diag}(\symbfit \Sigma_{\symbfit x})\)</span> and <span class="math inline">\(\symbfit V_{\symbfit y} = \text{Diag}(\symbfit B\symbfit \Sigma_{\symbfit x}  \symbfit B^T)\)</span> are diagonal matrices containing the variances for the components of <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>. The dimensions of the matrix <span class="math inline">\(\symbfit \Psi\)</span> are also <span class="math inline">\(d \times m\)</span>.</p>
+<p>Special cases/examples:</p>
+<div id="univartrans" class="example">
+<p>Univariate case (<span class="math inline">\(d=1, m=1\)</span>): <span class="math inline">\(y=a + b x\)</span></p>
+<ul>
+<li><span class="math inline">\(\text{E}(y)=a+b\mu\)</span></li>
+<li><span class="math inline">\(\text{Var}(y)=b^2\sigma^2\)</span></li>
+<li><span class="math inline">\(\text{Cov}(y, x) = b\sigma^2\)</span></li>
+<li><span class="math inline">\(\text{Cor}(y, x) = \frac{b \sigma^2}{\sqrt{b^2\sigma^2} \sqrt{\sigma^2}  } =1\)</span></li>
+</ul>
+<p>Note that <span class="math inline">\(y\)</span> can predicted perfectly from <span class="math inline">\(x\)</span> as <span class="math inline">\(\text{Cor}(y, x)=1\)</span>. This is because there is no error term in the transformation. See also the more general case with multiple correlation further below.</p>
+</div>
+<div id="sumunivariate" class="example">
+<p>Sum of two random univariate variables: <span class="math inline">\(y = x_1 + x_2\)</span>, i.e.&nbsp;<span class="math inline">\(a=0\)</span> and <span class="math inline">\(\symbfit B=(1,1)\)</span></p>
+<ul>
+<li><span class="math inline">\(\text{E}(y) = \text{E}(x_1+x_2)=\mu_1+\mu_2\)</span></li>
+<li><span class="math inline">\(\text{Var}(y) = \text{Var}(x_1+x_2) = (1,1)\begin{pmatrix}
+\sigma^2_1 &amp; \sigma_{12}\\
+\sigma_{12} &amp; \sigma^2_2
+\end{pmatrix} \begin{pmatrix}
+1\\
+1
+\end{pmatrix} = \sigma^2_1+\sigma^2_2+2\sigma_{12} = \text{Var}(x_1)+\text{Var}(x_2)+2\,\text{Cov}(x_1,x_2)\)</span></li>
+</ul>
+</div>
+<div id="transformcov" class="example">
+<p><span class="math inline">\(y_1=a_1+b_1 x_1\)</span> and <span class="math inline">\(y_2=a_2+b_2 x_2\)</span>, i.e.&nbsp;<span class="math inline">\(\symbfit a= \begin{pmatrix} a_1\\ a_2 \end{pmatrix}\)</span> and<br>
+<span class="math inline">\(\symbfit B= \begin{pmatrix}b_1 &amp; 0\\ 0 &amp; b_2\end{pmatrix}\)</span></p>
+<ul>
+<li><span class="math inline">\(\text{E}(\symbfit y)= \begin{pmatrix}  a_1\\ a_2 \end{pmatrix} +  \begin{pmatrix}b_1 &amp; 0\\ 0 &amp; b_2\end{pmatrix}
+\begin{pmatrix} \mu_1 \\ \mu_2\end{pmatrix}
+  = \begin{pmatrix} a_1+b_1 \mu_1\\ a_2+b_2 \mu_2 \end{pmatrix}\)</span><br>
+</li>
+<li><span class="math inline">\(\text{Var}(\symbfit y) = \begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix}
+   \begin{pmatrix}
+\sigma^2_1 &amp; \sigma_{12}\\
+\sigma_{12} &amp; \sigma^2_2
+\end{pmatrix}
+\begin{pmatrix} b_1 &amp; 0\\ 0 &amp; b_2 \end{pmatrix} =
+\begin{pmatrix}
+b^2_1\sigma^2_1 &amp; b_1b_2\sigma_{12}\\
+b_1b_2\sigma_{12} &amp; b^2_2\sigma^2_2
+\end{pmatrix}\)</span><br>
+note that <span class="math inline">\(\text{Cov}(y_1, y_2) = b_1 b_2\text{Cov}(x_1,x_2)\)</span></li>
+</ul>
+</div>
+</section>
+<section id="squared-multiple-correlation" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="squared-multiple-correlation"><span class="header-section-number">3.1.2</span> Squared multiple correlation</h3>
+<p>Squared multiple correlation <span class="math inline">\(\text{MCor}(y, \symbfit x)^2\)</span> is a scalar measure summarising the linear association between a scalar response variable <span class="math inline">\(y\)</span> and a set of predictors <span class="math inline">\(\symbfit x= (x_1, \ldots, x_d)^T\)</span>. It is defined as <span class="math display">\[
+\begin{split}
+\text{MCor}(y, \symbfit x)^2 &amp;= \symbfit \Sigma_{y \symbfit x} \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit xy} / \sigma^2_y\\
+&amp;=\symbfit P_{y \symbfit x} \symbfit P_{ \symbfit x}^{-1} \symbfit P_{\symbfit xy}\\
+\end{split}
+\]</span> If <span class="math inline">\(y\)</span> can be perfectly linearly predicted by <span class="math inline">\(\symbfit x\)</span> then <span class="math inline">\(\text{MCor}(y, \symbfit x)^2 = 1\)</span>.</p>
+<p>The empirical estimate of <span class="math inline">\(\text{MCor}(y, \symbfit x)^2\)</span> is the <span class="math inline">\(R^2\)</span> coefficient that you will find in any software for linear regression.</p>
+<div id="mcoraffine" class="example">
+<p>Squared multiple correlation for an affine transformation.</p>
+<p>Since we linearly transform <span class="math inline">\(\symbfit x\)</span> into <span class="math inline">\(\symbfit y\)</span> with no additional error involved we expect that for each component <span class="math inline">\(y_i\)</span> in <span class="math inline">\(\symbfit y\)</span> we have <span class="math inline">\(\text{MCor}(y_i, \symbfit x)^2=1\)</span>. This can be shown directly by computing <span class="math display">\[
+\begin{split}
+\left(\text{MCor}(y_1, \symbfit x)^2, \ldots, \text{MCor}(y_m, \symbfit x)^2 \right)^T
+&amp;=\text{Diag}\left(\symbfit \Sigma_{\symbfit y\symbfit x} \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit x\symbfit y}  \right) / \text{Diag}\left( \symbfit \Sigma_{\symbfit y} \right) \\
+&amp;= \text{Diag}\left(\symbfit B\symbfit \Sigma_{\symbfit x} \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit x} \symbfit B^T \right) / \text{Diag}\left( \symbfit B\symbfit \Sigma_{\symbfit x} \symbfit B^T \right) \\
+&amp;= \text{Diag}\left(\symbfit B\symbfit \Sigma_{\symbfit x} \symbfit B^T \right) / \text{Diag}\left( \symbfit B\symbfit \Sigma_{\symbfit x} \symbfit B^T \right) \\
+&amp;=\left(1, \ldots, 1 \right)^T\\
+\end{split}
+\]</span></p>
+</div>
+</section>
+<section id="invertible-location-scale-transformation" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="invertible-location-scale-transformation"><span class="header-section-number">3.1.3</span> Invertible location-scale transformation</h3>
+<p>If <span class="math inline">\(m=d\)</span> (square <span class="math inline">\(\symbfit B\)</span>) and <span class="math inline">\(\det(\symbfit B) \neq 0\)</span> then the affine transformation is <strong>invertible</strong>.</p>
+<p>Forward transformation: <span class="math display">\[\symbfit y= \symbfit a+ \symbfit B\symbfit x\]</span></p>
+<p>Back transformation: <span class="math display">\[\symbfit x= \symbfit B^{-1}(\symbfit y-\symbfit a)\]</span></p>
+<p>Invertible transformations thus provide a one-to-one map between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>.</p>
+<div id="orthotrans" class="example">
+<p><strong>Orthogonal transformation</strong></p>
+<p>Setting <span class="math inline">\(\symbfit a=0\)</span> and <span class="math inline">\(\symbfit B=\symbfit Q\)</span> to an orthogonal matrix <span class="math inline">\(\symbfit Q\)</span> yields an orthogonal transformation. The inverse transformation is given by setting <span class="math inline">\(\symbfit B^{-1} = \symbfit Q^T\)</span>.</p>
+<p>Assume that <span class="math inline">\(\symbfit x\)</span> has a positive definite covariance matrix <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span> with eigenvalue decomposition <span class="math inline">\(\symbfit \Sigma_{\symbfit x} = \symbfit U_1 \symbfit \Lambda\symbfit U_1^T\)</span>. After orthogonal transformation <span class="math inline">\(\symbfit y= \symbfit Q\symbfit x\)</span> the covariance matrix for <span class="math inline">\(\symbfit y\)</span> is <span class="math inline">\(\text{Var}(\symbfit y)= \symbfit \Sigma_{\symbfit y} = \symbfit Q\symbfit \Sigma_{\symbfit x} \symbfit Q^T = \symbfit Q\symbfit U_1 \symbfit \Lambda\symbfit U_1^T\symbfit Q^T = \symbfit U_2 \symbfit \Lambda\symbfit U_2^T\)</span> where <span class="math inline">\(\symbfit U_2 = \symbfit Q\symbfit U_1\)</span> is another orthogonal matrix. This shows that an orthogonal transformation reorientates the principal axes of the ellipse corresponding to covariance matrix, without changing the shape of the ellipse itself as the eigenvalues stay the same.</p>
+<p>If you set <span class="math inline">\(\symbfit Q=\symbfit U_1^T\)</span> then <span class="math inline">\(\symbfit U_2= \symbfit I\)</span> and the reoriented principal axes are now parallel to the coordinate axes. This special type of orthogonal transformation is called <strong>principal component analysis</strong> (PCA). We revisit PCA in a later chapter.</p>
+</div>
+<div id="whitetrans" class="example">
+<p><strong>Whitening transformation</strong></p>
+<p>Assume that <span class="math inline">\(\symbfit x\)</span> has a positive definite covariance matrix <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span>. The <strong>inverse principal matrix square root</strong> is denoted by <span class="math inline">\(\symbfit \Sigma^{-1/2}_{\symbfit x}\)</span>. This can be obtained by eigendecomposition of <span class="math inline">\(\symbfit \Sigma_{\symbfit x} = \symbfit U\symbfit \Lambda\symbfit U^T\)</span> so that <span class="math inline">\(\symbfit \Sigma^{-1/2}_{\symbfit x} =\symbfit U\symbfit \Lambda^{-1/2} \symbfit U^T\)</span>.</p>
+<p>Setting <span class="math inline">\(\symbfit a=0\)</span> and <span class="math inline">\(\symbfit B=\symbfit Q\symbfit \Sigma_{\symbfit x}^{-1/2}\)</span> where <span class="math inline">\(\symbfit Q\)</span> is an orthogonal matrix yields the covariance-based parameterisation of the general whitening transformation. The matrix <span class="math inline">\(\symbfit B\)</span> is called the <em>whitening matrix</em> and is also often denoted by <span class="math inline">\(\symbfit W\)</span>.<br>
+The inverse transformation is given by setting <span class="math inline">\(\symbfit B^{-1} = \symbfit \Sigma_{\symbfit x}^{1/2} \symbfit Q^T\)</span>.</p>
+<p>After transformation <span class="math inline">\(\symbfit y= \symbfit Q\symbfit \Sigma_{\symbfit x}^{-1/2} \symbfit x\)</span> the covariance matrix for <span class="math inline">\(\symbfit y\)</span> is <span class="math inline">\(\text{Var}(\symbfit y)= \symbfit \Sigma_{\symbfit y} = \symbfit Q\symbfit \Sigma_{\symbfit x}^{-1/2} \symbfit \Sigma_{\symbfit x} \symbfit \Sigma_{\symbfit x}^{-1/2} \symbfit Q^T = \symbfit Q\symbfit Q^T = \symbfit I\)</span>, hence the name of the transformation. Whitening transformations are discussed in detail later.</p>
+</div>
+<div id="mahatrans" class="example">
+<p><strong>Mahalanobis transform</strong></p>
+</div>
+<p>We assume <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu_{\symbfit x}\)</span> and a positive definite covariance matrix <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span> with <span class="math inline">\(\det(\symbfit \Sigma_{\symbfit x}) &gt; 0\)</span>.</p>
+<p>The Mahalanobis transformation is given by <span class="math display">\[
+\symbfit y=\symbfit \Sigma^{-1/2}_{\symbfit x}(\symbfit x-\symbfit \mu_{\symbfit x})
+\]</span> This corresponds to an affine transformation with <span class="math inline">\(\symbfit a= - \symbfit \Sigma^{-1/2}_{\symbfit x} \symbfit \mu_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit B= \symbfit \Sigma^{-1/2}_{\symbfit x}\)</span>.</p>
+<p>The mean and the variance of <span class="math inline">\(\symbfit y\)</span> becomes <span class="math display">\[
+\text{E}(\symbfit y) = \symbfup 0\]</span> and <span class="math display">\[\text{Var}(\symbfit y) = \symbfit I_d\]</span>.</p>
+<p>The Mahalanobis transforms performs three functions:</p>
+<ol type="1">
+<li>Centering (<span class="math inline">\(-\symbfit \mu\)</span>)</li>
+<li>Standardisation <span class="math inline">\(\text{Var}(y_i)=1\)</span></li>
+<li>Decorrelation <span class="math inline">\(\text{Cor}(y_i,y_j)=0\)</span> for <span class="math inline">\(i \neq j\)</span></li>
+</ol>
+<p>In the <strong>univariate case (<span class="math inline">\(d=1\)</span>)</strong> the coefficients reduce to <span class="math inline">\(a = - \frac{\mu_x}{\sigma_x}\)</span> and <span class="math inline">\(B = \frac{1}{\sigma_x}\)</span> and the Mahalanobis transform becomes <span class="math display">\[y = \frac{x-\mu_x}{\sigma_x}\]</span> i.e.&nbsp;it applies centering + standardisation.</p>
+<p>The <strong>Mahalanobis transformation</strong> appears implicitly in many places in multivariate statistics, e.g.&nbsp;in the multivariate normal density. It is a particular example of a whitening transformation (plus centering).</p>
+<div id="coltrans" class="example">
+<p><strong>Inverse Mahalanobis transformation</strong></p>
+</div>
+<p>The inverse of the Mahalanobis transform is given by <span class="math display">\[
+\symbfit y= \symbfit \mu_{\symbfit y}+\symbfit \Sigma^{1/2}_{\symbfit y} \symbfit x
+\]</span> As the Mahalanobis transform is a whitening transform the inverse Mahalonobis transform is sometimes called the Mahalanobis colouring transformation. The coefficients in the affine transformation are <span class="math inline">\(\symbfit a=\symbfit \mu_{\symbfit y}\)</span> and <span class="math inline">\(\symbfit B=\symbfit \Sigma^{1/2}_{\symbfit y}\)</span>.</p>
+<p>Starting with <span class="math inline">\(\text{E}(\symbfit x)=\symbfup 0\)</span> and <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit I_d\)</span> the mean and variance of the transformed variable are <span class="math display">\[\text{E}(\symbfit y) = \symbfit \mu_{\symbfit y}
+\]</span> and <span class="math display">\[\text{Var}(\symbfit y) = \symbfit \Sigma_{\symbfit y}
+\]</span></p>
+</section>
+<section id="transformation-of-a-density-under-an-invertible-location-scale-transformation" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="transformation-of-a-density-under-an-invertible-location-scale-transformation"><span class="header-section-number">3.1.4</span> Transformation of a density under an invertible location-scale transformation:</h3>
+<p>Assume <span class="math inline">\(\symbfit x\sim F_{\symbfit x}\)</span> with density <span class="math inline">\(f_{\symbfit x}(\symbfit x)\)</span>.</p>
+<p>After linear transformation <span class="math inline">\(\symbfit y= \symbfit a+ \symbfit B\symbfit x\)</span> we get <span class="math inline">\(\symbfit y\sim F_{\symbfit y}\)</span> with density <span class="math display">\[f_{\symbfit y}(\symbfit y)=|\det(\symbfit B)|^{-1} f_{\symbfit x} \left( \symbfit B^{-1}(\symbfit y-\symbfit a)\right)\]</span></p>
+<div id="invmahanorm" class="example">
+<p>Transformation of standard normal with inverse Mahalanobis transform</p>
+<p>Assume <span class="math inline">\(\symbfit x\)</span> is multivariate standard normal <span class="math inline">\(\symbfit x\sim N_d(\symbfup 0,\symbfit I_d)\)</span> with density <span class="math display">\[f_{\symbfit x}(\symbfit x) = (2\pi)^{-d/2}\exp\left( -\frac{1}{2} \symbfit x^T \symbfit x\right)\]</span> Then the density after applying the inverse Mahalanobis transform<br>
+<span class="math inline">\(\symbfit y= \symbfit \mu_{\symbfit y}+\symbfit \Sigma^{1/2}_{\symbfit y} \symbfit x\)</span> is <span class="math display">\[
+\begin{split}
+f_{\symbfit y}(\symbfit y) &amp;= |\det(\symbfit \Sigma^{1/2}_{\symbfit y})|^{-1} (2\pi)^{-d/2} \exp\left(-\frac{1}{2}(\symbfit y-\symbfit \mu_{\symbfit y})^T\symbfit \Sigma^{-1/2}_{\symbfit y} \,\symbfit \Sigma^{-1/2}_{\symbfit y}(\symbfit y-\symbfit \mu_{\symbfit y})\right)\\
+&amp; = (2\pi)^{-d/2} \det(\symbfit \Sigma_{\symbfit y})^{-1/2} \exp\left(-\frac{1}{2}(\symbfit y-\symbfit \mu_{\symbfit y})^T\symbfit \Sigma^{-1}_{\symbfit y}(\symbfit y-\symbfit \mu_{\symbfit y})\right) \\
+\end{split}
+\]</span> <span class="math inline">\(\Longrightarrow\)</span> <span class="math inline">\(\symbfit y\)</span> has multivariate normal density <span class="math inline">\(N_d(\symbfit \mu_{\symbfit y}, \symbfit \Sigma_{\symbfit y})\)</span></p>
+<p><em>Application:</em> e.g.&nbsp;random number generation: draw from <span class="math inline">\(N_d(\symbfup 0,\symbfit I_d)\)</span> (easy!) then convert to multivariate normal by tranformation (see Worksheet 4).</p>
+</div>
+</section>
+</section>
+<section id="nonlinear-transformations" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="nonlinear-transformations"><span class="header-section-number">3.2</span> Nonlinear transformations</h2>
+<section id="general-transformation" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="general-transformation"><span class="header-section-number">3.2.1</span> General transformation</h3>
+<p><span class="math display">\[\symbfit y= \symbfit h(\symbfit x)\]</span> with <span class="math inline">\(\symbfit h\)</span> an arbitrary vector-valued function</p>
+<ul>
+<li>linear case: <span class="math inline">\(\symbfit h(\symbfit x) = \symbfit a+\symbfit B\symbfit x\)</span></li>
+</ul>
+</section>
+<section id="delta-method" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="delta-method"><span class="header-section-number">3.2.2</span> Delta method</h3>
+<p>Assume that we know the mean <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu_{\symbfit x}\)</span> and variance <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span> of <span class="math inline">\(\symbfit x\)</span>. Is it possible to say something about the mean and variance of the transformed random variable <span class="math inline">\(\symbfit y\)</span>? <span class="math display">\[
+\text{E}(\symbfit y)= \text{E}(\symbfit h(\symbfit x))= ?
+\]</span> <span class="math display">\[
+\text{Var}(\symbfit y) = \text{Var}(\symbfit h(\symbfit x))= ? \\
+\]</span></p>
+<p>In general, for a transformation <span class="math inline">\(\symbfit h(\symbfit x)\)</span> the exact mean and variance of the transformed variable cannot be obtained analytically.</p>
+<p>However, we can find a <strong>linear approximation</strong> and then compute its mean and variance. This approximation is called the “Delta Method”, or the “law of propagation of errors”, and is credited to Gauss <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Linearisation of <span class="math inline">\(\symbfit h(\symbfit x)\)</span> is achieved by a Taylor series approximation of first order of <span class="math inline">\(\symbfit h(\symbfit x)\)</span> around <span class="math inline">\(\symbfit x_0\)</span>: <span class="math display">\[\symbfit h(\symbfit x) \approx \symbfit h(\symbfit x_0) + \underbrace{D \symbfit h(\symbfit x_0)}_{\text{Jacobian matrix}}(\symbfit x-\symbfit x_0)  =
+\underbrace{\symbfit h(\symbfit x_0) - D \symbfit h(\symbfit x_0)\, \symbfit x_0}_{\symbfit a} + \underbrace{D \symbfit h(\symbfit x_0)}_{\symbfit B} \symbfit x\]</span></p>
+<p>If <span class="math inline">\(h(\symbfit x)\)</span> is scalar-valued then <strong>gradient</strong> <span class="math inline">\(\nabla h(\symbfit x)\)</span> is given by the vector of partial correlations <span class="math display">\[
+\nabla h(\symbfit x) =
+\begin{pmatrix}
+\frac{\partial h(\symbfit x)}{\partial x_1}  \\
+\vdots\\
+\frac{\partial h(\symbfit x)}{\partial x_d} \\
+\end{pmatrix}
+\]</span> where <span class="math inline">\(\nabla\)</span> is the nabla operator.</p>
+<p>The <strong>Jacobian matrix</strong> is used if <span class="math inline">\(\symbfit h(\symbfit x)\)</span> is vector-valued:</p>
+<p><span class="math display">\[D \symbfit h(\symbfit x) = \begin{pmatrix}\nabla^T h_1(\symbfit x)\\ \nabla h_2(\symbfit x)^T \\ \vdots \\ \nabla^T h_m(\symbfit x) \end{pmatrix} = \begin{pmatrix}
+    \frac{\partial h_1(\symbfit x)}{\partial x_1} &amp; \dots &amp; \frac{\partial h_1(\symbfit x)}{\partial x_d}\\
+    \vdots &amp; \ddots &amp; \vdots \\
+    \frac{\partial h_m(\symbfit x)}{\partial x_1} &amp; \dots &amp; \frac{\partial h_m(\symbfit x)}{\partial x_d}
+    \end{pmatrix}\]</span> Note that in the Jacobian matrix by convention the gradient for each individual component of <span class="math inline">\(\symbfit h(\symbfit x)\)</span> is contained in the <em>row</em> of the matrix so the number of rows corresponds to the dimension of <span class="math inline">\(\symbfit h(\symbfit x)\)</span> and the number of columns to the dimension of <span class="math inline">\(\symbfit x\)</span>.</p>
+<p>First order approximation of <span class="math inline">\(\symbfit h(\symbfit x)\)</span> around <span class="math inline">\(\symbfit x_0=\symbfit \mu_{\symbfit x}\)</span> yields <span class="math inline">\(\symbfit a= \symbfit h(\symbfit \mu_{\symbfit x}) - D \symbfit h(\symbfit \mu_{\symbfit x})\, \symbfit \mu_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit B= D \symbfit h(\symbfit \mu_{\symbfit x})\)</span> and leads directly to the <strong>multivariate Delta method</strong>:</p>
+<p><span class="math display">\[\text{E}(\symbfit y)\approx\symbfit h(\symbfit \mu_{\symbfit x})\]</span> <span class="math display">\[\text{Var}(\symbfit y)\approx D \symbfit h(\symbfit \mu_{\symbfit x}) \, \symbfit \Sigma_{\symbfit x} \, D \symbfit h(\symbfit \mu_{\symbfit x})^T\]</span></p>
+<p>The <strong>univariate Delta method</strong> is a special case: <span class="math display">\[\text{E}(y) \approx h(\mu_x)\]</span> <span class="math display">\[\text{Var}(y)\approx \sigma^2_x \, h'(\mu_x)^2\]</span></p>
+<p>Note that the Delta approximation breaks down if <span class="math inline">\(\text{Var}(\symbfit y)\)</span> is singular, for example if the first derivative (or gradient or Jacobian matrix) at <span class="math inline">\(\symbfit \mu_{\symbfit x}\)</span> is zero.</p>
+<div id="varoddsration" class="example">
+<p><strong>Variance of the odds ratio</strong></p>
+<p>The proportion <span class="math inline">\(\hat{p} = \frac{n_1}{n}\)</span> resulting from <span class="math inline">\(n\)</span> repeats of a Bernoulli experiment has expectation <span class="math inline">\(\text{E}(\hat{p})=p\)</span> and variance <span class="math inline">\(\text{Var}(\hat{p}) = \frac{p (1-p)}{n}\)</span>. What are the (approximate) mean and the variance of the corresponding odds ratio <span class="math inline">\(\widehat{OR}=\frac{\hat{p}}{1-\hat{p}}\)</span>?</p>
+<p>With <span class="math inline">\(h(x) = \frac{x}{1-x}\)</span>, <span class="math inline">\(\widehat{OR} = h(\hat{p})\)</span> and <span class="math inline">\(h'(x) = \frac{1}{(1-x)^2}\)</span> we get using the Delta method <span class="math inline">\(\text{E}( \widehat{OR} ) \approx h(p) = \frac{p}{1-p}\)</span> and <span class="math inline">\(\text{Var}( \widehat{OR} )\approx h'(p)^2 \text{Var}( \hat{p} ) = \frac{p}{n (1-p)^3}\)</span>.</p>
+</div>
+<div id="logtransform" class="example">
+<p><strong>Log-transform as variance stabilisation</strong></p>
+<p>Assume <span class="math inline">\(x\)</span> has some mean <span class="math inline">\(\text{E}(x)=\mu\)</span> and variance <span class="math inline">\(\text{Var}(x) = \sigma^2 \mu^2\)</span>, i.e.&nbsp;the standard deviation <span class="math inline">\(\text{SD}(x)\)</span> is proportional to the mean <span class="math inline">\(\mu\)</span>. What are the (approximate) mean and the variance of the log-transformed variable <span class="math inline">\(\log(x)\)</span>?</p>
+<p>With <span class="math inline">\(h(x) = \log(x)\)</span> and <span class="math inline">\(h'(x) = \frac{1}{x}\)</span> we get using the Delta method <span class="math inline">\(\text{E}( \log(x) ) \approx h(\mu) = \log(\mu)\)</span> and <span class="math inline">\(\text{Var}( \log(x) )\approx h'(\mu)^2 \text{Var}( x ) = \left(\frac{1}{\mu} \right)^2 \sigma^2 \mu^2 = \sigma^2\)</span>. Thus, after applying the log-transform the variance does not depend any more on the mean!</p>
+</div>
+</section>
+<section id="transformation-of-a-probability-density-function-under-a-general-invertible-transformation" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="transformation-of-a-probability-density-function-under-a-general-invertible-transformation"><span class="header-section-number">3.2.3</span> Transformation of a probability density function under a general invertible transformation</h3>
+<p>Assume <span class="math inline">\(\symbfit y(\symbfit x) = \symbfit h(\symbfit x)\)</span> is invertible: <span class="math inline">\(\symbfit x(\symbfit y) = \symbfit h^{-1}(\symbfit y)\)</span></p>
+<p><span class="math inline">\(\symbfit x\sim F_{\symbfit x}\)</span> with probability density function <span class="math inline">\(f_{\symbfit x}(\symbfit x)\)</span></p>
+<p>The density <span class="math inline">\(f_{\symbfit y}(\symbfit y)\)</span> of the transformed random vector <span class="math inline">\(\symbfit y\)</span> is then given by<br>
+<span class="math display">\[f_{\symbfit y}(\symbfit y) = |\det\left( D\symbfit x(\symbfit y) \right)| \,\,\,  f_{\symbfit x}\left( \symbfit x(\symbfit y) \right)\]</span></p>
+<p>where <span class="math inline">\(D\symbfit x(\symbfit y)\)</span> is the Jacobian matrix of the inverse transformation.</p>
+<p>Special cases:</p>
+<ul>
+<li>Univariate version: <span class="math inline">\(f_y(y) = \left|Dx(y) \right| \, f_x\left(x(y)\right)\)</span> with <span class="math inline">\(Dx(y) = \frac{dx(y)}{dy}\)</span></li>
+<li>Linear transformation <span class="math inline">\(\symbfit h(\symbfit x) = \symbfit a+ \symbfit B\symbfit x\)</span>, with <span class="math inline">\(\symbfit x(\symbfit y) = \symbfit B^{-1}(\symbfit y-\symbfit a)\)</span> and <span class="math inline">\(D\symbfit x(\symbfit y) = \symbfit B^{-1}\)</span>: <span class="math display">\[f_{\symbfit y}(\symbfit y)=\left|\det(\symbfit B)\right|^{-1} f_{\symbfit x} \left( \symbfit B^{-1}(\symbfit y-\symbfit a)\right)\]</span></li>
+</ul>
+</section>
+<section id="normalising-flows" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="normalising-flows"><span class="header-section-number">3.2.4</span> Normalising flows</h3>
+<p>In this module we will focus mostly on linear transformations as these underpin much of classical multivariate statistics, but it is important to keep in mind for later study the importance of nonlinear transformations</p>
+<p>In machine learning (sequences of) invertible nonlinear transformations are known as “normalising flows”. They are used both in a generative way (building complex models from simple models) and for simplification and dimension reduction.</p>
+<p>If you are interested in normalising flows then a good start to learn more are the review papers by Kobyzev et al (2021 )<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and Papamakarios et al.&nbsp;(2021) <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+</section>
+</section>
+<section id="general-whitening-transformations" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="general-whitening-transformations"><span class="header-section-number">3.3</span> General whitening transformations</h2>
+<section id="overview" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.3.1</span> Overview</h3>
+<p>Whitening transformations are a special and widely used class of invertible location-scale transformations (Example @ref(exm:whitetrans))</p>
+<p><em>Terminology:</em> whitening refers to the fact that after the transformation the covariance matrix is spherical, isotropic, white (<span class="math inline">\(\symbfit I_d\)</span>)</p>
+<p>Whitening is <strong>useful in preprocessing</strong>, as they allow to <strong>turn multivariate models into uncorrelated univariate models</strong> (via decorrelation property). Some whitening transformations <strong>reduce the dimension in an optimal way</strong> (via compression property).</p>
+<p>The <em>Mahalanobis</em> transform is a specific example of a <strong>whitening transformation</strong>. It is also know as “zero-phase component analysis” or short ZCA transform.</p>
+<p>In so-called latent variable models whitening procedures are implicitly used in linear models to link observed (correlated) variables and latent variables (which typically are uncorrelated and standardised):</p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{cl}
+\text{Whitening} \\
+\downarrow
+\end{array}
+\begin{array}{ll}
+\symbfit x\\
+\uparrow \\
+\symbfit z\\
+\end{array}
+\begin{array}{ll}
+\text{Observed variable (can be measured)} \\
+\text{external, typically correlated} \\
+\space \\
+\text{Unobserved "latent" variable (cannot be directly measured)} \\
+\text{internal, typically chosen to be uncorrelated} \\
+\end{array}
+\end{align*}\]</span></p>
+</section>
+<section id="whitening-transformation-and-whitening-constraint" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="whitening-transformation-and-whitening-constraint"><span class="header-section-number">3.3.2</span> Whitening transformation and whitening constraint</h3>
+<p><strong>Starting point:</strong></p>
+<p>Random vector <span class="math inline">\(\symbfit x\sim F_{\symbfit x}\)</span> <strong>not necessarily from multivariate normal</strong>.</p>
+<p><span class="math inline">\(\symbfit x\)</span> has mean <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu\)</span> and a positive definite (invertible) covariance matrix <span class="math inline">\(\text{Var}(\symbfit x) = \symbfit \Sigma\)</span>.</p>
+<p>Note that in the following we leave out the subscript <span class="math inline">\(\symbfit x\)</span> for the covariance of <span class="math inline">\(\symbfit x\)</span> unless it is needed for clarification.</p>
+<p>The covariance can be split into positive variances <span class="math inline">\(\symbfit V\)</span> and a positive definite invertible correlation matrix <span class="math inline">\(\symbfit P\)</span> so that <span class="math inline">\(\symbfit \Sigma= \symbfit V^{1/2} \symbfit P\symbfit V^{1/2}\)</span>.</p>
+<p><strong>Whitening transformation:</strong></p>
+<p><span class="math display">\[\underbrace{\symbfit z}_{d \times 1 \text{ vector }} = \underbrace{\symbfit W}_{d \times d \text{ whitening matrix }} \underbrace{\symbfit x}_{d \times 1 \text{ vector }}\]</span> <strong>Objective</strong>: choose <span class="math inline">\(\symbfit W\)</span> so that <span class="math inline">\(\text{Var}(\symbfit z)=\symbfit I_d\)</span></p>
+<p>For Mahalanobis/ZCA whitening we already know from Example @ref(exm:mahatrans) that <span class="math inline">\(\symbfit W^{\text{ZCA}}=\symbfit \Sigma^{-1/2}\)</span>.</p>
+<p>In general, the whitening matrix <span class="math inline">\(\symbfit W\)</span> needs to satisfy a constraint: <span class="math display">\[
+\begin{array}{lll}
+                &amp; \text{Var}(\symbfit z) &amp; = \symbfit I_d \\
+\Longrightarrow &amp; \text{Var}(\symbfit W\symbfit x) &amp;= \symbfit W\symbfit \Sigma\symbfit W^T = \symbfit I_d \\
+\Longrightarrow &amp;  \symbfit W\, \symbfit \Sigma\, \symbfit W^T \symbfit W= \symbfit W&amp; \\
+\end{array}
+\]</span> <span class="math display">\[\Longrightarrow \text{constraint on whitening matrix: } \symbfit W^T \symbfit W= \symbfit \Sigma^{-1}\]</span></p>
+<p>Clearly, the ZCA whitening matrix satisfies this constraint: <span class="math inline">\((\symbfit W^{ZCA})^T \symbfit W^{ZCA} = \symbfit \Sigma^{-1/2}\symbfit \Sigma^{-1/2}=\symbfit \Sigma^{-1}\)</span></p>
+</section>
+<section id="parameterisation-of-whitening-matrix" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="parameterisation-of-whitening-matrix"><span class="header-section-number">3.3.3</span> Parameterisation of whitening matrix</h3>
+<p><strong>Covariance-based parameterisation of whitening matrix:</strong></p>
+<p>A general way to specify a valid whitening matrix is <span class="math display">\[
+\symbfit W= \symbfit Q_1 \symbfit \Sigma^{-1/2}
+\]</span> where <span class="math inline">\(\symbfit Q_1\)</span> is an orthogonal matrix.</p>
+<p>Recall that an orthogonal matrix <span class="math inline">\(\symbfit Q\)</span> has the property that <span class="math inline">\(\symbfit Q^{-1} = \symbfit Q^T\)</span> and and as a consequence <span class="math inline">\(\symbfit Q^T \symbfit Q= \symbfit Q\symbfit Q^T = \symbfit I\)</span>.</p>
+<p>As a result, the above <span class="math inline">\(\symbfit W\)</span> satisfies the whitening constraint:</p>
+<p><span class="math display">\[\symbfit W^T \symbfit W= \symbfit \Sigma^{-1/2}\underbrace{\symbfit Q_1^T \symbfit Q_1}_{\symbfit I}\symbfit \Sigma^{-1/2}=\symbfit \Sigma^{-1}\]</span></p>
+<p>Note the converse is also true: any whitening whitening matrix, i.e.&nbsp;any <span class="math inline">\(\symbfit W\)</span> satisfying the whitening constraint, can be written in the above form as <span class="math inline">\(\symbfit Q_1 = \symbfit W\symbfit \Sigma^{1/2}\)</span> is orthogonal by construction.</p>
+<p><span class="math inline">\(\Longrightarrow\)</span> instead of choosing <span class="math inline">\(\symbfit W\)</span>, <strong>we choose the orthogonal matrix</strong> <span class="math inline">\(\symbfit Q_1\)</span>!</p>
+<ul>
+<li>recall that orthogonal matrices geometrically represent rotations (plus reflections).</li>
+<li>it is now clear that there are infinitely many whitening procedures, because there are infinitely many rotations! This also means we need to find ways to choose/select among whitening procedures.</li>
+<li>for the Mahalanobis/ZCA transformation <span class="math inline">\(\symbfit Q_1^{\text{ZCA}}=\symbfit I\)</span></li>
+<li><strong>whitening</strong> can be interpreted as <strong>Mahalanobis transformation</strong> followed by further <strong>rotation-reflection</strong></li>
+</ul>
+<p><strong>Correlation-based parameterisation of whitening matrix:</strong></p>
+<p>Instead of working with the covariance matrix <span class="math inline">\(\symbfit \Sigma\)</span>, we can express <span class="math inline">\(\symbfit W\)</span> also in terms of the corresponding correlation matrix <span class="math inline">\(\symbfit P= (\rho_{ij}) = \symbfit V^{-1/2} \symbfit \Sigma\symbfit V^{-1/2}\)</span> where <span class="math inline">\(\symbfit V\)</span> is the diagonal matrix containing the variances.</p>
+<p>Specifically, we can specify the whitening matrix as <span class="math display">\[\symbfit W= \symbfit Q_2 \symbfit P^{-1/2} \symbfit V^{-1/2}\]</span></p>
+<p>It is easy to verify that this <span class="math inline">\(\symbfit W\)</span> also satisfies the whitening constraint: <span class="math display">\[
+\begin{split}
+\symbfit W^T \symbfit W&amp; = \symbfit V^{-1/2}\symbfit P^{-1/2}\underbrace{\symbfit Q_2^T \symbfit Q_2}_{\symbfit I}\symbfit P^{-1/2} \symbfit V^{-1/2} \\
+&amp; = \symbfit V^{-1/2} \symbfit P^{-1} \symbfit V^{-1/2} = \symbfit \Sigma^{-1} \\
+\end{split}
+\]</span> Conversely, any whitening matrix <span class="math inline">\(\symbfit W\)</span> can also be written in this form as <span class="math inline">\(\symbfit Q_2 = \symbfit W\symbfit V^{1/2} \symbfit P^{1/2}\)</span> is orthogonal by construction.</p>
+<ul>
+<li><strong>Another interpretation of whitening</strong>: first <strong>standardising</strong> (<span class="math inline">\(\symbfit V^{-1/2}\)</span>), then <strong>decorrelation</strong> (<span class="math inline">\(\symbfit P^{-1/2}\)</span>), followed by <strong>rotation-reflection</strong> (<span class="math inline">\(\symbfit Q_2\)</span>)</li>
+<li>for Mahalanobis/ZCA transformation <span class="math inline">\(\symbfit Q_2^{\text{ZCA}} = \symbfit \Sigma^{-1/2} \symbfit V^{1/2} \symbfit P^{1/2}\)</span></li>
+</ul>
+<p><strong>Both forms to write <span class="math inline">\(\symbfit W\)</span> using <span class="math inline">\(\symbfit Q_1\)</span> and <span class="math inline">\(\symbfit Q_2\)</span> are equally valid (and interchangeable).</strong></p>
+<p>Note that for the same <span class="math inline">\(\symbfit W\)</span> <span class="math display">\[\symbfit Q_1\neq\symbfit Q_2 \text{  Two different orthogonal matrices!}\]</span> and also <span class="math display">\[\underbrace{\symbfit \Sigma^{-1/2}}_{\text{Symmetric}}\neq\underbrace{\symbfit P^{-1/2}\symbfit V^{-1/2}}_{\text{Not Symmetric}}\]</span> even though<br>
+<span class="math display">\[\symbfit \Sigma^{-1/2}\symbfit \Sigma^{-1/2}=\symbfit \Sigma^{-1} = \symbfit V^{-1/2}\symbfit P^{-1/2}\symbfit P^{-1/2}\symbfit V^{-1/2}\]</span></p>
+</section>
+<section id="cross-covariance-and-cross-correlation-for-general-whitening-transformations" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="cross-covariance-and-cross-correlation-for-general-whitening-transformations"><span class="header-section-number">3.3.4</span> Cross-covariance and cross-correlation for general whitening transformations</h3>
+<p>A useful criterion to characterise and to distinguish among whitening transformations is the cross-covariance and cross-correlation matrix between the original variable <span class="math inline">\(\symbfit x\)</span> and the whitened variable <span class="math inline">\(\symbfit z\)</span>:</p>
+<ol type="a">
+<li><p><strong>Cross-covariance</strong> <span class="math inline">\(\symbfit \Phi= \Sigma_{\symbfit x\symbfit z}\)</span> between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>: <span class="math display">\[
+\begin{split}
+\symbfit \Phi= \text{Cov}(\symbfit x, \symbfit z) &amp; = \text{Cov}( \symbfit x,\symbfit W\symbfit x)\\
+&amp; = \symbfit \Sigma\symbfit W^T \\
+&amp;= \symbfit \Sigma\, \symbfit \Sigma^{-1/2} \symbfit Q_1^T \\
+&amp;= \symbfit \Sigma^{1/2} \symbfit Q_1^T\\
+\end{split}
+\]</span> In component notation we write <span class="math inline">\(\symbfit \Phi= (\phi_{ij})\)</span> where the row index <span class="math inline">\(i\)</span> refers to <span class="math inline">\(\symbfit x\)</span> and the column index <span class="math inline">\(j\)</span> to <span class="math inline">\(\symbfit z\)</span>.</p>
+<p><strong>Cross-covariance is linked with</strong> <span class="math inline">\(\symbfit Q_1\)</span>! Thus, choosing cross-covariance determines <span class="math inline">\(\symbfit Q_1\)</span> (and vice versa).</p>
+<p>Note that the above cross-covariance matrix <span class="math inline">\(\symbfit \Phi\)</span> satisfies the condition <span class="math inline">\(\symbfit \Phi\symbfit \Phi^T = \symbfit \Sigma\)</span>.</p>
+<p>The whitening matrix expressed in terms of cross-covariance is <span class="math inline">\(\symbfit W= \symbfit \Phi^T \symbfit \Sigma^{-1}\)</span>, so as required <span class="math inline">\(\symbfit W^T \symbfit W= \symbfit \Sigma^{-1} \symbfit \Phi\symbfit \Phi^T \symbfit \Sigma^{-1}
+=\symbfit \Sigma^{-1}\)</span>. Furthermore, <span class="math inline">\(\symbfit \Phi\)</span> is the <em>inverse</em> of the whitening matrix, as <span class="math inline">\(\symbfit W^{-1} = \left( \symbfit Q_1 \symbfit \Sigma^{-1/2}  \right)^{-1} =
+\symbfit \Sigma^{1/2} \symbfit Q_1^{-1} =
+\symbfit \Sigma^{1/2} \symbfit Q_1^{T}   = \symbfit \Phi\)</span>.</p></li>
+<li><p><strong>Cross-correlation</strong> <span class="math inline">\(\symbfit \Psi= \symbfit P_{\symbfit x\symbfit z}\)</span> between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>: <span class="math display">\[
+\begin{split}
+\symbfit \Psi= \text{Cor}(\symbfit x, \symbfit z) &amp; = \symbfit V^{-1/2} \symbfit \Phi\\
+&amp; =  \symbfit V^{-1/2} \symbfit \Sigma\symbfit W^T \\
+&amp;=\symbfit V^{-1/2} \symbfit \Sigma\symbfit V^{-1/2} \symbfit P^{-1/2} \symbfit Q_2^T\\
+&amp; =  \symbfit P^{1/2}  \symbfit Q_2^T\\
+\end{split}
+\]</span></p>
+<p>In component notation we write <span class="math inline">\(\symbfit \Psi= (\psi_{ij})\)</span> where the row index <span class="math inline">\(i\)</span> refers to <span class="math inline">\(\symbfit x\)</span> and the column index <span class="math inline">\(j\)</span> to <span class="math inline">\(\symbfit z\)</span>.</p>
+<p><strong>Cross-correlation is linked with</strong> <span class="math inline">\(\symbfit Q_2\)</span>! Hence, choosing cross-correlation determines <span class="math inline">\(\symbfit Q_2\)</span> (and vice versa). The whitening matrix expressed in terms of cross-correlation is <span class="math inline">\(\symbfit W= \symbfit \Psi^T \symbfit P^{-1} \symbfit V^{-1/2}\)</span>.</p></li>
+</ol>
+<p>Note that the factorisation of the cross-covariance <span class="math inline">\(\symbfit \Phi=\symbfit \Sigma^{1/2}\symbfit Q_1^T\)</span> and the cross-correlation <span class="math inline">\(\symbfit \Psi=\symbfit P^{1/2}\symbfit Q_2^T\)</span> into the product of a positive definite symmetric matrix and an orthogonal matrix are examples of a <strong>polar decomposition</strong>.</p>
+</section>
+<section id="inverse-whitening-transformation-and-loadings" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="inverse-whitening-transformation-and-loadings"><span class="header-section-number">3.3.5</span> Inverse whitening transformation and loadings</h3>
+<p><strong>Inverse transformation:</strong></p>
+<p>Recall that <span class="math inline">\(\symbfit z= \symbfit W\symbfit x\)</span>. Therefore, the reverse transformation going from the whitened to the original variable is <span class="math inline">\(\symbfit x= \symbfit W^{-1} \symbfit z\)</span>. This can be expressed also in terms of cross-covariance and cross-correlation. With <span class="math inline">\(\symbfit W^{-1} = \symbfit \Phi\)</span> we get <span class="math display">\[
+\symbfit x= \symbfit \Phi\symbfit z\, .
+\]</span> Furthermore, since <span class="math inline">\(\symbfit \Psi= \symbfit V^{-1/2} \symbfit \Phi\)</span> we have <span class="math inline">\(\symbfit W^{-1}  = \symbfit V^{1/2}  \symbfit \Psi\)</span> and hence <span class="math display">\[
+\symbfit V^{-1/2} \symbfit x=   \symbfit \Psi\symbfit z\, .
+\]</span></p>
+<p>The reverse whitening transformation is also known as colouring transformation (the previously discussed inverse Mahalanobis transform is one example).</p>
+<p><strong>Definition of loadings:</strong></p>
+<p><em>Loadings</em> are the coefficients of the linear transformation from the latent variable back to the observed variable. If the variables are standardised to unit variance then the loadings are also called <em>correlation loadings</em>.</p>
+<p>Hence, the cross-covariance matrix <span class="math inline">\(\symbfit \Phi\)</span> plays the role of <em>loadings</em> linking the latent variable <span class="math inline">\(\symbfit z\)</span> with the original <span class="math inline">\(\symbfit x\)</span>. Similarly, the cross-correlation matrix <span class="math inline">\(\symbfit \Psi\)</span> contains the <em>correlation loadings</em> linking the (already standardised) latent variable <span class="math inline">\(\symbfit z\)</span> with the standardised <span class="math inline">\(\symbfit x\)</span>.</p>
+<p>In the convention we use here the rows correspond to the original variables and the columns to the whitened latent variables.</p>
+<p><strong>Multiple correlation coefficients from <span class="math inline">\(\symbfit z\)</span> back to <span class="math inline">\(\symbfit x\)</span>:</strong></p>
+<p>We consider the backtransformation from the whitened variable <span class="math inline">\(\symbfit z\)</span> to the original variables <span class="math inline">\(\symbfit x\)</span> and note that the components of <span class="math inline">\(\symbfit z\)</span> are all uncorrelated witth <span class="math inline">\(\symbfit P_{\symbfit z} = \symbfit I\)</span>. The squared multiple correlation coefficient <span class="math inline">\(\text{MCor}(x_i, \symbfit z)\)</span> between each <span class="math inline">\(x_i\)</span> and all <span class="math inline">\(\symbfit z\)</span> is therefore just the sum of the corresponding squared correlations <span class="math inline">\(\text{Cor}(x_i, z_j)^2\)</span>: <span class="math display">\[
+\begin{split}
+\text{MCor}(x_i, \symbfit z)^2 &amp;=  \symbfit P_{x_i \symbfit z} \symbfit P_{\symbfit z}^{-1} \symbfit P_{\symbfit zx_i} = \\
+             &amp; \sum_{j=1}^d  \text{Cor}(x_i, z_j)^2  \\
+&amp;  = \sum_{j=1}^d \psi_{ij}^2 = 1
+\end{split}
+\]</span> As shown earlier for a general linear one-to-one- transformation (which includes whitening as special case) the squared multiple correlation must be 1 because there is no error. We can confirm this by computing the <strong>row sums of squares</strong> of the cross-correlation matrix <span class="math inline">\(\symbfit \Psi\)</span> in matrix notation <span class="math display">\[
+\begin{split}
+\text{Diag}\left(\symbfit \Psi\symbfit \Psi^T\right) &amp;= \text{Diag}\left(\symbfit P^{1/2} \symbfit Q_2^T \symbfit Q_2\symbfit P^{1/2}\right) \\
+&amp;= \text{Diag}(\symbfit P) \\
+&amp;= (1, \ldots, 1)^T\\
+\end{split}
+\]</span> from which it is clear that the choice of <span class="math inline">\(\symbfit Q_2\)</span> is not relevant.</p>
+<p>Similarly, the <strong>row sums of squares</strong> of the cross-covariance matrix <span class="math inline">\(\symbfit \Phi\)</span> equal the variances of the original variables, regardless of <span class="math inline">\(\symbfit Q_1\)</span>: <span class="math display">\[
+\sum_{j=1}^d \phi_{ij}^2 = \text{Var}(x_i)
+\]</span> or in matrix notation <span class="math display">\[
+\begin{split}
+\text{Diag}\left(\symbfit \Phi\symbfit \Phi^T\right) &amp;= \text{Diag}\left(\symbfit \Sigma^{1/2} \symbfit Q_1^T \symbfit Q_1 \symbfit \Sigma^{1/2}\right) \\
+&amp;= \text{Diag}(\symbfit \Sigma) \\
+&amp;= (\text{Var}(x_1), \ldots, \text{Var}(x_d)^T\\
+\end{split}
+\]</span></p>
+</section>
+<section id="summaries-of-cross-covariance-symbfit-phi-and-cross-correlation-symbfit-psi-resulting-from-whitening-transformations" class="level3" data-number="3.3.6">
+<h3 data-number="3.3.6" class="anchored" data-anchor-id="summaries-of-cross-covariance-symbfit-phi-and-cross-correlation-symbfit-psi-resulting-from-whitening-transformations"><span class="header-section-number">3.3.6</span> Summaries of cross-covariance <span class="math inline">\(\symbfit \Phi\)</span> and cross-correlation <span class="math inline">\(\symbfit \Psi\)</span> resulting from whitening transformations</h3>
+<p><strong>Matrix trace:</strong></p>
+<p>A simply summary of a matrix is its trace. For the cross-covariance matrix <span class="math inline">\(\symbfit \Phi\)</span> the trace is the sum of all covariances between corresponding elements in <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>: <span class="math display">\[
+\text{Tr}(\symbfit \Phi) =  \sum_{i=1}^d \text{Cov}(x_i, z_i) =  \sum_{i=1}^d  \phi_{ii} = \text{Tr}\left(\symbfit \Sigma^{1/2} \symbfit Q_1^T\right)
+\]</span> Likewise, for the cross-correlation matrix <span class="math inline">\(\symbfit \Psi\)</span> the trace is the sum of all correlations between corresponding elements in <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>: <span class="math display">\[
+\text{Tr}(\symbfit \Psi) =  \sum_{i=1}^d \text{Cor}(x_i, z_i) =  \sum_{i=1}^d  \psi_{ii} = \text{Tr}\left(\symbfit P^{1/2} \symbfit Q_2^T\right)
+\]</span></p>
+<p>In both cases the value of the trace depends on <span class="math inline">\(\symbfit Q_1\)</span> and <span class="math inline">\(\symbfit Q_2\)</span>. Interestingly, there is unique choice such that the trace is maximised.</p>
+<p>Specifically, to maximise <span class="math inline">\(\text{Tr}(\symbfit \Phi)\)</span> we conduct the following steps:</p>
+<ol type="i">
+<li>Apply eigendecomposition to <span class="math inline">\(\symbfit \Sigma= \symbfit U\symbfit \Lambda\symbfit U^T\)</span>. Note that <span class="math inline">\(\symbfit \Lambda\)</span> is diagonal with positive eigenvalues <span class="math inline">\(\lambda_i &gt; 0\)</span> as <span class="math inline">\(\symbfit \Sigma\)</span> is positive definite and <span class="math inline">\(\symbfit U\)</span> is an orthogonal matrix.</li>
+<li>The objective function becomes <span class="math display">\[
+\begin{split}
+\text{Tr}(\symbfit \Phi) &amp;= \text{Tr}\left(\symbfit \Sigma^{1/2} \symbfit Q_1^T\right)\\
+&amp;= \text{Tr}\left( \symbfit U\symbfit \Lambda^{1/2} \symbfit U^T \symbfit Q_1^T \right) \\
+&amp;= \text{Tr}\left(\symbfit \Lambda^{1/2} \, \symbfit U^T \symbfit Q_1^T \symbfit U\right) \\
+&amp; = \text{Tr}\left(\symbfit \Lambda^{1/2} \, \symbfit B\right) \\
+&amp; = \sum_{i=1}^d \lambda_i^{1/2} b_{ii}.
+\end{split}
+\]</span> Note that the product of two orthogonal matrices is itself an orthogonal matrix. Therefore, <span class="math inline">\(\symbfit B= \symbfit U^T \symbfit Q_1^T \symbfit U\)</span> is an orthogonal matrix and <span class="math inline">\(\symbfit Q_1 = \symbfit U\symbfit B^T \symbfit U^T\)</span>.</li>
+<li>As <span class="math inline">\(\lambda_i &gt; 0\)</span> and all <span class="math inline">\(b_{ii} \in [-1, 1]\)</span> the objective function is maximised for <span class="math inline">\(b_{ii}=1\)</span>, i.e.&nbsp;for <span class="math inline">\(\symbfit B=\symbfit I\)</span>.</li>
+<li>In turn this implies that <span class="math inline">\(\text{Tr}(\symbfit \Phi)\)</span> is maximised for <span class="math inline">\(\symbfit Q_1=\symbfit I\)</span>.</li>
+</ol>
+<p>Similarly, to maximise <span class="math inline">\(\text{Tr}(\symbfit \Psi)\)</span> we</p>
+<ul>
+<li>decompose <span class="math inline">\(\symbfit P= \symbfit G\symbfit \Theta\symbfit G^T\)</span> and then, following the above,<br>
+</li>
+<li>find that <span class="math inline">\(\text{Tr}(\symbfit \Psi) = \text{Tr}\left(\symbfit \Theta^{1/2} \, \symbfit G^T \symbfit Q_2^T \symbfit G\right)\)</span> is maximised for <span class="math inline">\(\symbfit Q_2=\symbfit I\)</span>.</li>
+</ul>
+<p><strong>Squared Frobenius norm and total variation:</strong></p>
+<p>Another way to summarise and dissect the association between <span class="math inline">\(\symbfit x\)</span> and the corresponding whitened <span class="math inline">\(\symbfit z\)</span> is the squared Frobenius norm and the total variation based on <span class="math inline">\(\symbfit \Phi\)</span> and <span class="math inline">\(\symbfit \Psi\)</span>.</p>
+<p>The squared Frobenius norm (Euclidean) norm is the sum of squared elements of a matrix.</p>
+<p>If we consider the squared Frobenius norm of the cross-covariance matrix, i.e.&nbsp;the sum of squared covariances between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>, <span class="math display">\[
+|| \symbfit \Phi||_F^2 = \sum_{i=1}^d \sum_{j=1}^d \phi_{ij}^2 =  \text{Tr}(\symbfit \Phi^T \symbfit \Phi) = \text{Tr}( \symbfit \Sigma)
+\]</span> we find that this equals the <strong>total variation</strong> of <span class="math inline">\(\symbfit \Sigma\)</span> and that it does not depend on <span class="math inline">\(\symbfit Q_1\)</span>. Likewise, computing the squared Frobenius norm of the cross-correlation matrix, i.e.&nbsp;the sum of squared correlations between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>, <span class="math display">\[
+|| \symbfit \Psi||_F^2  = \sum_{i=1}^d \sum_{j=1}^d \psi_{ij}^2= \text{Tr}\left(\symbfit \Psi^T  \symbfit \Psi\right) =\text{Tr}\left( \symbfit P\right) = d
+\]</span> yields the total variation of <span class="math inline">\(\symbfit P\)</span> which also does not depend on <span class="math inline">\(\symbfit Q_2\)</span>. Note this is because the squared Frobenius norm is invariant against rotations and reflections.</p>
+<p><strong>Proportion of total variation:</strong></p>
+<p>We can now compute the contribution of each whitened component <span class="math inline">\(z_j\)</span> to the total variation. The sum of squared covariances of each <span class="math inline">\(z_j\)</span> with all <span class="math inline">\(x_1, \ldots, x_d\)</span> is <span class="math display">\[
+h_j = \sum^d_{i=1}\text{Cov}(x_i,z_j)^2 = \sum^d_{i=1} \phi_{ij}^2
+\]</span> with <span class="math inline">\(\sum_{j=1}^d h_j = \text{Tr}\left(\symbfit \Sigma\right)\)</span> the total variation. In vector notation the contributions are written as the <strong>column sums of squares</strong> of <span class="math inline">\(\symbfit \Phi\)</span> <span class="math display">\[
+\symbfit h= (h_1,\ldots,h_d)^T = \text{Diag}(\symbfit \Phi^T\symbfit \Phi) = \text{Diag}\left(\symbfit Q_1\symbfit \Sigma\symbfit Q_1^T\right)\,.
+\]</span> The relative contribution of <span class="math inline">\(z_j\)</span> versus the total variation is <span class="math display">\[
+\frac{ h_j }{\text{Tr}\left( \symbfit \Sigma\right)} \,.
+\]</span> Crucially, in contrast to total variation, the contributions <span class="math inline">\(h_j\)</span> depend on the choice of <span class="math inline">\(\symbfit Q_1\)</span>.</p>
+<p>Similarly, the sum of squared correlations of each <span class="math inline">\(z_j\)</span> with all <span class="math inline">\(x_1, \ldots, x_d\)</span> is <span class="math display">\[
+k_j = \sum^d_{i=1}\text{Cor}(x_i,z_j)^2 = \sum^d_{i=1} \psi_{ij}^2
+\]</span> with <span class="math inline">\(\sum_{i=j}^d k_j = \text{Tr}( \symbfit P) = d\)</span>. In vector notation this correspoinds to the <strong>column sums of squares</strong> of <span class="math inline">\(\symbfit \Psi\)</span> <span class="math display">\[
+\symbfit k= (k_1,\ldots,k_d)^T = \text{Diag}\left(\symbfit \Psi^T\symbfit \Psi\right)=\text{Diag}\left(\symbfit Q_2\symbfit P\symbfit Q_2^T\right)\,.
+\]</span> The relative contribution of <span class="math inline">\(z_j\)</span> with regard to the total variation of the correlation <span class="math inline">\(\symbfit P\)</span> is <span class="math display">\[
+\frac{ k_j  }{\text{Tr}( \symbfit P)} = \frac{ k_j  }{d} \,.
+\]</span> As above, the contributions <span class="math inline">\(k_j\)</span> depend on the choice of <span class="math inline">\(\symbfit Q_2\)</span>.</p>
+<p><strong>Maximising the proportion of total variation:</strong></p>
+<p>Interestingly, it is possible to choose a unique whitening transformation such that the contributions are maximised, i.e.&nbsp;that the sum of the <span class="math inline">\(m\)</span> largest contributions of <span class="math inline">\(h_j\)</span> and <span class="math inline">\(k_j\)</span> is as large as possible.</p>
+<p>Specifically, we note that <span class="math inline">\(\symbfit \Phi^T\symbfit \Phi\)</span> and <span class="math inline">\(\symbfit \Psi^T\symbfit \Psi\)</span> are symmetric real matrices. For these type of matrices we know from Schur’s theorem (1923) that the eigenvalues <span class="math inline">\(\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_d\)</span> <strong>majorise</strong> the diagonal elements <span class="math inline">\(p_1 \geq p_2 \geq \ldots \geq p_d\)</span>. More precisely, <span class="math display">\[
+\sum_{i=1}^m \lambda_i \geq \sum_{i=1}^m p_i \, ,
+\]</span> i.e.&nbsp;the sum of the largest <span class="math inline">\(m\)</span> eigenvalues is larger than or equal to the sum of the <span class="math inline">\(m\)</span> largest diagonal elements. The maximum (and equality) is only achieved if the matrix is diagonal, as in this case the diagonal elements are equal to the eigenvalues.</p>
+<p>Therefore, the optimal solution to problem of maximising the relative contributions is obtained by computing the eigendecompositions <span class="math inline">\(\symbfit \Sigma= \symbfit U\symbfit \Lambda\symbfit U^T\)</span> and <span class="math inline">\(\symbfit P= \symbfit G\symbfit \Theta\symbfit G^T\)</span> and diagonalise <span class="math inline">\(\symbfit \Phi^T\symbfit \Phi=\symbfit Q_1\symbfit \Sigma\symbfit Q_1^T\)</span> and <span class="math inline">\(\symbfit \Psi^T \symbfit \Psi=\symbfit Q_2\symbfit P\symbfit Q_2^T\)</span> by setting <span class="math inline">\(\symbfit Q_1= \symbfit U^T\)</span> and <span class="math inline">\(\symbfit Q_2= \symbfit G^T\)</span>, respectively. This yields for the maximised contributions <span class="math display">\[
+\symbfit h= \text{Diag}\left(\symbfit \Lambda\right)= (\lambda_1, \ldots, \lambda_d)^T
+\]</span> and <span class="math display">\[
+\symbfit k= \text{Diag}\left(\symbfit \Theta\right) = (\theta_1, \ldots, \theta_d)^T
+\]</span> with eigenvalues <span class="math inline">\(\lambda_i\)</span> and <span class="math inline">\(\theta_i\)</span> arranged in decreasing order.</p>
+</section>
+</section>
+<section id="natural-whitening-procedures" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="natural-whitening-procedures"><span class="header-section-number">3.4</span> Natural whitening procedures</h2>
+<p>We now introduce several strategies (maximise correlation between individual components, maximise compression, structural constraints) to select an optimal whitening procedure.</p>
+<p>Specifically, we discuss the following whitening transformations:</p>
+<ul>
+<li><strong>Mahalanobis</strong> whitening, also known as <strong>ZCA</strong> (zero-phase component analysis) whitening in machine learning (based on covariance)</li>
+<li><strong>ZCA-cor</strong> whitening (based on correlation)</li>
+<li><strong>PCA</strong> whitening (based on covariance)</li>
+<li><strong>PCA-cor</strong> whitening (based on correlation)</li>
+<li><strong>Cholesky</strong> whitening</li>
+</ul>
+<p>Thus, in the following we consider three main types (ZCA, PCA, Cholesky) of whitening.</p>
+<p>In the following <span class="math inline">\(\symbfit x_c = \symbfit x-\symbfit \mu_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit z_c = \symbfit z-\symbfit \mu_{\symbfit z}\)</span> denote the mean-centered variables.</p>
+<section id="zca-whitening" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="zca-whitening"><span class="header-section-number">3.4.1</span> ZCA whitening</h3>
+<p><em>Aim</em>: remove correlations and standardise but otherwise make sure that the whitened vector <span class="math inline">\(\symbfit z\)</span> does not differ too much from the original vector <span class="math inline">\(\symbfit x\)</span>. Specifically, each latent component <span class="math inline">\(z_i\)</span> should be as close as as possible to the corresponding original variable <span class="math inline">\(x_i\)</span>: <span class="math display">\[
+\begin{array}{cc}
+z_1\leftrightarrow x_1 \\
+z_2\leftrightarrow x_2\\
+z_3\leftrightarrow x_3 \\
+\ldots\\
+z_d\leftrightarrow x_d \\
+\end{array}
+\]</span> One possible way to implement this is to compute the expected squared difference between the two centered random vectors <span class="math inline">\(\symbfit z_c\)</span> and <span class="math inline">\(\symbfit x_c\)</span>.</p>
+<p><em>ZCA objective function</em>: <strong>minimise</strong> <span class="math inline">\(\text{E}\left( || \symbfit x_c - \symbfit z_c ||^2_F   \right)\)</span> to find an optimal whitening procedure.</p>
+<p>The ZCA objective function can be simplified as follows: <span class="math display">\[
+\begin{split}
+\text{E}\left( || \symbfit x_c-\symbfit z_c ||^2_F   \right)&amp;=\text{E}\left( || \symbfit x_c ||^2_F   \right)  -2 \text{E}\left(  \text{Tr}\left( \symbfit x_c \symbfit z_c^T \right) \right)  + \text{E}\left( || \symbfit z_c ||^2_F   \right) \\
+&amp; = \text{Tr}(  \text{E}( \symbfit x_c \symbfit x_c^T ) )  - 2 \text{Tr}( \text{E}(  \symbfit x_c \symbfit z_c^T ) ) + \text{Tr}( \text{E}( \symbfit z_c \symbfit z_c^T ) )
+   \\
+&amp; = \text{Tr}( \text{Var}(\symbfit x) ) - 2 \text{Tr}( \text{Cov}(\symbfit x, \symbfit z) ) +  \text{Tr}( \text{Var}(\symbfit z) )  \\
+&amp; = \text{Tr}(\symbfit \Sigma) - 2\text{Tr}(\symbfit \Phi)+ d \\
+\end{split}
+\]</span> The same objective function can also be obtained by putting a diagonal constraint on the cross-covariance <span class="math inline">\(\symbfit \Phi\)</span>. Specifically, we are looking for the <span class="math inline">\(\symbfit \Phi\)</span> that is closest to the diagonal matrix <span class="math inline">\(\symbfit I\)</span> by <strong>minimising</strong> <span class="math display">\[
+\begin{split}
+|| \symbfit \Phi- \symbfit I||^2_F &amp;= || \symbfit \Phi||^2_F  - 2 \text{Tr}(\symbfit \Phi^T \symbfit I)  + || \symbfit I||^2_F \\
+&amp;= \text{Tr}(\symbfit \Sigma) - 2 \text{Tr}(\symbfit \Phi) + d \\
+\end{split}
+\]</span> This will force the off-diagonal elements of <span class="math inline">\(\symbfit \Phi\)</span> to be close to zero and thus leads to sparsity in the cross-covariance matrix.</p>
+<p>The only term in the above that depends on the whitening transformation is <span class="math inline">\(-2 \text{Tr}(\symbfit \Phi)\)</span> as <span class="math inline">\(\symbfit \Phi\)</span> is a function of <span class="math inline">\(\symbfit Q_1\)</span>. Therefore we can use the following alternative objective:</p>
+<p><em>ZCA equivalent objective</em>: <strong>maximise</strong> <span class="math inline">\(\text{Tr}(\symbfit \Phi) = \text{Tr}(\symbfit \Sigma^{1/2} \symbfit Q_1^T)\)</span> to find the optimal <span class="math inline">\(\symbfit Q_1\)</span></p>
+<p><em>Solution</em>:</p>
+<p>From the earlier discussion we know that the optimal matrix is <span class="math display">\[
+\symbfit Q_1^{\text{ZCA}}=\symbfit I
+\]</span> The corresponding whitening matrix for ZCA is therefore <span class="math display">\[
+\symbfit W^{\text{ZCA}} = \symbfit \Sigma^{-1/2}
+\]</span> and the cross-covariance matrix is <span class="math display">\[
+\symbfit \Phi^{\text{ZCA}} = \symbfit \Sigma^{1/2}
+\]</span> and the cross-correlation matrix <span class="math display">\[
+\symbfit \Psi^{\text{ZCA}} = \symbfit V^{-1/2} \symbfit \Sigma^{1/2}
+\]</span></p>
+<p>Note that <span class="math inline">\(\symbfit \Sigma^{1/2}\)</span> is a symmetric positive definite matrix, hence its diagonal elements are all positive. As a result, the diagonals of <span class="math inline">\(\symbfit \Phi^{\text{ZCA}}\)</span> and <span class="math inline">\(\symbfit \Psi^{\text{ZCA}}\)</span> are positive, i.e.&nbsp;<span class="math inline">\(\text{Cov}(x_i, z_i) &gt; 0\)</span> and <span class="math inline">\(\text{Cor}(x_i, z_i) &gt; 0\)</span>. Hence, for ZCA two corresponding components <span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span> are always positively correlated!</p>
+<p><em>Proportion of total variation</em>:</p>
+<p>For ZCA with <span class="math inline">\(\symbfit Q_1=\symbfit I\)</span> we find that <span class="math inline">\(\symbfit h=\text{Diag}(\symbfit \Sigma) = \sum_{j=1}^d \text{Var}(x_j)\)</span> with <span class="math inline">\(h_i=\text{Var}(x_i)\)</span> hence for ZCA the proportion of total variation contributed by the latent component <span class="math inline">\(z_i\)</span> is the ratio <span class="math inline">\(\frac{\text{Var}(x_i)}{\sum_{j=1}^d \text{Var}(x_j)}\)</span>.</p>
+<p><em>Summary</em>:</p>
+<ul>
+<li>ZCA/Mahalanobis transform is the unique transformation that minimises the expected total squared component-wise difference between <span class="math inline">\(\symbfit x_c\)</span> and <span class="math inline">\(\symbfit z_c\)</span>.</li>
+<li>In ZCA corresponding components in the whitened and original variables are always positively correlated. This facilitates the interpretation of the whitened variables.</li>
+<li>Use ZCA aka Mahalanobis whitening if you want to “just” remove correlations.</li>
+</ul>
+</section>
+<section id="zca-cor-whitening" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="zca-cor-whitening"><span class="header-section-number">3.4.2</span> ZCA-Cor whitening</h3>
+<p><em>Aim</em>: same as above but remove scale in <span class="math inline">\(\symbfit x\)</span> first before comparing to <span class="math inline">\(\symbfit z\)</span>.</p>
+<p><em>ZCA-cor objective function</em>: <strong>minimise</strong> <span class="math inline">\(\text{E}\left( || \symbfit V^{-1/2} \symbfit x_c -\symbfit z_c ||^2_F \right)\)</span> to find an optimal whitening procedure.</p>
+<p>This can be simplified as follows: <span class="math display">\[
+\begin{split}
+\text{E}\left( || \symbfit V^{-1/2} \symbfit x_c -\symbfit z_c||^2_F   \right)&amp;=\text{E}\left( || \symbfit V^{-1/2} \symbfit x_c ||^2_F   \right)  -2 \text{E}\left(  \text{Tr}\left( \symbfit V^{-1/2} \symbfit x_c \symbfit z_c^T  \right) \right) +  \text{E}\left( || \symbfit z_c ||^2_F   \right)\\
+&amp; = \text{Tr}(  \text{E}(\symbfit V^{-1/2} \symbfit x_c \symbfit x_c^T \symbfit V^{-1/2}) )  
+- 2 \text{Tr}( \text{E}( \symbfit V^{-1/2} \symbfit x_c \symbfit z_c^T  ) )
++\text{Tr}( \text{E}( \symbfit z_c \symbfit z_c^T ) )
+  \\
+&amp; = \text{Tr}(  \text{Cor}(\symbfit x, \symbfit x) ) - 2 \text{Tr}( \text{Cor}(\symbfit x, \symbfit z) ) + \text{Tr}( \text{Var}(\symbfit z) )   \\
+&amp; = d - 2\text{Tr}(\symbfit \Psi)+ d \\
+&amp; = 2d - 2\text{Tr}(\symbfit \Psi)
+\end{split}
+\]</span> The same objective function can also be obtained by putting a diagonal constraint on the cross-correlation <span class="math inline">\(\symbfit \Psi\)</span>. Specifically, we are looking for the <span class="math inline">\(\symbfit \Psi\)</span> that is closest to the diagonal matrix <span class="math inline">\(\symbfit I\)</span> by <strong>minimising</strong> <span class="math display">\[
+\begin{split}
+|| \symbfit \Psi- \symbfit I||^2_F &amp;= || \symbfit \Psi||^2_F  - 2 \text{Tr}(\symbfit \Psi^T \symbfit I)  + || \symbfit I||^2_F \\
+&amp;= d - 2 \text{Tr}(\symbfit \Psi) + d \\
+&amp;= 2 d - 2 \text{Tr}(\symbfit \Psi) \\
+\end{split}
+\]</span> This will force the off-diagonal elements of <span class="math inline">\(\symbfit \Psi\)</span> to be close to zero and thus leads to sparsity in the cross-correlation matrix.</p>
+<p>The only term in the above that depends on the whitening transformation is <span class="math inline">\(-2 \text{Tr}(\symbfit \Psi)\)</span> as <span class="math inline">\(\symbfit \Psi\)</span> is a function of <span class="math inline">\(\symbfit Q_2\)</span>. Thus we can use the following alternative objective instead:</p>
+<p><em>ZCA-cor equivalent objective</em>: <strong>maximise</strong> <span class="math inline">\(\text{Tr}(\symbfit \Psi)=\text{Tr}(\symbfit P^{1/2} \symbfit Q_2^T)\)</span> to find optimal <span class="math inline">\(\symbfit Q_2\)</span></p>
+<p><em>Solution</em>: same as above for ZCA but using correlation instead of covariance:</p>
+<p>From the earlier discussion we know that the optimal matrix is <span class="math display">\[
+\symbfit Q_2^{\text{ZCA-Cor}}=\symbfit I
+\]</span> The corresponding whitening matrix for ZCA-cor is therefore <span class="math display">\[
+\symbfit W^{\text{ZCA-Cor}} = \symbfit P^{-1/2}\symbfit V^{-1/2}
+\]</span> and the cross-covariance matrix is <span class="math display">\[
+\symbfit \Phi^{\text{ZCA-Cor}} = \symbfit V^{1/2} \symbfit P^{1/2}
+\]</span> and the cross-correlation matrix is <span class="math display">\[
+\symbfit \Psi^{\text{ZCA-Cor}} = \symbfit P^{1/2}
+\]</span></p>
+<p>For the ZCA-cor transformation we also have <span class="math inline">\(\text{Cov}(x_i, z_i) &gt; 0\)</span> and <span class="math inline">\(\text{Cor}(x_i, z_i) &gt; 0\)</span> so that two corresponding components <span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span> are always positively correlated!</p>
+<p><em>Proportion of total variation</em>:</p>
+<p>For ZCA-cor with <span class="math inline">\(\symbfit Q_2=\symbfit I\)</span> we find that <span class="math inline">\(\symbfit k=\text{Diag}(\symbfit P) = d\)</span> with all <span class="math inline">\(k_i =1\)</span>. Thus, in ZCA-cor each whitened component <span class="math inline">\(z_i\)</span> contributes equally to the total variation <span class="math inline">\(\text{Tr}(\symbfit P) =d\)</span>, with relative proportion <span class="math inline">\(\frac{1}{d}\)</span>.</p>
+<p><em>Summary</em>:</p>
+<ul>
+<li>ZCA-cor whitening is the unique whitening transformation maximising the total correlation between corresponding elements in <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit z\)</span>.</li>
+<li>ZCA-cor leads to interpretable <span class="math inline">\(\symbfit z\)</span> because each individual element in <span class="math inline">\(\symbfit z\)</span> is (typically strongly) positively correlated with the corresponding element in the original <span class="math inline">\(\symbfit x\)</span>.</li>
+<li>As ZCA-cor is explicitly constructed to maximise the total pairwise correlations it achieves higher total correlation than ZCA.</li>
+<li>If <span class="math inline">\(\symbfit x\)</span> is standardised to <span class="math inline">\(\text{Var}(x_i)=1\)</span> then ZCA and ZCA-cor are identical.</li>
+</ul>
+</section>
+<section id="pca-whitening" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="pca-whitening"><span class="header-section-number">3.4.3</span> PCA whitening</h3>
+<p><em>Aim</em>: remove correlations and at the same time compress information into a few latent variables. Specifically, we would like that the first latent component <span class="math inline">\(z_1\)</span> is maximally linked with all variables in <span class="math inline">\(\symbfit x\)</span>, followed by the second component <span class="math inline">\(z_2\)</span> and so on:</p>
+<p><span class="math display">\[
+\begin{array}{c}
+z_1 \rightarrow   x_1, x_2, \ldots, x_d \\
+z_2 \rightarrow   x_1, x_2, \ldots, x_d \\
+\ldots\\
+z_d \rightarrow   x_1, x_2, \ldots, x_d \\
+\end{array}
+\]</span> One way to measure the total association of the latent component <span class="math inline">\(z_j\)</span> with all the original <span class="math inline">\(x_1, \ldots, x_d\)</span> is the sum of the corresponding squared covariances <span class="math display">\[
+h_j = \sum^d_{i=1}\text{Cov}(x_i,z_j)^2 = \sum^d_{i=1} \phi_{ij}^2
+\]</span> or equivalently the <strong>column sum of squares</strong> of <span class="math inline">\(\symbfit \Phi\)</span> <span class="math display">\[
+\symbfit h= (h_1,\ldots,h_d)^T = \text{Diag}(\symbfit \Phi^T\symbfit \Phi) = \text{Diag}\left(\symbfit Q_1\symbfit \Sigma\symbfit Q_1^T\right)
+\]</span> Each <span class="math inline">\(h_j\)</span> is the contribution of <span class="math inline">\(z_j\)</span> to <span class="math inline">\(\text{Tr}\left( \symbfit Q_1 \symbfit \Sigma\symbfit Q_1^T  \right)= \text{Tr}(\symbfit \Sigma)\)</span> i.e.&nbsp;to the total variation based on <span class="math inline">\(\symbfit \Sigma\)</span>. As <span class="math inline">\(\text{Tr}(\symbfit \Sigma)\)</span> is constant this implies that there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(h_j\)</span>.</p>
+<p>In PCA-whitening we wish to concentrate most of the contributions to the total variation based on <span class="math inline">\(\symbfit \Sigma\)</span> in a small number of latent components.</p>
+<p><em>PCA whitening objective function</em>: find an optimal optimal <span class="math inline">\(\symbfit Q_1\)</span> so that the resulting set <span class="math inline">\(h_1 \geq h_2 \ldots \geq h_d\)</span> in <span class="math inline">\(\symbfit h= \text{Diag}\left(\symbfit Q_1\symbfit \Sigma\symbfit Q_1^T\right)\)</span> majorizes any other set of relative contributions.</p>
+<p><em>Solution:</em></p>
+<p>Following the earlier discussion we apply Schur’s theorem and find the optimal solution by diagonalising <span class="math inline">\(\symbfit \Phi^T\symbfit \Phi\)</span> through eigendecomposition of <span class="math inline">\(\symbfit \Sigma= \symbfit U\symbfit \Lambda\symbfit U^T\)</span>. Hence, the optimal value for the <span class="math inline">\(\symbfit Q_1\)</span> matrix is <span class="math display">\[
+\symbfit Q_1^{\text{PCA}}=\symbfit U^T
+\]</span> However, recall that <span class="math inline">\(\symbfit U\)</span> is not uniquely defined — you are free to change the columns signs. The corresponding whitening matrix is <span class="math display">\[
+\symbfit W^{\text{PCA}} = \symbfit U^T\symbfit \Sigma^{-1/2}=\symbfit \Lambda^{-1/2}\symbfit U^T
+\]</span><br>
+and the cross-covariance matrix is <span class="math display">\[
+\symbfit \Phi^{\text{PCA}} = \symbfit U\symbfit \Lambda^{1/2}
+\]</span> and the cross-correlation matrix is <span class="math display">\[
+\symbfit \Psi^{\text{PCA}} = \symbfit V^{-1/2} \symbfit U\symbfit \Lambda^{1/2}
+\]</span></p>
+<p><em>Identifiability:</em></p>
+<p>Note that all of the above (i.e.&nbsp;<span class="math inline">\(\symbfit Q_1^{\text{PCA}}, \symbfit W^{\text{PCA}}, \symbfit \Phi^{\text{PCA}}, \symbfit \Psi^{\text{PCA}}\)</span>) is not unique due to the sign ambiguity in the columns of <span class="math inline">\(\symbfit U\)</span>.</p>
+<p>Therefore, for identifiability reasons we may wish to impose a further constraint on <span class="math inline">\(\symbfit Q_1^{\text{PCA}}\)</span> or equivalently <span class="math inline">\(\symbfit \Phi^{\text{PCA}}\)</span>. A useful condition is to require (for the given ordering of the original variables!) that <span class="math inline">\(\symbfit Q_1^{\text{PCA}}\)</span> has a positive diagonal or equivalently that <span class="math inline">\(\symbfit \Phi^{\text{PCA}}\)</span> has a positive diagonal. This implies that <span class="math inline">\(\text{Diag}(\symbfit U) &gt; 0\)</span> and <span class="math inline">\(\text{Diag}(\symbfit \Psi^{\text{PCA}}) &gt; 0\)</span>, hence all pairs <span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span> are positively correlated.</p>
+<p>It is particularly important to pay attention to the sign ambiguity when comparing different computer implementations of PCA whitening (and the related PCA approach).</p>
+<p>Note that the actual objective of PCA whitening <span class="math inline">\(\text{Diag}(\symbfit \Phi^T\symbfit \Phi)\)</span> is not affected by the sign ambiguity since the column signs of <span class="math inline">\(\symbfit \Phi\)</span> do not matter.</p>
+<p><em>Proportion of total variation:</em></p>
+<p>In PCA whitening the contribution <span class="math inline">\(h_i^{\text{PCA}}\)</span> of each latent component <span class="math inline">\(z_i\)</span> to the total variation based on the covariance <span class="math inline">\(\text{Tr}(\symbfit \Sigma) = \sum_{j=1}^d \lambda_j\)</span> is <span class="math inline">\(h_i^{\text{PCA}} = \lambda_i\)</span>. The fraction <span class="math inline">\(\frac{\lambda_i}{\sum^d_{j=1}\lambda_j}\)</span> is the relative contribution of each element in <span class="math inline">\(\symbfit z\)</span> to explain the total variation.</p>
+<p>Thus, low ranking components <span class="math inline">\(z_i\)</span> with small <span class="math inline">\(h_i^{\text{PCA}}=\lambda_i\)</span> may be discarded. In this way PCA whitening achieves both compression and dimension reduction.</p>
+<p><em>Summary:</em></p>
+<ul>
+<li>PCA whitening is a whitening transformation that maximises compression with the sum of squared cross-covariances as underlying optimality criterion.</li>
+<li>There are sign ambiguities in the PCA whitened variables which are inherited from the sign ambiguities in eigenvectors.</li>
+<li>If a positive-diagonal condition on the orthogonal matrices is imposed then these sign ambiguities are fully resolved and corresponding components <span class="math inline">\(z_i\)</span> and <span class="math inline">\(x_i\)</span> are always positively correlated.</li>
+</ul>
+</section>
+<section id="pca-cor-whitening" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="pca-cor-whitening"><span class="header-section-number">3.4.4</span> PCA-cor whitening</h3>
+<p><em>Aim</em>: same as for PCA whitening but remove scale in <span class="math inline">\(\symbfit x\)</span> first. This means we use squared correlations rather than squared covariances to measure compression, i.e.<br>
+<span class="math display">\[
+k_j = \sum^d_{i=1}\text{Cor}(x_i, z_j)^2 = \sum^d_{i=1} \psi_{ij}^2
+\]</span> or in vector notation the <strong>column sum of squares</strong> of <span class="math inline">\(\symbfit \Psi\)</span> <span class="math display">\[
+\symbfit k= (k_1,\ldots,k_d)^T = \text{Diag}\left(\symbfit \Psi^T\symbfit \Psi\right)=\text{Diag}\left(\symbfit Q_2\symbfit P\symbfit Q_2^T\right)
+\]</span> Each <span class="math inline">\(k_j\)</span> is the contribution of <span class="math inline">\(z_j\)</span> to <span class="math inline">\(\text{Tr}\left( \symbfit Q_2 \symbfit P\symbfit Q_2^T  \right)= \text{Tr}(\symbfit P) = d\)</span> i.e.&nbsp;the total variation based on <span class="math inline">\(\symbfit P\)</span>. As <span class="math inline">\(\text{Tr}(\symbfit P)=d\)</span> is constant this implies that there are only <span class="math inline">\(d-1\)</span> independent <span class="math inline">\(k_j\)</span>.</p>
+<p>In PCA-cor-whitening we wish to concentrate most of the contributions to the total variation based on <span class="math inline">\(\symbfit P\)</span> in a small number of latent components.</p>
+<p><em>PCA-cor whitening objective function</em>: find an optimal optimal <span class="math inline">\(\symbfit Q_2\)</span> so that the resulting set <span class="math inline">\(k_1 \geq k_2 \ldots \geq k_d\)</span> in <span class="math inline">\(\symbfit k= \text{Diag}\left(\symbfit Q_2\symbfit P\symbfit Q_2^T\right)\)</span> majorizes any other set of relative contributions.</p>
+<p><em>Solution:</em></p>
+<p>Following the earlier discussion we apply Schur’s theorem and find the optimal solution by diagonalising <span class="math inline">\(\symbfit \Psi^T\symbfit \Psi\)</span> through eigendecomposition of <span class="math inline">\(\symbfit P= \symbfit G\symbfit \Theta\symbfit G^T\)</span>. Hence, the optimal value for the <span class="math inline">\(\symbfit Q_2\)</span> matrix is <span class="math display">\[
+\symbfit Q_2^{\text{PCA-Cor}}=\symbfit G^T
+\]</span> Again <span class="math inline">\(\symbfit G\)</span> is not uniquely defined — you are free to change signs of the columns. The corresponding whitening matrix is <span class="math display">\[
+\symbfit Q_2^{\text{PCA-Cor}}=\symbfit G^T
+\]</span> The corresponding whitening matrix is<br>
+<span class="math display">\[
+\symbfit W^{\text{PCA-Cor}} = \symbfit \Theta^{-1/2} \symbfit G^T \symbfit V^{-1/2}
+\]</span><br>
+and the cross-covariance matrix is <span class="math display">\[
+\symbfit \Phi^{\text{PCA-Cor}} = \symbfit V^{1/2} \symbfit G\symbfit \Theta^{1/2}
+\]</span> and the cross-correlation matrix is <span class="math display">\[
+\symbfit \Psi^{\text{PCA-Cor}} = \symbfit G\symbfit \Theta^{1/2}
+\]</span></p>
+<p><em>Identifiability:</em></p>
+<p>As with PCA whitening, there are sign ambiguities in the above because the column signs of <span class="math inline">\(\symbfit G\)</span> can be freely chosen. For identifiability we may wish to impose further constraints on <span class="math inline">\(\symbfit Q_2^{\text{PCA-Cor}}\)</span> or equivalently on <span class="math inline">\(\symbfit \Psi^{\text{PCA-Cor}}\)</span>. A useful condition is to require (for the given ordering of the original variables!) that the diagonal elements of <span class="math inline">\(\symbfit Q_2^{\text{PCA-Cor}}\)</span> are all positive or equivalently that <span class="math inline">\(\symbfit \Psi^{\text{PCA-Cor}}\)</span> has a positive diagonal. This implies that <span class="math inline">\(\text{Diag}(\symbfit G) &gt; 0\)</span> and <span class="math inline">\(\text{Diag}(\symbfit \Phi^{\text{PCA-Cor}}) &gt; 0\)</span>.</p>
+<p>Note that the actual objective of PCA-cor whitening <span class="math inline">\(\text{Diag}(\symbfit \Psi^T\symbfit \Psi)\)</span> is not affected by the sign ambiguity since the column signs of <span class="math inline">\(\symbfit \Psi\)</span> do not matter.</p>
+<p><em>Proportion of total variation:</em></p>
+<p>In PCA-cor whitening the contribution <span class="math inline">\(k_i^{\text{PCA-Cor}}\)</span> of each latent component <span class="math inline">\(z_i\)</span> to the total variation based on the correlation <span class="math inline">\(\text{Tr}(\symbfit P) = d\)</span> is <span class="math inline">\(k_i^{\text{PCA-Cor}} = \theta_i\)</span>. The fraction <span class="math inline">\(\frac{\theta_i}{d}\)</span> is the relative contribution of each element in <span class="math inline">\(\symbfit z\)</span> to explain the total variation.</p>
+<p><em>Summary:</em></p>
+<ul>
+<li>PCA-cor whitening is a whitening transformation that maximises compression with the sum of squared cross-correlations as underlying optimality criterion.</li>
+<li>There are sign ambiguities in the PCA-cor whitened variables which are inherited from the sign ambiguities in the eigenvectors.</li>
+<li>If a positive-diagonal condition on the orthogonal matrices is imposed then these sign ambiguities are fully resolved and corresponding components <span class="math inline">\(z_i\)</span> and <span class="math inline">\(x_i\)</span> are always positively correlated.</li>
+<li>If <span class="math inline">\(\symbfit x\)</span> is standardised to <span class="math inline">\(\text{Var}(x_i)=1\)</span>, then PCA and PCA-cor whitening are identical.</li>
+</ul>
+</section>
+<section id="cholesky-whitening" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="cholesky-whitening"><span class="header-section-number">3.4.5</span> Cholesky whitening</h3>
+<p><strong>Cholesky matrix decomposition:</strong></p>
+<p>The Cholesky decomposition of a square matrix <span class="math inline">\(\symbfit A= \symbfit L\symbfit L^T\)</span> requires a positive definite <span class="math inline">\(\symbfit A\)</span> and is unique. <span class="math inline">\(\symbfit L\)</span> is a lower triangular matrix with positive diagonal elements. Its inverse <span class="math inline">\(\symbfit L^{-1}\)</span> is also lower triangular with positive diagonal elements. If <span class="math inline">\(\symbfit D\)</span> is a diagonal matrix with positive elements then <span class="math inline">\(\symbfit D\symbfit L\)</span> is also a lower triangular matrix with a positive diagonal and the Cholesky factor for the matrix <span class="math inline">\(\symbfit D\symbfit A\symbfit D\)</span>.</p>
+<p><strong>Aim in Cholesky whitening:</strong></p>
+<p>Find a whitening transformation such that the cross-covariance <span class="math inline">\(\symbfit \Phi\)</span> and cross-correlation <span class="math inline">\(\symbfit \Psi\)</span> have lower triangular structure. Specifically, we wish that the the first whitened variable <span class="math inline">\(z_1\)</span> is linked to all original variables <span class="math inline">\(x_1, \ldots, x_d\)</span>, the second latent variable <span class="math inline">\(z_2\)</span> is linked to <span class="math inline">\(x_2, \ldots, x_d\)</span>, and so on, and the last variable <span class="math inline">\(z_d\)</span> is linked only to <span class="math inline">\(x_d\)</span>. <span class="math display">\[
+\begin{array}{cc}
+z_1 \rightarrow &amp;  x_1, x_2, x_3, \ldots, x_d \\
+z_2 \rightarrow &amp;  x_2, x_3, \ldots, x_d \\
+z_3 \rightarrow &amp;  x_3, \ldots, x_d \\
+\ldots\\
+z_d \rightarrow &amp; x_d \\
+\end{array}
+\]</span> We also assume that <span class="math inline">\(\text{Cor}(x_i, z_i)&gt; 0\)</span>, i.e.&nbsp;that the cross-correlations between corresponding pairs of original and whitened variables are positive. This requirement of a positive diagonal <span class="math inline">\(\symbfit \Psi\)</span> ensures the uniqueness of the whitening transformation (similar as in PCA whitening above).</p>
+<p>The Cholesky whitening procedure can be viewed as a middle ground between ZCA whitening and PCA whitening.</p>
+<p><em>Solution</em>: In order to find such a whitening transformation we use the Cholesky decomposition and apply it to the covariance matrix <span class="math inline">\(\symbfit \Sigma= \symbfit L\symbfit L^T\)</span></p>
+<p>The resulting whitening matrix is <span class="math display">\[
+\symbfit W^{\text{Chol}}=\symbfit L^{-1}
+\]</span><br>
+By construction, <span class="math inline">\(\symbfit W^{\text{Chol}}\)</span> is a lower triangular matrix with positive diagonal. The whitening constraint is satisfied as <span class="math inline">\((\symbfit W^{\text{Chol}})^T\symbfit W^{\text{Chol}} = (\symbfit L^{-1})^T \symbfit L^{-1} = (\symbfit L^T)^{-1}  \symbfit L^{-1} = (\symbfit L\symbfit L^T)^{-1} = \symbfit \Sigma^{-1}\)</span>.</p>
+<p>The cross-covariance matrix is the inverse of the whitening matrix <span class="math display">\[
+\symbfit \Phi^{\text{Chol}} = \symbfit L
+\]</span> and the cross-correlation matrix is <span class="math display">\[
+\symbfit \Psi^{\text{Chol}} = \symbfit V^{-1/2} \symbfit L
+\]</span> Both <span class="math inline">\(\symbfit \Phi^{\text{Chol}}\)</span> and <span class="math inline">\(\symbfit \Psi^{\text{Chol}}\)</span> are lower triangular matrices with positive diagonal elements. Hence two corresponding components <span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span> are always positively correlated!</p>
+<p>Finally, the corresponding orthogonal matrices are <span class="math display">\[
+\symbfit Q_1^{\text{Chol}}  =  \symbfit \Phi^T \symbfit \Sigma^{-1/2} =   \symbfit L^T \symbfit \Sigma^{-1/2}
+\]</span> and <span class="math display">\[
+\symbfit Q_2^{\text{Chol}} =  \symbfit \Psi^T \symbfit P^{-1/2} =  \symbfit L^T \symbfit V^{-1/2} \symbfit P^{-1/2}
+\]</span></p>
+<p><em>Application to correlation instead of covariance</em>:</p>
+<p>We may also apply the Cholesky decomposition to the correlation rather than the covariance matrix. However, unlike for ZCA and PCA this does <em>not</em> lead to a different whitening transform:</p>
+<p>Let’s denote the Cholesky composition of the correlation matrix by <span class="math inline">\(\symbfit P= \symbfit L_P \symbfit L_P^T\)</span>. Then the corresponding whitening matrix is <span class="math inline">\(\symbfit W^{\text{Chol}}_P= \symbfit L_P^{-1} \symbfit V^{-1/2}\)</span>. As <span class="math inline">\(\symbfit P= \symbfit V^{-1/2} \symbfit \Sigma\symbfit V^{-1/2} = \symbfit V^{-1/2} \symbfit L\symbfit L^T \symbfit V^{-1/2}\)</span> we see that <span class="math inline">\(\symbfit L_P = \symbfit V^{-1/2} \symbfit L\)</span> and hence <span class="math inline">\(\symbfit W^{\text{Chol}}_P = (\symbfit V^{-1/2} \symbfit L)^{-1} \symbfit V^{-1/2} =\symbfit L^{-1} =  \symbfit W^{\text{Chol}}\)</span>.</p>
+<p><em>Dependence on the input order</em>:</p>
+<p>Cholesky whitening depends on the ordering of input variables. Each ordering of the original variables will yield a different triangular constraint and thus a different Cholesky whitening transform. For example, by inverting the ordering to <span class="math inline">\(x_d, x_{d-1}, \ldots, x_1\)</span> we effectively enforce an upper triangular shape.</p>
+<p>An alternative formulation of Cholesky whitening decomposes the precision matrix rather than the covariance matrix. This yields the upper triangular structure directly and is otherwise fully equivalent to Cholesky whitening based on decomposing the covariance.</p>
+</section>
+<section id="comparison-of-whitening-procedures---simulated-data" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="comparison-of-whitening-procedures---simulated-data"><span class="header-section-number">3.4.6</span> Comparison of whitening procedures - simulated data</h3>
+<p>For comparison, here are the results of ZCA, PCA and Cholesky whitening applied to a simulated bivariate normal data set with correlation <span class="math inline">\(\rho=0.8\)</span>.</p>
+<div class="cell" data-warnings="false">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/fig1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In column 1 you can see the simulated data as scatter plot.</p>
+<p>Column 2 shows the scatter plots of the whitened data — as expect all three methods remove correlation and produce an isotropic covariance.</p>
+<p>However, the three approaches differ in the cross-correlations. Columns 3 and 4 show the cross-correlations between the first two corresponding components (<span class="math inline">\(x_1\)</span> and <span class="math inline">\(z_1\)</span>, and <span class="math inline">\(x_2\)</span> and <span class="math inline">\(z_2\)</span>) for ZCA, PCA and Cholesky whitening. As expected, in ZCA both pairs show strong correlation, but this is not the case for PCA and Cholesky whitening.</p>
+<p>Note that for Cholesky whitening the first component <span class="math inline">\(z_1\)</span> is perfectly positively correlated with the original component <span class="math inline">\(x_1\)</span> because the whitening matrix is lower triangular with a positive diagonal and hence <span class="math inline">\(z_1\)</span> is just <span class="math inline">\(x_1\)</span> multiplied with a positive constant.</p>
+</section>
+<section id="comparison-of-whitening-procedures---iris-flowers" class="level3" data-number="3.4.7">
+<h3 data-number="3.4.7" class="anchored" data-anchor-id="comparison-of-whitening-procedures---iris-flowers"><span class="header-section-number">3.4.7</span> Comparison of whitening procedures - iris flowers</h3>
+<p>As an example we consider the well known <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris flower data set</a>. It consists of botanical measures (sepal length, sepal width, petal length and petal width) for 150 iris flowers comprising three species (<a href="https://en.wikipedia.org/wiki/Iris_setosa">Iris setosa</a>, <a href="https://en.wikipedia.org/wiki/Iris_versicolor">Iris versicolor</a>, <a href="https://en.wikipedia.org/wiki/Iris_virginica">Iris virginica</a>). Hence this data set has dimension <span class="math inline">\(d=4\)</span> and sample size <span class="math inline">\(n=150\)</span>.</p>
+<p>We apply all discussed whitening transforms to this data, and then sort the whitened components by their relative contribution to the total variation. For Cholesky whitening we used the input order for the shape constraint.</p>
+<p>Here are the results for explained variation based on covariance loadings:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, the two PCA whitening approaches compress the data most. On the other end of the spectrum, the ZCA whitening methods are the two least compressing approaches. Cholesky whitening is a compromise between ZCA and PCA in terms of compression.</p>
+<p>Similar results are obtained based on correlation loadings - note how ZCA-cor provides equal weight for each latent variable.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="recap" class="level3" data-number="3.4.8">
+<h3 data-number="3.4.8" class="anchored" data-anchor-id="recap"><span class="header-section-number">3.4.8</span> Recap</h3>
+<table class="table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Type of usage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ZCA, ZCA-cor:</td>
+<td>pure decorrelate, maintain similarity to original data set, interpretability</td>
+</tr>
+<tr class="even">
+<td>PCA, PCA-cor:</td>
+<td>compression, find effective dimension, reduce dimensionality, feature identification</td>
+</tr>
+<tr class="odd">
+<td>Cholesky</td>
+<td>triangular shaped <span class="math inline">\(\symbfit W\)</span>, <span class="math inline">\(\symbfit \Phi\)</span> and <span class="math inline">\(\symbfit \Psi\)</span>, sparsity</td>
+</tr>
+</tbody>
+</table>
+<p>If data are standardised then <span class="math inline">\(\symbfit \Phi\)</span> and <span class="math inline">\(\symbfit \Psi\)</span> will be the same and hence ZCA will become ZCA-cor and PCA becomes PCA-cor. The triangular shape constraint of Cholesky whitening depends on the ordering of the original variables.</p>
+</section>
+</section>
+<section id="principal-component-analysis-pca" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="principal-component-analysis-pca"><span class="header-section-number">3.5</span> Principal Component Analysis (PCA)</h2>
+<section id="pca-transformation" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="pca-transformation"><span class="header-section-number">3.5.1</span> PCA transformation</h3>
+<p>Principal component analysis was proposed in 1933 by Harald Hotelling <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and is very closely related to <strong>PCA whitening</strong>. The underlying mathematics was developed earlier in 1901 by Karl Pearson <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> for the problem of orthogonal regression.</p>
+<p>Assume random vector <span class="math inline">\(\symbfit x\)</span> with <span class="math inline">\(\text{Var}(\symbfit x) = \symbfit \Sigma= \symbfit U\symbfit \Lambda\symbfit U^T\)</span>. PCA is a particular orthogonal transformation (Example @ref(exm:orthotrans)) of the original <span class="math inline">\(\symbfit x\)</span> such that the resulting components are orthogonal: <span class="math display">\[
+\underbrace{\symbfit t^{\text{PCA}}}_{\text{Principal components}} = \underbrace{\symbfit U^T}_{\text{Orthogonal matrix}}   \symbfit x
+\]</span> <span class="math display">\[\text{Var}(\symbfit t^{\text{PCA}}) = \symbfit \Lambda= \begin{pmatrix} \lambda_1 &amp; \dots &amp; 0 \\ \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; \dots &amp; \lambda_d\end{pmatrix}\]</span> Note that while principal components are <em>orthogonal</em> they do <em>not</em> have unit variance. Instead, the variance of the principal components <span class="math inline">\(t_i\)</span> is equal to the eigenvalues <span class="math inline">\(\lambda_i\)</span>.</p>
+<p>Thus PCA itself is <em>not</em> a whitening procedure but it is very closely linked to PCA whitening which is obtained by standardising the principal components to unit variance: <span class="math inline">\(\symbfit z^{\text{PCA}} = \symbfit \Lambda^{-1/2} \symbfit t^{\text{PCA}} = \symbfit \Lambda^{-1/2} \symbfit U^T \symbfit x
+= \symbfit U^T \symbfit \Sigma^{-1/2} \symbfit x= \symbfit Q_1^{\text{PCA}} \symbfit \Sigma^{-1/2} \symbfit x= \symbfit W^{\text{PCA}} \symbfit x\)</span></p>
+<p><strong>Compression properties:</strong></p>
+<p>The total variation is <span class="math inline">\(\text{Tr}(\text{Var}(\symbfit t^{\text{PCA}})) = \text{Tr}( \symbfit \Lambda) = \sum^d_{j=1}\lambda_j\)</span>. With principle components the fraction <span class="math inline">\(\frac{\lambda_i}{\sum^d_{j=1}\lambda_j}\)</span> can be interpreted as the proportion of variation contributed by each component in <span class="math inline">\(\symbfit t^{\text{PCA}}\)</span> to the total variation. Thus, low ranking components in <span class="math inline">\(\symbfit t^{\text{PCA}}\)</span> with low variation may be discarded, thus leading to a reduction in dimension.</p>
+</section>
+<section id="application-to-data" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="application-to-data"><span class="header-section-number">3.5.2</span> Application to data</h3>
+<p>Written in terms of a data matrix <span class="math inline">\(\symbfit X\)</span> instead of a random vector <span class="math inline">\(\symbfit x\)</span> PCA becomes: <span class="math display">\[\underbrace{\symbfit T}_{\text{Sample version of principal components}}=\underbrace{\symbfit X}_{\text{Data matrix}}\symbfit U\]</span> There are now two ways to obtain <span class="math inline">\(\symbfit U\)</span>:</p>
+<ol type="1">
+<li><p>Estimate the covariance matrix, e.g.&nbsp;by <span class="math inline">\(\hat{\symbfit \Sigma} = \frac{1}{n}\symbfit X_c^T\symbfit X_c\)</span> where <span class="math inline">\(\symbfit X_c\)</span> is the column-centred data matrix; then apply the eigenvalue decomposition on <span class="math inline">\(\hat{\symbfit \Sigma}\)</span> to get <span class="math inline">\(\symbfit U\)</span>.</p></li>
+<li><p>Compute the singular value decomposition of <span class="math inline">\(\symbfit X_c = \symbfit V\symbfit D\symbfit U^T\)</span>. As <span class="math inline">\(\hat{\symbfit \Sigma} = \frac{1}{n}\symbfit X_c^T\symbfit X_c = \symbfit U(\frac{1}{n}\symbfit D^2)\symbfit U^T\)</span> you can just use <span class="math inline">\(\symbfit U\)</span> from the SVD of <span class="math inline">\(\symbfit X_c\)</span> and there is no need to compute the covariance.</p></li>
+</ol>
+</section>
+<section id="iris-flower-data-example" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="iris-flower-data-example"><span class="header-section-number">3.5.3</span> Iris flower data example</h3>
+<p>We first standardise the data, then compute PCA components and plot the proportion of total variation contributed by each component. This shows that only two PCA components are needed to achieve 95% of the total variation:</p>
+<div class="cell" data-warnings="false">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/fig2-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A scatter plot plot of the the first two principal components is also informative:</p>
+<div class="cell" data-warnings="false">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/fig3-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This shows that there groupings among the 150 flowers, corresponding to the species, and that these groups can be characterised by the the principal components.</p>
+</section>
+<section id="pca-correlation-loadings" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="pca-correlation-loadings"><span class="header-section-number">3.5.4</span> PCA correlation loadings</h3>
+<p>In an earlier section we have learned that for a general whitening transformation the cross-correlations <span class="math inline">\(\symbfit \Psi=\text{Cor}(\symbfit x, \symbfit z)\)</span> play the role of correlation loadings in the inverse transformation: <span class="math display">\[
+\symbfit V^{-1/2} \symbfit x= \symbfit \Psi\symbfit z\, ,
+\]</span> i.e.&nbsp;they are the coefficients linking the whitened variable <span class="math inline">\(\symbfit z\)</span> with the standardised original variable <span class="math inline">\(\symbfit x\)</span>. This relationship holds therefore also for PCA-whitening with <span class="math inline">\(\symbfit z^{\text{PCA}}= \symbfit \Lambda^{-1/2} \symbfit U^T \symbfit x\)</span> and <span class="math inline">\(\symbfit \Psi^{\text{PCA}} = \symbfit V^{-1/2} \symbfit U\symbfit \Lambda^{1/2}\)</span>.</p>
+<p>The classical PCA is not a whitening approach because <span class="math inline">\(\text{Var}(\symbfit t^{\text{PCA}}) \neq \symbfit I\)</span>. However, we can still compute cross-correlations between <span class="math inline">\(\symbfit x\)</span> and the principal components <span class="math inline">\(\symbfit t^{\text{PCA}}\)</span>, resulting in <span class="math display">\[
+\text{Cor}(\symbfit x, \symbfit t^{\text{PCA}}) = \symbfit V^{-1/2} \symbfit U\symbfit \Lambda^{1/2}  = \symbfit \Psi^{\text{PCA}}
+\]</span> Note these are the same as the cross-correlations for PCA-whitening since <span class="math inline">\(\symbfit t^{\text{PCA}}\)</span> and <span class="math inline">\(\symbfit z^{\text{PCA}}\)</span> only differ in scale.</p>
+<p>The inverse PCA transformation is <span class="math display">\[
+\symbfit x= \symbfit U\symbfit t^{\text{PCA}}
+\]</span> In terms of standardised PCA components <span class="math inline">\(\symbfit z^{\text{PCA}} = \symbfit \Lambda^{-1/2} \symbfit t^{\text{PCA}}\)</span> and standardised original components it becomes <span class="math display">\[
+\symbfit V^{-1/2} \symbfit x= \symbfit \Psi\symbfit \Lambda^{-1/2} \symbfit t^{\text{PCA}}
+\]</span> Thus the cross-correlation matrix <span class="math inline">\(\symbfit \Psi\)</span> plays the role of <em>correlation loadings</em> also in classical PCA, i.e.&nbsp;they are the coefficients linking the standardised PCA components with the standardised original components.</p>
+</section>
+<section id="pca-correlation-loadings-plot" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="pca-correlation-loadings-plot"><span class="header-section-number">3.5.5</span> PCA correlation loadings plot</h3>
+<p>In PCA and PCA-cor whitening as well as in classical PCA the aim is compression, i.e. to find latent variables such that most of the total variation is contributed by a small number of components.</p>
+<p>In order to be able to better interpret the top ranking PCA component we can use a visual device called <em>correlation loadings plot</em>. For this we compute the correlation between the PCA components 1 and 2 (<span class="math inline">\(t_1^{\text{PCA}}\)</span> and <span class="math inline">\(t_2^{\text{PCA}})\)</span> with all original variables <span class="math inline">\(x_1, \ldots, x_d\)</span>.</p>
+<p>For each original variable <span class="math inline">\(x_i\)</span> we therefore have two numbers between -1 and 1, the correlation <span class="math inline">\(\text{Cor}(x_i, t_1^{\text{PCA}}) = \psi_{i1}\)</span> and <span class="math inline">\(\text{Cor}(x_i, t_2^{\text{PCA}}) = \psi_{i2}\)</span> that we use as coordinates to draw a point in a plane. Recall that the row sums of squares of the correlation loadings <span class="math inline">\(\symbfit \Psi\)</span> are all identical to 1. Hence, the sum of the squared loadings from just the first two components is also at most 1. Thus, by construction, all points have to lie within a unit circle around the origin.<br>
+The original variables most strongly influenced by the two latent variables will have strong correlation and thus lie near the outer circle, whereas variables that are not influenced by the two latent variables will lie near the origin.</p>
+<p>As an example, here is the correlation loadings plot showing the cross-correlation between the first two PCA components and all four variables of the iris flower data set discussed earlier.</p>
+<div class="cell" data-warnings="false">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-transformations_files/figure-html/fig4-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The interpretation of this plot is discussed in Worksheet 5.</p>
+</section>
+<section id="outlook" class="level3" data-number="3.5.6">
+<h3 data-number="3.5.6" class="anchored" data-anchor-id="outlook"><span class="header-section-number">3.5.6</span> Outlook</h3>
+<p>Related methods not discussed in this course:</p>
+<ul>
+<li><p>Factor models: essentially this is a probabilistic version of whitening / PCA with dimension reduction and an additional error term. Factors have rotational freedom exactly as whitened variables.</p></li>
+<li><p>Partial Least Squares (PLS): similar to Principal Components Analysis (PCA) but in a regression setting, with the choice of latent variables depending both on predictors and on the response variable. One can also use PCA with regression (yielding principal components regression, PCR) but in this case the PCA components only depend on the predictor variables.</p></li>
+<li><p>Nonlinear dimension reduction methods such as SNE, tSNE and UMAP.</p></li>
+</ul>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Gorroochurn, P. 2020. Who Invented the Delta Method, Really? The Mathematical Intelligencer <strong>42</strong>:46–49. <a href="https://doi.org/10.1007/s00283-020-09982-0" class="uri">https://doi.org/10.1007/s00283-020-09982-0</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Kobyzev et al.&nbsp;2021. <em>Normalizing Flows: Introduction and Ideas</em>. <a href="https://doi.org/10.1109/TPAMI.2020.2992934">IEEE Trans. Pattern Anal. Mach. Intell. <strong>43</strong>:3964-3979</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Papamakarios et al.&nbsp;2021. <em>Normalizing Flows for Probabilistic Modeling and Inference</em>.<br>
+<a href="https://jmlr.csail.mit.edu/papers/v22/19-1028.html">JMLR <strong>22</strong>:1-64</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Hotelling, H. 1933. Analysis of a complex of statistical variables into principal components. Journal of Educational Psychology <strong>24</strong>:417–441 (Part 1) and <strong>24</strong>:498–520 (Part 2). <a href="https://doi.org/10.1037/h0071325" class="uri">https://doi.org/10.1037/h0071325</a> and <a href="https://doi.org/10.1037/h0070888" class="uri">https://doi.org/10.1037/h0070888</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Pearson, K. 1901. On lines and planes of closest fit to systems of points in space. Philosophical Magazine <strong>2</strong>:559–572. <a href="https://doi.org/10.1080/14786440109462720" class="uri">https://doi.org/10.1080/14786440109462720</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH38161");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-estimation.html" class="pagination-link" aria-label="Multivariate estimation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multivariate estimation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-clustering.html" class="pagination-link" aria-label="Unsupervised learning and clustering">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unsupervised learning and clustering</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

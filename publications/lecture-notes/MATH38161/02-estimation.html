@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Multivariate Statistics and Machine Learning - 2&nbsp; Multivariate estimation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-transformations.html" rel="next">
+<link href="./01-multivariate.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-estimation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multivariate estimation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multivariate Statistics and Machine Learning</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multivariate random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-estimation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multivariate estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and dimension reduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unsupervised learning and clustering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Supervised learning and classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate dependencies</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Nonlinear and nonparametric models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">2.1</span> Overview</a></li>
+  <li><a href="#empirical-estimates" id="toc-empirical-estimates" class="nav-link" data-scroll-target="#empirical-estimates"><span class="header-section-number">2.2</span> Empirical estimates</a>
+  <ul class="collapse">
+  <li><a href="#general-principle" id="toc-general-principle" class="nav-link" data-scroll-target="#general-principle"><span class="header-section-number">2.2.1</span> General principle</a></li>
+  <li><a href="#empirical-estimates-of-mean-and-covariance" id="toc-empirical-estimates-of-mean-and-covariance" class="nav-link" data-scroll-target="#empirical-estimates-of-mean-and-covariance"><span class="header-section-number">2.2.2</span> Empirical estimates of mean and covariance</a></li>
+  </ul></li>
+  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">2.3</span> Maximum likelihood estimation</a>
+  <ul class="collapse">
+  <li><a href="#general-principle-1" id="toc-general-principle-1" class="nav-link" data-scroll-target="#general-principle-1"><span class="header-section-number">2.3.1</span> General principle</a></li>
+  <li><a href="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution" id="toc-maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution" class="nav-link" data-scroll-target="#maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution"><span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution</a></li>
+  </ul></li>
+  <li><a href="#sampling-distribution-of-the-empirical-maximum-likelihood-estimates" id="toc-sampling-distribution-of-the-empirical-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#sampling-distribution-of-the-empirical-maximum-likelihood-estimates"><span class="header-section-number">2.4</span> Sampling distribution of the empirical / maximum likelihood estimates</a></li>
+  <li><a href="#small-sample-estimation" id="toc-small-sample-estimation" class="nav-link" data-scroll-target="#small-sample-estimation"><span class="header-section-number">2.5</span> Small sample estimation</a>
+  <ul class="collapse">
+  <li><a href="#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" id="toc-problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" class="nav-link" data-scroll-target="#problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><span class="header-section-number">2.5.1</span> Problems with maximum likelihood in small sample settings and high dimensions</a></li>
+  <li><a href="#estimation-of-covariance-matrix-in-small-sample-settings" id="toc-estimation-of-covariance-matrix-in-small-sample-settings" class="nav-link" data-scroll-target="#estimation-of-covariance-matrix-in-small-sample-settings"><span class="header-section-number">2.5.2</span> Estimation of covariance matrix in small sample settings</a></li>
+  </ul></li>
+  <li><a href="#full-bayesian-multivariate-modelling" id="toc-full-bayesian-multivariate-modelling" class="nav-link" data-scroll-target="#full-bayesian-multivariate-modelling"><span class="header-section-number">2.6</span> Full Bayesian multivariate modelling</a>
+  <ul class="collapse">
+  <li><a href="#three-main-scenarios" id="toc-three-main-scenarios" class="nav-link" data-scroll-target="#three-main-scenarios"><span class="header-section-number">2.6.1</span> Three main scenarios</a></li>
+  <li><a href="#dirichlet-multinomial-model" id="toc-dirichlet-multinomial-model" class="nav-link" data-scroll-target="#dirichlet-multinomial-model"><span class="header-section-number">2.6.2</span> Dirichlet-multinomial model</a></li>
+  <li><a href="#multivariate-normal-normal-model" id="toc-multivariate-normal-normal-model" class="nav-link" data-scroll-target="#multivariate-normal-normal-model"><span class="header-section-number">2.6.3</span> Multivariate normal-normal model</a></li>
+  <li><a href="#inverse-wishart-normal-model" id="toc-inverse-wishart-normal-model" class="nav-link" data-scroll-target="#inverse-wishart-normal-model"><span class="header-section-number">2.6.4</span> Inverse Wishart-normal model</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.7</span> Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multivariate estimation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.1</span> Overview</h2>
+<p>In practical application of multivariate normal model we need to learn its parameters from observed data points:</p>
+<p><span class="math display">\[\symbfit x_1,\symbfit x_2,...,\symbfit x_n \stackrel{\text{iid}}\sim F_{\symbfit \theta}\]</span></p>
+<p>We first consider the case when there are many measurements available (<span class="math inline">\(n\)</span> large), and then subsequently the case when the number of data points <span class="math inline">\(n\)</span> is small compared to the dimensions and the number of parameters.</p>
+<p>In a previous course in year 2 (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>) the method of maximum likelihood as well as the essentials of Bayesian statistics were introduced. Below we apply these approaches to the problem of estimating the parameters of the multivariate normal distribution and also show how the main Bayesian modelling strategies extend to the multivariate case.</p>
+</section>
+<section id="empirical-estimates" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="empirical-estimates"><span class="header-section-number">2.2</span> Empirical estimates</h2>
+<section id="general-principle" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="general-principle"><span class="header-section-number">2.2.1</span> General principle</h3>
+<p>For large <span class="math inline">\(n\)</span> we have thanks to the law of large numbers: <span class="math display">\[\underbrace{F}_{\text{true}} \approx \underbrace{\widehat{F}_n}_{\text{empirical}}\]</span></p>
+<p>We now would like to estimate <span class="math inline">\(A\)</span> which is a <em>functional</em> <span class="math inline">\(A=m(F)\)</span> of the distribution <span class="math inline">\(F\)</span> — recall that a functional is a function that takes another function as argument. For example all standard distributional summaries such as the mean, the median etc. are derived from <span class="math inline">\(F\)</span> and hence are functionals of <span class="math inline">\(F\)</span>.</p>
+<p>The <em>empirical estimate</em> is obtained by replacing the unknown true distribution <span class="math inline">\(F\)</span> with the observed empirical distribution: <span class="math inline">\(\hat{A} = m(\widehat{F}_n)\)</span>.</p>
+<p>For example, the expectation of a random variable is approximated/estimated as the average over the observations: <span class="math display">\[\text{E}_F(\symbfit x) \approx \text{E}_{\widehat{F}_n}(\symbfit x) = \frac{1}{n}\sum^{n}_{k=1} \symbfit x_k\]</span> <span class="math display">\[\text{E}_F(g(\symbfit x)) \approx  \text{E}_{\widehat{F}_n}(g(\symbfit x)) = \frac{1}{n}\sum^{n}_{k=1} g(\symbfit x_k)\]</span></p>
+<p><strong>Simple recipe to obtain an empirical estimator</strong>: simply replace the expectation operator by the sample average.</p>
+<p><strong>What does this work:</strong> the empirical distribution <span class="math inline">\(\widehat{F}_n\)</span> is the nonparametric maximum likelihood estimate of <span class="math inline">\(F\)</span> (see below for likelihood estimation).</p>
+<p>Note: the approximation of <span class="math inline">\(F\)</span> by <span class="math inline">\(\widehat{F}_n\)</span> is also the basis other approaches such as Efron’s bootstrap method (1979) <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+</section>
+<section id="empirical-estimates-of-mean-and-covariance" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="empirical-estimates-of-mean-and-covariance"><span class="header-section-number">2.2.2</span> Empirical estimates of mean and covariance</h3>
+<p>Recall the definitions: <span class="math display">\[
+\symbfit \mu= \text{E}(\symbfit x)
+\]</span> and <span class="math display">\[
+\symbfit \Sigma= \text{E}\left(   (\symbfit x-\symbfit \mu) (\symbfit x-\symbfit \mu)^T \right)
+\]</span></p>
+<p>For the empirical estimate we replace the expectations by the corresponding sample averages.</p>
+<p>These resulting estimators can be written in three different ways:</p>
+<p><strong>Vector notation:</strong></p>
+<p><span class="math display">\[\hat{\symbfit \mu} = \frac{1}{n}\sum^{n}_{k=1} \symbfit x_k\]</span></p>
+<p><span class="math display">\[
+\widehat{\symbfit \Sigma} = \frac{1}{n}\sum^{n}_{k=1} (\symbfit x_k-\hat{\symbfit \mu})  (\symbfit x_k-\hat{\symbfit \mu})^T
+= \frac{1}{n}\sum^{n}_{k=1} \symbfit x_k  \symbfit x_k^T - \hat{\symbfit \mu} \hat{\symbfit \mu}^T
+\]</span></p>
+<p><strong>Component notation:</strong></p>
+<p>The corresponding component notation with <span class="math inline">\(\symbfit X= (x_{ki})\)</span> and following the statistics convention with samples contained in rows of <span class="math inline">\(\symbfit X\)</span> we get:</p>
+<p><span class="math display">\[\hat{\mu}_i = \frac{1}{n}\sum^{n}_{k=1} x_{ki}\]</span></p>
+<p><span class="math display">\[\hat{\sigma}_{ij} = \frac{1}{n}\sum^{n}_{k=1} (x_{ki}-\hat{\mu}_i) (
+x_{kj}-\hat{\mu}_j )\]</span></p>
+<p><span class="math display">\[\hat{\symbfit \mu}=\begin{pmatrix}
+    \hat{\mu}_{1}       \\
+    \vdots \\
+    \hat{\mu}_{d}
+\end{pmatrix}, \widehat{\symbfit \Sigma} = (\hat{\sigma}_{ij})\]</span></p>
+<p>Variance estimate:<br>
+<span class="math display">\[\hat{\sigma}_{ii} = \frac{1}{n}\sum^{n}_{k=1} \left(x_{ki}-\hat{\mu}_i\right)^2\]</span> Note the factor <span class="math inline">\(\frac{1}{n}\)</span> (not <span class="math inline">\(\frac{1}{n-1}\)</span>)</p>
+<p><strong>Data matrix notation:</strong></p>
+<p>The empirical mean and covariance can also be written in terms of the data matrix <span class="math inline">\(\symbfit X\)</span>.</p>
+<p>If the data matrix <span class="math inline">\(\symbfit X\)</span> follows the <strong>statistics convention</strong> we can write</p>
+<p><span class="math display">\[\hat{\symbfit \mu} = \frac{1}{n} \symbfit X^T \symbfup 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\symbfit \Sigma} = \frac{1}{n} \symbfit X^T \symbfit X- \hat{\symbfit \mu} \hat{\symbfit \mu}^T\]</span></p>
+<p>On the other hand, if <span class="math inline">\(\symbfit X\)</span> follows the <strong>engineering convention</strong> with samples in columns the estimators are written as:</p>
+<p><span class="math display">\[\hat{\symbfit \mu} = \frac{1}{n} \symbfit X\symbfup 1_n\]</span></p>
+<p><span class="math display">\[\widehat{\symbfit \Sigma} = \frac{1}{n} \symbfit X\symbfit X^T - \hat{\symbfit \mu} \hat{\symbfit \mu}^T\]</span></p>
+<p>To avoid confusion when using matrix or component notation you need to always state which convention is used! In these notes we exlusively follow the statistics convention.</p>
+</section>
+</section>
+<section id="maximum-likelihood-estimation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">2.3</span> Maximum likelihood estimation</h2>
+<section id="general-principle-1" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="general-principle-1"><span class="header-section-number">2.3.1</span> General principle</h3>
+<p>R.A. Fisher (1922) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>: model-based estimators using the density or probability mass function</p>
+<p><strong>Log-likelihood function</strong>:</p>
+<p>Observing data <span class="math inline">\(D=\{ \symbfit x_1, \ldots, \symbfit x_n\}\)</span> the log-likelihood function is</p>
+<p><span class="math display">\[\log L(\symbfit \theta| D ) = \sum^{n}_{k=1}  \underbrace{\log f}_{\text{log-density}}(\symbfit x_k |\symbfit \theta)\]</span></p>
+<p><strong>Maximum likelihood estimate:</strong> <span class="math display">\[\hat{\symbfit \theta}_{\text{ML}}=\underset{\symbfit \theta}{\arg\,\max} \log L(\symbfit \theta| D)\]</span></p>
+<p>Maximum likelihood (ML) finds the parameters that make the observed data most likely (it does <em>not</em> find the most probable model!)</p>
+<p>Recall from <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a> that maximum likelihood is closely linked to minimising the relative entropy (KL divergence) <span class="math inline">\(D_{\text{KL}}(F, F_{\symbfit \theta})\)</span> between the unknown true model <span class="math inline">\(F\)</span> to the specified model <span class="math inline">\(F_{\symbfit \theta}\)</span>. Specifically, for large sample size <span class="math inline">\(n\)</span> the model <span class="math inline">\(F_{\hat{\symbfit \theta}}\)</span> fit by maximum likelihood is indeed the model that is closest to <span class="math inline">\(F\)</span>.</p>
+<p>Correspondingly, the great appeal of <strong>maximum likelihood estimates</strong> (MLEs) is that they <strong>are optimal for large</strong> <span class="math inline">\(\mathbf{n}\)</span>, i.e.&nbsp;so that <strong>for large sample size no estimator can be constructed that outperforms the MLE</strong> (note the emphasis on “for large <span class="math inline">\(n\)</span>”!). A further advantage of the method of maximum likelihood is that it does not only provide a point estimate but also the asymptotic error (via the observed Fisher information which is related to the curvature of the log-likelihood function).</p>
+</section>
+<section id="maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="maximum-likelihood-estimates-of-the-parameters-of-the-multivariate-normal-distribution"><span class="header-section-number">2.3.2</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution</h3>
+<p>We now derive the MLE of the parameters <span class="math inline">\(\symbfit \mu\)</span> and <span class="math inline">\(\symbfit \Sigma\)</span> of the multivariate normal distribution. The corresponding log-likelihood function is <span class="math display">\[
+\begin{split}
+\log L(\symbfit \mu, \symbfit \Sigma| D) &amp; = \sum_{k=1}^n \log f( \symbfit x_k | \symbfit \mu, \symbfit \Sigma) \\
+  &amp; = -\frac{n d}{2} \log(2\pi) -\frac{n}{2} \log \det(\symbfit \Sigma)  
+   - \frac{1}{2}  \sum_{k=1}^n  (\symbfit x_k-\symbfit \mu)^T \symbfit \Sigma^{-1} (\symbfit x_k-\symbfit \mu) \,.\\
+\end{split}
+\]</span> Written in terms of the precision matrix <span class="math inline">\(\symbfit \Omega= \symbfit \Sigma^{-1}\)</span> this becomes <span class="math display">\[
+\log L(\symbfit \mu, \symbfit \Omega| D) = -\frac{n d}{2} \log(2\pi) +\frac{n}{2} \log \det(\symbfit \Omega)  - \frac{1}{2}  \sum_{k=1}^n  (\symbfit x_k-\symbfit \mu)^T \symbfit \Omega(\symbfit x_k-\symbfit \mu) \,.
+\]</span> First, to find the MLE for <span class="math inline">\(\symbfit \mu\)</span> we compute the derivative with regard to the vector <span class="math inline">\(\symbfit \mu\)</span> <span class="math display">\[ \frac{\partial \log L(\symbfit \mu, \symbfit \Omega| D) }{\partial \symbfit \mu}= \sum_{k=1}^n  (\symbfit x_k-\symbfit \mu)^T \symbfit \Omega\]</span> noting that <span class="math inline">\(\symbfit \Omega\)</span> is symmetric. Setting this equal to zero we get <span class="math inline">\(\sum_{k=1}^n \symbfit x_k = n \hat{\symbfit \mu}_{ML}\)</span> and thus <span class="math display">\[\hat{\symbfit \mu}_{ML} = \frac{1}{n} \sum_{k=1}^n \symbfit x_k\,.\]</span></p>
+<p>Next, to obtain the MLE for <span class="math inline">\(\symbfit \Omega\)</span> we compute the derivative with regard to the matrix <span class="math inline">\(\symbfit \Omega\)</span> <span class="math display">\[\frac{\partial \log L(\symbfit \mu, \symbfit \Omega| D) }{\partial \symbfit \Omega}=\frac{n}{2}\symbfit \Omega^{-1} - \frac{1}{2}  \sum_{k=1}^n (\symbfit x_k-\symbfit \mu) (\symbfit x_k-\symbfit \mu)^T\]</span>. Setting this equal to zero and substituting the MLE for <span class="math inline">\(\symbfit \mu\)</span> we get <span class="math display">\[\widehat{\symbfit \Omega}^{-1}_{ML}=  \frac{1}{n} \sum_{k=1}^n  (\symbfit x_k-\hat{\symbfit \mu}) (\symbfit x_k-\hat{\symbfit \mu})^T=\widehat{\symbfit \Sigma}_{ML}\,.\]</span></p>
+<p>See the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-refresher/index.html">Matrix Refresher</a> notes for the relevant formulas in vector and matrix calculus.</p>
+<p>Therefore, the MLEs are identical to the empirical estimates.</p>
+<p>Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the MLE of the covariance matrix.</p>
+</section>
+</section>
+<section id="sampling-distribution-of-the-empirical-maximum-likelihood-estimates" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sampling-distribution-of-the-empirical-maximum-likelihood-estimates"><span class="header-section-number">2.4</span> Sampling distribution of the empirical / maximum likelihood estimates</h2>
+<p>With <span class="math inline">\(\symbfit x_1,...,\symbfit x_n \sim N_d(\symbfit \mu, \symbfit \Sigma)\)</span> one can find the exact distributions of the estimators. The sample average is denoted by <span class="math inline">\(\bar{\symbfit x}= \frac{1}{n}\sum_{i=1}^n \symbfit x_i\)</span></p>
+<p><strong>1. Distribution of the estimate of the mean:</strong></p>
+<p>The empirical estimate of the mean is normally distributed:</p>
+<p><span class="math display">\[\hat{\symbfit \mu}_{ML}=\bar{\symbfit x} \sim N_d\left(\symbfit \mu, \frac{\symbfit \Sigma}{n}\right)\]</span> Since <span class="math inline">\(\text{E}(\hat{\symbfit \mu}_{ML}) = \symbfit \mu\Longrightarrow \hat{\symbfit \mu}_{ML}\)</span> is unbiased.</p>
+<p><strong>2. Distribution of the covariance estimate:</strong></p>
+<p>The empirical and unbiased estimate of the covariance matrix is Wishart distributed:</p>
+<p>Case of unknown mean <span class="math inline">\(\symbfit \mu\)</span> (estimated by <span class="math inline">\(\bar{\symbfit x}\)</span>):</p>
+<p><span class="math display">\[\widehat{\symbfit \Sigma}_{ML} = \frac{1}{n}\sum_{i=1}^n (\symbfit x_i -\bar{\symbfit x})(\symbfit x_i -\bar{\symbfit x})^T \sim \text{W}_d\left(\frac{\symbfit \Sigma}{n}, n-1\right)\]</span></p>
+<p>Since <span class="math inline">\(\text{E}(\widehat{\symbfit \Sigma}_{ML}) = \frac{n-1}{n}\symbfit \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\symbfit \Sigma}_{ML}\)</span> is biased, with <span class="math inline">\(\text{Bias}(\widehat{\symbfit \Sigma}_{ML} ) = \symbfit \Sigma- \text{E}(\widehat{\symbfit \Sigma}_{ML}) = -\frac{\symbfit \Sigma}{n}\)</span>.</p>
+<p>Easy to make unbiased: <span class="math inline">\(\widehat{\symbfit \Sigma}_{UB} = \frac{n}{n-1}\widehat{\symbfit \Sigma}_{ML}=
+\frac{1}{n-1}\sum^n_{k=1}\left(\symbfit x_k-\bar{\symbfit x}\right)\left(\symbfit x_k-\bar{\symbfit x}\right)^T\)</span> which is distributed as <span class="math display">\[\widehat{\symbfit \Sigma}_{UB}  \sim \text{W}_d\left(\frac{\symbfit \Sigma}{n-1}, n-1\right)\]</span></p>
+<p>Hence <span class="math inline">\(\text{E}(\widehat{\symbfit \Sigma}_{UB}) = \symbfit \Sigma\)</span> <span class="math inline">\(\Longrightarrow \widehat{\symbfit \Sigma}_{UB}\)</span> is unbiased.</p>
+<p>But unbiasedness of an estimator is <strong>not</strong> a very relevant criterion in multivariate statistics, especially when the number of samples is small compared to the dimension (see further below).</p>
+<p>Covariance estimator for known mean <span class="math inline">\(\symbfit \mu\)</span>:</p>
+<p><span class="math display">\[\frac{1}{n}\sum_{i=1}^n (\symbfit x_i -\symbfit \mu)(\symbfit x_i -\symbfit \mu)^T \sim \text{W}_d\left(\frac{\symbfit \Sigma}{n}, n\right)\]</span></p>
+</section>
+<section id="small-sample-estimation" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="small-sample-estimation"><span class="header-section-number">2.5</span> Small sample estimation</h2>
+<section id="problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="problems-with-maximum-likelihood-in-small-sample-settings-and-high-dimensions"><span class="header-section-number">2.5.1</span> Problems with maximum likelihood in small sample settings and high dimensions</h3>
+<p><strong>Modern data is high dimensional!</strong></p>
+<p>Data sets with <span class="math inline">\(n&lt;d\)</span>, i.e.&nbsp;high dimension <span class="math inline">\(d\)</span> and small sample size <span class="math inline">\(n\)</span> are now common in many fields, e.g., medicine, biology but also finance and business analytics.</p>
+<p><span class="math display">\[n = 100 \, \text{(e.g, patients/samples)}\]</span> <span class="math display">\[d = 20000 \, \text{(e.g., genes/SNPs/proteins/variables)}\]</span> Reasons:</p>
+<ul>
+<li>the number of measured variables is increasing quickly with technological advances (e.g.&nbsp;genomics)</li>
+<li>but the number of samples cannot be similary increased (for cost and ethical reasons)</li>
+</ul>
+<p><strong>General problems of MLEs:</strong></p>
+<ol type="1">
+<li>ML estimators are optimal only if <strong>sample size is large</strong> compared to the number of parameters. However, this optimality is not any more valid if sample size is moderate or smaller than the number of parameters.</li>
+<li>If there is not enough data the <strong>ML estimate overfits</strong>. This means ML fits the current data perfectly but the resulting model does not generalise well (i.e.&nbsp;model will perform poorly in prediction)</li>
+<li>If there is a choice between different models with different complexity <strong>ML will always select the model with the largest number of parameters</strong>.</li>
+</ol>
+<p><strong>-&gt; for high-dimensional data with small sample size maximum likelihood estimation does not work!!!</strong></p>
+<p><strong>History of Statistics:</strong></p>
+<p>Much of modern statistics (from 1960 onwards) is devoted to the development of inference and estimation techniques that work with complex, high-dimensional data.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/fig1-history.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Maximum likelihood is a method from classical statistics (time up to about 1960).</li>
+<li>From 1960 modern (computational) statistics emerges, starting with <strong>“Stein Paradox” (1956):</strong> Charles Stein showed that in a <strong>multivariate setting</strong> ML estimators are <strong>dominated by</strong> (= are always worse than) shrinkage estimators!</li>
+<li>For example, there is a shrinkage estimator for the mean that is better (in terms of MSE) than the average (which is the MLE)!</li>
+</ul>
+<p>Modern statistics has developed many different (but related) methods for use in high-dimensional, small sample settings:</p>
+<ul>
+<li>regularised estimators</li>
+<li>shrinkage estimators</li>
+<li>penalised maximum likelihood estimators</li>
+<li>Bayesian estimators</li>
+<li>Empirical Bayes estimators</li>
+<li>KL / entropy-based estimators</li>
+</ul>
+<p>Most of this is out of scope for our class, but will be covered in advanced statistical courses.</p>
+<p>Next, we describe a <strong>simple regularised estimator for the estimation of the covariance</strong> that we will use later (i.e.&nbsp;in classification).</p>
+</section>
+<section id="estimation-of-covariance-matrix-in-small-sample-settings" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="estimation-of-covariance-matrix-in-small-sample-settings"><span class="header-section-number">2.5.2</span> Estimation of covariance matrix in small sample settings</h3>
+<p><strong>Problems with ML estimate of <span class="math inline">\(\symbfit \Sigma\)</span></strong></p>
+<ol type="1">
+<li><p><span class="math inline">\(\Sigma\)</span> has O(<span class="math inline">\(d^2\)</span>) number of parameters! <span class="math inline">\(\Longrightarrow \hat{\symbfit \Sigma}^{\text{MLE}}\)</span> requires <em>a lot</em> of data! <span class="math inline">\(n\gg d \text{ or } d^2\)</span></p></li>
+<li><p>if <span class="math inline">\(n &lt; d\)</span> then <span class="math inline">\(\hat{\symbfit \Sigma}\)</span> is positive <strong>semi</strong>-definite (even if the true <span class="math inline">\(\Sigma\)</span> is positive definite!)<br>
+<span class="math inline">\(\Longrightarrow \hat{\symbfit \Sigma}\)</span> will have <strong>vanishing eigenvalues</strong> (some <span class="math inline">\(\lambda_i=0\)</span>) and thus <strong>cannot be inverted</strong> and is singular!</p></li>
+</ol>
+<p>Note that in many expression in multivariate statistics we actually need to use the inverse of the covariance matrix, e.g., in the density of the multivariate normal distribution, so it is essential that we obtain a non-singular invertible estimate of the covariance matrix.</p>
+<p><strong>Making the ML estimate of <span class="math inline">\(\symbfit \Sigma\)</span> invertible</strong></p>
+<p>There is a simple numerical trick credited to <a href="https://en.wikipedia.org/wiki/Andrey_Nikolayevich_Tikhonov">A. N. Tikhonov</a> to make <span class="math inline">\(\hat{\symbfit \Sigma}\)</span> invertible, by adding a small number (say <span class="math inline">\(\varepsilon=10^{-6}\)</span> to the diagonal elements of <span class="math inline">\(\hat{\symbfit \Sigma}\)</span>: <span class="math display">\[
+\symbfit S_{\text{Tik}} = \hat{\symbfit \Sigma} + \varepsilon \symbfit I
+\]</span></p>
+<p>The resulting <span class="math inline">\(\symbfit S_{\text{Tik}}\)</span> is <strong>positive definite</strong> because the sum of a symmetric positive definite matrix (<span class="math inline">\(\varepsilon \symbfit I\)</span>) and a symmetric positive semi-definite matrix (<span class="math inline">\(\hat{\symbfit \Sigma}\)</span>) is always positive definite.</p>
+<p>However, while this simple regularisation results in an invertible matrix the estimator itself has not improved over the MLE, and the matrix <span class="math inline">\(\symbfit S_{\text{Tik}}\)</span> will also be poorly conditioned (i.e.&nbsp;large condition number).</p>
+<p><strong>Simple regularised estimate of <span class="math inline">\(\symbfit \Sigma\)</span></strong></p>
+<p>Regularised estimator <span class="math inline">\(\symbfit S^\ast\)</span> = convex combination of <span class="math inline">\(\symbfit S= \hat{\symbfit \Sigma}^\text{MLE}\)</span> and <span class="math inline">\(\symbfit I_d\)</span> (identity matrix) to get</p>
+<p>Regularisation: <span class="math display">\[
+\underbrace{\symbfit S^\ast}_{\text{regularised estimate}} = (1-\lambda)\underbrace{\symbfit S}_{\text{ML estimate}} +\underbrace{\lambda}_{\text{shrinkage intensity}} \, \underbrace{\symbfit I_d}_{\text{target}}\]</span></p>
+<p>Idea: choose <span class="math inline">\(\lambda \in [0,1]\)</span> such that <span class="math inline">\(\symbfit S^\ast\)</span> is better (e.g.&nbsp;in terms of MSE) than both <span class="math inline">\(\symbfit S\)</span> and <span class="math inline">\(\symbfit I_d\)</span>. Note that <span class="math inline">\(\lambda\)</span> does not need to be small like <span class="math inline">\(\varepsilon\)</span>.</p>
+<p>This form of estimator is corresponds to computing the mean of the Bayesian posterior by directly shrinking the MLE towards a prior mean (target): <span class="math display">\[
+\underbrace{\symbfit S^\ast}_{\text{posterior mean}} = \underbrace{\lambda \symbfit I_d}_{\text{prior information}}  + (1-\lambda)\underbrace{\symbfit S}_{\text{data summarised by maximum likelihood}}
+\]</span></p>
+<ul>
+<li>Prior information helps to infer <span class="math inline">\(\symbfit \Sigma\)</span> even in small samples.</li>
+<li>also called shrinkage estimator since the off-diagonal entries are shrunk towards zero.</li>
+<li>this type of linear shrinkage/regularisation is natural for exponential family models (Diaconis and Ylvisaker, 1979).</li>
+<li>Instead of a diagonal target other options are possible, e.g.&nbsp;block-diagonal or banded covariances.</li>
+<li>If <span class="math inline">\(\lambda\)</span> is not prespecified but learned from data (see below) then the resulting estimate is an empirical Bayes estimator.</li>
+<li>The resulting estimate will typically be biased as mixing in the target will increase the bias.</li>
+</ul>
+<p><strong>How to find optimal shrinkage / regularisation parameter <span class="math inline">\(\lambda\)</span>?</strong></p>
+<p>One way to do this is to minimise <span class="math inline">\(\text{MSE}\)</span> (Mean Squared Error). This is also called L2 regularisation or Ridge regularisation.</p>
+<p>Bias-variance trade-off: <span class="math inline">\(\text{MSE}\)</span> is composed of squared bias and variance.</p>
+<p><span class="math display">\[\text{MSE}(\theta) = \text{E}((\hat{\theta}-\theta)^2) = \text{Bias}(\hat{\theta})^2 + \text{Var}(\hat{\theta})\]</span> with <span class="math inline">\(\text{Bias}(\hat{\theta}) = \text{E}(\hat{\theta})-\theta\)</span></p>
+<p><span class="math inline">\(\symbfit S\)</span>: ML estimate, many parameters, low bias, high variance<br>
+<span class="math inline">\(\symbfit I_d\)</span>: “target”, no parameters, high bias, low variance<br>
+<span class="math inline">\(\Longrightarrow\)</span> <strong>reduce high variance of <span class="math inline">\(\symbfit S\)</span> by <em>introducing</em> a bit of bias through <span class="math inline">\(\symbfit I_d\)</span></strong>!<br>
+<span class="math inline">\(\Longrightarrow\)</span> overall, <span class="math inline">\(\text{MSE}\)</span> is decreased</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/fig1-biasvariance.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Challenge: since we don’t know the true <span class="math inline">\(\symbfit \Sigma\)</span> we cannot actually compute the <span class="math inline">\(\text{MSE}\)</span> directly but have to estimate it! How is this done in practise?</p>
+<ul>
+<li>by cross-validation (=resampling procedure)</li>
+<li>by using some analytic approximation (e.g.&nbsp;Stein’s formula)</li>
+</ul>
+<p>In Worksheet 3 the empirical estimator of covariance is compared with the regularised covariance estimator implemented in the R package “corpcor”. This uses a regularisation similar as above (but for the correlation rather than the covariance matrix) and it employs an analytic data-adaptive estimate of the shrinkage intensity <span class="math inline">\(\lambda\)</span>. This estimator is a variant of an empirical Bayes / James-Stein estimator (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>).</p>
+</section>
+</section>
+<section id="full-bayesian-multivariate-modelling" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="full-bayesian-multivariate-modelling"><span class="header-section-number">2.6</span> Full Bayesian multivariate modelling</h2>
+<p>See also the <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/multivariate-distributions.html">section about multivariate distributions in the Probability and Distribution refresher</a> for details about the distributions used below.</p>
+<section id="three-main-scenarios" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="three-main-scenarios"><span class="header-section-number">2.6.1</span> Three main scenarios</h3>
+<p>As discussed in <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a> there are three main Bayesian models in the univariate case that cover a large range of applications:</p>
+<ol type="1">
+<li>the beta-binomial model to estimate proportions</li>
+<li>the normal-normal model to estimate means</li>
+<li>the inverse gamma-normal model to estimate variances</li>
+</ol>
+<p>Below we briefly sketch the extensions of these three elementary models to the multivariate case.</p>
+</section>
+<section id="dirichlet-multinomial-model" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="dirichlet-multinomial-model"><span class="header-section-number">2.6.2</span> Dirichlet-multinomial model</h3>
+<p>This generalises the univariate beta-binomial model.</p>
+<p>The Dirichlet distribution is useful as conjugate prior and posterior distribution for the parameters of a categorical distribution.</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D=\{\symbfit x_1, \ldots, \symbfit x_n\}\)</span> with <span class="math inline">\(\symbfit x_i \sim \text{Cat}(\symbfit \pi)\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\hat{\symbfit \pi}_{ML} = \frac{1}{n} \sum_{i=1}^n \symbfit x_i\)</span></p></li>
+<li><p>Prior parameters (Dirichlet in mean parameterisation): <span class="math inline">\(k_0\)</span>, <span class="math inline">\(\symbfit \pi_0\)</span>,<br>
+<span class="math display">\[\symbfit \pi\sim \text{Dir}(\symbfit \pi_0, k_0)\]</span> <span class="math display">\[\text{E}(\symbfit \pi) = \symbfit \pi_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(k_1 = k_0+n\)</span>, <span class="math inline">\(\symbfit \pi_1 = \lambda \symbfit \pi_0 + (1-\lambda) \, \hat{\symbfit \pi}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span><br>
+<span class="math display">\[\symbfit \pi\,| \, D \sim \text{Dir}(\symbfit \pi_1, k_1)\]</span> <span class="math display">\[\text{E}(\symbfit \pi\,| \, D) = \symbfit \pi_1\]</span></p></li>
+<li><p>Equivalent update rule (for Dirichlet with <span class="math inline">\(\symbfit \alpha\)</span> parameter): <span class="math inline">\(\symbfit \alpha_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\symbfit \alpha_1 = \symbfit \alpha_0 + \sum_{i=1}^n \symbfit x_i = \symbfit \alpha_0 + n \hat{\symbfit \pi}_{ML}\)</span></p></li>
+</ul>
+</section>
+<section id="multivariate-normal-normal-model" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="multivariate-normal-normal-model"><span class="header-section-number">2.6.3</span> Multivariate normal-normal model</h3>
+<p>This generalises the univariate normal-normal model.</p>
+<p>The multivariate normal distribution is useful as conjugate prior and posterior distribution of the mean:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D =\{\symbfit x_1, \ldots, \symbfit x_n\}\)</span> with <span class="math inline">\(\symbfit x_i \sim N_d(\symbfit \mu, \symbfit \Sigma)\)</span> with known mean <span class="math inline">\(\symbfit \Sigma\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\widehat{\symbfit \mu}_{ML} = \frac{1}{n} \sum_{i=1}^n \symbfit x_i\)</span></p></li>
+<li><p>Prior parameters: <span class="math inline">\(k_0\)</span>, <span class="math inline">\(\symbfit \mu_0\)</span> <span class="math display">\[\symbfit \mu\sim N_d\left(\symbfit \mu_0, \frac{\symbfit \Sigma}{k_0}\right)\]</span> <span class="math display">\[\text{E}(\symbfit \mu) = \symbfit \mu_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(k_1 = k_0+n\)</span>, <span class="math inline">\(\symbfit \mu_1 = \lambda \symbfit \mu_0 + (1-\lambda) \widehat{\symbfit \mu}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span><br>
+<span class="math display">\[\symbfit \mu\, |\, D \sim N_d\left( \symbfit \mu_1, \frac{\symbfit \Sigma}{k_1}  \right)\]</span> <span class="math display">\[\text{E}(\symbfit \mu\, |\, D) = \symbfit \mu_1\]</span></p></li>
+</ul>
+</section>
+<section id="inverse-wishart-normal-model" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="inverse-wishart-normal-model"><span class="header-section-number">2.6.4</span> Inverse Wishart-normal model</h3>
+<p>This generalises the univariate inverse gamma-normal model for the variance.</p>
+<p>The inverse Wishart distribution is useful as conjugate prior and posterior distribution of the covariance:</p>
+<ul>
+<li><p>Data: <span class="math inline">\(D =\{\symbfit x_1, \ldots, \symbfit x_n\}\)</span> with <span class="math inline">\(\symbfit x_i \sim N_d(\symbfit \mu, \symbfit \Sigma)\)</span> with known mean <span class="math inline">\(\symbfit \mu\)</span></p></li>
+<li><p>MLE: <span class="math inline">\(\widehat{\symbfit \Sigma}_{ML} = \frac{1}{n} \sum_{i=1}^n (\symbfit x_i-\symbfit \mu)(\symbfit x_i-\symbfit \mu)^T\)</span></p></li>
+<li><p>Prior parameters: <span class="math inline">\(\kappa_0\)</span>, <span class="math inline">\(\symbfit \Sigma_0\)</span> <span class="math display">\[\symbfit \Sigma\sim \text{W}^{-1}_d\left( \kappa_0 \symbfit \Sigma_0 \, , \,  \kappa_0+d+1\right)\]</span> <span class="math display">\[\text{E}(\symbfit \Sigma) = \symbfit \Sigma_0\]</span></p></li>
+<li><p>Posterior parameters: <span class="math inline">\(\kappa_1 = \kappa_0+n\)</span>, <span class="math inline">\(\symbfit \Sigma_1 = \lambda \symbfit \Sigma_0 + (1-\lambda) \widehat{\symbfit \Sigma}_{ML}\)</span> with <span class="math inline">\(\lambda = \frac{\kappa_0}{\kappa_1}\)</span><br>
+<span class="math display">\[\symbfit \Sigma\, |\, D \sim \text{W}^{-1}_d\left( \kappa_1 \symbfit \Sigma_1 \, , \,  \kappa_1+d+1\right)\]</span> <span class="math display">\[\text{E}(\symbfit \Sigma\, |\, D) = \symbfit \Sigma_1\]</span></p></li>
+<li><p>Equivalent update rule: <span class="math inline">\(\nu_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\nu_1 = \nu_0+n\)</span>, <span class="math inline">\(\symbfit \Psi_0\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\symbfit \Psi_1 = \symbfit \Psi_0 + \sum_{i=1}^n (\symbfit x_i-\symbfit \mu)(\symbfit x_i-\symbfit \mu)^T
+= \symbfit \Psi_0 + n \widehat{\symbfit \Sigma}_{ML}\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.7</span> Conclusion</h2>
+<ul>
+<li>Multivariate models are often high-dimensional with large number of parameters but often only a small number of samples are available. In this instance it is useful (and often necessary) to introduce additional information (via priors or by regularisation).</li>
+<li>Unbiased estimation, a highly valued property in classical univariate statistics when sample size is large and number of parameters is small, is typically not a good idea in multivariate settings and often leads to poor estimators.</li>
+<li>Regularisation introduces bias and reduces variance, minimising overall MSE. Likewise, Bayesian estimators also introduce bias and regularise (via the prior) and thus are useful in multivariate settings.</li>
+</ul>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Efron, B. 1979. Bootstrap methods: Another look at the jackknife. The Annals of Statistics <strong>7</strong>:1–26. <a href="https://doi.org/10.1214/aos/1176344552" class="uri">https://doi.org/10.1214/aos/1176344552</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Fisher, R. A. 1922. On the mathematical foundations of theoretical statistics. Philosophical Transactions of the Royal Society A <strong>222</strong>:309–368. <a href="https://doi.org/10.1098/rsta.1922.0009" class="uri">https://doi.org/10.1098/rsta.1922.0009</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH38161");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-multivariate.html" class="pagination-link" aria-label="Multivariate random variables">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multivariate random variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-transformations.html" class="pagination-link" aria-label="Transformations and dimension reduction">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and dimension reduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
