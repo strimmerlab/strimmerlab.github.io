@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Korbinian Strimmer">
-<meta name="dcterms.date" content="2024-03-06">
 
-<title>Probability and Distribution Refresher</title>
+<title>Probability and Distribution Refresher - 3&nbsp; Transforming and combining random variables</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./00-preface.html" rel="next">
+<link href="./04-univariate.html" rel="next">
+<link href="./02-probability.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-transformations.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -133,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span></a>
   </div>
 </li>
@@ -159,11 +187,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#updates" id="toc-updates" class="nav-link" data-scroll-target="#updates">Updates</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  </ul></li>
+  <li><a href="#affine-or-location-scale-transformation-of-random-variables" id="toc-affine-or-location-scale-transformation-of-random-variables" class="nav-link active" data-scroll-target="#affine-or-location-scale-transformation-of-random-variables"><span class="header-section-number">3.1</span> Affine or location-scale transformation of random variables</a></li>
+  <li><a href="#general-invertible-transformation-of-random-variables" id="toc-general-invertible-transformation-of-random-variables" class="nav-link" data-scroll-target="#general-invertible-transformation-of-random-variables"><span class="header-section-number">3.2</span> General invertible transformation of random variables</a></li>
+  <li><a href="#exponential-tilting-and-exponential-families" id="toc-exponential-tilting-and-exponential-families" class="nav-link" data-scroll-target="#exponential-tilting-and-exponential-families"><span class="header-section-number">3.3</span> Exponential tilting and exponential families</a></li>
+  <li><a href="#sums-of-iid-random-variables-and-convolution" id="toc-sums-of-iid-random-variables-and-convolution" class="nav-link" data-scroll-target="#sums-of-iid-random-variables-and-convolution"><span class="header-section-number">3.4</span> Sums of iid random variables and convolution</a></li>
   </ul>
 </nav>
     </div>
@@ -172,26 +199,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probability and Distribution Refresher</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Korbinian Strimmer </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">6 March 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -201,34 +216,78 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<p>The Probability and Distribution Refresher notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> from 2018–2024. This version is from 6 March 2024.</p>
-<p>If you have any questions, comments, or corrections please get in touch! <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<section id="updates" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="updates">Updates</h2>
-<p>The notes will be updated from time to time. To view the current version visit the</p>
-<ul>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">online version of the Probability and Distribution Refresher notes</a>.</li>
-</ul>
-<p>You may also wish to download the Probability and Distribution Refresher notes as</p>
-<ul>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/probability-distribution-refresher-a4.pdf">PDF in A4 format for printing</a> (double page layout), or as</li>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/probability-distribution-refresher.pdf">6x9 inch PDF for use on tablets</a> (single page layout).</li>
-</ul>
+<section id="affine-or-location-scale-transformation-of-random-variables" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="affine-or-location-scale-transformation-of-random-variables"><span class="header-section-number">3.1</span> Affine or location-scale transformation of random variables</h2>
+<p>Suppose <span class="math inline">\(x \sim F_x\)</span> is a scalar random variable. The random variable <span class="math display">\[y= a + b x\]</span> is a <strong>location-scale transformation</strong> or <strong>affine transformation</strong> of <span class="math inline">\(x\)</span>, where <span class="math inline">\(a\)</span> plays the role of the <strong>location parameter</strong> and <span class="math inline">\(b\)</span> is the <strong>scale parameter</strong>. For <span class="math inline">\(a=0\)</span> this is a <strong>linear transformation</strong>. If <span class="math inline">\(b\neq 0\)</span> then the transformation is <strong>invertible</strong>, with backtransformation <span class="math display">\[x = (y-a)/b\]</span> Invertible transformations provide a one-to-one map between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>For a random vector <span class="math inline">\(\symbfit x\sim F_{\symbfit x}\)</span> of dimension <span class="math inline">\(d\)</span> the location-scale transformation is <span class="math display">\[
+\symbfit y= \symbfit a+ \symbfit B\symbfit x
+\]</span> where <span class="math inline">\(\symbfit a\)</span> (a <span class="math inline">\(m \times 1\)</span> vector) is the <strong>location parameter</strong> and <span class="math inline">\(\symbfit B\)</span> (a <span class="math inline">\(m \times d\)</span> matrix) the <strong>scale parameter</strong> For <span class="math inline">\(m=d\)</span> (square <span class="math inline">\(\symbfit B\)</span>) and <span class="math inline">\(\det(\symbfit B) \neq 0\)</span> the affine transformation is <strong>invertible</strong> with backtransformation <span class="math display">\[\symbfit x= \symbfit B^{-1}(\symbfit y-\symbfit a)\]</span></p>
+<p>If <span class="math inline">\(x\)</span> is a continuous random variable with density <span class="math inline">\(f_{x}(x)\)</span> and assuming an invertible transformation the density for <span class="math inline">\(y\)</span> is given by <span class="math display">\[
+f_{y}(y)=|b|^{-1} f_{x} \left( \frac{y-a}{b}\right)
+\]</span> Likewise, assuming an invertible transformation for a continous random vector <span class="math inline">\(\symbfit x\)</span> with density <span class="math inline">\(f_{\symbfit x}(\symbfit x)\)</span> the density for <span class="math inline">\(\symbfit y\)</span> is given by <span class="math display">\[
+f_{\symbfit y}(\symbfit y)=|\det(\symbfit B)|^{-1} f_{\symbfit x} \left( \symbfit B^{-1}(\symbfit y-\symbfit a)\right)
+\]</span></p>
+<p>The transformed random variable <span class="math inline">\(y \sim F_y\)</span> has mean <span class="math display">\[\text{E}(y) = a + b \mu_x\]</span> and variance <span class="math display">\[\text{Var}(y) = b^2 \sigma^2_x\]</span> where <span class="math inline">\(\text{E}(x) = \mu_x\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2_x\)</span> are the mean and variance of the original variable <span class="math inline">\(x\)</span>.</p>
+<p>The mean and variance of the transformed random vector <span class="math inline">\(\symbfit y\sim F_{\symbfit y}\)</span> is <span class="math display">\[\text{E}(\symbfit y)=\symbfit a+ \symbfit B\,\symbfit \mu_{\symbfit x}\]</span> and <span class="math display">\[\text{Var}(\symbfit y)= \symbfit B\,\symbfit \Sigma_{\symbfit x} \,\symbfit B^T\]</span> where <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu_{\symbfit x}\)</span> and <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span> are the mean and variance of the original random vector <span class="math inline">\(\symbfit x\)</span>.</p>
+<p>The constants <span class="math inline">\(\symbfit a\)</span> and <span class="math inline">\(\symbfit B\)</span> (or <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the univariate case) are the parameters of the <strong>location-scale family</strong> <span class="math inline">\(F_{\symbfit y}\)</span> created from <span class="math inline">\(F_{\symbfit x}\)</span>. Many important distributions are location-scale families (e.g.&nbsp;the normal distribution and the location-scale <span class="math inline">\(t\)</span>-distribution). Furthermore, key procedures in multivariate statistics such as orthogonal transformations (including PCA) or whitening transformations (e.g.&nbsp;the Mahalanobis transformation) are affine transformations.</p>
 </section>
-<section id="license" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="license">License</h2>
-<p>These notes are licensed to you under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+<section id="general-invertible-transformation-of-random-variables" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="general-invertible-transformation-of-random-variables"><span class="header-section-number">3.2</span> General invertible transformation of random variables</h2>
+<p>As above we assume <span class="math inline">\(x \sim F_x\)</span> is a scalar random variable and <span class="math inline">\(\symbfit x\sim F_{\symbfit x}\)</span> is a random vector.</p>
+<p>As a generalisation of invertible affine transformations we now consider general invertible transformations. For a scalar random variable we assume the transfomation is specified by <span class="math inline">\(y(x) = h(x)\)</span> and the backtransformation by <span class="math inline">\(x(y) = h^{-1}(y)\)</span> For a random vector we assume <span class="math inline">\(\symbfit y(\symbfit x) = \symbfit h(\symbfit x)\)</span> is invertible with backtransformation <span class="math inline">\(\symbfit x(\symbfit y) = \symbfit h^{-1}(\symbfit y)\)</span>.</p>
+<p>If <span class="math inline">\(x\)</span> is a continuous random variable with density <span class="math inline">\(f_{x}(x)\)</span> the density of the transformed variable <span class="math inline">\(y\)</span> can be computed exactly and is given by <span class="math display">\[
+f_y(y) =\left| D x(y) \right|\, f_x(x(y))
+\]</span> where <span class="math inline">\(D x(y)\)</span> is the derivative of the inverse transformation <span class="math inline">\(x(y)\)</span>.</p>
+<p>Likewise, for a continous random vector <span class="math inline">\(\symbfit x\)</span> with density <span class="math inline">\(f_{\symbfit x}(\symbfit x)\)</span> the density for <span class="math inline">\(\symbfit y\)</span> is obtained by <span class="math display">\[
+f_{\symbfit y}(\symbfit y) = |\det\left( D\symbfit x(\symbfit y) \right)| \,\,  f_{\symbfit x}\left( \symbfit x(\symbfit y) \right)
+\]</span> where <span class="math inline">\(D\symbfit x(\symbfit y)\)</span> is the Jacobian matrix of the inverse transformation <span class="math inline">\(\symbfit x(\symbfit y)\)</span>.</p>
+<p>The mean and variance of the transformed random variable can typically only be approximated. Assume that <span class="math inline">\(\text{E}(x) = \mu_x\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2_x\)</span> are the mean and variance of the original random variable <span class="math inline">\(x\)</span> and <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu_{\symbfit x}\)</span> and <span class="math inline">\(\text{Var}(\symbfit x)=\symbfit \Sigma_{\symbfit x}\)</span> are the mean and variance of the original random vector <span class="math inline">\(\symbfit x\)</span>. In the <strong>delta method</strong> the transformation <span class="math inline">\(y(x)\)</span> resp. <span class="math inline">\(\symbfit y(\symbfit x)\)</span> is linearised around the mean <span class="math inline">\(\mu_x\)</span> resp. <span class="math inline">\(\symbfit \mu_{\symbfit x}\)</span> and the mean and variance resulting from the linear transformation is reported.</p>
+<p>Specifically, the linear approximation for the scalar-valued function is <span class="math display">\[
+y(x) \approx y(\mu_x) + D y(\mu_x)\, (x-\mu_x)
+\]</span> where <span class="math inline">\(D y(x) = y'(x)\)</span> is the first derivative of the transformation <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(D y(\mu_x)\)</span> is the first derivative evaluated at the mean <span class="math inline">\(\mu_x\)</span>, and for the vector-valued function <span class="math display">\[
+\symbfit y(\symbfit x) \approx \symbfit y(\symbfit \mu_{\symbfit x}) + D \symbfit y(\symbfit \mu_{\symbfit x}) \, (\symbfit x-\symbfit \mu_{\symbfit x})
+\]</span> where <span class="math inline">\(D \symbfit y(\symbfit x)\)</span> is the Jacobian matrix (vector derivative) for the transformation <span class="math inline">\(\symbfit y(\symbfit x)\)</span> and <span class="math inline">\(D \symbfit y(\symbfit \mu_{\symbfit x})\)</span> is the Jacobian matrix evaluated at the mean <span class="math inline">\(\symbfit \mu_{\symbfit x}\)</span>.</p>
+<p>In the univariate case the delta method yields as approximation for the mean and variance of the transformed random variable <span class="math inline">\(y\)</span> <span class="math display">\[
+\text{E}(y) \approx y(\mu_x)
+\]</span> and <span class="math display">\[
+\text{Var}(y)\approx (D y(\mu_x))^2 \, \sigma^2_x  
+\]</span></p>
+<p>For the vector random variable <span class="math inline">\(\symbfit y\)</span> the delta method yields <span class="math display">\[\text{E}(\symbfit y)\approx\symbfit y(\symbfit \mu_{\symbfit x})\]</span> and <span class="math display">\[
+\text{Var}(\symbfit y)\approx D \symbfit y(\symbfit \mu_{\symbfit x}) \, \symbfit \Sigma_{\symbfit x} \, D\symbfit y(\symbfit \mu_{\symbfit x})^T
+\]</span></p>
+<p>Assuming <span class="math inline">\(y(x) = a + b x\)</span>, with <span class="math inline">\(x(y) = (y-a)/b\)</span>, <span class="math inline">\(D y(x) = b\)</span> and <span class="math inline">\(D x(y) = b^{-1}\)</span>, recovers the univariate location-scale transformation. Likewise, assuming <span class="math inline">\(\symbfit y(\symbfit x) = \symbfit a+ \symbfit B\symbfit x\)</span>, with <span class="math inline">\(\symbfit x(\symbfit y) = \symbfit B^{-1}(\symbfit y-\symbfit a)\)</span>, <span class="math inline">\(D\symbfit y(\symbfit x) = \symbfit B\)</span> and <span class="math inline">\(D\symbfit x(\symbfit y) = \symbfit B^{-1}\)</span>, recovers the multivariate location-scale transformation.</p>
+</section>
+<section id="exponential-tilting-and-exponential-families" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="exponential-tilting-and-exponential-families"><span class="header-section-number">3.3</span> Exponential tilting and exponential families</h2>
+<p>Another way to change the distribution of a random variable is by <strong>exponential tilting</strong>.</p>
+<p>Suppose there is a vector valued function <span class="math inline">\(\symbfit u(x)\)</span> where each component is a transformation of <span class="math inline">\(x\)</span>, usually a simple function such the identity <span class="math inline">\(x\)</span>, the square <span class="math inline">\(x^2\)</span>, the logarithm <span class="math inline">\(\log(x)\)</span> etc. These are called the <strong>canonical statistics</strong>. Typically, the dimension of <span class="math inline">\(\symbfit u(x)\)</span> is small.</p>
+<p>The exponential tilt of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with density or probability mass function <span class="math inline">\(b(x)\)</span> towards the linear combination <span class="math inline">\(\symbfit \eta^T \symbfit u(x)\)</span> of the canonical statistics <span class="math inline">\(\symbfit u(x)\)</span> yields the distribution family <span class="math inline">\(P_{\symbfit \eta}\)</span> with density or probability mass function <span class="math display">\[
+p(x|\symbfit \eta) =    \underbrace{e^{ \symbfit \eta^T \symbfit u(x)}}_{\text{exponential tilt}}\, b(x) \, /\, e^{ \psi(\symbfit \eta)}
+\]</span> where <span class="math inline">\(\symbfit \eta\)</span> are the canonical parameters. The normalising factor <span class="math inline">\(e^{ \psi(\symbfit \eta)}\)</span> ensures that <span class="math inline">\(p(x|\symbfit \eta)\)</span> integrates to one following the exponential tilt.</p>
+<p>The corresponding log-density / log probability mass function is <span class="math display">\[
+\log p(x|\symbfit \eta) =  \symbfit \eta^T \symbfit u(x) + \log b(x) - \psi(\symbfit \eta)
+\]</span> The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math inline">\(\psi(\symbfit \eta)\)</span> is obtained by computing <span class="math display">\[
+\psi(\symbfit \eta) = \log \int_x \, e^{ \symbfit \eta^T \symbfit u(x)}\, b(x) \, dx
+\]</span> The set of values of <span class="math inline">\(\symbfit \eta\)</span> for which the integral is finite and hence <span class="math inline">\(\psi(\symbfit \eta) &lt; \infty\)</span> defines the parameter space.</p>
+<p>The distribution family <span class="math inline">\(P_{\symbfit \eta}\)</span> obtained by exponential tiling is called an <strong>exponential family</strong>.</p>
+<p>Many commonly used distribution families are exponential families (most importantly the normal distribution). Exponential families are extremely important in probability and statistics. They provide highly effective models for statistical learning using entropy, likelihood and Bayesian approaches, allow for substantial data reduction via minimal sufficiency, and provide the basis of generalised linear models. Furthermore, exponential families often enable to generalise probabilistic results valid for the normal distribution to more general settings.</p>
+</section>
+<section id="sums-of-iid-random-variables-and-convolution" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sums-of-iid-random-variables-and-convolution"><span class="header-section-number">3.4</span> Sums of iid random variables and convolution</h2>
+<p>Suppose we have a sum of <span class="math inline">\(n\)</span> independent and identically distributed (iid) random variables. <span class="math display">\[
+y = x_1 + x_2 + \ldots + x_n
+\]</span> where each <span class="math inline">\(x_i \sim F_x\)</span> with density or probability mass function <span class="math inline">\(f_x(x)\)</span>. The density or probability mass function for <span class="math inline">\(y\)</span> is obtained by repeated application of <strong>convolution</strong> (symbolised by the <span class="math inline">\(\ast\)</span> operator): <span class="math display">\[
+f_y(y) = (f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n})(y)
+\]</span></p>
+<p>The convolution of two functions is defined as (continous case) <span class="math display">\[
+(f_{x_1}\ast f_{x_2})(y)=\int_x f_{x_1}(x)\, f_{x_2}(y-x) dx
+\]</span> and (discrete case) <span class="math display">\[
+(f_{x_1}\ast f_{x_2})(y)=\sum_x f_{x_1}(x)\, f_{x_2}(y-x)
+\]</span> Convolution is commutative and associative so it can be applied in any order to compute the convolution of multiple functions. Furthermore, the convolution of probability densities / mass function yields another probability density / mass function.</p>
+<p>Many commonly used random variables can be viewed as the outcome of convolutions. For example, the sum of Bernoulli variables yields a binomial random variable and the sum of normal variables yields another normal random variable. See also: <a href="https://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions">list of convolutions of probability distributions</a>.</p>
+<p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a>, asserts that, under appropriate conditions, the distribution of the sum of independent and identically distributed random variables converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution, even if the individual random variables are not normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span> identical distributions typically converges to the normal distribution.</p>
 
 
-</section>
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Email address: <a href="mailto:korbinian.strimmer@manchester.ac.uk" class="email">korbinian.strimmer@manchester.ac.uk</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -643,10 +702,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./02-probability.html" class="pagination-link" aria-label="Probability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./00-preface.html" class="pagination-link" aria-label="Preface">
-        <span class="nav-page-text">Preface</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-univariate.html" class="pagination-link" aria-label="Univariate distributions">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

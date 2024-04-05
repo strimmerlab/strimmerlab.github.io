@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability and Distribution Refresher - 2&nbsp; Probability</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-transformations.html" rel="next">
+<link href="./01-combinatorics.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-probability.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probability and Distribution Refresher</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probability.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#random-variables" id="toc-random-variables" class="nav-link active" data-scroll-target="#random-variables"><span class="header-section-number">2.1</span> Random variables</a></li>
+  <li><a href="#probability-mass-and-density-function" id="toc-probability-mass-and-density-function" class="nav-link" data-scroll-target="#probability-mass-and-density-function"><span class="header-section-number">2.2</span> Probability mass and density function</a></li>
+  <li><a href="#distribution-function-and-quantile-function" id="toc-distribution-function-and-quantile-function" class="nav-link" data-scroll-target="#distribution-function-and-quantile-function"><span class="header-section-number">2.3</span> Distribution function and quantile function</a></li>
+  <li><a href="#families-of-distributions" id="toc-families-of-distributions" class="nav-link" data-scroll-target="#families-of-distributions"><span class="header-section-number">2.4</span> Families of distributions</a></li>
+  <li><a href="#expectation-of-a-random-variable" id="toc-expectation-of-a-random-variable" class="nav-link" data-scroll-target="#expectation-of-a-random-variable"><span class="header-section-number">2.5</span> Expectation of a random variable</a></li>
+  <li><a href="#jensens-inequality-for-the-expectation" id="toc-jensens-inequality-for-the-expectation" class="nav-link" data-scroll-target="#jensens-inequality-for-the-expectation"><span class="header-section-number">2.6</span> Jensen’s inequality for the expectation</a></li>
+  <li><a href="#probability-as-expectation" id="toc-probability-as-expectation" class="nav-link" data-scroll-target="#probability-as-expectation"><span class="header-section-number">2.7</span> Probability as expectation</a></li>
+  <li><a href="#moments-and-variance-of-a-random-variable" id="toc-moments-and-variance-of-a-random-variable" class="nav-link" data-scroll-target="#moments-and-variance-of-a-random-variable"><span class="header-section-number">2.8</span> Moments and variance of a random variable</a></li>
+  <li><a href="#random-vectors-and-their-mean-and-variance" id="toc-random-vectors-and-their-mean-and-variance" class="nav-link" data-scroll-target="#random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.9</span> Random vectors and their mean and variance</a></li>
+  <li><a href="#correlation-matrix" id="toc-correlation-matrix" class="nav-link" data-scroll-target="#correlation-matrix"><span class="header-section-number">2.10</span> Correlation matrix</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="random-variables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="random-variables"><span class="header-section-number">2.1</span> Random variables</h2>
+<p>A <strong>random variable</strong> describes a random experiment. The set of all possible outcomes is the <strong>sample space</strong> or <strong>state space</strong> of the random variable and is denoted by <span class="math inline">\(\Omega = \{\omega_1, \omega_2, \ldots\}\)</span>. The outcomes <span class="math inline">\(\omega_i\)</span> are the <strong>elementary events</strong>. The sample space <span class="math inline">\(\Omega\)</span> can be finite or infinite. Depending on type of outcomes the random variable is <strong>discrete</strong> or <strong>continuous</strong>.</p>
+<p>An event <span class="math inline">\(A \subseteq \Omega\)</span> is a subset of <span class="math inline">\(\Omega\)</span> and thus itself a set composed of elementary events: <span class="math inline">\(A = \{a_1, a_2, \ldots\}\)</span>. This includes as special cases the full set <span class="math inline">\(A = \Omega\)</span>, the empty set <span class="math inline">\(A = \emptyset\)</span>, and the elementary events <span class="math inline">\(A=\omega_i\)</span>. The complementary event <span class="math inline">\(A^C\)</span> is the complement of the set <span class="math inline">\(A\)</span> in the set <span class="math inline">\(\Omega\)</span> so that <span class="math inline">\(A^C = \Omega \setminus A =  \{\omega_i \in \Omega:  \omega_i \notin A\}\)</span>.</p>
+<p>The probability of an event <span class="math inline">\(A\)</span> is denoted by <span class="math inline">\(\text{Pr}(A)\)</span>. Essentially, to obtain this probability we need to count the elementary elements corresponding to <span class="math inline">\(A\)</span>. To do this we assume as <a href="https://en.wikipedia.org/wiki/Probability_axioms">axioms of probability</a> that</p>
+<ul>
+<li><span class="math inline">\(\text{Pr}(A) \geq 0\)</span>, probabilities are positive,</li>
+<li><span class="math inline">\(\text{Pr}(\Omega) = 1\)</span>, the certain event has probability 1, and</li>
+<li><span class="math inline">\(\text{Pr}(A) = \sum_{a_i \in A} \text{Pr}(a_i)\)</span>, the probability of an event equals the sum of its constituting elementary events <span class="math inline">\(a_i\)</span>. This sum is taken over a finite or countable infinite number of elements.</li>
+</ul>
+<p>This implies</p>
+<ul>
+<li><span class="math inline">\(\text{Pr}(A) \leq 1\)</span>, i.e.&nbsp;probabilities all lie in the interval <span class="math inline">\([0,1]\)</span></li>
+<li><span class="math inline">\(\text{Pr}(A^C) = 1 - \text{Pr}(A)\)</span>, and</li>
+<li><span class="math inline">\(\text{Pr}(\emptyset) = 0\)</span></li>
+</ul>
+<p>Assume now that we have two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. The probability of the event “<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>” is then given by the probability of the set intersection <span class="math inline">\(\text{Pr}(A \cap B)\)</span>. Likewise the probability of the event “<span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span>” is given by the probability of the set union <span class="math inline">\(\text{Pr}(A \cup B)\)</span>.</p>
+<p>From the above it is clear that the definition and theory of probability is closely linked to set theory, and in particular to measure theory. Indeed, viewing probability as a special type of measure allows for an elegant treatment of both discrete and continuous random variables.</p>
+</section>
+<section id="probability-mass-and-density-function" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="probability-mass-and-density-function"><span class="header-section-number">2.2</span> Probability mass and density function</h2>
+<p>To describe a random variable <span class="math inline">\(x\)</span> with state space <span class="math inline">\(\Omega\)</span> we need a way to effectively store the probabilities of the corresponding elementary outcomes <span class="math inline">\(x \in \Omega\)</span>.</p>
+<p><strong>For simplicity of notation we use the same symbol to denote the random variable and its elementary outcomes.</strong> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This convention greatly facilitates working with random vectors and matrices and is used, e.g., in the classic multivariate statistics textbook by Mardia et al.&nbsp;(1979) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>For a discrete random variable we define the event <span class="math inline">\(A = \{x: x=a\} = \{a\}\)</span> and get the probability <span class="math display">\[
+\text{Pr}(A) = \text{Pr}(x=a) = f(a)
+\]</span> directly from the <strong>probability mass function</strong> (PMF), here denoted by lower case <span class="math inline">\(f\)</span> (but we frequently also use <span class="math inline">\(p\)</span> or <span class="math inline">\(q\)</span>). The PMF has the property that <span class="math inline">\(\sum_{x \in \Omega} f(x) = 1\)</span> and that <span class="math inline">\(f(x) \in [0,1]\)</span>.</p>
+<p>For continuous random variables we need to use a <strong>probability density function</strong> (PDF) instead. We define the event <span class="math inline">\(A = \{x: a &lt; x \leq a + da\}\)</span> as an infinitesimal interval and then assign the probability <span class="math display">\[
+\text{Pr}(A) = \text{Pr}( a &lt; x \leq a + da) = f(a) da \,.
+\]</span> The PDF has the property that <span class="math inline">\(\int_{x \in \Omega} f(x) dx = 1\)</span> but in contrast to a PMF the density <span class="math inline">\(f(x)\geq 0\)</span> may take on values larger than 1.</p>
+<p>The set of all <span class="math inline">\(x\)</span> for which <span class="math inline">\(f(x)\)</span> is positive is called the <strong>support</strong> of the PDF/PMF.</p>
+</section>
+<section id="distribution-function-and-quantile-function" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="distribution-function-and-quantile-function"><span class="header-section-number">2.3</span> Distribution function and quantile function</h2>
+<p>As alternative to using PMF/PDFs we may also use a <strong>distribution function</strong> to describe the random variable. This assumes an ordering exist among the elementary events so that we can define the event <span class="math inline">\(A = \{x: x \leq a \}\)</span> and compute its probability as <span class="math display">\[
+F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
+\begin{cases}
+\sum_{x \in A} f(x) &amp; \text{discrete case} \\
+\int_{x \in A} f(x) dx &amp; \text{continuous case} \\
+\end{cases}
+\]</span> This is also known <strong>cumulative distribution function</strong> (CDF) and is denoted by upper case <span class="math inline">\(F\)</span> (or <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>). By construction the distribution function is monotonically non-decreasing and its value ranges from 0 to 1. With its help we can compute the probability of an interval set such as <span class="math display">\[
+\text{Pr}( a &lt; x \leq b ) = F(b)-F(a) \,.
+\]</span></p>
+<p>The inverse of the distribution function <span class="math inline">\(y=F(x)\)</span> is the <strong>quantile function</strong> <span class="math inline">\(x=F^{-1}(y)\)</span>. The 50% quantile <span class="math inline">\(F^{-1}\left(\frac{1}{2}\right)\)</span> is called the <strong>median</strong>.</p>
+<p>If the random variable <span class="math inline">\(x\)</span> has distribution function <span class="math inline">\(F\)</span> we write <span class="math inline">\(x \sim F\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/dens-dist.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="families-of-distributions" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="families-of-distributions"><span class="header-section-number">2.4</span> Families of distributions</h2>
+<p>A distribution <span class="math inline">\(F_{\theta}\)</span> with a parameter <span class="math inline">\(\theta\)</span> constitutes a <strong>distribution family</strong> collecting all the distributions corresponding to particular instances of the parameter. The parameter <span class="math inline">\(\theta\)</span> therefore acts as an index of the distributions contained in the family.</p>
+<p>The corresponding density (PDF) or probability mass function (PMF) is written either as <span class="math inline">\(f_{\theta}(x)\)</span>, <span class="math inline">\(f(x; \theta)\)</span> or <span class="math inline">\(f(x | \theta)\)</span>. The latter form is the most general is it suggests that the parameter <span class="math inline">\(\theta\)</span> may potentially also have its own distribution, with a joint density formed by <span class="math inline">\(f(x, \theta) = f(x | \theta) f(\theta)\)</span>.</p>
+<p>Note that any parameterisation is generally not unique, as a one-to-one transformation of <span class="math inline">\(\theta\)</span> will yield another equivalent index to the same distribution family. Typically, for most commonly used distribution families there are several standard parameterisations. Often we use those parameterisations where the parameters can be interpreted easily (e.g.&nbsp;in terms of moments).</p>
+<p>If for any pair of different parameter values <span class="math inline">\(\theta_1 \neq \theta_2\)</span> we get distinct distributions with <span class="math inline">\(F_{\theta_1} \neq F_{\theta_2}\)</span> then the distribution family <span class="math inline">\(F_{\theta}\)</span> is said to be <strong>identifiable</strong> by the parameter <span class="math inline">\(\theta\)</span>.</p>
+</section>
+<section id="expectation-of-a-random-variable" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="expectation-of-a-random-variable"><span class="header-section-number">2.5</span> Expectation of a random variable</h2>
+<p>The expected value <span class="math inline">\(\text{E}(x)\)</span> of a random variable is defined as the weighted average over all possible outcomes, with the weight given by the PMF / PDF <span class="math inline">\(f(x)\)</span>: <span class="math display">\[
+\text{E}_{F}(x) =
+\begin{cases}
+\sum_{x \in \Omega} x f(x) &amp; \text{discrete case} \\
+\int_{x \in \Omega} x f(x) dx &amp; \text{continuous case} \\
+\end{cases}
+\]</span> Note the notation to emphasise that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>. The subscript <span class="math inline">\(F\)</span> is usually left out if there are no ambiguities. Furthermore, because the sum or integral may diverge the expectation is not necessarily always defined (in contrast to quantiles).</p>
+<p>The expected value of a function of a random variable <span class="math inline">\(h(x)\)</span> is obtained similarly: <span class="math display">\[
+\text{E}_{F}(h(x)) =
+\begin{cases}
+\sum_{x \in \Omega} h(x) f(x)  &amp; \text{discrete case} \\
+\int_{x \in \Omega}  h(x) f(x) dx &amp; \text{continuous case} \\
+\end{cases}
+\]</span> This is called the <a href="https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician">“law of the unconscious statistician”</a>, or short LOTUS. Again, to highlight that the random variable <span class="math inline">\(x\)</span> has distribution <span class="math inline">\(F\)</span> we write <span class="math inline">\(\text{E}_F(h(x))\)</span>.</p>
+</section>
+<section id="jensens-inequality-for-the-expectation" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="jensens-inequality-for-the-expectation"><span class="header-section-number">2.6</span> Jensen’s inequality for the expectation</h2>
+<p>If <span class="math inline">\(h(\symbfit x)\)</span> is a <em>convex</em> function then the following inequality holds:</p>
+<p><span class="math display">\[
+\text{E}(h(\symbfit x)) \geq h(\text{E}(\symbfit x))
+\]</span></p>
+<p>Recall: a con<strong>ve</strong>x function (such as <span class="math inline">\(x^2\)</span>) has the shape of a “<strong>va</strong>lley”.</p>
+</section>
+<section id="probability-as-expectation" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="probability-as-expectation"><span class="header-section-number">2.7</span> Probability as expectation</h2>
+<p>Probability itself can also be understood as an expectation. For an event <span class="math inline">\(A\)</span> we can define a corresponding indicator function <span class="math inline">\(1_{ x \in A}\)</span> for an elementary element <span class="math inline">\(x\)</span> to be part of <span class="math inline">\(A\)</span>. From the above it then follows <span class="math display">\[
+\text{E}( 1_{x \in A} ) = \text{Pr}(A) \, ,
+\]</span></p>
+<p>Interestingly, one can develop the whole theory of probability from this perspective. <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+</section>
+<section id="moments-and-variance-of-a-random-variable" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="moments-and-variance-of-a-random-variable"><span class="header-section-number">2.8</span> Moments and variance of a random variable</h2>
+<p>The moments of a random variable are defined as follows:</p>
+<ul>
+<li>Zeroth moment: <span class="math inline">\(\text{E}(x^0) = 1\)</span> by construction of PDF and PMF,</li>
+<li>First moment: <span class="math inline">\(\text{E}(x^1) = \text{E}(x) = \mu\)</span> , the mean,</li>
+<li>Second moment: <span class="math inline">\(\text{E}(x^2)\)</span></li>
+<li>The variance is the second moment centred about the mean <span class="math inline">\(\mu\)</span>: <span class="math display">\[\text{Var}(x) = \text{E}( (x - \mu)^2 ) = \sigma^2\]</span></li>
+<li>The variance can also be computed by <span class="math inline">\(\text{Var}(x) = \text{E}(x^2)-\text{E}(x)^2\)</span>. This provides an example of Jensen’s inequality, with <span class="math inline">\(\text{E}(x^2) =\text{E}(x)^2 + \text{Var}(x) \geq \text{E}(x)^2\)</span>.</li>
+</ul>
+<p>A distribution does not necessarily need to have any finite first or higher moments. An example is the <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution</a> that does not have a mean or variance (or any other higher moment).</p>
+</section>
+<section id="random-vectors-and-their-mean-and-variance" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.9</span> Random vectors and their mean and variance</h2>
+<p>In addition to scalar random variables we often make use of random vectors and also random matrices. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>For a random vector <span class="math inline">\(\symbfit x= (x_1, x_2,...,x_d)^T \sim F\)</span> the mean <span class="math inline">\(\text{E}(\symbfit x) = \symbfit \mu\)</span> is given by the means of its components, i.e.&nbsp;<span class="math inline">\(\symbfit \mu= (\mu_1, \ldots, \mu_d)^T\)</span> with <span class="math inline">\(\mu_i = \text{E}(x_i)\)</span>. Thus, the mean of a random vector of dimension <span class="math inline">\(d\)</span> is a vector of the same length.</p>
+<p>The variance of a random vector of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>: <span class="math display">\[
+\begin{split}
+\text{Var}(\symbfit x) &amp;= \underbrace{\symbfit \Sigma}_{d\times d} = (\sigma_{ij}) = \begin{pmatrix}
+    \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    \sigma_{d1} &amp; \dots &amp; \sigma_{dd}
+\end{pmatrix} \\
+  &amp;=\text{E}\left(\underbrace{(\symbfit x-\symbfit \mu)}_{d\times 1} \underbrace{(\symbfit x-\symbfit \mu)^T}_{1\times d}\right) \\
+  &amp; = \text{E}(\symbfit x\symbfit x^T)-\symbfit \mu\symbfit \mu^T \\
+\end{split}
+\]</span> The entries of the covariance matrix <span class="math inline">\(\sigma_{ij} =\text{Cov}(x_i, x_j)\)</span> describe the covariance between the random variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>. The covariance matrix is symmetric, hence <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. The diagonal entries <span class="math inline">\(\sigma_{ii}  = \text{Cov}(x_i, x_i) = \text{Var}(x_i) = \sigma_i^2\)</span> correspond to the variances of the components of <span class="math inline">\(\symbfit x\)</span>. The covariance matrix is by construction <strong>positive semi-definite</strong>, i.e.&nbsp;the eigenvalues of <span class="math inline">\(\symbfit \Sigma\)</span> are all positive or equal to zero.</p>
+<p>However, wherever possible one will aim to use models with non-singular covariance matrices, with all eigenvalues positive, so that the covariance matrix is invertible.</p>
+</section>
+<section id="correlation-matrix" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="correlation-matrix"><span class="header-section-number">2.10</span> Correlation matrix</h2>
+<p>The <strong>correlation matrix</strong> <span class="math inline">\(\symbfit P\)</span> (“upper case rho”, not “upper case p”) is the variance standardised version of the covariance matrix <span class="math inline">\(\symbfit \Sigma\)</span>.</p>
+<p>Specifically, denote by <span class="math inline">\(\symbfit V\)</span> the diagonal matrix containing the variances <span class="math display">\[
+\symbfit V= \begin{pmatrix}
+    \sigma_{11} &amp; \dots &amp; 0\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    0 &amp; \dots &amp; \sigma_{dd}
+\end{pmatrix}
+\]</span> then the correlation matrix <span class="math inline">\(\symbfit P\)</span> is given by <span class="math display">\[
+\symbfit P= (\rho_{ij}) = \begin{pmatrix}
+    1 &amp; \dots &amp; \rho_{1d}\\
+     \vdots &amp; \ddots &amp; \vdots \\
+    \rho_{d1} &amp; \dots &amp; 1
+\end{pmatrix}   = \symbfit V^{-\frac{1}{2}} \symbfit \Sigma\symbfit V^{-\frac{1}{2}}
+\]</span> Like the covariance matrix the correlation matrix is symmetric, and note that the diagonal of <span class="math inline">\(\symbfit P\)</span> contains only 1s.</p>
+<p>Equivalently, in component notation the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is given by <span class="math display">\[
+\rho_{ij} = \text{Cor}(x_i,x_j) = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}
+\]</span></p>
+<p>Using the above, a covariance matrix can be factorised into the product of standard deviations <span class="math inline">\(\symbfit V^{\frac{1}{2}}\)</span> and the correlation matrix as follows: <span class="math display">\[
+\symbfit \Sigma= \symbfit V^{\frac{1}{2}} \symbfit P\symbfit V^{\frac{1}{2}}
+\]</span></p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>For scalar random variables many texts use upper case to designate the random variable and lower case for its realisations. However, this convention quickly breaks down in multivariate statistics when dealing with random vectors and random matrices. Hence, we use upper case primarily to indicate a matrix quantity (in bold type). Upper case (in plain type) may denote sets and some scalar quantities traditionally written in upper case (e.g.&nbsp;<span class="math inline">\(R^2\)</span>, <span class="math inline">\(K\)</span>). If a quantity is random we will always specify this explicitly in the context.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Mardia, K. V., J. T. Kent and J. M. Bibby. 1979. <em>Multivariate Analysis</em>. Academic Press.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Whittle, P. 2000. Probability via Expectation (3rd ed.). Springer. <a href="https://doi.org/10.1007/978-1-4612-0509-8" class="uri">https://doi.org/10.1007/978-1-4612-0509-8</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>In our notational conventions, a <strong>vector</strong> <span class="math inline">\(\symbfit x\)</span> is written in <em>lower case in bold type</em>, a <strong>matrix</strong> <span class="math inline">\(\symbfit M\)</span> in <em>upper case in bold type</em>. Hence random vectors and matrices as well as their realisations are indicated in bold type, with vectors given in lower case and matrices in upper case. Hence, as for scalar variables, upper vs.&nbsp;lower case does not indicate randomness vs.&nbsp;realisation.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/probability-distribution-refresher\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-combinatorics.html" class="pagination-link" aria-label="Combinatorics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-transformations.html" class="pagination-link" aria-label="Transforming and combining random variables">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

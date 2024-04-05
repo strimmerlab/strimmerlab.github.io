@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability and Distribution Refresher - 4&nbsp; Univariate distributions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-multivariate.html" rel="next">
+<link href="./03-transformations.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-univariate.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probability and Distribution Refresher</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-univariate.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bernoulli-distribution" id="toc-bernoulli-distribution" class="nav-link active" data-scroll-target="#bernoulli-distribution"><span class="header-section-number">4.1</span> Bernoulli distribution</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="header-section-number">4.2</span> Binomial distribution</a></li>
+  <li><a href="#beta-distribution" id="toc-beta-distribution" class="nav-link" data-scroll-target="#beta-distribution"><span class="header-section-number">4.3</span> Beta distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parameterisation" id="toc-standard-parameterisation" class="nav-link" data-scroll-target="#standard-parameterisation"><span class="header-section-number">4.3.1</span> Standard parameterisation</a></li>
+  <li><a href="#mean-parameterisation" id="toc-mean-parameterisation" class="nav-link" data-scroll-target="#mean-parameterisation"><span class="header-section-number">4.3.2</span> Mean parameterisation</a></li>
+  </ul></li>
+  <li><a href="#normal-distribution" id="toc-normal-distribution" class="nav-link" data-scroll-target="#normal-distribution"><span class="header-section-number">4.4</span> Normal distribution</a></li>
+  <li><a href="#gamma-distribution-and-special-cases" id="toc-gamma-distribution-and-special-cases" class="nav-link" data-scroll-target="#gamma-distribution-and-special-cases"><span class="header-section-number">4.5</span> Gamma distribution and special cases</a>
+  <ul class="collapse">
+  <li><a href="#standard-parameterisation-1" id="toc-standard-parameterisation-1" class="nav-link" data-scroll-target="#standard-parameterisation-1"><span class="header-section-number">4.5.1</span> Standard parameterisation</a></li>
+  <li><a href="#wishart-parameterisation-and-scaled-chi-squared-distribution" id="toc-wishart-parameterisation-and-scaled-chi-squared-distribution" class="nav-link" data-scroll-target="#wishart-parameterisation-and-scaled-chi-squared-distribution"><span class="header-section-number">4.5.2</span> Wishart parameterisation and scaled chi-squared distribution</a></li>
+  <li><a href="#construction-as-sum-of-squared-normals" id="toc-construction-as-sum-of-squared-normals" class="nav-link" data-scroll-target="#construction-as-sum-of-squared-normals"><span class="header-section-number">4.5.3</span> Construction as sum of squared normals</a></li>
+  <li><a href="#chi-squared-distribution" id="toc-chi-squared-distribution" class="nav-link" data-scroll-target="#chi-squared-distribution"><span class="header-section-number">4.5.4</span> Chi-squared distribution</a></li>
+  <li><a href="#exponential-distribution" id="toc-exponential-distribution" class="nav-link" data-scroll-target="#exponential-distribution"><span class="header-section-number">4.5.5</span> Exponential distribution</a></li>
+  </ul></li>
+  <li><a href="#inverse-gamma-distribution" id="toc-inverse-gamma-distribution" class="nav-link" data-scroll-target="#inverse-gamma-distribution"><span class="header-section-number">4.6</span> Inverse gamma distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parameterisation-2" id="toc-standard-parameterisation-2" class="nav-link" data-scroll-target="#standard-parameterisation-2"><span class="header-section-number">4.6.1</span> Standard parameterisation</a></li>
+  <li><a href="#wishart-parameterisation" id="toc-wishart-parameterisation" class="nav-link" data-scroll-target="#wishart-parameterisation"><span class="header-section-number">4.6.2</span> Wishart parameterisation</a></li>
+  </ul></li>
+  <li><a href="#location-scale-t-distribution-and-special-cases" id="toc-location-scale-t-distribution-and-special-cases" class="nav-link" data-scroll-target="#location-scale-t-distribution-and-special-cases"><span class="header-section-number">4.7</span> Location-scale <span class="math inline">\(t\)</span>-distribution and special cases</a>
+  <ul class="collapse">
+  <li><a href="#location-scale-t-distribution" id="toc-location-scale-t-distribution" class="nav-link" data-scroll-target="#location-scale-t-distribution"><span class="header-section-number">4.7.1</span> Location-scale <span class="math inline">\(t\)</span>-distribution</a></li>
+  <li><a href="#location-scale-t-distribution-as-compound-distribution" id="toc-location-scale-t-distribution-as-compound-distribution" class="nav-link" data-scroll-target="#location-scale-t-distribution-as-compound-distribution"><span class="header-section-number">4.7.2</span> Location-scale <span class="math inline">\(t\)</span>-distribution as compound distribution</a></li>
+  <li><a href="#students-t-distribution" id="toc-students-t-distribution" class="nav-link" data-scroll-target="#students-t-distribution"><span class="header-section-number">4.7.3</span> Student’s <span class="math inline">\(t\)</span>-distribution</a></li>
+  <li><a href="#cauchy-and-standard-cauchy-distribution" id="toc-cauchy-and-standard-cauchy-distribution" class="nav-link" data-scroll-target="#cauchy-and-standard-cauchy-distribution"><span class="header-section-number">4.7.4</span> Cauchy and standard Cauchy distribution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="bernoulli-distribution" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="bernoulli-distribution"><span class="header-section-number">4.1</span> Bernoulli distribution</h2>
+<p>The <strong>Bernoulli distribution</strong> <span class="math inline">\(\text{Ber}(\theta)\)</span> is the simplest of all distribution families. It is named after <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a> who also discovered the law of large numbers.</p>
+<p>It describes a discrete binary random variable with two states <span class="math inline">\(x=0\)</span> (“failure”) and <span class="math inline">\(x=1\)</span> (“success”), where the parameter <span class="math inline">\(\theta \in [0,1]\)</span> is the probability of “success”. Often the Bernoulli distribution is also referred to as “coin tossing” model with the two outcomes “heads” and “tails”.</p>
+<p>Correspondingly, the probability mass function of <span class="math inline">\(\text{Ber}(\theta)\)</span> is <span class="math display">\[
+p(x=0 | \theta) = \text{Pr}(\text{"failure"}| \theta) = 1-\theta  
+\]</span> and <span class="math display">\[
+p(x=1| \theta) = \text{Pr}(\text{"success"}| \theta) = \theta
+\]</span> A compact way to write the PMF of the Bernoulli distribution is <span class="math display">\[
+p(x | \theta ) = \theta^{x} (1-\theta)^{1-x}
+\]</span> The log PMF is <span class="math display">\[
+\log p(x | \theta ) = x \log \theta + (1-x)\log (1-\theta)
+\]</span></p>
+<p>If a random variable <span class="math inline">\(x\)</span> follows the Bernoulli distribution we write <span class="math display">\[
+x \sim \text{Ber}(\theta) \,.
+\]</span> The expected value is <span class="math inline">\(\text{E}(x) = \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(x) = \theta (1 - \theta)\)</span>.</p>
+</section>
+<section id="binomial-distribution" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">4.2</span> Binomial distribution</h2>
+<p>Closely related to the Bernoulli distribution is the <strong>binomial distribution</strong> <span class="math inline">\(\text{Bin}(n, \theta)\)</span> which results from repeating a Bernoulli experiment <span class="math inline">\(n\)</span> times and counting the number of successes among the <span class="math inline">\(n\)</span> trials (without keeping track of the ordering of the experiments). Thus, if <span class="math inline">\(x_1, \ldots, x_n\)</span> are <span class="math inline">\(n\)</span> independent <span class="math inline">\(\text{Ber}(\theta)\)</span> random variables then <span class="math inline">\(y = \sum_{i=1}^n x_i\)</span> is distributed as <span class="math inline">\(\text{Bin}(n, \theta)\)</span>.</p>
+<p>If a random variable <span class="math inline">\(y\)</span> follows the binomial distribution we write <span class="math display">\[
+y \sim \text{Bin}(n, \theta)\,
+\]</span></p>
+<p>The corresponding probability mass function is: <span class="math display">\[
+p(y | n, \theta) = \binom{n}{y} \theta^y (1 - \theta)^{n - y}
+\]</span> with support <span class="math inline">\(y \in \{ 0, 1, 2, \ldots, n\}\)</span>. The binomial coefficient <span class="math inline">\(\binom{n}{y}\)</span> is needed to account for the multiplicity of ways (orderings of samples) in which we can observe <span class="math inline">\(y\)</span> successes.</p>
+<p>The expected value is <span class="math inline">\(\text{E}(y) = n \theta\)</span> and the variance is <span class="math inline">\(\text{Var}(y) = n \theta (1 - \theta)\)</span>.</p>
+<p>If we standardise the support of the binomial variable to the unit interval with <span class="math inline">\(\frac{y}{n} \in \left\{0,\frac{1}{n},...,1\right\}\)</span> then the mean is <span class="math inline">\(\text{E}\left(\frac{y}{n}\right) = \theta\)</span> and the variance is <span class="math inline">\(\text{Var}\left(\frac{y}{n}\right)=\frac{\theta (1-\theta)}{n}\)</span>.</p>
+<p>The binomial distribution may be illustrated by an urn model distributing <span class="math inline">\(n\)</span> balls into <span class="math inline">\(2\)</span> bins:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/urn-binom.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For <span class="math inline">\(n=1\)</span> the binomial distribution reduces to the Bernoulli distribution.</p>
+<p>In R the PMF of the binomial distribution is given by <code>dbinom()</code>, the cumulative distribution function is <code>pbinom()</code> and the quantile function is <code>qbinom()</code>. The binomial coefficient itself is computed by <code>choose()</code>.</p>
+<p>As a result of the central limit theorem, the binomial distribution, obtained as the convolution of <span class="math inline">\(n\)</span> Bernoulli distributions, can for large <span class="math inline">\(n\)</span> be well approximated by a normal distribution (this is known as the <a href="https://en.wikipedia.org/wiki/De_Moivre%E2%80%93Laplace_theorem">De Moivre–Laplace theorem</a>).</p>
+</section>
+<section id="beta-distribution" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="beta-distribution"><span class="header-section-number">4.3</span> Beta distribution</h2>
+<section id="standard-parameterisation" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="standard-parameterisation"><span class="header-section-number">4.3.1</span> Standard parameterisation</h3>
+<p>A beta-distributed random variable is denoted by <span class="math display">\[
+x \sim \text{Beta}(\alpha, \beta)
+\]</span> where the support is <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&gt;0\)</span> are two shape parameters.</p>
+<p>The beta random variable can be visualised as breaking a unit stick of length one into two pieces of length <span class="math inline">\(x\)</span> and <span class="math inline">\(1-x\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/stick-beta.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The density of the beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> is <span class="math display">\[
+p(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}
+\]</span> This depends on the beta function defined as <span class="math display">\[
+B(z_1, z_1) = \frac{ \Gamma(z_1) \Gamma(z_2)}{\Gamma(z_1 + z_2)}
+\]</span></p>
+<p>The beta distribution is very flexible and can assume a number of different shapes, depending on the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. For example, for <span class="math inline">\(\alpha=\beta=1\)</span> it becomes the uniform distribution over the unit interval:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/bayes2-betashapes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In R the PDF of the beta distribution is given by <code>dbeta()</code>, the cumulative distribution function is <code>pbeta()</code> and the quantile function is <code>qbeta()</code>.</p>
+</section>
+<section id="mean-parameterisation" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="mean-parameterisation"><span class="header-section-number">4.3.2</span> Mean parameterisation</h3>
+<p>Instead of employing <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> as parameters another useful reparameterisation <span class="math inline">\(\text{Beta}(\mu, k)\)</span> of the beta distribution is in terms of a mean parameter <span class="math inline">\(\mu \in [0,1]\)</span> and a concentration parameter <span class="math inline">\(k &gt; 0\)</span>. These are given by <span class="math display">\[
+k=\alpha+\beta
+\]</span> and <span class="math display">\[\mu = \frac{\alpha}{\alpha+\beta}
+\]</span> The original parameters can be recovered by <span class="math inline">\(\alpha= \mu k\)</span> and <span class="math inline">\(\beta=(1-\mu) k\)</span>.</p>
+<p>The mean and variance of the beta distribution expressed in terms of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> are <span class="math display">\[
+\text{E}(x) = \mu
+\]</span> and <span class="math display">\[
+\text{Var}(x)=\frac{\mu (1-\mu)}{k+1}
+\]</span> With increasing concentration parameter <span class="math inline">\(k\)</span> the variance decreases and thus the probability mass becomes more concentrated around the mean.</p>
+<p>The uniform distribution (with <span class="math inline">\(\alpha=\beta=1\)</span>) corresponds to <span class="math inline">\(\mu=1/2\)</span> and <span class="math inline">\(k=2\)</span>.</p>
+<p>Finally, note that the mean and variance of the continuous beta distribution closely match those of the unit-standardised discrete binomial distribution above.</p>
+</section>
+</section>
+<section id="normal-distribution" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="normal-distribution"><span class="header-section-number">4.4</span> Normal distribution</h2>
+<p>The <strong>normal distribution</strong> is the most important continuous probability distribution. It is also called <strong>Gaussian distribution</strong> named after <a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Carl Friedrich Gauss (1777–1855)</a>.</p>
+<p>The univariate normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> has two parameters <span class="math inline">\(\mu\)</span> (location) and <span class="math inline">\(\sigma^2\)</span> (scale) and support <span class="math inline">\(x \in ]-\infty, \infty[\)</span>.</p>
+<p><span class="math display">\[
+x \sim N(\mu,\sigma^2)
+\]</span> with mean <span class="math display">\[
+\text{E}(x)=\mu
+\]</span> and variance <span class="math display">\[
+\text{Var}(x) = \sigma^2
+\]</span></p>
+<p>Probability density function (PDF): <span class="math display">\[
+p(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+\]</span></p>
+<p>The standard normal distribution is <span class="math inline">\(N(0, 1)\)</span> with mean 0 and variance 1.</p>
+<p>Plot of the PDF of the standard normal:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-univariate_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span> is <span class="math display">\[
+\Phi (x ) = \int_{-\infty}^{x} p(x'| \mu=0, \sigma^2=1) dx'
+\]</span> There is no analytic expression for <span class="math inline">\(\Phi(x)\)</span>.</p>
+<p>Plot of the CDF of the standard normal:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-univariate_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The inverse <span class="math inline">\(\Phi^{-1}(p)\)</span> is called the quantile function of the standard normal.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-univariate_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In R the normal PDF is given by <code>dnorm()</code>, the cumulative distribution function is <code>pnorm()</code> and the quantile function is <code>qnorm()</code>.</p>
+</section>
+<section id="gamma-distribution-and-special-cases" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="gamma-distribution-and-special-cases"><span class="header-section-number">4.5</span> Gamma distribution and special cases</h2>
+<p>The gamma distribution is widely used in statistics, and also appears in various parameterisations and under some other names, such as univariate Wishart and scaled chi-squared distribution</p>
+<section id="standard-parameterisation-1" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="standard-parameterisation-1"><span class="header-section-number">4.5.1</span> Standard parameterisation</h3>
+<p>The gamma distribution <span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span> is a continuous distribution with two parameters <span class="math inline">\(\alpha&gt;0\)</span> (shape) and <span class="math inline">\(\theta&gt;0\)</span> (scale): <span class="math display">\[
+x \sim\text{Gam}(\alpha, \theta)
+\]</span> and support <span class="math inline">\(x \in [0, \infty[\)</span> with mean <span class="math display">\[\text{E}(x)=\alpha \theta\]</span> and variance <span class="math display">\[\text{Var}(x) = \alpha \theta^2\]</span></p>
+<p>The gamma distribution is also often used with a rate parameter <span class="math inline">\(\beta=1/\theta\)</span> (so one needs to pay attention which parameterisation is used).</p>
+<p>The probability density function (PDF) is: <span class="math display">\[
+p(x| \alpha, \theta)=\frac{1}{\Gamma(\alpha) \theta^{\alpha} } x^{\alpha-1} e^{-x/\theta}
+\]</span> The density of the gamma distribution is available in the R function <code>dgamma()</code>. The cumulative density function is <code>pgamma()</code> and the quantile function is <code>qgamma()</code>.</p>
+</section>
+<section id="wishart-parameterisation-and-scaled-chi-squared-distribution" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="wishart-parameterisation-and-scaled-chi-squared-distribution"><span class="header-section-number">4.5.2</span> Wishart parameterisation and scaled chi-squared distribution</h3>
+<p>The gamma distribution is often used with a different set of parameters <span class="math inline">\(k=2 \alpha\)</span> and <span class="math inline">\(s^2 =\theta/2\)</span> (hence conversely <span class="math inline">\(\alpha = k/2\)</span> and <span class="math inline">\(\theta=2 s^2\)</span>). In this form it is known as <strong>univariate or one-dimensional Wishart distribution</strong> <span class="math display">\[
+\text{W}_1\left(s^2, k \right)
+\]</span> named after <a href="https://en.wikipedia.org/wiki/John_Wishart_(statistician)">John Wishart (1898–1954)</a>. In the Wishart parameterisation the mean is <span class="math display">\[
+\text{E}(x) = k s^2
+\]</span> and the variance <span class="math display">\[
+\text{Var}(x) = 2 k s^4
+\]</span></p>
+<p>Another name for the one-dimensional Wishart distribution with exactly the same parameterisation is <strong>scaled chi-squared distribution</strong> denoted as <span class="math display">\[
+s^2 \text{$\chi^2_{k}$}
+\]</span></p>
+<p>Finally, we also often employ the Wishart distribution in <strong>mean parameterisation</strong> <span class="math display">\[
+\text{W}_1\left(s^2= \frac{\mu}{k}, k \right)
+\]</span> with parameters <span class="math inline">\(\mu = k s^2\)</span> and <span class="math inline">\(k\)</span> (and thus <span class="math inline">\(\theta = 2 \mu /k\)</span>). In this parameterisation the mean is <span class="math display">\[
+\text{E}(x) = \mu
+\]</span> and the variance <span class="math display">\[
+\text{Var}(x) = \frac{2 \mu^2}{k}
+\]</span></p>
+</section>
+<section id="construction-as-sum-of-squared-normals" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="construction-as-sum-of-squared-normals"><span class="header-section-number">4.5.3</span> Construction as sum of squared normals</h3>
+<p>A gamma distributed variable can be constructed as follows. Assume <span class="math inline">\(k\)</span> independent normal random variables with mean 0 and variance <span class="math inline">\(s^2\)</span>: <span class="math display">\[z_1,z_2,\dots,z_k\sim N(0,s^2)\]</span> Then the sum of the squares <span class="math display">\[
+x = \sum_{i=1}^{k} z_i^2
+\]</span> follows <span class="math display">\[
+\begin{split}
+x \sim &amp; \phantom{=} s^2 \text{$\chi^2_{k}$} \\
+       &amp; = \text{W}_1\left( s^2, k \right)\\
+       &amp; =\text{Gam}\left(\alpha=\frac{k}{2}, \theta = 2 s^2\right)
+\end{split}
+\]</span></p>
+</section>
+<section id="chi-squared-distribution" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="chi-squared-distribution"><span class="header-section-number">4.5.4</span> Chi-squared distribution</h3>
+<p>The <strong>chi-squared distribution</strong> <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> is a special one-parameter restriction of the gamma resp. Wishart distribution obtained when setting <span class="math inline">\(s^2=1\)</span> or, equivalently, <span class="math inline">\(\theta = 2\)</span> or <span class="math inline">\(\mu = k\)</span>.</p>
+<p>It has mean <span class="math inline">\(\text{E}(x)=k\)</span> and variance <span class="math inline">\(\text{Var}(x)=2k\)</span>. The chi-squared distribution <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> equals <span class="math inline">\(\text{Gam}(\alpha=k/2, \theta=2) =  \text{W}_1\left(1, k \right)\)</span>.</p>
+<p>Here is a plot of the density of the chi-squared distribution for degrees of freedom <span class="math inline">\(k=1\)</span> and <span class="math inline">\(k=3\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-univariate_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In R the density of the chi-squared distribution is given by <code>dchisq()</code>. The cumulative density function is <code>pchisq()</code> and the quantile function is <code>qchisq()</code>.</p>
+</section>
+<section id="exponential-distribution" class="level3" data-number="4.5.5">
+<h3 data-number="4.5.5" class="anchored" data-anchor-id="exponential-distribution"><span class="header-section-number">4.5.5</span> Exponential distribution</h3>
+<p>The <strong>exponential distribution</strong> <span class="math inline">\(\text{Exp}(\theta)\)</span> with scale parameter <span class="math inline">\(\theta\)</span> is another special one-parameter restriction of the gamma distribution with shape parameter set to <span class="math inline">\(\alpha=1\)</span> (or equivalently <span class="math inline">\(k=2\)</span>).</p>
+<p>It thus equals <span class="math inline">\(\text{Gam}(\alpha=1, \theta) = \text{W}_1(s^2=\theta/2, k=2)\)</span>. It has mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\(\theta^2\)</span>.</p>
+<p>Just like the gamma distribution the exponential distribution is also often specified using a rate parameter <span class="math inline">\(\beta= 1/\theta\)</span> instead of a scale parameter <span class="math inline">\(\theta\)</span>.</p>
+<p>In R the command <code>dexp()</code> returns the density of the exponential distribution, <code>pexp()</code> is the corresponding cumulative density function and <code>qexp()</code> is the quantile function.</p>
+</section>
+</section>
+<section id="inverse-gamma-distribution" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="inverse-gamma-distribution"><span class="header-section-number">4.6</span> Inverse gamma distribution</h2>
+<p>Also know as inverse univariate Wishart distribution.</p>
+<section id="standard-parameterisation-2" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="standard-parameterisation-2"><span class="header-section-number">4.6.1</span> Standard parameterisation</h3>
+<p>A random variable <span class="math inline">\(x\)</span> following an <strong>inverse gamma distribution</strong> is denoted by <span class="math display">\[
+x \sim \text{Inv-Gam}(\alpha, \beta)
+\]</span> with two parameters <span class="math inline">\(\alpha &gt;0\)</span> (shape parameter) and <span class="math inline">\(\beta &gt;0\)</span> (scale parameter) and support <span class="math inline">\(x &gt;0\)</span>.</p>
+<p>The inverse of <span class="math inline">\(x\)</span> is then gamma distributed <span class="math display">\[
+\frac{1}{x} \sim \text{Gam}(\alpha, \theta=\beta^{-1})
+\]</span> where <span class="math inline">\(\alpha\)</span> is the shared shape parameter and <span class="math inline">\(\theta\)</span> the scale parameter of the gamma distribution.</p>
+<p>The inverse gamma distribution <span class="math inline">\(\text{Inv-Gam}(\alpha, \beta)\)</span> has density <span class="math display">\[
+p(x | \alpha, \beta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)} (1/x)^{\alpha+1} e^{-\beta/x}
+\]</span></p>
+<p>The mean of the inverse gamma distribution is <span class="math display">\[\text{E}(x) = \frac{\beta}{\alpha-1}\]</span> and the variance <span class="math display">\[\text{Var}(x) = \frac{\beta^2}{(\alpha-1)^2 (\alpha-2)}\]</span></p>
+<p>Thus, for the mean to exist we have the restriction <span class="math inline">\(\alpha&gt;1\)</span> and for the variance to exist <span class="math inline">\(\alpha&gt;2\)</span>.</p>
+<p>In the R <code>extraDistr</code> package the density of the inverse gamma distribution is given by <code>extraDistr::dinvgamma()</code>, the function <code>extraDistr::pinvgamma()</code> returns the corresponding cumulative density and <code>extraDistr::qinvgamma()</code> is the quantile function.</p>
+</section>
+<section id="wishart-parameterisation" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="wishart-parameterisation"><span class="header-section-number">4.6.2</span> Wishart parameterisation</h3>
+<p>The inverse gamma distribution is frequently used with a different set of parameters <span class="math inline">\(\psi = 2\beta\)</span> (scale parameter) and <span class="math inline">\(\nu = 2\alpha\)</span> (shape parameter), or conversely <span class="math inline">\(\alpha=\nu/2\)</span> and <span class="math inline">\(\beta=\psi/2\)</span>. In this form it is called <strong>one-dimensional inverse Wishart distribution</strong> <span class="math display">\[
+\text{W}^{-1}_1(\psi, \nu)
+\]</span> with mean given by <span class="math display">\[
+\text{E}(x) = \frac{\psi}{\nu-2}
+\]</span> for <span class="math inline">\(\nu&gt;2\)</span> and variance <span class="math display">\[
+\text{Var}(x) =\frac{2 \psi^2}{(\nu-2)^2 (\nu-4) }  
+\]</span> for <span class="math inline">\(\nu &gt;4\)</span>.</p>
+<p>The inverse univariate Wishart and univariate Wishart distributions are linked. If a random variable <span class="math inline">\(x\)</span> is inverse Wishart distributed <span class="math display">\[
+x \sim \text{W}^{-1}_1(\psi, \nu)
+\]</span> then the inverse of <span class="math inline">\(x\)</span> is Wishart distributed with inverted scale parameter: <span class="math display">\[\frac{1}{x} \sim \text{W}_1(s^2=\psi^{-1}, k=\nu)\]</span> where <span class="math inline">\(k\)</span> is the shape parameter and <span class="math inline">\(s^2\)</span> the scale parameter of the Wishart distribution.</p>
+<p>Instead of <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span> we may also equivalently use <span class="math inline">\(\kappa=\nu-2\)</span> and <span class="math inline">\(\mu = \psi/(\nu-2)\)</span> as parameters for the inverse Wishart distribution, so that <span class="math display">\[
+\text{W}^{-1}_1(\psi=\kappa \mu, \nu=\kappa+2)
+\]</span> has mean <span class="math display">\[\text{E}(x) = \mu\]</span> with <span class="math inline">\(\kappa&gt;0\)</span> and the variance is <span class="math display">\[\text{Var}(x) = \frac{2 \mu^2}{\kappa-2}\]</span> with <span class="math inline">\(\kappa&gt;2\)</span>. This <strong>mean parameterisation</strong> is useful when employing the inverse gamma distribution as prior and posterior.</p>
+<p>Finally, with <span class="math inline">\(\text{W}^{-1}_1(\psi=\nu \tau^2, \nu)\)</span>, where <span class="math inline">\(\tau^2  = \mu \frac{ \kappa}{\kappa+2} = \frac{\psi}{\nu}\)</span> is a biased mean parameter, we get the <strong>scaled inverse chi-squared distribution</strong> <span class="math inline">\(\tau^2 \text{Inv-$\chi^2_{\nu}$}\)</span> with <span class="math display">\[
+\text{E}(x) = \tau^2 \frac{ \nu}{\nu-2}
+\]</span> for <span class="math inline">\(\nu&gt;2\)</span> and <span class="math display">\[
+\text{Var}(x) =\frac{2 \tau^4}{\nu-4} \frac{\nu^2}{(\nu-2)^2}
+\]</span> for <span class="math inline">\(\nu &gt;4\)</span>.</p>
+</section>
+</section>
+<section id="location-scale-t-distribution-and-special-cases" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="location-scale-t-distribution-and-special-cases"><span class="header-section-number">4.7</span> Location-scale <span class="math inline">\(t\)</span>-distribution and special cases</h2>
+<section id="location-scale-t-distribution" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="location-scale-t-distribution"><span class="header-section-number">4.7.1</span> Location-scale <span class="math inline">\(t\)</span>-distribution</h3>
+<p>The location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> is a generalisation of the normal distribution. It has an additional parameter <span class="math inline">\(\nu &gt; 0\)</span> (degrees of freedom) that controls the probability mass in the tails. For small values of <span class="math inline">\(\nu\)</span> the distribution is heavy-tailed — indeed so heavy that for <span class="math inline">\(\nu \leq 1\)</span> even the mean is not defined and for <span class="math inline">\(\nu \leq 2\)</span> the variance is undefined.</p>
+<p>The probability density of <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> is <span class="math display">\[
+p(x | \mu, \tau^2, \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\pi \nu \tau^2}  \,\Gamma(\frac{\nu}{2})} \left(1+\frac{(x-\mu)^2}{\nu \tau^2} \right)^{-(\nu+1)/2}
+\]</span> with support <span class="math inline">\(x \in ]-\infty, \infty[\)</span>. The mean is (for <span class="math inline">\(\nu&gt;1\)</span>) <span class="math display">\[
+\text{E}(x) = \mu
+\]</span> and the variance (for <span class="math inline">\(\nu&gt;2\)</span>) <span class="math display">\[
+\text{Var}(x) = \tau^2 \frac{\nu}{\nu-2}
+\]</span></p>
+<p>For <span class="math inline">\(\nu \rightarrow \infty\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> becomes the normal distribution <span class="math inline">\(N(\mu, \tau^2)\)</span>.</p>
+<p>In the R <code>extraDistr</code> package the command <code>extraDistr::dlst()</code> returns the density of the location-scale <span class="math inline">\(t\)</span>-distribution, <code>extraDistr::plst()</code> is the corresponding cumulative density function and <code>extraDistr::qlst()</code> is the quantile function.</p>
+<p>The following figure illustrates the relationship of the location-scale <span class="math inline">\(t\)</span> distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> with related distributions such as the normal distribution <span class="math inline">\(N(\mu, \tau^2)\)</span>, Student’s <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_\nu\)</span> and the Cauchy distribution <span class="math inline">\(\text{Cau}(\mu, \tau)\)</span> discussed further below.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/lst.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="location-scale-t-distribution-as-compound-distribution" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="location-scale-t-distribution-as-compound-distribution"><span class="header-section-number">4.7.2</span> Location-scale <span class="math inline">\(t\)</span>-distribution as compound distribution</h3>
+<p>Suppose that <span class="math display">\[
+x | s^2 \sim N(\mu,s^2)
+\]</span> with corresponding density <span class="math inline">\(p(x | s^2)\)</span> and mean <span class="math inline">\(\text{E}(x | s^2) = \mu\)</span> and variance <span class="math inline">\(\text{Var}(x|s^2) = s^2\)</span>.</p>
+<p>Now let the variance <span class="math inline">\(s^2\)</span> be distributed as univariate inverse gamma / inverse Wishart <span class="math display">\[
+s^2 \sim  \text{W}^{-1}_1(\psi=\kappa \sigma^2, \nu=\kappa+2) = \text{W}^{-1}_1(\psi=\tau^2\nu, \nu)
+\]</span> with corresponding density <span class="math inline">\(p(s^2)\)</span> and mean <span class="math inline">\(\text{E}(s^2)  = \sigma^2 = \tau^2 \nu/(\nu-2)\)</span>. Note we use here both the mean parameterisation (<span class="math inline">\(\sigma^2, \kappa\)</span>) and the inverse chi-squared parameterisation (<span class="math inline">\(\tau^2, \nu\)</span>).</p>
+<p>The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(s^2\)</span> is <span class="math inline">\(p(x, s^2) = p(x | s^2) p(s^2)\)</span>. We are interested in the marginal density for <span class="math inline">\(x\)</span>: <span class="math display">\[
+p(x) = \int p(x, s^2) ds^2  = \int p(s^2)  p(x | s^2) ds^2
+\]</span> This is a compound distribution of a normal with fixed mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(s^2\)</span> varying according the inverse gamma distribution. Calculating the integral results in the location-scale <span class="math inline">\(t\)</span>-distribution with parameters <span class="math display">\[
+x \sim  \text{lst}\left(\mu, \sigma^2 \frac{\kappa}{\kappa+2}, \kappa+2\right) = \text{lst}\left(\mu, \tau^2, \nu\right)
+\]</span> with mean <span class="math display">\[
+\text{E}(x) = \mu
+\]</span> and variance <span class="math display">\[
+\text{Var}(x) = \sigma^2 =\tau^2 \frac{\nu}{\nu-2}
+\]</span></p>
+<p>From the law of total expectation and variance we can also directly verify that <span class="math display">\[
+\text{E}(x) = \text{E}( \text{E}(x| s^2) ) =\mu
+\]</span> and <span class="math display">\[
+\text{Var}(x) = \text{E}(\text{Var}(x|s^2))+ \text{Var}(\text{E}(x|s^2)) = \text{E}(s^2) = \sigma^2 =\tau^2 \frac{\nu}{\nu-2}
+\]</span></p>
+</section>
+<section id="students-t-distribution" class="level3" data-number="4.7.3">
+<h3 data-number="4.7.3" class="anchored" data-anchor-id="students-t-distribution"><span class="header-section-number">4.7.3</span> Student’s <span class="math inline">\(t\)</span>-distribution</h3>
+<p>For <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\tau^2=1\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution becomes the <a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">Student’s <span class="math inline">\(t\)</span>-distribution</a> <span class="math inline">\(t_\nu\)</span> with mean 0 (for <span class="math inline">\(\nu&gt;1\)</span>) and variance <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> (for <span class="math inline">\(\nu&gt;2\)</span>).</p>
+<p>It can thus be viewed as a generalisation of the standard normal distribution <span class="math inline">\(N(0,1)\)</span>.</p>
+<p>If <span class="math inline">\(y \sim t_\nu\)</span> then <span class="math inline">\(x = \mu + \tau y\)</span> is distributed as <span class="math inline">\(x \sim \text{lst}(\mu, \tau^2, \nu)\)</span>.</p>
+<p>For <span class="math inline">\(\nu \rightarrow \infty\)</span> the <span class="math inline">\(t\)</span>-distribution becomes equal to <span class="math inline">\(N(0,1)\)</span>.</p>
+<p>The probability density of <span class="math inline">\(t_\nu\)</span> is <span class="math display">\[
+p(x | \nu) = \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\pi \nu}  \,\Gamma(\frac{\nu}{2})} \left(1+\frac{x^2}{\nu} \right)^{-(\nu+1)/2}
+\]</span> with support <span class="math inline">\(x \in ]-\infty, \infty[\)</span>.</p>
+<p>In R the command <code>dt()</code> returns the density of the <span class="math inline">\(t\)</span>-distribution, <code>pt()</code> is the corresponding cumulative density function and <code>qt()</code> is the quantile function.</p>
+</section>
+<section id="cauchy-and-standard-cauchy-distribution" class="level3" data-number="4.7.4">
+<h3 data-number="4.7.4" class="anchored" data-anchor-id="cauchy-and-standard-cauchy-distribution"><span class="header-section-number">4.7.4</span> Cauchy and standard Cauchy distribution</h3>
+<p>For <span class="math inline">\(\nu=1\)</span> the location-scale <span class="math inline">\(t\)</span>-distribution becomes the <a href="https://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution</a> <span class="math inline">\(\text{Cau}(\mu, \tau)\)</span> with density <span class="math inline">\(p(x| \mu, \tau) = \frac{\tau}{\pi (\tau^2+(x-\mu)^2)}\)</span>.</p>
+<p>For <span class="math inline">\(\nu=1\)</span> the <span class="math inline">\(t\)</span>-distribution becomes the standard Cauchy distribution <span class="math inline">\(\text{Cau}(0, 1)\)</span> with density <span class="math inline">\(p(x) = \frac{1}{\pi (1+x^2)}\)</span>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/probability-distribution-refresher\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-transformations.html" class="pagination-link" aria-label="Transforming and combining random variables">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-multivariate.html" class="pagination-link" aria-label="Multivariate distributions">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

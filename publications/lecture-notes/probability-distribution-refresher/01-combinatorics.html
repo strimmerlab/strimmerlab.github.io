@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Korbinian Strimmer">
-<meta name="dcterms.date" content="2024-03-06">
 
-<title>Matrix and Calculus Refresher</title>
+<title>Probability and Distribution Refresher - 1&nbsp; Combinatorics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./00-preface.html" rel="next">
+<link href="./02-probability.html" rel="next">
+<link href="./00-preface.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-combinatorics.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -97,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Matrix and Calculus Refresher</a> 
+      <a href="./">Probability and Distribution Refresher</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -109,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -121,14 +149,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-matrix-essentials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Matrix essentials</span></span></a>
+  <a href="./01-combinatorics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-vector-calculus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Vector and matrix calculus</span></span></a>
+  <a href="./02-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transforming and combining random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
   </div>
 </li>
     </ul>
@@ -141,11 +187,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#updates" id="toc-updates" class="nav-link" data-scroll-target="#updates">Updates</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  </ul></li>
+  <li><a href="#some-basic-mathematical-notation" id="toc-some-basic-mathematical-notation" class="nav-link active" data-scroll-target="#some-basic-mathematical-notation"><span class="header-section-number">1.1</span> Some basic mathematical notation</a></li>
+  <li><a href="#number-of-permutations" id="toc-number-of-permutations" class="nav-link" data-scroll-target="#number-of-permutations"><span class="header-section-number">1.2</span> Number of permutations</a></li>
+  <li><a href="#de-moivre-sterling-approximation-of-the-factorial" id="toc-de-moivre-sterling-approximation-of-the-factorial" class="nav-link" data-scroll-target="#de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial</a></li>
+  <li><a href="#multinomial-and-binomial-coefficient" id="toc-multinomial-and-binomial-coefficient" class="nav-link" data-scroll-target="#multinomial-and-binomial-coefficient"><span class="header-section-number">1.4</span> Multinomial and binomial coefficient</a></li>
   </ul>
 </nav>
     </div>
@@ -154,26 +199,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Matrix and Calculus Refresher</h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Korbinian Strimmer </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">6 March 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -183,34 +216,60 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<p>The Matrix and Calculus Refresher notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> from 2018–2024. This version is from 6 March 2024.</p>
-<p>If you have any questions, comments, or corrections please get in touch! <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<section id="updates" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="updates">Updates</h2>
-<p>The notes will be updated from time to time. To view the current version visit the</p>
-<ul>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-calculus-refresher/index.html">online version of the Matrix and Calculus Refresher notes</a>.</li>
-</ul>
-<p>You may also wish to download the Matrix and Calculus Refresher notes as</p>
-<ul>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-calculus-refresher/matrix-calculus-refresher-a4.pdf">PDF in A4 format for printing</a> (double page layout), or as</li>
-<li><a href="https://strimmerlab.github.io/publications/lecture-notes/matrix-calculus-refresher/matrix-calculus-refresher.pdf">6x9 inch PDF for use on tablets</a> (single page layout).</li>
-</ul>
+<section id="some-basic-mathematical-notation" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="some-basic-mathematical-notation"><span class="header-section-number">1.1</span> Some basic mathematical notation</h2>
+<p>Summation: <span class="math display">\[
+\sum_{i=1}^n x_i = x_1 + x_2 + \ldots + x_n
+\]</span></p>
+<p>Multiplication: <span class="math display">\[
+\prod_{i=1}^n x_i = x_1 \times x_2 \times \ldots \times x_n
+\]</span></p>
+<p>Indicator function: <span class="math display">\[
+1_{A} =
+\begin{cases}
+1 &amp; \text{if $A$ is true}\\
+0 &amp; \text{if $A$ is not true}\\
+\end{cases}
+\]</span></p>
+<p>Scalar: plain type, typically lower case (<span class="math inline">\(x\)</span>, <span class="math inline">\(\theta\)</span>), sometimes upper case (<span class="math inline">\(K\)</span>).</p>
+<p>Vector: bold type, lower case (<span class="math inline">\(\symbfit x\)</span>, <span class="math inline">\(\symbfit \theta\)</span>).</p>
+<p>Matrix: bold type, upper case (<span class="math inline">\(\symbfit X\)</span>, <span class="math inline">\(\symbfit \Sigma\)</span>).</p>
 </section>
-<section id="license" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="license">License</h2>
-<p>These notes are licensed to you under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+<section id="number-of-permutations" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="number-of-permutations"><span class="header-section-number">1.2</span> Number of permutations</h2>
+<p>The number of possible orderings, or permutations, of <span class="math inline">\(n\)</span> distinct items is the number of ways to put <span class="math inline">\(n\)</span> items in <span class="math inline">\(n\)</span> bins with exactly one item in each bin. It is given by the <strong>factorial</strong> <span class="math display">\[
+n! = \prod_{i=1}^n i = 1 \times 2 \times \ldots \times n
+\]</span> where <span class="math inline">\(n\)</span> is a positive integer. For <span class="math inline">\(n=0\)</span> the factorial is defined as <span class="math display">\[
+0! = 1
+\]</span> as there is exactly one permutation of zero objects.</p>
+<p>The factorial can also be obtained using the <a href="https://en.wikipedia.org/wiki/Gamma_function"><strong>gamma function</strong></a> <span class="math display">\[
+\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt
+\]</span> which can be viewed as continuous version of the factorial with <span class="math inline">\(\Gamma(x) = (x-1)!\)</span> for any positive integer <span class="math inline">\(x\)</span>.</p>
+</section>
+<section id="de-moivre-sterling-approximation-of-the-factorial" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial</h2>
+<p>The factorial is frequently approximated by the following formula derived by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and <a href="https://en.wikipedia.org/wiki/James_Stirling_(mathematician)">James Stirling (1692-1770)</a> <span class="math display">\[
+n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
+\]</span> or equivalently on logarithmic scale <span class="math display">\[
+\log n!  \approx \left(n+\frac{1}{2}\right) \log n  -n + \frac{1}{2}\log \left( 2 \pi\right)
+\]</span> The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to <span class="math display">\[
+\log n! \approx  n \log n  -n
+\]</span></p>
+</section>
+<section id="multinomial-and-binomial-coefficient" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="multinomial-and-binomial-coefficient"><span class="header-section-number">1.4</span> Multinomial and binomial coefficient</h2>
+<p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types, with <span class="math inline">\(n_1\)</span> of type 1, <span class="math inline">\(n_2\)</span> of type 2 and so on, equals the number of ways to put <span class="math inline">\(n\)</span> items into <span class="math inline">\(K\)</span> bins with <span class="math inline">\(n_1\)</span> items in the first bin, <span class="math inline">\(n_2\)</span> in the second and so on. It is given by the <strong>multinomial</strong> coefficient <span class="math display">\[
+\binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
+\]</span> with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span> and <span class="math inline">\(K \leq n\)</span>. Note that it equals the number of permutation of all items divided by the number of permutations of the items in each bin (or of each type).</p>
+<p>If all <span class="math inline">\(n_k=1\)</span> and hence <span class="math inline">\(K=n\)</span> the multinomial coefficient reduces to the factorial.</p>
+<p>If there are only two bins / types (<span class="math inline">\(K=2\)</span>) the multinomial coefficients becomes the <strong>binomial coefficient</strong> <span class="math display">\[
+\binom{n}{n_1} = \binom{n}{n_1, n-n_1}    =  \frac {n!}{n_1! (n - n_1)!}
+\]</span> which counts the number of ways to choose <span class="math inline">\(n_1\)</span> elements from a set of <span class="math inline">\(n\)</span> elements.</p>
+<p>For large <span class="math inline">\(n\)</span> and <span class="math inline">\(n_k\)</span> we can apply the De Moivre-Sterling approximation to the multinomial cofficient, yielding <span class="math display">\[
+\log\binom{n}{n_1, \ldots, n_K} = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)
+\]</span> Note this is <span class="math inline">\(n\)</span> times the Shannon entropy of a categorical distribution with <span class="math inline">\(n_k/n\)</span> as class probabilities.</p>
 
 
-</section>
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Email address: <a href="mailto:korbinian.strimmer@manchester.ac.uk" class="email">korbinian.strimmer@manchester.ac.uk</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -295,7 +354,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/matrix-calculus-refresher\/");
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/probability-distribution-refresher\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -625,10 +684,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./00-preface.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./00-preface.html" class="pagination-link" aria-label="Preface">
-        <span class="nav-page-text">Preface</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-probability.html" class="pagination-link" aria-label="Probability">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
