@@ -312,10 +312,10 @@ window.Quarto = {
     0  \\
 \end{pmatrix}\]</span></p>
 <p>A <strong>diagonal matrix</strong> is a matrix where all off-diagonal elements are zero. By <span class="math inline">\(\text{Diag}(\symbfit A)\)</span> we access the diagonal elements of a matrix as vector and by <span class="math inline">\(\text{Diag}(a_1, \ldots, a_d)\)</span> we specify a diagonal matrix by listing the diagonal elements.</p>
-<p>Any matrix can be partitioned into blocks or submatrices. A <strong>block-structured matrix</strong> or <strong>block matrix</strong> partioning rows and columns into two groups has the form <span class="math display">\[
+<p>Any matrix can be partitioned into blocks or sub-matrices. A <strong>block-structured matrix</strong> or <strong>block matrix</strong> partitioning rows and columns into two groups has the form <span class="math display">\[
 \symbfit A= \begin{pmatrix} \symbfit A_{11} &amp; \symbfit A_{12} \\ \symbfit A_{21} &amp; \symbfit A_{22} \\ \end{pmatrix} \, ,
 \]</span> where <span class="math inline">\(\symbfit A_{11}\)</span>, <span class="math inline">\(\symbfit A_{22}\)</span>, <span class="math inline">\(\symbfit A_{12}\)</span> and <span class="math inline">\(\symbfit A_{21}\)</span> are themselves matrices. If <span class="math inline">\(\symbfit A\)</span> is symmetric (hence square) then <span class="math inline">\(\symbfit A_{11}\)</span> and <span class="math inline">\(\symbfit A_{22}\)</span> must also be symmetric and <span class="math inline">\(\symbfit A_{21} = \symbfit A_{12}^T\)</span>.</p>
-<p>A <strong>block diagonal</strong> matrix is a symmetric block matrix with vanishing off-diagonal blocks and symmetric submatrices along the diagonal.</p>
+<p>A <strong>block diagonal</strong> matrix is a symmetric block matrix with vanishing off-diagonal blocks and symmetric sub-matrices along the diagonal.</p>
 <p>A <strong>triangular matrix</strong> is a square matrix whose elements either below or above the diagonal are all zero (upper vs.&nbsp;lower triangular matrix).</p>
 </section>
 </section>
@@ -407,14 +407,14 @@ window.Quarto = {
 <p>If <span class="math inline">\(\symbfit A\)</span> is a square matrix the determinant <span class="math inline">\(\det(\symbfit A)\)</span> is a scalar measuring the volume spanned by the column vectors in <span class="math inline">\(\symbfit A\)</span> with the sign determined by the orientation of the vectors.</p>
 <p>If <span class="math inline">\(\det(\symbfit A) \neq 0\)</span> the matrix <span class="math inline">\(\symbfit A\)</span> is non-singular or non-degenerate. Conversely, if <span class="math inline">\(\det(\symbfit A) =0\)</span> the matrix <span class="math inline">\(\symbfit A\)</span> is singular or degenerate.</p>
 <p>Intriguingly, the determinant of <span class="math inline">\(\symbfit A\)</span> is the product of the eigenvalues of <span class="math inline">\(\symbfit A\)</span> (see further below).</p>
-<p>One way to compute the determinant of a matrix <span class="math inline">\(\symbfit A\)</span> is the Laplace cofactor expansion approach that proceeds recursively based on the determinants of the submatrices <span class="math inline">\(\symbfit A_{-i,-j}\)</span> obtained by deleting row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> from <span class="math inline">\(\symbfit A\)</span>. Specifically, at each level we compute the</p>
+<p>One way to compute the determinant of a matrix <span class="math inline">\(\symbfit A\)</span> is the Laplace cofactor expansion approach that proceeds recursively based on the determinants of the sub-matrices <span class="math inline">\(\symbfit A_{-i,-j}\)</span> obtained by deleting row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> from <span class="math inline">\(\symbfit A\)</span>. Specifically, at each level we compute the</p>
 <ol type="1">
 <li>cofactor expansion either
 <ol type="a">
 <li>along the <span class="math inline">\(i\)</span>-th row — pick any row <span class="math inline">\(i\)</span>: <span class="math display">\[\det(\symbfit A) = \sum_{j=1}^d a_{ij} (-1)^{i+j} \det(\symbfit A_{-i,-j})  \text{ , or}\]</span></li>
 <li>along the <span class="math inline">\(j\)</span>-th column — pick any <span class="math inline">\(j\)</span>: <span class="math display">\[\det(\symbfit A) = \sum_{i=1}^d a_{ij} (-1)^{i+j} \det(\symbfit A_{-i,-j})\]</span>.</li>
 </ol></li>
-<li>Then repeat until the submatrix is a scalar <span class="math inline">\(a\)</span> and <span class="math inline">\(\det(a)=a \,.\)</span></li>
+<li>Then repeat until the sub-matrix is a scalar <span class="math inline">\(a\)</span> and <span class="math inline">\(\det(a)=a \,.\)</span></li>
 </ol>
 <p>The recursive nature of this algorithm leads to a complexity of order <span class="math inline">\(O(d!)\)</span> so it is not practical except for very small <span class="math inline">\(d\)</span>. Therefore, in practice other more efficient algorithms for computing determinants are used but these still have algorithmic complexity in the order of <span class="math inline">\(O(d^3)\)</span> so for large dimensions obtaining determinants is very expensive.</p>
 <p>However, some specially structured matrices do allow for very fast calculation.</p>
@@ -436,11 +436,11 @@ a_{d1} &amp; a_{d2} &amp; \cdots &amp; a_{dd} \\
 \]</span> and (Schur complement of <span class="math inline">\(\symbfit A_{11}\)</span>) <span class="math display">\[
 \symbfit C_2 = \symbfit A_{22} -  \symbfit A_{21}  \symbfit A_{11}^{-1}  \symbfit A_{12}
 \]</span> Note that <span class="math inline">\(\symbfit C_1\)</span> and <span class="math inline">\(\symbfit C_2\)</span> are square matrices.</p>
-<p>For a block-diagonal matrix <span class="math inline">\(\symbfit A\)</span> with <span class="math inline">\(\symbfit A_{12} = 0\)</span> and <span class="math inline">\(\symbfit A_{21} = 0\)</span> the determinant is <span class="math inline">\(\det(\symbfit A) =  \det(\symbfit A_{11})  \det(\symbfit A_{22})\)</span>, i.e.&nbsp;the product of the determinants of the submatrices along the diagonal.</p>
+<p>For a block-diagonal matrix <span class="math inline">\(\symbfit A\)</span> with <span class="math inline">\(\symbfit A_{12} = 0\)</span> and <span class="math inline">\(\symbfit A_{21} = 0\)</span> the determinant is <span class="math inline">\(\det(\symbfit A) =  \det(\symbfit A_{11})  \det(\symbfit A_{22})\)</span>, i.e.&nbsp;the product of the determinants of the sub-matrices along the diagonal.</p>
 <p>Determinants have a multiplicative property, <span class="math display">\[\det(\symbfit A\symbfit B) = \det(\symbfit B\symbfit A) = \det(\symbfit A) \det(\symbfit B) \,.\]</span> In the above <span class="math inline">\(\symbfit A\)</span> and <span class="math inline">\(\symbfit B\)</span> are both square and of the same dimension.</p>
 <p>For rectangular <span class="math inline">\(\symbfit A\)</span> (<span class="math inline">\(n \times m\)</span>) and rectangular <span class="math inline">\(\symbfit B\)</span> (<span class="math inline">\(m \times n\)</span>) with <span class="math inline">\(m \geq n\)</span> this generalises to the Cauchy-Binet formula <span class="math display">\[
 \det(\symbfit A\symbfit B) = \sum_{w} \det(\symbfit A_{,w}) \det(\symbfit B_{w,})
-\]</span> where the summation is over all <span class="math inline">\(\binom{m}{n}\)</span> index subsets <span class="math inline">\(w\)</span> of size <span class="math inline">\(n\)</span> taken from <span class="math inline">\(\{1, \ldots, m\}\)</span> keeping the ordering and <span class="math inline">\(\symbfit A_{,w}\)</span> and <span class="math inline">\(\symbfit B_{w,}\)</span> are the corresponding square <span class="math inline">\(n \times n\)</span> submatrices. If <span class="math inline">\(m &lt; n\)</span> then <span class="math inline">\(\det(\symbfit A\symbfit B) = 0\)</span>.</p>
+\]</span> where the summation is over all <span class="math inline">\(\binom{m}{n}\)</span> index subsets <span class="math inline">\(w\)</span> of size <span class="math inline">\(n\)</span> taken from <span class="math inline">\(\{1, \ldots, m\}\)</span> keeping the ordering and <span class="math inline">\(\symbfit A_{,w}\)</span> and <span class="math inline">\(\symbfit B_{w,}\)</span> are the corresponding square <span class="math inline">\(n \times n\)</span> sub-matrices. If <span class="math inline">\(m &lt; n\)</span> then <span class="math inline">\(\det(\symbfit A\symbfit B) = 0\)</span>.</p>
 <p>For scalar <span class="math inline">\(a\)</span> <span class="math inline">\(\det(a \symbfit B) = a^d \det(\symbfit B)\)</span> where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\symbfit B\)</span>.</p>
 <p>Another important identity is <span class="math display">\[\det(\symbfit I_n + \symbfit A\symbfit B) = \det(\symbfit I_m + \symbfit B\symbfit A)\]</span> where <span class="math inline">\(\symbfit A\)</span> and <span class="math inline">\(\symbfit B\)</span> are rectangular matrices. This is called the Weinstein-Aronszajn determinant identity (also credited to Sylvester).</p>
 </section>
@@ -457,7 +457,7 @@ a_{d1} &amp; a_{d2} &amp; \cdots &amp; a_{dd} \\
 &amp;= (\symbfit A\symbfit A^{-1})^T \, (\symbfit A^{T})^{-1} = (\symbfit A^{T})^{-1} \,. \\
 \end{split}
 \]</span></p>
-<p>The inverse of a matrix product <span class="math inline">\((\symbfit A\symbfit B)^{-1} = \symbfit B^{-1} \symbfit A^{-1}\)</span> is the product of the indivdual matrix inverses in reverse order.</p>
+<p>The inverse of a matrix product <span class="math inline">\((\symbfit A\symbfit B)^{-1} = \symbfit B^{-1} \symbfit A^{-1}\)</span> is the product of the individual matrix inverses in reverse order.</p>
 <p>There are many different algorithms to compute the inverse of a matrix (which is essentially a problem of solving a system of equations). The computational complexity of matrix inversion is of the order <span class="math inline">\(O(d^3)\)</span> where <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(\symbfit A\)</span>. Therefore matrix inversion is very costly in higher dimensions.</p>
 <div id="exm-invmattwobytwo" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.1</strong></span> Inversion of a <span class="math inline">\(2 \times 2\)</span> matrix:</p>
@@ -611,7 +611,7 @@ a_{d1} &amp; a_{d2} &amp; \cdots &amp; a_{dd} \\
 <p>Note that a matrix does not need to be symmetric to be positive definite, e.g. <span class="math inline">\(\begin{pmatrix}
 2 &amp; 3 \\
 1 &amp; 4 \\
-\end{pmatrix}\)</span> has positive eigenvalues 5 and 1. It also has a complete set of eigenvectors and is diagonisable.</p>
+\end{pmatrix}\)</span> has positive eigenvalues 5 and 1. It also has a complete set of eigenvectors and is diagonalisable.</p>
 <p>A symmetric matrix <span class="math inline">\(\symbfit A\)</span> is positive definite if the quadratic form <span class="math inline">\(\symbfit x^T \symbfit A\symbfit x&gt; 0\)</span> for any non-zero <span class="math inline">\(\symbfit x\)</span>, and it is positive semi-definite if <span class="math inline">\(\symbfit x^T \symbfit A\symbfit x\geq 0\)</span>. This holds also the other way around: a symmetric positive definite matrix (with positive eigenvalues) has a positive quadratic form, and a symmetric positive semi-definite matrix (with non-negative eigenvalues) a non-negative quadratic form.</p>
 <p>A symmetric positive definite matrix always has a positive diagonal (this can be seen by setting <span class="math inline">\(\symbfit x\)</span> above to a unit vector with 1 at a single position, and 0 at all other elements). However, just requiring a positive diagonal is too weak to ensure positive definiteness of a symmetric matrix, for example <span class="math inline">\(\begin{pmatrix}
 1 &amp;10 \\
@@ -684,7 +684,7 @@ d_m\)</span>. The <span class="math inline">\(d_i\)</span> are called singular v
 &amp;=\det( \symbfit \Lambda) = \prod_{i=1}^d \lambda_i \\
 \end{split}
 \]</span> therefore the determinant of <span class="math inline">\(\symbfit A\)</span> is the <em>product</em> of the eigenvalues.</p>
-<p>The relationship between the eigenvalues of a square matrix and the trace and the determinant of that matrix is shown above for diagonisable matrices. However, it holds more generally for any square matrix, i.e.&nbsp;also for defective matrices. For the latter the Jordan canonical form <span class="math inline">\(\symbfit J\)</span> replaces <span class="math inline">\(\symbfit \Lambda\)</span> (in both cases the eigenvalues are simply the entries on the diagonal).</p>
+<p>The relationship between the eigenvalues of a square matrix and the trace and the determinant of that matrix is shown above for diagonalisable matrices. However, it holds more generally for any square matrix, i.e.&nbsp;also for defective matrices. For the latter the Jordan canonical form <span class="math inline">\(\symbfit J\)</span> replaces <span class="math inline">\(\symbfit \Lambda\)</span> (in both cases the eigenvalues are simply the entries on the diagonal).</p>
 <p>If any of the eigenvalues are equal to zero then <span class="math inline">\(\det(\symbfit A) = 0\)</span> and as hence <span class="math inline">\(\symbfit A\)</span> is singular and not invertible.</p>
 <p>The trace and determinant of a real matrix are always real even though the individual eigenvalues may be complex.</p>
 </section>
@@ -711,7 +711,7 @@ d_m\)</span>. The <span class="math inline">\(d_i\)</span> are called singular v
 </section>
 <section id="functions-of-symmetric-matrices" class="level2" data-number="1.10">
 <h2 data-number="1.10" class="anchored" data-anchor-id="functions-of-symmetric-matrices"><span class="header-section-number">1.10</span> Functions of symmetric matrices</h2>
-<p>We focus on <em>symmetric</em> square matrices <span class="math inline">\(\symbfit A=\symbfit U\symbfit \Lambda\symbfit U^T\)</span> which are always diagonisable with real eigenvalues <span class="math inline">\(\symbfit \Lambda\)</span> and orthogonal eigenvectors <span class="math inline">\(\symbfit U\)</span>.</p>
+<p>We focus on <em>symmetric</em> square matrices <span class="math inline">\(\symbfit A=\symbfit U\symbfit \Lambda\symbfit U^T\)</span> which are always diagonalisable with real eigenvalues <span class="math inline">\(\symbfit \Lambda\)</span> and orthogonal eigenvectors <span class="math inline">\(\symbfit U\)</span>.</p>
 <section id="definition-of-a-matrix-function" class="level3" data-number="1.10.1">
 <h3 data-number="1.10.1" class="anchored" data-anchor-id="definition-of-a-matrix-function"><span class="header-section-number">1.10.1</span> Definition of a matrix function</h3>
 <p>Assume a real-valued function <span class="math inline">\(f(a)\)</span> of a real number <span class="math inline">\(a\)</span>. Then the corresponding matrix function <span class="math inline">\(f(\symbfit A)\)</span> is defined as <span class="math display">\[
@@ -905,125 +905,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         return "";
       }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
     });
   }
       let selectedAnnoteEl;

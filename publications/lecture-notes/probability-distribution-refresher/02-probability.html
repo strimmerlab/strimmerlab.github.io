@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -177,6 +197,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -244,7 +270,7 @@ window.Quarto = {
 <section id="probability-mass-and-density-function" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="probability-mass-and-density-function"><span class="header-section-number">2.2</span> Probability mass and density function</h2>
 <p>To describe a random variable <span class="math inline">\(x\)</span> with state space <span class="math inline">\(\Omega\)</span> we need a way to effectively store the probabilities of the corresponding elementary outcomes <span class="math inline">\(x \in \Omega\)</span>.</p>
-<p><strong>For simplicity of notation we use the same symbol to denote the random variable and its elementary outcomes.</strong> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This convention greatly facilitates working with random vectors and matrices and follows, e.g., the classic multivariate statistics textbook by Mardia et al.&nbsp;(1979) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. If a quantity is random we will always specify this explicitly in the context.</p>
+<p><strong>For simplicity of notation we use the same symbol to denote the random variable and its elementary outcomes.</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This convention greatly facilitates working with random vectors and matrices and follows, e.g., the classic multivariate statistics textbook by <span class="citation" data-cites="MKB1979">Mardia, Kent, and Bibby (<a href="bibliography.html#ref-MKB1979" role="doc-biblioref">1979</a>)</span>. If a quantity is random we will always specify this explicitly in the context.</p>
 <p>For a discrete random variable we define the event <span class="math inline">\(A = \{x: x=a\} = \{a\}\)</span> and get the probability <span class="math display">\[
 \text{Pr}(A) = \text{Pr}(x=a) = f(a)
 \]</span> directly from the <strong>probability mass function</strong> (PMF), here denoted by lower case <span class="math inline">\(f\)</span> (but we frequently also use <span class="math inline">\(p\)</span> or <span class="math inline">\(q\)</span>). The PMF has the property that <span class="math inline">\(\sum_{x \in \Omega} f(x) = 1\)</span> and that <span class="math inline">\(f(x) \in [0,1]\)</span>.</p>
@@ -266,22 +292,24 @@ F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
 \]</span></p>
 <p>The inverse of the distribution function <span class="math inline">\(y=F(x)\)</span> is the <strong>quantile function</strong> <span class="math inline">\(x=F^{-1}(y)\)</span>. The 50% quantile <span class="math inline">\(F^{-1}\left(\frac{1}{2}\right)\)</span> is called the <strong>median</strong>.</p>
 <p>If the random variable <span class="math inline">\(x\)</span> has distribution function <span class="math inline">\(F\)</span> we write <span class="math inline">\(x \sim F\)</span>.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/dens-dist.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+<div id="fig-densdist" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densdist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/dens-dist.jpg" class="img-fluid figure-img" style="width:80.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densdist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Density function and distribution function.
+</figcaption>
 </figure>
 </div>
-</div>
-</div>
+<p><a href="#fig-densdist" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> illustrates a density function <span class="math inline">\(f(x)\)</span> and the corresponding distribution function <span class="math inline">\(F(x)\)</span>.</p>
 </section>
 <section id="families-of-distributions" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="families-of-distributions"><span class="header-section-number">2.4</span> Families of distributions</h2>
 <p>A distribution <span class="math inline">\(F_{\theta}\)</span> with a parameter <span class="math inline">\(\theta\)</span> constitutes a <strong>distribution family</strong> collecting all the distributions corresponding to particular instances of the parameter. The parameter <span class="math inline">\(\theta\)</span> therefore acts as an index of the distributions contained in the family.</p>
 <p>The corresponding density (PDF) or probability mass function (PMF) is written either as <span class="math inline">\(f_{\theta}(x)\)</span>, <span class="math inline">\(f(x; \theta)\)</span> or <span class="math inline">\(f(x | \theta)\)</span>. The latter form is the most general is it suggests that the parameter <span class="math inline">\(\theta\)</span> may potentially also have its own distribution, with a joint density formed by <span class="math inline">\(f(x, \theta) = f(x | \theta) f(\theta)\)</span>.</p>
-<p>Note that any parameterisation is generally not unique, as a one-to-one transformation of <span class="math inline">\(\theta\)</span> will yield another equivalent index to the same distribution family. Typically, for most commonly used distribution families there are several standard parameterisations. Often we use those parameterisations where the parameters can be interpreted easily (e.g.&nbsp;in terms of moments).</p>
-<p>If for any pair of different parameter values <span class="math inline">\(\theta_1 \neq \theta_2\)</span> we get distinct distributions with <span class="math inline">\(F_{\theta_1} \neq F_{\theta_2}\)</span> then the distribution family <span class="math inline">\(F_{\theta}\)</span> is said to be <strong>identifiable</strong> by the parameter <span class="math inline">\(\theta\)</span>.</p>
+<p>Note that any parametrisation is generally not unique, as a one-to-one transformation of <span class="math inline">\(\theta\)</span> will yield another equivalent index to the same distribution family. Typically, for most commonly used distribution families there are several standard parametrisations. Often we use those parametrisations where the parameters can be interpreted easily (e.g.&nbsp;in terms of moments).</p>
+<p>If for any pair of different parameter values <span class="math inline">\(\theta_1 \neq \theta_2\)</span> we get distinct distributions with <span class="math inline">\(F_{\theta_1} \neq F_{\theta_2}\)</span> then the distribution family <span class="math inline">\(F_{\theta}\)</span> is said to be <strong>identifiable</strong> by the parameter&nbsp;<span class="math inline">\(\theta\)</span>.</p>
 </section>
 <section id="expectation-of-a-random-variable" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="expectation-of-a-random-variable"><span class="header-section-number">2.5</span> Expectation of a random variable</h2>
@@ -313,7 +341,7 @@ F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
 <p>Probability itself can also be understood as an expectation. For an event <span class="math inline">\(A\)</span> we can define a corresponding indicator function <span class="math inline">\(1_{ x \in A}\)</span> for an elementary element <span class="math inline">\(x\)</span> to be part of <span class="math inline">\(A\)</span>. From the above it then follows <span class="math display">\[
 \text{E}( 1_{x \in A} ) = \text{Pr}(A) \, ,
 \]</span></p>
-<p>Interestingly, one can develop the whole theory of probability from this perspective. <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Interestingly, one can develop the whole theory of probability from this perspective <span class="citation" data-cites="Whittle2000">(e.g., <a href="bibliography.html#ref-Whittle2000" role="doc-biblioref">Whittle 2000</a>)</span>.</p>
 </section>
 <section id="moments-and-variance-of-a-random-variable" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="moments-and-variance-of-a-random-variable"><span class="header-section-number">2.8</span> Moments and variance of a random variable</h2>
@@ -322,14 +350,14 @@ F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
 <li>Zeroth moment: <span class="math inline">\(\text{E}(x^0) = 1\)</span> by construction of PDF and PMF,</li>
 <li>First moment: <span class="math inline">\(\text{E}(x^1) = \text{E}(x) = \mu\)</span> , the mean,</li>
 <li>Second moment: <span class="math inline">\(\text{E}(x^2)\)</span></li>
-<li>The variance is the second moment centred about the mean <span class="math inline">\(\mu\)</span>: <span class="math display">\[\text{Var}(x) = \text{E}( (x - \mu)^2 ) = \sigma^2\]</span></li>
+<li>The variance is the second moment centred about the mean <span class="math inline">\(\mu\)</span>: <span class="math display">\[\text{Var}(x) = \text{E}\left( (x - \mu)^2 \right) = \sigma^2\]</span></li>
 <li>The variance can also be computed by <span class="math inline">\(\text{Var}(x) = \text{E}(x^2)-\text{E}(x)^2\)</span>. This provides an example of Jensen’s inequality, with <span class="math inline">\(\text{E}(x^2) =\text{E}(x)^2 + \text{Var}(x) \geq \text{E}(x)^2\)</span>.</li>
 </ul>
 <p>A distribution does not necessarily need to have any finite first or higher moments. An example is the location-scale <span class="math inline">\(t\)</span>-distribution (<a href="04-univariate.html#sec-locscalet" class="quarto-xref"><span>Section 4.7.1</span></a>) that depending on the value of the parameter <span class="math inline">\(\nu\)</span> may not have a mean or variance (or other higher moments).</p>
 </section>
 <section id="random-vectors-and-their-mean-and-variance" class="level2" data-number="2.9">
 <h2 data-number="2.9" class="anchored" data-anchor-id="random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.9</span> Random vectors and their mean and variance</h2>
-<p>In addition to scalar random variables we often make use of random vectors and also random matrices. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>In addition to scalar random variables we often make use of random vectors and also random matrices.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>For a random vector <span class="math inline">\(\symbfit x= (x_1, x_2,...,x_d)^T \sim F\)</span> the mean <span class="math inline">\(\text{E}(\symbfit x) = \symbfit \mu\)</span> is given by the means of its components, i.e.&nbsp;<span class="math inline">\(\symbfit \mu= (\mu_1, \ldots, \mu_d)^T\)</span> with <span class="math inline">\(\mu_i = \text{E}(x_i)\)</span>. Thus, the mean of a random vector of dimension <span class="math inline">\(d\)</span> is a vector of the same length.</p>
 <p>The variance of a random vector of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>: <span class="math display">\[
 \begin{split}
@@ -358,24 +386,30 @@ F(a) = \text{Pr}(A) = \text{Pr}( x \leq a ) =
     1 &amp; \dots &amp; \rho_{1d}\\
      \vdots &amp; \ddots &amp; \vdots \\
     \rho_{d1} &amp; \dots &amp; 1
-\end{pmatrix}   = \symbfit V^{-\frac{1}{2}} \symbfit \Sigma\symbfit V^{-\frac{1}{2}}
-\]</span> Like the covariance matrix the correlation matrix is symmetric, and note that the diagonal of <span class="math inline">\(\symbfit P\)</span> contains only 1s.</p>
+\end{pmatrix}   = \symbfit V^{-1/2} \, \symbfit \Sigma\, \symbfit V^{-1/2}
+\]</span> Like the covariance matrix the correlation matrix is symmetric. The elements of the diagonal of <span class="math inline">\(\symbfit P\)</span> are all set to 1.</p>
 <p>Equivalently, in component notation the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is given by <span class="math display">\[
 \rho_{ij} = \text{Cor}(x_i,x_j) = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}
 \]</span></p>
-<p>Using the above, a covariance matrix can be factorised into the product of standard deviations <span class="math inline">\(\symbfit V^{\frac{1}{2}}\)</span> and the correlation matrix as follows: <span class="math display">\[
-\symbfit \Sigma= \symbfit V^{\frac{1}{2}} \symbfit P\symbfit V^{\frac{1}{2}}
+<p>Using the above, a covariance matrix can be factorised into the product of standard deviations <span class="math inline">\(\symbfit V^{1/2}\)</span> and the correlation matrix as follows: <span class="math display">\[
+\symbfit \Sigma= \symbfit V^{1/2}\, \symbfit P\,\symbfit V^{1/2}
 \]</span></p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-MKB1979" class="csl-entry" role="listitem">
+Mardia, K. V., J. T. Kent, and J. M. Bibby. 1979. <em>Multivariate Analysis</em>. Academic Press.
+</div>
+<div id="ref-Whittle2000" class="csl-entry" role="listitem">
+Whittle, P. 2000. <em>Probability via Expectation</em>. 3rd ed. Springer. <a href="https://doi.org/10.1007/978-1-4612-0509-8">https://doi.org/10.1007/978-1-4612-0509-8</a>.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>For scalar random variables many texts use upper case to designate the random variable and lower case for its realisations. However, this convention quickly breaks down in multivariate statistics when dealing with random vectors and random matrices. Hence, we use upper case primarily to indicate a matrix quantity (in bold type). Upper case (in plain type) may denote sets and some scalar quantities traditionally written in upper case (e.g.&nbsp;<span class="math inline">\(R^2\)</span>, <span class="math inline">\(K\)</span>).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Mardia, K. V., J. T. Kent and J. M. Bibby. 1979. <em>Multivariate Analysis</em>. Academic Press.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Whittle, P. 2000. Probability via Expectation (3rd ed.). Springer. <a href="https://doi.org/10.1007/978-1-4612-0509-8" class="uri">https://doi.org/10.1007/978-1-4612-0509-8</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>In our notational conventions, a <strong>vector</strong> <span class="math inline">\(\symbfit x\)</span> is written in <em>lower case in bold type</em>, a <strong>matrix</strong> <span class="math inline">\(\symbfit M\)</span> in <em>upper case in bold type</em>. Hence random vectors and matrices as well as their realisations are indicated in bold type, with vectors given in lower case and matrices in upper case. Hence, as for scalar variables, upper vs.&nbsp;lower case does not indicate randomness vs.&nbsp;realisation.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In our notational conventions, a <strong>vector</strong> <span class="math inline">\(\symbfit x\)</span> is written in <em>lower case in bold type</em>, a <strong>matrix</strong> <span class="math inline">\(\symbfit M\)</span> in <em>upper case in bold type</em>. Hence random vectors and matrices as well as their realisations are indicated in bold type, with vectors given in lower case and matrices in upper case. Hence, as for scalar variables, upper vs.&nbsp;lower case does not indicate randomness vs.&nbsp;realisation.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -516,125 +550,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         return "";
       }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
