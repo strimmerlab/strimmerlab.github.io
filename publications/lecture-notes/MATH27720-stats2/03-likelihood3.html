@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistics 2: Likelihood and Bayes - 3&nbsp; Maximum likelihood estimation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-likelihood4.html" rel="next">
+<link href="./02-likelihood2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-likelihood1.html">Likelihood estimation and inference</a></li><li class="breadcrumb-item"><a href="./03-likelihood3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Likelihood estimation and inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-likelihood1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview of statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-likelihood2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Entropy and KL information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-likelihood4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-likelihood5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Bayesian Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">3.1</span> Overview</a>
+  <ul class="collapse">
+  <li><a href="#outline-of-maximum-likelihood-estimation" id="toc-outline-of-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#outline-of-maximum-likelihood-estimation">Outline of maximum likelihood estimation</a></li>
+  <li><a href="#origin-of-the-method-of-maximum-likelihood" id="toc-origin-of-the-method-of-maximum-likelihood" class="nav-link" data-scroll-target="#origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</a></li>
+  </ul></li>
+  <li><a href="#from-entropy-learning-to-maximum-likelihood" id="toc-from-entropy-learning-to-maximum-likelihood" class="nav-link" data-scroll-target="#from-entropy-learning-to-maximum-likelihood"><span class="header-section-number">3.2</span> From entropy learning to maximum likelihood</a>
+  <ul class="collapse">
+  <li><a href="#the-kl-divergence-between-true-model-and-approximating-model" id="toc-the-kl-divergence-between-true-model-and-approximating-model" class="nav-link" data-scroll-target="#the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</a></li>
+  <li><a href="#minimum-kl-divergence-and-maximum-likelihood" id="toc-minimum-kl-divergence-and-maximum-likelihood" class="nav-link" data-scroll-target="#minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</a></li>
+  </ul></li>
+  <li><a href="#properties-of-maximum-likelihood-estimation" id="toc-properties-of-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#properties-of-maximum-likelihood-estimation"><span class="header-section-number">3.3</span> Properties of maximum likelihood estimation</a>
+  <ul class="collapse">
+  <li><a href="#consistency-of-maximum-likelihood-estimates" id="toc-consistency-of-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#consistency-of-maximum-likelihood-estimates">Consistency of maximum likelihood estimates</a></li>
+  <li><a href="#invariance-property-of-the-maximum-likelihood" id="toc-invariance-property-of-the-maximum-likelihood" class="nav-link" data-scroll-target="#invariance-property-of-the-maximum-likelihood">Invariance property of the maximum likelihood</a></li>
+  <li><a href="#sufficient-statistics" id="toc-sufficient-statistics" class="nav-link" data-scroll-target="#sufficient-statistics">Sufficient statistics</a></li>
+  </ul></li>
+  <li><a href="#maximum-likelihood-estimation-for-regular-models" id="toc-maximum-likelihood-estimation-for-regular-models" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-for-regular-models"><span class="header-section-number">3.4</span> Maximum likelihood estimation for regular models</a>
+  <ul class="collapse">
+  <li><a href="#regular-models" id="toc-regular-models" class="nav-link" data-scroll-target="#regular-models">Regular models</a></li>
+  <li><a href="#maximum-likelihood-estimation-in-regular-models" id="toc-maximum-likelihood-estimation-in-regular-models" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-in-regular-models">Maximum likelihood estimation in regular models</a></li>
+  <li><a href="#invariance-of-score-function-and-second-derivative-of-the-log-likelihood" id="toc-invariance-of-score-function-and-second-derivative-of-the-log-likelihood" class="nav-link" data-scroll-target="#invariance-of-score-function-and-second-derivative-of-the-log-likelihood">Invariance of score function and second derivative of the log-likelihood</a></li>
+  </ul></li>
+  <li><a href="#maximum-likelihood-estimation-in-practise" id="toc-maximum-likelihood-estimation-in-practise" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-in-practise"><span class="header-section-number">3.5</span> Maximum likelihood estimation in practise</a>
+  <ul class="collapse">
+  <li><a href="#likelihood-estimation-for-a-single-parameter" id="toc-likelihood-estimation-for-a-single-parameter" class="nav-link" data-scroll-target="#likelihood-estimation-for-a-single-parameter">Likelihood estimation for a single parameter</a></li>
+  <li><a href="#likelihood-estimation-for-multiple-parameters" id="toc-likelihood-estimation-for-multiple-parameters" class="nav-link" data-scroll-target="#likelihood-estimation-for-multiple-parameters">Likelihood estimation for multiple parameters</a></li>
+  </ul></li>
+  <li><a href="#further-properties-of-ml" id="toc-further-properties-of-ml" class="nav-link" data-scroll-target="#further-properties-of-ml"><span class="header-section-number">3.6</span> Further properties of ML</a>
+  <ul class="collapse">
+  <li><a href="#relationship-of-maximum-likelihood-with-least-squares-estimation" id="toc-relationship-of-maximum-likelihood-with-least-squares-estimation" class="nav-link" data-scroll-target="#relationship-of-maximum-likelihood-with-least-squares-estimation">Relationship of maximum likelihood with least squares estimation</a></li>
+  <li><a href="#bias-of-maximum-likelihood-estimates" id="toc-bias-of-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#bias-of-maximum-likelihood-estimates">Bias of maximum likelihood estimates</a></li>
+  <li><a href="#colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" id="toc-colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" class="nav-link" data-scroll-target="#colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction"><span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Minimal sufficient statistics and maximal data reduction</a></li>
+  </ul></li>
+  <li><a href="#observed-fisher-information" id="toc-observed-fisher-information" class="nav-link" data-scroll-target="#observed-fisher-information"><span class="header-section-number">3.7</span> Observed Fisher information</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-the-observed-fisher-information" id="toc-definition-of-the-observed-fisher-information" class="nav-link" data-scroll-target="#definition-of-the-observed-fisher-information">Definition of the observed Fisher information</a></li>
+  <li><a href="#transformation-properties" id="toc-transformation-properties" class="nav-link" data-scroll-target="#transformation-properties">Transformation properties</a></li>
+  <li><a href="#relationship-between-observed-and-expected-fisher-information" id="toc-relationship-between-observed-and-expected-fisher-information" class="nav-link" data-scroll-target="#relationship-between-observed-and-expected-fisher-information">Relationship between observed and expected Fisher information</a></li>
+  </ul></li>
+  <li><a href="#observed-fisher-information-examples" id="toc-observed-fisher-information-examples" class="nav-link" data-scroll-target="#observed-fisher-information-examples"><span class="header-section-number">3.8</span> Observed Fisher information examples</a>
+  <ul class="collapse">
+  <li><a href="#models-with-a-single-parameter" id="toc-models-with-a-single-parameter" class="nav-link" data-scroll-target="#models-with-a-single-parameter">Models with a single parameter</a></li>
+  <li><a href="#models-with-multiple-parameters" id="toc-models-with-multiple-parameters" class="nav-link" data-scroll-target="#models-with-multiple-parameters">Models with multiple parameters</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-likelihood1.html">Likelihood estimation and inference</a></li><li class="breadcrumb-item"><a href="./03-likelihood3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.1</span> Overview</h2>
+<section id="outline-of-maximum-likelihood-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="outline-of-maximum-likelihood-estimation">Outline of maximum likelihood estimation</h3>
+<p><strong>Maximum likelihood</strong> is a very general method for fitting probabilistic models to data that generalises the method of least-squares. It plays a very important role in statistics and was mainly developed by R.A. Fisher in the early 20th century. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>In a nutshell, the starting points in a maximum likelihood analysis are</p>
+<ol type="i">
+<li>the observed data <span class="math inline">\(D = \{x_1,\ldots,x_n\}\)</span> with <span class="math inline">\(n\)</span> independent and identically distributed (iid) samples, with the ordering irrelevant, and a</li>
+<li>a model <span class="math inline">\(P_{\symbfit \theta}\)</span> with corresponding probability density or probability mass function <span class="math inline">\(p(x|\symbfit \theta)\)</span> and parameters <span class="math inline">\(\symbfit \theta\)</span></li>
+</ol>
+<p>From model and data the likelihood function (note upper case “L”) is constructed as <span class="math display">\[
+L_n(\symbfit \theta|D)=\prod_{i=1}^{n} p(x_i|\symbfit \theta)
+\]</span> Equivalently, the log-likelihood function (note lower case “l”) is <span class="math display">\[
+l_n(\symbfit \theta|D)=\sum_{i=1}^n \log p(x_i|\symbfit \theta)
+\]</span> The likelihood is multiplicative and the log-likelihood additive over the samples <span class="math inline">\(x_i\)</span>.</p>
+<div id="fig-findingmle" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-findingmle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/findingmle.png" class="img-fluid figure-img" style="width:60.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-findingmle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Finding the maximum likelihood estimate by maximisation.
+</figcaption>
+</figure>
+</div>
+<p>The maximum likelihood estimate (MLE) <span class="math inline">\(\hat{\symbfit \theta}^{ML}\)</span> is then found by maximising the (log)-likelihood function with regard to the parameters <span class="math inline">\(\symbfit \theta\)</span> (see <a href="#fig-findingmle" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>): <span class="math display">\[
+\hat{\symbfit \theta}_{ML} = \text{arg max}\, l_n(\symbfit \theta|D)
+\]</span></p>
+<p>Hence, once the model is chosen and data are collected, finding the MLE and thus fitting the model to the data is an <em>optimisation problem</em>.</p>
+<p>Depending on the complexity of the likelihood function and the number of the parameters finding the maximum likelihood can be very difficult. On the other hand, for likelihood functions constructed from common distribution families, such as exponential families, maximum likelihood estimation is very straightforward and can even be done analytically (this is the case for most examples we encounter in this course).</p>
+<p>In practise in application to more complex models the optimisation required for maximum likelihood analysis is done on the computer, typically on the log-likelihood rather than on the likelihood function in order to avoid problems with the computer representation of small floating point numbers. Suitable optimisation algorithm may rely only on function values without requiring derivatives, or use in addition gradient and possibly curvature information. In recent years there has been a lot of progress in high-dimensional optimisation using combined numerical and analytical approaches (e.g.&nbsp;using automatic differentiation) and stochastic approximations (e.g.&nbsp;stochastic gradient descent).</p>
+</section>
+<section id="origin-of-the-method-of-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</h3>
+<p>Historically, the likelihood has often interpreted and justified as the probability of the data given the model. However, this is not strictly correct. First, this interpretation only applies to discrete random variables. Second, since the samples <span class="math inline">\(x_1, \ldots, x_n\)</span> are typically <strong>exchangeable</strong> (i.e.&nbsp;permutation invariant) even in this case one would still need to add a factor accounting for the multiplicity of the possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(p(x |\symbfit \theta)\)</span> is a density, not a probability.</p>
+<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P_{\symbfit \theta}\)</span> that is closest in terms of KL divergence to the unknown true data generating model as represented by the observed data and the empirical distribution.</p>
+</section>
+</section>
+<section id="from-entropy-learning-to-maximum-likelihood" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="from-entropy-learning-to-maximum-likelihood"><span class="header-section-number">3.2</span> From entropy learning to maximum likelihood</h2>
+<section id="the-kl-divergence-between-true-model-and-approximating-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</h3>
+<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(P_{\symbfit \theta}\)</span> indexed by <span class="math inline">\(\symbfit \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
+<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P_{\symbfit \theta})\)</span> measures the divergence of the approximation <span class="math inline">\(P_{\symbfit \theta}\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(F,P_{\symbfit \theta}) &amp;= H(F,P_{\symbfit \theta}) - H(F) \\
+&amp;= \underbrace{- \text{E}_{F}\log p_{\symbfit \theta}(x)}_{\text{cross-entropy}}
+-(\underbrace{-\text{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\symbfit \theta$}})\\
+\end{split}
+\]</span></p>
+<p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,P_{\symbfit \theta})\)</span> that becomes more and more accurate with growing sample size.</p>
+<hr>
+<p>Recall the “Law of Large Numbers” :</p>
+<ul>
+<li><p>The empirical distribution <span class="math inline">\(\hat{F}_n\)</span> based on observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> converges strongly (almost surely) to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>: <span class="math display">\[
+\hat{F}_n\overset{a. s.}{\to} F
+\]</span></p></li>
+<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
+</ul>
+<hr>
+<p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate cross-entropy and as a result the KL divergence. The cross-entropy <span class="math inline">\(H(F, P_{\symbfit \theta})\)</span> is approximated by the <strong>empirical cross-entropy</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>: <span class="math display">\[
+\begin{split}
+H(F, P_{\symbfit \theta}) &amp; \approx H(\hat{F}_n, P_{\symbfit \theta}) \\
+                  &amp; = - \text{E}_{\hat{F}_n} (\log p(x|\symbfit \theta))  \\
+                  &amp; = -\frac{1}{n} \sum_{i=1}^n \log p(x_i | \symbfit \theta) \\
+                  &amp; = -\frac{1}{n} l_n ({\symbfit \theta}| D)
+\end{split}
+\]</span> The empirical cross-entropy is equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>. Conversely, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
+</section>
+<section id="minimum-kl-divergence-and-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</h3>
+<p>If we knew <span class="math inline">\(F\)</span> we would simply minimise <span class="math inline">\(D_{\text{KL}}(F, P_{\symbfit \theta})\)</span> to find the particular model <span class="math inline">\(P_{\symbfit \theta}\)</span> that is closest to the true model, or equivalent, we would minimise the cross-entropy <span class="math inline">\(H(F, P_{\symbfit \theta})\)</span>. However, since we actually don’t know <span class="math inline">\(F\)</span> this is not possible.</p>
+<p>However, for large sample size <span class="math inline">\(n\)</span> when the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section. Thus, instead of minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(F, P_{\symbfit \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, P_{\symbfit \theta})\)</span> which is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\symbfit \theta}| D)\)</span>.</p>
+<p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\symbfit \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>!) to minimising the KL divergence of the approximating model and the unknown true model.</p>
+<p><span class="math display">\[
+\begin{split}
+\hat{\symbfit \theta}^{ML} &amp;= \underset{\symbfit \theta}{\arg \max}\,\, l_n(\symbfit \theta| D) \\
+&amp;= \underset{\symbfit \theta}{\arg \min}\,\, H(\hat{F}_n, P_{\symbfit \theta}) \\
+&amp;\approx \underset{\symbfit \theta}{\arg \min}\,\, D_{\text{KL}}(F, P_{\symbfit \theta}) \\
+\end{split}
+\]</span></p>
+<p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(P_{\symbfit \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>. In other words, <strong>maximum likelihood estimators are minimum empirical KL divergence estimators</strong>.</p>
+<p>As the KL divergence is a functional of the true distribution <span class="math inline">\(F\)</span> <strong>maximum likelihood provides empirical estimators for parametric models</strong>.</p>
+<p>As a consequence of the close link of maximum likelihood and KL divergence maximum likelihood inherits for large <span class="math inline">\(n\)</span> (and only then!) all the optimality properties from KL divergence.</p>
+</section>
+</section>
+<section id="properties-of-maximum-likelihood-estimation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="properties-of-maximum-likelihood-estimation"><span class="header-section-number">3.3</span> Properties of maximum likelihood estimation</h2>
+<section id="consistency-of-maximum-likelihood-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="consistency-of-maximum-likelihood-estimates">Consistency of maximum likelihood estimates</h3>
+<p>One important property of the method of maximum likelihood is that in general it produces <strong>consistent estimates</strong>. This means that estimates are well behaved so that they become more accurate with more data and in the limit of infinite data converge to the true parameters.</p>
+<p>Specifically, if the true underlying model <span class="math inline">\(F_{\text{true}}\)</span> is contained in the set of specified candidates models <span class="math inline">\(P_{\symbfit \theta}\)</span> <span class="math display">\[
+\underbrace{F_{\text{true}}}_{\text{true model}} \subset \underbrace{P_{\symbfit \theta}}_{\text{specified models}}
+\]</span> so that there is a parameter <span class="math inline">\(\symbfit \theta_{\text{true}}\)</span> for which <span class="math inline">\(F_{\text{true}} = P_{\symbfit \theta_{\text{true}}}\)</span>, then <span class="math display">\[\hat{\symbfit \theta}_{ML} \overset{\text{large }n}{\longrightarrow} \symbfit \theta_{\text{true}}
+\]</span></p>
+<p>This is a consequence of <span class="math inline">\(D_{\text{KL}}(F_{\text{true}},P_{\symbfit \theta})\rightarrow 0\)</span> for <span class="math inline">\(P_{\symbfit \theta} \rightarrow F_{\text{true}}\)</span>, and that maximisation of the likelihood function is for large <span class="math inline">\(n\)</span> equivalent to minimising the KL divergence.</p>
+<p>Thus given sufficient data the maximum likelihood estimate of the parameters of the model will converge to the true value of the parameters. Note that this also assumes that the model and in particular the number of parameters is fixed. As a consequence of consistency, <strong>maximum likelihood estimates are asympotically unbiased</strong>. As we will see in the examples they can still be biased in finite samples.</p>
+<p>Note that even if the candidate model family <span class="math inline">\(P_{\symbfit \theta}\)</span> is <strong>misspecified</strong> (so that it does not contain the actual true model), the maximum likelihood estimate is still optimal in the sense in that it will identify the model in the model family that is closest in terms of empirical KL divergence.</p>
+<p>Finally, it is possible to find inconsistent maximum likelihood estimates, but this occurs only in situations when the MLE lies at a boundary or when there are singularities in the likelihood function (in both cases the models are not regular). Furthermore, models are inconsistent by construction when the number of parameters grows with sample size (e.g.&nbsp;in the famous Neyman-Scott paradox) as the data available per parameter does not decrease.</p>
+</section>
+<section id="invariance-property-of-the-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="invariance-property-of-the-maximum-likelihood">Invariance property of the maximum likelihood</h3>
+<p>The maximum likelihood invariance principle states that the <strong>achieved maximum likelihood is invariant against reparameterisation of the model parameters</strong>. This property is shared by the KL divergence minimisation procedure as the achieved minimum KL divergence is also invariant against the change of parameters.</p>
+<p>Recall that the model parameter is just an arbitrary label to index a specific distribution within a distribution family, and changing that label does not affect the maximum (likelihood) or the minimum (KL divergence). For example, consider a function <span class="math inline">\(h_x(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h_x(x)\)</span>. Now we relabel the argument using <span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h_y(y) = h_x( g^{-1}(y))\)</span>. and clearly this function has a maximum at <span class="math inline">\(y_{\max} =  g(x_{\max})\)</span> since <span class="math inline">\(h_y(y_{\max}) = h_x(g^{-1}(y_{\max} ) ) = h_x( x_{\max} )\)</span>. Furthermore, the achieved maximum value is the same.</p>
+<p>In application to maximum likelihood, assume we transform a parameter <span class="math inline">\(\theta\)</span> into another parameter <span class="math inline">\(\omega\)</span> using some invertible function <span class="math inline">\(g()\)</span> so that <span class="math inline">\(\omega= g(\theta)\)</span>. Then the maximum likelihood estimate <span class="math inline">\(\hat{\omega}_{ML}\)</span> of the new parameter <span class="math inline">\(\omega\)</span> is simply the transformation of the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the original parameter <span class="math inline">\(\theta\)</span> with <span class="math inline">\(\hat{\omega}_{ML}= g( \hat{\theta}_{ML})\)</span>. The achieved maximum likelihood is the same in both cases.</p>
+<p>The invariance property can be very useful in practise because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
+<p>See Worksheet L1 for an example application of the invariance principle.</p>
+</section>
+<section id="sufficient-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="sufficient-statistics">Sufficient statistics</h3>
+<p>Another important concept are so-called sufficient statistics to summarise the information available in the data about a parameter in a model.</p>
+<p>A statistic <span class="math inline">\(\symbfit t(D)\)</span> is called a <strong>sufficient statistic</strong> for the model parameters <span class="math inline">\(\symbfit \theta\)</span> if the corresponding likelihood function can be written using only <span class="math inline">\(\symbfit t(D)\)</span> in the terms that involve <span class="math inline">\(\symbfit \theta\)</span> such that <span class="math display">\[
+L(\symbfit \theta| D) = h( \symbfit t(D) , \symbfit \theta) \, k(D) \,,
+\]</span> where <span class="math inline">\(h()\)</span> and <span class="math inline">\(k()\)</span> are positive-valued functions. This is known as the <strong>Fisher-Pearson factorisation</strong>. Equivalently on log-scale this becomes <span class="math display">\[
+l_n(\symbfit \theta| D) = \log h( \symbfit t(D) , \symbfit \theta) + \log k(D) \,.
+\]</span></p>
+<p>By construction, estimation and inference about <span class="math inline">\(\symbfit \theta\)</span> based on the factorised likelihood <span class="math inline">\(L(\symbfit \theta)\)</span> is mediated through the sufficient statistic <span class="math inline">\(\symbfit t(D)\)</span> and does not require knowledge of the original data <span class="math inline">\(D\)</span>. Instead, the sufficient statistic <span class="math inline">\(\symbfit t(D)\)</span> contains all the information in <span class="math inline">\(D\)</span> required to learn about the parameter <span class="math inline">\(\symbfit \theta\)</span>.</p>
+<p>Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(D\)</span> are themselves sufficient statistics, with <span class="math inline">\(\symbfit t(D) = D\)</span>. However, in practise one aims to find sufficient statistics that summarise the data <span class="math inline">\(D\)</span> and hence provide data reduction. This will become clear in the examples below.</p>
+<p>Furthermore, sufficient statistics are <strong>not unique</strong> since applying a one-to-one transformation to <span class="math inline">\(\symbfit t(D)\)</span> yields another sufficient statistic.</p>
+<p>Therefore, if the MLE <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span> of <span class="math inline">\(\symbfit \theta\)</span> exists and is unique then <strong>the MLE is a unique function of the sufficient statistic <span class="math inline">\(\symbfit t(D)\)</span></strong>. If the MLE is not unique then it can be chosen to be function of <span class="math inline">\(\symbfit t(D)\)</span>.</p>
+</section>
+</section>
+<section id="maximum-likelihood-estimation-for-regular-models" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="maximum-likelihood-estimation-for-regular-models"><span class="header-section-number">3.4</span> Maximum likelihood estimation for regular models</h2>
+<section id="regular-models" class="level3">
+<h3 class="anchored" data-anchor-id="regular-models">Regular models</h3>
+<p>A regular model is one that is well-behaved and well-suited for model fitting by optimisation. In particular this requires that:</p>
+<ul>
+<li><p>the support does not depend on the parameters,</p></li>
+<li><p>the model is identifiable (in particular the model is not overparameterised and has a minimal set of parameters),</p></li>
+<li><p>the density/probability mass function and hence the log-likelihood function is twice differentiable everywhere with regard to the parameters,</p></li>
+<li><p>the maximum (peak) of the likelihood function lies inside the parameter space and not at a boundary,</p></li>
+<li><p>the second derivative of the log-likelihood at the maximum is negative and not zero (for multiple parameters: the Hessian matrix at the maximum is negative definite and not singular)</p></li>
+</ul>
+<p>Most models considered in this course are regular.</p>
+</section>
+<section id="maximum-likelihood-estimation-in-regular-models" class="level3">
+<h3 class="anchored" data-anchor-id="maximum-likelihood-estimation-in-regular-models">Maximum likelihood estimation in regular models</h3>
+<p>For a regular model maximum likelihood estimation and the necessary optimisation is greatly simplified by being able to using gradient and curvature information.</p>
+<p>In order to maximise <span class="math inline">\(l_n(\symbfit \theta|D)\)</span> one may use the <strong>score function</strong> <span class="math inline">\(\symbfit S(\symbfit \theta)\)</span> which is the first derivative of the log-likelihood function with regard to the parameters <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{cc}
+S_n(\theta) = \frac{d l_n(\theta|D)}{d \theta}\\
+\\
+\\
+\symbfit S_n(\symbfit \theta)=\nabla l_n(\symbfit \theta|D)\\
+\\
+\end{array}
+\begin{array}{ll}
+\text{scalar parameter $\theta$: first derivative}\\
+\text{of log-likelihood function}\\
+\\
+\text{gradient if } \symbfit \theta\text{ is a vector}\\
+\text{(i.e. if there's more than one parameter)}\\
+\end{array}
+\end{align*}\]</span></p>
+<p>In this case a necessary (but not sufficient) condition for the MLE is that <span class="math display">\[
+\symbfit S_n(\hat{\symbfit \theta}_{ML}) = 0
+\]</span></p>
+<p>To demonstrate that the log-likelihood function actually achieves a maximum at <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span> the curvature at the MLE must negative, i.e.&nbsp;that the log-likelihood must be locally concave at the MLE.</p>
+<p>In the case of a single parameter (scalar <span class="math inline">\(\theta\)</span>) this requires to check that the second derivative of the log-likelihood function with regard to the parameter is negative: <span class="math display">\[
+\frac{d^2 l_n(\hat{\theta}_{ML}| D)}{d \theta^2} &lt;0
+\]</span> In the case of a parameter vector (multivariate <span class="math inline">\(\symbfit \theta\)</span>) you need to compute the Hessian matrix (matrix of second order derivatives) at the MLE: <span class="math display">\[
+\nabla \nabla^T l_n(\hat{\symbfit \theta}_{ML}| D)
+\]</span> and then verify that this matrix is negative definite (i.e.&nbsp;all its eigenvalues must be negative). For multivariate parameter vector <span class="math inline">\(\symbfit \theta\)</span> of dimension <span class="math inline">\(d\)</span> the Hessian is a matrix of size <span class="math inline">\(d \times d\)</span>.</p>
+</section>
+<section id="invariance-of-score-function-and-second-derivative-of-the-log-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="invariance-of-score-function-and-second-derivative-of-the-log-likelihood">Invariance of score function and second derivative of the log-likelihood</h3>
+<p>The score function <span class="math inline">\(\symbfit S_n(\symbfit \theta)\)</span> is <strong>invariant against transformation of the sample space</strong>. Assume <span class="math inline">\(\symbfit x\)</span> has log-density <span class="math inline">\(\log f_{\symbfit x}(\symbfit x| \symbfit \theta)\)</span> then the log-density for <span class="math inline">\(\symbfit y\)</span> is <span class="math display">\[
+\log f_{\symbfit y}(\symbfit y| \symbfit \theta) = \log |\det\left( D\symbfit x(\symbfit y) \right)| +  \log f_{\symbfit x}\left( \symbfit x(\symbfit y)| \symbfit \theta\right)
+\]</span> where <span class="math inline">\(D\symbfit x(\symbfit y)\)</span> is the Jacobian matrix of the inverse transformation <span class="math inline">\(\symbfit x(\symbfit y)\)</span>. When taking the derivative of the log-likelihood function with regard to the parameter <span class="math inline">\(\symbfit \theta\)</span> the first term containing the Jacobian determinant vanishes. Hence the score function <span class="math inline">\(\symbfit S_n(\symbfit \theta)\)</span> is not affected by a change of variables.</p>
+<p>As a consequence, the second derivative of log-likelihood function with regard to <span class="math inline">\(\symbfit \theta\)</span> is also invariant against transformations of the sample space.</p>
+</section>
+</section>
+<section id="maximum-likelihood-estimation-in-practise" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="maximum-likelihood-estimation-in-practise"><span class="header-section-number">3.5</span> Maximum likelihood estimation in practise</h2>
+<section id="likelihood-estimation-for-a-single-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood-estimation-for-a-single-parameter">Likelihood estimation for a single parameter</h3>
+<p>In the following we illustrate likelihood estimation for models with a single parameter. In this case the score function and the second derivative of the log-likelihood are all scalar-valued like the log-likelihood function itself.</p>
+<div id="exm-mleproportion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Maximum likelihood estimation for the Bernoulli model:</p>
+<p>We aim to estimate the true proportion <span class="math inline">\(\theta\)</span> in a Bernoulli experiment with binary outcomes, say the proportion of “successes” vs.&nbsp;“failures” or of “heads” vs.&nbsp;“tails” in a coin tossing experiment.</p>
+<ul>
+<li>Bernoulli model <span class="math inline">\(\text{Ber}(\theta)\)</span>: <span class="math inline">\(\text{Pr}(\text{"success"}) = \theta\)</span> and <span class="math inline">\(\text{Pr}(\text{"failure"}) = 1-\theta\)</span>.</li>
+<li>The “success” is indicated by outcome <span class="math inline">\(x=1\)</span> and the “failure” by <span class="math inline">\(x=0\)</span>.</li>
+<li>We conduct <span class="math inline">\(n\)</span> trials and record <span class="math inline">\(n_1\)</span> successes and <span class="math inline">\(n-n_1\)</span> failures.</li>
+<li>Parameter: <span class="math inline">\(\theta\)</span> probability of “success”.</li>
+</ul>
+<p>What is the MLE of <span class="math inline">\(\theta\)</span>?</p>
+<ul>
+<li><p>the observations <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> take on values 0 or 1.</p></li>
+<li><p>the average of the data points is <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i = \frac{n_1}{n}\)</span>.</p></li>
+<li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is: <span class="math display">\[
+p(x| \theta) = \theta^x (1-\theta)^{1-x} =
+\begin{cases}
+\theta &amp;  \text{if $x=1$ }\\
+1-\theta &amp; \text{if $x=0$} \\
+\end{cases}
+\]</span></p></li>
+<li><p>log-PMF: <span class="math display">\[
+\log p(x| \theta) =  x \log(\theta) + (1-x) \log(1 - \theta)
+\]</span></p></li>
+<li><p>log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\theta| D) &amp; = \sum_{i=1}^n \log p(x_i| \theta) \\
+    &amp; = n_1 \log \theta + (n-n_1) \log(1-\theta) \\
+    &amp; = n \left( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) \right) \\
+\end{split}
+\]</span> Note that the log-likelihood depends on the data only via <span class="math inline">\(\bar{x}\)</span>. Thus, <span class="math inline">\(t(D) = \bar{x}\)</span> is a <strong>sufficient statistic</strong> for the parameter <span class="math inline">\(\theta\)</span>. In fact it is also a <strong>minimally sufficient statistic</strong> as will be discussed in more detail later.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\theta)=  \frac{dl_n(\theta| D)}{d\theta}= n \left( \frac{\bar{x}}{\theta}-\frac{1-\bar{x}}{1-\theta} \right)
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(S_n(\hat{\theta}_{ML})=0\)</span> yields as solution <span class="math display">\[
+\hat{\theta}_{ML} = \bar{x} = \frac{n_1}{n}
+\]</span></p>
+<p>With <span class="math inline">\(\frac{dS_n(\theta)}{d\theta} = -n \left( \frac{\bar{x}}{\theta^2} + \frac{1-\bar{x}}{(1-\theta)^2} \right) &lt;0\)</span> the optimum corresponds indeed to the maximum of the (log-)likelihood function as this is negative for <span class="math inline">\(\hat{\theta}_{ML}\)</span> (and indeed for any <span class="math inline">\(\theta\)</span>).</p>
+<p>The maximum likelihood estimator of <span class="math inline">\(\theta\)</span> is therefore identical to the frequency of the successes among all observations.</p></li>
+</ul>
+</div>
+<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(\theta\)</span> we may equally well use the binomial distribution <span class="math inline">\(\text{Bin}(n, \theta)\)</span> as model for the number of successes. This results in the same MLE for <span class="math inline">\(\theta\)</span> but the likelihood function based on the binomial PMF includes the binomial coefficient. However, as it does not depend on <span class="math inline">\(\theta\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
+<div id="exm-mlenormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.2</strong></span> Maximum likelihood estimation for the normal distribution with unknown mean and known variance:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li>the parameter to be estimated is <span class="math inline">\(\mu\)</span> whereas <span class="math inline">\(\sigma^2\)</span> is known.</li>
+</ul>
+<p>What’s the MLE of the parameter <span class="math inline">\(\mu\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is real as well.</p></li>
+<li><p>Density: <span class="math display">\[ p(x| \mu)=
+\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log p(x| \mu) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\mu| D) &amp;= \sum_{i=1}^n \log p(x_i| \mu)\\
+&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2}\log(2 \pi \sigma^2) }_{\text{constant term, does not depend on } \mu \text{, can be removed}}\\
+&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i^2 - 2 x_i \mu+\mu^2)  + \text{ const.}\\
+&amp;=\frac{n}{\sigma^2}  ( \bar{x} \mu  - \frac{1}{2}\mu^2)  \underbrace{ - \frac{1}{2\sigma^2}\sum_{i=1}^n   x_i^2 }_{\text{another constant term}}   + \text{ const.}\\
+\end{split}
+\]</span> Note how the non-constant terms of the log-likelihood depend on the data only through <span class="math inline">\(\bar{x}\)</span>. Hence <span class="math inline">\(t(D) =\bar{x}\)</span> this is a <strong>sufficient statistic</strong> for <span class="math inline">\(\mu\)</span>.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\mu) =
+\frac{n}{\sigma^2} ( \bar{x}- \mu)
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[S_n(\hat{\mu}_{ML})=0 \Rightarrow \hat{\mu}_{ML} = \bar{x}\]</span></p></li>
+<li><p>With <span class="math inline">\(\frac{dS_n(\mu)}{d\mu} = -\frac{n}{\sigma^2}&lt;0\)</span> the optimum is indeed the maximum</p></li>
+</ul>
+<p>The constant term in the log-likelihood function collects all terms that do not depend on the parameter of interest. After taking the first derivative with regard to the parameter the constant term disappears thus it has no influence in maximum likelhood estimation. <strong>Therefore constant terms can be dropped from the log-likelihood function.</strong></p>
+</div>
+<div id="exm-mlenormalvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> Maximum likelihood estimation for the normal distribution with known mean and unknown variance:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li><span class="math inline">\(\sigma^2\)</span> needs to be estimated whereas the mean <span class="math inline">\(\mu\)</span> is known</li>
+</ul>
+<p>What’s the MLE of <span class="math inline">\(\sigma^2\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average of the squared centred data <span class="math inline">\(\overline{(x-\mu)^2} = \frac{1}{n} \sum_{i=1}^n (x_i-\mu)^2 \geq 0\)</span> is non-negative.</p></li>
+<li><p>Density: <span class="math display">\[ p(x| \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log p(x | \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\sigma^2 | D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log p(x_i| \sigma^2)\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
+\end{split}
+\]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\overline{(x-\mu)^2}\)</span>. Hence <span class="math inline">\(t(D) = \overline{(x-\mu)^2}\)</span> is a sufficient statistic for <span class="math inline">\(\sigma^2\)</span>.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\sigma^2) =
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}    \overline{(x-\mu)^2}
+\]</span></p>
+<p>Note that to obtain the score function the derivative needs to be taken with regard to the variance parameter <span class="math inline">\(\sigma^2\)</span> — not with regard to <span class="math inline">\(\sigma\)</span>! As a trick, relabel <span class="math inline">\(\sigma^2 = v\)</span> in the log-likelihood function, then take the derivative with regard to <span class="math inline">\(v\)</span>, then backsubstitute <span class="math inline">\(v=\sigma^2\)</span> in the final result.</p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[
+S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
+\]</span> <span class="math display">\[
+\widehat{\sigma^2}_{ML}
+=\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\]</span></p></li>
+<li><p>To confirm that we actually have maximum we need to verify that the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(\frac{dS_n(\sigma^2)}{d\sigma^2} =
+-\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2}  \overline{(x-\mu)^2} -1\right)\)</span> and hence <span class="math inline">\(\frac{dS_n( \widehat{\sigma^2}_{ML}  )}{d\sigma^2} =
+-\frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}&lt;0\)</span> the optimum is indeed the maximum.</p></li>
+</ul>
+</div>
+</section>
+<section id="likelihood-estimation-for-multiple-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood-estimation-for-multiple-parameters">Likelihood estimation for multiple parameters</h3>
+<p>If there are several parameters likelihood estimation is conceptually no different from the case of a single parameter. However, the score function is now vector-valued and the second derivative of the log-likelihood is a matrix-valued function.</p>
+<div id="exm-mlenormalmeanvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> Normal distribution with mean and variance both unknown:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li>both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> need to be estimated.</li>
+</ul>
+<p>What’s the MLE of the parameter vector <span class="math inline">\(\symbfit \theta= (\mu,\sigma^2)^T\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is real as well.</p></li>
+<li><p>the average of the squared data <span class="math inline">\(\overline{x^2} = \frac{1}{n} \sum_{i=1}^n x_i^2 \geq 0\)</span> is non-negative.</p></li>
+<li><p>Density: <span class="math display">\[ f(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log f(x | \mu, \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\symbfit \theta| D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \mu, \sigma^2)\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
+\end{split}
+\]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\overline{x^2}\)</span>. Hence, <span class="math inline">\(\symbfit t(D) = (\bar{x},  \overline{x^2})^T\)</span> are sufficient statistics for <span class="math inline">\(\symbfit \theta\)</span>.</p></li>
+<li><p>Score function <span class="math inline">\(\symbfit S_n\)</span>, gradient of <span class="math inline">\(l_n(\symbfit \theta| D)\)</span>: <span class="math display">\[
+\begin{split}
+\symbfit S_n(\symbfit \theta) &amp;= \symbfit S_n(\mu,\sigma^2)  \\
+&amp; =\nabla l_n(\mu, \sigma^2| D) \\
+&amp;=
+\begin{pmatrix}
+\frac{n}{\sigma^2} (\bar{x}-\mu) \\
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}   \left( \overline{x^2} - 2\bar{x} \mu +\mu^2 \right)  \\
+\end{pmatrix}\\
+\end{split}
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[
+\symbfit S_n(\hat{\symbfit \theta}_{ML})=0 \Rightarrow
+\]</span> <span class="math display">\[
+\hat{\symbfit \theta}_{ML}=
+\begin{pmatrix}
+\hat{\mu}_{ML}  \\
+\widehat{\sigma^2}_{ML} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\bar{x} \\
+\overline{x^2} -\bar{x}^2\\
+\end{pmatrix}
+\]</span> The ML estimate of the variance can also be written <span class="math inline">\(\widehat{\sigma^2}_{ML} = \overline{x^2} -\bar{x}^2 =\overline{(x-\bar{x})^2}  =
+\frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2\)</span>.</p></li>
+<li><p>To confirm that we actually have a maximum we need to verify that the eigenvalues of the Hessian matrix at the optimum are all negative. This is indeed the case, for details see <a href="#exm-obsfishernormalmeanvar" class="quarto-xref">Example&nbsp;<span>3.10</span></a>.</p></li>
+</ul>
+</div>
+<div id="exm-mlemultinorm" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.5</strong></span> <span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution:</p>
+<p>The results from <a href="#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>3.4</span></a> can be generalised to the multivariate normal distribution:</p>
+<ul>
+<li><span class="math inline">\(\symbfit x\sim N(\symbfit \mu,\symbfit \Sigma)\)</span> with <span class="math inline">\(\text{E}(\symbfit x)=\symbfit \mu\)</span> and <span class="math inline">\(\text{Var}(\symbfit x) = \symbfit \Sigma\)</span></li>
+<li>both <span class="math inline">\(\symbfit \mu\)</span> and <span class="math inline">\(\symbfit \Sigma\)</span> need to be estimated.</li>
+</ul>
+<p>With</p>
+<ul>
+<li>the data <span class="math inline">\(D= \{\symbfit x_1, \ldots, \symbfit x_n\}\)</span> containing real vector-valued observations,</li>
+</ul>
+<p>the maximum likelihood can be written as follows:</p>
+<p>MLE for the mean: <span class="math display">\[
+\hat{\symbfit \mu}_{ML} = \frac{1}{n}\sum^{n}_{k=1} \symbfit x_k = \bar{\symbfit x}
+\]</span></p>
+<p>MLE for the covariance: <span class="math display">\[
+\underbrace{\widehat{\symbfit \Sigma}_{ML}}_{d \times d} = \frac{1}{n}\sum^{n}_{k=1} \underbrace{\left(\symbfit x_k-\bar{\symbfit x}\right)}_{d \times 1} \; \underbrace{\left(\symbfit x_k-\bar{\symbfit x}\right)^T}_{1 \times d}\]</span> Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the estimator of the covariance matrix.</p>
+<p>With <span class="math inline">\(\overline{\symbfit x\symbfit x^T} = \frac{1}{n}\sum^{n}_{k=1} \symbfit x_k \symbfit x_k^T\)</span> we can also write <span class="math display">\[
+\widehat{\symbfit \Sigma}_{ML} = \overline{\symbfit x\symbfit x^T} - \bar{\symbfit x} \bar{\symbfit x}^T
+\]</span></p>
+<p>Hence, the MLEs correspond to the well-known empirical estimates.</p>
+<p>The derivation of the MLEs is discussed in more detail in the module <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH38161/">MATH38161 Multivariate Statistics and Machine Learning</a>.</p>
+</div>
+<div id="exm-catmle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.6</strong></span> <span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Maximum likelihood estimation of the parameters of the categorical distribution:</p>
+<p>Maximum likelihood estimation of the parameters of <span class="math inline">\(\text{Cat}(\symbfit \pi)\)</span> at first seems a trivial extension of the Bernoulli model (cf. <a href="#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>3.1</span></a>) but this a bit more complicated because of the constraint on the allowed values of <span class="math inline">\(\symbfit \pi\)</span> so there are only <span class="math inline">\(K-1\)</span> free parameters and not <span class="math inline">\(K\)</span>. Hence we either need to optimise with regard to a specific set of <span class="math inline">\(K-1\)</span> parameters (which is what we do below) or use a constrained optimisation procedure to enforce that <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> (e.g using Lagrange multipliers).</p>
+<ul>
+<li><p>The data: We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span>. The data matrix of dimension <span class="math inline">\(n \times K\)</span> is <span class="math inline">\(\symbfit X= (\symbfit x_1, \ldots, \symbfit x_n)^T = (x_{ik})\)</span>. It contains each <span class="math inline">\(\symbfit x_i = (x_{i1}, \ldots, x_{iK})^T\)</span>. The corresponding summary (minimal sufficient) statistics are <span class="math inline">\(\symbfit t(D) = \bar{\symbfit x} = \frac{1}{n} \sum_{i=1}^n \symbfit x_i = (\bar{x}_1, \ldots, \bar{x}_K)^T\)</span> with <span class="math inline">\(\bar{x}_k = \frac{1}{n} \sum_{i=1}^n x_{ik}\)</span>. We can also write <span class="math inline">\(\bar{x}_{K} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k}\)</span>. The number of samples for class <span class="math inline">\(k\)</span> is <span class="math inline">\(n_k = n \bar{x}_k\)</span> with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span>.</p></li>
+<li><p>The log-likelihood is <span class="math display">\[
+\begin{split}
+l_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\symbfit x_i) \\
+&amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \right)\\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \bar{x}_K \log \pi_K \right) \\  
+\end{split}
+\]</span></p></li>
+<li><p>Score function (gradient) <span class="math display">\[
+\begin{split}
+\symbfit S_n(\pi_1, \ldots, \pi_{K-1}) &amp;=  \nabla l_n(\pi_1, \ldots, \pi_{K-1} ) \\
+&amp; =
+\begin{pmatrix}
+\frac{\partial}{\partial \pi_1} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\vdots\\
+\frac{\partial}{\partial \pi_{K-1}} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\end{pmatrix}\\
+&amp; = n
+\begin{pmatrix}
+\frac{\bar{x}_1}{\pi_1}-\frac{\bar{x}_K}{\pi_K}  \\
+\vdots\\
+\frac{\bar{x}_{K-1}}{\pi_{K-1}}-\frac{\bar{x}_K}{\pi_K}  \\
+\end{pmatrix}\\
+\end{split}
+\]</span> Note in particular the need for the second term that arises because <span class="math inline">\(\pi_K\)</span> depends on all the <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>.</p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(\symbfit S_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML})=0\)</span> yields <span class="math inline">\(K-1\)</span> equations <span class="math display">\[
+\bar{x}_i \left(1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML}\right)  = \hat{\pi}_i^{ML} \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right)
+\]</span> for <span class="math inline">\(i=1, \ldots, K-1\)</span> and with solution <span class="math display">\[
+\hat{\pi}_i^{ML} = \bar{x}_i
+\]</span> It also follows that <span class="math display">\[
+\hat{\pi}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
+\]</span> The maximum likelihood estimator is therefore the frequency of the occurrence of a class among the <span class="math inline">\(n\)</span> samples.</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="further-properties-of-ml" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="further-properties-of-ml"><span class="header-section-number">3.6</span> Further properties of ML</h2>
+<section id="relationship-of-maximum-likelihood-with-least-squares-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-of-maximum-likelihood-with-least-squares-estimation">Relationship of maximum likelihood with least squares estimation</h3>
+<p>In <a href="#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>3.2</span></a> the form of the log-likelihood function is a function of the sum of squared differences. Maximising <span class="math inline">\(l_n(\mu| D) =-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\)</span> is equivalent to <em>minimising</em> <span class="math inline">\(\sum_{i=1}^n(x_i-\mu)^2\)</span>. Hence, finding the mean by <strong>maximum likelihood assuming a normal model</strong> is <strong>equivalent to least-squares estimation</strong>!</p>
+<p>Note that least-squares estimation has been in use at least since the early 1800s <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well.</p>
+<p>See also <a href="02-likelihood2.html#exm-logscorenormdist" class="quarto-xref">Example&nbsp;<span>2.3</span></a> and <a href="02-likelihood2.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>2.15</span></a> for further links of the normal distribution with squared error.</p>
+</section>
+<section id="bias-of-maximum-likelihood-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="bias-of-maximum-likelihood-estimates">Bias of maximum likelihood estimates</h3>
+<p><a href="#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>3.4</span></a> is interesting because it shows that maximum likelihood can result in both biased and as well as unbiased estimators.</p>
+<p>Recall that <span class="math inline">\(x \sim N(\mu, \sigma^2)\)</span>. As a result <span class="math display">\[\hat{\mu}_{ML}=\bar{x} \sim N\left(\mu, \frac{\sigma^2}{n}\right)\]</span> with <span class="math inline">\(\text{E}( \hat{\mu}_{ML} ) = \mu\)</span> and <span class="math display">\[
+\widehat{\sigma^2}_{\text{ML}} \sim
+W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
+\]</span> (see <a href="20-stats.html#sec-distmeanvarest" class="quarto-xref"><span>Section A.8</span></a>) with mean <span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \sigma^2\)</span>.</p>
+<p>Therefore, the MLE of <span class="math inline">\(\mu\)</span> is unbiased as<br>
+<span class="math display">\[
+\text{Bias}(\hat{\mu}_{ML}) = \text{E}( \hat{\mu}_{ML} ) - \mu = 0
+\]</span> In contrast, however, the MLE of <span class="math inline">\(\sigma^2\)</span> is negatively biased because <span class="math display">\[
+\text{Bias}(\widehat{\sigma^2}_{ML}) = \text{E}( \widehat{\sigma^2}_{ML} ) - \sigma^2 = -\frac{1}{n} \, \sigma^2
+\]</span></p>
+<p>Thus, in the case of the variance parameter of the normal distribution the MLE is <em>not</em> recovering the well-known unbiased estimator of the variance<br>
+<span class="math display">\[
+\widehat{\sigma^2}_{UB} = \frac{1}{n-1}\sum_{i=1}^n(x_i-\bar{x})^2 = \frac{n}{n-1} \widehat{\sigma^2}_{ML}
+\]</span> In other words, the unbiased variance estimate is not a maximum likelihood estimate!</p>
+<p>Therefore it is worth keeping in mind that maximum likelihood can result in biased estimates for finite <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span>, however, the bias disappears as MLEs are consistent.</p>
+</section>
+<section id="colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction"><span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Minimal sufficient statistics and maximal data reduction</h3>
+<p>In all the examples discussed above the sufficient statistic was typically either <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\overline{x^2}\)</span> (or both). This is not a coincidence since all of the examples are exponential families with canonical statistics <span class="math inline">\(x\)</span> and <span class="math inline">\(x^2\)</span>, and in exponential families a sufficient statistic can be obtained as the average of the canonical statistics.</p>
+<p>Crucially, in the above examples the identified sufficient statistics are also <strong>minimal sufficient statistics</strong> where the dimension of sufficient statistic is equal to the dimension of the parameter vector, and as such as low as possible. Minimal sufficient statistics provide maximal data reduction as will be discussed later.</p>
+</section>
+</section>
+<section id="observed-fisher-information" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="observed-fisher-information"><span class="header-section-number">3.7</span> Observed Fisher information</h2>
+<section id="definition-of-the-observed-fisher-information" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-the-observed-fisher-information">Definition of the observed Fisher information</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-flatlogl" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flatlogl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-likelihood3_files/figure-html/fig-flatlogl-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flatlogl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Flat and sharp log-likelihood function.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Visual inspection of the log-likelihood function (e.g. <a href="#fig-flatlogl" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>) suggests that it contains more information about the parameter <span class="math inline">\(\symbfit \theta\)</span> than just the location of the maximum point at <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span>.</p>
+<p>In particular, in a regular model the <strong>curvature</strong> of the log-likelihood function at the MLE seems to be related to the accuracy of <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span>: if the likelihood surface is flat near the maximum (low curvature) then if is more difficult to find the optimal parameter (also numerically). Conversely, if the likelihood surface is sharply peaked (strong curvature) then the maximum point is well defined.</p>
+<p>The curvature can be quantified by the second-order derivatives (Hessian matrix) of the log-likelihood function.</p>
+<p>Accordingly, the <strong>observed Fisher information</strong> (matrix) is defined as the negative curvature at the MLE <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span>: <span class="math display">\[
+{\symbfit J_n}(\hat{\symbfit \theta}_{ML}) = -\nabla \nabla^T l_n(\hat{\symbfit \theta}_{ML}| D)
+\]</span></p>
+<p>Sometimes this is simply called the “observed information”. To avoid confusion with the <strong>expected Fisher information</strong> <span class="math display">\[
+\symbfit I^{\text{Fisher}}(\symbfit \theta) = -\text{E}_{F_{\symbfit \theta}} \left( \nabla \nabla^T \log f(x|\symbfit \theta)\right)
+\]</span> introduced earlier it is necessary to always use the qualifier “observed” when referring to <span class="math inline">\({\symbfit J_n}(\hat{\symbfit \theta}_{ML})\)</span>.</p>
+<p>We will see in more detail later that the observed Fisher information plays an important role at quantifying the uncertainty of a maximum likelihood estimate.</p>
+</section>
+<section id="transformation-properties" class="level3">
+<h3 class="anchored" data-anchor-id="transformation-properties">Transformation properties</h3>
+<p>As a consequence of the invariance of the score function and curvature function the <strong>observed Fisher information is invariant against transformations of the sample space</strong>. This is the same invariance also shown by the expected Fisher information and by the KL divergence.</p>
+<p><span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Like the expected Fisher information the observed Fisher information (as a Hessian matrix) transforms covariantly under change of model parameters — see <a href="02-likelihood2.html#sec-covariantfisher" class="quarto-xref"><span>Section 2.7.4</span></a>.</p>
+</section>
+<section id="relationship-between-observed-and-expected-fisher-information" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-between-observed-and-expected-fisher-information">Relationship between observed and expected Fisher information</h3>
+<p>The observed Fisher information <span class="math inline">\(\symbfit J_n(\hat{\symbfit \theta}_{ML})\)</span> and the expected Fisher information <span class="math inline">\(\symbfit I^{\text{Fisher}}(\symbfit \theta)\)</span> are related but also two clearly different entities.</p>
+<p>Curvature based:</p>
+<ul>
+<li>Both types of Fisher information are based on computing second order derivatives (Hessian matrix), thus both are based on the curvature of a function.</li>
+</ul>
+<p>Transformation properties:</p>
+<ul>
+<li><p>Both quantities are invariant against changes of the parameterisation of the sample space.</p></li>
+<li><p><span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Both transform covariantly when changing the parameter of the distribution.</p></li>
+</ul>
+<p>Data-based vs.&nbsp;model only:</p>
+<ul>
+<li><p>The observed Fisher information is computed from the log-likelihood function. Therefore it takes both the model and the observed data <span class="math inline">\(D\)</span> into account and explicitly depends on the sample size <span class="math inline">\(n\)</span>. It contains estimates of the parameters but not the parameters themselves. While the curvature of the log-likelihood function may be computed for any point of the log-likelihood function the observed Fisher information specifically refers to the curvature at the MLE <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span>. It is linked to the (asymptotic) variance of the MLE (see the examples and as will be discussed in more detail later).</p></li>
+<li><p>In contrast, the expected Fisher information is derived directly from the log-density of the model family. It does not depend on the observed data, and thus does not depend on sample size. It makes sense and can be computed for any value of the parameters. It describes the geometry of the space of the model family, and is the local approximation of KL information.</p></li>
+</ul>
+<p>Large sample equivalence:</p>
+<ul>
+<li>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\symbfit \theta}_{ML} \rightarrow \symbfit \theta_0\)</span>. It follows from the construction of the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\symbfit J_n(\hat{\symbfit \theta}_{ML}) \rightarrow n \symbfit I^{\text{Fisher}}( \symbfit \theta_0 )\)</span> (i.e.&nbsp;the expected Fisher information for a set of iid random variables, see <a href="02-likelihood2.html#sec-additivityfisher" class="quarto-xref"><span>Section 2.7.2</span></a>.</li>
+</ul>
+<p><span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Finite sample equivalence for exponential families:</p>
+<ul>
+<li>In a very important class of models, namely for <strong>exponential families</strong>, we find that <span class="math inline">\(\symbfit J_n(\hat{\symbfit \theta}_{ML}) = n \symbfit I^{\text{Fisher}}( \hat{\symbfit \theta}_{ML} )\)</span> is valid also for finite sample size <span class="math inline">\(n\)</span>. This can be directly seen from the special instances of exponential families such as the Bernoulli distribution (<a href="02-likelihood2.html#exm-expectedfisherbernoulli" class="quarto-xref">Example&nbsp;<span>2.22</span></a> and <a href="#exm-obsfisherproportion" class="quarto-xref">Example&nbsp;<span>3.7</span></a>), the normal distribution with one parameter (<a href="02-likelihood2.html#exm-expectedfishernormknownvar" class="quarto-xref">Example&nbsp;<span>2.24</span></a> and <a href="#exm-obsfishernormalmean" class="quarto-xref">Example&nbsp;<span>3.8</span></a>), the normal distribution with two parameters (<a href="02-likelihood2.html#exm-expectedfishernormal" class="quarto-xref">Example&nbsp;<span>2.25</span></a> and <a href="#exm-obsfishernormalmeanvar" class="quarto-xref">Example&nbsp;<span>3.10</span></a>) and the categorical distribution (<a href="02-likelihood2.html#exm-catexpectfisher" class="quarto-xref">Example&nbsp;<span>2.26</span></a> and <a href="#exm-catobsfisher" class="quarto-xref">Example&nbsp;<span>3.11</span></a>).</li>
+</ul>
+<ul>
+<li>However, exponential families are an exception. In a general model <span class="math inline">\(\symbfit J_n(\hat{\symbfit \theta}_{ML}) \neq n \symbfit I^{\text{Fisher}}( \hat{\symbfit \theta}_{ML} )\)</span> for finite sample size <span class="math inline">\(n\)</span>. As an example consider the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{lst}(\mu, \tau^2, \nu)\)</span> with unknown median parameter <span class="math inline">\(\mu\)</span> and known scale parameter <span class="math inline">\(\tau^2\)</span> and given degree of freedom <span class="math inline">\(\nu\)</span>. This is not an exponential family model (unless <span class="math inline">\(\nu \rightarrow \infty\)</span> when it becomes the normal distribution). It can be shown that the expected Fisher information is <span class="math inline">\(I^{\text{Fisher}}(\mu )=\frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> but the observed Fisher information <span class="math inline">\(J_n(\hat{\mu}_{ML}) \neq n \frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> with a maximum likelihood estimate <span class="math inline">\(\hat{\mu}_{ML}\)</span> that can only be computed numerically with no closed form available.</li>
+</ul>
+</section>
+</section>
+<section id="observed-fisher-information-examples" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="observed-fisher-information-examples"><span class="header-section-number">3.8</span> Observed Fisher information examples</h2>
+<section id="models-with-a-single-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-a-single-parameter">Models with a single parameter</h3>
+<div id="exm-obsfisherproportion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.7</strong></span> Observed Fisher information for the Bernoulli model <span class="math inline">\(\text{Ber}(\theta)\)</span>:</p>
+<p>We continue <a href="#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>3.1</span></a>. The negative second derivative of the log-likelihood function is <span class="math display">\[
+-\frac{d S_n(\theta)}{d\theta}=n \left( \frac{ \bar{x} }{\theta^2} + \frac{1 - \bar{x} }{(1-\theta)^2} \right)
+\]</span> The observed Fisher information is therefore <span class="math display">\[
+\begin{split}
+J_n(\hat{\theta}_{ML}) &amp; = n \left(\frac{ \bar{x} }{\hat{\theta}_{ML}^2} + \frac{ 1 - \bar{x} }{  (1-\hat{\theta}_{ML})^2  } \right) \\
+  &amp; = n \left(\frac{1}{\hat{\theta}_{ML}} + \frac{1}{1-\hat{\theta}_{ML}} \right) \\
+  &amp;= \frac{n}{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})} \\
+\end{split}
+\]</span></p>
+<p>The inverse of the observed Fisher information is: <span class="math display">\[J_n(\hat{\theta}_{ML})^{-1}=\frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n}\]</span></p>
+<p>Compare this with <span class="math inline">\(\text{Var}\left(\frac{x}{n}\right) = \frac{\theta(1-\theta)}{n}\)</span> for <span class="math inline">\(x \sim \text{Bin}(n, \theta)\)</span>.</p>
+</div>
+<div id="exm-obsfishernormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.8</strong></span> Observed Fisher information for the normal distribution with unknown mean and known variance:</p>
+<p>This is the continuation of <a href="#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>3.2</span></a>. The negative second derivative of the score function is <span class="math display">\[
+-\frac{d S_n(\mu)}{d\mu}= \frac{n}{\sigma^2}
+\]</span> The observed Fisher information at the MLE is therefore <span class="math display">\[
+J_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2}
+\]</span> and the inverse of the observed Fisher information is <span class="math display">\[
+J_n(\hat{\mu}_{ML})^{-1} = \frac{\sigma^2}{n}
+\]</span></p>
+<p>For <span class="math inline">\(x_i \sim N(\mu, \sigma^2)\)</span> we have <span class="math inline">\(\text{Var}(x_i) = \sigma^2\)</span> and hence <span class="math inline">\(\text{Var}(\bar{x}) = \frac{\sigma^2}{n}\)</span>, which is equal to the inverse observed Fisher information.</p>
+</div>
+<div id="exm-obsnormalvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.9</strong></span> Observed Fisher information for the normal distribution with known mean and unknown variance:</p>
+<p>This is the continuation of <a href="#exm-mlenormalvar" class="quarto-xref">Example&nbsp;<span>3.3</span></a>.</p>
+<ul>
+<li>Correspondingly, the observed Fisher information is <span class="math display">\[
+J_n(\widehat{\sigma^2}_{ML}) = \frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}
+\]</span> and its inverse is <span class="math display">\[
+J_n(\widehat{\sigma^2}_{ML})^{-1} = \frac{2}{n} \left(\widehat{\sigma^2}_{ML} \right)^{2}
+\]</span></li>
+</ul>
+<p>With <span class="math inline">\(x_i \sim N(\mu, \sigma^2)\)</span> the empirical variance <span class="math inline">\(\widehat{\sigma^2}_{ML}\)</span> follows a one-dimensional Wishart distribution <span class="math display">\[
+\widehat{\sigma^2}_{\text{ML}} \sim
+W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
+\]</span> (see <a href="20-stats.html#sec-distmeanvarest" class="quarto-xref"><span>Section A.8</span></a>) and hence has variance <span class="math inline">\(\text{Var}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \frac{2 \sigma ^4}{n}\)</span>. For large <span class="math inline">\(n\)</span> this becomes <span class="math inline">\(\text{Var}\left(\widehat{\sigma^2}_{ML}\right)\overset{a}{=} \frac{2}{n} \left(\sigma^2\right)^2\)</span> which is (apart from the “hat”) the inverse of the observed Fisher information.</p>
+</div>
+</section>
+<section id="models-with-multiple-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
+<div id="exm-obsfishernormalmeanvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.10</strong></span> Observed Fisher information for the normal distribution with mean and variance parameter:</p>
+<p>This is the continuation of <a href="#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>3.4</span></a>.</p>
+<p>The Hessian matrix of the log-likelihood function is <span class="math display">\[\nabla \nabla^T l_n(\mu,\sigma^2| D) =
+\begin{pmatrix}
+    - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
+    - \frac{n}{\sigma^4} (\bar{x} -\mu) &amp; \frac{n}{2\sigma^4}-\frac{n}{\sigma^6} \left(\overline{x^2} - 2 \mu \bar{x} + \mu^2\right) \\
+    \end{pmatrix}
+\]</span> The negative Hessian at the MLE, i.e.&nbsp;at <span class="math inline">\(\hat{\mu}_{ML} = \bar{x}\)</span> and <span class="math inline">\(\widehat{\sigma^2}_{ML} = \overline{x^2} -\bar{x}^2\)</span>, yields the <strong>observed Fisher information matrix</strong>: <span class="math display">\[
+\symbfit J_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML}) = \begin{pmatrix}
+    \frac{n}{\widehat{\sigma^2}_{ML}}&amp;0 \\
+    0 &amp; \frac{n}{2(\widehat{\sigma^2}_{ML})^2}
+    \end{pmatrix}
+\]</span> The observed Fisher information matrix is diagonal with positive entries. Therefore its eigenvalues are all positive as required for a maximum, because for a diagonal matrix the eigenvalues are simply the the entries on the diagonal.</p>
+<p>The inverse of the observed Fisher information matrix is <span class="math display">\[
+\symbfit J_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML})^{-1} = \begin{pmatrix}
+    \frac{\widehat{\sigma^2}_{ML}}{n}&amp; 0\\
+    0 &amp; \frac{2(\widehat{\sigma^2}_{ML})^2}{n}
+    \end{pmatrix}
+\]</span></p>
+</div>
+<div id="exm-catobsfisher" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.11</strong></span> <span class="math inline">\({\color{Red} \blacktriangleright}\)</span> Observed Fisher information of the categorical distribution:</p>
+<p>We continue <a href="#exm-catmle" class="quarto-xref">Example&nbsp;<span>3.6</span></a>. We first need to compute the negative Hessian matrix of the log likelihood function <span class="math inline">\(- \nabla \nabla^T l_n(\pi_1, \ldots, \pi_{K-1} )\)</span> and then evaluate it at the MLEs <span class="math inline">\(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}\)</span>.</p>
+<p>The diagonal entries of the Hessian matrix (with <span class="math inline">\(i=1, \ldots, K-1\)</span>) are <span class="math display">\[
+\frac{\partial^2}{\partial \pi_i^2} l_n(\pi_1, \ldots, \pi_{K-1} ) =
+-n \left( \frac{\bar{x}_i}{\pi_i^2} +\frac{\bar{x}_K}{\pi_K^2}\right)
+\]</span> and its off-diagonal entries are (with <span class="math inline">\(j=1, \ldots, K-1\)</span>) <span class="math display">\[
+\frac{\partial^2}{\partial \pi_i \partial \pi_j} l_n(\pi_1, \ldots, \pi_{K-1} ) =
+-\frac{n \bar{x}_K}{\pi_K^2}
+\]</span> Thus, the observed Fisher information matrix at the MLE for a categorical distribution is the <span class="math inline">\(K-1 \times K-1\)</span> dimensional matrix <span class="math display">\[
+\begin{split}
+\symbfit J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) &amp;=
+n
+\begin{pmatrix}
+\frac{1}{\hat{\pi}_1^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_K^{ML}} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\frac{1}{\hat{\pi}_K^{ML}} &amp; \cdots &amp; \frac{1}{\hat{\pi}_{K-1}^{ML}} + \frac{1}{\hat{\pi}_K^{ML}} \\
+\end{pmatrix} \\
+&amp; = n \text{Diag}\left( \frac{1}{\hat{\pi}_1^{ML}} , \ldots, \frac{1}{\hat{\pi}_{K-1}^{ML}}   \right) + \frac{n}{\hat{\pi}_K^{ML}}\symbfup 1\\
+\end{split}
+\]</span></p>
+<p>For <span class="math inline">\(K=2\)</span> (cf. <a href="#exm-obsfisherproportion" class="quarto-xref">Example&nbsp;<span>3.7</span></a>) this reduces to the observed Fisher information of a Bernoulli variable <span class="math display">\[
+\begin{split}
+J_n(\hat{\theta}_{ML}) &amp; = n \left(\frac{1}{\hat{\theta}_{ML}} + \frac{1}{1-\hat{\theta}_{ML}} \right) \\
+  &amp;= \frac{n}{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})} \\
+\end{split}
+\]</span></p>
+<p>The inverse of the observed Fisher information is: <span class="math display">\[
+\symbfit J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )^{-1} =
+\frac{1}{n}
+\begin{pmatrix}
+\hat{\pi}_1^{ML} (1- \hat{\pi}_1^{ML} )  &amp; \cdots &amp; -  \hat{\pi}_{1}^{ML} \hat{\pi}_{K-1}^{ML}   \\
+\vdots &amp; \ddots &amp; \vdots \\
+-  \hat{\pi}_{K-1}^{ML} \hat{\pi}_{1}^{ML} &amp; \cdots &amp; \hat{\pi}_{K-1}^{ML} (1- \hat{\pi}_{K-1}^{ML} )  \\
+\end{pmatrix}
+\]</span></p>
+<p>To show that this is indeed the inverse we use the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">Woodbury matrix identity</a></p>
+<p><span class="math display">\[
+(\symbfit A+ \symbfit U\symbfit B\symbfit V)^{-1} = \symbfit A^{-1} - \symbfit A^{-1} \symbfit U(\symbfit B^{-1} + \symbfit V\symbfit A^{-1} \symbfit U)^{-1} \symbfit V\symbfit A^{-1}
+\]</span> with</p>
+<ul>
+<li><span class="math inline">\(B=1\)</span>,</li>
+<li><span class="math inline">\(\symbfit u= (\pi_1, \ldots, \pi_{K-1})^T\)</span>,</li>
+<li><span class="math inline">\(\symbfit v=-\symbfit u^T\)</span>,</li>
+<li><span class="math inline">\(\symbfit A= \text{Diag}(\symbfit u)\)</span> and its inverse <span class="math inline">\(\symbfit A^{-1} = \text{Diag}(\pi_1^{-1}, \ldots, \pi_{K-1}^{-1})\)</span>.</li>
+</ul>
+<p>Then <span class="math inline">\(\symbfit A^{-1} \symbfit u= \symbfup 1_{K-1}\)</span> and <span class="math inline">\(1-\symbfit u^T \symbfit A^{-1} \symbfit u= \pi_K\)</span>. With this <span class="math display">\[
+\symbfit J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )^{-1} = \frac{1}{n}
+\left( \symbfit A- \symbfit u\symbfit u^T \right)
+\]</span> and <span class="math display">\[
+\symbfit J_n(\hat{\pi}_{1}^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) = n \left( \symbfit A^{-1} + \frac{1}{\pi_K} \symbfup 1_{K-1 \times K-1}  \right)
+\]</span></p>
+</div>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Aldrich J. 1997. <em>R. A. Fisher and the Making of Maximum Likelihood 1912–1922.</em> Statist. Sci. <strong>12</strong>:162–176. <a href="https://doi.org/10.1214/ss/1030037906" class="uri">https://doi.org/10.1214/ss/1030037906</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The score function <span class="math inline">\(\symbfit S_n(\symbfit \theta)\)</span> as the gradient of the log-likelihood function must not be confused with the scoring rule <span class="math inline">\(S(x, P)\)</span> mentioned in the introduction to entropy and KL divergence, cf. <a href="02-likelihood2.html#exm-scoringrules" class="quarto-xref">Example&nbsp;<span>2.4</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Stigler, S. M. 1981. <em>Gauss and the invention of least squares</em>. Ann. Statist. <strong>9</strong>:465–474. <a href="https://doi.org/10.1214/aos/1176345451" class="uri">https://doi.org/10.1214/aos/1176345451</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-likelihood2.html" class="pagination-link" aria-label="Entropy and KL information">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Entropy and KL information</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-likelihood4.html" class="pagination-link" aria-label="Quadratic approximation and normal asymptotics">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

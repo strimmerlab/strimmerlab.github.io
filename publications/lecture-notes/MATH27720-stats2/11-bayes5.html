@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistics 2: Likelihood and Bayes - 11&nbsp; Bayesian model comparison</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./12-bayes6.html" rel="next">
+<link href="./10-bayes4.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./11-bayes5.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Likelihood estimation and inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-likelihood1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview of statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-likelihood2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Entropy and KL information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-likelihood4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-likelihood5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Bayesian Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#marginal-likelihood-as-model-likelihood" id="toc-marginal-likelihood-as-model-likelihood" class="nav-link active" data-scroll-target="#marginal-likelihood-as-model-likelihood"><span class="header-section-number">11.1</span> Marginal likelihood as model likelihood</a>
+  <ul class="collapse">
+  <li><a href="#simple-and-composite-models" id="toc-simple-and-composite-models" class="nav-link" data-scroll-target="#simple-and-composite-models">Simple and composite models</a></li>
+  <li><a href="#log-marginal-likelihood-as-penalised-maximum-log-likelihood" id="toc-log-marginal-likelihood-as-penalised-maximum-log-likelihood" class="nav-link" data-scroll-target="#log-marginal-likelihood-as-penalised-maximum-log-likelihood">Log-marginal likelihood as penalised maximum log-likelihood</a></li>
+  <li><a href="#model-complexity-and-occams-razor" id="toc-model-complexity-and-occams-razor" class="nav-link" data-scroll-target="#model-complexity-and-occams-razor">Model complexity and Occams razor</a></li>
+  </ul></li>
+  <li><a href="#the-bayes-factor-for-comparing-two-models" id="toc-the-bayes-factor-for-comparing-two-models" class="nav-link" data-scroll-target="#the-bayes-factor-for-comparing-two-models"><span class="header-section-number">11.2</span> The Bayes factor for comparing two models</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-the-bayes-factor" id="toc-definition-of-the-bayes-factor" class="nav-link" data-scroll-target="#definition-of-the-bayes-factor">Definition of the Bayes factor</a></li>
+  <li><a href="#bayes-theorem-in-terms-of-the-bayes-factor" id="toc-bayes-theorem-in-terms-of-the-bayes-factor" class="nav-link" data-scroll-target="#bayes-theorem-in-terms-of-the-bayes-factor">Bayes theorem in terms of the Bayes factor</a></li>
+  <li><a href="#interpretive-scales-for-the-bayes-factor" id="toc-interpretive-scales-for-the-bayes-factor" class="nav-link" data-scroll-target="#interpretive-scales-for-the-bayes-factor">Interpretive scales for the Bayes factor</a></li>
+  <li><a href="#bayes-factor-versus-likelihood-ratio" id="toc-bayes-factor-versus-likelihood-ratio" class="nav-link" data-scroll-target="#bayes-factor-versus-likelihood-ratio">Bayes factor versus likelihood ratio</a></li>
+  </ul></li>
+  <li><a href="#approximate-computations" id="toc-approximate-computations" class="nav-link" data-scroll-target="#approximate-computations"><span class="header-section-number">11.3</span> Approximate computations</a>
+  <ul class="collapse">
+  <li><a href="#schwarz-1978-approximation-of-log-marginal-likelihood" id="toc-schwarz-1978-approximation-of-log-marginal-likelihood" class="nav-link" data-scroll-target="#schwarz-1978-approximation-of-log-marginal-likelihood">Schwarz (1978) approximation of log-marginal likelihood</a></li>
+  <li><a href="#bayesian-information-criterion-bic" id="toc-bayesian-information-criterion-bic" class="nav-link" data-scroll-target="#bayesian-information-criterion-bic">Bayesian information criterion (BIC)</a></li>
+  <li><a href="#approximating-the-weight-of-evidence-log-bayes-factor-with-bic" id="toc-approximating-the-weight-of-evidence-log-bayes-factor-with-bic" class="nav-link" data-scroll-target="#approximating-the-weight-of-evidence-log-bayes-factor-with-bic">Approximating the weight of evidence (log-Bayes factor) with BIC</a></li>
+  </ul></li>
+  <li><a href="#bayesian-testing-using-false-discovery-rates" id="toc-bayesian-testing-using-false-discovery-rates" class="nav-link" data-scroll-target="#bayesian-testing-using-false-discovery-rates"><span class="header-section-number">11.4</span> Bayesian testing using false discovery rates</a>
+  <ul class="collapse">
+  <li><a href="#setup-for-testing-a-null-model-h_0-versus-an-alternative-model-h_a" id="toc-setup-for-testing-a-null-model-h_0-versus-an-alternative-model-h_a" class="nav-link" data-scroll-target="#setup-for-testing-a-null-model-h_0-versus-an-alternative-model-h_a">Setup for testing a null model <span class="math inline">\(H_0\)</span> versus an alternative model <span class="math inline">\(H_A\)</span></a></li>
+  <li><a href="#test-errors" id="toc-test-errors" class="nav-link" data-scroll-target="#test-errors">Test errors</a></li>
+  <li><a href="#bayesian-perspective" id="toc-bayesian-perspective" class="nav-link" data-scroll-target="#bayesian-perspective">Bayesian perspective</a></li>
+  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software">Software</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./11-bayes5.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="marginal-likelihood-as-model-likelihood" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="marginal-likelihood-as-model-likelihood"><span class="header-section-number">11.1</span> Marginal likelihood as model likelihood</h2>
+<section id="simple-and-composite-models" class="level3">
+<h3 class="anchored" data-anchor-id="simple-and-composite-models">Simple and composite models</h3>
+<p>In the introduction of the Bayesian learning we already encountered the marginal likelihood <span class="math inline">\(p(D | M)\)</span> of a model class <span class="math inline">\(M\)</span> in the denominator of Bayes’ rule: <span class="math display">\[
+p(\symbfit \theta| D, M) =  \frac{p(\symbfit \theta| M)  p(D | \symbfit \theta, M) }{p(D | M)}
+\]</span> Computing this marginal likelihood is different for simple and composite models.</p>
+<p>A model is called “simple” if it directly corresponds to a specific distribution, say, a normal distribution with fixed mean and variance, or a binomial distribution with a given probability for the two classes. Thus, a simple model is a point in the model space described by the parameters of a distribution family (e.g. <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> for the normal family <span class="math inline">\(N(\mu, \sigma^2\)</span>). For a simple model <span class="math inline">\(M\)</span> the density <span class="math inline">\(p(D | M)\)</span> corresponds to standard likelihood of <span class="math inline">\(M\)</span> and there are no free parameters.</p>
+<p>On the other hand, a model is “composite” if it is composed of simple models. This can be a finite set, or it can be comprised of infinite number of simpple models. Thus a composite model represent a model class. For example, a normal distribution with a given mean but unspecified variance, or a binomial model with unspecified class probability, is a composite model.</p>
+<p>If <span class="math inline">\(M\)</span> is a composite model, with the underlying simple models indexed by a parameter <span class="math inline">\(\symbfit \theta\)</span>, the likelihood of the model is obtained by marginalisation over <span class="math inline">\(\symbfit \theta\)</span>: <span class="math display">\[
+\begin{split}
+p(D | M) &amp;= \int_{\symbfit \theta} p(D | \symbfit \theta, M) p(\symbfit \theta| M) d\symbfit \theta\\
+             &amp;= \int_{\symbfit \theta} p(D , \symbfit \theta| M) d\symbfit \theta\\
+\end{split}
+\]</span> i.e.&nbsp;we <em>integrate</em> over all parameter values <span class="math inline">\(\symbfit \theta\)</span>.</p>
+<p>If the distribution over the parameter <span class="math inline">\(\symbfit \theta\)</span> of a model is strongly concentrated around a specific value <span class="math inline">\(\symbfit \theta_0\)</span> then the composite model degenerates to a simple point model, and the marginal likelihood becomes the likelihood of the parameter <span class="math inline">\(\symbfit \theta_0\)</span> under that model.</p>
+<div id="exm-betabinomial" class="theorem example">
+<p><span class="theorem-title"><strong>Example 11.1</strong></span> Beta-binomial distribution:</p>
+<p>Assume that likelihood is binomial with mean parameter <span class="math inline">\(\theta\)</span>. If <span class="math inline">\(\theta\)</span> follows a Beta distribution then the marginal likelihood with <span class="math inline">\(\theta\)</span> integrated out is the <a href="https://en.wikipedia.org/wiki/Beta-binomial_distribution">beta-binomial distribution</a> (see also Worksheet B2). This is an example of a <a href="https://en.wikipedia.org/wiki/Compound_probability_distribution">compound probability distribution</a>.</p>
+</div>
+</section>
+<section id="log-marginal-likelihood-as-penalised-maximum-log-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="log-marginal-likelihood-as-penalised-maximum-log-likelihood">Log-marginal likelihood as penalised maximum log-likelihood</h3>
+<p>By rearranging Bayes’ rule we see that <span class="math display">\[
+\log p(D | M) =  \log p(D | \symbfit \theta, M) - \log  \frac{ p(\symbfit \theta| D, M) }{p(\symbfit \theta| M)  }
+\]</span> The above is valid for all <span class="math inline">\(\symbfit \theta\)</span>.</p>
+<p>Assuming concentration of the posterior around the MLE <span class="math inline">\(\hat{\symbfit \theta}_{\text{ML}}\)</span> we will have <span class="math inline">\(p(\hat{\symbfit \theta}_{\text{ML}} | D, M)&gt; p(\hat{\symbfit \theta}_{\text{ML}}| M)\)</span> and thus <span class="math display">\[
+\log p(D | M) =  \underbrace{\log p(D | \hat{\symbfit \theta}_{\text{ML}}, M)}_{\text{maximum log-likelihood}}
+- \underbrace{ \log  \frac{ p( \hat{\symbfit \theta}_{\text{ML}} | D, M) }{p( \hat{\symbfit \theta}_{\text{ML}}| M)  } }_{\text{penalty &gt; 0}}
+\]</span> Therefore, the log-marginal likelihood is essentially a penalised version of the maximum log-likelihood, and the penalty depends on the concentration of the posterior around the MLE</p>
+</section>
+<section id="model-complexity-and-occams-razor" class="level3">
+<h3 class="anchored" data-anchor-id="model-complexity-and-occams-razor">Model complexity and Occams razor</h3>
+<p>Intriguingly, the penality implicit in the log-marginal likelihood is linked to the complexity of the model, in particular to the number of parameters of <span class="math inline">\(M\)</span>. We will see this directly in the Schwarz approximation of the log-marginal likelihood discussed below.</p>
+<p>Thus, the averaging over <span class="math inline">\(\symbfit \theta\)</span> in the marginal likelihood has the effect of automatically penalising complex models. Therefore, when comparing models using the marginal likelihood a complex model may be ranked below simpler models. In contrast, when selecting a model by comparing maximum likelihood directly the model with the highest number of parameters always wins over simpler models. Hence, the penalisation implicit in the marginal likelihood prevents overfitting that occurs with maximum likelihood.</p>
+<p>The principle of preferring a less complex model is called <strong>Occam’s razor</strong> or the <strong>law of parsimony</strong>.</p>
+<p>When choosing models a simpler model is often preferable over a more complex model, because the simpler model is typically better suited to both explaining the currently observed data as well as future data, whereas a complex model will typically only excel in fitting the current data but will perform poorly in prediction.</p>
+</section>
+</section>
+<section id="the-bayes-factor-for-comparing-two-models" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="the-bayes-factor-for-comparing-two-models"><span class="header-section-number">11.2</span> The Bayes factor for comparing two models</h2>
+<section id="definition-of-the-bayes-factor" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-the-bayes-factor">Definition of the Bayes factor</h3>
+<p>The <strong>Bayes factor</strong> is the ratio of the likelihoods of the two models: <span class="math display">\[
+B_{12} = \frac{p(D | M_1)}{p(D | M_2)}
+\]</span></p>
+<p>The <strong>log-Bayes factor</strong> <span class="math inline">\(\log B_{12}\)</span> is also called the <strong>weight of evidence</strong> for <span class="math inline">\(M_1\)</span> over <span class="math inline">\(M_2\)</span>.</p>
+</section>
+<section id="bayes-theorem-in-terms-of-the-bayes-factor" class="level3">
+<h3 class="anchored" data-anchor-id="bayes-theorem-in-terms-of-the-bayes-factor">Bayes theorem in terms of the Bayes factor</h3>
+<p>We would like to compare two models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>. Before seeing data <span class="math inline">\(D\)</span> we can check their <strong>Prior odds</strong> (= ratio of prior probabilities of the models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>):<br>
+<span class="math display">\[\frac{\text{Pr}(M_1)}{\text{Pr}(M_2)}\]</span></p>
+<p>After seeing data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> we arrive at the <strong>Posterior odds</strong> (= ratio of posterior probabilities): <span class="math display">\[\frac{\text{Pr}(M_1 | D)}{\text{Pr}(M_2  | D)}\]</span></p>
+<p>Using Bayes Theorem <span class="math inline">\(\text{Pr}(M_i | D) = \text{Pr}(M_i) \frac{p(D | M_i)  }{p(D)}\)</span> we can rewrite the posterior odds as <span class="math display">\[
+\underbrace{\frac{\text{Pr}(M_1 | D)}{\text{Pr}(M_2 | D)}}_{\text{posterior odds}} = \underbrace{\frac{p(D | M_1)}{p(D | M_2)}}_{\text{Bayes factor $B_{12}$}} \,
+\underbrace{\frac{\text{Pr}(M_1)}{\text{Pr}(M_2)}}_{\text{prior odds}}
+\]</span></p>
+<p>The <strong>Bayes factor</strong> is the multiplicative factor that updates the prior odds to the posterior odds.</p>
+<p>On the log scale we see that</p>
+<p><span class="math display">\[
+\text{log-posterior odds = weight of evidence + log-prior odds}
+\]</span></p>
+</section>
+<section id="interpretive-scales-for-the-bayes-factor" class="level3">
+<h3 class="anchored" data-anchor-id="interpretive-scales-for-the-bayes-factor">Interpretive scales for the Bayes factor</h3>
+<div id="tbl-bfjeff" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bfjeff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.1: Scale for the Bayes factor according to Jeffreys (1961).
+</figcaption>
+<div aria-describedby="tbl-bfjeff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 26%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(B_{12}\)</span></th>
+<th><span class="math inline">\(\log B_{12}\)</span></th>
+<th>evidence in favour of <span class="math inline">\(M_1\)</span> versus <span class="math inline">\(M_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&gt; 100</td>
+<td>&gt; 4.6</td>
+<td>decisive</td>
+</tr>
+<tr class="even">
+<td>10 to 100</td>
+<td>2.3 to 4.6</td>
+<td>strong</td>
+</tr>
+<tr class="odd">
+<td>3.2 to 10</td>
+<td>1.16 to 2.3</td>
+<td>substantial</td>
+</tr>
+<tr class="even">
+<td>1 to 3.2</td>
+<td>0 to 1.16</td>
+<td>not worth more than a bare mention</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Following Harold Jeffreys (1961) <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> one may interpret the strength of the Bayes factor as listed in <a href="#tbl-bfjeff" class="quarto-xref">Table&nbsp;<span>11.1</span></a>.</p>
+<div id="tbl-bfkara" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bfkara-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.2: Scale for the Bayes factor according to Kass and Raftery (1965).
+</figcaption>
+<div aria-describedby="tbl-bfkara-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 26%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(B_{12}\)</span></th>
+<th><span class="math inline">\(\log B_{12}\)</span></th>
+<th>evidence in favour of <span class="math inline">\(M_1\)</span> versus <span class="math inline">\(M_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&gt; 150</td>
+<td>&gt; 5</td>
+<td>very strong</td>
+</tr>
+<tr class="even">
+<td>20 to 150</td>
+<td>3 to 5</td>
+<td>strong</td>
+</tr>
+<tr class="odd">
+<td>3 to 20</td>
+<td>1 to 3</td>
+<td>positive</td>
+</tr>
+<tr class="even">
+<td>1 to 3</td>
+<td>0 to 1</td>
+<td>not worth more than a bare mention</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>More recently, Kass and Raftery (1995) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> proposed to use the a slightly modified scale (<a href="#tbl-bfkara" class="quarto-xref">Table&nbsp;<span>11.2</span></a>).</p>
+</section>
+<section id="bayes-factor-versus-likelihood-ratio" class="level3">
+<h3 class="anchored" data-anchor-id="bayes-factor-versus-likelihood-ratio">Bayes factor versus likelihood ratio</h3>
+<p><strong>If both <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span> are simple models</strong> then the <strong>Bayes factor is identical to the likelihood ratio</strong> of the two models.</p>
+<p>However, if one of the two models is composite then the Bayes factor and the generalised likelihood ratio differ: In the Bayes factor the representative of a composite model is the <strong>model average</strong> of the simple models indexed by <span class="math inline">\(\symbfit \theta\)</span>, with weights taken from the prior distribution over the simple models contained in <span class="math inline">\(M\)</span>. In contrast, in the generalised likelihood ratio statistic the representative of a composite model is chosen by <em>maximisation</em>.</p>
+<p>Thus, <strong>for composite models</strong>, the <strong>Bayes factor does <em>not</em> equal the corresponding generalised likelihood ratio statistic.</strong> In fact, the key difference is that the Bayes factor is a penalised version of the likelihood ratio, with the penality depending on the difference in complexity (number of parameters) of the two models</p>
+</section>
+</section>
+<section id="approximate-computations" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="approximate-computations"><span class="header-section-number">11.3</span> Approximate computations</h2>
+<p>The marginal likelihood and the Bayes factor can be difficult to compute in practise. Therefore, a number of approximations have been developed. The most important is the so-called Schwarz (1978) approximation of the log-marginal likelihood. It is used to approximate the log-Bayes factor and also yields the BIC (Bayesian information criterion) which can be interpreted as penalised maximum likelihood.</p>
+<section id="schwarz-1978-approximation-of-log-marginal-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="schwarz-1978-approximation-of-log-marginal-likelihood">Schwarz (1978) approximation of log-marginal likelihood</h3>
+<p>The logarithm of the marginal likelihood of a model can be approximated following Schwarz (1978) <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> as follows: <span class="math display">\[
+\log p(D | M) \approx l_n^M(\hat{\symbfit \theta}_{ML}^{M}) - \frac{1}{2} d_M \log n  
+\]</span> where <span class="math inline">\(d_M\)</span> is the dimension of the model <span class="math inline">\(M\)</span> (number of parameters in <span class="math inline">\(\symbfit \theta\)</span> belonging to <span class="math inline">\(M\)</span>) and <span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(\hat{\symbfit \theta}_{ML}^{M}\)</span> is the MLE. For a simple model <span class="math inline">\(d_M=0\)</span> so then there is no approximation as in this case the marginal likelihood equals the likelihood.</p>
+<p>The above formula can be obtained by quadratic approximation of the likelihood <strong>assuming large <span class="math inline">\(n\)</span></strong> and assuming that the prior is locally uniform around the MLE. The Schwarz (1978) approximation is therefore a special case of a <a href="https://en.wikipedia.org/wiki/Laplace%27s_method">Laplace approximation</a>.</p>
+<p>Note that the approximation is the maximum log-likelihood minus a penalty that depends on the model complexity (as measured by dimension <span class="math inline">\(d\)</span>), hence this is an example of penalised ML! Also note that the distribution over the parameter <span class="math inline">\(\symbfit \theta\)</span> is not required in the approximation.</p>
+</section>
+<section id="bayesian-information-criterion-bic" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-information-criterion-bic">Bayesian information criterion (BIC)</h3>
+<p>The BIC (Bayesian information criterion) of the model <span class="math inline">\(M\)</span> is the approximated log-marginal likelihood times the factor -2:</p>
+<p><span class="math display">\[
+BIC(M) = -2 l_n^M(\hat{\symbfit \theta}_{ML}^{M}) + d_M \log n
+\]</span></p>
+<p>Thus, when comparing models one aimes to maximise the marginal likelihood or, as approximation, minimise the BIC.</p>
+<p>The reason for the factor “-2” is simply to have a quantity that is on the same scale as the Wilks log likelihood ratio. Some people / software packages also use the factor “2”.</p>
+</section>
+<section id="approximating-the-weight-of-evidence-log-bayes-factor-with-bic" class="level3">
+<h3 class="anchored" data-anchor-id="approximating-the-weight-of-evidence-log-bayes-factor-with-bic">Approximating the weight of evidence (log-Bayes factor) with BIC</h3>
+<p>Using BIC (twice) the log-Bayes factor can be approximated as <span class="math display">\[
+\begin{split}
+2 \log B_{12} &amp;\approx -BIC(M_1) + BIC(M_2) \\
+&amp;=2 \left( l_n^{M_{1}}(\hat{\symbfit \theta}_{ML}^{M_{1}}) - l_n^{M_{2}}(\hat{\symbfit \theta}_{ML}^{M_{2}}) \right) - \log(n) (d_{M_{1}}-d_{M_{2}}) \\
+\end{split}
+\]</span> i.e.&nbsp;it is the penalised log-likelihood ratio of model <span class="math inline">\(M_1\)</span> vs.&nbsp;<span class="math inline">\(M_2\)</span>.</p>
+</section>
+</section>
+<section id="bayesian-testing-using-false-discovery-rates" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="bayesian-testing-using-false-discovery-rates"><span class="header-section-number">11.4</span> Bayesian testing using false discovery rates</h2>
+<p>We introduce False Discovery Rates (FDR) as a Bayesian method to distinguish a null model from an alternative model. This is closely linked with classical frequentist multiple testing procedures.</p>
+<section id="setup-for-testing-a-null-model-h_0-versus-an-alternative-model-h_a" class="level3">
+<h3 class="anchored" data-anchor-id="setup-for-testing-a-null-model-h_0-versus-an-alternative-model-h_a">Setup for testing a null model <span class="math inline">\(H_0\)</span> versus an alternative model <span class="math inline">\(H_A\)</span></h3>
+<p>We consider two models:</p>
+<p><span class="math inline">\(H_0:\)</span> null model, with density <span class="math inline">\(f_0(x)\)</span> and distribution <span class="math inline">\(F_0(x)\)</span></p>
+<p><span class="math inline">\(H_A:\)</span> alternative model, with density <span class="math inline">\(f_A(x)\)</span> and distribution <span class="math inline">\(F_A(x)\)</span></p>
+<p>Aim: given observations <span class="math inline">\(x_1, \ldots, x_n\)</span> we would like to decide for each <span class="math inline">\(x_i\)</span> whether it belongs to <span class="math inline">\(H_0\)</span> or <span class="math inline">\(H_A\)</span>.</p>
+<p>This is done by a critical decision threshold <span class="math inline">\(x_c\)</span>: if <span class="math inline">\(x_i &gt; x_c\)</span> then <span class="math inline">\(x_i\)</span> is called “significant” and otherwise called “not significant”.</p>
+<p>In classical statistics one of the the most widely used approach to find the decision threshold is by computing <span class="math inline">\(p\)</span>-values from the <span class="math inline">\(x_i\)</span> (this uses only the null model but not the alternative model), and then thresholding the <span class="math inline">\(p\)</span>-values a a certain level (say 5%). If <span class="math inline">\(n\)</span> is large then often the test is modified by adjusting the <span class="math inline">\(p\)</span>-values or the threshold (e.g.&nbsp;if Bonferroni correction).</p>
+<p>Note that this procedure ignores any information we may have about the alternative model!</p>
+</section>
+<section id="test-errors" class="level3">
+<h3 class="anchored" data-anchor-id="test-errors">Test errors</h3>
+<section id="true-and-false-positives-and-negatives" class="level4">
+<h4 class="anchored" data-anchor-id="true-and-false-positives-and-negatives">True and false positives and negatives</h4>
+<p>For any decision threshold <span class="math inline">\(x_c\)</span> we can distinguish the following errors:</p>
+<ul>
+<li>False positives (FP), “false alarm”, type I error: <span class="math inline">\(x_i\)</span> belongs to null but is called “significant”</li>
+<li>False negative (FN), “miss”, type II error: <span class="math inline">\(x_i\)</span> belongs to alternative, but is called “not significant”</li>
+</ul>
+<p>In addition we have:</p>
+<ul>
+<li>True positives (TP), “hits”: belongs to alternative and is called “significant”</li>
+<li>True negatives (TN), “correct rejections”: belongs to null and is called “not significant”</li>
+</ul>
+</section>
+<section id="specificity-and-sensitivity" class="level4">
+<h4 class="anchored" data-anchor-id="specificity-and-sensitivity">Specificity and Sensitivity</h4>
+<p>From counts of TP, TN, FN, FP we can derive further quantities:</p>
+<ul>
+<li><p>True Negative Rate TNR, <strong>specificity</strong>: <span class="math inline">\(TNR= \frac{TN}{TN+FP} = 1- FPR\)</span> with FPR=False Positive Rate = <span class="math inline">\(1-\alpha_I\)</span></p></li>
+<li><p>True Positive Rate TPR, <strong>sensitivity</strong>, <strong>power</strong>, recall: <span class="math inline">\(TPR= \frac{TP}{TP+FN} = 1- FNR\)</span> with FNR=False negative rate = <span class="math inline">\(1-\alpha_{II}\)</span></p></li>
+<li><p>Accuracy: <span class="math inline">\(ACC =  \frac{TP+TN}{TP+TN+FP+FN}\)</span></p></li>
+</ul>
+<p>Another common way to choose the decision threshold <span class="math inline">\(x_d\)</span> in classical statistics is to balance sensitivity/power vs.&nbsp;specificity (maximising both power and specificity, or equivalently, minimising both false positive and false negative rates). ROC curves plot TPR/sensitivity vs.&nbsp;FPR = 1-specificity.</p>
+</section>
+<section id="fdr-and-fndr" class="level4">
+<h4 class="anchored" data-anchor-id="fdr-and-fndr">FDR and FNDR</h4>
+<p>It is possible to link the above with the observed counts of TP, FP, TN, FN:</p>
+<ul>
+<li>False Discovery Rate (FDR): <span class="math inline">\(FDR = \frac{FP}{FP+TP}\)</span></li>
+<li>False Nondiscovery Rate (FNDR): <span class="math inline">\(FNDR = \frac{FN}{TN+FN}\)</span></li>
+<li>Positive predictive value (PPV), True Discovery Rate (TDR), precision: <span class="math inline">\(PPV = \frac{TP}{FP+TP} = 1-FDR\)</span></li>
+<li>Negative predictive value (NPV): <span class="math inline">\(NPV = \frac{TN}{TN+FN} = 1-FNDR\)</span></li>
+</ul>
+<p>In order to choose the decision threshold it is natural to balance FDR and FDNR (or PPV and NPV), by minimising both FDR and FNDR or maximising both PPV and NPV.</p>
+<p>In machine learning it is common to use “precision-recall plots” that plot precision (=PPV, TDR) vs.&nbsp;recall (=power, sensitivity).</p>
+</section>
+</section>
+<section id="bayesian-perspective" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-perspective">Bayesian perspective</h3>
+<section id="two-component-mixture-model" class="level4">
+<h4 class="anchored" data-anchor-id="two-component-mixture-model">Two component mixture model</h4>
+<p>In the Bayesian perspective the problem of choosing the decision threshold is related to computing the posterior probability <span class="math display">\[\text{Pr}(H_0 | x_i) , \]</span> i.e.&nbsp;probability of the null model given the observation <span class="math inline">\(x_i\)</span>, or equivalently computing <span class="math display">\[\text{Pr}(H_A | x_i) = 1- \text{Pr}(H_0 | x_i)\]</span> the probability of the alternative model given the observation <span class="math inline">\(x_i\)</span>.</p>
+<p>This is done by assuming a mixture model <span class="math display">\[
+f(x) = \pi_0 f_0(x) + (1-\pi_0) f_A(x)
+\]</span> where <span class="math inline">\(\pi_0 = \text{Pr}(H_0)\)</span> is the prior probability of <span class="math inline">\(H_0\)</span> and. <span class="math inline">\(\pi_A = 1- \pi_0 = \text{Pr}(H_A)\)</span> the prior probabiltiy of <span class="math inline">\(H_A\)</span>.</p>
+<p>Note that the weights <span class="math inline">\(\pi_0\)</span> can in fact be estimated from the observations by fitting the mixture distribution to the observations <span class="math inline">\(x_1, \ldots, x_n\)</span> (so it is effectively an empirical Bayes method where the prior is informed by the data).</p>
+</section>
+<section id="local-fdr" class="level4">
+<h4 class="anchored" data-anchor-id="local-fdr">Local FDR</h4>
+<p>The posterior probability of the null model given a data point is then given by <span class="math display">\[\text{Pr}(H_0 | x_i) = \frac{\pi_0 f_0(x_i)}{f(x_i)} = LFDR(x_i)\]</span> This quantity is also known as the <strong>local FDR</strong> or <strong>local False Discovery Rate</strong>.</p>
+<p>In the given one-sided setup the local FDR is large (close to 1) for small <span class="math inline">\(x\)</span>, and will become close to 0 for large <span class="math inline">\(x\)</span>. A common decision rule is given by thresholding local false discovery rates: if <span class="math inline">\(LFDR(x_i) &lt; 0.1\)</span> the <span class="math inline">\(x_i\)</span> is called significant.</p>
+</section>
+<section id="q-values" class="level4">
+<h4 class="anchored" data-anchor-id="q-values">q-values</h4>
+<p>In correspondence to <span class="math inline">\(p\)</span>-values one can also define tail-area based false discovery rates: <span class="math display">\[
+Fdr(x_i) = \text{Pr}(H_0 | X &gt; x_i) = \frac{\pi_0 F_0(x_i)}{F(x_i)}
+\]</span></p>
+<p>These are called <strong>q-values</strong>, or simply <strong>False Discovery Rates (FDR)</strong>. Intriguingly, these also have a frequentist interpretation as adjusted p-values (using a Benjamini-Hochberg adjustment procedure).</p>
+</section>
+</section>
+<section id="software" class="level3">
+<h3 class="anchored" data-anchor-id="software">Software</h3>
+<p>There are a number of R packages to compute (local) FDR values:</p>
+<p>For example:</p>
+<ul>
+<li><a href="https://cran.r-project.org/package=locfdr">locfdr</a></li>
+<li><a href="http://www.bioconductor.org/packages/release/bioc/html/qvalue.html">qvalue</a></li>
+<li><a href="https://cran.r-project.org/package=fdrtool">fdrtool</a></li>
+</ul>
+<p>and many more.</p>
+<p>Using FDR values for screening is especially useful in high-dimensional settings (e.g.&nbsp;when analysing genomic and other high-throughput data).</p>
+<p>FDR values have both a Bayesian as well as frequentist interpretation, providing further evidence that good classical statistical methods do have a Bayesian interpretation.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Jeffreys, H. <em>Theory of Probability</em>. 3rd ed.&nbsp;Oxford University Press.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Kass, R.E., and A.E. Raftery. 1995. <em>Bayes factors</em>. JASA <strong>90</strong>:773–795. <a href="https://doi.org/10.1080/01621459.1995.10476572" class="uri">https://doi.org/10.1080/01621459.1995.10476572</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Schwarz, G. 1978. <em>Estimating the dimension of a model</em>. Ann. Statist. <strong>6</strong>:461–464. <a href="https://doi.org/10.1214/aos/1176344136" class="uri">https://doi.org/10.1214/aos/1176344136</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./10-bayes4.html" class="pagination-link" aria-label="Bayesian learning in practise">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./12-bayes6.html" class="pagination-link" aria-label="Choosing priors in Bayesian analysis">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

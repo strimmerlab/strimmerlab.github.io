@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics 2: Likelihood and Bayes - Bibliography</title>
+<title>Statistics 2: Likelihood and Bayes - 12&nbsp; Choosing priors in Bayesian analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./20-stats.html" rel="next">
-<link href="./13-bayes7.html" rel="prev">
+<link href="./13-bayes7.html" rel="next">
+<link href="./11-bayes5.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -88,6 +69,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -100,7 +110,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./bibliography.html">Bibliography</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./12-bayes6.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -231,7 +241,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
   </div>
 </li>
@@ -243,7 +253,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./bibliography.html" class="sidebar-item-text sidebar-link active">
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliography</span></a>
   </div>
 </li>
@@ -278,14 +288,34 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#choosing-a-prior" id="toc-choosing-a-prior" class="nav-link active" data-scroll-target="#choosing-a-prior"><span class="header-section-number">12.1</span> Choosing a prior</a>
+  <ul class="collapse">
+  <li><a href="#prior-as-part-of-the-model" id="toc-prior-as-part-of-the-model" class="nav-link" data-scroll-target="#prior-as-part-of-the-model">Prior as part of the model</a></li>
+  <li><a href="#some-guidelines" id="toc-some-guidelines" class="nav-link" data-scroll-target="#some-guidelines">Some guidelines</a></li>
+  </ul></li>
+  <li><a href="#default-priors-or-uninformative-priors" id="toc-default-priors-or-uninformative-priors" class="nav-link" data-scroll-target="#default-priors-or-uninformative-priors"><span class="header-section-number">12.2</span> Default priors or uninformative priors</a>
+  <ul class="collapse">
+  <li><a href="#jeffreys-prior" id="toc-jeffreys-prior" class="nav-link" data-scroll-target="#jeffreys-prior">Jeffreys prior</a></li>
+  <li><a href="#reference-priors" id="toc-reference-priors" class="nav-link" data-scroll-target="#reference-priors">Reference priors</a></li>
+  </ul></li>
+  <li><a href="#empirical-bayes" id="toc-empirical-bayes" class="nav-link" data-scroll-target="#empirical-bayes"><span class="header-section-number">12.3</span> Empirical Bayes</a>
+  <ul class="collapse">
+  <li><a href="#type-ii-maximum-likelihood" id="toc-type-ii-maximum-likelihood" class="nav-link" data-scroll-target="#type-ii-maximum-likelihood">Type II maximum likelihood</a></li>
+  <li><a href="#shrinkage-estimation-using-empirical-risk-minimisation" id="toc-shrinkage-estimation-using-empirical-risk-minimisation" class="nav-link" data-scroll-target="#shrinkage-estimation-using-empirical-risk-minimisation">Shrinkage estimation using empirical risk minimisation</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./bibliography.html">Bibliography</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./12-bayes6.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Bibliography</h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></h1>
 </div>
 
 
@@ -302,30 +332,96 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-AgrestiKateri2022" class="csl-entry" role="listitem">
-Agresti, A., and M. Kateri. 2022. <em>Foundations of Statistics for Data
-Scientists</em>. Chapman; Hall/CRC.
-</div>
-<div id="ref-Domingos2015" class="csl-entry" role="listitem">
-Domingos, P. 2015. <em>The Master Algorithm: How the Quest for the
-Ultimate Learning Machine Will Remake Our World</em>. Basic Books.
-</div>
-<div id="ref-Gelman+2014" class="csl-entry" role="listitem">
-Gelman, A., J. B. Carlin, H. A. Stern, D. B. Dunson, A. Vehtari, and D.
-B. Rubin. 2014. <em>Bayesian Data Analysis</em>. 3rd ed. CRC Press.
-</div>
-<div id="ref-Heard2021" class="csl-entry" role="listitem">
-Heard, N. 2021. <em>An Introduction to Bayesian Inference, Methods and
-Computation</em>. Springer.
-</div>
-<div id="ref-HeldBove2020" class="csl-entry" role="listitem">
-Held, L., and D. S. Bové. 2020. <em>Applied Statistical Inference:
-Likelihood and Bayes</em>. Second. Springer.
-</div>
+<section id="choosing-a-prior" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="choosing-a-prior"><span class="header-section-number">12.1</span> Choosing a prior</h2>
+<section id="prior-as-part-of-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="prior-as-part-of-the-model">Prior as part of the model</h3>
+<p>It is <strong>essential in a Bayesian analysis to specify your prior uncertainty about the model parameters</strong>. Note that this is simply <strong>part of the modelling process</strong>! Thus in a Bayesian approach the data analyst needs to be more explicit about all modelling assumptions.</p>
+<p>Typically, when choosing a suitable prior distribution we consider the overall form (shape and domain) of the distribution as well as its key characteristics such as the mean and variance. As we have learned the precision (inverse variance) of the prior may often be viewed as implied sample size.</p>
+<p>For large sample size <span class="math inline">\(n\)</span> the posterior mean converges to the maximum likelihood estimate (and the posterior distribution to normal distribution centered around the MLE), so for large <span class="math inline">\(n\)</span> we may ignore specifying a prior.</p>
+<p>However, for small <span class="math inline">\(n\)</span> it is essential that a prior is specified. In non-Bayesian approaches this prior is still there but it is either implicit (maximum likelihood estimation) or specified via a penality (penalised maximum likelihood estimation).</p>
+</section>
+<section id="some-guidelines" class="level3">
+<h3 class="anchored" data-anchor-id="some-guidelines">Some guidelines</h3>
+<p>So the question remains what are good ways to choose a prior? Two useful ways are:</p>
+<ol type="1">
+<li><p>Use a weakly informative prior. This means that you do have an idea (even if only vague) about the suitable values of the parameter of interest, and you use a corresponding prior (for example with moderate variance) to model the uncertainty. This acknowledges that there are no uninformative priors and but also aims that the prior does not dominate the likelihood (i.e.&nbsp;the data). The result is a weakly regularised estimator. Note that it is often desirable that the prior adds information (if only a little) so that it can act as a regulariser.</p></li>
+<li><p>Empirical Bayes methods can often be used to determine one or all of the hyperparameters (i.e.&nbsp;the parameters in the prior) from the observed data. There are several ways to do this, one of them is to tune the shrinkage parameter <span class="math inline">\(\lambda\)</span> to achieve minimum MSE. We discuss this further below.</p></li>
+</ol>
+<p>Furthermore, there also exist many proposals advocating so-called “uninformative priors” or “objective priors”. However, there are no actually unformative priors, since a prior distribution that looks uninformative (i.e.&nbsp;“flat”) in one coordinate system can be informative in another — this is a simple consequence of the rule for transformation of probability densities. As a result, often the suggested objective priors are in fact improper, i.e.&nbsp;are not actually probability distributions!</p>
+</section>
+</section>
+<section id="default-priors-or-uninformative-priors" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="default-priors-or-uninformative-priors"><span class="header-section-number">12.2</span> Default priors or uninformative priors</h2>
+<p>Objective or for default priors are attempts 1) to automatise specification of a prior and 2) to find uniformative priors.</p>
+<section id="jeffreys-prior" class="level3">
+<h3 class="anchored" data-anchor-id="jeffreys-prior">Jeffreys prior</h3>
+<p>The most well-known non-informative prior is given by a proposal by <a href="https://en.wikipedia.org/wiki/Harold_Jeffreys">Harold Jeffreys (1891–1989)</a> in 1946 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Specifically, this prior is constructed from the expected Fisher information and thus promises automatic construction of objective uninformative priors using the likelihood: <span class="math display">\[
+p(\symbfit \theta) \propto \sqrt{\det \symbfit I^{\text{Fisher}}(\symbfit \theta)}
+\]</span></p>
+<p>The reasoning underlying this prior is <strong>invariance against transformation of the coordinate system of the parameters</strong>.</p>
+<p>For the Beta-Binomial model the Jeffreys prior corresponds to <span class="math inline">\(\text{Beta}(\frac{1}{2}, \frac{1}{2})\)</span>. Note this is not the uniform distribution but a U-shaped prior.</p>
+<p>For the normal-normal model it corresponds to the flat improper prior <span class="math inline">\(p(\mu) =1\)</span>.</p>
+<p>For the IG-normal model the Jeffreys prior is the improper prior <span class="math inline">\(p(\sigma^2) = \frac{1}{\sigma^2}\)</span>.</p>
+<p>This already illustrates the main problem with this type of prior – namely that it often is improper, i.e.&nbsp;the prior distribution is not actually a probability distribution (i.e.&nbsp;the density does not integrate to 1).</p>
+<p>Another issue is that Jeffreys priors are usually not conjugate which complicates the update from the prior to the posterior.</p>
+<p>Furthermore, if there are multiple parameters (<span class="math inline">\(\symbfit \theta\)</span> is a vector) then Jeffreys priors do not usually lead to sensible priors.</p>
+</section>
+<section id="reference-priors" class="level3">
+<h3 class="anchored" data-anchor-id="reference-priors">Reference priors</h3>
+<p>An alternative to Jeffreys priors are the so-called <strong>reference priors</strong> developed by Bernardo (1979) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. This type of priors aims to choose the prior such that there is maximal “correlation” between the data and the parameter. More precisely, the mutual information between <span class="math inline">\(\theta\)</span> and <span class="math inline">\(x\)</span> is maximised (i.e.&nbsp;the the expected KL divergence between the posterior and prior distribution). The underlying motivation is that the data and parameters should be maximally linked (thereby minimising the influence of the prior).</p>
+<p>For univariate settings the reference priors are identical to Jeffreys priors. However, reference prior also provide reasonable priors in multivariate settings.</p>
+<p>In both Jeffreys’ and the reference prior approach the choice of prior is by expectation over the data, i.e.&nbsp;not for the specific data set at hand (this can be seen both as a positive and negative!).</p>
+</section>
+</section>
+<section id="empirical-bayes" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="empirical-bayes"><span class="header-section-number">12.3</span> Empirical Bayes</h2>
+<p>In empirical Bayes the data analysist specifies a family of prior distribution (say a Beta distribution with free parameters), and then the data at hand are used to find an optimal choise for the hyper-parameters (hence the name “empirical”). Thus the hyper-parameters are not specified but themselves estimated.</p>
+<section id="type-ii-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="type-ii-maximum-likelihood">Type II maximum likelihood</h3>
+<p>In particular, assuming data <span class="math inline">\(D\)</span>, a likelihood <span class="math inline">\(p(D|\symbfit \theta)\)</span> for some model with parameters <span class="math inline">\(\symbfit \theta\)</span> as well as a prior <span class="math inline">\(p(\symbfit \theta| \lambda)\)</span> for <span class="math inline">\(\symbfit \theta\)</span> with hyper-parameter <span class="math inline">\(\lambda\)</span> the marginal likelihood now depends on <span class="math inline">\(\lambda\)</span>: <span class="math display">\[
+p(D | \lambda) = \int_{\symbfit \theta}  p(D|\symbfit \theta) p(\symbfit \theta| \lambda) d\symbfit \theta
+\]</span> We can therefore use maximum (marginal) likelihood find optimal values of <span class="math inline">\(\lambda\)</span> given the data.</p>
+<p>Since maximum-likelihood is used in a second level step (the hyper-parameters) this type of empirical Bayes is also often called “type II maximum likelihood”.</p>
+</section>
+<section id="shrinkage-estimation-using-empirical-risk-minimisation" class="level3">
+<h3 class="anchored" data-anchor-id="shrinkage-estimation-using-empirical-risk-minimisation">Shrinkage estimation using empirical risk minimisation</h3>
+<p>An alternative (but related) way to estimate hyper-parameters is by minimising the empirical risk.</p>
+<p>In the examples for Bayesian estimation that we have considered so far the posterior mean of the parameter of interest was obtained by linear shrinkage <span class="math display">\[
+\hat\theta_{\text{shrink}} = \text{E}( \theta | D) = \lambda \theta_0 + (1-\lambda) \hat\theta_{\text{ML}}
+\]</span> of the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> towards the prior mean <span class="math inline">\(\theta_0\)</span>, with shrinkage intensity <span class="math inline">\(\lambda=\frac{k_0}{k_0}\)</span> determined by the ration of the prior and posterior concentration parameters <span class="math inline">\(k_0\)</span> and <span class="math inline">\(k_1\)</span>.</p>
+<p>The resulting point estimate <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> is called <em>shrinkage estimate</em> and is a convex combination of <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>. The prior mean <span class="math inline">\(\theta_0\)</span> is also called the “target”.</p>
+<p>The hyperparameter in this setting is <span class="math inline">\(k_0\)</span> (linked to the precision of the prior) and or equivalently the shrinkage intensity <span class="math inline">\(\lambda\)</span>.</p>
+<p>An optimal value for <span class="math inline">\(\lambda\)</span> can be obtained by minimising the mean squared error of the estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span>.</p>
+<p>In particular, by construction, the target <span class="math inline">\(\theta_0\)</span> has low or even zero variance but non-vanishing and potentially large bias, whereas the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> will have low or zero bias but a substantial variance. By combinining these two estimators with opposite properties the aim is to achieve a <em>bias-variance tradeoff</em> so that the resulting estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> has lower MSE than either <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>.</p>
+<p>Specifically, the aim is to find <span class="math display">\[
+\lambda^{\star} = \underset{\lambda}{\arg \min \ }  
+\text{E}\left( ( \theta - \hat\theta_{\text{shrink}} )^2\right)
+\]</span></p>
+<p>It turns out that this can be minimised without knowing the actual true value of <span class="math inline">\(\theta\)</span> and the result for an unbiased <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> is <span class="math display">\[
+\lambda^{\star} = \frac{\text{Var}(\hat\theta_{\text{ML}})}{\text{E}( (\hat\theta_{\text{ML}} - \theta_0)^2 )}
+\]</span> Hence, the shrinkage intensity will be small if the variance of the MLE is small and/or if the target and the MLE differ substantially. On the other hand, if the variance of the MLE is large and/or the target is close to the MLE the shrinkage intensity will be large.</p>
+<p>Choosing the shrinkage parameter by optimising expected risk (here mean squared error) is also a form empirical Bayes.</p>
+<div id="exm-jamesstein" class="theorem example">
+<p><span class="theorem-title"><strong>Example 12.1</strong></span> James-Stein estimator:</p>
+<p>Empirical risk minimisation to estimate the shrinkage parameter of the normal-normal model for a single observation yields the James-Stein estimator (1955).</p>
+<p>Specifically, James and Stein propose the following estimate for the multivariate mean <span class="math inline">\(\symbfit \mu\)</span> of using a single sample <span class="math inline">\(\symbfit x\)</span> drawn from the multivariate normal <span class="math inline">\(N_d(\symbfit \mu, \symbfit I)\)</span>: <span class="math display">\[
+\hat{\symbfit \mu}_{JS} = \left(1-\frac{d-2}{||\symbfit x||^2}\right) \symbfit x
+\]</span> Here, we recognise <span class="math inline">\(\hat{\symbfit \mu}_{ML} = \symbfit x\)</span>, <span class="math inline">\(\symbfit \mu_0=0\)</span> and shrinkage intensity <span class="math inline">\(\lambda^{\star}=\frac{d-2}{||\symbfit x||^2}\)</span>.</p>
+<p>Efron and Morris (1972) and Lindley and Smith (1972) later generalised the James-Stein estimator to the case of multiple observations <span class="math inline">\(\symbfit x_1, \ldots \symbfit x_n\)</span> and target <span class="math inline">\(\symbfit \mu_0\)</span>, yielding an empirical Bayes estimate of <span class="math inline">\(\mu\)</span> based on the normal-normal model.</p>
 </div>
 
 
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Jeffreys, H. 1946. <em>An invariant form for the prior probability in estimation problems</em>. Proc. Roy. Soc. A <strong>186</strong>:453–461. <a href="https://doi.org/10.1098/rspa.1946.0056" class="uri">https://doi.org/10.1098/rspa.1946.0056</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Bernardo, J. M. 1979. <em>Reference posterior distributions for Bayesian inference (with discussion).</em> JRSS B <strong>41</strong>:113–147. <a href="https://doi.org/10.1111/j.2517-6161.1979.tb01066.x" class="uri">https://doi.org/10.1111/j.2517-6161.1979.tb01066.x</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -620,13 +716,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./13-bayes7.html" class="pagination-link" aria-label="Optimality properties and summary">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span>
+      <a href="./11-bayes5.html" class="pagination-link" aria-label="Bayesian model comparison">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./20-stats.html" class="pagination-link" aria-label="Statistics refresher">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./13-bayes7.html" class="pagination-link" aria-label="Optimality properties and summary">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

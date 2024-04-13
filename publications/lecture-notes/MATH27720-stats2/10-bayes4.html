@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistics 2: Likelihood and Bayes - 10&nbsp; Bayesian learning in practise</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-bayes5.html" rel="next">
+<link href="./09-bayes3.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./10-bayes4.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Likelihood estimation and inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-likelihood1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview of statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-likelihood2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Entropy and KL information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-likelihood4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-likelihood5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Bayesian Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#estimating-a-proportion-using-the-beta-binomial-model" id="toc-estimating-a-proportion-using-the-beta-binomial-model" class="nav-link active" data-scroll-target="#estimating-a-proportion-using-the-beta-binomial-model"><span class="header-section-number">10.1</span> Estimating a proportion using the beta-binomial model</a>
+  <ul class="collapse">
+  <li><a href="#binomial-likelihood" id="toc-binomial-likelihood" class="nav-link" data-scroll-target="#binomial-likelihood">Binomial likelihood</a></li>
+  <li><a href="#beta-prior-distribution" id="toc-beta-prior-distribution" class="nav-link" data-scroll-target="#beta-prior-distribution">Beta prior distribution</a></li>
+  <li><a href="#computing-the-posterior-distribution" id="toc-computing-the-posterior-distribution" class="nav-link" data-scroll-target="#computing-the-posterior-distribution">Computing the posterior distribution</a></li>
+  </ul></li>
+  <li><a href="#properties-of-bayesian-learning" id="toc-properties-of-bayesian-learning" class="nav-link" data-scroll-target="#properties-of-bayesian-learning"><span class="header-section-number">10.2</span> Properties of Bayesian learning</a>
+  <ul class="collapse">
+  <li><a href="#prior-acting-as-pseudodata" id="toc-prior-acting-as-pseudodata" class="nav-link" data-scroll-target="#prior-acting-as-pseudodata">Prior acting as pseudodata</a></li>
+  <li><a href="#linear-shrinkage-of-mean" id="toc-linear-shrinkage-of-mean" class="nav-link" data-scroll-target="#linear-shrinkage-of-mean">Linear shrinkage of mean</a></li>
+  <li><a href="#conjugacy-of-prior-and-posterior-distribution" id="toc-conjugacy-of-prior-and-posterior-distribution" class="nav-link" data-scroll-target="#conjugacy-of-prior-and-posterior-distribution">Conjugacy of prior and posterior distribution</a></li>
+  <li><a href="#large-sample-limits-of-mean-and-variance" id="toc-large-sample-limits-of-mean-and-variance" class="nav-link" data-scroll-target="#large-sample-limits-of-mean-and-variance">Large sample limits of mean and variance</a></li>
+  <li><a href="#asymptotic-normality-of-the-posterior-distribution" id="toc-asymptotic-normality-of-the-posterior-distribution" class="nav-link" data-scroll-target="#asymptotic-normality-of-the-posterior-distribution">Asymptotic normality of the posterior distribution</a></li>
+  <li><a href="#posterior-variance-for-finite-n" id="toc-posterior-variance-for-finite-n" class="nav-link" data-scroll-target="#posterior-variance-for-finite-n">Posterior variance for finite <span class="math inline">\(n\)</span></a></li>
+  </ul></li>
+  <li><a href="#estimating-the-mean-using-the-normal-normal-model" id="toc-estimating-the-mean-using-the-normal-normal-model" class="nav-link" data-scroll-target="#estimating-the-mean-using-the-normal-normal-model"><span class="header-section-number">10.3</span> Estimating the mean using the normal-normal model</a>
+  <ul class="collapse">
+  <li><a href="#normal-likelihood" id="toc-normal-likelihood" class="nav-link" data-scroll-target="#normal-likelihood">Normal likelihood</a></li>
+  <li><a href="#normal-prior-distribution" id="toc-normal-prior-distribution" class="nav-link" data-scroll-target="#normal-prior-distribution">Normal prior distribution</a></li>
+  <li><a href="#normal-posterior-distribution" id="toc-normal-posterior-distribution" class="nav-link" data-scroll-target="#normal-posterior-distribution">Normal posterior distribution</a></li>
+  <li><a href="#large-sample-asymptotics" id="toc-large-sample-asymptotics" class="nav-link" data-scroll-target="#large-sample-asymptotics">Large sample asymptotics</a></li>
+  </ul></li>
+  <li><a href="#estimating-the-variance-using-the-inverse-gamma-normal-model" id="toc-estimating-the-variance-using-the-inverse-gamma-normal-model" class="nav-link" data-scroll-target="#estimating-the-variance-using-the-inverse-gamma-normal-model"><span class="header-section-number">10.4</span> Estimating the variance using the inverse-gamma-normal model</a>
+  <ul class="collapse">
+  <li><a href="#normal-likelihood-1" id="toc-normal-likelihood-1" class="nav-link" data-scroll-target="#normal-likelihood-1">Normal likelihood</a></li>
+  <li><a href="#ig-prior-distribution" id="toc-ig-prior-distribution" class="nav-link" data-scroll-target="#ig-prior-distribution">IG prior distribution</a></li>
+  <li><a href="#ig-posterior-distribution" id="toc-ig-posterior-distribution" class="nav-link" data-scroll-target="#ig-posterior-distribution">IG posterior distribution</a></li>
+  <li><a href="#large-sample-asymptotics-1" id="toc-large-sample-asymptotics-1" class="nav-link" data-scroll-target="#large-sample-asymptotics-1">Large sample asymptotics</a></li>
+  <li><a href="#other-equivalent-update-rules" id="toc-other-equivalent-update-rules" class="nav-link" data-scroll-target="#other-equivalent-update-rules">Other equivalent update rules</a></li>
+  </ul></li>
+  <li><a href="#estimating-the-precision-using-the-gamma-normal-model" id="toc-estimating-the-precision-using-the-gamma-normal-model" class="nav-link" data-scroll-target="#estimating-the-precision-using-the-gamma-normal-model"><span class="header-section-number">10.5</span> Estimating the precision using the gamma-normal model</a>
+  <ul class="collapse">
+  <li><a href="#mle-of-the-precision" id="toc-mle-of-the-precision" class="nav-link" data-scroll-target="#mle-of-the-precision">MLE of the precision</a></li>
+  <li><a href="#gamma-wishart-prior" id="toc-gamma-wishart-prior" class="nav-link" data-scroll-target="#gamma-wishart-prior">Gamma (Wishart) prior</a></li>
+  <li><a href="#gamma-wishart-posterior" id="toc-gamma-wishart-posterior" class="nav-link" data-scroll-target="#gamma-wishart-posterior">Gamma / Wishart posterior</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian Statistics</a></li><li class="breadcrumb-item"><a href="./10-bayes4.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this chapter we discuss how three basic problems, namely how to estimate a proportion, the mean and the variance in a Bayesian framework.</p>
+<section id="estimating-a-proportion-using-the-beta-binomial-model" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="estimating-a-proportion-using-the-beta-binomial-model"><span class="header-section-number">10.1</span> Estimating a proportion using the beta-binomial model</h2>
+<section id="binomial-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="binomial-likelihood">Binomial likelihood</h3>
+<p>In order to apply Bayes’ theorem we first need to find a suitable likelihood. We use the Bernoulli model as in <a href="03-likelihood3.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>3.1</span></a>:</p>
+<p>Repeated Bernoulli experiment (binomial model):</p>
+<p>Bernoulli data generating process: <span class="math display">\[
+x  \sim \text{Ber}(\theta)
+\]</span></p>
+<ul>
+<li><span class="math inline">\(x \in \{0, 1\}\)</span> (e.g.&nbsp;“success” vs.&nbsp;“failure”)</li>
+<li>The “success” is indicated by outcome <span class="math inline">\(x=1\)</span> and the “failure” by <span class="math inline">\(x=0\)</span></li>
+<li>Parameter: <span class="math inline">\(\theta\)</span> is the probability of “success”</li>
+<li>probability mass function (PMF): <span class="math inline">\(\text{Pr}(x=1) = \theta\)</span>, <span class="math inline">\(\text{Pr}(x=0) = 1-\theta\)</span></li>
+<li>Mean: <span class="math inline">\(\text{E}(x) = \theta\)</span></li>
+<li>Variance <span class="math inline">\(\text{Var}(x) = \theta (1-\theta)\)</span></li>
+</ul>
+<p>Binomial model <span class="math inline">\(\text{Bin}(n,\theta)\)</span> (sum of <span class="math inline">\(n\)</span> Bernoulli experiments):</p>
+<ul>
+<li><span class="math inline">\(y \in \{0, 1, \ldots, n\} = \sum_{i=1}^n x_i\)</span></li>
+<li>Mean: <span class="math inline">\(\text{E}(y) = n \theta\)</span></li>
+<li>Variance: <span class="math inline">\(\text{Var}(y) = n \theta (1-\theta)\)</span></li>
+<li>Mean of standardised <span class="math inline">\(y\)</span>: <span class="math inline">\(\text{E}(y/n) = \theta\)</span></li>
+<li>Variance of standardised <span class="math inline">\(y\)</span>: <span class="math inline">\(\text{Var}(y/n) = \frac{\theta (1-\theta)}{n}\)</span></li>
+</ul>
+<p>Maximum likelihood estimate of <span class="math inline">\(\theta\)</span>:</p>
+<ul>
+<li>We conduct <span class="math inline">\(n\)</span> Bernoulli trials and observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> with average <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(n_1\)</span> successes and <span class="math inline">\(n_2 = n-n_1\)</span> failures.</li>
+<li>Binomial likelihood: <span class="math display">\[
+L(\theta|D) = \begin{pmatrix} n \\ n_1 \end{pmatrix} \theta^{n_1} (1-\theta)^{n_2}
+\]</span> Note that the binomial coefficient arises as the ordering of the <span class="math inline">\(x_i\)</span> is irrelevant but it may be discarded as is does not contain the parameter <span class="math inline">\(\theta\)</span>.</li>
+<li>From <a href="03-likelihood3.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>3.1</span></a> we know that the maximum likelihood estimate of the proportion <span class="math inline">\(\theta\)</span> is the frequency <span class="math display">\[\hat{\theta}_{ML} = \frac{n_1}{n} = \bar{x}\]</span> Thus, the MLE <span class="math inline">\(\hat{\theta}_{ML}\)</span> can be expressed as an average (of the individual data points). This seemingly trivial fact is important for Bayesian estimation of <span class="math inline">\(\theta\)</span> using linear shrinkage, as will become evident below.</li>
+</ul>
+</section>
+<section id="beta-prior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="beta-prior-distribution">Beta prior distribution</h3>
+<p>In Bayesian statistics we need not only to specify the data generating process but also a prior distribution over the parameters of the likelihood function.</p>
+<p>Therefore, we need to <strong>explicitly specify our prior uncertainty about <span class="math inline">\(\theta\)</span>.</strong></p>
+<p>The parameter <span class="math inline">\(\theta\)</span> has support <span class="math inline">\([0,1]\)</span>. Therefore we may use a <strong>beta distribution <span class="math inline">\(\text{Beta}(\alpha_1, \alpha_2)\)</span> as prior for <span class="math inline">\(\theta\)</span></strong> (see the <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a> for properties of this distribution). We will see below that the beta distribution is a natural choice as a prior in conjunction with a binomial likelihood.</p>
+<p>The parameters of a prior (here <span class="math inline">\(\alpha_1 \geq 0\)</span> and <span class="math inline">\(\alpha_2 \geq 0\)</span>) are also known as the <strong>hyperparameters</strong> of the model to distinguish them from the parameters of the likelihood function (here <span class="math inline">\(\theta\)</span>).</p>
+<p>We write for the prior distribution <span class="math display">\[
+\theta \sim \text{Beta}(\alpha_1, \alpha_2)
+\]</span> with density <span class="math display">\[
+p(\theta) = \frac{1}{B(\alpha_1, \alpha_2)} \theta^{\alpha_1-1} (1-\theta)^{\alpha_2-1}
+\]</span></p>
+<p>In terms of mean parameterisation <span class="math inline">\(\text{Beta}(\mu_0, k_0)\)</span> this corresponds to:</p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0  = \alpha_1 + \alpha_2\)</span></li>
+<li>The prior mean parameter is set to <span class="math inline">\(\mu_0 = \alpha_1 / k_0\)</span>.</li>
+</ul>
+<p>The prior mean is therefore <span class="math display">\[
+\text{E}(\theta) = \mu_0
+\]</span> and the prior variance <span class="math display">\[
+\text{Var}(\theta)  = \frac{\mu_0 (1-\mu_0)}{k_0 + 1}
+\]</span></p>
+<p>It is important that this does not actually mean that <span class="math inline">\(\theta\)</span> is random. It only means that we model the uncertainty about <span class="math inline">\(\theta\)</span> using a beta-distributed random variable. The flexibility of the beta distribution allows to accommodate a large variety of possible scenarios for our prior knowledge using just two parameters.</p>
+<p>Note the mean and variance of the beta prior and the mean and variance of the standardised binomial variable <span class="math inline">\(y/n\)</span> have the same form. This is further indication that the binomial likelihood and the beta prior are well matched — see the discussion below about “conjugate priors”.</p>
+</section>
+<section id="computing-the-posterior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="computing-the-posterior-distribution">Computing the posterior distribution</h3>
+<p>After observing data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> with <span class="math inline">\(n_1\)</span> “successes” and <span class="math inline">\(n_2 = n-n_1\)</span> “failures” we can compute the posterior density over <span class="math inline">\(\theta\)</span> using Bayes’ theorem: <span class="math display">\[
+p(\theta| D) = \frac{p(\theta) L(\theta | D) }{p(D)}
+\]</span></p>
+<p>Applying Bayes’ theorem results in the posterior distribution: <span class="math display">\[
+\theta| D \sim \text{Beta}(\alpha_1+n_1, \alpha_2+n_2)
+\]</span> with density <span class="math display">\[
+p(\theta| D) = \frac{1}{B(\alpha_1+n_1, \alpha_2+n_2)} \theta^{\alpha_1+n_1-1} (1-\theta)^{\alpha_2+n_2-1}
+\]</span> (For a proof see Worksheet B1.)</p>
+<p>In the corresponding mean parameterisation <span class="math inline">\(\text{Beta}(\mu_1, k_1)\)</span> this results in the following updates:</p>
+<ul>
+<li>The concentration parameter is updated to <span class="math inline">\(k_1  = k_0+n\)</span></li>
+<li>The mean parameter is updated to <span class="math display">\[
+\mu_1 = \frac{\alpha_1 + n_1}{k_1}
+\]</span> This can be written as <span class="math display">\[
+\begin{split}
+\mu_1 &amp; =  \frac{\alpha_1}{k_1}  + \frac{n_1}{k_1}\\
+    &amp; =  \frac{k_0}{k_1} \frac{\alpha_1}{k_0}   + \frac{n}{k_1} \frac{n_1}{n}\\
+    &amp; = \lambda \mu_0 + (1-\lambda) \hat{\theta}_{ML}\\
+\end{split}
+\]</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>. Hence, <span class="math inline">\(\mu_1\)</span> is a convex combination of the prior mean and the MLE.</li>
+</ul>
+<p>Therefore, the posterior mean is <span class="math display">\[
+\text{E}(\theta | D) = \mu_1
+\]</span> and the posterior variance is <span class="math display">\[
+\text{Var}(\theta | D)
+= \frac{\mu_1 (1-\mu_1)}{k_1+1 }
+\]</span></p>
+</section>
+</section>
+<section id="properties-of-bayesian-learning" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="properties-of-bayesian-learning"><span class="header-section-number">10.2</span> Properties of Bayesian learning</h2>
+<p>The beta-binomial model, even though it is one of the simplest possible models, already allows to observe a number of important features and properties of Bayesian learning. Many of these apply also to other models as we will see later.</p>
+<section id="prior-acting-as-pseudodata" class="level3">
+<h3 class="anchored" data-anchor-id="prior-acting-as-pseudodata">Prior acting as pseudodata</h3>
+<p>In the expression for the mean and variance you can see that the concentration parameter <span class="math inline">\(k_0=\alpha_1 + \alpha_2\)</span> behaves like an implicit sample size connected with the prior information about <span class="math inline">\(\theta\)</span>.</p>
+<p>Specifically, <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> act as <strong>pseudocounts</strong> that influence both the posterior mean and the posterior variance, exactly in the same way as conventional observations.</p>
+<p>For example, the larger <span class="math inline">\(k_0\)</span> (and thus the larger <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>) the smaller is the posterior variance, with variance decreasing proportional to the inverse of <span class="math inline">\(k_0\)</span>. If the prior is highly concentrated, i.e.&nbsp;if it has low variance and large precision (=inverse variance) then the implicit data size <span class="math inline">\(k_0\)</span> is large. Conversely, if the prior has large variance, then the prior is vague and the implicit data size <span class="math inline">\(k_0\)</span> is small.</p>
+<p>Hence, a prior has the same effect as if one would add data — but without actually adding data! This is precisely this why a prior acts as a regulariser and prevents overfitting, because it increases the effective sample size.</p>
+<p>Another interpretation is that a prior summarises data that may have been available previously as observations.</p>
+</section>
+<section id="linear-shrinkage-of-mean" class="level3">
+<h3 class="anchored" data-anchor-id="linear-shrinkage-of-mean">Linear shrinkage of mean</h3>
+<p>In the beta-binomial model the <strong>posterior mean is a convex combination (i.e.&nbsp;the weighted average) of the ML estimate and the prior mean</strong> as can be seen from the update formula <span class="math display">\[
+\mu_1 = \lambda \mu_0 + (1-\lambda) \hat{\theta}_{ML}
+\]</span> with weight <span class="math inline">\(\lambda \in [0,1]\)</span> <span class="math display">\[
+\lambda = \frac{k_0}{k_1} \,.
+\]</span> Thus, the posterior mean <span class="math inline">\(\mu_1\)</span> is a linearly adjusted <span class="math inline">\(\hat{\theta}_{ML}\)</span>. The factor <span class="math inline">\(\lambda\)</span> is called the <strong>shrinkage intensity</strong> — note that this is the ratio of the “prior sample size” (<span class="math inline">\(k_0\)</span>) and the “effective total sample size” (<span class="math inline">\(k_1\)</span>).</p>
+<ol type="1">
+<li><p>This adjustment of the MLE is called <em>shrinkage</em>, because the <span class="math inline">\(\hat{\theta}_{ML}\)</span> is “shrunk” towards the prior mean <span class="math inline">\(\mu_0\)</span> (which is often called the “target”, and sometimes the target is zero, and then the terminology “shrinking” makes most sense).</p></li>
+<li><p>If the shrinkage intensity is zero (<span class="math inline">\(\lambda = 0\)</span>) then the ML point estimator is recovered. This happens when <span class="math inline">\(\alpha_1=0\)</span> and <span class="math inline">\(\alpha_2=0\)</span> or for <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Remark: using maximum likelihood to estimate <span class="math inline">\(\theta\)</span> (for moderate or small <span class="math inline">\(n\)</span>) is the same as Bayesian posterior mean estimation using the beta-binomial model with prior <span class="math inline">\(\alpha_1=0\)</span> and <span class="math inline">\(\alpha_2=0\)</span>. This prior is extremely “u-shaped” and the implicit prior for the ML estimation. Would you use such a prior intentionally?</p></li>
+<li><p>If the shrinkage intensity is large (<span class="math inline">\(\lambda \rightarrow 1\)</span>) then the posterior mean corresponds to the prior. This happens if <span class="math inline">\(n=0\)</span> or if <span class="math inline">\(k_0\)</span> is very large (implying that the prior is sharply concentrated around the prior mean).</p></li>
+<li><p>Since the ML estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> is unbiased the Bayesian point estimate is biased (for finite <span class="math inline">\(n\)</span>!). And the bias is induced by the prior mean deviating from the true mean. This is also true more generally as Bayesian learning typically produces biased estimators (but asymptotically they will be unbiased like in ML).</p></li>
+<li><p>The fact that the posterior mean is a linear combination of the MLE and the prior mean is not a coincidence. In fact, this is true for all distributions that are exponential families, see e.g.&nbsp;Diaconis and Ylvisaker (1979)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Crucially, exponential families can always be parameterised such that the corresponding MLEs are expressed as averages of functions of the data (more technically: the MLE of the mean parameter in an EF is the average of the canonical statistic). In conjunction with a particular type of prior (conjugate priors, always existing for exponential families, see below) this allows to write the update from the prior to posterior mean as a linear adjustment of the MLE.</p></li>
+<li><p>Furthermore, it is possible (and indeed quite useful for computational reasons!) to formulate Bayes learning assuming only first and second moments (i.e.&nbsp;without full distributions) and in terms of linear shrinkage, see e.g.&nbsp;Hartigan (1969)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The resulting theory is called “Bayes linear statistics” (Goldstein and Wooff, 2007)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p></li>
+</ol>
+</section>
+<section id="conjugacy-of-prior-and-posterior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="conjugacy-of-prior-and-posterior-distribution">Conjugacy of prior and posterior distribution</h3>
+<p>In the beta-binomial model for estimating the proportion <span class="math inline">\(\theta\)</span> the choice of the <strong>beta distribution as prior distribution</strong> along with the binomial likelihood resulted in having the <strong>beta distribution as posterior distribution</strong> as well.</p>
+<p>If the prior and posterior belong to the same distributional family the prior is called a <strong>conjugate prior</strong>. This will be the case if the prior has the same functional form as the likelihood. Therefore one also says that the prior is conjugate for the likelihood.</p>
+<p>It can be shown that conjugate priors exist for all likelihood functions that are based on data generating models that are exponential families.</p>
+<p>In the beta-binomial model the likelihood is based on the binomial distribution and has the following form (only terms depending on the parameter <span class="math inline">\(\theta\)</span> are shown): <span class="math display">\[
+\theta^{n_1} (1-\theta)^{n_2}
+\]</span> The form of the beta prior is (again, only showing terms depending on <span class="math inline">\(\theta\)</span>): <span class="math display">\[
+\theta^{\alpha_1-1} (1-\theta)^{\alpha_2-1}
+\]</span> Since the posterior is proportional to the product of prior and likelihood the posterior will have exactly the same form as the prior: <span class="math display">\[
+\theta^{\alpha_1+n_1-1} (1-\theta)^{\alpha_2+n_2-1}
+\]</span> Choosing the prior distribution from a family conjugate for the likelihood greatly simplifies Bayesian analysis since the Bayes formula can then be written in form of an update formula for the parameters of the beta distribution: <span class="math display">\[
+\alpha_1 \rightarrow \alpha_1 + n_1  = \alpha_1 + n \hat{\theta}_{ML}
+\]</span> <span class="math display">\[
+\alpha_2 \rightarrow \alpha_2 + n_2 = \alpha_2 + n (1-\hat{\theta}_{ML})
+\]</span></p>
+<p>Thus, conjugate prior distributions are very convenient choices. However, in their application it must be ensured that the prior distribution is flexible enough to encapsulate all prior information that may be available. In cases where this is not the case alternative priors should be used (and most likely this will then require to compute the posterior distribution numerically rather than analytically).</p>
+</section>
+<section id="large-sample-limits-of-mean-and-variance" class="level3">
+<h3 class="anchored" data-anchor-id="large-sample-limits-of-mean-and-variance">Large sample limits of mean and variance</h3>
+<p>If <span class="math inline">\(n\)</span> is large and <span class="math inline">\(n &gt;&gt; \alpha, \beta\)</span> then <span class="math inline">\(\lambda \rightarrow 0\)</span> and hence the posterior mean and variance become asympotically</p>
+<p><span class="math display">\[
+\text{E}(\theta| D)  \overset{a}{=} \frac{n_1 }{n} = \hat{\theta}_{ML}
+\]</span> and <span class="math display">\[
+\text{Var}(\theta| D) \overset{a}{=}   \frac{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})}{n}
+\]</span></p>
+<p>Thus, if the sample size is large then the Bayes’ estimator turns into the ML estimator! Specifically, the posterior mean becomes the ML point estimate, and the posterior variance is equal to the asymptotic variance computed via the observed Fisher information.</p>
+<p>Thus, for large <span class="math inline">\(n\)</span> the data dominate and any details about the prior (such as the settings of the hyperparameters <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>) become irrelevant!</p>
+</section>
+<section id="asymptotic-normality-of-the-posterior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="asymptotic-normality-of-the-posterior-distribution">Asymptotic normality of the posterior distribution</h3>
+<p>Also known as <strong>Bayesian Central Limit Theorem (CLT)</strong>.</p>
+<p>Under some regularity conditions (such as regular likelihood and positive prior probability for all parameter values, finite number of parameters, etc.) for large sample size the Bayesian posterior distribution converges to a normal distribution centred around the MLE and with the variance of the MLE:</p>
+<p><span class="math display">\[
+\text{for large $n$:  }  p(\symbfit \theta| D) \to N(\hat{\symbfit \theta}_{ML}, \text{Var}(\hat{\symbfit \theta}_{ML}) )
+\]</span></p>
+<p>So not only are the posterior mean and variance converging to the MLE and the variance of the MLE for large sample size, but also the posterior distribution itself converges to the sampling distribution!</p>
+<p>This holds generally in many regular cases, not just in the simple case above.</p>
+<p>The Bayesian CLT is generally known as the <strong><a href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem">Bernstein-von Mises theorem</a></strong> (who discovered it at around 1920–30), but special cases were already known by Laplace.</p>
+<p>In the Worksheet B1 the asymptotic convergence of the posterior distribution to a normal distribution is demonstrated graphically.</p>
+</section>
+<section id="posterior-variance-for-finite-n" class="level3">
+<h3 class="anchored" data-anchor-id="posterior-variance-for-finite-n">Posterior variance for finite <span class="math inline">\(n\)</span></h3>
+<p>From the Bayesian posterior we can obtain a Bayesian point estimate for the proportion <span class="math inline">\(\theta\)</span> by computing the posterior mean <span class="math display">\[
+\text{E}(\theta | D) = \frac{\alpha_1+n_1}{k_1} = \hat{\theta}_{\text{Bayes}}
+\]</span> along with the posterior variance <span class="math display">\[
+\text{Var}(\theta | D) = \frac{\hat{\theta}_{\text{Bayes}} (1-\hat{\theta}_{\text{Bayes}})}{k_1+1}
+\]</span></p>
+<p>Asymptotically for large <span class="math inline">\(n\)</span> the posterior mean becomes the maximum likelihood estimate (MLE), and the posterior variance becomes the asymptotic variance of the MLE. Thus, for large <span class="math inline">\(n\)</span> the Bayesian point estimate will be indistinguishable from the MLE and shares its favourable properties.</p>
+<p>In addition, for finite sample size the posterior variance will typically be <em>smaller</em> than both the asymptotic posterior variance (for large <span class="math inline">\(n\)</span>) and the prior variance, showing that combining the information available in the prior and in the data leads to a more efficient estimate.</p>
+</section>
+</section>
+<section id="estimating-the-mean-using-the-normal-normal-model" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="estimating-the-mean-using-the-normal-normal-model"><span class="header-section-number">10.3</span> Estimating the mean using the normal-normal model</h2>
+<section id="normal-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="normal-likelihood">Normal likelihood</h3>
+<p>As in <a href="03-likelihood3.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>3.2</span></a> where we estimated the mean parameter by maximum likelihood we assume as data-generating model the normal distribution with unknown mean <span class="math inline">\(\mu\)</span> and known variance <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[
+x \sim N(\mu, \sigma^2)
+\]</span> We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(D = \{x_1, \ldots x_n\}\)</span>. This yields using maximum likelihood the estimate <span class="math inline">\(\hat{\mu}_{ML} = \bar{x}\)</span>.</p>
+<p>We note that the MLE <span class="math inline">\(\hat\mu_{ML}\)</span> is expressed as an average of the data points, which is what enables the linear shrinkage seen below.</p>
+</section>
+<section id="normal-prior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="normal-prior-distribution">Normal prior distribution</h3>
+<p>The <strong>normal distribution is the conjugate distribution for the mean parameter of a normal likelihood</strong>, so if we use a normal prior then posterior for <span class="math inline">\(\mu\)</span> is normal as well.</p>
+<p>To model the uncertainty about <span class="math inline">\(\mu\)</span> we use the normal distribution in the form <span class="math inline">\(N(\mu, \sigma^2/k)\)</span> with a mean parameter <span class="math inline">\(\mu\)</span> and a concentration parameter <span class="math inline">\(k &gt; 0\)</span> (remember that <span class="math inline">\(\sigma^2\)</span> is given and is also used in the likelihood).</p>
+<p>Specifically, we use as normal <strong>prior distribution</strong> for the mean <span class="math display">\[
+\mu \sim N\left(\mu_0, \frac{\sigma^2}{k_0}\right)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0\)</span></li>
+<li>The prior mean parameter is set to <span class="math inline">\(\mu_0\)</span></li>
+</ul>
+<p>Hence the prior mean is <span class="math display">\[
+\text{E}(\mu) =  \mu_0
+\]</span> and the prior variance <span class="math display">\[
+\text{Var}(\mu)  = \frac{\sigma^2}{k_0}
+\]</span> where the concentration parameter <span class="math inline">\(k_0\)</span> corresponds the implied sample size of the prior. Note that <span class="math inline">\(k_0\)</span> does not need to be an integer value.</p>
+</section>
+<section id="normal-posterior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="normal-posterior-distribution">Normal posterior distribution</h3>
+<p>After observing data <span class="math inline">\(D\)</span> the <strong>posterior distribution</strong> is also normal with updated parameters <span class="math inline">\(\mu=\mu_1\)</span> and <span class="math inline">\(k_1\)</span> <span class="math display">\[
+\mu | D \sim N\left(\mu_1, \frac{\sigma^2}{k_1}\right)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(k_1 = k_0 +n\)</span></li>
+<li>The posterior mean parameter is updated to <span class="math display">\[
+\mu_1 = \lambda \mu_0 + (1-\lambda) \hat\mu_{ML}
+\]</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>. This can be seen as linear shrinkage of <span class="math inline">\(\hat\mu_{ML}\)</span> towards the prior mean <span class="math inline">\(\mu_0\)</span>.</li>
+</ul>
+<p>(For a proof see Worksheet B2.)</p>
+<p>The posterior mean is <span class="math display">\[
+\text{E}(\mu | D) = \mu_1
+\]</span> and the posterior variance is <span class="math display">\[
+\text{Var}(\mu | D)  = \frac{\sigma^2}{k_1}
+\]</span></p>
+</section>
+<section id="large-sample-asymptotics" class="level3">
+<h3 class="anchored" data-anchor-id="large-sample-asymptotics">Large sample asymptotics</h3>
+<p>For <span class="math inline">\(n\)</span> large and <span class="math inline">\(n &gt;&gt; k_0\)</span> the shrinkage intensity <span class="math inline">\(\lambda \rightarrow 0\)</span> and and <span class="math inline">\(k_1 \rightarrow n\)</span>. As a result <span class="math display">\[
+\text{E}(\mu |  D) \overset{a}{=}  \hat\mu_{ML}
+\]</span> <span class="math display">\[
+\text{Var}(\mu |  D) \overset{a}{=} \frac{\sigma^2}{n}
+\]</span> i.e.&nbsp;we recover the MLE and its asymptotic variance!</p>
+<p>Note that for finite <span class="math inline">\(n\)</span> the posterior variance <span class="math inline">\(\frac{\sigma^2}{n+k_0}\)</span> is smaller than both the asymptotic variance <span class="math inline">\(\frac{\sigma^2}{n}\)</span> of the MLE and the prior variance <span class="math inline">\(\frac{\sigma^2}{k_0}\)</span>.</p>
+</section>
+</section>
+<section id="estimating-the-variance-using-the-inverse-gamma-normal-model" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="estimating-the-variance-using-the-inverse-gamma-normal-model"><span class="header-section-number">10.4</span> Estimating the variance using the inverse-gamma-normal model</h2>
+<section id="normal-likelihood-1" class="level3">
+<h3 class="anchored" data-anchor-id="normal-likelihood-1">Normal likelihood</h3>
+<p>As data generating model we use normal distribution <span class="math display">\[
+x  \sim N(\mu, \sigma^2)
+\]</span> with unknown variance <span class="math inline">\(\sigma^2\)</span> and known mean <span class="math inline">\(\mu\)</span>. This yields as maximum likelihood estimate for the variance <span class="math display">\[
+\widehat{\sigma^2}_{ML}= \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\]</span></p>
+<p>Note that, again, the MLE is an average (of a quadratic function of the individual data points). This enables linear shrinkage of the MLE as seen below.</p>
+</section>
+<section id="ig-prior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="ig-prior-distribution">IG prior distribution</h3>
+<p>To model the uncertainty about the variance we use the inverse-gamma (IG) distribution, also known as inverse Wishart (IW) distribution the (see <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a> for details of this distribution). The IG distribution is conjugate for the variance parameter in the normal likelihood, hence both the prior and the posterior distribution are IG.<br>
+As we use the Wishart parameterisation we may equally well call this an inverse Wishart (IW) prior, and the whole model IW-normal model.</p>
+<p>Specifically, as prior distribution for <span class="math inline">\(\sigma^2\)</span> we assume using the mean parameter <span class="math inline">\(\mu\)</span> and concentration parameter <span class="math inline">\(\kappa\)</span>: <span class="math display">\[
+\sigma^2 \sim  W^{-1}_1(\psi=\kappa_0 \sigma^2_0, \nu=\kappa_0+2)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(\kappa_0\)</span></li>
+<li>The prior mean parameter is set to <span class="math inline">\(\sigma^2_0\)</span></li>
+</ul>
+<p>The corresponding prior mean is <span class="math display">\[
+\text{E}(\sigma^2) = \sigma^2_0
+\]</span> and the prior variance is <span class="math display">\[
+\text{Var}(\sigma^2) = \frac{2 \sigma_0^4}{\kappa_0-2}
+\]</span> (note that <span class="math inline">\(\kappa_0 &gt; 2\)</span> for the variance to exist)</p>
+</section>
+<section id="ig-posterior-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="ig-posterior-distribution">IG posterior distribution</h3>
+<p>After observing <span class="math inline">\(D = \{ x_1 \ldots, x_n\}\)</span> the posterior distribution is also IG with updated parameters: <span class="math display">\[
+\sigma^2| D \sim W^{-1}_1(\psi=\kappa_1 \sigma^2_1, \nu=\kappa_1+2)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(\kappa_1 = \kappa_0+n\)</span></li>
+<li>The posterior mean parameter update follows the standard linear shrinkage rule: <span class="math display">\[
+\sigma^2_1 =  \lambda \sigma^2_0 + (1-\lambda) \widehat{\sigma^2}_{ML}
+\]</span> with <span class="math inline">\(\lambda=\frac{\kappa_0}{\kappa_1}\)</span>.</li>
+</ul>
+<p>The posterior mean is <span class="math display">\[
+\text{E}(\sigma^2 | D) = \sigma^2_1
+\]</span> and the posterior variance <span class="math display">\[
+\text{Var}(\sigma^2 | D) = \frac{ 2 \sigma^4_1}{\kappa_1-2}
+\]</span></p>
+</section>
+<section id="large-sample-asymptotics-1" class="level3">
+<h3 class="anchored" data-anchor-id="large-sample-asymptotics-1">Large sample asymptotics</h3>
+<p>For large sample size <span class="math inline">\(n\)</span> with <span class="math inline">\(n &gt;&gt; \kappa_0\)</span> the shrinkage intensity vanishes (<span class="math inline">\(\lambda \rightarrow 0\)</span>) and therefore <span class="math inline">\(\sigma^2_1 \rightarrow  \widehat{\sigma^2}_{ML}\)</span>. We also find that <span class="math inline">\(\kappa_1-2 \rightarrow n\)</span>.</p>
+<p>This results in the asymptotic posterior mean <span class="math display">\[
+\text{E}(\sigma^2 |  D) \overset{a}{=}  \widehat{\sigma^2}_{ML}
+\]</span> and the asymptotic posterior variance <span class="math display">\[
+\text{Var}(\sigma^2 |  D) \overset{a}{=} \frac{2 (\widehat{\sigma^2}_{ML})^2}{n}
+\]</span> Thus we recover the MLE of <span class="math inline">\(\sigma^2\)</span> and its asymptotic variance.</p>
+</section>
+<section id="other-equivalent-update-rules" class="level3">
+<h3 class="anchored" data-anchor-id="other-equivalent-update-rules">Other equivalent update rules</h3>
+<p>Above the update rule from prior to posterior inverse gamma distribution is stated for the mean parameterisation:</p>
+<ul>
+<li><span class="math inline">\(\kappa_0 \rightarrow \kappa_1 = \kappa_0+n\)</span></li>
+<li><span class="math inline">\(\sigma^2_0 \rightarrow
+\sigma^2_1 = \lambda \sigma^2_0 + (1-\lambda) \widehat{\sigma^2}_{ML}\)</span> with <span class="math inline">\(\lambda=\frac{\kappa_0}{\kappa_1}\)</span></li>
+</ul>
+<p>This has the advantage that the mean of the inverse gamma distribution is updated directly, and that the prior and posterior variance is also straightforward to compute.</p>
+<p>The same update rule can also be expressed in terms of the other parameterisations. In terms of the conventional parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> of the inverse gamma distribution the update rule is</p>
+<ul>
+<li><span class="math inline">\(\alpha_0  \rightarrow \alpha_1 = \alpha_0 +\frac{n}{2}\)</span></li>
+<li><span class="math inline">\(\beta_0  \rightarrow  \beta_1 = \beta_0 + \frac{n}{2} \widehat{\sigma^2}_{ML}
+= \beta_0 + \frac{1}{2} \sum_{i=1}^n (x_i-\mu)^2\)</span></li>
+</ul>
+<p>For the parameters <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\nu\)</span> of the univariate inverse Wishart distribution the update rule is</p>
+<ul>
+<li><span class="math inline">\(\nu_0  \rightarrow \nu_1 = \nu_0 +n\)</span></li>
+<li><span class="math inline">\(\psi_0  \rightarrow  \psi_1 = \psi_0 + n \widehat{\sigma^2}_{ML}
+= \psi_0 + \sum_{i=1}^n (x_i-\mu)^2\)</span></li>
+</ul>
+<p>For the parameters <span class="math inline">\(\tau^2\)</span> and <span class="math inline">\(\nu\)</span> of the scaled inverse chi-squared distribution the update rule is</p>
+<ul>
+<li><span class="math inline">\(\nu_0  \rightarrow \nu_1 = \nu_0 +n\)</span></li>
+<li><span class="math inline">\(\tau^2_0  \rightarrow  \tau^2_1 = \frac{\nu_0}{\nu_1} \tau^2_0 + \frac{n}{\nu_1} \widehat{\sigma^2}_{ML}\)</span></li>
+</ul>
+<p>(See Worksheet B2 for proof of the equivalence of all the above update rules.)</p>
+</section>
+</section>
+<section id="estimating-the-precision-using-the-gamma-normal-model" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="estimating-the-precision-using-the-gamma-normal-model"><span class="header-section-number">10.5</span> Estimating the precision using the gamma-normal model</h2>
+<section id="mle-of-the-precision" class="level3">
+<h3 class="anchored" data-anchor-id="mle-of-the-precision">MLE of the precision</h3>
+<p>Instead of estimating the variance <span class="math inline">\(\sigma^2\)</span> we may wish to estimate the precision <span class="math inline">\(w = 1/\sigma^2\)</span>, i.e.&nbsp;the inverse of variance.</p>
+<p>As above the data generating model is a normal distribution <span class="math display">\[
+x  \sim N(\mu, 1/w)
+\]</span> with unknown precision <span class="math inline">\(w\)</span> and known mean <span class="math inline">\(\mu\)</span>. This yields as maximum likelihood estimate (easily derived thanks to the invariance principle) <span class="math display">\[
+\hat{w}_{ML} =  \frac{ 1}{\widehat{\sigma^2}_{ML} } = \frac{1}{\frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2}
+\]</span> Crucially, the MLE of the precision <span class="math inline">\(w\)</span> is not an average itself (instead, it is a function of an average). As a consequence, as seen below, the posterior mean of <span class="math inline">\(w\)</span> cannot be written as linear adjustment of the MLE.</p>
+</section>
+<section id="gamma-wishart-prior" class="level3">
+<h3 class="anchored" data-anchor-id="gamma-wishart-prior">Gamma (Wishart) prior</h3>
+<p>For modelling the variance we have used an inverse gamma (inverse Wishart) distribution for the prior and posterior distributions. Thus, in order to model the precision we therefore now use a gamma (Wishart) distribution.</p>
+<p>Specifically, we use the Wishart distribution in the mean parameterisation (see <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a> for details): <span class="math display">\[
+w \sim  W_1(s^2 = w_0/k_0, k=k_0)
+\]</span></p>
+<ul>
+<li>The prior concentration parameter is set to <span class="math inline">\(k_0\)</span></li>
+<li>The prior mean parameter is set to <span class="math inline">\(w_0\)</span></li>
+</ul>
+<p>The corresponding prior mean of the precision is <span class="math display">\[
+\text{E}(w) = w_0
+\]</span> and the prior variance is <span class="math display">\[
+\text{Var}(w) = 2 w_0^2/ k_0
+\]</span></p>
+</section>
+<section id="gamma-wishart-posterior" class="level3">
+<h3 class="anchored" data-anchor-id="gamma-wishart-posterior">Gamma / Wishart posterior</h3>
+<p>After observing <span class="math inline">\(D = \{ x_1 \ldots, x_n\}\)</span> the posterior distribution is also gamma resp. Wishart with updated parameters:</p>
+<p><span class="math display">\[
+w | D \sim   W_1(s^2 = w_1/k_1, k=k_1)
+\]</span></p>
+<ul>
+<li>The posterior concentration parameter is updated to <span class="math inline">\(k_1 = k_0+n\)</span></li>
+<li>The posterior mean parameter update follows the rule: <span class="math display">\[
+\frac{1}{w_1} =  \lambda \frac{1}{w_0}  + (1-\lambda)  \frac{1}{\hat{w}_{ML}}
+\]</span> with <span class="math inline">\(\lambda = \frac{k_0}{k_1}\)</span>. Crucially, the linear update is applied to the inverse of the precision but <strong>not</strong> to the precision itself. This is because the MLE of the precision parameter cannot be expressed as an average.</li>
+<li>Equivalent update rules are for the inverse scale parameter <span class="math inline">\(s^2\)</span> <span class="math display">\[
+\frac{1}{s^2_1} =  \frac{1}{s^2_0}  + n \widehat{\sigma^2}_{ML}
+\]</span> and for the rate parameter <span class="math inline">\(\beta = 1/(2 s^2)\)</span> of the gamma distribution <span class="math display">\[
+\beta_1 =  \beta_0 + \frac{n}{2} \widehat{\sigma^2}_{ML}
+\]</span> This is the form you will find most often in textbooks.</li>
+</ul>
+<p>The posterior mean is <span class="math display">\[
+\text{E}(w | D) = w_1
+\]</span> and the posterior variance <span class="math display">\[
+\text{Var}(w | D) = 2 w_1^2/ k_1
+\]</span></p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Diaconis, P., and D Ylvisaker. 1979. <em>Conjugate Priors for Exponential Families.</em> Ann. Statist. <strong>7</strong>:269–281. <a href="https://doi.org/10.1214/aos/1176344611" class="uri">https://doi.org/10.1214/aos/1176344611</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Hartigan, J. A. 1969. <em>Linear Bayesian methods.</em> J. Roy. Statist. Soc. B <strong>31</strong>:446-454 <a href="https://doi.org/10.1111/j.2517-6161.1969.tb00804.x" class="uri">https://doi.org/10.1111/j.2517-6161.1969.tb00804.x</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Goldstein, M., and D. Wooff. 2007. <em>Bayes Linear Statistics: Theory and Methods.</em> Wiley. <a href="https://doi.org/10.1002/9780470065662" class="uri">https://doi.org/10.1002/9780470065662</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09-bayes3.html" class="pagination-link" aria-label="Essentials of Bayesian statistics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11-bayes5.html" class="pagination-link" aria-label="Bayesian model comparison">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
