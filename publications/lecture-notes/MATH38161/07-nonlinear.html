@@ -365,37 +365,37 @@ window.Quarto = {
 <p>Variations: boosting, XGBoost ( <a href="https://xgboost.ai" class="uri">https://xgboost.ai</a> )</p>
 <p>Random forests will be applied in Worksheet 11.</p>
 <p>They are computationally expensive but typically perform very well!</p>
-<div style="page-break-after: always;"></div>
 </section>
 <section id="comparison-of-decision-boundaries-decision-tree-vs.-random-forest" class="level3">
 <h3 class="anchored" data-anchor-id="comparison-of-decision-boundaries-decision-tree-vs.-random-forest">Comparison of decision boundaries: decision tree vs.&nbsp;random forest</h3>
-<p>Non-nested case:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig6-nonnested.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+<div id="fig-dtrfnonnested" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dtrfnonnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/dtrf-nonnested.png" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dtrfnonnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Decision boundaries for decision trees and random forests in the non-nested case.
+</figcaption>
 </figure>
 </div>
+<div id="fig-dtrfnested" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dtrfnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/dtrf-nested.png" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
 </div>
-</div>
-<p>Nested case:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig6-nested.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dtrfnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: Decision boundaries for decision trees and random forests in the nested case.
+</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<p>Compare also with the decision boundaries for LDA and QDA (Chapter 4).</p>
+<p>Compare the non-nested case (<a href="#fig-dtrfnonnested" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>) and the nested case (<a href="#fig-dtrfnested" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>).</p>
+<p>Compare also with the decision boundaries for LDA and QDA in <a href="05-classification.html#fig-ldaqdanonnested" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> and <a href="05-classification.html#fig-ldaqdanested" class="quarto-xref">Figure&nbsp;<span>5.5</span></a>.</p>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
 <section id="gaussian-processes" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="gaussian-processes"><span class="header-section-number">7.2</span> Gaussian processes</h2>
-<p>Gaussian processes offer another nonparametric approach to model nonlinear dependencies. They provide a probabilistic model for the unknown nonlinear function.</p>
+<p>Gaussian processes offer a nonparametric probabilistic approach to model nonlinear dependencies.</p>
 <p><strong>Relevant reading:</strong></p>
 <p>Please read: <span class="citation" data-cites="RG2017">Rogers and Girolami (<a href="bibliography.html#ref-RG2017" role="doc-biblioref">2017</a>)</span> <strong>Chapter 8: Gaussian processes.</strong></p>
 <section id="main-concepts" class="level3">
@@ -495,11 +495,11 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<p>::: Next we use the RFB kernel as the prior covariance and also assume that the prior has mean zero: ::: {.cell}</p>
+<p>::: Use the RFB kernel as the prior covariance and assume that the prior has mean zero: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RBF kernel</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rbfkernel <span class="ot">=</span> <span class="cf">function</span>(xa, xb, <span class="at">s2=</span><span class="dv">1</span>, <span class="at">l=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) s2<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span>(xa<span class="sc">-</span>xb)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>l<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>kfun.mat <span class="ot">=</span> <span class="cf">function</span>(xavec, xbvec, <span class="at">FUN=</span>rbfkernel) </span>
@@ -507,7 +507,7 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># prior mean</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mu.vec <span class="ot">=</span> <span class="cf">function</span>(x) <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: We can now visualise the functions sampled from the multivariate normal prior: ::: {.cell}</p>
+<p>::: Visualise the functions sampled from the multivariate normal prior: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># grid of x-values </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">=</span> <span class="dv">100</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">seq</span>(XLIM[<span class="dv">1</span>], XLIM[<span class="dv">2</span>], <span class="at">length.out=</span>n1)</span>
@@ -520,20 +520,19 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">5</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"MASS"</span>) <span class="co"># for mvrnorm</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>y1r <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">mvrnorm</span>(B, <span class="at">mu =</span> m1, <span class="at">Sigma=</span>K1))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x1, y1r[,<span class="dv">1</span>], <span class="at">type=</span><span class="st">"l"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">"y"</span>, <span class="at">xlab=</span><span class="st">"x"</span>, <span class="at">ylim=</span>YLIM, </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main=</span><span class="st">"Prior Functions (RBF Kernel with l=1/2)"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>B)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x1, y1r[,i], <span class="at">col=</span>i, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x1, y1r[,<span class="dv">1</span>], <span class="at">type=</span><span class="st">"l"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">"y"</span>, <span class="at">xlab=</span><span class="st">"x"</span>, <span class="at">ylim=</span>YLIM, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">main=</span><span class="st">"Prior Functions (RBF Kernel with l=1/2)"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>B)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x1, y1r[,i], <span class="at">col=</span>i, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <p>:::</p>
-<p>Now we compute the posterior mean and variance by conditioning on the observations: ::: {.cell}</p>
+<p>Compute the posterior mean and variance by conditioning on the observations: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unconditioned covariance and mean (observed samples x2)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>K2 <span class="ot">=</span> <span class="fu">kfun.mat</span>(x2, x2)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">mu.vec</span>(x2)</span>
@@ -543,14 +542,12 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>K12 <span class="ot">=</span> <span class="fu">kfun.mat</span>(x1, x2)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditioning: x1 conditioned on x2</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional mean</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>m1<span class="fl">.2</span> <span class="ot">=</span> m1 <span class="sc">+</span> K12 <span class="sc">%*%</span> iK2 <span class="sc">%*%</span> (y2 <span class="sc">-</span> m2)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional variance</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>K1<span class="fl">.2</span> <span class="ot">=</span> K1 <span class="sc">-</span> K12 <span class="sc">%*%</span> iK2 <span class="sc">%*%</span> <span class="fu">t</span>(K12)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional mean</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>m1<span class="fl">.2</span> <span class="ot">=</span> m1 <span class="sc">+</span> K12 <span class="sc">%*%</span> iK2 <span class="sc">%*%</span> (y2 <span class="sc">-</span> m2)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional variance</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>K1<span class="fl">.2</span> <span class="ot">=</span> K1 <span class="sc">-</span> K12 <span class="sc">%*%</span> iK2 <span class="sc">%*%</span> <span class="fu">t</span>(K12)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>:::</p>
-<p>Now we can plot the posterior mean and upper and lower bounds of a 95% credible interval:</p>
+<p>Plot the posterior mean and upper and lower bounds of a 95% credible interval:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># upper and lower CI</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>upper.bound <span class="ot">=</span> m1<span class="fl">.2</span> <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">diag</span>(K1<span class="fl">.2</span>))</span>
@@ -570,7 +567,7 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -601,7 +598,7 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="07-nonlinear_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -634,8 +631,8 @@ k(x, x^{\prime}) = \text{Cov}(x, x^{\prime}) = \sigma^2 e^{-\frac{ (x-x^{\prime}
 </ul>
 <p>Currently the most popular frameworks are:</p>
 <ul>
-<li><a href="https://pytorch.org/PyTorch">PyTorch</a> (PyTorch Foundation, formerly Meta/Facebook)</li>
-<li><a href="https://www.tensorflow.org/">TensorFlow</a> (Google Research)</li>
+<li><a href="https://pytorch.org">PyTorch</a> (PyTorch Foundation, formerly Meta/Facebook)</li>
+<li><a href="https://www.tensorflow.org">TensorFlow</a> (Google Research)</li>
 <li><a href="https://flax.readthedocs.io/en/latest/">Flax</a> / <a href="https://jax.readthedocs.io/en/latest/">JAX</a> (Google Research)</li>
 </ul>
 <p>and high-level wrappers:</p>

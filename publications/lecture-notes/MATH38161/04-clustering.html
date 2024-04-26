@@ -341,18 +341,22 @@ window.Quarto = {
 <section id="objective" class="level3">
 <h3 class="anchored" data-anchor-id="objective">Objective</h3>
 <p>We observe data <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects). Each sample <span class="math inline">\(\symbfit x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables. The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\symbfit x_i\)</span>. Note that in unsupervised learning we use <em>only</em> the information in <span class="math inline">\(\symbfit x_i\)</span> and nothing else.</p>
-<p>For illustration consider the first two principal components of the Iris flower data (see e.g.&nbsp;Worksheet 5):</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-prcompiris" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prcompiris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-prcompiris-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prcompiris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Principal components scatter plot for the iris flower data.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Clearly there is a group structure among the samples that is linked to particular patterns in the first two principal components.</p>
-<p>Note that in this plot we have used additional information, the class labels (setosa, versicolor, virginica), to highlighting the true underlying structure (the three flower species).</p>
+<p>For illustration (<a href="#fig-prcompiris" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>) consider the first two principal components of the Iris flower data (see e.g.&nbsp;Worksheet 5). Clearly there is a group structure int the data that is linked to particular patterns in the first two principal components.</p>
+<p>Note that in this plot we have used additional information, the class labels (setosa, versicolor, virginica), to highlight the true underlying structure (the three flower species).</p>
 <p>In <strong>unsupervised learning</strong> the class labels are (assumed to be) unknown, and the aim is to infer the clustering and thus the classes labels. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>There are many methods for clustering and unsupervise learning, both purely algorithmic as well as probabilistic. In this chapter we will study a few of the most commonly used approaches.</p>
 </section>
@@ -387,7 +391,13 @@ S(n,K) = \left\{\begin{array}{l} n \\ K \end{array} \right\}
 \]</span> this is the “Sterling number of the second type”.</p>
 <p>For large n: <span class="math display">\[
 S(n,K) \approx \frac{K^n }{ K!}
-\]</span> Example:</p>
+\]</span></p>
+<div id="tbl-numpartitions" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-numpartitions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Number of ways to partition <span class="math inline">\(n\)</span> samples into <span class="math inline">\(K\)</span> groups.
+</figcaption>
+<div aria-describedby="tbl-numpartitions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
@@ -419,7 +429,10 @@ S(n,K) \approx \frac{K^n }{ K!}
 </tr>
 </tbody>
 </table>
-<p>These are enormously big numbers even for relatively small problems!</p>
+</div>
+</figure>
+</div>
+<p>These are enormously large numbers even for relatively small problems!</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> Clustering / partitioning / structure discovery is not easy!</p>
 <p><span class="math inline">\(\Longrightarrow\)</span> We cannot expect perfect answers or a single “true” clustering</p>
 <p>In fact, as a model of the data many differnt clusterings may fit the data equally well.</p>
@@ -540,59 +553,85 @@ d(\symbfit a, \symbfit b) = (\symbfit a- \symbfit b)^T (\symbfit a- \symbfit b) 
 <section id="application-to-swiss-banknote-data-set" class="level3">
 <h3 class="anchored" data-anchor-id="application-to-swiss-banknote-data-set">Application to Swiss banknote data set</h3>
 <p>This data set is reports 6 pysical measurements on 200 Swiss bank notes. Of the 200 notes 100 are genuine and 100 are counterfeit. The measurements are: length, left width, right width, bottom margin, top margin, diagonal length of the bank notes.</p>
-<p>Plotting the first to PCAs of this data shows that there are indeed two well defined groups, and that these groups correspond precisely to the genuine and counterfeit banknotes:</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="576"></p>
+<div id="fig-prcompswiss" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prcompswiss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-prcompswiss-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prcompswiss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Principal components Swiss banknote data.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>We now compare the hierarchical clusterings of the Swiss bank note data using four different methods using Euclidean distance.</p>
+<p>Plotting the first to PCAs of this data shows that there are indeed two well defined groups, and that these groups correspond precisely to the genuine and counterfeit banknotes (<a href="#fig-prcompswiss" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-swissward" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swissward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-swissward-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swissward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Ward clustering of Swiss banknote data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-swisslink" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swisslink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-swisslink-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swisslink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: Average linkage clustering of Swiss banknote data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-swisscomplete" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swisscomplete-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-swisscomplete-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swisscomplete-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: Complete linkage clustering of Swiss banknote data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-swisssingle" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-swisssingle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-swisssingle-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-swisssingle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Single linkage clustering of Swiss banknote data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We now compare the hierarchical clusterings of the Swiss bank note data using four different methods using Euclidean distance:</p>
+<ul>
+<li>Ward.D2 (=Ward’s method): <a href="#fig-swissward" class="quarto-xref">Figure&nbsp;<span>4.3</span></a></li>
+<li>Average linkage: <a href="#fig-swisslink" class="quarto-xref">Figure&nbsp;<span>4.4</span></a></li>
+<li>Complete linkage: <a href="#fig-swisscomplete" class="quarto-xref">Figure&nbsp;<span>4.5</span></a></li>
+<li>Single linkage: <a href="#fig-swisssingle" class="quarto-xref">Figure&nbsp;<span>4.6</span></a></li>
+</ul>
 <p>An interactive <a href="https://shiny.rstudio.com/">R Shiny web app</a> of this analysis (which also allows to explore further distance measures) is available online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/hclust/</a>.</p>
-<p>Ward.D2 (=Ward’s method):</p>
-<div class="cell" data-warnings="false">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Average linkage:</p>
-<div class="cell" data-warnings="false">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-<p>Complete linkage:</p>
-<div class="cell" data-warnings="false">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Single linkage:</p>
-<div class="cell" data-warnings="false">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
 <p>Result:</p>
 <ul>
 <li>All four trees / hierarchical clusterings are quite different!</li>
@@ -609,6 +648,7 @@ d(\symbfit a, \symbfit b) = (\symbfit a- \symbfit b)^T (\symbfit a- \symbfit b) 
 <li>Additionally, from the bootstrap tree we can also compute a consensus tree containing the most stable clusters. This an be viewed as an “ensemble average” of all the bootstrap trees.</li>
 </ul>
 <p>A disadvantage of this procedure is that bootstrapping trees is computationally very expensive, as the original procedure is already time consuming but now needs to be repeated a large number of times.</p>
+<div style="page-break-after: always;"></div>
 </section>
 </section>
 <section id="k-means-clustering" class="level2" data-number="4.3">
@@ -683,37 +723,42 @@ SST = \sum_{i=1}^n (\symbfit x_i - \hat{\symbfit \mu}_0)^T (\symbfit x_i - \hat{
 </section>
 <section id="application-of-k-means-to-iris-data" class="level3">
 <h3 class="anchored" data-anchor-id="application-of-k-means-to-iris-data">Application of <span class="math inline">\(K\)</span>-means to Iris data</h3>
-<p>Scatter plots of Iris data:</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="432"></p>
+<div id="fig-scatteriris" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scatteriris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-scatteriris-1.png" class="img-fluid figure-img" data-fig-pos="t" width="432">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatteriris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: Pairwise scatter plots for the original four variables of the iris flower data.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The R output from a <span class="math inline">\(K\)</span>-means analysis with known true number of clusters specified (<span class="math inline">\(K=3\)</span>) is: ::: {.cell warnings=‘false’}</p>
+<p>Scatter plots of Iris data (<a href="#fig-scatteriris" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>):</p>
+<p>The R output from a <span class="math inline">\(K\)</span>-means analysis with known true number of clusters specified (<span class="math inline">\(K=3\)</span>) is: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kmeans.out <span class="ot">=</span> <span class="fu">kmeans</span>(X.iris, <span class="dv">3</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kmeans.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 50, 53, 47
+<pre><code>K-means clustering with 3 clusters of sizes 50, 47, 53
 
 Cluster means:
   Sepal.Length Sepal.Width Petal.Length Petal.Width
 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
-2  -0.05005221 -0.88042696    0.3465767   0.2805873
-3   1.13217737  0.08812645    0.9928284   1.0141287
+2   1.13217737  0.08812645    0.9928284   1.0141287
+3  -0.05005221 -0.88042696    0.3465767   0.2805873
 
 Clustering vector:
   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
- [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
-[112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
-[149] 3 2
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3
+ [75] 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2 2 3 2 2 2 2
+[112] 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 2
+[149] 2 3
 
 Within cluster sum of squares by cluster:
-[1] 47.35062 44.08754 47.45019
+[1] 47.35062 47.45019 44.08754
  (between_SS / total_SS =  76.7 %)
 
 Available components:
@@ -721,38 +766,43 @@ Available components:
 [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
 [6] "betweenss"    "size"         "iter"         "ifault"      </code></pre>
 </div>
-<p>::: The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, <code>tot.withinss</code>) is ::: {.cell warnings=‘false’}</p>
+<p>::: The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, <code>tot.withinss</code>) is ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>kmeans.out<span class="sc">$</span>tot.withinss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 138.8884</code></pre>
 </div>
-<p>::: and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is ::: {.cell warnings=‘false’}</p>
+<p>::: and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kmeans.out<span class="sc">$</span>betweenss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 457.1116</code></pre>
 </div>
 <p>::: By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(L.iris, kmeans.out<span class="sc">$</span>cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            
 L.iris        1  2  3
   setosa     50  0  0
-  versicolor  0 39 11
-  virginica   0 14 36</code></pre>
+  versicolor  0 11 39
+  virginica   0 36 14</code></pre>
 </div>
 </div>
-<p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute within and between cluster variation in dependence of <span class="math inline">\(K\)</span>:</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="480"></p>
+<div id="fig-kmeanserrors" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kmeanserrors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-kmeanserrors-1.png" class="img-fluid figure-img" data-fig-pos="t" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kmeanserrors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Within and between group error in dependence of the number of groups <span class="math inline">\(K\)</span> in <span class="math inline">\(K\)</span>-means.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Thus, <span class="math inline">\(K=3\)</span> clusters seem appropriate since the the explained variation does not significantly improve (and the unexplained variation does not significantly decrease) with a further increase of the number of clusters.</p>
+<p>For choosing <span class="math inline">\(K\)</span> we run <span class="math inline">\(K\)</span>-means several times and compute within and between cluster variation in dependence of <span class="math inline">\(K\)</span> (see <a href="#fig-kmeanserrors" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>).</p>
+<p>In this example <span class="math inline">\(K=3\)</span> clusters seem appropriate since the the explained variation does not significantly improve (and the unexplained variation does not significantly decrease) with a further increase of the number of clusters.</p>
 </section>
 <section id="arbitrariness-of-cluster-labels-and-label-switching" class="level3">
 <h3 class="anchored" data-anchor-id="arbitrariness-of-cluster-labels-and-label-switching">Arbitrariness of cluster labels and label switching</h3>
@@ -831,33 +881,48 @@ f_{\text{mix}}(\symbfit x) = \sum_{k=1}^K \pi_k f_k(\symbfit x)
 </section>
 <section id="example-of-mixtures" class="level3">
 <h3 class="anchored" data-anchor-id="example-of-mixtures">Example of mixtures</h3>
-<p>Mixtures can take on many different shapes and forms, so it is instructive to study a few examples. An interactive tool to visualise two component normal mixture is available online as <a href="https://shiny.rstudio.com/">R Shiny web app</a> at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a>.</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-normmixtwomodes" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normmixtwomodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-normmixtwomodes-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normmixtwomodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: Mixture of two normal distributions with two modes.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-normmixsinglemode" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normmixsinglemode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-normmixsinglemode-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normmixsinglemode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: Mixture of two normal distributions with a single mode.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The first plot shows the bimodal density of a mixture distribution consisting of two normals with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\mu_1=-1\)</span>, <span class="math inline">\(\mu_2=2\)</span> and the two variances equal to 1 (<span class="math inline">\(\sigma^2_1 = 1\)</span> and <span class="math inline">\(\sigma^2_2 = 1\)</span>). Because the two components are well-separated there are two clear modes. The plot also shows the density of a normal distribution with the same total mean (<span class="math inline">\(\mu_0=-0.1\)</span>) and variance (<span class="math inline">\(\sigma_0^2=2.89\)</span>) as the mixture distribution. Clearly the total normal and the mixture density are very different.</p>
-<p>However, a two-component mixtures can also be unimodal. For example, if the mean of the second component is adjusted to <span class="math inline">\(\mu_2=0\)</span> then there is only a single mode and the total normal density with <span class="math inline">\(\mu_0=-0.7\)</span> and <span class="math inline">\(\sigma_0^2=1.21\)</span> is now almost inistinguishable in form from the mixture density. Thus, in this case it will be very hard (or even impossible) to identify the two peaks from data.</p>
-<p>Most mixtures we consider in this course are multivariate. For illustration, here is a plot of a mixture of two bivariate normals, with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\symbfit \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\symbfit \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\)</span>:</p>
-<div class="cell" data-warnings="false">
+<p>Mixtures can take on many different shapes and forms, so it is instructive to study a number of examples. An interactive tool to visualise two component normal mixture is available online as <a href="https://shiny.rstudio.com/">R Shiny web app</a> at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a>.</p>
+<p>The first plot (<a href="#fig-normmixtwomodes" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>) shows the bimodal density of a mixture distribution consisting of two normals with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\mu_1=-1\)</span>, <span class="math inline">\(\mu_2=2\)</span> and the two variances equal to 1 (<span class="math inline">\(\sigma^2_1 = 1\)</span> and <span class="math inline">\(\sigma^2_2 = 1\)</span>). Because the two components are well-separated there are two clear modes. The plot also shows the density of a normal distribution with the same total mean (<span class="math inline">\(\mu_0=-0.1\)</span>) and variance (<span class="math inline">\(\sigma_0^2=2.89\)</span>) as the mixture distribution. Clearly the total normal and the mixture density are very different.</p>
+<p>However, a two-component mixture can also be unimodal (<a href="#fig-normmixsinglemode" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>). For example, if the mean of the second component is set to <span class="math inline">\(\mu_2=0\)</span> then there is only a single mode and the total normal density with <span class="math inline">\(\mu_0=-0.7\)</span> and <span class="math inline">\(\sigma_0^2=1.21\)</span> is now almost inistinguishable in form from the mixture density. Thus, in this case it will be very hard (or even impossible) to identify the two peaks from the data.</p>
+<p>Most mixtures we consider in this course are multivariate. For illustration, <a href="#fig-normmix2d2modes" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> shows a plot of a density of the mixture of two bivariate normal distributions, with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\symbfit \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\symbfit \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\)</span>:</p>
+<div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/fig2-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-normmix2d2modes" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normmix2d2modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-normmix2d2modes-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normmix2d2modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.11: Mixture of two bivariate normal distributions with two modes.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -973,9 +1038,14 @@ y_i =\underset{k}{\arg \max}\,\,q_i(k)
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>gmm3 <span class="ot">=</span> <span class="fu">Mclust</span>(X.iris, <span class="at">G=</span><span class="dv">3</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gmm3, <span class="at">what=</span><span class="st">"classification"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="432"></p>
+<div id="fig-mclustfit" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mclustfit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-mclustfit-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mclustfit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.12: Mclust fit of mixture model to the iris flower data.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1001,9 +1071,14 @@ y_i =\underset{k}{\arg \max}\,\,q_i(k)
 <p>If we compute BIC for various numbers of groups we find that the model with the best <span class="math inline">\(\text{BIC}_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="04-clustering_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-mclustbic" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mclustbic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-clustering_files/figure-html/fig-mclustbic-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mclustbic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.13: Mclust BIC plot to select optimal number of groups for the iris flower data.
+</figcaption>
 </figure>
 </div>
 </div>

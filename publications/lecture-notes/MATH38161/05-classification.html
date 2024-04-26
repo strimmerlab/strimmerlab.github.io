@@ -335,16 +335,17 @@ window.Quarto = {
 <li>that also generalises well to future unseen data.</li>
 </ul>
 <p>Note that it is relatively easy to find a predictor that explains the training data but especially in high dimensions (i.e.&nbsp;with many predictors) there is often overfitting and then the predictor does not generalise well!</p>
-<p>The <em>decision boundary</em> between the classes is defined as the set of all <span class="math inline">\(\symbfit x\)</span> for which the class assignment by the predictor <span class="math inline">\(h(\symbfit x)\)</span> switches from one class to another.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig4-qda.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+<div id="fig-decbound" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-decbound-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/decbound.jpg" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decbound-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Illustration of a decision boundary in a two-group classification problem.
+</figcaption>
 </figure>
 </div>
-</div>
-</div>
+<p>The <em>decision boundary</em> between the classes is defined as the set of all <span class="math inline">\(\symbfit x\)</span> for which the class assignment by the predictor <span class="math inline">\(h(\symbfit x)\)</span> switches from one class to another (cf. <a href="#fig-decbound" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>).</p>
 <p>In general, simple decision boundaries are preferred over complex decision boundaries to avoid overfitting.</p>
 <p>Some commonly used probabilistic methods for classifications:</p>
 <ul>
@@ -428,17 +429,18 @@ d_k^{LDA}(\symbfit x) = -\frac{1}{2} (\symbfit x-\symbfit \mu_k)^T \symbfit \Sig
 d_k^{LDA}(\symbfit x) &amp;=  \symbfit \mu_k^T \symbfit \Sigma^{-1} \symbfit x- \frac{1}{2}\symbfit \mu_k^T \symbfit \Sigma^{-1} \symbfit \mu_k + \log(\pi_k) \\
   &amp;= \symbfit b^T \symbfit x+ a
 \end{split}
-\]</span> Thus, the <strong>LDA discriminant function is linear in <span class="math inline">\(\symbfit x\)</span>, and hence the resulting decision boundaries are linear</strong> as well (i.e.&nbsp;straight lines in two-dimensional settings).</p>
-<p>Comparison of linear decision boundaries of LDA (left) compared with QDA (right):</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig4-ldaqda.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+\]</span> Thus, the <strong>LDA discriminant function is linear in <span class="math inline">\(\symbfit x\)</span>, and hence the resulting decision boundaries are linear</strong> as well (i.e.&nbsp;straight lines in two-dimensional settings)</p>
+<div id="fig-ldaqdaboundary" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ldaqdaboundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/ldaqda-boundary.jpg" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ldaqdaboundary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Comparison of the linear decision boundary for LDA (left) compared with the nonlinear boundary for QDA (right.
+</figcaption>
 </figure>
 </div>
-</div>
-</div>
+<p><a href="#fig-ldaqdaboundary" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> shows an comparison of the linear decision boundaries of LDA compared with the nonlinear boundaries for QDA.</p>
 <p>Note that logistic regression (cf.&nbsp;GLM module) takes on exactly the above linear form and is indeed closely linked with the LDA classifier.</p>
 </section>
 <section id="diagonal-discriminant-analysis-dda" class="level3">
@@ -477,7 +479,7 @@ d_k^{DDA}(\symbfit x) &amp;=  \symbfit \mu_k^T \symbfit V^{-1} \symbfit x- \frac
 <li>For LDA we need <span class="math inline">\(\symbfit \Sigma\)</span></li>
 <li>For DDA we estimate <span class="math inline">\(\sigma^2_1, \ldots, \sigma^2_d\)</span>.</li>
 </ul>
-<p>Overall, the total number of parameters to be estimated when learning the discriminant functions from training data is as follows:</p>
+<p>Overall, the total number of parameters to be estimated when learning the discriminant functions from training data is as follows (see also <a href="#fig-modelcomplexity" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>):</p>
 <ul>
 <li>QDA: <span class="math inline">\(K-1+ K d + K \frac{d(d+1)}{2}\)</span></li>
 <li>LDA: <span class="math inline">\(K-1+ K d + \frac{d(d+1)}{2}\)</span></li>
@@ -485,9 +487,14 @@ d_k^{DDA}(\symbfit x) &amp;=  \symbfit \mu_k^T \symbfit V^{-1} \symbfit x- \frac
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="05-classification_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-modelcomplexity" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modelcomplexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-classification_files/figure-html/fig-modelcomplexity-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modelcomplexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: Comparison of model complexity of QDA, LDA and DDA.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -527,29 +534,30 @@ d_k^{DDA}(\symbfit x) &amp;=  \symbfit \mu_k^T \symbfit V^{-1} \symbfit x- \frac
 </section>
 <section id="comparison-of-estimated-decision-boundaries-lda-vs.-qda" class="level3">
 <h3 class="anchored" data-anchor-id="comparison-of-estimated-decision-boundaries-lda-vs.-qda">Comparison of estimated decision boundaries: LDA vs.&nbsp;QDA</h3>
+<div id="fig-ldaqdanonnested" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ldaqdanonnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/ldaqda-nonnested.png" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ldaqdanonnested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: Decision boundaries for LDA and QDA in the non-nested case.
+</figcaption>
+</figure>
+</div>
+<div id="fig-ldaqdanested" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ldaqdanested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/ldaqda-nested.png" class="img-fluid figure-img" style="width:90.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ldaqdanested-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: Decision boundaries for LDA and QDA in the nested case.
+</figcaption>
+</figure>
+</div>
 <p>We compare two simple scenarios using simulated data.</p>
-<p><strong>Non-nested case (<span class="math inline">\(K=4\)</span>):</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig4-nonnested.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Both LDA and QDA clearly separate the 4 classes. Note the curved decision boundaries for QDA and the linear decision boundaries for LDA.</p>
-<p><strong>Nested case (<span class="math inline">\(K=2\)</span>):</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/fig4-nested.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>In the nested case LDA fails to separate the two classes because there is no way to separate two nested classes with a simple linear boundary.</p>
+<p><strong>Non-nested case (<span class="math inline">\(K=4\)</span>):</strong> See <a href="#fig-ldaqdanonnested" class="quarto-xref">Figure&nbsp;<span>5.4</span></a>. Both LDA and QDA clearly separate the 4 classes. Note the curved decision boundaries for QDA and the linear decision boundaries for LDA.</p>
+<p><strong>Nested case (<span class="math inline">\(K=2\)</span>):</strong> See <a href="#fig-ldaqdanested" class="quarto-xref">Figure&nbsp;<span>5.5</span></a>. In the nested case LDA fails to separate the two classes because there is no way to separate two nested classes with a simple linear boundary.</p>
+<p>Later we will investigate the decision boundaries for further methods (see <a href="07-nonlinear.html#fig-dtrfnonnested" class="quarto-xref">Figure&nbsp;<span>7.1</span></a> and <a href="07-nonlinear.html#fig-dtrfnested" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>).</p>
 </section>
 </section>
 <section id="quantifying-prediction-error" class="level2" data-number="5.5">
