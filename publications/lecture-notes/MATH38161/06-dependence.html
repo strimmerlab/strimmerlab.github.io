@@ -283,7 +283,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#canonical-correlation-analysis-cca-aka-cca-whitening" id="toc-canonical-correlation-analysis-cca-aka-cca-whitening" class="nav-link" data-scroll-target="#canonical-correlation-analysis-cca-aka-cca-whitening"><span class="header-section-number">6.2</span> Canonical Correlation Analysis (CCA) aka CCA whitening</a>
   <ul class="collapse">
-  <li><a href="#how-to-make-cross-correlation-matrix-textcorsymbfit-z_symbfit-xsymbfit-z_symbfit-y-diagonal" id="toc-how-to-make-cross-correlation-matrix-textcorsymbfit-z_symbfit-xsymbfit-z_symbfit-y-diagonal" class="nav-link" data-scroll-target="#how-to-make-cross-correlation-matrix-textcorsymbfit-z_symbfit-xsymbfit-z_symbfit-y-diagonal">How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y})\)</span> diagonal?</a></li>
+  <li><a href="#how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal" id="toc-how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal" class="nav-link" data-scroll-target="#how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal">How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> diagonal?</a></li>
   <li><a href="#related-methods" id="toc-related-methods" class="nav-link" data-scroll-target="#related-methods">Related methods</a></li>
   </ul></li>
   <li><a href="#vector-correlation-and-rv-coefficient" id="toc-vector-correlation-and-rv-coefficient" class="nav-link" data-scroll-target="#vector-correlation-and-rv-coefficient"><span class="header-section-number">6.3</span> Vector correlation and RV coefficient</a>
@@ -347,90 +347,90 @@ window.Quarto = {
 <section id="aim" class="level3">
 <h3 class="anchored" data-anchor-id="aim">Aim</h3>
 <p>The linear association between two scalar random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is measured by the correlation <span class="math inline">\(\text{Cor}(x, y) = \rho\)</span>.</p>
-<p>In this chapter we now would like to explore how to generalise correlation to the case of two random vectors. Specifically, we would like to find a scalar measure of association between two random vectors (or equivalently two sets of random variables) <span class="math inline">\(\symbfit x= (x_1, \ldots, x_p)^T\)</span> and <span class="math inline">\(\symbfit y= (y_1, \ldots, y_q)^T\)</span> that contains correlation and also multiple correlation as special case.</p>
+<p>In this chapter we now would like to explore how to generalise correlation to the case of two random vectors. Specifically, we would like to find a scalar measure of association between two random vectors (or equivalently two sets of random variables) <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and <span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_q)^T\)</span> that contains correlation and also multiple correlation as special case.</p>
 <p>We assume a joint correlation matrix <span class="math display">\[
-\symbfit P=
+\boldsymbol P=
 \begin{pmatrix}
-\symbfit P_{\symbfit x} &amp;  \symbfit P_{\symbfit x\symbfit y} \\
-\symbfit P_{\symbfit y\symbfit x} &amp; \symbfit P_{\symbfit y} \\
+\boldsymbol P_{\boldsymbol x} &amp;  \boldsymbol P_{\boldsymbol x\boldsymbol y} \\
+\boldsymbol P_{\boldsymbol y\boldsymbol x} &amp; \boldsymbol P_{\boldsymbol y} \\
 \end{pmatrix}
-\]</span> with cross-correlation matrix <span class="math inline">\(\symbfit P_{\symbfit x\symbfit y} = \symbfit P_{\symbfit y\symbfit x}^T\)</span> and the within-group group correlations <span class="math inline">\(\symbfit P_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit P_{\symbfit y}\)</span>. If the cross-correlations vanish, <span class="math inline">\(\symbfit P_{\symbfit x\symbfit y} =0\)</span>, then the two random vectors are uncorrelated, and the joint correlation matrix becomes a diagonal block matrix <span class="math display">\[
-\symbfit P_{\text{indep}} =
+\]</span> with cross-correlation matrix <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = \boldsymbol P_{\boldsymbol y\boldsymbol x}^T\)</span> and the within-group group correlations <span class="math inline">\(\boldsymbol P_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol P_{\boldsymbol y}\)</span>. If the cross-correlations vanish, <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} =0\)</span>, then the two random vectors are uncorrelated, and the joint correlation matrix becomes a diagonal block matrix <span class="math display">\[
+\boldsymbol P_{\text{indep}} =
 \begin{pmatrix}
-\symbfit P_{\symbfit x} &amp;  0 \\
-0 &amp; \symbfit P_{\symbfit y} \\
+\boldsymbol P_{\boldsymbol x} &amp;  0 \\
+0 &amp; \boldsymbol P_{\boldsymbol y} \\
 \end{pmatrix} \, .
 \]</span></p>
-<p>To characterise the total association between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> we are looking for a <strong>scalar quantity</strong> measuring the divergence of a distribution assuming the general joint correlation matrix <span class="math inline">\(\symbfit P\)</span> from a distribution assuming the joint correlation matrix <span class="math inline">\(\symbfit P_{\text{indep}}\)</span> for uncorrelated <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>.</p>
+<p>To characterise the total association between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> we are looking for a <strong>scalar quantity</strong> measuring the divergence of a distribution assuming the general joint correlation matrix <span class="math inline">\(\boldsymbol P\)</span> from a distribution assuming the joint correlation matrix <span class="math inline">\(\boldsymbol P_{\text{indep}}\)</span> for uncorrelated <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>.</p>
 </section>
 <section id="known-special-cases" class="level3">
 <h3 class="anchored" data-anchor-id="known-special-cases">Known special cases</h3>
-<p>Ideally, in case of an univariate <span class="math inline">\(y\)</span> but multivariate <span class="math inline">\(\symbfit x\)</span> this measure should reduce to the <em>squared multiple correlation</em> or <em>coefficient of determination</em> <span class="math display">\[
-\text{MCor}(\symbfit x, y)^2 = \symbfit P_{y\symbfit x} \symbfit P_{\symbfit x}^{-1} \symbfit P_{\symbfit xy}
-\]</span> This is well-known in linear regression to describe the strength of the total linear association between the predictors <span class="math inline">\(\symbfit x= (x_1, \ldots, x_p)^T\)</span> and the response <span class="math inline">\(y\)</span>.</p>
-<p>To derive the squared multiple correlation we may proceed as follows. First we whiten the random vector <span class="math inline">\(\symbfit x\)</span> resulting in <span class="math inline">\(\symbfit z_{\symbfit x} = \symbfit W_{\symbfit x}\symbfit x=\symbfit Q_{\symbfit x}\symbfit P_{\symbfit x}^{-1/2}\symbfit V_{\symbfit x}^{-1/2}\symbfit x\)</span> where <span class="math inline">\(\symbfit Q_{\symbfit x}\)</span> is an orthogonal matrix. The correlations between each component in <span class="math inline">\(\symbfit z_{\symbfit x}\)</span> and the response <span class="math inline">\(y\)</span> are then <span class="math display">\[
-\symbfit \omega= \text{Cor}(\symbfit z_{\symbfit x}, y) = \symbfit Q_{\symbfit x} \symbfit P_{\symbfit x}^{-1/2} \symbfit P_{\symbfit xy}
-\]</span> As <span class="math inline">\(\text{Var}(\symbfit z_{\symbfit x}) = \symbfit I\)</span> and thus the components in <span class="math inline">\(\symbfit z_{\symbfit x}\)</span> are uncorrelated we can simply add up the squared individual correlations to get as total association measure <span class="math display">\[
-\symbfit \omega^T \symbfit \omega= \sum_i \omega_i^2 = \symbfit P_{y\symbfit x} \symbfit P_{\symbfit x}^{-1} \symbfit P_{\symbfit xy}
-\]</span> Note that the particular choice of the orthogonal matrix <span class="math inline">\(\symbfit Q_{\symbfit x}\)</span> for whitening <span class="math inline">\(\symbfit x\)</span> is not relevant for the squared multiple correlation.</p>
-<p>Note that if the cross-correlations vanish (<span class="math inline">\(\symbfit P_{\symbfit xy} =0\)</span>) then <span class="math inline">\(\text{MCor}(\symbfit x, y)^2=0\)</span>. If the correlation between the predictors vanishes (<span class="math inline">\(\symbfit P_{\symbfit x} = \symbfit I\)</span>) then <span class="math inline">\(\text{MCor}(\symbfit x, y)^2 = \sum_i \rho_{y x_i}^2\)</span>, i.e.&nbsp;it is the sum of the squared cross-correlations.</p>
-<p>If there is only a single predictor <span class="math inline">\(x\)</span> then <span class="math inline">\(\symbfit P_{xy}=\rho\)</span> and <span class="math inline">\(\symbfit P_{x} = 1\)</span> and the squared multiple correlation reduces to the squared Pearson correlation <span class="math display">\[
+<p>Ideally, in case of an univariate <span class="math inline">\(y\)</span> but multivariate <span class="math inline">\(\boldsymbol x\)</span> this measure should reduce to the <em>squared multiple correlation</em> or <em>coefficient of determination</em> <span class="math display">\[
+\text{MCor}(\boldsymbol x, y)^2 = \boldsymbol P_{y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}
+\]</span> This is well-known in linear regression to describe the strength of the total linear association between the predictors <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_p)^T\)</span> and the response <span class="math inline">\(y\)</span>.</p>
+<p>To derive the squared multiple correlation we may proceed as follows. First we whiten the random vector <span class="math inline">\(\boldsymbol x\)</span> resulting in <span class="math inline">\(\boldsymbol z_{\boldsymbol x} = \boldsymbol W_{\boldsymbol x}\boldsymbol x=\boldsymbol Q_{\boldsymbol x}\boldsymbol P_{\boldsymbol x}^{-1/2}\boldsymbol V_{\boldsymbol x}^{-1/2}\boldsymbol x\)</span> where <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}\)</span> is an orthogonal matrix. The correlations between each component in <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span> and the response <span class="math inline">\(y\)</span> are then <span class="math display">\[
+\boldsymbol \omega= \text{Cor}(\boldsymbol z_{\boldsymbol x}, y) = \boldsymbol Q_{\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol xy}
+\]</span> As <span class="math inline">\(\text{Var}(\boldsymbol z_{\boldsymbol x}) = \boldsymbol I\)</span> and thus the components in <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span> are uncorrelated we can simply add up the squared individual correlations to get as total association measure <span class="math display">\[
+\boldsymbol \omega^T \boldsymbol \omega= \sum_i \omega_i^2 = \boldsymbol P_{y\boldsymbol x} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol xy}
+\]</span> Note that the particular choice of the orthogonal matrix <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}\)</span> for whitening <span class="math inline">\(\boldsymbol x\)</span> is not relevant for the squared multiple correlation.</p>
+<p>Note that if the cross-correlations vanish (<span class="math inline">\(\boldsymbol P_{\boldsymbol xy} =0\)</span>) then <span class="math inline">\(\text{MCor}(\boldsymbol x, y)^2=0\)</span>. If the correlation between the predictors vanishes (<span class="math inline">\(\boldsymbol P_{\boldsymbol x} = \boldsymbol I\)</span>) then <span class="math inline">\(\text{MCor}(\boldsymbol x, y)^2 = \sum_i \rho_{y x_i}^2\)</span>, i.e.&nbsp;it is the sum of the squared cross-correlations.</p>
+<p>If there is only a single predictor <span class="math inline">\(x\)</span> then <span class="math inline">\(\boldsymbol P_{xy}=\rho\)</span> and <span class="math inline">\(\boldsymbol P_{x} = 1\)</span> and the squared multiple correlation reduces to the squared Pearson correlation <span class="math display">\[
 \text{Cor}(x, y)^2 = \rho^2 \, .
 \]</span></p>
 </section>
 </section>
 <section id="canonical-correlation-analysis-cca-aka-cca-whitening" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="canonical-correlation-analysis-cca-aka-cca-whitening"><span class="header-section-number">6.2</span> Canonical Correlation Analysis (CCA) aka CCA whitening</h2>
-<p>Canonical correlation analysis was invented by Harald Hotelling in 1936 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. CCA aims to characterise the linear dependence between to random vectors <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> by a set of <strong>canonical correlations</strong> <span class="math inline">\(\lambda_i\)</span>.</p>
-<p>CCA works by simultaneously whitening the two random vectors <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> where the whitening matrices are chosen in such a way that the cross-correlation matrix between the resulting whitened variables becomes diagonal, and the elements on the diagonal correspond to the <strong>canonical correlations</strong>.</p>
+<p>Canonical correlation analysis was invented by Harald Hotelling in 1936 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. CCA aims to characterise the linear dependence between to random vectors <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> by a set of <strong>canonical correlations</strong> <span class="math inline">\(\lambda_i\)</span>.</p>
+<p>CCA works by simultaneously whitening the two random vectors <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> where the whitening matrices are chosen in such a way that the cross-correlation matrix between the resulting whitened variables becomes diagonal, and the elements on the diagonal correspond to the <strong>canonical correlations</strong>.</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
-\symbfit x= \begin{pmatrix} x_1 \\ \vdots \\ x_p \end{pmatrix} \\
+\boldsymbol x= \begin{pmatrix} x_1 \\ \vdots \\ x_p \end{pmatrix} \\
 \text{Dimension } p
 \end{array}
 \begin{array}{ll}
-\symbfit y= \begin{pmatrix} y_1 \\ \vdots \\ y_q \end{pmatrix} \\
+\boldsymbol y= \begin{pmatrix} y_1 \\ \vdots \\ y_q \end{pmatrix} \\
 \text{Dimension } q
 \end{array}
 \begin{array}{ll}
-\text{Var}(\symbfit x) = \symbfit \Sigma_{\symbfit x} = \symbfit V_{\symbfit x}^{1/2}\symbfit P_{\symbfit x}\symbfit V_{\symbfit x}^{1/2} \\
-\text{Var}(\symbfit y) = \symbfit \Sigma_{\symbfit y} = \symbfit V_{\symbfit y}^{1/2}\symbfit P_{\symbfit y}\symbfit V_{\symbfit y}^{1/2} \\
+\text{Var}(\boldsymbol x) = \boldsymbol \Sigma_{\boldsymbol x} = \boldsymbol V_{\boldsymbol x}^{1/2}\boldsymbol P_{\boldsymbol x}\boldsymbol V_{\boldsymbol x}^{1/2} \\
+\text{Var}(\boldsymbol y) = \boldsymbol \Sigma_{\boldsymbol y} = \boldsymbol V_{\boldsymbol y}^{1/2}\boldsymbol P_{\boldsymbol y}\boldsymbol V_{\boldsymbol y}^{1/2} \\
 \end{array}
 \end{align*}\]</span></p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cc}
-\text{Whitening of } \symbfit x\text{:} \\
-\text{Whitening of } \symbfit y\text{:}
+\text{Whitening of } \boldsymbol x\text{:} \\
+\text{Whitening of } \boldsymbol y\text{:}
 \end{array}
 \begin{array}{cc}
-\symbfit z_{\symbfit x} = \symbfit W_{\symbfit x}\symbfit x=\symbfit Q_{\symbfit x}\symbfit P_{\symbfit x}^{-1/2}\symbfit V_{\symbfit x}^{-1/2}\symbfit x\\
-\symbfit z_{\symbfit y} = \symbfit W_{\symbfit y}\symbfit y=\symbfit Q_{\symbfit y}\symbfit P_{\symbfit y}^{-1/2}\symbfit V_{\symbfit y}^{-1/2}\symbfit y
+\boldsymbol z_{\boldsymbol x} = \boldsymbol W_{\boldsymbol x}\boldsymbol x=\boldsymbol Q_{\boldsymbol x}\boldsymbol P_{\boldsymbol x}^{-1/2}\boldsymbol V_{\boldsymbol x}^{-1/2}\boldsymbol x\\
+\boldsymbol z_{\boldsymbol y} = \boldsymbol W_{\boldsymbol y}\boldsymbol y=\boldsymbol Q_{\boldsymbol y}\boldsymbol P_{\boldsymbol y}^{-1/2}\boldsymbol V_{\boldsymbol y}^{-1/2}\boldsymbol y
 \end{array}
-\end{align*}\]</span> (note we use the correlation-based form of <span class="math inline">\(\symbfit W\)</span>)</p>
-<p>Cross-correlation between <span class="math inline">\(\symbfit z_{\symbfit y}\)</span> and <span class="math inline">\(\symbfit z_{\symbfit y}\)</span>:</p>
-<p><span class="math display">\[\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y})=\symbfit Q_{\symbfit x}\symbfit K\symbfit Q_{\symbfit y}^T\]</span></p>
-<p>with <span class="math inline">\(\symbfit K= \symbfit P_{\symbfit x}^{-1/2}\symbfit P_{\symbfit x\symbfit y}\symbfit P_{\symbfit y}^{-1/2}\)</span>.</p>
-<p><strong>Idea</strong>: we can choose suitable orthogonal matrices <span class="math inline">\(\symbfit Q_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit Q_{\symbfit y}\)</span> by putting a structural constraint on the cross-correlation matrix.</p>
-<p><strong>CCA</strong>: we aim for a <em>diagonal</em> <span class="math inline">\(\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y})\)</span> so that each component in <span class="math inline">\(\symbfit z_{\symbfit x}\)</span> only influences one (the corresponding) component in <span class="math inline">\(\symbfit z_{\symbfit y}\)</span>.</p>
-<p><strong>Motivation</strong>: pairs of “modules” represented by components of <span class="math inline">\(\symbfit z_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit z_{\symbfit y}\)</span> influencing each other (and not anyone other module).</p>
+\end{align*}\]</span> (note we use the correlation-based form of <span class="math inline">\(\boldsymbol W\)</span>)</p>
+<p>Cross-correlation between <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span> and <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span>:</p>
+<p><span class="math display">\[\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})=\boldsymbol Q_{\boldsymbol x}\boldsymbol K\boldsymbol Q_{\boldsymbol y}^T\]</span></p>
+<p>with <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2}\boldsymbol P_{\boldsymbol x\boldsymbol y}\boldsymbol P_{\boldsymbol y}^{-1/2}\)</span>.</p>
+<p><strong>Idea</strong>: we can choose suitable orthogonal matrices <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}\)</span> by putting a structural constraint on the cross-correlation matrix.</p>
+<p><strong>CCA</strong>: we aim for a <em>diagonal</em> <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> so that each component in <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span> only influences one (the corresponding) component in <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span>.</p>
+<p><strong>Motivation</strong>: pairs of “modules” represented by components of <span class="math inline">\(\boldsymbol z_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol z_{\boldsymbol y}\)</span> influencing each other (and not anyone other module).</p>
 <p><span class="math display">\[
 \begin{array}{ll}
-\symbfit z_{\symbfit x} = \begin{pmatrix} z^x_1 \\ z^x_2 \\ \vdots \\ z^x_p \end{pmatrix} &amp;
-\symbfit z_{\symbfit y} = \begin{pmatrix} z^y_1 \\ z^y_2 \\ \vdots \\ z^y_q \end{pmatrix} \\
+\boldsymbol z_{\boldsymbol x} = \begin{pmatrix} z^x_1 \\ z^x_2 \\ \vdots \\ z^x_p \end{pmatrix} &amp;
+\boldsymbol z_{\boldsymbol y} = \begin{pmatrix} z^y_1 \\ z^y_2 \\ \vdots \\ z^y_q \end{pmatrix} \\
 \end{array}
 \]</span></p>
-<p><span class="math display">\[\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y}) = \begin{pmatrix} \lambda_1 &amp; \dots &amp; 0 \\ \vdots &amp;  \vdots \\ 0 &amp; \dots &amp; \lambda_m \end{pmatrix}\]</span></p>
+<p><span class="math display">\[\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y}) = \begin{pmatrix} \lambda_1 &amp; \dots &amp; 0 \\ \vdots &amp;  \vdots \\ 0 &amp; \dots &amp; \lambda_m \end{pmatrix}\]</span></p>
 <p>where <span class="math inline">\(\lambda_i\)</span> are the <em>canonical correlations</em> and <span class="math inline">\(m=\min(p,q)\)</span>.</p>
-<section id="how-to-make-cross-correlation-matrix-textcorsymbfit-z_symbfit-xsymbfit-z_symbfit-y-diagonal" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-make-cross-correlation-matrix-textcorsymbfit-z_symbfit-xsymbfit-z_symbfit-y-diagonal">How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y})\)</span> diagonal?</h3>
+<section id="how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-make-cross-correlation-matrix-textcorboldsymbol-z_boldsymbol-xboldsymbol-z_boldsymbol-y-diagonal">How to make cross-correlation matrix <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y})\)</span> diagonal?</h3>
 <ul>
-<li>Use Singular Value Decomposition (SVD) of matrix <span class="math inline">\(\symbfit K\)</span>:<br>
-<span class="math display">\[\symbfit K= (\symbfit Q_{\symbfit x}^{\text{CCA}})^T  \symbfit \Lambda\symbfit Q_{\symbfit y}^{\text{CCA}}\]</span> where <span class="math inline">\(\symbfit \Lambda\)</span> is the diagonal matrix containing the singular values of <span class="math inline">\(\symbfit K\)</span></li>
-<li>This yields orthogonal matrices <span class="math inline">\(\symbfit Q_{\symbfit x}^{\text{CCA}}\)</span> and <span class="math inline">\(\symbfit Q_{\symbfit y}^{\text{CCA}}\)</span> and thus the desired whitening matrices <span class="math inline">\(\symbfit W_{\symbfit x}^{\text{CCA}}\)</span> and <span class="math inline">\(\symbfit W_{\symbfit y}^{\text{CCA}}\)</span></li>
-<li>As a result <span class="math inline">\(\text{Cor}(\symbfit z_{\symbfit x},\symbfit z_{\symbfit y}) = \symbfit \Lambda\)</span> i.e.&nbsp;singular values <span class="math inline">\(\lambda_i\)</span> of <span class="math inline">\(\symbfit K\)</span> are the desired canonical correlations!</li>
+<li>Use Singular Value Decomposition (SVD) of matrix <span class="math inline">\(\boldsymbol K\)</span>:<br>
+<span class="math display">\[\boldsymbol K= (\boldsymbol Q_{\boldsymbol x}^{\text{CCA}})^T  \boldsymbol \Lambda\boldsymbol Q_{\boldsymbol y}^{\text{CCA}}\]</span> where <span class="math inline">\(\boldsymbol \Lambda\)</span> is the diagonal matrix containing the singular values of <span class="math inline">\(\boldsymbol K\)</span></li>
+<li>This yields orthogonal matrices <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}^{\text{CCA}}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}^{\text{CCA}}\)</span> and thus the desired whitening matrices <span class="math inline">\(\boldsymbol W_{\boldsymbol x}^{\text{CCA}}\)</span> and <span class="math inline">\(\boldsymbol W_{\boldsymbol y}^{\text{CCA}}\)</span></li>
+<li>As a result <span class="math inline">\(\text{Cor}(\boldsymbol z_{\boldsymbol x},\boldsymbol z_{\boldsymbol y}) = \boldsymbol \Lambda\)</span> i.e.&nbsp;singular values <span class="math inline">\(\lambda_i\)</span> of <span class="math inline">\(\boldsymbol K\)</span> are the desired canonical correlations!</li>
 </ul>
-<p><span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\(\symbfit Q_{\symbfit x}^{\text{CCA}}\)</span> and <span class="math inline">\(\symbfit Q_{\symbfit y}^{\text{CCA}}\)</span> are determined by the diagonality constraint (and note these are different to the other previously discussed whitening methods).</p>
-<p>Note that the signs of corresponding in columns in <span class="math inline">\(\symbfit Q_{\symbfit x}^{\text{CCA}}\)</span> and <span class="math inline">\(\symbfit Q_{\symbfit y}^{\text{CCA}}\)</span> are not identified. Traditionally, in an SVD the signs are chosen such that the singular values are positive. However, if we impose positive-diagonality on <span class="math inline">\(\symbfit Q_{\symbfit x}^{\text{CCA}}\)</span> and <span class="math inline">\(\symbfit Q_{\symbfit y}^{\text{CCA}}\)</span>, and thus positive-diagonality on the cross-correlations <span class="math inline">\(\symbfit \Psi_{\symbfit x}\)</span> and <span class="math inline">\(\symbfit \Psi_{\symbfit y}\)</span>, then the canonical correlations may take on both positive and negative values.</p>
+<p><span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}^{\text{CCA}}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}^{\text{CCA}}\)</span> are determined by the diagonality constraint (and note these are different to the other previously discussed whitening methods).</p>
+<p>Note that the signs of corresponding in columns in <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}^{\text{CCA}}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}^{\text{CCA}}\)</span> are not identified. Traditionally, in an SVD the signs are chosen such that the singular values are positive. However, if we impose positive-diagonality on <span class="math inline">\(\boldsymbol Q_{\boldsymbol x}^{\text{CCA}}\)</span> and <span class="math inline">\(\boldsymbol Q_{\boldsymbol y}^{\text{CCA}}\)</span>, and thus positive-diagonality on the cross-correlations <span class="math inline">\(\boldsymbol \Psi_{\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol \Psi_{\boldsymbol y}\)</span>, then the canonical correlations may take on both positive and negative values.</p>
 </section>
 <section id="related-methods" class="level3">
 <h3 class="anchored" data-anchor-id="related-methods">Related methods</h3>
@@ -446,28 +446,28 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="vector-alienation-coefficient">Vector alienation coefficient</h3>
 <p>In his 1936 paper introducing canonical correlation analysis Hotelling also proposed the <em>vector alienation coefficient</em> defined as <span class="math display">\[
 \begin{split}
-a(\symbfit x, \symbfit y) &amp;= \frac{\det(\symbfit P)}{\det(\symbfit P_{\text{indep}}) } \\
-            &amp; = \frac{\det( \symbfit P) }{  \det(\symbfit P_{\symbfit x}) \,  \det(\symbfit P_{\symbfit y})  }
+a(\boldsymbol x, \boldsymbol y) &amp;= \frac{\det(\boldsymbol P)}{\det(\boldsymbol P_{\text{indep}}) } \\
+            &amp; = \frac{\det( \boldsymbol P) }{  \det(\boldsymbol P_{\boldsymbol x}) \,  \det(\boldsymbol P_{\boldsymbol y})  }
 \end{split}
-\]</span> With <span class="math inline">\(\symbfit K= \symbfit P_{\symbfit x}^{-1/2} \symbfit P_{\symbfit x\symbfit y}  \symbfit P_{\symbfit y}^{-1/2}\)</span> the vector alienation coefficient can be written (using the Weinstein-Aronszajn determinant identity and the formula for the determinant of block-structured matrices) as <span class="math display">\[
+\]</span> With <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x\boldsymbol y}  \boldsymbol P_{\boldsymbol y}^{-1/2}\)</span> the vector alienation coefficient can be written (using the Weinstein-Aronszajn determinant identity and the formula for the determinant of block-structured matrices) as <span class="math display">\[
 \begin{split}
-a(\symbfit x, \symbfit y) &amp; = \det \left( \symbfit I_p - \symbfit K\symbfit K^T \right) \\
-            &amp; = \det \left( \symbfit I_q - \symbfit K^T \symbfit K\right) \\
+a(\boldsymbol x, \boldsymbol y) &amp; = \det \left( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T \right) \\
+            &amp; = \det \left( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K\right) \\
             &amp;= \prod_{i=1}^m (1-\lambda_i^2) \\
 \end{split}
-\]</span> where the <span class="math inline">\(\lambda_i\)</span> are the singular values of <span class="math inline">\(\symbfit K\)</span>, i.e.&nbsp;the canonical correlations for the pair <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>. Therefore, the vector alienation coefficient is computed as a summary statistic of the canonical correlations.</p>
-<p>If <span class="math inline">\(\symbfit P_{\symbfit x\symbfit y} = 0\)</span> und thus <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> are uncorrelated then <span class="math inline">\(\symbfit P= \symbfit P_{\text{indep}}\)</span> and thus by construction the vector alienation coefficient <span class="math inline">\(a(\symbfit x, \symbfit y)=1\)</span>. Hence, the vector alienation coefficient is itself not a generalisation of the squared multiple correlation to the case of two random vectors as such a quantity should vanish in this case.</p>
+\]</span> where the <span class="math inline">\(\lambda_i\)</span> are the singular values of <span class="math inline">\(\boldsymbol K\)</span>, i.e.&nbsp;the canonical correlations for the pair <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>. Therefore, the vector alienation coefficient is computed as a summary statistic of the canonical correlations.</p>
+<p>If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> und thus <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are uncorrelated then <span class="math inline">\(\boldsymbol P= \boldsymbol P_{\text{indep}}\)</span> and thus by construction the vector alienation coefficient <span class="math inline">\(a(\boldsymbol x, \boldsymbol y)=1\)</span>. Hence, the vector alienation coefficient is itself not a generalisation of the squared multiple correlation to the case of two random vectors as such a quantity should vanish in this case.</p>
 </section>
 <section id="rozeboom-vector-correlation" class="level3">
 <h3 class="anchored" data-anchor-id="rozeboom-vector-correlation">Rozeboom vector correlation</h3>
 <p>Instead, Rozeboom (1965) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> proposed to use as squared <em>vector correlation</em> the complement of the vector alienation coefficient <span class="math display">\[
 \begin{split}
-\text{VCor}(\symbfit x, \symbfit y)^2 &amp;= \rho^2_{\symbfit x\symbfit y} = 1 - a(\symbfit x, \symbfit y) \\
-&amp; = 1- \det\left( \symbfit I_p - \symbfit K\symbfit K^T \right) \\
-&amp; = 1- \det\left( \symbfit I_q - \symbfit K^T \symbfit K\right) \\
+\text{VCor}(\boldsymbol x, \boldsymbol y)^2 &amp;= \rho^2_{\boldsymbol x\boldsymbol y} = 1 - a(\boldsymbol x, \boldsymbol y) \\
+&amp; = 1- \det\left( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T \right) \\
+&amp; = 1- \det\left( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K\right) \\
 &amp;  =1- \prod_{i=1}^m (1-\lambda_i^2) \\
 \end{split}
-\]</span> If <span class="math inline">\(\symbfit P_{\symbfit x\symbfit y} = 0\)</span> then <span class="math inline">\(\symbfit K=\symbfup 0\)</span> and hence <span class="math inline">\(\text{VCor}(\symbfit x, \symbfit y)^2 = 0\)</span>.</p>
+\]</span> If <span class="math inline">\(\boldsymbol P_{\boldsymbol x\boldsymbol y} = 0\)</span> then <span class="math inline">\(\boldsymbol K=\mathbf 0\)</span> and hence <span class="math inline">\(\text{VCor}(\boldsymbol x, \boldsymbol y)^2 = 0\)</span>.</p>
 <p>Moreover, if either <span class="math inline">\(p=1\)</span> or <span class="math inline">\(q=1\)</span> the squared vector correlation reduces to the corresponding squared multiple correlation, which in turn for both <span class="math inline">\(p=1\)</span> and <span class="math inline">\(q=1\)</span> becomes the squared Pearson correlation.</p>
 <p>You can find the derivation in Example Sheet 10.</p>
 <p>Thus, Rozeboom’s vector correlation indeed generalises both Pearson correlation and the multiple correlation coefficient.</p>
@@ -475,9 +475,9 @@ a(\symbfit x, \symbfit y) &amp; = \det \left( \symbfit I_p - \symbfit K\symbfit 
 <section id="rv-coefficient" class="level3">
 <h3 class="anchored" data-anchor-id="rv-coefficient">RV coefficient</h3>
 <p>Another common approach to measure association between two random vectors is the <a href="https://en.wikipedia.org/wiki/RV_coefficient">RV coefficient</a> introduced by Robert and Escoufier in 1976 as <span class="math display">\[
-RV(\symbfit x, \symbfit y) = \frac{ \text{Tr}(\symbfit \Sigma_{\symbfit x\symbfit y} \symbfit \Sigma_{\symbfit y\symbfit x} )}{ \sqrt{ \text{Tr}(\symbfit \Sigma_{\symbfit x}^2) \text{Tr}(\symbfit \Sigma_{\symbfit y}^2)  } }
+RV(\boldsymbol x, \boldsymbol y) = \frac{ \text{Tr}(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \boldsymbol \Sigma_{\boldsymbol y\boldsymbol x} )}{ \sqrt{ \text{Tr}(\boldsymbol \Sigma_{\boldsymbol x}^2) \text{Tr}(\boldsymbol \Sigma_{\boldsymbol y}^2)  } }
 \]</span> The main advantage of the RV coefficient is that it is easier to compute than the Rozeboom vector correlation as it uses the matrix trace rather than the matrix determinant.</p>
-<p>For <span class="math inline">\(q=p=1\)</span> the RV coefficient reduces to the squared correlation. However, the RV coefficient does <em>not</em> reduce to the multiple correlation coefficient for <span class="math inline">\(q=1\)</span> and <span class="math inline">\(p &gt; 1\)</span>, and therefore the RV coefficient cannot be considered a coherent generalisation of Pearson and multiple correlation to the case when <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> are random vectors.</p>
+<p>For <span class="math inline">\(q=p=1\)</span> the RV coefficient reduces to the squared correlation. However, the RV coefficient does <em>not</em> reduce to the multiple correlation coefficient for <span class="math inline">\(q=1\)</span> and <span class="math inline">\(p &gt; 1\)</span>, and therefore the RV coefficient cannot be considered a coherent generalisation of Pearson and multiple correlation to the case when <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are random vectors.</p>
 <p>See also Worksheet 10.</p>
 </section>
 </section>
@@ -492,7 +492,7 @@ RV(\symbfit x, \symbfit y) = \frac{ \text{Tr}(\symbfit \Sigma_{\symbfit x\symbfi
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> x<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0009522462</code></pre>
+<pre><code>[1] 0.002528421</code></pre>
 </div>
 <p>::: Thus, correlation is zero even though <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are fully dependent variables. This is because correlation only measures linear association, and the relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is nonlinear.</p>
 </section>
@@ -535,46 +535,46 @@ Figure&nbsp;6.1: The Anscombe (1973) quartet of datasets.
 <section id="definition-of-mutual-information" class="level3">
 <h3 class="anchored" data-anchor-id="definition-of-mutual-information">Definition of mutual information</h3>
 <p>Recall the definition of Kullback-Leibler (KL) divergence between two distributions: <span class="math display">\[
-D_{\text{KL}}(F,  G) := \text{E}_F \log \biggl( \frac{f(\symbfit x)}{g(\symbfit x)} \biggr)
+D_{\text{KL}}(F,  G) := \text{E}_F \log \biggl( \frac{f(\boldsymbol x)}{g(\boldsymbol x)} \biggr)
 \]</span> Here <span class="math inline">\(F\)</span> plays the role of the reference distribution and <span class="math inline">\(G\)</span> is an approximating distribution, with <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> being the corresponding density functions (see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a> for more details about the KL divergence and its properties).</p>
-<p>The <em>Mutual Information</em> (MI) between two random variables <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> is defined as the KL divergence between the corresponding joint distribution and the product distribution: <span class="math display">\[
-\text{MI}(\symbfit x, \symbfit y) = D_{\text{KL}}(F_{\symbfit x,\symbfit y}, F_{\symbfit x}  F_{\symbfit y}) = \text{E}_{F_{\symbfit x,\symbfit y}}  \log \biggl( \frac{f(\symbfit x, \symbfit y)}{f(\symbfit x) \, f(\symbfit y)} \biggr) .
-\]</span> Thus, MI measures how well the joint distribution can be approximated by the product distribution (which would be the appropriate joint distribution if <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> are independent). Since MI is an application of KL divergence is shares all its properties. In particular, <span class="math inline">\(\text{MI}(\symbfit x, \symbfit y)=0\)</span> implies that the joint distribution and product distributions are the same. Hence the two random variables <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> are independent if the mutual information vanishes.</p>
+<p>The <em>Mutual Information</em> (MI) between two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is defined as the KL divergence between the corresponding joint distribution and the product distribution: <span class="math display">\[
+\text{MI}(\boldsymbol x, \boldsymbol y) = D_{\text{KL}}(F_{\boldsymbol x,\boldsymbol y}, F_{\boldsymbol x}  F_{\boldsymbol y}) = \text{E}_{F_{\boldsymbol x,\boldsymbol y}}  \log \biggl( \frac{f(\boldsymbol x, \boldsymbol y)}{f(\boldsymbol x) \, f(\boldsymbol y)} \biggr) .
+\]</span> Thus, MI measures how well the joint distribution can be approximated by the product distribution (which would be the appropriate joint distribution if <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent). Since MI is an application of KL divergence is shares all its properties. In particular, <span class="math inline">\(\text{MI}(\boldsymbol x, \boldsymbol y)=0\)</span> implies that the joint distribution and product distributions are the same. Hence the two random variables <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent if the mutual information vanishes.</p>
 </section>
 <section id="mutual-information-between-two-normal-scalar-variables" class="level3">
 <h3 class="anchored" data-anchor-id="mutual-information-between-two-normal-scalar-variables">Mutual information between two normal scalar variables</h3>
 <p>The KL divergence between two multivariate normal distributions <span class="math inline">\(F_{\text{ref}}\)</span> and <span class="math inline">\(F\)</span> is <span class="math display">\[
 D_{\text{KL}}(F_{\text{ref}}, F)  = \frac{1}{2}   \biggl\{
-        (\symbfit \mu-\symbfit \mu_{\text{ref}})^T \symbfit \Sigma^{-1} (\symbfit \mu-\symbfit \mu_{\text{ref}})
-      + \text{Tr}\biggl(\symbfit \Sigma^{-1} \symbfit \Sigma_{\text{ref}} \biggr)
-    - \log \det \biggl( \symbfit \Sigma^{-1} \symbfit \Sigma_{\text{ref}} \biggr)
+        (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})^T \boldsymbol \Sigma^{-1} (\boldsymbol \mu-\boldsymbol \mu_{\text{ref}})
+      + \text{Tr}\biggl(\boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1} \boldsymbol \Sigma_{\text{ref}} \biggr)
      - d   \biggr\}
-\]</span> This allows compute the mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> between two univariate random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that are correlated and assumed to be jointly bivariate normal. Let <span class="math inline">\(\symbfit z= (x, y)^T\)</span>. The joint bivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\symbfit z) = \symbfit \mu= (\mu_x, \mu_y)^T\)</span> and the covariance matrix <span class="math display">\[
-\symbfit \Sigma=
+\]</span> This allows compute the mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(x,y)\)</span> between two univariate random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that are correlated and assumed to be jointly bivariate normal. Let <span class="math inline">\(\boldsymbol z= (x, y)^T\)</span>. The joint bivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\boldsymbol z) = \boldsymbol \mu= (\mu_x, \mu_y)^T\)</span> and the covariance matrix <span class="math display">\[
+\boldsymbol \Sigma=
 \begin{pmatrix}
 \sigma^2_x &amp; \rho \, \sigma_x \sigma_y \\
 \rho \, \sigma_x  \sigma_y &amp; \sigma^2_y \\
 \end{pmatrix}
 \]</span> where <span class="math inline">\(\text{Cor}(x,y)= \rho\)</span>. If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are independent then <span class="math inline">\(\rho=0\)</span> and <span class="math display">\[
-\symbfit \Sigma_{\text{indep}} =
+\boldsymbol \Sigma_{\text{indep}} =
 \begin{pmatrix} \sigma^2_x &amp; 0 \\ 0 &amp; \sigma^2_y \\ \end{pmatrix} \,.
 \]</span> The product <span class="math display">\[
-\symbfit A= \symbfit \Sigma_{\text{indep}}^{-1} \symbfit \Sigma=
+\boldsymbol A= \boldsymbol \Sigma_{\text{indep}}^{-1} \boldsymbol \Sigma=
 \begin{pmatrix}
 1 &amp; \rho \frac{\sigma_y}{\sigma_x} \\
 \rho \frac{\sigma_x}{\sigma_y} &amp; 1 \\
 \end{pmatrix}
-\]</span> has trace <span class="math inline">\(\text{Tr}(\symbfit A) = 2\)</span> and determinant <span class="math inline">\(\det(\symbfit A) = 1-\rho^2\)</span>.</p>
+\]</span> has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = 2\)</span> and determinant <span class="math inline">\(\det(\boldsymbol A) = 1-\rho^2\)</span>.</p>
 <p>With this the mutual information between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be computed as <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(x, y) &amp;= D_{\text{KL}}(N(\symbfit \mu, \symbfit \Sigma),  N(\symbfit \mu,\symbfit \Sigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(x, y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
-         \text{Tr}\biggl(\symbfit \Sigma^{-1}_{\text{indep}} \symbfit \Sigma\biggr)
-    - \log \det \biggl( \symbfit \Sigma^{-1}_{\text{indep}} \symbfit \Sigma\biggr)
+         \text{Tr}\biggl(\boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
      - 2   \biggr\} \\
 &amp; = \frac{1}{2}   \biggl\{
-         \text{Tr}( \symbfit A)
-    - \log \det( \symbfit A)
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A)
      - 2   \biggr\} \\
 &amp;=  -\frac{1}{2} \log(1-\rho^2) \\
   &amp; \approx \frac{\rho^2}{2} \\
@@ -599,81 +599,81 @@ Figure&nbsp;6.2: Relationship between correlation and mutual information.
 </section>
 <section id="mutual-information-between-two-normally-distributed-random-vectors" class="level3">
 <h3 class="anchored" data-anchor-id="mutual-information-between-two-normally-distributed-random-vectors">Mutual information between two normally distributed random vectors</h3>
-<p>The mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(\symbfit x,\symbfit y)\)</span> between two multivariate normal random vector <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> can be computed in a similar fashion as in the bivariate case.</p>
-<p>Let <span class="math inline">\(\symbfit z= (\symbfit x, \symbfit y)^T\)</span> with dimension <span class="math inline">\(d=p+q\)</span>. The joint multivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\symbfit z) = \symbfit \mu= (\symbfit \mu_x^T, \symbfit \mu_y^T)^T\)</span> and the covariance matrix <span class="math display">\[
-\symbfit \Sigma=
-\begin{pmatrix} \symbfit \Sigma_{\symbfit x} &amp; \symbfit \Sigma_{\symbfit x\symbfit y} \\
-\symbfit \Sigma_{\symbfit x\symbfit y}^T &amp; \symbfit \Sigma_{\symbfit y} \\
+<p>The mutual information <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y)\)</span> between two multivariate normal random vector <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> can be computed in a similar fashion as in the bivariate case.</p>
+<p>Let <span class="math inline">\(\boldsymbol z= (\boldsymbol x, \boldsymbol y)^T\)</span> with dimension <span class="math inline">\(d=p+q\)</span>. The joint multivariate normal distribution is characterised by the mean <span class="math inline">\(\text{E}(\boldsymbol z) = \boldsymbol \mu= (\boldsymbol \mu_x^T, \boldsymbol \mu_y^T)^T\)</span> and the covariance matrix <span class="math display">\[
+\boldsymbol \Sigma=
+\begin{pmatrix} \boldsymbol \Sigma_{\boldsymbol x} &amp; \boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \\
+\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y}^T &amp; \boldsymbol \Sigma_{\boldsymbol y} \\
 \end{pmatrix} \,.
-\]</span> If <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> are independent then <span class="math inline">\(\symbfit \Sigma_{\symbfit x\symbfit y} = 0\)</span> and <span class="math display">\[
-\symbfit \Sigma_{\text{indep}} =
+\]</span> If <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> are independent then <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} = 0\)</span> and <span class="math display">\[
+\boldsymbol \Sigma_{\text{indep}} =
 \begin{pmatrix}  
-\symbfit \Sigma_{\symbfit x} &amp; 0 \\
-0 &amp; \symbfit \Sigma_{\symbfit y} \\
+\boldsymbol \Sigma_{\boldsymbol x} &amp; 0 \\
+0 &amp; \boldsymbol \Sigma_{\boldsymbol y} \\
 \end{pmatrix} \, .
 \]</span> The product <span class="math display">\[
 \begin{split}
-\symbfit A&amp; =
-\symbfit \Sigma_{\text{indep}}^{-1} \symbfit \Sigma=
+\boldsymbol A&amp; =
+\boldsymbol \Sigma_{\text{indep}}^{-1} \boldsymbol \Sigma=
 \begin{pmatrix}
-\symbfit I_p &amp; \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit x\symbfit y} \\
-\symbfit \Sigma_{\symbfit y}^{-1} \symbfit \Sigma_{\symbfit y\symbfit x}    &amp; \symbfit I_q \\
+\boldsymbol I_p &amp; \boldsymbol \Sigma_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol x\boldsymbol y} \\
+\boldsymbol \Sigma_{\boldsymbol y}^{-1} \boldsymbol \Sigma_{\boldsymbol y\boldsymbol x}    &amp; \boldsymbol I_q \\
 \end{pmatrix} \\
 &amp; =
 \begin{pmatrix}
-\symbfit I_p &amp;  \symbfit V_{\symbfit x}^{-1/2} \symbfit P_{\symbfit x}^{-1} \symbfit P_{\symbfit x\symbfit y} \symbfit V_{\symbfit y}^{1/2} \\
-\symbfit V_{\symbfit y}^{-1/2} \symbfit P_{\symbfit y}^{-1} \symbfit P_{\symbfit y\symbfit x} \symbfit V_{\symbfit x}^{1/2}   &amp; \symbfit I_q \\
+\boldsymbol I_p &amp;  \boldsymbol V_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x}^{-1} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol V_{\boldsymbol y}^{1/2} \\
+\boldsymbol V_{\boldsymbol y}^{-1/2} \boldsymbol P_{\boldsymbol y}^{-1} \boldsymbol P_{\boldsymbol y\boldsymbol x} \boldsymbol V_{\boldsymbol x}^{1/2}   &amp; \boldsymbol I_q \\
 \end{pmatrix}\\
 \end{split}
-\]</span> has trace <span class="math inline">\(\text{Tr}(\symbfit A) = d\)</span> and determinant <span class="math display">\[
+\]</span> has trace <span class="math inline">\(\text{Tr}(\boldsymbol A) = d\)</span> and determinant <span class="math display">\[
 \begin{split}
-\det(\symbfit A) &amp; = \det( \symbfit I_p - \symbfit K\symbfit K^T ) \\
-  &amp;= \det( \symbfit I_q - \symbfit K^T \symbfit K) \\
+\det(\boldsymbol A) &amp; = \det( \boldsymbol I_p - \boldsymbol K\boldsymbol K^T ) \\
+  &amp;= \det( \boldsymbol I_q - \boldsymbol K^T \boldsymbol K) \\
 \end{split}
-\]</span> with <span class="math inline">\(\symbfit K= \symbfit P_{\symbfit x}^{-1/2} \symbfit P_{\symbfit x\symbfit y} \symbfit P_{\symbfit y}^{-1/2}\)</span>. With <span class="math inline">\(\lambda_1, \ldots, \lambda_m\)</span> the singular values of <span class="math inline">\(\symbfit K\)</span> (i.e. the canonical correlations between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>) we get <span class="math display">\[
-\det(\symbfit A) =  \prod_{i=1}^m (1-\lambda_i^2)
+\]</span> with <span class="math inline">\(\boldsymbol K= \boldsymbol P_{\boldsymbol x}^{-1/2} \boldsymbol P_{\boldsymbol x\boldsymbol y} \boldsymbol P_{\boldsymbol y}^{-1/2}\)</span>. With <span class="math inline">\(\lambda_1, \ldots, \lambda_m\)</span> the singular values of <span class="math inline">\(\boldsymbol K\)</span> (i.e. the canonical correlations between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>) we get <span class="math display">\[
+\det(\boldsymbol A) =  \prod_{i=1}^m (1-\lambda_i^2)
 \]</span></p>
-<p>The mutual information between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span> is then <span class="math display">\[
+<p>The mutual information between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is then <span class="math display">\[
 \begin{split}
-\text{MI}_{\text{norm}}(\symbfit x, \symbfit y) &amp;= D_{\text{KL}}(N(\symbfit \mu, \symbfit \Sigma),  N(\symbfit \mu,\symbfit \Sigma_{\text{indep}} )) \\
+\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y) &amp;= D_{\text{KL}}(N(\boldsymbol \mu, \boldsymbol \Sigma),  N(\boldsymbol \mu,\boldsymbol \Sigma_{\text{indep}} )) \\
 &amp; = \frac{1}{2}   \biggl\{
-         \text{Tr}\biggl( \symbfit \Sigma^{-1}_{\text{indep}} \symbfit \Sigma\biggr)
-    - \log \det \biggl( \symbfit \Sigma^{-1}_{\text{indep}} \symbfit \Sigma\biggr)
+         \text{Tr}\biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
+    - \log \det \biggl( \boldsymbol \Sigma^{-1}_{\text{indep}} \boldsymbol \Sigma\biggr)
      - d   \biggr\} \\
 &amp; = \frac{1}{2}   \biggl\{
-         \text{Tr}( \symbfit A)
-    - \log \det( \symbfit A)
+         \text{Tr}( \boldsymbol A)
+    - \log \det( \boldsymbol A)
      - d   \biggr\} \\
 &amp;=-\frac{1}{2} \sum_{i=1}^m \log(1-\lambda_i^2)\\
 &amp;=-\frac{1}{2} \log \left( \prod_{i=1}^m (1-\lambda_i^2) \right)\\
-&amp;=-\frac{1}{2} \log \left( 1- \text{VCor}(\symbfit x, \symbfit y)^2 \right)\\
+&amp;=-\frac{1}{2} \log \left( 1- \text{VCor}(\boldsymbol x, \boldsymbol y)^2 \right)\\
 \end{split}
 \]</span></p>
-<p>From the above we see that <span class="math inline">\(\text{MI}_{\text{norm}}(\symbfit x, \symbfit y)\)</span> is simply the sum of the MIs resulting from the individual canonical correlations <span class="math inline">\(\lambda_i\)</span> with the same functional link between the MI and the squared correlation as in the bivariate normal case.</p>
+<p>From the above we see that <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x, \boldsymbol y)\)</span> is simply the sum of the MIs resulting from the individual canonical correlations <span class="math inline">\(\lambda_i\)</span> with the same functional link between the MI and the squared correlation as in the bivariate normal case.</p>
 <p>Furthermore we obtain that <span class="math display">\[
-\text{MI}_{\text{norm}}(\symbfit x,\symbfit y) = -\frac{1}{2} \log(1 - \text{VCor}(\symbfit x, \symbfit y)^2 ) \approx \frac{1}{2} \text{VCor}(\symbfit x, \symbfit y)^2
-\]</span> Thus, in the multivariate case <span class="math inline">\(\text{MI}_{\text{norm}}(\symbfit x\symbfit y)\)</span> has again exactly the same functional relationship with the squared vector correlation <span class="math inline">\(\text{VCor}(\symbfit x, \symbfit y)^2\)</span> as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span> for two univariate variables with squared Pearson correlation <span class="math inline">\(\rho^2\)</span>.</p>
+\text{MI}_{\text{norm}}(\boldsymbol x,\boldsymbol y) = -\frac{1}{2} \log(1 - \text{VCor}(\boldsymbol x, \boldsymbol y)^2 ) \approx \frac{1}{2} \text{VCor}(\boldsymbol x, \boldsymbol y)^2
+\]</span> Thus, in the multivariate case <span class="math inline">\(\text{MI}_{\text{norm}}(\boldsymbol x\boldsymbol y)\)</span> has again exactly the same functional relationship with the squared vector correlation <span class="math inline">\(\text{VCor}(\boldsymbol x, \boldsymbol y)^2\)</span> as the <span class="math inline">\(\text{MI}_{\text{norm}}(x, y)\)</span> for two univariate variables with squared Pearson correlation <span class="math inline">\(\rho^2\)</span>.</p>
 <p>Thus, Rozeboom’s vector correlation emerges as as a special case of mutual information computed for jointly multivariate normally distributed variables.</p>
 </section>
 <section id="using-mi-for-variable-selection" class="level3">
 <h3 class="anchored" data-anchor-id="using-mi-for-variable-selection">Using MI for variable selection</h3>
-<p>A very general way to write down a model predicting <span class="math inline">\(\symbfit y\)</span> by <span class="math inline">\(\symbfit x\)</span> is as follows:</p>
+<p>A very general way to write down a model predicting <span class="math inline">\(\boldsymbol y\)</span> by <span class="math inline">\(\boldsymbol x\)</span> is as follows:</p>
 <ul>
-<li><span class="math inline">\(F_{\symbfit y|\symbfit x}\)</span> is a conditional distribution of <span class="math inline">\(\symbfit y\)</span> given predictors <span class="math inline">\(\symbfit x\)</span> and</li>
-<li><span class="math inline">\(F_{\symbfit y}\)</span> is the marginal distribution of <span class="math inline">\(\symbfit y\)</span> without predictors.</li>
+<li><span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> is a conditional distribution of <span class="math inline">\(\boldsymbol y\)</span> given predictors <span class="math inline">\(\boldsymbol x\)</span> and</li>
+<li><span class="math inline">\(F_{\boldsymbol y}\)</span> is the marginal distribution of <span class="math inline">\(\boldsymbol y\)</span> without predictors.</li>
 </ul>
-<p>Typically <span class="math inline">\(F_{\symbfit y|\symbfit x}\)</span> is a complex model and <span class="math inline">\(F_{\symbfit y}\)</span> a simple model (no predictors). Note that the predictive model can assume any form (incl.&nbsp;nonlinear).</p>
+<p>Typically <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> is a complex model and <span class="math inline">\(F_{\boldsymbol y}\)</span> a simple model (no predictors). Note that the predictive model can assume any form (incl.&nbsp;nonlinear).</p>
 <p>Intriguingly the expected KL divergence between the conditional and the marginal distribution <span class="math display">\[
-\text{E}_{F_{\symbfit x}}\, D_{\text{KL}}(F_{\symbfit y|\symbfit x},  F_{\symbfit y} ) = \text{MI}(\symbfit x, \symbfit y)
-\]</span> is equal to mutual information between <span class="math inline">\(\symbfit x\)</span> and <span class="math inline">\(\symbfit y\)</span>! Thus <span class="math inline">\(\text{MI}(\symbfit x, \symbfit y)\)</span> measures the impact of conditioning. If the MI is small (i.e.&nbsp;close to zero) then <span class="math inline">\(\symbfit x\)</span> is not useful in predicting <span class="math inline">\(\symbfit y\)</span>.</p>
-<p>The above identity can be verified as follows. The KL divergence between <span class="math inline">\(F_{\symbfit y|\symbfit x}\)</span> and <span class="math inline">\(F_{\symbfit y}\)</span> is given by <span class="math display">\[
-D_{\text{KL}}(F_{\symbfit y|\symbfit x}, F_{\symbfit y} )  = \text{E}_{F_{\symbfit y|\symbfit x}}  \log\biggl( \frac{f(\symbfit y|\symbfit x) }{ f(\symbfit y)}  \biggr) \, ,
-\]</span> which is a random variable since it depends on <span class="math inline">\(\symbfit x\)</span>. Taking the expectation with regard to <span class="math inline">\(F_{\symbfit x}\)</span> (the distribution of <span class="math inline">\(\symbfit x\)</span>) we get <span class="math display">\[
+\text{E}_{F_{\boldsymbol x}}\, D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x},  F_{\boldsymbol y} ) = \text{MI}(\boldsymbol x, \boldsymbol y)
+\]</span> is equal to mutual information between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol y\)</span>! Thus <span class="math inline">\(\text{MI}(\boldsymbol x, \boldsymbol y)\)</span> measures the impact of conditioning. If the MI is small (i.e.&nbsp;close to zero) then <span class="math inline">\(\boldsymbol x\)</span> is not useful in predicting <span class="math inline">\(\boldsymbol y\)</span>.</p>
+<p>The above identity can be verified as follows. The KL divergence between <span class="math inline">\(F_{\boldsymbol y|\boldsymbol x}\)</span> and <span class="math inline">\(F_{\boldsymbol y}\)</span> is given by <span class="math display">\[
+D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} )  = \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log\biggl( \frac{f(\boldsymbol y|\boldsymbol x) }{ f(\boldsymbol y)}  \biggr) \, ,
+\]</span> which is a random variable since it depends on <span class="math inline">\(\boldsymbol x\)</span>. Taking the expectation with regard to <span class="math inline">\(F_{\boldsymbol x}\)</span> (the distribution of <span class="math inline">\(\boldsymbol x\)</span>) we get <span class="math display">\[
 \begin{split}
-\text{E}_{F_{\symbfit x}} D_{\text{KL}}(F_{\symbfit y|\symbfit x}, F_{\symbfit y} ) &amp;=
-\text{E}_{F_{\symbfit x}}  \text{E}_{F_{\symbfit y|\symbfit x}}  \log \biggl(\frac{ f(\symbfit y|\symbfit x) f(\symbfit x) }{ f(\symbfit y) f(\symbfit x) } \biggr)\\
+\text{E}_{F_{\boldsymbol x}} D_{\text{KL}}(F_{\boldsymbol y|\boldsymbol x}, F_{\boldsymbol y} ) &amp;=
+\text{E}_{F_{\boldsymbol x}}  \text{E}_{F_{\boldsymbol y|\boldsymbol x}}  \log \biggl(\frac{ f(\boldsymbol y|\boldsymbol x) f(\boldsymbol x) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr)\\
 &amp; =
-\text{E}_{F_{\symbfit x,\symbfit y}}   \log \biggl(\frac{ f(\symbfit x,\symbfit y) }{ f(\symbfit y) f(\symbfit x) } \biggr) = \text{MI}(\symbfit x,\symbfit y) \,. \\
+\text{E}_{F_{\boldsymbol x,\boldsymbol y}}   \log \biggl(\frac{ f(\boldsymbol x,\boldsymbol y) }{ f(\boldsymbol y) f(\boldsymbol x) } \biggr) = \text{MI}(\boldsymbol x,\boldsymbol y) \,. \\
 \end{split}
 \]</span></p>
 <p>Because of this link of MI with conditioning the MI between response and predictor variables is often used for variable and feature selection in general models.</p>
@@ -777,24 +777,24 @@ p(x_1, x_2, \ldots, x_d) = p(x_i | \{x_k\}) \, p(x_j | \{x_k\}) \, p(\{x_k\}) \,
 <p>In the corresponding conditional independence graph note there is no edge between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>, as in such a graph <em>missing edges correspond to conditional independence</em> between the respective non-connected nodes.</p>
 <section id="gaussian-graphical-model" class="level4">
 <h4 class="anchored" data-anchor-id="gaussian-graphical-model">Gaussian graphical model</h4>
-<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e.&nbsp;<span class="math inline">\(\symbfit x\sim N(\symbfit \mu, \symbfit \Sigma)\)</span>, it turns out that it is straightforward to identify the pairwise conditional independencies. From <span class="math inline">\(\symbfit \Sigma\)</span> we first obtain the precision matrix <span class="math display">\[\symbfit \Omega= (\omega_{ij}) = \symbfit \Sigma^{-1} \,.\]</span> Crucially, it can be shown that <span class="math inline">\(\omega_{ij} = 0\)</span> implies <span class="math inline">\(x_i \perp\!\!\!\perp x_j \,|\, \{ x_k \}\)</span>. Hence, from the precision matrix <span class="math inline">\(\symbfit \Omega\)</span> we can directly read off all the pairwise conditional independencies among the variables <span class="math inline">\(x_1, x_2, \ldots, x_d\)</span>.</p>
-<p>Often, the covariance matrix <span class="math inline">\(\symbfit \Sigma\)</span> is dense (few zeros) but the corresponding precision matrix <span class="math inline">\(\symbfit \Omega\)</span> is sparse (many zeros).</p>
+<p>Assuming that <span class="math inline">\(x_1, \ldots, x_d\)</span> are jointly normally distributed, i.e.&nbsp;<span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>, it turns out that it is straightforward to identify the pairwise conditional independencies. From <span class="math inline">\(\boldsymbol \Sigma\)</span> we first obtain the precision matrix <span class="math display">\[\boldsymbol \Omega= (\omega_{ij}) = \boldsymbol \Sigma^{-1} \,.\]</span> Crucially, it can be shown that <span class="math inline">\(\omega_{ij} = 0\)</span> implies <span class="math inline">\(x_i \perp\!\!\!\perp x_j \,|\, \{ x_k \}\)</span>. Hence, from the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can directly read off all the pairwise conditional independencies among the variables <span class="math inline">\(x_1, x_2, \ldots, x_d\)</span>.</p>
+<p>Often, the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span> is dense (few zeros) but the corresponding precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> is sparse (many zeros).</p>
 <p>The conditional independence graph computed for normally distributed variables is called a <strong>Gaussian graphical model</strong>, or short <strong>GGM</strong>. A further alternative name commonly used is <strong>covariance selection model</strong>.</p>
 </section>
 <section id="related-quantity-partial-correlation" class="level4">
 <h4 class="anchored" data-anchor-id="related-quantity-partial-correlation">Related quantity: partial correlation</h4>
-<p>From the precision matrix <span class="math inline">\(\symbfit \Omega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
+<p>From the precision matrix <span class="math inline">\(\boldsymbol \Omega\)</span> we can also compute the matrix of pairwise full conditional <em>partial correlations</em>:</p>
 <p><span class="math display">\[
 \rho_{ij|\text{rest}}=-\frac{\omega_{ij}}{\sqrt{\omega_{ii}\omega_{jj}}}
 \]</span> which is essentially the standardised precision matrix (similar to correlation but with an extra minus sign!)</p>
 <p>The partial correlations lie in the range between -1 and +1, <span class="math inline">\(\rho_{ij|\text{rest}} \in [-1, 1]\)</span>, just like standard correlations.</p>
-<p>If <span class="math inline">\(\symbfit x\)</span> is multivariate normal then <span class="math inline">\(\rho_{ij|\text{rest}} = 0\)</span> indicates conditional independence between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.</p>
+<p>If <span class="math inline">\(\boldsymbol x\)</span> is multivariate normal then <span class="math inline">\(\rho_{ij|\text{rest}} = 0\)</span> indicates conditional independence between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.</p>
 <p><em>Regression interpretation:</em> partial correlation is the correlation that remains between the two variables if the effect of the other variables is “regressed away”. In other words, the partial correlation is exactly equivalent to the correlation between the residuals that remain after regressing <span class="math inline">\(x_i\)</span> on the variables <span class="math inline">\(\{x_k\}\)</span> and <span class="math inline">\(x_j\)</span> on <span class="math inline">\(\{x_k\}\)</span>.</p>
 </section>
 </section>
 <section id="null-distribution-of-the-empirical-correlation-coefficient" class="level3">
 <h3 class="anchored" data-anchor-id="null-distribution-of-the-empirical-correlation-coefficient">Null distribution of the empirical correlation coefficient</h3>
-<p>Suppose we have two uncorrelated random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with <span class="math inline">\(\rho = \text{Cor}(x, y) =0\)</span>. After observing data <span class="math inline">\(x_1, \ldots, x_n\)</span> and <span class="math inline">\(y_1, \ldots, y_n\)</span> we compute the the empirical covariance matrix <span class="math inline">\(\hat{\symbfit \Sigma}_{xy}\)</span> and from it the empirical correlation coefficient <span class="math inline">\(r = \widehat{\text{Cor}}(x, y)\)</span>.</p>
+<p>Suppose we have two uncorrelated random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with <span class="math inline">\(\rho = \text{Cor}(x, y) =0\)</span>. After observing data <span class="math inline">\(x_1, \ldots, x_n\)</span> and <span class="math inline">\(y_1, \ldots, y_n\)</span> we compute the the empirical covariance matrix <span class="math inline">\(\hat{\boldsymbol \Sigma}_{xy}\)</span> and from it the empirical correlation coefficient <span class="math inline">\(r = \widehat{\text{Cor}}(x, y)\)</span>.</p>
 <p>The distribution of the empirical correlation assuming <span class="math inline">\(\rho=0\)</span> is useful as null-model for testing whether the underlying correlation is in fact zero having observed empirical correlation <span class="math inline">\(r\)</span>. If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are normally distributed with <span class="math inline">\(\rho=0\)</span> the distribution of the empirical correlation <span class="math inline">\(r\)</span> has mean <span class="math inline">\(\text{E}(r)=0\)</span> and variance <span class="math inline">\(\text{Var}(r)=\frac{1}{\kappa}\)</span>. Here <span class="math inline">\(\kappa\)</span> is the degree of freedom of the null distribution which for standard correlation is <span class="math inline">\(\kappa=n-1\)</span>. Furthermore, the squared empirical correlation is distributed according to a Beta distribution <span class="math display">\[
 r^2 \sim \text{Beta}\left(\frac{1}{2}, \frac{\kappa-1}{2}\right)
 \]</span></p>
@@ -804,7 +804,7 @@ r^2 \sim \text{Beta}\left(\frac{1}{2}, \frac{\kappa-1}{2}\right)
 <h3 class="anchored" data-anchor-id="algorithm-for-learning-ggms">Algorithm for learning GGMs</h3>
 <p>From the above we can devise a simple algorithm to learn Gaussian graphical model (GGM) from data:</p>
 <ol type="1">
-<li>Estimate covariance <span class="math inline">\(\hat{\symbfit \Sigma}\)</span> (in such a way that it is invertible!)</li>
+<li>Estimate covariance <span class="math inline">\(\hat{\boldsymbol \Sigma}\)</span> (in such a way that it is invertible!)</li>
 <li>Compute corresponding partial correlations</li>
 <li>If <span class="math inline">\(\hat{\rho}_{ij|\text{rest}} \approx 0\)</span> then there is (approx.) conditional independence between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>.</li>
 </ol>
@@ -1176,19 +1176,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
-</div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 

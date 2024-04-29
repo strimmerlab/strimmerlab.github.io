@@ -414,41 +414,41 @@ Figure&nbsp;7.2: Decision boundaries for decision trees and random forests in th
 <h3 class="anchored" data-anchor-id="conditional-multivariate-normal-distribution">Conditional multivariate normal distribution</h3>
 <p>GPs make use of the fact that marginal and conditional distributions of a multivariate normal distribution are also multivariate normal.</p>
 <p><strong>Multivariate normal distribution:</strong></p>
-<p><span class="math display">\[\symbfit z\sim N_d(\symbfit \mu, \symbfit \Sigma)\]</span></p>
+<p><span class="math display">\[\boldsymbol z\sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)\]</span></p>
 <p>Assume: <span class="math display">\[
-\symbfit z=\begin{pmatrix}
-    \symbfit z_1      \\
-    \symbfit z_2      \\
+\boldsymbol z=\begin{pmatrix}
+    \boldsymbol z_1      \\
+    \boldsymbol z_2      \\
 \end{pmatrix}
 \]</span> with <span class="math display">\[
-\symbfit \mu=\begin{pmatrix}
-    \symbfit \mu_1      \\
-    \symbfit \mu_2      \\
+\boldsymbol \mu=\begin{pmatrix}
+    \boldsymbol \mu_1      \\
+    \boldsymbol \mu_2      \\
 \end{pmatrix}
 \]</span> and <span class="math display">\[
-\symbfit \Sigma=\begin{pmatrix}
-    \symbfit \Sigma_{1}   &amp; \symbfit \Sigma_{12}   \\
-    \symbfit \Sigma_{12}^T &amp; \symbfit \Sigma_{2}   \\
+\boldsymbol \Sigma=\begin{pmatrix}
+    \boldsymbol \Sigma_{1}   &amp; \boldsymbol \Sigma_{12}   \\
+    \boldsymbol \Sigma_{12}^T &amp; \boldsymbol \Sigma_{2}   \\
 \end{pmatrix}
 \]</span> with corresponding dimensions <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span> and <span class="math inline">\(d_1+d_2=d\)</span>.</p>
 <p><strong>Marginal distributions:</strong></p>
-<p>Any subset of <span class="math inline">\(\symbfit z\)</span> is also multivariate normally distributed. Specifically, <span class="math display">\[
-\symbfit z_1 \sim N_{d_1}(\symbfit \mu_1, \symbfit \Sigma_{1})
+<p>Any subset of <span class="math inline">\(\boldsymbol z\)</span> is also multivariate normally distributed. Specifically, <span class="math display">\[
+\boldsymbol z_1 \sim N_{d_1}(\boldsymbol \mu_1, \boldsymbol \Sigma_{1})
 \]</span> and <span class="math display">\[
-\symbfit z_2 \sim N_{d_2}(\symbfit \mu_2, \symbfit \Sigma_{2})
+\boldsymbol z_2 \sim N_{d_2}(\boldsymbol \mu_2, \boldsymbol \Sigma_{2})
 \]</span></p>
 <p><strong>Conditional multivariate normal:</strong></p>
 <p>The conditional distribution is also multivariate normal: <span class="math display">\[
-\symbfit z_1 | \symbfit z_2 = \symbfit z_{1 | 2} \sim N_{d_1}(\symbfit \mu_{1|2}, \symbfit \Sigma_{1 | 2})
-\]</span> with <span class="math display">\[\symbfit \mu_{1|2}=\symbfit \mu_1 + \symbfit \Sigma_{12} \symbfit \Sigma_{2}^{-1} (\symbfit z_2 -\symbfit \mu_2)\]</span> and <span class="math display">\[\symbfit \Sigma_{1 | 2}=\symbfit \Sigma_{1} -  \symbfit \Sigma_{12} \symbfit \Sigma_{2}^{-1} \symbfit \Sigma_{12}^T\]</span></p>
-<p><span class="math inline">\(\symbfit z_{1 | 2}\)</span> and <span class="math inline">\(\symbfit \mu_{1|2}\)</span> have dimension <span class="math inline">\(d_1 \times 1\)</span> and <span class="math inline">\(\symbfit \Sigma_{1 | 2}\)</span> has dimension <span class="math inline">\(d_1 \times d_1\)</span>, i.e.&nbsp;the same dimension as the unconditioned variables.</p>
-<p>You may recall the above formula in the context of linear regression, with <span class="math inline">\(y = z_1\)</span> and <span class="math inline">\(\symbfit x= \symbfit z_2\)</span> so that the conditional mean becomes <span class="math display">\[
+\boldsymbol z_1 | \boldsymbol z_2 = \boldsymbol z_{1 | 2} \sim N_{d_1}(\boldsymbol \mu_{1|2}, \boldsymbol \Sigma_{1 | 2})
+\]</span> with <span class="math display">\[\boldsymbol \mu_{1|2}=\boldsymbol \mu_1 + \boldsymbol \Sigma_{12} \boldsymbol \Sigma_{2}^{-1} (\boldsymbol z_2 -\boldsymbol \mu_2)\]</span> and <span class="math display">\[\boldsymbol \Sigma_{1 | 2}=\boldsymbol \Sigma_{1} -  \boldsymbol \Sigma_{12} \boldsymbol \Sigma_{2}^{-1} \boldsymbol \Sigma_{12}^T\]</span></p>
+<p><span class="math inline">\(\boldsymbol z_{1 | 2}\)</span> and <span class="math inline">\(\boldsymbol \mu_{1|2}\)</span> have dimension <span class="math inline">\(d_1 \times 1\)</span> and <span class="math inline">\(\boldsymbol \Sigma_{1 | 2}\)</span> has dimension <span class="math inline">\(d_1 \times d_1\)</span>, i.e.&nbsp;the same dimension as the unconditioned variables.</p>
+<p>You may recall the above formula in the context of linear regression, with <span class="math inline">\(y = z_1\)</span> and <span class="math inline">\(\boldsymbol x= \boldsymbol z_2\)</span> so that the conditional mean becomes <span class="math display">\[
 \begin{split}
-\text{E}(y|\symbfit x) &amp;=\symbfit \mu_y + \symbfit \Sigma_{y\symbfit x} \symbfit \Sigma_{\symbfit x}^{-1} (\symbfit x-\symbfit \mu_{\symbfit x})\\
-&amp;= \beta_0+ \symbfit \beta^T \symbfit x\\
+\text{E}(y|\boldsymbol x) &amp;=\boldsymbol \mu_y + \boldsymbol \Sigma_{y\boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x}^{-1} (\boldsymbol x-\boldsymbol \mu_{\boldsymbol x})\\
+&amp;= \beta_0+ \boldsymbol \beta^T \boldsymbol x\\
 \end{split}
-\]</span> with <span class="math inline">\(\symbfit \beta= \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit xy}\)</span> and <span class="math inline">\(\beta_0 = \symbfit \mu_y-\symbfit \beta^T \symbfit \mu_{\symbfit x}\)</span>, and the corresponding conditional variance is <span class="math display">\[
-\text{Var}(y|\symbfit x) = \sigma^2_y -  \symbfit \Sigma_{y\symbfit x} \symbfit \Sigma_{\symbfit x}^{-1} \symbfit \Sigma_{\symbfit xy} \,.
+\]</span> with <span class="math inline">\(\boldsymbol \beta= \boldsymbol \Sigma_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy}\)</span> and <span class="math inline">\(\beta_0 = \boldsymbol \mu_y-\boldsymbol \beta^T \boldsymbol \mu_{\boldsymbol x}\)</span>, and the corresponding conditional variance is <span class="math display">\[
+\text{Var}(y|\boldsymbol x) = \sigma^2_y -  \boldsymbol \Sigma_{y\boldsymbol x} \boldsymbol \Sigma_{\boldsymbol x}^{-1} \boldsymbol \Sigma_{\boldsymbol xy} \,.
 \]</span></p>
 </section>
 <section id="covariance-functions-and-kernels" class="level3">
@@ -991,19 +991,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
-</div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 

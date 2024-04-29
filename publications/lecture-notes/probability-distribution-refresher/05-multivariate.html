@@ -231,45 +231,45 @@ window.Quarto = {
 <section id="sec-catdist" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="sec-catdist"><span class="header-section-number">5.1</span> Categorical distribution</h2>
 <p>The <strong>categorical distribution</strong> is a generalisation of the Bernoulli distribution from two classes to <span class="math inline">\(K\)</span> classes.</p>
-<p>The categorical distribution <span class="math inline">\(\text{Cat}(\symbfit \pi)\)</span> describes a discrete random variable with <span class="math inline">\(K\)</span> states (“categories”, “classes”, “bins”) where the parameter vector <span class="math inline">\(\symbfit \pi= (\pi_1, \ldots, \pi_K)^T\)</span> specifies the probability of each of class so that <span class="math inline">\(\text{Pr}(\text{"class k"}) = \pi_k\)</span>. The parameters satisfy <span class="math inline">\(\pi_k \in [0,1]\)</span> and <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>, hence there are <span class="math inline">\(K-1\)</span> independent parameters in a categorical distribution (and not <span class="math inline">\(K\)</span>).</p>
+<p>The categorical distribution <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span> describes a discrete random variable with <span class="math inline">\(K\)</span> states (“categories”, “classes”, “bins”) where the parameter vector <span class="math inline">\(\boldsymbol \pi= (\pi_1, \ldots, \pi_K)^T\)</span> specifies the probability of each of class so that <span class="math inline">\(\text{Pr}(\text{"class k"}) = \pi_k\)</span>. The parameters satisfy <span class="math inline">\(\pi_k \in [0,1]\)</span> and <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>, hence there are <span class="math inline">\(K-1\)</span> independent parameters in a categorical distribution (and not <span class="math inline">\(K\)</span>).</p>
 <p>There are two main ways to numerically represent “class k”:</p>
 <ol type="i">
 <li>by “integer encoding”, i.e.&nbsp;by the corresponding integer <span class="math inline">\(k\)</span>.</li>
-<li>by “one hot encoding”, i.e.&nbsp;by an indicator vector <span class="math inline">\(\symbfit x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> containing zeros everywhere except for the element <span class="math inline">\(x_k=1\)</span> at position <span class="math inline">\(k\)</span>. Thus all <span class="math inline">\(x_k \in \{ 0, 1\}\)</span> and <span class="math inline">\(\sum_{k=1}^K x_k = 1\)</span>.</li>
+<li>by “one hot encoding”, i.e.&nbsp;by an indicator vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> containing zeros everywhere except for the element <span class="math inline">\(x_k=1\)</span> at position <span class="math inline">\(k\)</span>. Thus all <span class="math inline">\(x_k \in \{ 0, 1\}\)</span> and <span class="math inline">\(\sum_{k=1}^K x_k = 1\)</span>.</li>
 </ol>
-<p>In the following we use “one hot encoding”. Therefore sampling from a categorical distribution with parameters <span class="math inline">\(\symbfit \pi\)</span> <span class="math display">\[
-\symbfit x\sim \text{Cat}(\symbfit \pi)
-\]</span> yields a random index vector <span class="math inline">\(\symbfit x\)</span>.</p>
-<p>The corresponding probability mass function (PMF) can be written conveniently in terms of <span class="math inline">\(x_k\)</span> as <span class="math display">\[
-p(\symbfit x| \symbfit \pi) = \prod_{k=1}^K \pi_k^{x_k} =
+<p>In the following we use “one hot encoding”. Therefore sampling from a categorical distribution with parameters <span class="math inline">\(\boldsymbol \pi\)</span> <span class="math display">\[
+\boldsymbol x\sim \text{Cat}(\boldsymbol \pi)
+\]</span> yields a random index vector <span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>The corresponding probability mass function (pmf) can be written conveniently in terms of <span class="math inline">\(x_k\)</span> as <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \pi) = \prod_{k=1}^K \pi_k^{x_k} =
 \begin{cases}
    \pi_k  &amp; \text{if } x_k = 1 \\
 \end{cases}
-\]</span> and the log PMF as <span class="math display">\[
-\log p(\symbfit x| \symbfit \pi) = \sum_{k=1}^K x_k \log \pi_k   =
+\]</span> and the log-pmf as <span class="math display">\[
+\log p(\boldsymbol x| \boldsymbol \pi) = \sum_{k=1}^K x_k \log \pi_k   =
 \begin{cases}
    \log \pi_k  &amp; \text{if } x_k = 1 \\
 \end{cases}
 \]</span></p>
 <p>In order to be more explicit that the categorical distribution has <span class="math inline">\(K-1\)</span> and not <span class="math inline">\(K\)</span> parameters we rewrite the log-density with <span class="math inline">\(\pi_K = 1 - \sum_{k=1}^{K-1} \pi_k\)</span> and <span class="math inline">\(x_K = 1 - \sum_{k=1}^{K-1} x_k\)</span> as <span class="math display">\[
 \begin{split}
-\log p(\symbfit x| \symbfit \pi) &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + x_K \log \pi_K \\
+\log p(\boldsymbol x| \boldsymbol \pi) &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + x_K \log \pi_K \\
 &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \\
 \end{split}
 \]</span> Note that there is no particular reason to choose <span class="math inline">\(\pi_K\)</span> as dependent of the probabilities of the other classes, in its place any other of the <span class="math inline">\(\pi_k\)</span> may be selected.</p>
-<p>The expected value is <span class="math inline">\(\text{E}(\symbfit x) = \symbfit \pi\)</span>, in component notation <span class="math inline">\(\text{E}(x_k) = \pi_k\)</span>. The covariance matrix is <span class="math inline">\(\text{Var}(\symbfit x) = \text{Diag}(\symbfit \pi) - \symbfit \pi\symbfit \pi^T\)</span>, which in component notation is <span class="math inline">\(\text{Var}(x_i) = \pi_i (1-\pi_i)\)</span> and <span class="math inline">\(\text{Cov}(x_i, x_j) = -\pi_i \pi_j\)</span>.</p>
-<p>The form of the categorical covariance matrix follows directly from the definition of the variance <span class="math inline">\(\text{Var}(\symbfit x) = \text{E}( \symbfit x\symbfit x^T) - \text{E}( \symbfit x) \text{E}( \symbfit x)^T\)</span> and noting that <span class="math inline">\(x_i^2 = x_i\)</span> and <span class="math inline">\(x_i x_j = 0\)</span> if <span class="math inline">\(i \neq j\)</span>. Furthermore, the categorical covariance matrix is singular by construction, as the <span class="math inline">\(K\)</span> random variables <span class="math inline">\(x_1, \ldots, x_K\)</span> are dependent through the constraint <span class="math inline">\(\sum_{k=1}^K x_k = 1\)</span>.</p>
+<p>The expected value is <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \pi\)</span>, in component notation <span class="math inline">\(\text{E}(x_k) = \pi_k\)</span>. The covariance matrix is <span class="math inline">\(\text{Var}(\boldsymbol x) = \text{Diag}(\boldsymbol \pi) - \boldsymbol \pi\boldsymbol \pi^T\)</span>, which in component notation is <span class="math inline">\(\text{Var}(x_i) = \pi_i (1-\pi_i)\)</span> and <span class="math inline">\(\text{Cov}(x_i, x_j) = -\pi_i \pi_j\)</span>.</p>
+<p>The form of the categorical covariance matrix follows directly from the definition of the variance <span class="math inline">\(\text{Var}(\boldsymbol x) = \text{E}( \boldsymbol x\boldsymbol x^T) - \text{E}( \boldsymbol x) \text{E}( \boldsymbol x)^T\)</span> and noting that <span class="math inline">\(x_i^2 = x_i\)</span> and <span class="math inline">\(x_i x_j = 0\)</span> if <span class="math inline">\(i \neq j\)</span>. Furthermore, the categorical covariance matrix is singular by construction, as the <span class="math inline">\(K\)</span> random variables <span class="math inline">\(x_1, \ldots, x_K\)</span> are dependent through the constraint <span class="math inline">\(\sum_{k=1}^K x_k = 1\)</span>.</p>
 <p>For <span class="math inline">\(K=2\)</span> the categorical distribution reduces to the Bernoulli <span class="math inline">\(\text{Ber}(\theta)\)</span> distribution, with <span class="math inline">\(\pi_1=\theta\)</span> and <span class="math inline">\(\pi_2=1-\theta\)</span> (<a href="04-univariate.html#sec-berdist" class="quarto-xref"><span>Section 4.1</span></a>).</p>
 </section>
 <section id="multinomial-distribution" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="multinomial-distribution"><span class="header-section-number">5.2</span> Multinomial distribution</h2>
-<p>The <strong>multinomial distribution</strong> <span class="math inline">\(\text{Mult}(n, \symbfit \pi)\)</span> arises from repeated categorical sampling, in the same fashion as the binomial distribution arises from repeated Bernoulli sampling. Thus, if <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> are <span class="math inline">\(n\)</span> independent <span class="math inline">\(\text{Cat}(\symbfit \pi)\)</span> random categorical variables then <span class="math inline">\(\symbfit y= \sum_{i=1}^n \symbfit x_i\)</span> is distributed as <span class="math inline">\(\text{Mult}(n, \symbfit \pi)\)</span>.</p>
-<p>The corresponding PMF describes the probability of a pattern <span class="math inline">\(y_1, \ldots, y_K\)</span> of samples distributed across <span class="math inline">\(K\)</span> classes (with <span class="math inline">\(n= \sum_{k=1}^K y_k\)</span>): <span class="math display">\[
-p(\symbfit y| n, \theta) = \binom{n}{y_1, \ldots, y_n} \prod_{k=1}^K \pi_k^{y_k}
+<p>The <strong>multinomial distribution</strong> <span class="math inline">\(\text{Mult}(n, \boldsymbol \pi)\)</span> arises from repeated categorical sampling, in the same fashion as the binomial distribution arises from repeated Bernoulli sampling. Thus, if <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> are <span class="math inline">\(n\)</span> independent <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span> random categorical variables then <span class="math inline">\(\boldsymbol y= \sum_{i=1}^n \boldsymbol x_i\)</span> is distributed as <span class="math inline">\(\text{Mult}(n, \boldsymbol \pi)\)</span>.</p>
+<p>The corresponding pmf describes the probability of a pattern <span class="math inline">\(y_1, \ldots, y_K\)</span> of samples distributed across <span class="math inline">\(K\)</span> classes (with <span class="math inline">\(n= \sum_{k=1}^K y_k\)</span>): <span class="math display">\[
+p(\boldsymbol y| n, \theta) = \binom{n}{y_1, \ldots, y_n} \prod_{k=1}^K \pi_k^{y_k}
 \]</span> where <span class="math inline">\(\binom{n}{y_1, \ldots, y_n}\)</span> is the multinomial coefficient.</p>
-<p>The expected value is <span class="math display">\[\text{E}(\symbfit y) = n \symbfit \pi\]</span> which in component notation is <span class="math inline">\(\text{E}(y_k) = n \pi_k\)</span>. The covariance matrix is <span class="math display">\[\text{Var}(\symbfit y) = n (\text{Diag}(\symbfit \pi) - \symbfit \pi\symbfit \pi^T)
+<p>The expected value is <span class="math display">\[\text{E}(\boldsymbol y) = n \boldsymbol \pi\]</span> which in component notation is <span class="math inline">\(\text{E}(y_k) = n \pi_k\)</span>. The covariance matrix is <span class="math display">\[\text{Var}(\boldsymbol y) = n (\text{Diag}(\boldsymbol \pi) - \boldsymbol \pi\boldsymbol \pi^T)
 \]</span> which in component notation is <span class="math inline">\(\text{Var}(x_i) = n \pi_i (1-\pi_i)\)</span> and <span class="math inline">\(\text{Cov}(x_i, x_j) = -n \pi_i \pi_j\)</span>.</p>
-<p>Standardised to unit interval we get: <span class="math display">\[\frac{y_i}{n} \in \left\{0,\frac{1}{n},\frac{2}{n},...,1\right\}\]</span> <span class="math display">\[\text{E}\left(\frac{\symbfit y}{n}\right) = \symbfit \pi\]</span> <span class="math display">\[\text{Var}\left(\frac{\symbfit y}{n}\right) = \frac{ \text{Diag}(\symbfit \pi)-\symbfit \pi\symbfit \pi^T}{n}\]</span> <span class="math display">\[\text{Var}\left(\frac{y_i}{n}\right)=\frac{\pi_i(1-\pi_i)}{n}\]</span> <span class="math display">\[\text{Cov}\left(\frac{y_i}{n},\frac{y_j}{n}\right)=-\frac{\pi_i\pi_j}{n} \]</span></p>
+<p>Standardised to unit interval we get: <span class="math display">\[\frac{y_i}{n} \in \left\{0,\frac{1}{n},\frac{2}{n},...,1\right\}\]</span> <span class="math display">\[\text{E}\left(\frac{\boldsymbol y}{n}\right) = \boldsymbol \pi\]</span> <span class="math display">\[\text{Var}\left(\frac{\boldsymbol y}{n}\right) = \frac{ \text{Diag}(\boldsymbol \pi)-\boldsymbol \pi\boldsymbol \pi^T}{n}\]</span> <span class="math display">\[\text{Var}\left(\frac{y_i}{n}\right)=\frac{\pi_i(1-\pi_i)}{n}\]</span> <span class="math display">\[\text{Cov}\left(\frac{y_i}{n},\frac{y_j}{n}\right)=-\frac{\pi_i\pi_j}{n} \]</span></p>
 <p>For <span class="math inline">\(n=1\)</span> the multinomial distribution reduces to the categorical distribution (<a href="#sec-catdist" class="quarto-xref"><span>Section 5.1</span></a>).</p>
 <p>For <span class="math inline">\(K=2\)</span> the multinomial distribution reduces to the Binomial distribution (<a href="04-univariate.html#sec-binomdist" class="quarto-xref"><span>Section 4.2</span></a>).</p>
 <div id="fig-urnmultinom" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
@@ -290,12 +290,12 @@ Figure&nbsp;5.1: Multinomial urn model.
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="standard-parametrisation"><span class="header-section-number">5.3.1</span> Standard parametrisation</h3>
 <p>The Dirichlet distribution is the multivariate generalisation of the beta distribution. It is named after <a href="https://en.wikipedia.org/wiki/Peter_Gustav_Lejeune_Dirichlet">Peter Gustav Lejeune Dirichlet (1805–1859)</a>.</p>
 <p>A Dirichlet distributed random vector is denoted by <span class="math display">\[
-\symbfit x\sim \text{Dir}(\symbfit \alpha)
-\]</span> with parameter <span class="math inline">\(\symbfit \alpha= (\alpha_1,...,\alpha_K)^T &gt;0\)</span> and <span class="math inline">\(K\geq 2\)</span> and where the support of <span class="math inline">\(\symbfit x\)</span> is the <span class="math inline">\(K-1\)</span> dimensional simplex with <span class="math inline">\(x_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1} x_i = 1\)</span>.</p>
-<p>The density of the Dirichlet distribution <span class="math inline">\(\text{Dir}(\symbfit \alpha)\)</span> is <span class="math display">\[
-p(\symbfit x| \symbfit \alpha) = \frac{1}{B(\symbfit \alpha)}  \prod_{k=1}^K x_k^{\alpha_k-1}
+\boldsymbol x\sim \text{Dir}(\boldsymbol \alpha)
+\]</span> with parameter <span class="math inline">\(\boldsymbol \alpha= (\alpha_1,...,\alpha_K)^T &gt;0\)</span> and <span class="math inline">\(K\geq 2\)</span> and where the support of <span class="math inline">\(\boldsymbol x\)</span> is the <span class="math inline">\(K-1\)</span> dimensional simplex with <span class="math inline">\(x_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1} x_i = 1\)</span>.</p>
+<p>The density of the Dirichlet distribution <span class="math inline">\(\text{Dir}(\boldsymbol \alpha)\)</span> is <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \alpha) = \frac{1}{B(\boldsymbol \alpha)}  \prod_{k=1}^K x_k^{\alpha_k-1}
 \]</span> This depends on the beta function with multivariate argument defined as <span class="math display">\[
-B(\symbfit z) = \frac{ \prod_{k=1}^K \Gamma(z_k) }{\Gamma\left( \sum_{k=1}^K   z_k\right)}
+B(\boldsymbol z) = \frac{ \prod_{k=1}^K \Gamma(z_k) }{\Gamma\left( \sum_{k=1}^K   z_k\right)}
 \]</span></p>
 <div id="fig-stickdirichlet" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="h">
 <figure class="quarto-float quarto-float-fig figure">
@@ -312,77 +312,77 @@ Figure&nbsp;5.2: Stick breaking visualisation of a Dirichlet random variable.
 </section>
 <section id="mean-parametrisation" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="mean-parametrisation"><span class="header-section-number">5.3.2</span> Mean parametrisation</h3>
-<p>Instead of employing <span class="math inline">\(\symbfit \alpha\)</span> as parameter vector another useful reparametrisation <span class="math inline">\(\text{Dir}(\symbfit \pi, k)\)</span> of the Dirichlet distribution is in terms of a mean parameter <span class="math inline">\(\symbfit \pi\)</span>, with <span class="math inline">\(\pi_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1}\pi_i = 1\)</span>, and a concentration parameter <span class="math inline">\(k &gt; 0\)</span>. These are given by <span class="math display">\[
+<p>Instead of employing <span class="math inline">\(\boldsymbol \alpha\)</span> as parameter vector another useful reparametrisation <span class="math inline">\(\text{Dir}(\boldsymbol \pi, k)\)</span> of the Dirichlet distribution is in terms of a mean parameter <span class="math inline">\(\boldsymbol \pi\)</span>, with <span class="math inline">\(\pi_i \in [0,1]\)</span> and <span class="math inline">\(\sum^{K}_{i=1}\pi_i = 1\)</span>, and a concentration parameter <span class="math inline">\(k &gt; 0\)</span>. These are given by <span class="math display">\[
 k = \sum^{K}_{i=1}\alpha_i
 \]</span> and <span class="math display">\[
-\symbfit \pi= \frac{\symbfit \alpha}{k}
-\]</span> The original parameters can be recovered by <span class="math inline">\(\alpha= \symbfit \pi k\)</span>.</p>
-<p>The mean and variance of the Dirichlet distribution expressed in terms of <span class="math inline">\(\symbfit \pi\)</span> and <span class="math inline">\(k\)</span> are <span class="math display">\[
-\text{E}(\symbfit x) = \symbfit \pi
-\]</span> and <span class="math display">\[\text{Var}\left(\symbfit x\right) = \frac{ \text{Diag}(\symbfit \pi)-\symbfit \pi\symbfit \pi^T}{k+1}\]</span> which in component notation is <span class="math display">\[\text{Var}(x_i)=\frac{\pi_i(1-\pi_i)}{k+1}\]</span> and <span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\pi_i \pi_j}{k+1}\]</span></p>
+\boldsymbol \pi= \frac{\boldsymbol \alpha}{k}
+\]</span> The original parameters can be recovered by <span class="math inline">\(\alpha= \boldsymbol \pi k\)</span>.</p>
+<p>The mean and variance of the Dirichlet distribution expressed in terms of <span class="math inline">\(\boldsymbol \pi\)</span> and <span class="math inline">\(k\)</span> are <span class="math display">\[
+\text{E}(\boldsymbol x) = \boldsymbol \pi
+\]</span> and <span class="math display">\[\text{Var}\left(\boldsymbol x\right) = \frac{ \text{Diag}(\boldsymbol \pi)-\boldsymbol \pi\boldsymbol \pi^T}{k+1}\]</span> which in component notation is <span class="math display">\[\text{Var}(x_i)=\frac{\pi_i(1-\pi_i)}{k+1}\]</span> and <span class="math display">\[\text{Cov}(x_i,x_j)=-\frac{\pi_i \pi_j}{k+1}\]</span></p>
 <p>Finally, note that the mean and variance of the continuous Dirichlet distribution closely match those of the unit-standardised discrete multinomial distribution above.</p>
 </section>
 </section>
 <section id="sec-mvnormaldist" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="sec-mvnormaldist"><span class="header-section-number">5.4</span> Multivariate normal distribution</h2>
-<p>The univariate normal distribution for a random scalar <span class="math inline">\(x\)</span> generalises to the <strong>multivariate normal distribution</strong> for a random vector <span class="math inline">\(\symbfit x= (x_1, x_2,...,x_d)^T\)</span>.</p>
-<p>If <span class="math inline">\(\symbfit x\)</span> follows a multivariate normal distribution we write <span class="math display">\[
-\symbfit x\sim N_d(\symbfit \mu, \symbfit \Sigma)
-\]</span> where <span class="math inline">\(\symbfit \mu\)</span> is the mean (location) parameter and <span class="math inline">\(\symbfit \Sigma\)</span> the variance (scale) parameter.</p>
+<p>The univariate normal distribution for a random scalar <span class="math inline">\(x\)</span> generalises to the <strong>multivariate normal distribution</strong> for a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T\)</span>.</p>
+<p>If <span class="math inline">\(\boldsymbol x\)</span> follows a multivariate normal distribution we write <span class="math display">\[
+\boldsymbol x\sim N_d(\boldsymbol \mu, \boldsymbol \Sigma)
+\]</span> where <span class="math inline">\(\boldsymbol \mu\)</span> is the mean (location) parameter and <span class="math inline">\(\boldsymbol \Sigma\)</span> the variance (scale) parameter.</p>
 <p>The corresponding density is</p>
 <p><span class="math display">\[
-p(\symbfit x| \symbfit \mu, \symbfit \Sigma) = \det(2 \pi \symbfit \Sigma)^{-1/2} \exp\left(-\frac{1}{2} (\symbfit x-\symbfit \mu)^T \symbfit \Sigma^{-1} (\symbfit x-\symbfit \mu)   \right)
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = \det(2 \pi \boldsymbol \Sigma)^{-1/2} \exp\left(-\frac{1}{2} (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)   \right)
 \]</span></p>
-<p>As <span class="math inline">\(\det(2 \pi \symbfit \Sigma)^{-1/2} = \det(2 \pi \symbfit I_d)^{-1/2} \det(\symbfit \Sigma)^{-1/2} =  (2 \pi)^{-d/2} \det(\symbfit \Sigma)^{-1/2}\)</span> the density can also be written as <span class="math display">\[
-p(\symbfit x| \symbfit \mu, \symbfit \Sigma) = (2\pi)^{-d/2} \det(\symbfit \Sigma)^{-1/2} \exp\left(-\frac{1}{2} (\symbfit x-\symbfit \mu)^T \symbfit \Sigma^{-1} (\symbfit x-\symbfit \mu)   \right)
+<p>As <span class="math inline">\(\det(2 \pi \boldsymbol \Sigma)^{-1/2} = \det(2 \pi \boldsymbol I_d)^{-1/2} \det(\boldsymbol \Sigma)^{-1/2} =  (2 \pi)^{-d/2} \det(\boldsymbol \Sigma)^{-1/2}\)</span> the density can also be written as <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = (2\pi)^{-d/2} \det(\boldsymbol \Sigma)^{-1/2} \exp\left(-\frac{1}{2} (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)   \right)
 \]</span> i.e.&nbsp;with explicit occurrence of the dimension <span class="math inline">\(d\)</span>.</p>
-<p>The expectation of <span class="math inline">\(\symbfit x\)</span> is <span class="math inline">\(\text{E}(\symbfit x) = \symbfit \mu\)</span> and the variance is <span class="math inline">\(\text{Var}(\symbfit x) = \symbfit \Sigma\)</span>.</p>
-<p>For <span class="math inline">\(d=1\)</span> the random vector <span class="math inline">\(\symbfit x=x\)</span> is a scalar and <span class="math inline">\(\symbfit \mu= \mu\)</span> and <span class="math inline">\(\symbfit \Sigma= \sigma^2\)</span> and the multivariate normal density reduces to the univariate normal density (<a href="04-univariate.html#sec-normaldist" class="quarto-xref"><span>Section 4.4</span></a>).</p>
+<p>The expectation of <span class="math inline">\(\boldsymbol x\)</span> is <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> and the variance is <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma\)</span>.</p>
+<p>For <span class="math inline">\(d=1\)</span> the random vector <span class="math inline">\(\boldsymbol x=x\)</span> is a scalar and <span class="math inline">\(\boldsymbol \mu= \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma= \sigma^2\)</span> and the multivariate normal density reduces to the univariate normal density (<a href="04-univariate.html#sec-normaldist" class="quarto-xref"><span>Section 4.4</span></a>).</p>
 </section>
 <section id="wishart-distribution" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="wishart-distribution"><span class="header-section-number">5.5</span> Wishart distribution</h2>
 <p>The Wishart distribution is a multivariate generalisation of the gamma distribution.</p>
 <p>Recall that the gamma distribution can be motivated as the distribution of sums of squared normal random variables. Likewise, the Wishart distribution can be understood as the sum of squared multivariate normal variables: <span class="math display">\[
-\symbfit z_1,\symbfit z_2,\ldots,\symbfit z_k \stackrel{\text{iid}}\sim N_d(0,\symbfit S)
+\boldsymbol z_1,\boldsymbol z_2,\ldots,\boldsymbol z_k \stackrel{\text{iid}}\sim N_d(0,\boldsymbol S)
 \]</span><br>
-with <span class="math inline">\(\symbfit S=(s_{ij})\)</span> the specified covariance matrix. The random variable <span class="math display">\[\underbrace{\symbfit X}_{d\times d}=\sum^{k}_{i=1}\underbrace{\symbfit z_i\symbfit z_i^T}_{d\times d}\]</span><br>
+with <span class="math inline">\(\boldsymbol S=(s_{ij})\)</span> the specified covariance matrix. The random variable <span class="math display">\[\underbrace{\boldsymbol X}_{d\times d}=\sum^{k}_{i=1}\underbrace{\boldsymbol z_i\boldsymbol z_i^T}_{d\times d}\]</span><br>
 is a random <em>matrix</em> and is distributed as <span class="math display">\[
-\symbfit X\sim  \text{W}_d\left(\symbfit S, k\right)
+\boldsymbol X\sim  \text{W}_d\left(\boldsymbol S, k\right)
 \]</span> with mean <span class="math display">\[
-\text{E}(\symbfit X) = k \symbfit S
+\text{E}(\boldsymbol X) = k \boldsymbol S
 \]</span> and variances <span class="math display">\[
 \text{Var}(x_{ij})  = k \left(s^2_{ij}+s_{ii} s_{jj}  \right)
 \]</span></p>
 <p>We often also employ the Wishart distribution in <strong>mean parametrisation</strong> <span class="math display">\[
-\text{W}_d\left(\symbfit S= \frac{\symbfit M}{k}, k \right)
-\]</span> with parameters <span class="math inline">\(\symbfit M= k \symbfit S\)</span> and <span class="math inline">\(k\)</span>. In this parametrisation the mean is <span class="math display">\[
-\text{E}(\symbfit X) = \symbfit M= (\mu_{ij})
+\text{W}_d\left(\boldsymbol S= \frac{\boldsymbol M}{k}, k \right)
+\]</span> with parameters <span class="math inline">\(\boldsymbol M= k \boldsymbol S\)</span> and <span class="math inline">\(k\)</span>. In this parametrisation the mean is <span class="math display">\[
+\text{E}(\boldsymbol X) = \boldsymbol M= (\mu_{ij})
 \]</span> and variances are <span class="math display">\[
 \text{Var}(x_{ij})  = \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{k}
 \]</span></p>
-<p>If <span class="math inline">\(\symbfit S\)</span> or <span class="math inline">\(\symbfit M\)</span> is a scalar rather than a matrix then the multivariate Wishart distribution reduces to the univariate Wishart aka gamma distribution (<a href="04-univariate.html#sec-gamdist" class="quarto-xref"><span>Section 4.5</span></a>).</p>
+<p>If <span class="math inline">\(\boldsymbol S\)</span> or <span class="math inline">\(\boldsymbol M\)</span> is a scalar rather than a matrix then the multivariate Wishart distribution reduces to the univariate Wishart aka gamma distribution (<a href="04-univariate.html#sec-gamdist" class="quarto-xref"><span>Section 4.5</span></a>).</p>
 </section>
 <section id="inverse-wishart-distribution" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="inverse-wishart-distribution"><span class="header-section-number">5.6</span> Inverse Wishart distribution</h2>
 <p>The inverse Wishart distribution is a multivariate generalisation of the inverse gamma distribution and is linked to the Wishart distribution.</p>
-<p>A random matrix <span class="math inline">\(\symbfit X\)</span> following an <strong>inverse Wishart distribution</strong> is denoted by <span class="math display">\[
-\symbfit X\sim \text{W}^{-1}_d\left(\symbfit \Psi, \nu\right)
-\]</span> where <span class="math inline">\(\symbfit \Psi\)</span> is the scale parameter and <span class="math inline">\(\nu\)</span> the shape parameter. The corresponding mean is given by <span class="math display">\[
-\text{E}(\symbfit X) = \frac{\symbfit \Psi}{\nu-d-1}
+<p>A random matrix <span class="math inline">\(\boldsymbol X\)</span> following an <strong>inverse Wishart distribution</strong> is denoted by <span class="math display">\[
+\boldsymbol X\sim \text{W}^{-1}_d\left(\boldsymbol \Psi, \nu\right)
+\]</span> where <span class="math inline">\(\boldsymbol \Psi\)</span> is the scale parameter and <span class="math inline">\(\nu\)</span> the shape parameter. The corresponding mean is given by <span class="math display">\[
+\text{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{\nu-d-1}
 \]</span> and the variances are <span class="math display">\[
 \text{Var}(x_{ij})= \frac{(\nu-d+1) \psi_{ij}^2 + (\nu-d-1) \, \psi_{ii} \psi_{jj} }{(\nu-d)(\nu-d-1)^2(\nu-d-3)}
 \]</span></p>
-<p>The inverse of <span class="math inline">\(\symbfit X\)</span> is then Wishart distributed: <span class="math display">\[
-\symbfit X^{-1} \sim \text{W}_d\left( \symbfit S= \symbfit \Psi^{-1}   \, , k = \nu \right)
+<p>The inverse of <span class="math inline">\(\boldsymbol X\)</span> is then Wishart distributed: <span class="math display">\[
+\boldsymbol X^{-1} \sim \text{W}_d\left( \boldsymbol S= \boldsymbol \Psi^{-1}   \, , k = \nu \right)
 \]</span></p>
-<p>Instead of <span class="math inline">\(\symbfit \Psi\)</span> and <span class="math inline">\(\nu\)</span> we may use the mean parametrisation with parameters <span class="math inline">\(\kappa = \nu-d-1\)</span> and <span class="math inline">\(\symbfit M= \symbfit \Psi/(\nu-d-1)\)</span>: <span class="math display">\[
-\symbfit X\sim \text{W}^{-1}_d\left(\symbfit \Psi=  \kappa  \symbfit M\, , \, \nu= \kappa+d+1\right)
+<p>Instead of <span class="math inline">\(\boldsymbol \Psi\)</span> and <span class="math inline">\(\nu\)</span> we may use the mean parametrisation with parameters <span class="math inline">\(\kappa = \nu-d-1\)</span> and <span class="math inline">\(\boldsymbol M= \boldsymbol \Psi/(\nu-d-1)\)</span>: <span class="math display">\[
+\boldsymbol X\sim \text{W}^{-1}_d\left(\boldsymbol \Psi=  \kappa  \boldsymbol M\, , \, \nu= \kappa+d+1\right)
 \]</span> with mean <span class="math display">\[
-\text{E}(\symbfit X) =\symbfit M
+\text{E}(\boldsymbol X) =\boldsymbol M
 \]</span> and variances <span class="math display">\[
 \text{Var}(x_{ij})= \frac{(\kappa+2) \mu_{ij}^2 + \kappa \, \mu_{ii} \mu_{jj} }{(\kappa + 1)(\kappa-2)}
 \]</span></p>
-<p>If <span class="math inline">\(\symbfit \Psi\)</span> or <span class="math inline">\(\symbfit M\)</span> is a scalar rather than a matrix then the multivariate inverse Wishart distribution reduces to the univariate inverse Wishart aka inverse gamma distribution (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+<p>If <span class="math inline">\(\boldsymbol \Psi\)</span> or <span class="math inline">\(\boldsymbol M\)</span> is a scalar rather than a matrix then the multivariate inverse Wishart distribution reduces to the univariate inverse Wishart aka inverse gamma distribution (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
 
 
 </section>
@@ -691,19 +691,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
-</div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 

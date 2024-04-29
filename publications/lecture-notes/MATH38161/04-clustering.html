@@ -340,7 +340,7 @@ window.Quarto = {
 <h2 data-number="4.1" class="anchored" data-anchor-id="challenges-in-unsupervised-learning"><span class="header-section-number">4.1</span> Challenges in unsupervised learning</h2>
 <section id="objective" class="level3">
 <h3 class="anchored" data-anchor-id="objective">Objective</h3>
-<p>We observe data <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects). Each sample <span class="math inline">\(\symbfit x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables. The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\symbfit x_i\)</span>. Note that in unsupervised learning we use <em>only</em> the information in <span class="math inline">\(\symbfit x_i\)</span> and nothing else.</p>
+<p>We observe data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects). Each sample <span class="math inline">\(\boldsymbol x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables. The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\boldsymbol x_i\)</span>. Note that in unsupervised learning we use <em>only</em> the information in <span class="math inline">\(\boldsymbol x_i\)</span> and nothing else.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-prcompiris" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
@@ -507,47 +507,47 @@ Table&nbsp;4.1: Number of ways to partition <span class="math inline">\(n\)</spa
 </ol>
 <p>For actual implementation of this algorithm two key ingredients are needed:</p>
 <ol type="1">
-<li>a distance measure <span class="math inline">\(d(\symbfit a, \symbfit b)\)</span> between two individual elementary data points <span class="math inline">\(\symbfit a\)</span> and <span class="math inline">\(\symbfit b\)</span>.</li>
+<li>a distance measure <span class="math inline">\(d(\boldsymbol a, \boldsymbol b)\)</span> between two individual elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span>.</li>
 </ol>
 <blockquote class="blockquote">
 <p>This is typically one of the following:</p>
 </blockquote>
 <blockquote class="blockquote">
 <ul>
-<li>Euclidean distance <span class="math inline">\(d(\symbfit a, \symbfit b) = \sqrt{\sum_{i=1}^d ( a_i-b_i )^2} = \sqrt{(\symbfit a-\symbfit b)^T (\symbfit a-\symbfit b)}\)</span></li>
-<li>Squared Euclidean distance <span class="math inline">\(d(\symbfit a, \symbfit b) = (\symbfit a-\symbfit b)^T (\symbfit a-\symbfit b)\)</span></li>
-<li>Manhattan distance <span class="math inline">\(d(\symbfit a, \symbfit b) = \sum_{i=1}^d | a_i-b_i |\)</span></li>
-<li>Maximum norm <span class="math inline">\(d(\symbfit a, \symbfit b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span></li>
+<li>Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sqrt{\sum_{i=1}^d ( a_i-b_i )^2} = \sqrt{(\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)}\)</span></li>
+<li>Squared Euclidean distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a-\boldsymbol b)^T (\boldsymbol a-\boldsymbol b)\)</span></li>
+<li>Manhattan distance <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \sum_{i=1}^d | a_i-b_i |\)</span></li>
+<li>Maximum norm <span class="math inline">\(d(\boldsymbol a, \boldsymbol b) = \underset{i \in \{1, \ldots, d\}}{\max} | a_i-b_i |\)</span></li>
 </ul>
 </blockquote>
 <blockquote class="blockquote">
 <p>In the end, making the correct choice of distance will require subject knowledge about the data!</p>
 </blockquote>
 <ol start="2" type="1">
-<li>a distance measure <span class="math inline">\(d(A, B)\)</span> between two sets of objects <span class="math inline">\(A=\{\symbfit a_1, \symbfit a_2, \ldots,  \symbfit a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\symbfit b_1, \symbfit b_2, \ldots, \symbfit b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively.</li>
+<li>a distance measure <span class="math inline">\(d(A, B)\)</span> between two sets of objects <span class="math inline">\(A=\{\boldsymbol a_1, \boldsymbol a_2, \ldots,  \boldsymbol a_{n_A} \}\)</span> and <span class="math inline">\(B=\{\boldsymbol b_1, \boldsymbol b_2, \ldots, \boldsymbol b_{n_B}\}\)</span> of size <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span>, respectively.</li>
 </ol>
 <blockquote class="blockquote">
 <p>To determine the distance <span class="math inline">\(d(A, B)\)</span> between these two sets the following measures are often employed:</p>
 </blockquote>
 <blockquote class="blockquote">
 <ul>
-<li><strong>complete linkage</strong> (max. distance): <span class="math inline">\(d(A, B) = \underset{\symbfit a_i \in A, \symbfit b_i \in B}{\max} d(\symbfit a_i, \symbfit b_i)\)</span></li>
-<li><strong>single linkage</strong> (min. distance): <span class="math inline">\(d(A, B) = \underset{\symbfit a_i \in A, \symbfit b_i \in B}{\min} d(\symbfit a_i, \symbfit b_i)\)</span></li>
-<li><strong>average linkage</strong> (avg. distance): <span class="math inline">\(d(A, B) = \frac{1}{n_A n_B} \sum_{\symbfit a_i \in A} \sum_{\symbfit b_i \in B} d(\symbfit a_i, \symbfit b_i)\)</span></li>
+<li><strong>complete linkage</strong> (max. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\max} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
+<li><strong>single linkage</strong> (min. distance): <span class="math inline">\(d(A, B) = \underset{\boldsymbol a_i \in A, \boldsymbol b_i \in B}{\min} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
+<li><strong>average linkage</strong> (avg. distance): <span class="math inline">\(d(A, B) = \frac{1}{n_A n_B} \sum_{\boldsymbol a_i \in A} \sum_{\boldsymbol b_i \in B} d(\boldsymbol a_i, \boldsymbol b_i)\)</span></li>
 </ul>
 </blockquote>
 </section>
 <section id="wards-clustering-method" class="level3">
 <h3 class="anchored" data-anchor-id="wards-clustering-method">Ward’s clustering method</h3>
-<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> (see also <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>). In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <strong>smallest increase in within-group variation</strong>. The centroids of the two sets is given by <span class="math inline">\(\symbfit \mu_A = \frac{1}{n_A} \sum_{\symbfit a_i \in A} \symbfit a_i\)</span> and <span class="math inline">\(\symbfit \mu_B = \frac{1}{n_B} \sum_{\symbfit b_i \in B} \symbfit b_i\)</span>.</p>
+<p>Another agglomerative hierarchical procedure is <strong>Ward’s minimum variance approach</strong> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> (see also <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>). In this approach in each iteration the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are merged that lead to the <strong>smallest increase in within-group variation</strong>. The centroids of the two sets is given by <span class="math inline">\(\boldsymbol \mu_A = \frac{1}{n_A} \sum_{\boldsymbol a_i \in A} \boldsymbol a_i\)</span> and <span class="math inline">\(\boldsymbol \mu_B = \frac{1}{n_B} \sum_{\boldsymbol b_i \in B} \boldsymbol b_i\)</span>.</p>
 <p>The within-group sum of squares for group <span class="math inline">\(A\)</span> is <span class="math display">\[
-w_A = \sum_{\symbfit a_i \in A} (\symbfit a_i -\symbfit \mu_A)^T (\symbfit a_i -\symbfit \mu_A)
-\]</span> and is computed here on the basis of the difference of the observations <span class="math inline">\(\symbfit a_i\)</span> relative to their mean <span class="math inline">\(\symbfit \mu_A\)</span>. However, since we typically only have pairwise distances available we don’t know the group means so this formula can’t be applied. Fortunately, it is also possible to compute <span class="math inline">\(w_A\)</span> using only the pairwise differences using <span class="math display">\[
-w_A = \frac{1}{n_A} \sum_{\symbfit a_i, \symbfit a_j \in A, i &lt; j} (\symbfit a_i -\symbfit a_j)^T (\symbfit a_i -\symbfit a_j)
+w_A = \sum_{\boldsymbol a_i \in A} (\boldsymbol a_i -\boldsymbol \mu_A)^T (\boldsymbol a_i -\boldsymbol \mu_A)
+\]</span> and is computed here on the basis of the difference of the observations <span class="math inline">\(\boldsymbol a_i\)</span> relative to their mean <span class="math inline">\(\boldsymbol \mu_A\)</span>. However, since we typically only have pairwise distances available we don’t know the group means so this formula can’t be applied. Fortunately, it is also possible to compute <span class="math inline">\(w_A\)</span> using only the pairwise differences using <span class="math display">\[
+w_A = \frac{1}{n_A} \sum_{\boldsymbol a_i, \boldsymbol a_j \in A, i &lt; j} (\boldsymbol a_i -\boldsymbol a_j)^T (\boldsymbol a_i -\boldsymbol a_j)
 \]</span> This trick is employed in Ward’s clustering method by constructing a distance measure between two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> as <span class="math display">\[
 d(A, B) = w_{A \cup B} - w_A -w_B \,
-\]</span> and using as the distance between two elementary data points <span class="math inline">\(\symbfit a\)</span> and <span class="math inline">\(\symbfit b\)</span> the squared Euclidean distance <span class="math display">\[
-d(\symbfit a, \symbfit b) = (\symbfit a- \symbfit b)^T (\symbfit a- \symbfit b) \, .
+\]</span> and using as the distance between two elementary data points <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> the squared Euclidean distance <span class="math display">\[
+d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol a- \boldsymbol b) \, .
 \]</span></p>
 </section>
 <section id="application-to-swiss-banknote-data-set" class="level3">
@@ -657,27 +657,27 @@ Figure&nbsp;4.6: Single linkage clustering of Swiss banknote data.
 <h3 class="anchored" data-anchor-id="set-up">Set-up</h3>
 <ul>
 <li>We assume that there are <span class="math inline">\(K\)</span> groups (i.e.&nbsp;<span class="math inline">\(K\)</span> is known in advance).</li>
-<li>For each group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> we assume a group mean <span class="math inline">\(\symbfit \mu_k\)</span>.</li>
-<li>Aim: partition the data points <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> into <span class="math inline">\(K\)</span> non-overlapping groups.</li>
-<li>Each of the <span class="math inline">\(n\)</span> data points <span class="math inline">\(\symbfit x_i\)</span> is assigned to exactly one of the <span class="math inline">\(K\)</span> groups.</li>
+<li>For each group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span> we assume a group mean <span class="math inline">\(\boldsymbol \mu_k\)</span>.</li>
+<li>Aim: partition the data points <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> into <span class="math inline">\(K\)</span> non-overlapping groups.</li>
+<li>Each of the <span class="math inline">\(n\)</span> data points <span class="math inline">\(\boldsymbol x_i\)</span> is assigned to exactly one of the <span class="math inline">\(K\)</span> groups.</li>
 <li>Maximise the homogeneity within each group (i.e.&nbsp;each group should contain similar objects).</li>
 <li>Maximise the heterogeneity between the different groups (i.e each group should differ from the other groups).</li>
 </ul>
 </section>
 <section id="algorithm" class="level3">
 <h3 class="anchored" data-anchor-id="algorithm">Algorithm</h3>
-<p>After running <span class="math inline">\(K\)</span>-means we will get estimates of <span class="math inline">\(\hat{\symbfit \mu}_k\)</span> of the group means, as well allocations <span class="math inline">\(y_i \in \{1, \ldots, K\}\)</span> of each data point <span class="math inline">\(\symbfit x_i\)</span> to one of the classes.</p>
+<p>After running <span class="math inline">\(K\)</span>-means we will get estimates of <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> of the group means, as well allocations <span class="math inline">\(y_i \in \{1, \ldots, K\}\)</span> of each data point <span class="math inline">\(\boldsymbol x_i\)</span> to one of the classes.</p>
 <p><em>Initialisation:</em></p>
-<p>At the start of the algorithm the <span class="math inline">\(n\)</span> observations <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> are randomly allocated with equal probability to one of the <span class="math inline">\(K\)</span> groups. The resulting assignment is <span class="math inline">\(y_1, \ldots, y_n\)</span>, with each <span class="math inline">\(y_i=\{1, \ldots, K\}\)</span>. With <span class="math inline">\(G_k = \{ i | y_i = k\}\)</span> we denote the set of indices of the data points in cluster <span class="math inline">\(k\)</span>, and with <span class="math inline">\(n_k = | G_k |\)</span> the number of samples in cluster <span class="math inline">\(k\)</span>.</p>
+<p>At the start of the algorithm the <span class="math inline">\(n\)</span> observations <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> are randomly allocated with equal probability to one of the <span class="math inline">\(K\)</span> groups. The resulting assignment is <span class="math inline">\(y_1, \ldots, y_n\)</span>, with each <span class="math inline">\(y_i=\{1, \ldots, K\}\)</span>. With <span class="math inline">\(G_k = \{ i | y_i = k\}\)</span> we denote the set of indices of the data points in cluster <span class="math inline">\(k\)</span>, and with <span class="math inline">\(n_k = | G_k |\)</span> the number of samples in cluster <span class="math inline">\(k\)</span>.</p>
 <p><em>Iterative refinement:</em></p>
 <ol type="1">
 <li>Estimate the group means by <span class="math display">\[
-\hat{\symbfit \mu}_k = \frac{1}{n_k} \sum_{i \in G_k} \symbfit x_i
+\hat{\boldsymbol \mu}_k = \frac{1}{n_k} \sum_{i \in G_k} \boldsymbol x_i
 \]</span></li>
-<li>Update the group allocations <span class="math inline">\(y_i\)</span>. Specifically, assign each data point <span class="math inline">\(\symbfit x_i\)</span> to the group <span class="math inline">\(k\)</span> with the nearest <span class="math inline">\(\hat{\symbfit \mu}_k\)</span>. The distance is measured in terms of the Euclidean norm: <span class="math display">\[
+<li>Update the group allocations <span class="math inline">\(y_i\)</span>. Specifically, assign each data point <span class="math inline">\(\boldsymbol x_i\)</span> to the group <span class="math inline">\(k\)</span> with the nearest <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span>. The distance is measured in terms of the Euclidean norm: <span class="math display">\[
 \begin{split}
-y_i &amp; = \underset{k}{\arg \min} \,  \left| \symbfit x_i-\hat{\symbfit \mu}_k \right|_2 \\
-      &amp; = \underset{k}{\arg \min} \, \left(\symbfit x_i-\hat{\symbfit \mu}_k\right)^T \left(\symbfit x_i-\hat{\symbfit \mu}_k\right) \\
+y_i &amp; = \underset{k}{\arg \min} \,  \left| \boldsymbol x_i-\hat{\boldsymbol \mu}_k \right|_2 \\
+      &amp; = \underset{k}{\arg \min} \, \left(\boldsymbol x_i-\hat{\boldsymbol \mu}_k\right)^T \left(\boldsymbol x_i-\hat{\boldsymbol \mu}_k\right) \\
 \end{split}
 \]</span></li>
 </ol>
@@ -694,13 +694,13 @@ y_i &amp; = \underset{k}{\arg \min} \,  \left| \symbfit x_i-\hat{\symbfit \mu}_k
 <p>Once the <span class="math inline">\(K\)</span>-means algorithm has run we can assess the homogeneity and heterogeneity of the resulting clusters:</p>
 <ol type="a">
 <li><p>the total within-group sum of squares <span class="math inline">\(SSW\)</span> (in R: <code>tot.withinss</code>), or total unexplained sum of squares: <span class="math display">\[
-SSW = \sum_{k=1}^K \, \sum_{i \in G_k} (\symbfit x_i -\hat{\symbfit \mu}_k)^T (\symbfit x_i -\hat{\symbfit \mu}_k)
+SSW = \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
 \]</span> This quantity decreases with <span class="math inline">\(K\)</span> and is zero for <span class="math inline">\(K=n\)</span>. The <span class="math inline">\(K\)</span>-means algorithm tries to minimise this quantity but it will typically only find a local minimum rather than the global one.</p></li>
 <li><p>the between-group sum of squares <span class="math inline">\(SSB\)</span> (in R: <code>betweenss</code>), or explained sum of squares: <span class="math display">\[
-SSB = \sum_{k=1}^K n_k (\hat{\symbfit \mu}_k - \hat{\symbfit \mu}_0)^T (\hat{\symbfit \mu}_k - \hat{\symbfit \mu}_0)
-\]</span> where <span class="math inline">\(\hat{\symbfit \mu}_0 = \frac{1}{n} \sum_{i=1}^n \symbfit x_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\symbfit \mu}_k\)</span> is the global mean of the samples. <span class="math inline">\(SSB\)</span> increases with the number of clusters <span class="math inline">\(K\)</span> until for <span class="math inline">\(K=n\)</span> it becomes equal to the total sum of squares <span class="math inline">\(SST\)</span>.</p></li>
+SSB = \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)
+\]</span> where <span class="math inline">\(\hat{\boldsymbol \mu}_0 = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \frac{1}{n} \sum_{k=1}^K n_k \hat{\boldsymbol \mu}_k\)</span> is the global mean of the samples. <span class="math inline">\(SSB\)</span> increases with the number of clusters <span class="math inline">\(K\)</span> until for <span class="math inline">\(K=n\)</span> it becomes equal to the total sum of squares <span class="math inline">\(SST\)</span>.</p></li>
 <li><p>the total sum of squares <span class="math display">\[
-SST = \sum_{i=1}^n (\symbfit x_i - \hat{\symbfit \mu}_0)^T (\symbfit x_i - \hat{\symbfit \mu}_0) \, .
+SST = \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0) \, .
 \]</span> By construction <span class="math inline">\(SST = SSB + SSW\)</span> for any <span class="math inline">\(K\)</span> (i.e.&nbsp;<span class="math inline">\(SST\)</span> is a constant independent of <span class="math inline">\(K\)</span>).</p></li>
 </ol>
 <p>Dividing the sum of squares by the sample size <span class="math inline">\(n\)</span> we get</p>
@@ -717,7 +717,7 @@ SST = \sum_{i=1}^n (\symbfit x_i - \hat{\symbfit \mu}_0)^T (\symbfit x_i - \hat{
 <p>A closely related clustering method is <span class="math inline">\(K\)</span>-medoids or PAM (“Partitioning Around Medoids”).</p>
 <p>This works exactly like <span class="math inline">\(K\)</span>-means, only that</p>
 <ul>
-<li>instead of the estimated group means <span class="math inline">\(\hat{\symbfit \mu}_k\)</span> one member of each group is selected as its representative (the so-called “medoid”)</li>
+<li>instead of the estimated group means <span class="math inline">\(\hat{\boldsymbol \mu}_k\)</span> one member of each group is selected as its representative (the so-called “medoid”)</li>
 <li>instead of squared Euclidean distance other dissimilarity measures are also allowed.</li>
 </ul>
 </section>
@@ -742,23 +742,23 @@ Figure&nbsp;4.7: Pairwise scatter plots for the original four variables of the i
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kmeans.out <span class="ot">=</span> <span class="fu">kmeans</span>(X.iris, <span class="dv">3</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kmeans.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 50, 47, 53
+<pre><code>K-means clustering with 3 clusters of sizes 50, 53, 47
 
 Cluster means:
   Sepal.Length Sepal.Width Petal.Length Petal.Width
 1  -1.01119138  0.85041372   -1.3006301  -1.2507035
-2   1.13217737  0.08812645    0.9928284   1.0141287
-3  -0.05005221 -0.88042696    0.3465767   0.2805873
+2  -0.05005221 -0.88042696    0.3465767   0.2805873
+3   1.13217737  0.08812645    0.9928284   1.0141287
 
 Clustering vector:
   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3
- [75] 3 2 2 2 3 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2 2 3 2 2 2 2
-[112] 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 2 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 2
-[149] 2 3
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+ [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
+[112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
+[149] 3 2
 
 Within cluster sum of squares by cluster:
-[1] 47.35062 47.45019 44.08754
+[1] 47.35062 44.08754 47.45019
  (between_SS / total_SS =  76.7 %)
 
 Available components:
@@ -783,8 +783,8 @@ Available components:
 <pre><code>            
 L.iris        1  2  3
   setosa     50  0  0
-  versicolor  0 11 39
-  virginica   0 36 14</code></pre>
+  versicolor  0 39 11
+  virginica   0 14 36</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -818,33 +818,33 @@ Figure&nbsp;4.8: Within and between group error in dependence of the number of g
 <ul>
 <li><span class="math inline">\(K\)</span> groups / classes / categories, with finite <span class="math inline">\(K\)</span> known in advance.</li>
 <li>Probability of class <span class="math inline">\(k\)</span>: <span class="math inline">\(\text{Pr}(k) = \pi_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span>.</li>
-<li>Each class <span class="math inline">\(k \in C= \{1, \ldots, K\}\)</span> is modelled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\symbfit \theta_k\)</span>.</li>
-<li>Density of class <span class="math inline">\(k\)</span>: <span class="math inline">\(f_k(\symbfit x) = f(\symbfit x| k)\)</span>.</li>
-<li>The conditional means and variances for each class <span class="math inline">\(k \in C\)</span> are <span class="math inline">\(\text{E}(\symbfit x| k) = \symbfit \mu_k\)</span> and <span class="math inline">\(\text{Var}(\symbfit x| k) = \symbfit \Sigma_k\)</span>.</li>
-<li>The resulting mixture density for the observed variable <span class="math inline">\(\symbfit x\)</span> is <span class="math display">\[
-f_{\text{mix}}(\symbfit x) = \sum_{k=1}^K \pi_k f_k(\symbfit x)
+<li>Each class <span class="math inline">\(k \in C= \{1, \ldots, K\}\)</span> is modelled by its own distribution <span class="math inline">\(F_k\)</span> with own parameters <span class="math inline">\(\boldsymbol \theta_k\)</span>.</li>
+<li>Density of class <span class="math inline">\(k\)</span>: <span class="math inline">\(f_k(\boldsymbol x) = f(\boldsymbol x| k)\)</span>.</li>
+<li>The conditional means and variances for each class <span class="math inline">\(k \in C\)</span> are <span class="math inline">\(\text{E}(\boldsymbol x| k) = \boldsymbol \mu_k\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x| k) = \boldsymbol \Sigma_k\)</span>.</li>
+<li>The resulting mixture density for the observed variable <span class="math inline">\(\boldsymbol x\)</span> is <span class="math display">\[
+f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)
 \]</span></li>
 </ul>
-<p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\symbfit x) = N(\symbfit x| \symbfit \mu_k, \symbfit \Sigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
+<p>Very often one uses <strong>multivariate normal components</strong> <span class="math inline">\(f_k(\boldsymbol x) = N(\boldsymbol x| \boldsymbol \mu_k, \boldsymbol \Sigma_k)\)</span> <span class="math inline">\(\\ \Longrightarrow\)</span> <strong>Gaussian mixture model</strong> (GMM)</p>
 <p>Mixture models are fundamental not just in clustering but for many other applications (e.g.&nbsp;classification).</p>
 <p>Note: don’t confuse <em>mixture model</em> with <em>mixed model</em> (= terminology for a <em>random effects</em> regression model).</p>
 </section>
 <section id="total-mean-and-variance-of-a-multivariate-mixture-model" class="level3">
 <h3 class="anchored" data-anchor-id="total-mean-and-variance-of-a-multivariate-mixture-model">Total mean and variance of a multivariate mixture model</h3>
-<p>Using the <strong>law of total expectation</strong> we obtain the mean of the mixture density with multivariate <span class="math inline">\(\symbfit x\)</span> as follows: <span class="math display">\[
+<p>Using the <strong>law of total expectation</strong> we obtain the mean of the mixture density with multivariate <span class="math inline">\(\boldsymbol x\)</span> as follows: <span class="math display">\[
 \begin{split}
-\text{E}(\symbfit x) &amp; = \text{E}(\text{E}(\symbfit x| k)) \\
-            &amp; = \text{E}( \symbfit \mu_k ) \\
-            &amp;= \sum_{k=1}^K \pi_k \symbfit \mu_k \\
-            &amp;= \symbfit \mu_0 \\
+\text{E}(\boldsymbol x) &amp; = \text{E}(\text{E}(\boldsymbol x| k)) \\
+            &amp; = \text{E}( \boldsymbol \mu_k ) \\
+            &amp;= \sum_{k=1}^K \pi_k \boldsymbol \mu_k \\
+            &amp;= \boldsymbol \mu_0 \\
 \end{split}
-\]</span> Note that we treat both <span class="math inline">\(\symbfit x\)</span> as well as <span class="math inline">\(k\)</span> as random variables.</p>
+\]</span> Note that we treat both <span class="math inline">\(\boldsymbol x\)</span> as well as <span class="math inline">\(k\)</span> as random variables.</p>
 <p>Similarly, using the <strong>law of total variance</strong> we compute the marginal variance: <span class="math display">\[
 \begin{split}
-\underbrace{\text{Var}(\symbfit x)}_{\text{total}} &amp; =  \underbrace{ \text{Var}( \text{E}(\symbfit x| k )  )}_{\text{explained / between-group}} + \underbrace{\text{E}(\text{Var}(\symbfit x|k))}_{\text{unexplained / expected within-group / pooled}} \\
-\symbfit \Sigma_0 &amp; =  \text{Var}( \symbfit \mu_k  ) + \text{E}( \symbfit \Sigma_k )  \\
-               &amp; =  \sum_{k=1}^K \pi_k (\symbfit \mu_k - \symbfit \mu_0) (\symbfit \mu_k - \symbfit \mu_0)^T + \sum_{k=1}^K \pi_k \symbfit \Sigma_k  \\
-&amp; =  \symbfit \Sigma_{\text{explained}} +  \symbfit \Sigma_{\text{unexplained}} \\
+\underbrace{\text{Var}(\boldsymbol x)}_{\text{total}} &amp; =  \underbrace{ \text{Var}( \text{E}(\boldsymbol x| k )  )}_{\text{explained / between-group}} + \underbrace{\text{E}(\text{Var}(\boldsymbol x|k))}_{\text{unexplained / expected within-group / pooled}} \\
+\boldsymbol \Sigma_0 &amp; =  \text{Var}( \boldsymbol \mu_k  ) + \text{E}( \boldsymbol \Sigma_k )  \\
+               &amp; =  \sum_{k=1}^K \pi_k (\boldsymbol \mu_k - \boldsymbol \mu_0) (\boldsymbol \mu_k - \boldsymbol \mu_0)^T + \sum_{k=1}^K \pi_k \boldsymbol \Sigma_k  \\
+&amp; =  \boldsymbol \Sigma_{\text{explained}} +  \boldsymbol \Sigma_{\text{unexplained}} \\
 \end{split}
 \]</span></p>
 <p>Thus, the <strong>total variance</strong> decomposes into the <strong>explained (between group) variance</strong> and the <strong>unexplained (expected within group, pooled) variance</strong>.</p>
@@ -853,12 +853,12 @@ f_{\text{mix}}(\symbfit x) = \sum_{k=1}^K \pi_k f_k(\symbfit x)
 <h3 class="anchored" data-anchor-id="total-variation">Total variation</h3>
 <p>The <strong>total variation</strong> is given by the <strong>trace of the covariance matrix</strong>. The above decomposition for the total variation is <span class="math display">\[
 \begin{split}
-\text{Tr}(\symbfit \Sigma_0) &amp; =  \text{Tr}( \symbfit \Sigma_{\text{explained}} )  + \text{Tr}( \symbfit \Sigma_{\text{unexplained}} )  \\
-&amp; =  \sum_{k=1}^K \pi_k \text{Tr}((\symbfit \mu_k - \symbfit \mu_0) (\symbfit \mu_k - \symbfit \mu_0)^T) + \sum_{k=1}^K \pi_k \text{Tr}(\symbfit \Sigma_k)  \\
-&amp; =  \sum_{k=1}^K \pi_k (\symbfit \mu_k - \symbfit \mu_0)^T (\symbfit \mu_k - \symbfit \mu_0) + \sum_{k=1}^K \pi_k \text{Tr}(\symbfit \Sigma_k)\\
+\text{Tr}(\boldsymbol \Sigma_0) &amp; =  \text{Tr}( \boldsymbol \Sigma_{\text{explained}} )  + \text{Tr}( \boldsymbol \Sigma_{\text{unexplained}} )  \\
+&amp; =  \sum_{k=1}^K \pi_k \text{Tr}((\boldsymbol \mu_k - \boldsymbol \mu_0) (\boldsymbol \mu_k - \boldsymbol \mu_0)^T) + \sum_{k=1}^K \pi_k \text{Tr}(\boldsymbol \Sigma_k)  \\
+&amp; =  \sum_{k=1}^K \pi_k (\boldsymbol \mu_k - \boldsymbol \mu_0)^T (\boldsymbol \mu_k - \boldsymbol \mu_0) + \sum_{k=1}^K \pi_k \text{Tr}(\boldsymbol \Sigma_k)\\
 \end{split}
-\]</span> If the covariances are replaced by their empirical estimates we obtain the <span class="math inline">\(T=B+W\)</span> decomposition of total variation familiar from <span class="math inline">\(K\)</span>-means: <span class="math display">\[T = \text{Tr}\left( \hat{\symbfit \Sigma}_0 \right)  =
-\frac{1}{n} \sum_{i=1}^n (\symbfit x_i - \hat{\symbfit \mu}_0)^T (\symbfit x_i - \hat{\symbfit \mu}_0)\]</span> <span class="math display">\[B = \text{Tr}( \hat{\symbfit \Sigma}_{\text{explained}} ) =  \frac{1}{n} \sum_{k=1}^K n_k (\hat{\symbfit \mu}_k - \hat{\symbfit \mu}_0)^T (\hat{\symbfit \mu}_k - \hat{\symbfit \mu}_0)\]</span> <span class="math display">\[W = \text{Tr}( \hat{\symbfit \Sigma}_{\text{unexplained}} ) = \frac{1}{n}  \sum_{k=1}^K \, \sum_{i \in G_k} (\symbfit x_i -\hat{\symbfit \mu}_k)^T (\symbfit x_i -\hat{\symbfit \mu}_k)
+\]</span> If the covariances are replaced by their empirical estimates we obtain the <span class="math inline">\(T=B+W\)</span> decomposition of total variation familiar from <span class="math inline">\(K\)</span>-means: <span class="math display">\[T = \text{Tr}\left( \hat{\boldsymbol \Sigma}_0 \right)  =
+\frac{1}{n} \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)\]</span> <span class="math display">\[B = \text{Tr}( \hat{\boldsymbol \Sigma}_{\text{explained}} ) =  \frac{1}{n} \sum_{k=1}^K n_k (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)^T (\hat{\boldsymbol \mu}_k - \hat{\boldsymbol \mu}_0)\]</span> <span class="math display">\[W = \text{Tr}( \hat{\boldsymbol \Sigma}_{\text{unexplained}} ) = \frac{1}{n}  \sum_{k=1}^K \, \sum_{i \in G_k} (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i -\hat{\boldsymbol \mu}_k)
 \]</span></p>
 </section>
 <section id="univariate-mixture" class="level3">
@@ -912,7 +912,7 @@ Figure&nbsp;4.10: Mixture of two normal distributions with a single mode.
 <p>Mixtures can take on many different shapes and forms, so it is instructive to study a number of examples. An interactive tool to visualise two component normal mixture is available online as <a href="https://shiny.rstudio.com/">R Shiny web app</a> at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a>.</p>
 <p>The first plot (<a href="#fig-normmixtwomodes" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>) shows the bimodal density of a mixture distribution consisting of two normals with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\mu_1=-1\)</span>, <span class="math inline">\(\mu_2=2\)</span> and the two variances equal to 1 (<span class="math inline">\(\sigma^2_1 = 1\)</span> and <span class="math inline">\(\sigma^2_2 = 1\)</span>). Because the two components are well-separated there are two clear modes. The plot also shows the density of a normal distribution with the same total mean (<span class="math inline">\(\mu_0=-0.1\)</span>) and variance (<span class="math inline">\(\sigma_0^2=2.89\)</span>) as the mixture distribution. Clearly the total normal and the mixture density are very different.</p>
 <p>However, a two-component mixture can also be unimodal (<a href="#fig-normmixsinglemode" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>). For example, if the mean of the second component is set to <span class="math inline">\(\mu_2=0\)</span> then there is only a single mode and the total normal density with <span class="math inline">\(\mu_0=-0.7\)</span> and <span class="math inline">\(\sigma_0^2=1.21\)</span> is now almost inistinguishable in form from the mixture density. Thus, in this case it will be very hard (or even impossible) to identify the two peaks from the data.</p>
-<p>Most mixtures we consider in this course are multivariate. For illustration, <a href="#fig-normmix2d2modes" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> shows a plot of a density of the mixture of two bivariate normal distributions, with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\symbfit \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\)</span>, <span class="math inline">\(\symbfit \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\symbfit \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\)</span>:</p>
+<p>Most mixtures we consider in this course are multivariate. For illustration, <a href="#fig-normmix2d2modes" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> shows a plot of a density of the mixture of two bivariate normal distributions, with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\boldsymbol \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>, <span class="math inline">\(\boldsymbol \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\)</span>, <span class="math inline">\(\boldsymbol \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\)</span>:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-normmix2d2modes" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
@@ -930,12 +930,12 @@ Figure&nbsp;4.11: Mixture of two bivariate normal distributions with two modes.
 </section>
 <section id="sampling-from-a-mixture-model" class="level3">
 <h3 class="anchored" data-anchor-id="sampling-from-a-mixture-model">Sampling from a mixture model</h3>
-<p>Assuming we know how to sample from the component densities <span class="math inline">\(f_k(\symbfit x)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f_{\text{mix}}(\symbfit x) = \sum_{k=1}^K \pi_k f_k(\symbfit x)\)</span> itself.</p>
+<p>Assuming we know how to sample from the component densities <span class="math inline">\(f_k(\boldsymbol x)\)</span> of the mixture model it is straightforward to set up a procedure for sampling from the mixture <span class="math inline">\(f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)\)</span> itself.</p>
 <p>This is done in a two-step process:</p>
 <ol type="1">
-<li><p>Draw from categorical distribution with parameter <span class="math inline">\(\symbfit \pi=(\pi_1, \ldots, \pi_K)^T\)</span>: <span class="math display">\[\symbfit z\sim \text{Cat}(\symbfit \pi)\]</span> Here the vector <span class="math inline">\(\symbfit z= (z_1, \ldots, z_K)^T\)</span> indicates a hard group 0/1 allocation, with all components <span class="math inline">\(z_{\neq k}=0\)</span> except for a single entry <span class="math inline">\(z_k=1\)</span>.</p></li>
+<li><p>Draw from categorical distribution with parameter <span class="math inline">\(\boldsymbol \pi=(\pi_1, \ldots, \pi_K)^T\)</span>: <span class="math display">\[\boldsymbol z\sim \text{Cat}(\boldsymbol \pi)\]</span> Here the vector <span class="math inline">\(\boldsymbol z= (z_1, \ldots, z_K)^T\)</span> indicates a hard group 0/1 allocation, with all components <span class="math inline">\(z_{\neq k}=0\)</span> except for a single entry <span class="math inline">\(z_k=1\)</span>.</p></li>
 <li><p>Subsequently, sample from the component <span class="math inline">\(k\)</span> selected in step 1: <span class="math display">\[
-\symbfit x\sim F_k
+\boldsymbol x\sim F_k
 \]</span></p></li>
 </ol>
 <p>This two-stage sampling approach is also known as hierarchical generative model for a mixture distribution. This generative view is not only useful for simulating data from a mixture model but also highlights the role of the latent variable (the class allocation).</p>
@@ -945,52 +945,52 @@ Figure&nbsp;4.11: Mixture of two bivariate normal distributions with two modes.
 <h2 data-number="4.5" class="anchored" data-anchor-id="fitting-mixture-models-to-data-and-inferring-the-latent-states"><span class="header-section-number">4.5</span> Fitting mixture models to data and inferring the latent states</h2>
 <p>In the following we denote by</p>
 <ul>
-<li><span class="math inline">\(\symbfit X= (\symbfit x_1, \ldots, \symbfit x_n)^T\)</span> the data matrix containing the observations of <span class="math inline">\(n\)</span> independent and identically distributed samples <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span>, and</li>
-<li><span class="math inline">\(\symbfit y= (y_1, \ldots, y_n)^T\)</span> the associated group memberships, as well as</li>
-<li>the parameters <span class="math inline">\(\symbfit \theta\)</span> which for a Gaussian mixture model are <span class="math inline">\(\symbfit \theta= \{\symbfit \pi, \symbfit \mu_1, \ldots, \symbfit \mu_K, \symbfit \Sigma_1, \ldots, \symbfit \Sigma_K\}\)</span>.</li>
+<li><span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T\)</span> the data matrix containing the observations of <span class="math inline">\(n\)</span> independent and identically distributed samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>, and</li>
+<li><span class="math inline">\(\boldsymbol y= (y_1, \ldots, y_n)^T\)</span> the associated group memberships, as well as</li>
+<li>the parameters <span class="math inline">\(\boldsymbol \theta\)</span> which for a Gaussian mixture model are <span class="math inline">\(\boldsymbol \theta= \{\boldsymbol \pi, \boldsymbol \mu_1, \ldots, \boldsymbol \mu_K, \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K\}\)</span>.</li>
 </ul>
 <section id="observed-and-latent-variables" class="level3">
 <h3 class="anchored" data-anchor-id="observed-and-latent-variables">Observed and latent variables</h3>
-<p>When we observe data from a mixture model we collect samples <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span>. Associated with each observed <span class="math inline">\(\symbfit x_i\)</span> is the corresponding underlying class allocation <span class="math inline">\(y_1, \ldots, y_n\)</span> where each <span class="math inline">\(y_i\)</span> takes on a value from <span class="math inline">\(C = \{1, \ldots, K\}\)</span>. Crucially, the class allocations <span class="math inline">\(y_i\)</span> are unknown and cannot be directly observed, thus are latent.</p>
+<p>When we observe data from a mixture model we collect samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>. Associated with each observed <span class="math inline">\(\boldsymbol x_i\)</span> is the corresponding underlying class allocation <span class="math inline">\(y_1, \ldots, y_n\)</span> where each <span class="math inline">\(y_i\)</span> takes on a value from <span class="math inline">\(C = \{1, \ldots, K\}\)</span>. Crucially, the class allocations <span class="math inline">\(y_i\)</span> are unknown and cannot be directly observed, thus are latent.</p>
 <ul>
-<li>The <strong>joint density</strong> for observed and unobserved variables: <span class="math display">\[f(\symbfit x, y) = f(\symbfit x| y) \text{Pr}(y) = f_y(\symbfit x) \pi_y\]</span></li>
+<li>The <strong>joint density</strong> for observed and unobserved variables: <span class="math display">\[f(\boldsymbol x, y) = f(\boldsymbol x| y) \text{Pr}(y) = f_y(\boldsymbol x) \pi_y\]</span></li>
 </ul>
-<p>The mixture density is therefore a <strong>marginal density</strong> as it arises from the joint density <span class="math inline">\(f(\symbfit x, y)\)</span> by marginalising over the discrete variable <span class="math inline">\(y\)</span>.</p>
+<p>The mixture density is therefore a <strong>marginal density</strong> as it arises from the joint density <span class="math inline">\(f(\boldsymbol x, y)\)</span> by marginalising over the discrete variable <span class="math inline">\(y\)</span>.</p>
 <ul>
-<li>Marginalisation: <span class="math inline">\(f(\symbfit x) =  \sum_{y \in C} f(\symbfit x, y)\)</span></li>
+<li>Marginalisation: <span class="math inline">\(f(\boldsymbol x) =  \sum_{y \in C} f(\boldsymbol x, y)\)</span></li>
 </ul>
 </section>
 <section id="complete-data-likelihood-and-observed-data-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="complete-data-likelihood-and-observed-data-likelihood">Complete data likelihood and observed data likelihood</h3>
-<p>If we know <span class="math inline">\(\symbfit y\)</span> in advance, i.e.&nbsp;if we know which sample belongs to a particular group, we can construct a <em>complete data log-likelihood</em> based on the joint distribution <span class="math inline">\(f(\symbfit x, y) = \pi_y f_y(\symbfit x)\)</span>. The log-likelihood for <span class="math inline">\(\symbfit \theta\)</span> given the both <span class="math inline">\(\symbfit X\)</span> and <span class="math inline">\(\symbfit y\)</span> is <span class="math display">\[
-\log L(\symbfit \theta| \symbfit X, \symbfit y) = \sum_{i=1}^n \log f(\symbfit x_i, y_i)  =  \sum_{i=1}^n  \log \left(\pi_{y_i} f_{y_i}(\symbfit x_i) \right)
+<p>If we know <span class="math inline">\(\boldsymbol y\)</span> in advance, i.e.&nbsp;if we know which sample belongs to a particular group, we can construct a <em>complete data log-likelihood</em> based on the joint distribution <span class="math inline">\(f(\boldsymbol x, y) = \pi_y f_y(\boldsymbol x)\)</span>. The log-likelihood for <span class="math inline">\(\boldsymbol \theta\)</span> given the both <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol y\)</span> is <span class="math display">\[
+\log L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y) = \sum_{i=1}^n \log f(\boldsymbol x_i, y_i)  =  \sum_{i=1}^n  \log \left(\pi_{y_i} f_{y_i}(\boldsymbol x_i) \right)
 \]</span></p>
-<p>On the other hand, typically we do not know <span class="math inline">\(\symbfit y\)</span> and therefore use the marginal or mixture density <span class="math inline">\(f(\symbfit x)\)</span> to construct the <em>observed data log-likelihood</em> (sometimes also called <em>incomplete data log-likelihood</em>) <span class="math inline">\(f(\symbfit x| \symbfit \theta)\)</span> as <span class="math display">\[
+<p>On the other hand, typically we do not know <span class="math inline">\(\boldsymbol y\)</span> and therefore use the marginal or mixture density <span class="math inline">\(f(\boldsymbol x)\)</span> to construct the <em>observed data log-likelihood</em> (sometimes also called <em>incomplete data log-likelihood</em>) <span class="math inline">\(f(\boldsymbol x| \boldsymbol \theta)\)</span> as <span class="math display">\[
 \begin{split}
-\log L(\symbfit \theta| \symbfit X) &amp; =\sum_{i=1}^n \log f(\symbfit x_i | \symbfit \theta)\\
-&amp; = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\symbfit x_i)  \right)\\
+\log L(\boldsymbol \theta| \boldsymbol X) &amp; =\sum_{i=1}^n \log f(\boldsymbol x_i | \boldsymbol \theta)\\
+&amp; = \sum_{i=1}^n \log \left( \sum_{k=1}^K \pi_k f_k(\boldsymbol x_i)  \right)\\
 \end{split}
 \]</span></p>
-<p>The <em>observed data log-likelihood</em> can also be computed from the complete data likelihood function by marginalising over <span class="math inline">\(\symbfit y\)</span> <span class="math display">\[
+<p>The <em>observed data log-likelihood</em> can also be computed from the complete data likelihood function by marginalising over <span class="math inline">\(\boldsymbol y\)</span> <span class="math display">\[
 \begin{split}
-\log L(\symbfit \theta| \symbfit X) &amp;= \log \sum_{\symbfit y}   L(\symbfit \theta| \symbfit X, \symbfit y)\\
-&amp;= \log \sum_{y_1, \ldots, y_K}  \prod_{i=1}^n f(\symbfit x_i, y_i)\\
-&amp;= \log \prod_{i=1}^n  \sum_{k=1}^K f(\symbfit x_i, k)\\
-&amp; = \sum_{i=1}^n \log \left(  \sum_{k=1}^K f(\symbfit x_i, k)     \right)
+\log L(\boldsymbol \theta| \boldsymbol X) &amp;= \log \sum_{\boldsymbol y}   L(\boldsymbol \theta| \boldsymbol X, \boldsymbol y)\\
+&amp;= \log \sum_{y_1, \ldots, y_K}  \prod_{i=1}^n f(\boldsymbol x_i, y_i)\\
+&amp;= \log \prod_{i=1}^n  \sum_{k=1}^K f(\boldsymbol x_i, k)\\
+&amp; = \sum_{i=1}^n \log \left(  \sum_{k=1}^K f(\boldsymbol x_i, k)     \right)
 \end{split}
 \]</span></p>
 <p>Clustering with a mixture model can be viewed as an <em>incomplete</em> or <em>missing</em> data problem (see also <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>).</p>
 <p>Specifically, we face the problem of</p>
 <ul>
-<li>fitting the model using only the observed data <span class="math inline">\(\symbfit X\)</span> and</li>
-<li>simultaneously inferring the class allocations <span class="math inline">\(\symbfit y\)</span>, i.e.&nbsp;states of the latent variable.</li>
+<li>fitting the model using only the observed data <span class="math inline">\(\boldsymbol X\)</span> and</li>
+<li>simultaneously inferring the class allocations <span class="math inline">\(\boldsymbol y\)</span>, i.e.&nbsp;states of the latent variable.</li>
 </ul>
 </section>
 <section id="fitting-the-mixture-model-to-the-observed-data" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-the-mixture-model-to-the-observed-data">Fitting the mixture model to the observed data</h3>
 <p>For large sample size <span class="math inline">\(n\)</span> the standard way to fit a mixture model is to employ maximum likelihood to find the MLEs of the parameters of the mixture model.</p>
-<p>The direct way to fit a mixture model by maximum likelihood is to <strong>maximise the observed data log-likelihood function</strong> with regard to <span class="math inline">\(\symbfit \theta\)</span>: <span class="math display">\[
-\hat{\symbfit \theta}^{ML} = \underset{\symbfit \theta}{\arg \max}\,\, \log L(\symbfit \theta| \symbfit X)
+<p>The direct way to fit a mixture model by maximum likelihood is to <strong>maximise the observed data log-likelihood function</strong> with regard to <span class="math inline">\(\boldsymbol \theta\)</span>: <span class="math display">\[
+\hat{\boldsymbol \theta}^{ML} = \underset{\boldsymbol \theta}{\arg \max}\,\, \log L(\boldsymbol \theta| \boldsymbol X)
 \]</span></p>
 <p>Unfortunately, in practise evaluation and optimisation of the log-likelihood function can be difficult due to a number of reasons:</p>
 <ul>
@@ -1002,15 +1002,15 @@ Figure&nbsp;4.11: Mixture of two bivariate normal distributions with two modes.
 </section>
 <section id="predicting-the-group-allocation-of-a-given-sample" class="level3">
 <h3 class="anchored" data-anchor-id="predicting-the-group-allocation-of-a-given-sample">Predicting the group allocation of a given sample</h3>
-<p>In probabilistic clustering the aim is to infer the latent states <span class="math inline">\(y_1, \ldots, y_n\)</span> for all observed samples <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span>.</p>
-<p>Assuming that the mixture model is known (either in advance or after fitting it) Bayes’ theorem allows predict the probability that an observation <span class="math inline">\(\symbfit x_i\)</span> falls in group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span>: <span class="math display">\[
-q_i(k) = \text{Pr}(k | \symbfit x_i) = \frac{\pi_k f_k(\symbfit x_i ) }{ f(\symbfit x_i)}
+<p>In probabilistic clustering the aim is to infer the latent states <span class="math inline">\(y_1, \ldots, y_n\)</span> for all observed samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>.</p>
+<p>Assuming that the mixture model is known (either in advance or after fitting it) Bayes’ theorem allows predict the probability that an observation <span class="math inline">\(\boldsymbol x_i\)</span> falls in group <span class="math inline">\(k \in \{1, \ldots, K\}\)</span>: <span class="math display">\[
+q_i(k) = \text{Pr}(k | \boldsymbol x_i) = \frac{\pi_k f_k(\boldsymbol x_i ) }{ f(\boldsymbol x_i)}
 \]</span> Thus, for each of the <span class="math inline">\(n\)</span> samples we get a probability mass function over the <span class="math inline">\(K\)</span> classes with <span class="math inline">\(\sum_{k=1}^K q_i(k)=1\)</span>.</p>
-<p>The posterior probabilities in <span class="math inline">\(q_i(k)\)</span> provide a so-called <em>soft assignment</em> of the sample <span class="math inline">\(\symbfit x_i\)</span> to all classes rather than a 0/1 <em>hard assignment</em> to a specific class (as for example in the <span class="math inline">\(K\)</span>-means algorithm).</p>
+<p>The posterior probabilities in <span class="math inline">\(q_i(k)\)</span> provide a so-called <em>soft assignment</em> of the sample <span class="math inline">\(\boldsymbol x_i\)</span> to all classes rather than a 0/1 <em>hard assignment</em> to a specific class (as for example in the <span class="math inline">\(K\)</span>-means algorithm).</p>
 <p>To obtain at a hard clustering and to infer the most probable latent state we select the class with the highest probability <span class="math display">\[
 y_i =\underset{k}{\arg \max}\,\,q_i(k)
 \]</span></p>
-<p>Thus, in probabilistic clustering we directly obtain an assessment of the uncertainty of the class assignment for a sample <span class="math inline">\(\symbfit x_i\)</span> (which is not the case in simple algorithmic clustering such <span class="math inline">\(K\)</span>-means). We can use this information to check whether there are several classes with equal or similar probability. This will be the case, e.g., if <span class="math inline">\(\symbfit x_i\)</span> lies near the boundary between two neighbouring classes.</p>
+<p>Thus, in probabilistic clustering we directly obtain an assessment of the uncertainty of the class assignment for a sample <span class="math inline">\(\boldsymbol x_i\)</span> (which is not the case in simple algorithmic clustering such <span class="math inline">\(K\)</span>-means). We can use this information to check whether there are several classes with equal or similar probability. This will be the case, e.g., if <span class="math inline">\(\boldsymbol x_i\)</span> lies near the boundary between two neighbouring classes.</p>
 <p>Using the interactive Shiny app for the univariate normal component mixture (online at <a href="https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/" class="uri">https://minerva.it.manchester.ac.uk/shiny/strimmer/mixture/</a>) you can explore the posterior probabilities of each class.</p>
 </section>
 </section>
@@ -1055,7 +1055,7 @@ Figure&nbsp;4.12: Mclust fit of mixture model to the iris flower data.
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "VVV"</code></pre>
 </div>
-<p>::: Here “VVV” is the name used by the “mclust” software for a model allowing for an individual unrestricted covariance matrix <span class="math inline">\(\symbfit \Sigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
+<p>::: Here “VVV” is the name used by the “mclust” software for a model allowing for an individual unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
 <p>This GMM has a substantially lower misclassification error compared to <span class="math inline">\(K\)</span>-means with the same number of clusters:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gmm3<span class="sc">$</span>classification, L.iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1090,10 +1090,10 @@ Figure&nbsp;4.13: Mclust BIC plot to select optimal number of groups for the iri
 <section id="motivation" class="level3">
 <h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
 <p>As discussed above, the observed data log-likelihood can be difficult to maximise directly due to its form as a log marginal likelihood. Intriguingly, it is possible to optimise it <em>indirectly</em> using the complete data log-likelihood, and what’s more this also allows in many cases for an analytic expression of the maximisation step.</p>
-<p>This method is called the EM algorithm and has been formally proposed and described by <a href="https://en.wikipedia.org/wiki/Arthur_P._Dempster">Arthur Dempster (1929–)</a> and others in 1977<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> but the algorithm was already know prior. It iteratively estimates both the parameters of the mixture model parameters and the latent states. The key idea behind the EM algorithm is to capitalise on the simplicity of the complete data likelihood and to obtain estimates of <span class="math inline">\(\symbfit \theta\)</span> by imputing the missing group allocations and then subsequently iteratively refining both the imputations and the estimates of <span class="math inline">\(\symbfit \theta\)</span>.</p>
+<p>This method is called the EM algorithm and has been formally proposed and described by <a href="https://en.wikipedia.org/wiki/Arthur_P._Dempster">Arthur Dempster (1929–)</a> and others in 1977<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> but the algorithm was already know prior. It iteratively estimates both the parameters of the mixture model parameters and the latent states. The key idea behind the EM algorithm is to capitalise on the simplicity of the complete data likelihood and to obtain estimates of <span class="math inline">\(\boldsymbol \theta\)</span> by imputing the missing group allocations and then subsequently iteratively refining both the imputations and the estimates of <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
 <p>More precisely, in the EM (=expectation-maximisation) algorithm we alternate between</p>
 <ul>
-<li><p>Step 1) updating the soft allocations of each sample using the current estimate of the parameters <span class="math inline">\(\symbfit \theta\)</span> (obtained in step 2)</p></li>
+<li><p>Step 1) updating the soft allocations of each sample using the current estimate of the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (obtained in step 2)</p></li>
 <li><p>Step 2) updating the parameter estimates by maximising the <em>expected</em> complete data log-likelihood. The expectation is taken with regard to the distribution over the latent states (obtained in step 1). Thus the complete data log-likelihood is averaged over the soft class assignments. For an exponential family (e.g.&nbsp;when the distributions for each group are normal) maximisation of the expected complete data log-likelihood can even be done analytically.</p></li>
 </ul>
 </section>
@@ -1104,26 +1104,26 @@ Figure&nbsp;4.13: Mclust BIC plot to select optimal number of groups for the iri
 <li>Initialisation:</li>
 </ol>
 <ul>
-<li>Start with a guess of the parameters <span class="math inline">\(\hat{\symbfit \theta}^{(1)}\)</span>, then continue with “E” Step, Part A.</li>
-<li>Alternatively, start with a guess of the soft allocations for each sample <span class="math inline">\(q_i(k)^{(1)}\)</span>, collected in the matrix <span class="math inline">\(\symbfit Q^{(1)}\)</span>, then continue with “E” Step, Part B.<br>
+<li>Start with a guess of the parameters <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}\)</span>, then continue with “E” Step, Part A.</li>
+<li>Alternatively, start with a guess of the soft allocations for each sample <span class="math inline">\(q_i(k)^{(1)}\)</span>, collected in the matrix <span class="math inline">\(\boldsymbol Q^{(1)}\)</span>, then continue with “E” Step, Part B.<br>
 This may be derived from some prior information, e.g., from running <span class="math inline">\(K\)</span>-means. Caveat: some particular initialisations correspond to invariant states and hence should be avoided (see further below).</li>
 </ul>
 <ol start="2" type="1">
 <li><strong>E “expectation” step</strong></li>
 </ol>
 <ul>
-<li><p>Part A: Use Bayes’ theorem to compute new probabilities of allocation to class <span class="math inline">\(k\)</span> for all the samples <span class="math inline">\(\symbfit x_i\)</span>: <span class="math display">\[
-q_i(k)^{(b+1)} \leftarrow \frac{ \hat{\pi}_k^{(b)} f_k(\symbfit x_i | \hat{\symbfit \theta}^{(b)})    }{  f(\symbfit x_i |\hat{\symbfit \theta}^{(b)} )  }
-\]</span> Note that to obtain <span class="math inline">\(q_i(k)^{(b+1)}\)</span> the current estimate <span class="math inline">\(\hat{\symbfit \theta}^{(b)}\)</span> of the parameters of the mixture model is required.</p></li>
-<li><p>Part B: Construct the <em>expected</em> complete data log-likelihood function for <span class="math inline">\(\symbfit \theta\)</span> using the soft allocations <span class="math inline">\(q_i(k)^{(b+1)}\)</span> collected in the matrix <span class="math inline">\(\symbfit Q^{(b+1)}\)</span>: <span class="math display">\[
-G(\symbfit \theta| \symbfit X, \symbfit Q^{(b+1)} ) = \sum_{i=1}^n \sum_{k=1}^K q_i(k)^{(b+1)}  \log \left( \pi_k f_k(\symbfit x_i) \right)
-\]</span> Note that in the case that the soft allocations <span class="math inline">\(\symbfit Q^{(b+1)}\)</span> turn into hard 0/1 allocations then <span class="math inline">\(G(\symbfit \theta| \symbfit X, \symbfit Q^{(b+1)})\)</span> becomes equivalent to the complete data log-likelihood.</p></li>
+<li><p>Part A: Use Bayes’ theorem to compute new probabilities of allocation to class <span class="math inline">\(k\)</span> for all the samples <span class="math inline">\(\boldsymbol x_i\)</span>: <span class="math display">\[
+q_i(k)^{(b+1)} \leftarrow \frac{ \hat{\pi}_k^{(b)} f_k(\boldsymbol x_i | \hat{\boldsymbol \theta}^{(b)})    }{  f(\boldsymbol x_i |\hat{\boldsymbol \theta}^{(b)} )  }
+\]</span> Note that to obtain <span class="math inline">\(q_i(k)^{(b+1)}\)</span> the current estimate <span class="math inline">\(\hat{\boldsymbol \theta}^{(b)}\)</span> of the parameters of the mixture model is required.</p></li>
+<li><p>Part B: Construct the <em>expected</em> complete data log-likelihood function for <span class="math inline">\(\boldsymbol \theta\)</span> using the soft allocations <span class="math inline">\(q_i(k)^{(b+1)}\)</span> collected in the matrix <span class="math inline">\(\boldsymbol Q^{(b+1)}\)</span>: <span class="math display">\[
+G(\boldsymbol \theta| \boldsymbol X, \boldsymbol Q^{(b+1)} ) = \sum_{i=1}^n \sum_{k=1}^K q_i(k)^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
+\]</span> Note that in the case that the soft allocations <span class="math inline">\(\boldsymbol Q^{(b+1)}\)</span> turn into hard 0/1 allocations then <span class="math inline">\(G(\boldsymbol \theta| \boldsymbol X, \boldsymbol Q^{(b+1)})\)</span> becomes equivalent to the complete data log-likelihood.</p></li>
 </ul>
 <ol start="3" type="1">
 <li><p><strong>M “maximisation” step</strong> — Maximise the expected complete data log-likelihood to update the estimates of mixture model parameters: <span class="math display">\[
-\hat{\symbfit \theta}^{(b+1)} \leftarrow \arg \max_{\symbfit \theta}  G(\symbfit \theta| \symbfit X, \symbfit Q^{(b+1)} )
+\hat{\boldsymbol \theta}^{(b+1)} \leftarrow \arg \max_{\boldsymbol \theta}  G(\boldsymbol \theta| \boldsymbol X, \boldsymbol Q^{(b+1)} )
 \]</span></p></li>
-<li><p>Continue with 2) “E” Step until the series <span class="math inline">\(\hat{\symbfit \theta}^{(1)}, \hat{\symbfit \theta}^{(2)}, \hat{\symbfit \theta}^{(3)}, \ldots\)</span> has converged.</p></li>
+<li><p>Continue with 2) “E” Step until the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> has converged.</p></li>
 </ol>
 <p>Crucially, maximisation of the expected complete data log-likelihood is typically much easier than maximisation of the observed data log-likelihood, and in many cases even analytically tractable, which is why in this case the EM algorithm is often preferred over direct maximisation of the observed data log-likelihood.</p>
 <p>Note that to avoid singularities in the expected log-likelihood function we may need to adopt regularisation (i.e.&nbsp;penalised maximum likelihood or Bayesian learning) for estimating the parameters in the M-step.</p>
@@ -1133,29 +1133,29 @@ G(\symbfit \theta| \symbfit X, \symbfit Q^{(b+1)} ) = \sum_{i=1}^n \sum_{k=1}^K 
 <p>We now consider the EM algorithm applied to the case when the conditional group distributions are normal, i.e.&nbsp;when applied to the Gaussian mixture model (GMM). In this case the two iterative steps in the EM algorithm can be expressed as follows:</p>
 <p><strong>E-step:</strong></p>
 <p>Update the soft allocations: <span class="math display">\[
-q_i(k)^{(b+1)} = \frac{ \hat{\pi}_k^{(b)} N(\symbfit x_i | \hat{\symbfit \mu}_k^{(b)}, \hat{\symbfit \Sigma}_k^{(b)}) }{
-\hat{f}^{(b)} \left(\symbfit x_i |  
+q_i(k)^{(b+1)} = \frac{ \hat{\pi}_k^{(b)} N(\boldsymbol x_i | \hat{\boldsymbol \mu}_k^{(b)}, \hat{\boldsymbol \Sigma}_k^{(b)}) }{
+\hat{f}^{(b)} \left(\boldsymbol x_i |  
 \hat{\pi}_1^{(b)}, \ldots, \hat{\pi}_K^{(b)},
-\hat{\symbfit \mu}_1^{(b)}, \ldots, \hat{\symbfit \mu}_K^{(b)},
-\hat{\symbfit \Sigma}_1^{(b)}, \ldots, \hat{\symbfit \Sigma}_K^{(b)} \right)  }
+\hat{\boldsymbol \mu}_1^{(b)}, \ldots, \hat{\boldsymbol \mu}_K^{(b)},
+\hat{\boldsymbol \Sigma}_1^{(b)}, \ldots, \hat{\boldsymbol \Sigma}_K^{(b)} \right)  }
 \]</span></p>
 <p>Correspondingly, the number of samples assigned to class <span class="math inline">\(k\)</span> in the current step is <span class="math display">\[
 n_k^{(b+1)} = \sum_{i=1}^n q_i(k)^{(b+1)}
 \]</span> Note this is not necessarily an integer because of the soft allocations of samples to groups.</p>
 <p>The expected complete data log-likelihood becomes: <span class="math display">\[
-G(\pi_1, \ldots \pi_K,\symbfit \mu_1, \ldots, \symbfit \mu_K,  \symbfit \Sigma_1, \ldots, \symbfit \Sigma_K | \symbfit X, \symbfit Q^{(b+1)} ) =
-\sum_{i=1}^n \sum_{k=1}^K q_i(k)^{(b+1)}  \log \left( \pi_k f_k(\symbfit x_i) \right)
+G(\pi_1, \ldots \pi_K,\boldsymbol \mu_1, \ldots, \boldsymbol \mu_K,  \boldsymbol \Sigma_1, \ldots, \boldsymbol \Sigma_K | \boldsymbol X, \boldsymbol Q^{(b+1)} ) =
+\sum_{i=1}^n \sum_{k=1}^K q_i(k)^{(b+1)}  \log \left( \pi_k f_k(\boldsymbol x_i) \right)
 \]</span> with <span class="math display">\[
-\log \left( \pi_k f_k(\symbfit x_i) \right) =  -\frac{1}{2} (\symbfit x-\symbfit \mu_k)^T \symbfit \Sigma_k^{-1} (\symbfit x-\symbfit \mu_k) -\frac{1}{2} \log \det(\symbfit \Sigma_k) +\log(\pi_k)
+\log \left( \pi_k f_k(\boldsymbol x_i) \right) =  -\frac{1}{2} (\boldsymbol x-\boldsymbol \mu_k)^T \boldsymbol \Sigma_k^{-1} (\boldsymbol x-\boldsymbol \mu_k) -\frac{1}{2} \log \det(\boldsymbol \Sigma_k) +\log(\pi_k)
 \]</span> (Remark: we will encounter this expression again in the next chapter when discussing quadratic discriminant analysis).</p>
 <p><strong>M-step:</strong></p>
 <p>The maximisation of the expected complete data log-likelihood can be done analytically as it is a weighted version of the conventional single group multivariate normal log-likelihood. The resulting estimators are also weighted variants of the usual MLEs.</p>
 <p>The updated estimates of the group probabilities are <span class="math display">\[
 \hat{\pi}_k^{(b+1)} = \frac{n_k^{(b+1)}}{n}
 \]</span> The updated estimates of the means are <span class="math display">\[
-\hat{\symbfit \mu}_k^{(b+1)} = \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n q_i(k)^{(b+1)} \symbfit x_i
+\hat{\boldsymbol \mu}_k^{(b+1)} = \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n q_i(k)^{(b+1)} \boldsymbol x_i
 \]</span> and the updated covariance estimates are <span class="math display">\[
-\hat{\symbfit \Sigma}_k^{(b+1)} =  \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n q_i(k)^{(b+1)} \left( \symbfit x_i -\symbfit \mu_k^{(b+1)}\right)   \left( \symbfit x_i -\symbfit \mu_k^{(b+1)}\right)^T
+\hat{\boldsymbol \Sigma}_k^{(b+1)} =  \frac{1}{n_k^{(b+1)}} \sum_{i=1}^n q_i(k)^{(b+1)} \left( \boldsymbol x_i -\boldsymbol \mu_k^{(b+1)}\right)   \left( \boldsymbol x_i -\boldsymbol \mu_k^{(b+1)}\right)^T
 \]</span></p>
 <p>Note that if <span class="math inline">\(q_i(k)\)</span> is a hard allocation (so that for any <span class="math inline">\(i\)</span> only one class has weight 1 and all others weight 0) then all estimators above reduce to the usual MLEs.</p>
 <p>In Worksheet 8 you can find a simple R implementation of the EM algorithm for univariate normal mixtures.</p>
@@ -1163,29 +1163,29 @@ G(\pi_1, \ldots \pi_K,\symbfit \mu_1, \ldots, \symbfit \mu_K,  \symbfit \Sigma_1
 </section>
 <section id="convergence-and-invariant-states" class="level3">
 <h3 class="anchored" data-anchor-id="convergence-and-invariant-states">Convergence and invariant states</h3>
-<p>Under mild assumptions the EM algorithm is guaranteed to monotonically converge to local optima of the observed data log-likelihood <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Thus the series <span class="math inline">\(\hat{\symbfit \theta}^{(1)}, \hat{\symbfit \theta}^{(2)}, \hat{\symbfit \theta}^{(3)}, \ldots\)</span> converges to the estimate <span class="math inline">\(\hat{\symbfit \theta}\)</span> found when maximising the observed data log-likelihood. However, the speed of convergence in the EM algorithm can sometimes be slow, and there are also situations in which there is no convergence at all to <span class="math inline">\(\hat{\symbfit \theta}\)</span> because the EM algorithm remains in an invariant state.</p>
+<p>Under mild assumptions the EM algorithm is guaranteed to monotonically converge to local optima of the observed data log-likelihood <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Thus the series <span class="math inline">\(\hat{\boldsymbol \theta}^{(1)}, \hat{\boldsymbol \theta}^{(2)}, \hat{\boldsymbol \theta}^{(3)}, \ldots\)</span> converges to the estimate <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> found when maximising the observed data log-likelihood. However, the speed of convergence in the EM algorithm can sometimes be slow, and there are also situations in which there is no convergence at all to <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> because the EM algorithm remains in an invariant state.</p>
 <p>An example of such an invariant state for a Gaussian mixture model is uniform initialisation of the latent variables <span class="math inline">\(q_i(k) = \frac{1}{K}\)</span>, where <span class="math inline">\(K\)</span> is the number of classes.<br>
 With this we get in the M step <span class="math inline">\(n_k = \frac{n}{K}\)</span> and as parameter estimates <span class="math display">\[
 \hat{\pi}_k = \frac{1}{K}
 \]</span> <span class="math display">\[
-\hat{\symbfit \mu}_k = \frac{1}{n} \sum_{i=1}^n \symbfit x_i = \bar{\symbfit x}
+\hat{\boldsymbol \mu}_k = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = \bar{\boldsymbol x}
 \]</span> <span class="math display">\[
-\hat{\symbfit \Sigma}_k = \frac{1}{n}  \sum_{i=1}^n ( \symbfit x_i -\bar{\symbfit x})   ( \symbfit x_i -\bar{\symbfit x})^T = \hat{\symbfit \Sigma}
+\hat{\boldsymbol \Sigma}_k = \frac{1}{n}  \sum_{i=1}^n ( \boldsymbol x_i -\bar{\boldsymbol x})   ( \boldsymbol x_i -\bar{\boldsymbol x})^T = \hat{\boldsymbol \Sigma}
 \]</span> Crucially, none of these actually depend on the group <span class="math inline">\(k\)</span>! Thus, in the E step when the next soft allocations are determined this leads to <span class="math display">\[
-q_i(k) = \frac{ \frac{1}{K} N(\symbfit x_i | \bar{\symbfit x}, \hat{\symbfit \Sigma} ) }{ \sum_{j=1}^K  \frac{1}{K} N(\symbfit x_i | \bar{\symbfit x}, \hat{\symbfit \Sigma} )  } = \frac{1}{K}
+q_i(k) = \frac{ \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\boldsymbol \Sigma} ) }{ \sum_{j=1}^K  \frac{1}{K} N(\boldsymbol x_i | \bar{\boldsymbol x}, \hat{\boldsymbol \Sigma} )  } = \frac{1}{K}
 \]</span> After one cycle in the EM algorithm we arrive at the same soft allocation that we started with, and the algorithm is trapped in an invariant state! Therefore uniform initialisation should clearly be avoided!</p>
 <p>You will explore this effect in practise in Worksheet 8.</p>
 </section>
 <section id="connection-with-the-k-means-clustering-method" class="level3">
 <h3 class="anchored" data-anchor-id="connection-with-the-k-means-clustering-method">Connection with the <span class="math inline">\(K\)</span>-means clustering method</h3>
 <p>The <span class="math inline">\(K\)</span>-means algorithm is very closely related to the EM algorithm and probabilistic clustering with a specific Gaussian mixture models.</p>
-<p>Specifically, we assume a simplified model where the probabilities <span class="math inline">\(\pi_k\)</span> of all classes are equal (i.e.&nbsp;<span class="math inline">\(\pi_k=\frac{1}{K}\)</span>) and where the covariances <span class="math inline">\(\symbfit \Sigma_k\)</span> are all of the same spherical form <span class="math inline">\(\sigma^2 \symbfit I\)</span>. Thus, the covariance does not depend on the group, there is no correlation between the variables and the variance of all variables is the same.</p>
+<p>Specifically, we assume a simplified model where the probabilities <span class="math inline">\(\pi_k\)</span> of all classes are equal (i.e.&nbsp;<span class="math inline">\(\pi_k=\frac{1}{K}\)</span>) and where the covariances <span class="math inline">\(\boldsymbol \Sigma_k\)</span> are all of the same spherical form <span class="math inline">\(\sigma^2 \boldsymbol I\)</span>. Thus, the covariance does not depend on the group, there is no correlation between the variables and the variance of all variables is the same.</p>
 <p>First, we consider the “E” step. Using the mixture model above the soft assignment for the class allocation becomes <span class="math display">\[
-\log( q_i(k) ) = -\frac{1}{2 \sigma^2} (\symbfit x_i-\hat{\symbfit \mu}_k)^T (\symbfit x_i-\hat{\symbfit \mu}_k) +  \text{const}
+\log( q_i(k) ) = -\frac{1}{2 \sigma^2} (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k) +  \text{const}
 \]</span> where <span class="math inline">\(\text{const}\)</span> does not depend on <span class="math inline">\(k\)</span>. This can turned into a hard class allocation by <span class="math display">\[
 \begin{split}
 y_i &amp;= \underset{k}{\arg \max} \log( q_i(k) ) \\
-          &amp; = \underset{k}{\arg \min}  (\symbfit x_i-\hat{\symbfit \mu}_k)^T (\symbfit x_i-\hat{\symbfit \mu}_k)\\
+          &amp; = \underset{k}{\arg \min}  (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)^T (\boldsymbol x_i-\hat{\boldsymbol \mu}_k)\\
 \end{split}
 \]</span> which is exactly the <span class="math inline">\(K\)</span>-means rule to dallocate of samples to groups.</p>
 <p>Second, in the “M” step we compute the parameters of the model. If the class allocations are hard the expected log-likelihood becomes the observed data likelihood and the MLE of the group mean is the average of samples in that group.</p>
@@ -1200,35 +1200,35 @@ y_i &amp;= \underset{k}{\arg \max} \log( q_i(k) ) \\
 <li>that applying the EM algorithm versus directly maximising the marginal likelihood both lead to the same fitted mixture model.</li>
 </ol>
 <p>Intriguingly, both these aspects of the EM algorithm are easiest to understand from an entropy point of view, i.e.&nbsp;considering the entropy foundations of maximum likelihood and Bayesian learning — for details see <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH27720-stats2/">MATH27720 Statistics 2</a>. Specifically, the reason for the need of using expectation is the link between likelihood and cross-entropy (which also is defined as expectation). Furthermore, the EM algorithm is an example of using an ELBO (“evidence lower bound”) to successively approximate the maximised marginal log-likelihood, with the bound only getting better in each step.</p>
-<p>First, recall that the method of maximum likelihood results from minimising the KL divergence between an empirical distribution <span class="math inline">\(Q_{\symbfit x}\)</span> representing the observations <span class="math inline">\(\symbfit x_1, \ldots, \symbfit x_n\)</span> and the model family <span class="math inline">\(F_{\symbfit x}^{\symbfit \theta}\)</span> with parameters <span class="math inline">\(\symbfit \theta\)</span>: <span class="math display">\[
-\hat{\symbfit \theta}^{ML} =  \underset{\symbfit \theta}{\arg \min}\,\, D_{\text{KL}}(Q_{\symbfit x}, F_{\symbfit x}^{\symbfit \theta})
+<p>First, recall that the method of maximum likelihood results from minimising the KL divergence between an empirical distribution <span class="math inline">\(Q_{\boldsymbol x}\)</span> representing the observations <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> and the model family <span class="math inline">\(F_{\boldsymbol x}^{\boldsymbol \theta}\)</span> with parameters <span class="math inline">\(\boldsymbol \theta\)</span>: <span class="math display">\[
+\hat{\boldsymbol \theta}^{ML} =  \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(Q_{\boldsymbol x}, F_{\boldsymbol x}^{\boldsymbol \theta})
 \]</span> The KL divergence decomposes into a cross-entropy and an entropy part <span class="math display">\[
-D_{\text{KL}}(Q_{\symbfit x}, F_{\symbfit \theta}) = H(Q_{\symbfit x}, F_{\symbfit x}^{\symbfit \theta})- H(Q_{\symbfit x})
-\]</span> hence minimising the KL divergence with regard to <span class="math inline">\(\symbfit \theta\)</span> is the same as maximising the function <span class="math display">\[
+D_{\text{KL}}(Q_{\boldsymbol x}, F_{\boldsymbol \theta}) = H(Q_{\boldsymbol x}, F_{\boldsymbol x}^{\boldsymbol \theta})- H(Q_{\boldsymbol x})
+\]</span> hence minimising the KL divergence with regard to <span class="math inline">\(\boldsymbol \theta\)</span> is the same as maximising the function <span class="math display">\[
 \begin{split}
--n H(Q_{\symbfit x}, F_{\symbfit x}^{\symbfit \theta}) &amp;= n \text{E}_{Q_{\symbfit x}}( \log f(\symbfit x| \symbfit \theta)  ) \\
-&amp;= \sum_{i=1}^n  \log f(\symbfit x_i | \symbfit \theta)\\
-&amp;= \log L(\symbfit \theta| \symbfit X)\\
+-n H(Q_{\boldsymbol x}, F_{\boldsymbol x}^{\boldsymbol \theta}) &amp;= n \text{E}_{Q_{\boldsymbol x}}( \log f(\boldsymbol x| \boldsymbol \theta)  ) \\
+&amp;= \sum_{i=1}^n  \log f(\boldsymbol x_i | \boldsymbol \theta)\\
+&amp;= \log L(\boldsymbol \theta| \boldsymbol X)\\
 \end{split}
-\]</span> which is indeed the observed data log-likelihood for <span class="math inline">\(\symbfit \theta\)</span>.</p>
+\]</span> which is indeed the observed data log-likelihood for <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
 <p>Second, we recall the chain rule for the KL divergence. Specifically, the KL divergence for the joint model forms an upper bound of the KL divergence for the marginal model: <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(Q_{\symbfit x,y} , F_{\symbfit x, y}^{\symbfit \theta}) &amp;= D_{\text{KL}}(Q_{\symbfit x} , F_{\symbfit x}^{\symbfit \theta}) + \underbrace{  D_{\text{KL}}(Q_{y| \symbfit x} , F_{y|\symbfit x}^{\symbfit \theta})   }_{\geq 0}\\
-&amp;\geq D_{\text{KL}}(Q_{\symbfit x} , F_{\symbfit x}^{\symbfit \theta})
+D_{\text{KL}}(Q_{\boldsymbol x,y} , F_{\boldsymbol x, y}^{\boldsymbol \theta}) &amp;= D_{\text{KL}}(Q_{\boldsymbol x} , F_{\boldsymbol x}^{\boldsymbol \theta}) + \underbrace{  D_{\text{KL}}(Q_{y| \boldsymbol x} , F_{y|\boldsymbol x}^{\boldsymbol \theta})   }_{\geq 0}\\
+&amp;\geq D_{\text{KL}}(Q_{\boldsymbol x} , F_{\boldsymbol x}^{\boldsymbol \theta})
 \end{split}
-\]</span> Unlike for <span class="math inline">\(\symbfit x\)</span> we do not have observations about the latent state <span class="math inline">\(y\)</span>. Nonetheless, we can model the joint distribution <span class="math inline">\(Q_{\symbfit x, y} =Q_{\symbfit x}  Q_{y|\symbfit x}\)</span> by assuming a distribution <span class="math inline">\(Q_{y|\symbfit x}\)</span> over the latent variable.</p>
-<p>The EM algorithm arises from iteratively decreasing the joint KL divergence <span class="math inline">\(D_{\text{KL}}(Q_{\symbfit x}  Q_{y|\symbfit x} , F_{\symbfit x, y}^{\symbfit \theta})\)</span> with regard to both <span class="math inline">\(Q_{y|\symbfit x}\)</span> and <span class="math inline">\(\symbfit \theta\)</span>:</p>
+\]</span> Unlike for <span class="math inline">\(\boldsymbol x\)</span> we do not have observations about the latent state <span class="math inline">\(y\)</span>. Nonetheless, we can model the joint distribution <span class="math inline">\(Q_{\boldsymbol x, y} =Q_{\boldsymbol x}  Q_{y|\boldsymbol x}\)</span> by assuming a distribution <span class="math inline">\(Q_{y|\boldsymbol x}\)</span> over the latent variable.</p>
+<p>The EM algorithm arises from iteratively decreasing the joint KL divergence <span class="math inline">\(D_{\text{KL}}(Q_{\boldsymbol x}  Q_{y|\boldsymbol x} , F_{\boldsymbol x, y}^{\boldsymbol \theta})\)</span> with regard to both <span class="math inline">\(Q_{y|\boldsymbol x}\)</span> and <span class="math inline">\(\boldsymbol \theta\)</span>:</p>
 <ol type="1">
-<li><p>“E” Step: While keeping <span class="math inline">\(\symbfit \theta\)</span> fixed we vary <span class="math inline">\(Q_{y|\symbfit x}\)</span> to minimise the joint KL divergence. The minimum is reached at <span class="math inline">\(D_{\text{KL}}(Q_{y| \symbfit x} , F_{y|\symbfit x}^{\symbfit \theta}) = 0\)</span>. This is the case for <span class="math inline">\(Q_{y| \symbfit x} = F_{y|\symbfit x}^{\symbfit \theta}\)</span>, i.e.&nbsp;when the latent distribution <span class="math inline">\(Q_{y| \symbfit x}\)</span> representing the soft allocations is computed by conditioning, i.e.&nbsp;using Bayes’ theorem.</p></li>
-<li><p>“M” Step: While keeping <span class="math inline">\(Q_{y| \symbfit x}\)</span> fixed the joint KL divergence is further minimised with regard to <span class="math inline">\(\symbfit \theta\)</span>. This is equivalent to maximising the function <span class="math inline">\(\sum_{k=1}^K \sum_{i=1}^n q(k | \symbfit x_i)  \log f(\symbfit x_i, k| \symbfit \theta)\)</span> which is indeed the expected complete data log-likelihood.</p></li>
+<li><p>“E” Step: While keeping <span class="math inline">\(\boldsymbol \theta\)</span> fixed we vary <span class="math inline">\(Q_{y|\boldsymbol x}\)</span> to minimise the joint KL divergence. The minimum is reached at <span class="math inline">\(D_{\text{KL}}(Q_{y| \boldsymbol x} , F_{y|\boldsymbol x}^{\boldsymbol \theta}) = 0\)</span>. This is the case for <span class="math inline">\(Q_{y| \boldsymbol x} = F_{y|\boldsymbol x}^{\boldsymbol \theta}\)</span>, i.e.&nbsp;when the latent distribution <span class="math inline">\(Q_{y| \boldsymbol x}\)</span> representing the soft allocations is computed by conditioning, i.e.&nbsp;using Bayes’ theorem.</p></li>
+<li><p>“M” Step: While keeping <span class="math inline">\(Q_{y| \boldsymbol x}\)</span> fixed the joint KL divergence is further minimised with regard to <span class="math inline">\(\boldsymbol \theta\)</span>. This is equivalent to maximising the function <span class="math inline">\(\sum_{k=1}^K \sum_{i=1}^n q(k | \boldsymbol x_i)  \log f(\boldsymbol x_i, k| \boldsymbol \theta)\)</span> which is indeed the expected complete data log-likelihood.</p></li>
 </ol>
 <p>Thus in the “E” step the first argument in the KL divergence is optimised (“I” projection) and in the “M” step it is the second argument that is optimised (“M” projection). In both steps the joint KL divergence always decreases and never increases. Furthermore, at the end of “E” step the joint KL divergence equals the marginal KL divergence. Thus, this procedure implicitly minimises the marginal KL divergence as well, and hence EM maximises the marginal log-likelihood.</p>
-<p>An alternative way to look at the EM algorithm is in terms of cross-entropy. Using <span class="math inline">\(H( Q_{\symbfit x,y}) = H(Q_{\symbfit x}) + H(Q_{y| \symbfit x} )\)</span> we can rewrite the above upper bound for the joint KL divergence as an equivalent lower bound for <span class="math inline">\(n\)</span> times the negative marginal cross-entropy: <span class="math display">\[
+<p>An alternative way to look at the EM algorithm is in terms of cross-entropy. Using <span class="math inline">\(H( Q_{\boldsymbol x,y}) = H(Q_{\boldsymbol x}) + H(Q_{y| \boldsymbol x} )\)</span> we can rewrite the above upper bound for the joint KL divergence as an equivalent lower bound for <span class="math inline">\(n\)</span> times the negative marginal cross-entropy: <span class="math display">\[
 \begin{split}
-- n H(Q_{\symbfit x}, F_{\symbfit x}^{\symbfit \theta}) &amp;= \underbrace{ -n  H(Q_{\symbfit x} Q_{y| \symbfit x} , F_{\symbfit x, y}^{\symbfit \theta})  + n H(Q_{y| \symbfit x} )}_{\text{lower bound, ELBO}}  + \underbrace{ n D_{\text{KL}}(Q_{y| \symbfit x} , F_{y|\symbfit x}^{\symbfit \theta})}_{\geq 0}\\
-&amp; \geq {\cal F}\left( Q_{\symbfit x}, Q_{y| \symbfit x},  F_{\symbfit x, y}^{\symbfit \theta}\right)\\
+- n H(Q_{\boldsymbol x}, F_{\boldsymbol x}^{\boldsymbol \theta}) &amp;= \underbrace{ -n  H(Q_{\boldsymbol x} Q_{y| \boldsymbol x} , F_{\boldsymbol x, y}^{\boldsymbol \theta})  + n H(Q_{y| \boldsymbol x} )}_{\text{lower bound, ELBO}}  + \underbrace{ n D_{\text{KL}}(Q_{y| \boldsymbol x} , F_{y|\boldsymbol x}^{\boldsymbol \theta})}_{\geq 0}\\
+&amp; \geq {\cal F}\left( Q_{\boldsymbol x}, Q_{y| \boldsymbol x},  F_{\boldsymbol x, y}^{\boldsymbol \theta}\right)\\
 \end{split}
-\]</span> The lower bound is known as the “ELBO” (“evidence lower bound”). Then the EM algorithm arises by iteratively maximising the ELBO <span class="math inline">\(\cal F\)</span> with regard to <span class="math inline">\(Q_{y| \symbfit x}\)</span> (“E” step”) and <span class="math inline">\(\symbfit \theta\)</span> (“M” step).</p>
+\]</span> The lower bound is known as the “ELBO” (“evidence lower bound”). Then the EM algorithm arises by iteratively maximising the ELBO <span class="math inline">\(\cal F\)</span> with regard to <span class="math inline">\(Q_{y| \boldsymbol x}\)</span> (“E” step”) and <span class="math inline">\(\boldsymbol \theta\)</span> (“M” step).</p>
 <p>The entropy interpretation of the EM algorithm is due to Csiszàr and Tusnàdy (1984)<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> and the ELBO interpretation was introduced by Neal and Hinton (1998)<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
 
 
@@ -1554,19 +1554,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
-</div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 
