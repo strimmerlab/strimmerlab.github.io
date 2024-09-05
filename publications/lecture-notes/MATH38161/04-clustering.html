@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Multivariate Statistics and Machine Learning - 4&nbsp; Unsupervised learning and clustering</title>
+<title>4&nbsp; Unsupervised learning and clustering – Multivariate Statistics and Machine Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -141,13 +141,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-clustering.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unsupervised learning and clustering</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -231,9 +231,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -343,7 +343,7 @@ window.Quarto = {
 <p>We observe data <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span> for <span class="math inline">\(n\)</span> objects (or subjects). Each sample <span class="math inline">\(\boldsymbol x_i\)</span> is a vector of dimension <span class="math inline">\(d\)</span>. Thus, for each of the <span class="math inline">\(n\)</span> objects / subjects we have measurements on <span class="math inline">\(d\)</span> variables. The aim of unsupervised learning is to identify patters relating the objects/subjects based on the information available in <span class="math inline">\(\boldsymbol x_i\)</span>. Note that in unsupervised learning we use <em>only</em> the information in <span class="math inline">\(\boldsymbol x_i\)</span> and nothing else.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-prcompiris" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-prcompiris" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-prcompiris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-prcompiris-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
@@ -392,13 +392,13 @@ S(n,K) = \left\{\begin{array}{l} n \\ K \end{array} \right\}
 <p>For large n: <span class="math display">\[
 S(n,K) \approx \frac{K^n }{ K!}
 \]</span></p>
-<div id="tbl-numpartitions" class="quarto-float anchored">
+<div id="tbl-numpartitions" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-numpartitions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4.1: Number of ways to partition <span class="math inline">\(n\)</span> samples into <span class="math inline">\(K\)</span> groups.
 </figcaption>
 <div aria-describedby="tbl-numpartitions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th><span class="math inline">\(n\)</span></th>
@@ -555,7 +555,7 @@ d(\boldsymbol a, \boldsymbol b) = (\boldsymbol a- \boldsymbol b)^T (\boldsymbol 
 <p>This data set is reports 6 pysical measurements on 200 Swiss bank notes. Of the 200 notes 100 are genuine and 100 are counterfeit. The measurements are: length, left width, right width, bottom margin, top margin, diagonal length of the bank notes.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-prcompswiss" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-prcompswiss" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-prcompswiss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-prcompswiss-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
@@ -570,7 +570,7 @@ Figure&nbsp;4.2: Principal components Swiss banknote data.
 <p>Plotting the first to PCAs of this data shows that there are indeed two well defined groups, and that these groups correspond precisely to the genuine and counterfeit banknotes (<a href="#fig-prcompswiss" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>).</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-swissward" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-swissward" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-swissward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-swissward-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -584,7 +584,7 @@ Figure&nbsp;4.3: Ward clustering of Swiss banknote data.
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-swisslink" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-swisslink" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-swisslink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-swisslink-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -598,7 +598,7 @@ Figure&nbsp;4.4: Average linkage clustering of Swiss banknote data.
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-swisscomplete" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-swisscomplete" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-swisscomplete-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-swisscomplete-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -612,7 +612,7 @@ Figure&nbsp;4.5: Complete linkage clustering of Swiss banknote data.
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-swisssingle" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-swisssingle" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-swisssingle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-swisssingle-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -725,7 +725,7 @@ SST = \sum_{i=1}^n (\boldsymbol x_i - \hat{\boldsymbol \mu}_0)^T (\boldsymbol x_
 <h3 class="anchored" data-anchor-id="application-of-k-means-to-iris-data">Application of <span class="math inline">\(K\)</span>-means to Iris data</h3>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-scatteriris" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-scatteriris" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatteriris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-scatteriris-1.png" class="img-fluid figure-img" data-fig-pos="t" width="432">
@@ -738,27 +738,28 @@ Figure&nbsp;4.7: Pairwise scatter plots for the original four variables of the i
 </div>
 </div>
 <p>Scatter plots of Iris data (<a href="#fig-scatteriris" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>):</p>
-<p>The R output from a <span class="math inline">\(K\)</span>-means analysis with known true number of clusters specified (<span class="math inline">\(K=3\)</span>) is: ::: {.cell}</p>
+<p>The R output from a <span class="math inline">\(K\)</span>-means analysis with known true number of clusters specified (<span class="math inline">\(K=3\)</span>) is:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kmeans.out <span class="ot">=</span> <span class="fu">kmeans</span>(X.iris, <span class="dv">3</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kmeans.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 50, 53, 47
+<pre><code>K-means clustering with 3 clusters of sizes 47, 50, 53
 
 Cluster means:
   Sepal.Length Sepal.Width Petal.Length Petal.Width
-1  -1.01119138  0.85041372   -1.3006301  -1.2507035
-2  -0.05005221 -0.88042696    0.3465767   0.2805873
-3   1.13217737  0.08812645    0.9928284   1.0141287
+1   1.13217737  0.08812645    0.9928284   1.0141287
+2  -1.01119138  0.85041372   -1.3006301  -1.2507035
+3  -0.05005221 -0.88042696    0.3465767   0.2805873
 
 Clustering vector:
-  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
- [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
-[112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
-[149] 3 2
+  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 3 3 3 1 3 3 3 3 3 3 3 3 1 3 3 3 3 1 3 3 3
+ [75] 3 1 1 1 3 3 3 3 3 3 3 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 1 3 1 1 1 1 3 1 1 1 1
+[112] 1 1 3 3 1 1 1 1 3 1 3 1 3 1 1 3 1 1 1 1 1 1 3 3 1 1 1 3 1 1 1 3 1 1 1 3 1
+[149] 1 3
 
 Within cluster sum of squares by cluster:
-[1] 47.35062 44.08754 47.45019
+[1] 47.45019 47.35062 44.08754
  (between_SS / total_SS =  76.7 %)
 
 Available components:
@@ -766,30 +767,35 @@ Available components:
 [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
 [6] "betweenss"    "size"         "iter"         "ifault"      </code></pre>
 </div>
-<p>::: The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, <code>tot.withinss</code>) is ::: {.cell}</p>
+</div>
+<p>The corresponding total within-group sum of squares (<span class="math inline">\(SSW\)</span>, <code>tot.withinss</code>) is</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>kmeans.out<span class="sc">$</span>tot.withinss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 138.8884</code></pre>
 </div>
-<p>::: and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is ::: {.cell}</p>
+</div>
+<p>and the between-group sum of squares (<span class="math inline">\(SSB\)</span>, <code>betweenss</code>) is</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kmeans.out<span class="sc">$</span>betweenss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 457.1116</code></pre>
 </div>
-<p>::: By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
+</div>
+<p>By comparing with the known class assignments we can assess the accuracy of <span class="math inline">\(K\)</span>-means clustering:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(L.iris, kmeans.out<span class="sc">$</span>cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            
 L.iris        1  2  3
-  setosa     50  0  0
-  versicolor  0 39 11
-  virginica   0 14 36</code></pre>
+  setosa      0 50  0
+  versicolor 11  0 39
+  virginica  36  0 14</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-kmeanserrors" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-kmeanserrors" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-kmeanserrors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-kmeanserrors-1.png" class="img-fluid figure-img" data-fig-pos="t" width="480">
@@ -883,7 +889,7 @@ f_{\text{mix}}(\boldsymbol x) = \sum_{k=1}^K \pi_k f_k(\boldsymbol x)
 <h3 class="anchored" data-anchor-id="example-of-mixtures">Example of mixtures</h3>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-normmixtwomodes" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-normmixtwomodes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normmixtwomodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-normmixtwomodes-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -897,7 +903,7 @@ Figure&nbsp;4.9: Mixture of two normal distributions with two modes.
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-normmixsinglemode" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-normmixsinglemode" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normmixsinglemode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-normmixsinglemode-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -915,7 +921,7 @@ Figure&nbsp;4.10: Mixture of two normal distributions with a single mode.
 <p>Most mixtures we consider in this course are multivariate. For illustration, <a href="#fig-normmix2d2modes" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> shows a plot of a density of the mixture of two bivariate normal distributions, with <span class="math inline">\(\pi_1=0.7\)</span>, <span class="math inline">\(\boldsymbol \mu_1 = \begin{pmatrix}-1 \\1 \\ \end{pmatrix}\)</span>, <span class="math inline">\(\boldsymbol \Sigma_1 = \begin{pmatrix} 1 &amp; 0.7 \\ 0.7 &amp; 1  \\ \end{pmatrix}\)</span>, <span class="math inline">\(\boldsymbol \mu_2 = \begin{pmatrix}2.5 \\0.5 \\ \end{pmatrix}\)</span> and <span class="math inline">\(\boldsymbol \Sigma_2 = \begin{pmatrix} 1 &amp; -0.7 \\ -0.7 &amp; 1  \\ \end{pmatrix}\)</span>:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-normmix2d2modes" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="p">
+<div id="fig-normmix2d2modes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="p">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normmix2d2modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-normmix2d2modes-1.png" class="img-fluid figure-img" data-fig-pos="p" width="672">
@@ -1038,7 +1044,7 @@ y_i =\underset{k}{\arg \max}\,\,q_i(k)
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>gmm3 <span class="ot">=</span> <span class="fu">Mclust</span>(X.iris, <span class="at">G=</span><span class="dv">3</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gmm3, <span class="at">what=</span><span class="st">"classification"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-mclustfit" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-mclustfit" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mclustfit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-mclustfit-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
@@ -1050,12 +1056,14 @@ Figure&nbsp;4.12: Mclust fit of mixture model to the iris flower data.
 </div>
 </div>
 </div>
-<p>The “mclust” software has used the following model when fitting the mixture: ::: {.cell}</p>
+<p>The “mclust” software has used the following model when fitting the mixture:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gmm3<span class="sc">$</span>modelName</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "VVV"</code></pre>
 </div>
-<p>::: Here “VVV” is the name used by the “mclust” software for a model allowing for an individual unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
+</div>
+<p>Here “VVV” is the name used by the “mclust” software for a model allowing for an individual unrestricted covariance matrix <span class="math inline">\(\boldsymbol \Sigma_k\)</span> for each class <span class="math inline">\(k\)</span>.</p>
 <p>This GMM has a substantially lower misclassification error compared to <span class="math inline">\(K\)</span>-means with the same number of clusters:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gmm3<span class="sc">$</span>classification, L.iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1071,7 +1079,7 @@ Figure&nbsp;4.12: Mclust fit of mixture model to the iris flower data.
 <p>If we compute BIC for various numbers of groups we find that the model with the best <span class="math inline">\(\text{BIC}_{\text{mclust}}\)</span> is a model with 2 clusters but the model with 3 cluster has nearly as good a BIC:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-mclustbic" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-mclustbic" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mclustbic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04-clustering_files/figure-html/fig-mclustbic-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
@@ -1286,18 +1294,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1329,7 +1326,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH38161");
@@ -1337,7 +1356,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
