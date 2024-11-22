@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics 2: Likelihood and Bayes - 5&nbsp; Likelihood-based confidence interval and likelihood ratio</title>
+<title>11&nbsp; Likelihood-based confidence interval and likelihood ratio – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./06-likelihood6.html" rel="next">
-<link href="./04-likelihood4.html" rel="prev">
+<link href="./03-likelihood-f-optim.html" rel="next">
+<link href="./03-likelihood-d-quadratic.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -107,13 +107,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-likelihood1.html">Likelihood estimation and inference</a></li><li class="breadcrumb-item"><a href="./05-likelihood5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-e-cilrt.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -125,7 +125,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Statistics 2: Likelihood and Bayes</a> 
+      <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -155,56 +155,92 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Likelihood estimation and inference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Entropy and likelihood</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-likelihood1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview of statistical learning</span></span></a>
+  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-likelihood2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Entropy and KL information</span></span></a>
+  <a href="./01-intro-b-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-likelihood3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation</span></span></a>
+  <a href="./02-entropy-a-entropy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-likelihood4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-likelihood5.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  <a href="./02-entropy-c-fisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-likelihood6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-a-mle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-b-mlpractise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-c-obsfisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Observed Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-d-quadratic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-e-cilrt.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-f-optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Bayesian Statistics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bayesian statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -212,43 +248,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -261,9 +297,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -292,7 +328,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#likelihood-based-confidence-intervals-and-wilks-statistic" id="toc-likelihood-based-confidence-intervals-and-wilks-statistic" class="nav-link active" data-scroll-target="#likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">5.1</span> Likelihood-based confidence intervals and Wilks statistic</a>
+  <li><a href="#likelihood-based-confidence-intervals-and-wilks-statistic" id="toc-likelihood-based-confidence-intervals-and-wilks-statistic" class="nav-link active" data-scroll-target="#likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">11.1</span> Likelihood-based confidence intervals and Wilks statistic</a>
   <ul class="collapse">
   <li><a href="#general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" id="toc-general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic">General idea and definition of Wilks log-likelihood ratio statistic</a></li>
   <li><a href="#examples-of-the-wilks-log-likelihood-ratio-statistic" id="toc-examples-of-the-wilks-log-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#examples-of-the-wilks-log-likelihood-ratio-statistic">Examples of the Wilks log-likelihood ratio statistic</a></li>
@@ -303,16 +339,16 @@ window.Quarto = {
   <li><a href="#likelihood-ratio-test-lrt-using-wilks-statistic" id="toc-likelihood-ratio-test-lrt-using-wilks-statistic" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt-using-wilks-statistic">Likelihood ratio test (LRT) using Wilks statistic</a></li>
   <li><a href="#origin-of-likelihood-ratio-statistic" id="toc-origin-of-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#origin-of-likelihood-ratio-statistic">Origin of likelihood ratio statistic</a></li>
   </ul></li>
-  <li><a href="#generalised-likelihood-ratio-test-glrt" id="toc-generalised-likelihood-ratio-test-glrt" class="nav-link" data-scroll-target="#generalised-likelihood-ratio-test-glrt"><span class="header-section-number">5.2</span> Generalised likelihood ratio test (GLRT)</a></li>
+  <li><a href="#generalised-likelihood-ratio-test-glrt" id="toc-generalised-likelihood-ratio-test-glrt" class="nav-link" data-scroll-target="#generalised-likelihood-ratio-test-glrt"><span class="header-section-number">11.2</span> Generalised likelihood ratio test (GLRT)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-likelihood1.html">Likelihood estimation and inference</a></li><li class="breadcrumb-item"><a href="./05-likelihood5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-e-cilrt.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></h1>
 </div>
 
 
@@ -329,28 +365,28 @@ window.Quarto = {
 </header>
 
 
-<section id="likelihood-based-confidence-intervals-and-wilks-statistic" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">5.1</span> Likelihood-based confidence intervals and Wilks statistic</h2>
+<section id="likelihood-based-confidence-intervals-and-wilks-statistic" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">11.1</span> Likelihood-based confidence intervals and Wilks statistic</h2>
 <section id="general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic">General idea and definition of Wilks log-likelihood ratio statistic</h3>
-<div id="fig-likelihoodci" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="b">
+<div id="fig-likelihoodci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="b">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-likelihoodci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="fig/likelihoodci.png" class="img-fluid figure-img" style="width:80.0%" data-fig-pos="b">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-likelihoodci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.1: Construction of a likelihood-based confidence intervals.
+Figure&nbsp;11.1: Construction of a likelihood-based confidence intervals.
 </figcaption>
 </figure>
 </div>
-<p>Instead of relying on the normal resp. quadratic approximation, we can also use the log-likelihood directly to find <strong>likelihood confidence intervals</strong> (<a href="#fig-likelihoodci" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>).</p>
-<p>Idea: find all <span class="math inline">\(\symbfit \theta_0\)</span> that have a log-likelihood that is almost as good as <span class="math inline">\(l_n(\hat{\symbfit \theta}_{ML} | D)\)</span>. <span class="math display">\[\text{CI}= \{\symbfit \theta_0: l_n(\hat{\symbfit \theta}_{ML}| D) - l_n(\symbfit \theta_0 | D) \leq \Delta\}\]</span> Here <span class="math inline">\(\Delta\)</span> is our tolerated deviation from the maximum log-likelihood. We will see below how to determine a suitable <span class="math inline">\(\Delta\)</span>.</p>
-<p>The above leads naturally to the <strong>Wilks log-likelihood ratio statistic</strong> <span class="math inline">\(W(\symbfit \theta_0)\)</span> defined as: <span class="math display">\[
+<p>Instead of relying on the normal resp. quadratic approximation, we can also use the log-likelihood directly to find <strong>likelihood confidence intervals</strong> (<a href="#fig-likelihoodci" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>).</p>
+<p>Idea: find all <span class="math inline">\(\boldsymbol \theta_0\)</span> that have a log-likelihood that is almost as good as <span class="math inline">\(l_n(\hat{\boldsymbol \theta}_{ML} | D)\)</span>. <span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: l_n(\hat{\boldsymbol \theta}_{ML}| D) - l_n(\boldsymbol \theta_0 | D) \leq \Delta\}\]</span> Here <span class="math inline">\(\Delta\)</span> is our tolerated deviation from the maximum log-likelihood. We will see below how to determine a suitable <span class="math inline">\(\Delta\)</span>.</p>
+<p>The above leads naturally to the <strong>Wilks log-likelihood ratio statistic</strong> <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> defined as: <span class="math display">\[
 \begin{split}
-W(\symbfit \theta_0) &amp; = 2 \log \left(\frac{L(\hat{\symbfit \theta}_{ML}| D)}{L(\symbfit \theta_0| D)}\right) \\
-&amp; =2(l_n(\hat{\symbfit \theta}_{ML}| D)-l_n(\symbfit \theta_0 |D))\\
+W(\boldsymbol \theta_0) &amp; = 2 \log \left(\frac{L(\hat{\boldsymbol \theta}_{ML}| D)}{L(\boldsymbol \theta_0| D)}\right) \\
+&amp; =2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0 |D))\\
 \end{split}
-\]</span> With its help we can write the likelihood CI as follows: <span class="math display">\[\text{CI}= \{\symbfit \theta_0: W(\symbfit \theta_0) \leq 2 \Delta\}\]</span></p>
+\]</span> With its help we can write the likelihood CI as follows: <span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: W(\boldsymbol \theta_0) \leq 2 \Delta\}\]</span></p>
 <p>The Wilks statistic is named after <a href="https://en.wikipedia.org/wiki/Samuel_S._Wilks">Samuel S. Wilks (1906–1964)</a>.</p>
 <p>Advantages of using a likelihood-based CI:</p>
 <ul>
@@ -359,21 +395,21 @@ W(\symbfit \theta_0) &amp; = 2 \log \left(\frac{L(\hat{\symbfit \theta}_{ML}| D)
 <li>contains normal CI as special case</li>
 </ul>
 <div id="exm-likelihoodratio" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.1</strong></span> The likelihood ratio statistic:</p>
-<p>As alternative to the Wilks log-likelhood ratio statistic <span class="math inline">\(W(\symbfit \theta_0)\)</span> one may also use the <strong>likelihood ratio</strong> statistic <span class="math display">\[
-\Lambda(\symbfit \theta_0)  = \frac{L(\symbfit \theta_0| D)}{L(\hat{\symbfit \theta}_{ML}| D)}
+<p><span class="theorem-title"><strong>Example 11.1</strong></span> The likelihood ratio statistic:</p>
+<p>As alternative to the Wilks log-likelhood ratio statistic <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> one may also use the <strong>likelihood ratio</strong> statistic <span class="math display">\[
+\Lambda(\boldsymbol \theta_0)  = \frac{L(\boldsymbol \theta_0| D)}{L(\hat{\boldsymbol \theta}_{ML}| D)}
 \]</span> The two statistics can be transformed into each other using <span class="math display">\[
-W(\symbfit \theta_0) = -2\log \Lambda(\symbfit \theta_0)
-\]</span> and <span class="math display">\[\Lambda(\symbfit \theta_0) =  e^{ - W(\symbfit \theta_0) / 2 }
-\]</span> Hence large values of <span class="math inline">\(W(\symbfit \theta_0\)</span> correspond to small values of <span class="math inline">\(\Lambda(\symbfit \theta_0)\)</span> and the other way round.</p>
-<p>In this course we will only use <span class="math inline">\(W(\symbfit \theta_0)\)</span> as it is both easier to compute and its sampling distribution is easier to obtain.</p>
+W(\boldsymbol \theta_0) = -2\log \Lambda(\boldsymbol \theta_0)
+\]</span> and <span class="math display">\[\Lambda(\boldsymbol \theta_0) =  e^{ - W(\boldsymbol \theta_0) / 2 }
+\]</span> Hence large values of <span class="math inline">\(W(\boldsymbol \theta_0\)</span> correspond to small values of <span class="math inline">\(\Lambda(\boldsymbol \theta_0)\)</span> and the other way round.</p>
+<p>In this course we will only use <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> as it is both easier to compute and its sampling distribution is easier to obtain.</p>
 </div>
 </section>
 <section id="examples-of-the-wilks-log-likelihood-ratio-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="examples-of-the-wilks-log-likelihood-ratio-statistic">Examples of the Wilks log-likelihood ratio statistic</h3>
 <div id="exm-wilksproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.2</strong></span> Wilks statistic for the proportion:</p>
-<p>The log-likelihood for the parameter <span class="math inline">\(\theta\)</span> is (cf. <a href="03-likelihood3.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>3.1</span></a>) <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 11.2</strong></span> Wilks statistic for the proportion:</p>
+<p>The log-likelihood for the parameter <span class="math inline">\(\theta\)</span> is (cf. <a href="03-likelihood-b-mlpractise.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) <span class="math display">\[
 l_n(\theta| D) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
 \]</span> Hence the Wilks statistic is with <span class="math inline">\(\hat{\theta}_{ML}=\bar{x}\)</span> <span class="math display">\[
 \begin{split}
@@ -383,50 +419,50 @@ W(\theta_0) &amp; = 2 ( l_n( \hat{\theta}_{ML} | D)  -l_n( \theta_0 | D ) )\\
     \right) \\
 \end{split}
 \]</span></p>
-<p>Comparing with <a href="02-likelihood2.html#exm-klbernoulli" class="quarto-xref">Example&nbsp;<span>2.14</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two Bernoulli distributions: <span class="math display">\[
+<p>Comparing with <a href="02-entropy-b-kl.html#exm-klbernoulli" class="quarto-xref">Example&nbsp;<span>4.4</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two Bernoulli distributions: <span class="math display">\[
 W(\theta_0) =2 n D_{\text{KL}}( \text{Ber}( \hat{\theta}_{ML} ), \text{Ber}(\theta_0)  )
 \]</span></p>
 </div>
 <div id="exm-wilksnormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.3</strong></span> Wilks statistic for the mean parameter of a normal model:</p>
+<p><span class="theorem-title"><strong>Example 11.3</strong></span> Wilks statistic for the mean parameter of a normal model:</p>
 <p>The Wilks statistic is <span class="math display">\[
 W(\mu_0) = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}
 \]</span></p>
 <p>See Worksheet L2 for a derivation of the Wilks statistic from the normal log-likelihood function.</p>
-<p>Note this is the same as the squared Wald statistic discussed in <a href="04-likelihood4.html#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
-<p>Comparing with <a href="02-likelihood2.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>2.15</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two normal distributions with different means and variance equal to <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[
+<p>Note this is the same as the squared Wald statistic discussed in <a href="03-likelihood-d-quadratic.html#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.6</span></a>.</p>
+<p>Comparing with <a href="02-entropy-b-kl.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>4.5</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two normal distributions with different means and variance equal to <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[
 W(p_0) =2 n D_{\text{KL}}( N( \hat{\mu}_{ML}, \sigma^2 ), N(\mu_0, \sigma^2)  )
 \]</span></p>
 </div>
 <div id="exm-catwilks" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.4</strong></span> Wilks log-likelihood ratio statistic for the categorical distribution:</p>
+<p><span class="theorem-title"><strong>Example 11.4</strong></span> Wilks log-likelihood ratio statistic for the categorical distribution:</p>
 <p>The Wilks log-likelihood ratio is <span class="math display">\[
-W(\symbfit p_0) = 2 (l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) - l_n(p_1^{0}, \ldots, p_{K-1}^{0}    ))
-\]</span> with <span class="math inline">\(\symbfit p_0 = c(p_1^{0}, \ldots, p_{K}^{0} )^T\)</span>. As the probabilities sum up to 1 there are only <span class="math inline">\(K-1\)</span> free parameters.</p>
+W(\boldsymbol p_0) = 2 (l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) - l_n(p_1^{0}, \ldots, p_{K-1}^{0}    ))
+\]</span> with <span class="math inline">\(\boldsymbol p_0 = c(p_1^{0}, \ldots, p_{K}^{0} )^T\)</span>. As the probabilities sum up to 1 there are only <span class="math inline">\(K-1\)</span> free parameters.</p>
 <p>The log-likelihood at the MLE is <span class="math display">\[
 l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log \hat{\pi}_k^{ML}  =  n   \sum_{k=1}^{K}  \bar{x}_k \log \bar{x}_k
-\]</span> with <span class="math inline">\(\hat{\pi}_k^{ML} = \frac{n_k}{n} = \bar{x}_k\)</span>. Note that here and in the following the sums run from <span class="math inline">\(1\)</span> to <span class="math inline">\(K\)</span> where the <span class="math inline">\(K\)</span>-th component is always computed from the components <span class="math inline">\(1\)</span> to <span class="math inline">\(K-1\)</span>, as in the previous section. The log-likelihood at <span class="math inline">\(\symbfit p_0\)</span> is <span class="math display">\[l_n( p_1^{0}, \ldots, p_{K-1}^{0}    ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0}
+\]</span> with <span class="math inline">\(\hat{\pi}_k^{ML} = \frac{n_k}{n} = \bar{x}_k\)</span>. Note that here and in the following the sums run from <span class="math inline">\(1\)</span> to <span class="math inline">\(K\)</span> where the <span class="math inline">\(K\)</span>-th component is always computed from the components <span class="math inline">\(1\)</span> to <span class="math inline">\(K-1\)</span>, as in the previous section. The log-likelihood at <span class="math inline">\(\boldsymbol p_0\)</span> is <span class="math display">\[l_n( p_1^{0}, \ldots, p_{K-1}^{0}    ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0}
 \]</span> so that the Wilks statistic becomes <span class="math display">\[
-W(\symbfit p_0) = 2 n   \sum_{k=1}^{K}  \bar{x}_k \log\left(\frac{\bar{x}_k}{ p_k^{0}} \right)
+W(\boldsymbol p_0) = 2 n   \sum_{k=1}^{K}  \bar{x}_k \log\left(\frac{\bar{x}_k}{ p_k^{0}} \right)
 \]</span> It is asymptotically chi-squared distributed with <span class="math inline">\(K-1\)</span> degrees of freedom.</p>
 <p>Note that for this model the Wilks statistic is equal to the KL divergence <span class="math display">\[
-W(\symbfit p_0) = 2 n D_{\text{KL}}( \text{Cat}(\hat{\symbfit \pi}_{ML}), \text{Cat}(\symbfit p_0 ) )
+W(\boldsymbol p_0) = 2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), \text{Cat}(\boldsymbol p_0 ) )
 \]</span></p>
-<p>The Wilks log-likelihood ratio statistic for the categorical distribution is also known as the <a href="https://en.wikipedia.org/wiki/G-test"><span class="math inline">\(G\)</span> test statistic</a> where <span class="math inline">\(\hat{\symbfit \pi}_{ML}\)</span> corresponds to the observed frequencies (as observed in data) and <span class="math inline">\(\symbfit p_0\)</span> are the expected frequencies (i.e.&nbsp;hypothesised to be the true frequencies).</p>
+<p>The Wilks log-likelihood ratio statistic for the categorical distribution is also known as the <a href="https://en.wikipedia.org/wiki/G-test"><span class="math inline">\(G\)</span> test statistic</a> where <span class="math inline">\(\hat{\boldsymbol \pi}_{ML}\)</span> corresponds to the observed frequencies (as observed in data) and <span class="math inline">\(\boldsymbol p_0\)</span> are the expected frequencies (i.e.&nbsp;hypothesised to be the true frequencies).</p>
 <p>Using observed counts <span class="math inline">\(n_k\)</span> and expected counts <span class="math inline">\(n_k^{\text{expect}} = n p_k^{0}\)</span> we can write the Wilks statistic respectively the <span class="math inline">\(G\)</span>-statistic as follows: <span class="math display">\[
-W(\symbfit p_0) = 2   \sum_{k=1}^{K}  n_k \log\left(\frac{  n_k }{  n_k^{\text{expect}}   } \right)
+W(\boldsymbol p_0) = 2   \sum_{k=1}^{K}  n_k \log\left(\frac{  n_k }{  n_k^{\text{expect}}   } \right)
 \]</span></p>
 </div>
 </section>
 <section id="quadratic-approximation-of-the-wilks-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="quadratic-approximation-of-the-wilks-statistic">Quadratic approximation of the Wilks statistic</h3>
-<p>Recall the <em>quadratic approximation</em> of the log-likelihood function <span class="math inline">\(l_n(\symbfit \theta_0| D)\)</span> (= second order Taylor series around the MLE <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span>):</p>
-<p><span class="math display">\[l_n(\symbfit \theta_0| D)\approx l_n(\hat{\symbfit \theta}_{ML}| D)-\frac{1}{2}(\symbfit \theta_0-\hat{\symbfit \theta}_{ML})^T \symbfit J_n(\hat{\symbfit \theta}_{ML}) (\symbfit \theta_0-\hat{\symbfit \theta}_{ML})\]</span></p>
+<p>Recall the <em>quadratic approximation</em> of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta_0| D)\)</span> (= second order Taylor series around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>):</p>
+<p><span class="math display">\[l_n(\boldsymbol \theta_0| D)\approx l_n(\hat{\boldsymbol \theta}_{ML}| D)-\frac{1}{2}(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\]</span></p>
 <p>With this we can then approximate the Wilks statistic: <span class="math display">\[
 \begin{split}
-W(\symbfit \theta_0) &amp; = 2(l_n(\hat{\symbfit \theta}_{ML}| D)-l_n(\symbfit \theta_0| D))\\
-&amp; \approx (\symbfit \theta_0-\hat{\symbfit \theta}_{ML})^T \symbfit J_n(\hat{\symbfit \theta}_{ML})(\symbfit \theta_0-\hat{\symbfit \theta}_{ML})\\
-&amp; =t(\symbfit \theta_0)^2 \\
+W(\boldsymbol \theta_0) &amp; = 2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0| D))\\
+&amp; \approx (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\\
+&amp; =t(\boldsymbol \theta_0)^2 \\
 \end{split}
 \]</span></p>
 <p>Thus the <strong>quadratic approximation of the Wilks statistic yields the squared Wald statistic</strong>.</p>
@@ -435,7 +471,7 @@ W(\symbfit \theta_0) &amp; = 2(l_n(\hat{\symbfit \theta}_{ML}| D)-l_n(\symbfit \
 <section id="examples-of-quadratic-approximations" class="level3">
 <h3 class="anchored" data-anchor-id="examples-of-quadratic-approximations">Examples of quadratic approximations</h3>
 <div id="exm-wilksproportionquadraticapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.5</strong></span> Quadratic approximation of the Wilks statistic for a proportion (continued from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>5.2</span></a>):</p>
+<p><span class="theorem-title"><strong>Example 11.5</strong></span> Quadratic approximation of the Wilks statistic for a proportion (continued from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a>):</p>
 <p>A Taylor series of second order (for <span class="math inline">\(p_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields <span class="math display">\[
 \log \left( \frac{  \bar{x}  }{p_0} \right) \approx -\frac{p_0-\bar{x}}{\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}^2   }
 \]</span> and <span class="math display">\[
@@ -448,26 +484,26 @@ W(p_0) &amp; \approx  2 n \left(  - (p_0-\bar{x})  +\frac{ ( p_0-\bar{x} )^2    
 &amp; = n \left(    \frac{ ( p_0-\bar{x} )^2    }{  \bar{x} (1-\bar{x})  } \right)   \\
 &amp;= t(p_0)^2 \,.
 \end{split}
-\]</span> This verifies that the quadratic approximation of the Wilks statistic leads back to the squared Wald statistic of <a href="04-likelihood4.html#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>4.4</span></a>.</p>
+\]</span> This verifies that the quadratic approximation of the Wilks statistic leads back to the squared Wald statistic of <a href="03-likelihood-d-quadratic.html#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.5</span></a>.</p>
 </div>
 <div id="exm-wilksnormalmeanquadraticapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.6</strong></span> Quadratic approximation of the Wilks statistic for the mean parameter of a normal model (continued from <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>5.3</span></a>):</p>
-<p>The normal log-likelihood is already quadratic in the mean parameter (cf. <a href="03-likelihood3.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>3.2</span></a>). Correspondingly, the Wilks statistic is quadratic in the mean parameter as well. Hence in this particular case the quadratic “approximation” is in fact exact and the Wilks statistic and the squared Wald statistic are identical!</p>
+<p><span class="theorem-title"><strong>Example 11.6</strong></span> Quadratic approximation of the Wilks statistic for the mean parameter of a normal model (continued from <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.3</span></a>):</p>
+<p>The normal log-likelihood is already quadratic in the mean parameter (cf. <a href="03-likelihood-b-mlpractise.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a>). Correspondingly, the Wilks statistic is quadratic in the mean parameter as well. Hence in this particular case the quadratic “approximation” is in fact exact and the Wilks statistic and the squared Wald statistic are identical!</p>
 <p>Correspondingly, confidence intervals and tests based on the Wilks statistic are identical to those obtained using the Wald statistic.</p>
 </div>
 <div id="exm-catwilksquadapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.7</strong></span> Quadratic approximation of the Wilks log-likelihood ratio statistic for the categorical distribution:</p>
-<p>Developing the Wilks statistic <span class="math inline">\(W(\symbfit p_0)\)</span> around the MLE <span class="math inline">\(\hat{\symbfit \pi}_{ML}\)</span> yields the squared Wald statistic which for the categorical distribution is the Neyman chi-squared statistic: <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 11.7</strong></span> Quadratic approximation of the Wilks log-likelihood ratio statistic for the categorical distribution:</p>
+<p>Developing the Wilks statistic <span class="math inline">\(W(\boldsymbol p_0)\)</span> around the MLE <span class="math inline">\(\hat{\boldsymbol \pi}_{ML}\)</span> yields the squared Wald statistic which for the categorical distribution is the Neyman chi-squared statistic: <span class="math display">\[
 \begin{split}
-W(\symbfit p_0)&amp; = 2 n D_{\text{KL}}( \text{Cat}(\hat{\symbfit \pi}_{ML}), \text{Cat}(\symbfit p_0 ) ) \\
-&amp; \approx n D_{\text{Neyman}}( \text{Cat}(\hat{\symbfit \pi}_{ML}), \text{Cat}(\symbfit p_0 ) ) \\
+W(\boldsymbol p_0)&amp; = 2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), \text{Cat}(\boldsymbol p_0 ) ) \\
+&amp; \approx n D_{\text{Neyman}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), \text{Cat}(\boldsymbol p_0 ) ) \\
 &amp; = \sum_{k=1}^K \frac{(n_k-n_k^{\text{expect}} )^2}{n_k} \\
 &amp; =  \chi^2_{\text{Neyman}}\\
 \end{split}
 \]</span></p>
-<p>If instead we approximate the KL divergence assuming <span class="math inline">\(\symbfit p_0\)</span> as fixed we arrive at <span class="math display">\[
+<p>If instead we approximate the KL divergence assuming <span class="math inline">\(\boldsymbol p_0\)</span> as fixed we arrive at <span class="math display">\[
 \begin{split}
-2 n D_{\text{KL}}( \text{Cat}(\hat{\symbfit \pi}_{ML}), \text{Cat}(\symbfit p_0 ) ) &amp;\approx n D_{\text{Pearson}}( \text{Cat}(\hat{\symbfit \pi}_{ML}),  \text{Cat}(\symbfit p_0 ) )\\
+2 n D_{\text{KL}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}), \text{Cat}(\boldsymbol p_0 ) ) &amp;\approx n D_{\text{Pearson}}( \text{Cat}(\hat{\boldsymbol \pi}_{ML}),  \text{Cat}(\boldsymbol p_0 ) )\\
 &amp; = \sum_{k=1}^K \frac{(n_k-n_k^{\text{expect}})^2}{n_k^{\text{expect}}} \\
 &amp; = \chi^2_{\text{Pearson}}
 \end{split}
@@ -477,7 +513,7 @@ W(\symbfit p_0)&amp; = 2 n D_{\text{KL}}( \text{Cat}(\hat{\symbfit \pi}_{ML}), \
 <section id="distribution-of-the-wilks-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="distribution-of-the-wilks-statistic">Distribution of the Wilks statistic</h3>
 <p>The connection with the squared Wald statistic as quadratic approximation of the Wilks log-likelihood ratio statistic implies that both have asympotically the same distribution.</p>
-<p>Hence, under <span class="math inline">\(\symbfit \theta_0\)</span> the Wilks statistic is distributed asymptotically as <span class="math display">\[W(\symbfit \theta_0) \overset{a}{\sim} \chi^2_d\]</span> where <span class="math inline">\(d\)</span> is the number of parameters in <span class="math inline">\(\symbfit \theta\)</span>, i.e.&nbsp;the dimension of the model.</p>
+<p>Hence, under <span class="math inline">\(\boldsymbol \theta_0\)</span> the Wilks statistic is distributed asymptotically as <span class="math display">\[W(\boldsymbol \theta_0) \overset{a}{\sim} \chi^2_d\]</span> where <span class="math inline">\(d\)</span> is the number of parameters in <span class="math inline">\(\boldsymbol \theta\)</span>, i.e.&nbsp;the dimension of the model.</p>
 <p>For scalar <span class="math inline">\(\theta\)</span> (i.e.&nbsp;single parameter and <span class="math inline">\(d=1\)</span>) this becomes <span class="math display">\[
 W(\theta_0) \overset{a}{\sim} \chi^2_1
 \]</span></p>
@@ -485,13 +521,13 @@ W(\theta_0) \overset{a}{\sim} \chi^2_1
 </section>
 <section id="cutoff-values-for-the-likelihood-ci" class="level3">
 <h3 class="anchored" data-anchor-id="cutoff-values-for-the-likelihood-ci">Cutoff values for the likelihood CI</h3>
-<div id="tbl-delta" class="quarto-float anchored">
+<div id="tbl-delta" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-delta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.1: Cutoff values for construction of likelihood confidence intervals for a single parameter.
+Table&nbsp;11.1: Cutoff values for construction of likelihood confidence intervals for a single parameter.
 </figcaption>
 <div aria-describedby="tbl-delta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>coverage <span class="math inline">\(\kappa\)</span></th>
@@ -516,27 +552,27 @@ Table&nbsp;5.1: Cutoff values for construction of likelihood confidence interval
 </div>
 </figure>
 </div>
-<p>The asymptotic distribution for <span class="math inline">\(W\)</span> is useful to choose a suitable <span class="math inline">\(\Delta\)</span> for the likelihood CI noting that <span class="math inline">\(2 \Delta = c_{\text{chisq}}\)</span> where <span class="math inline">\(c_{\text{chisq}}\)</span> is the critical value from <a href="20-stats.html#tbl-critchisq" class="quarto-xref">Table&nbsp;<span>A.2</span></a> for a specified coverage <span class="math inline">\(\kappa\)</span>. This yields <a href="#tbl-delta" class="quarto-xref">Table&nbsp;<span>5.1</span></a> for scalar parameter.</p>
+<p>The asymptotic distribution for <span class="math inline">\(W\)</span> is useful to choose a suitable <span class="math inline">\(\Delta\)</span> for the likelihood CI noting that <span class="math inline">\(2 \Delta = c_{\text{chisq}}\)</span> where <span class="math inline">\(c_{\text{chisq}}\)</span> is the critical value from <a href="20-stats.html#tbl-critchisq" class="quarto-xref">Table&nbsp;<span>A.2</span></a> for a specified coverage <span class="math inline">\(\kappa\)</span>. This yields <a href="#tbl-delta" class="quarto-xref">Table&nbsp;<span>11.1</span></a> valid for a scalar parameter.</p>
 <p>Hence, in order to calibrate the likelihood interval we in effect compare it with a normal confidence interval.</p>
 <div id="exm-likciproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.8</strong></span> Likelihood confidence interval for a proportion:</p>
-<p>We continue from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>5.2</span></a>, and as in <a href="04-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>4.7</span></a> we asssume we have data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>.</p>
-<p>This yields (via numerical root finding) as the 95% likelihood confidence interval the interval <span class="math inline">\([0.524, 0.843]\)</span>. It is similar but not identical to the corresponding asymptotic normal interval <span class="math inline">\([0.536, 0.864]\)</span> obtained in <a href="04-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>4.7</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 11.8</strong></span> Likelihood confidence interval for a proportion:</p>
+<p>We continue from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a>, and as in <a href="03-likelihood-d-quadratic.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a> we asssume we have data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>.</p>
+<p>This yields (via numerical root finding) as the 95% likelihood confidence interval the interval <span class="math inline">\([0.524, 0.843]\)</span>. It is similar but not identical to the corresponding asymptotic normal interval <span class="math inline">\([0.536, 0.864]\)</span> obtained in <a href="03-likelihood-d-quadratic.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-likelihoodciber" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-pos="t">
+<div id="fig-likelihoodciber" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-likelihoodciber-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-likelihood5_files/figure-html/fig-likelihoodciber-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+<img src="03-likelihood-e-cilrt_files/figure-html/fig-likelihoodciber-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-likelihoodciber-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.2: Likelihood-based CI and normal interval for the Bernoulli model.
+Figure&nbsp;11.2: Likelihood-based CI and normal interval for the Bernoulli model.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-likelihoodciber" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> illustrates the relationship between the normal CI and the likelihood CI and also shows the role of the quadratic approximation (see also <a href="04-likelihood4.html#exm-quadapproxproportion" class="quarto-xref">Example&nbsp;<span>4.1</span></a>). Note that:</p>
+<p><a href="#fig-likelihoodciber" class="quarto-xref">Figure&nbsp;<span>11.2</span></a> illustrates the relationship between the normal CI and the likelihood CI and also shows the role of the quadratic approximation (see also <a href="03-likelihood-d-quadratic.html#exm-quadapproxproportion" class="quarto-xref">Example&nbsp;<span>10.1</span></a>). Note that:</p>
 <ul>
 <li>the normal CI is symmetric around the MLE whereas the likelihood CI is not symmetric</li>
 <li>the normal CI is identical to the likelihood CI when using the quadratic approximation!</li>
@@ -548,33 +584,33 @@ Figure&nbsp;5.2: Likelihood-based CI and normal interval for the Bernoulli model
 <p>As in the normal case (with Wald statistic and normal CIs) one can also construct a test using the Wilks statistic:</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
-H_0: \symbfit \theta= \symbfit \theta_0\\
-H_1: \symbfit \theta\neq \symbfit \theta_0\\
+H_0: \boldsymbol \theta= \boldsymbol \theta_0\\
+H_1: \boldsymbol \theta\neq \boldsymbol \theta_0\\
 \end{array}
 \begin{array}{ll}
-  \text{ True model is } \symbfit \theta_0\\
-  \text{ True model is } \textbf{not } \symbfit \theta_0\\
+  \text{ True model is } \boldsymbol \theta_0\\
+  \text{ True model is } \textbf{not } \boldsymbol \theta_0\\
 \end{array}
 \begin{array}{ll}
 \text{  Null hypothesis}\\
 \text{  Alternative hypothesis}\\
 \end{array}
 \end{align*}\]</span></p>
-<p>As test statistic we use the Wilks log likelihood ratio <span class="math inline">\(W(\symbfit \theta_0)\)</span>. Extreme values of this test statistic imply evidence against <span class="math inline">\(H_0\)</span>.</p>
+<p>As test statistic we use the Wilks log likelihood ratio <span class="math inline">\(W(\boldsymbol \theta_0)\)</span>. Extreme values of this test statistic imply evidence against <span class="math inline">\(H_0\)</span>.</p>
 <p>Note that the null model is “simple” (= a single parameter value) whereas the alternative model is “composite” (= a set of parameter values).</p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li>The composite alternative <span class="math inline">\(H_1\)</span> is represented by a single point (the MLE).</li>
-<li><strong>Reject</strong> <span class="math inline">\(H_0\)</span> for <strong>large values of <span class="math inline">\(W(\symbfit \theta_0)\)</span></strong></li>
-<li>under <span class="math inline">\(H_0\)</span> and for large <span class="math inline">\(n\)</span> the statistic <span class="math inline">\(W(\symbfit \theta_0)\)</span> is chi-squared distributed, i.e.&nbsp;<span class="math inline">\(W(\symbfit \theta_0) \overset{a}{\sim} \chi^2_d\)</span>. This allows to compute critical values (i.e tresholds to declared rejection under a given significance level) and also <span class="math inline">\(p\)</span>-values corresponding to the observed test statistics.</li>
+<li><strong>Reject</strong> <span class="math inline">\(H_0\)</span> for <strong>large values of <span class="math inline">\(W(\boldsymbol \theta_0)\)</span></strong></li>
+<li>under <span class="math inline">\(H_0\)</span> and for large <span class="math inline">\(n\)</span> the statistic <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> is chi-squared distributed, i.e.&nbsp;<span class="math inline">\(W(\boldsymbol \theta_0) \overset{a}{\sim} \chi^2_d\)</span>. This allows to compute critical values (i.e tresholds to declared rejection under a given significance level) and also <span class="math inline">\(p\)</span>-values corresponding to the observed test statistics.</li>
 <li>Models <strong>outside</strong> the CI are <strong>rejected</strong></li>
 <li>Models <strong>inside</strong> the CI <strong>cannot be rejected</strong>, i.e.&nbsp;they can’t be statistically distinguished from the best alternative model.</li>
 </ul>
 <p>It can be shown that the likelihood ratio test to compare two simple models is optimal in the sense that for any given specified type I error (=probability of wrongly rejecting <span class="math inline">\(H_0\)</span>, i.e. the significance level) it will maximise the power (=1- type II error, probability of correctly accepting <span class="math inline">\(H_1\)</span>). This is known as the <strong>Neyman-Pearson theorem</strong>.</p>
-<p>As we have seen previousy, the likelihood-based confidence interval differs from the the confidence interval based on the quadratic / normal approximation. Correspondingly, tests based on the log-likelihood ratio <span class="math inline">\(W(\symbfit \theta_0)\)</span> and on the squared Wald statistic <span class="math inline">\(t(\theta_0)^2\)</span> will also yield different outcomes (e.g.&nbsp;rejection due to lying outside the confidence interval) even though both test statistics share the same asymptotic distribution and critical values.</p>
+<p>As we have seen previousy, the likelihood-based confidence interval differs from the the confidence interval based on the quadratic / normal approximation. Correspondingly, tests based on the log-likelihood ratio <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> and on the squared Wald statistic <span class="math inline">\(t(\theta_0)^2\)</span> will also yield different outcomes (e.g.&nbsp;rejection due to lying outside the confidence interval) even though both test statistics share the same asymptotic distribution and critical values.</p>
 <div id="exm-liktestproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.9</strong></span> Likelihood test for a proportion:</p>
-<p>We continue from <a href="#exm-likciproportion" class="quarto-xref">Example&nbsp;<span>5.8</span></a> with 95% likelihood confidence interval <span class="math inline">\([0.524, 0.843]\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 11.9</strong></span> Likelihood test for a proportion:</p>
+<p>We continue from <a href="#exm-likciproportion" class="quarto-xref">Example&nbsp;<span>11.8</span></a> with 95% likelihood confidence interval <span class="math inline">\([0.524, 0.843]\)</span>.</p>
 <p>The value <span class="math inline">\(p_0=0.5\)</span> is outside the CI and hence can be rejected whereas <span class="math inline">\(p_0=0.8\)</span> is insided the CI and hence cannot be rejected on 5% significance level.</p>
 <p>The Wilks statistic for <span class="math inline">\(p_0=0.5\)</span> and <span class="math inline">\(p_0=0.8\)</span> takes on the following values:</p>
 <ul>
@@ -582,32 +618,32 @@ H_1: \symbfit \theta\neq \symbfit \theta_0\\
 <li><span class="math inline">\(W(0.8) = 1.69  &lt; 3.84\)</span> hence <span class="math inline">\(p_0=0.8\)</span> cannot be rejected.</li>
 </ul>
 <p>Note that the Wilks statistic at the boundaries of the likelihood confidence interval is equal to the critical value (3.84 corresponding to 5% significance level for a chi-squared distribution with 1 degree of freedom).</p>
-<p>Compare also with the normal test for a proportion in <a href="04-likelihood4.html#exm-normaltestproportion" class="quarto-xref">Example&nbsp;<span>4.8</span></a>.</p>
+<p>Compare also with the normal test for a proportion in <a href="03-likelihood-d-quadratic.html#exm-normaltestproportion" class="quarto-xref">Example&nbsp;<span>10.9</span></a>.</p>
 </div>
 </section>
 <section id="origin-of-likelihood-ratio-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="origin-of-likelihood-ratio-statistic">Origin of likelihood ratio statistic</h3>
 <p>The likelihood ratio statistic is asymptotically linked to differences in the KL divergences of the two compared models with the underlying true model.</p>
-<p>Assume that <span class="math inline">\(F\)</span> is the true (and unknown) data generating model and that <span class="math inline">\(G_{\symbfit \theta}\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> corresponding to parameters <span class="math inline">\(\symbfit \theta_A\)</span> and <span class="math inline">\(\symbfit \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(F, G_A)\)</span> and <span class="math inline">\(D_{\text{KL}}(F, G_B)\)</span> indicate how close each of the models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> fit the true <span class="math inline">\(F\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
-D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A) = \text{E}_{F} \log \frac{g(x|\symbfit \theta_A )}{g(x| \symbfit \theta_B)}
+<p>Assume that <span class="math inline">\(F\)</span> is the true (and unknown) data generating model and that <span class="math inline">\(G_{\boldsymbol \theta}\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> corresponding to parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(F, G_A)\)</span> and <span class="math inline">\(D_{\text{KL}}(F, G_B)\)</span> indicate how close each of the models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> fit the true <span class="math inline">\(F\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
+D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A) = \text{E}_{F} \log \frac{g(x|\boldsymbol \theta_A )}{g(x| \boldsymbol \theta_B)}
 \]</span> Replacing <span class="math inline">\(F\)</span> by the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> leads to the large sample approximation <span class="math display">\[
-2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (l_n(\symbfit \theta_A| D) - l_n(\symbfit \theta_B| D))
+2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (l_n(\boldsymbol \theta_A| D) - l_n(\boldsymbol \theta_B| D))
 \]</span> Hence, the difference in the log-likelihoods provides an estimate of the difference in the KL divergence of the two models involved.</p>
 <p>The Wilks log likelihood ratio statistic <span class="math display">\[
-W(\symbfit \theta_0) = 2 ( l_n( \hat{\symbfit \theta}_{ML}| D ) - l_n(\symbfit \theta_0| D) )
-\]</span> thus compares the best-fit distribution with <span class="math inline">\(\hat{\symbfit \theta}_{ML}\)</span> as the parameter to the distribution with parameter <span class="math inline">\(\symbfit \theta_0\)</span>.</p>
+W(\boldsymbol \theta_0) = 2 ( l_n( \hat{\boldsymbol \theta}_{ML}| D ) - l_n(\boldsymbol \theta_0| D) )
+\]</span> thus compares the best-fit distribution with <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> as the parameter to the distribution with parameter <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
 <p>For exponential families the Wilks statistic can also be written in the form of the KL divergence: <span class="math display">\[
-W(\symbfit \theta_0) = 2n D_{\text{KL}}( F_{\hat{\symbfit \theta}_{ML}}, F_{\symbfit \theta_0})
-\]</span> This has been seen in <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>5.2</span></a> and <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>5.3</span></a>. However, this is not true in general.</p>
+W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( F_{\hat{\boldsymbol \theta}_{ML}}, F_{\boldsymbol \theta_0})
+\]</span> This has been seen in <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a> and <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.3</span></a>. However, this is not true in general.</p>
 </section>
 </section>
-<section id="generalised-likelihood-ratio-test-glrt" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="generalised-likelihood-ratio-test-glrt"><span class="header-section-number">5.2</span> Generalised likelihood ratio test (GLRT)</h2>
+<section id="generalised-likelihood-ratio-test-glrt" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="generalised-likelihood-ratio-test-glrt"><span class="header-section-number">11.2</span> Generalised likelihood ratio test (GLRT)</h2>
 <p>Also known as <strong>maximum likelihood ratio test (MLRT)</strong>. The Generalised Likelihood Ratio Test (GLRT) works just like the standard likelihood ratio test with the difference that now the null model <span class="math inline">\(H_0\)</span> is also a composite model.<br>
 <span class="math display">\[\begin{align*}
 \begin{array}{ll}
-H_0: \symbfit \theta\in \omega_0 \subset \Omega \\
-H_1: \symbfit \theta\in \omega_1  = \Omega \setminus \omega_0\\
+H_0: \boldsymbol \theta\in \omega_0 \subset \Omega \\
+H_1: \boldsymbol \theta\in \omega_1  = \Omega \setminus \omega_0\\
 \end{array}
 \begin{array}{ll}
 \text{ True model lies in restricted model space }\\
@@ -635,7 +671,7 @@ W = 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}\righ
 <li><p>If <span class="math inline">\(H_0\)</span> is a simple hypothesis (i.e.&nbsp;<span class="math inline">\(d_0=0\)</span>) then the standard LRT (and corresponding CI) is recovered as special case of the GLRT.</p></li>
 </ul>
 <div id="exm-glrtnormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.10</strong></span> GLRT example:</p>
+<p><span class="theorem-title"><strong>Example 11.10</strong></span> GLRT example:</p>
 <p><em>Case-control study:</em> (e.g.&nbsp;“healthy” vs.&nbsp;“disease”)<br>
 we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> (and <span class="math inline">\(n=n_1+n_2\)</span>), with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
 <p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span> and <span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
@@ -780,18 +816,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -823,7 +848,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
@@ -831,7 +878,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1037,30 +1084,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-likelihood4.html" class="pagination-link" aria-label="Quadratic approximation and normal asymptotics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span>
+      <a href="./03-likelihood-d-quadratic.html" class="pagination-link" aria-label="Quadratic approximation and normal asymptotics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-likelihood6.html" class="pagination-link" aria-label="Optimality properties and conclusion">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-likelihood-f-optim.html" class="pagination-link" aria-label="Optimality properties and conclusion">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-<p>These notes were written by <a href="https://strimmerlab.github.io/korbinian.html">Korbinian Strimmer</a> using <a href="https://quarto.org">Quarto</a>,</p>
-</div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 

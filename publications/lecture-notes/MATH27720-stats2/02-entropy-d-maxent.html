@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Conditioning and Bayes rule – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<title>6&nbsp; Principle of maximum entropy – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./08-bayes2.html" rel="next">
-<link href="./03-likelihood-f-optim.html" rel="prev">
+<link href="./03-likelihood-a-mle.html" rel="next">
+<link href="./02-entropy-c-fisher.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./07-bayes1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-d-maxent.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -194,7 +194,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
   </div>
 </li>
@@ -247,7 +247,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link active">
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
   </div>
 </li>
@@ -328,20 +328,16 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link active" data-scroll-target="#conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</a></li>
-  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</a></li>
-  <li><a href="#conditional-mean-and-variance" id="toc-conditional-mean-and-variance" class="nav-link" data-scroll-target="#conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</a></li>
-  <li><a href="#conditional-entropy-and-entropy-chain-rules" id="toc-conditional-entropy-and-entropy-chain-rules" class="nav-link" data-scroll-target="#conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</a></li>
-  <li><a href="#entropy-bounds-for-the-marginal-variables" id="toc-entropy-bounds-for-the-marginal-variables" class="nav-link" data-scroll-target="#entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</a></li>
+  <li><a href="#colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" id="toc-colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" class="nav-link active" data-scroll-target="#colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.1</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum entropy principle to characterise distributions</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./07-bayes1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-d-maxent.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></h1>
 </div>
 
 
@@ -358,103 +354,32 @@ window.Quarto = {
 </header>
 
 
-<p>In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.</p>
-<section id="conditional-probability" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</h2>
-<p>Assume we have two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>. By definition <span class="math inline">\(\int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
-<p>The <strong>marginal densities</strong> for the individual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span> and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>. Thus, marginal densities are obtained from the joint density by integrating over all possible states of the variable that is removed. Like the joint density the marginal densities also integrate to 1, i.e. <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>.</p>
-<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span> we may wish to keep it fixed at some value, we may want to keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>. In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF) given by the ratio <span class="math display">\[
-p(x | y=y_0) = \frac{p(x, y=y_0)}{p(y=y_0)}
-\]</span> In this formula the denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> ensures that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises <span class="math inline">\(p(x, y=y_0)\)</span> so that it is a proper density integrating to one.</p>
-<p>To simplify notation, the particular value on which a variable is conditioned is often left unspecified so we just write <span class="math inline">\(p(x | y)\)</span>.</p>
-</section>
-<section id="bayes-theorem" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</h2>
-<p><a href="https://de.wikipedia.org/wiki/Thomas_Bayes">Thomas Bayes (1701-1761)</a> was the first to state <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes’ theorem</a> on conditional probabilities.</p>
-<p>Using the definition of conditional probabilities we see that the joint density can be written as the product of marginal and conditional density in two different ways: <span class="math display">\[
-p(x,y) = p(x| y) p(y) = p(y | x) p(x)
-\]</span></p>
-<p>This directly leads to <strong>Bayes’ theorem</strong>: <span class="math display">\[
-p(x | y) = p(y | x) \frac{ p(x) }{ p(y)}
-\]</span> This rule relates the two possible conditional densities (or conditional probability mass functions) for two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. It thus allows to reverse the ordering of conditioning.</p>
-<p>Bayes’s theorem was <a href="https://en.wikipedia.org/wiki/An_Essay_towards_solving_a_Problem_in_the_Doctrine_of_Chances">published in 1763</a> only after his death by <a href="https://en.wikipedia.org/wiki/Richard_Price">Richard Price (1723-1791)</a>:</p>
-<p><a href="https://de.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> independently published Bayes’ theorem in 1774 and he was in fact the first to routinely apply it to statistical calculations.</p>
-</section>
-<section id="conditional-mean-and-variance" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</h2>
-<p>The mean <span class="math inline">\(\text{E}(x| y)\)</span> and variance <span class="math inline">\(\text{Var}(x|y)\)</span> of the conditional distribution with density <span class="math inline">\(p(x|y)\)</span> are called <strong>conditional mean</strong> and <strong>conditional variance</strong>.</p>
-<p>The <strong>law of total expectation</strong> states that <span class="math display">\[
-\text{E}(x) = \text{E}( \text{E}(x| y) )
-\]</span></p>
-<p>The <strong>law of total variance</strong> states that <span class="math display">\[
-\text{Var}(x) = \text{Var}(\text{E}(x| y)) + \text{E}(\text{Var}(x|y))
-\]</span> The first term on the right-hand side is the “explained” variance or “between-group” variance, and the second term is the “unexplained” variance or “mean within group” variance.</p>
-<div id="exm-meanmixture" class="theorem example">
-<p><span class="theorem-title"><strong>Example 13.1</strong></span> Mean and variance of a mixture model:</p>
-<p>Assume <span class="math inline">\(K\)</span> groups indicated by a discrete variable <span class="math inline">\(y = 1, 2, \ldots, K\)</span> with probability <span class="math inline">\(p(y) = \pi_y\)</span>. In each group the observations <span class="math inline">\(x\)</span> follow a density <span class="math inline">\(p(x|y)\)</span> with conditional mean <span class="math inline">\(E(x|y) = \mu_y\)</span> and conditional variance <span class="math inline">\(\text{Var}(x| y)= \sigma^2_y\)</span>. The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is <span class="math inline">\(p(x, y) = \pi_y p(x|y)\)</span>. The marginal density for <span class="math inline">\(x\)</span> is <span class="math inline">\(\sum_{y=1}^K \pi_y p(x|y)\)</span>. This is called a mixture model.</p>
-<p>The total mean <span class="math inline">\(\text{E}(x) = \mu_0\)</span> is equal to <span class="math inline">\(\sum_{y=1}^K \pi_y \mu_y\)</span>.</p>
-<p>The total variance <span class="math inline">\(\text{Var}(x) = \sigma^2_0\)</span> is equal to <span class="math display">\[
-\sum_{y=1}^K \pi_y (\mu_y - \mu_0)^2 + \sum_{y=1}^K \pi_y \sigma^2_y
-\]</span></p>
+<section id="colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.1</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum entropy principle to characterise distributions</h2>
+<p>Both Shannon entropy and differential entropy are useful to characterise distributions.</p>
+<p>As discussed in <a href="02-entropy-a-entropy.html" class="quarto-xref"><span>Chapter 3</span></a>, <strong>large entropy</strong> implies that the <strong>distribution is spread out</strong> whereas <strong>small entropy</strong> indicates that the <strong>distribution is concentrated</strong>.</p>
+<p>Correspondingly, <strong>maximum entropy distributions</strong> can be considered <strong>minimally informative</strong> about a random variable. The higher the entropy the more spread out (and hence more uninformative) the distribution. Conversely, low entropy implies that the probability mass is concentrated and thus the distribution is more informative about the random variable.</p>
+<p>Examples:</p>
+<ol type="1">
+<li><p>The <strong>discrete uniform distribution</strong> is the <strong>maximum entropy distribution</strong> among all discrete distributions.</p></li>
+<li><p>the maximum entropy distribution of a continuous random variable with support <span class="math inline">\([-\infty, \infty]\)</span> with a specific mean and variance is the <strong>normal distribution</strong>.</p></li>
+<li><p>the maximum entropy distribution among all continuous distributions supported in <span class="math inline">\([0, \infty]\)</span> with a specified mean is the <strong>exponential distribution</strong>.</p></li>
+</ol>
+<p>Using maximum entropy to characterise maximally uninformative distributions was advocated by <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a> (who also proposed to use maximum entropy in the context of finding Bayesian priors). The maximum entropy principle in statistical physics goes back to Boltzmann.</p>
+<p>A list of maximum entropy distribution is given here: <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" class="uri">https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution</a>.</p>
+<p>Many distributions commonly used in statistical modelling are exponential families. Intriguingly, these distribution are all maximum entropy distributions, so there is a very close link between the principle of maximum entropy and common model choices in statistics and machine learning.</p>
+<div id="exm-maxentdiscunif" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Discrete uniform distribution as maximum entropy distribution:</p>
+<p>Assume <span class="math inline">\(G\)</span> is an categorical distribution with <span class="math inline">\(K\)</span> classes and probabilities <span class="math inline">\(g_i\)</span>. We now show that <span class="math inline">\(G\)</span> has maximum entropy when <span class="math inline">\(G\)</span> is the discrete uniform distribution.</p>
+<p>Let <span class="math inline">\(P=U_K\)</span> be the discrete uniform with equal probabilities <span class="math inline">\(p_i=1/K\)</span>. The entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = \log K\)</span> (see also <a href="02-entropy-a-entropy.html#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a>). The cross-entropy <span class="math inline">\(H(G, P) = - \text{E}_G \log p_i = \log K\)</span>. Note that both entropies are identical.</p>
+<p>From Gibbs’ inequality we know that <span class="math inline">\(H(G, P) \geq H(G)\)</span>. Since in our case <span class="math inline">\(H(G, P) = H(P)\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(G)\)</span>, i.e.&nbsp;the discrete uniform distribution <span class="math inline">\(P\)</span> achieves the maximum entropy. Furthermore, any other distribution <span class="math inline">\(G\)</span> will have lower entropy, with equality only if <span class="math inline">\(G=P\)</span> and thus only if <span class="math inline">\(g_i=1/K\)</span>.</p>
 </div>
-</section>
-<section id="conditional-entropy-and-entropy-chain-rules" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</h2>
-<p>For the entropy of the joint distribution we find that <span class="math display">\[
-\begin{split}
-H( P_{x,y}) &amp;= -\text{E}_{P_{x,y}} \log p(x, y) \\
-&amp;= -\text{E}_{P_x} \text{E}_{P_{y| x}} (\log p(x) + \log p(y| x))\\
-&amp;= -\text{E}_{P_x} \log p(x) - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)\\
-&amp;= H(P_{x}) + H(P_{y| x} ) \\
-\end{split}
-\]</span> thus it decomposes into the entropy of the marginal distribution and the <strong>conditional entropy</strong> defined as <span class="math display">\[
-H(P_{y| x} ) = - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)
-\]</span> Note that to simplify notation by convention the expectation <span class="math inline">\(\text{E}_{P_{x}}\)</span> over the variable <span class="math inline">\(x\)</span> that we condition on (<span class="math inline">\(x\)</span>) is implicitly assumed.</p>
-<p>Similarly, for the cross-entropy we get <span class="math display">\[
-\begin{split}
-H(Q_{x,y} , P_{x, y}) &amp;= -\text{E}_{Q_{x,y}} \log  p(x, y) \\
-&amp;= -\text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\, p(x)\, p(y| x)\, \right)\\
-  &amp;= -\text{E}_{Q_x} \log p(x)    -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)         \\
-&amp;= H(Q_x, P_x)  +  H(Q_{y|x}, P_{y|x})
-\end{split}
-\]</span> where the <strong>conditional cross-entropy</strong> is defined as <span class="math display">\[
-H(Q_{y|x}, P_{y|x})= -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)
-\]</span> Note again the implicit expectation <span class="math inline">\(\text{E}_{Q_x}\)</span> over <span class="math inline">\(x\)</span> implied in this notation.</p>
-<p>The KL divergence between the joint distributions can be decomposed as follows: <span class="math display">\[
-\begin{split}
-D_{\text{KL}}(Q_{x,y} , P_{x, y}) &amp;= \text{E}_{Q_{x,y}} \log \left(\frac{ q(x, y) }{ p(x, y) }\right)\\
-&amp;= \text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\frac{ q(x) q(y| x) }{ p(x) p(y| x) }\right)\\
-&amp;= \text{E}_{Q_x} \log \left(\frac{ q(x) }{ p(x) }\right)      + \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)          \\
-&amp;= D_{\text{KL}}(Q_{x} , P_{x}) +   D_{\text{KL}}(Q_{y| x} , P_{y|x}) \\
-\end{split}
-\]</span> with the <strong>conditional KL divergence</strong> or <strong>conditional KL divergence</strong> defined as <span class="math display">\[
-D_{\text{KL}}(Q_{y| x} , P_{y|x})  = \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)
-\]</span> (again the expectation <span class="math inline">\(\text{E}_{Q_{x}}\)</span> is usually dropped for convenience). The conditional KL divergence can also be computed from the conditional (cross-)entropies by the familiar relationship <span class="math display">\[
-D_{\text{KL}}(Q_{y| x} , P_{y|x}) = H(Q_{y|x}, P_{y|x})
--  H(Q_{y| x})
-\]</span></p>
-<p>The above decompositions for the entropy, the cross-entropy and KL divergence are known as <strong>entropy chain rules</strong>.</p>
-</section>
-<section id="entropy-bounds-for-the-marginal-variables" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</h2>
-<p>The chain rule for KL divergence directly shows that <span class="math display">\[
-\begin{split}
-\underbrace{D_{\text{KL}}(Q_{x,y} , P_{x, y})}_{\text{upper bound}} &amp;= D_{\text{KL}}(Q_{x} , P_{x}) + \underbrace{  D_{\text{KL}}(Q_{y| x} , P_{y|x})   }_{\geq 0}\\
-&amp;\geq D_{\text{KL}}(Q_{x} , P_{x})
-\end{split}
-\]</span> This means that the KL divergence between the joint distributions forms an <strong>upper bound for the KL divergence between the marginal distributions</strong>, with the difference given by the conditional KL divergence <span class="math inline">\(D_{\text{KL}}(Q_{y| x} , P_{y|x})\)</span>.</p>
-<p>Equivalently, we can state an <strong>upper bound for the marginal cross-entropy</strong>: <span class="math display">\[
-\begin{split}
-\underbrace{H(Q_{x,y} , P_{x, y}) - H(Q_{y| x} )}_{\text{upper bound}} &amp;= H(Q_{x}, P_{x})  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x}) }_{\geq 0}\\
-&amp; \geq H(Q_{x}, P_{x}) \\
-\end{split}
-\]</span> Instead of an upper bound we may as well express this as <strong>lower bound for the negative marginal cross-entropy</strong> <span class="math display">\[.
-\begin{split}
-- H(Q_{x}, P_{x}) &amp;= \underbrace{ - H(Q_{x} Q_{y| x} , P_{x, y})  + H(Q_{y| x} )}_{\text{lower bound}}  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x})}_{\geq 0}\\
-&amp; \geq F\left( Q_{x}, Q_{y| x},  P_{x, y}\right)\\
-\end{split}
-\]</span></p>
-<p>Since entropy and KL divergence is closedly linked with maximum likelihood the above bounds play a major role in statistical learning of models with unobserved latent variables (here <span class="math inline">\(y\)</span>). They form the basis of important methods such as the EM algorithm as well as of variational Bayes.</p>
+<div id="exm-maxentexp" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Exponential distribution as maximum entropy distribution:</p>
+<p>Assume <span class="math inline">\(G\)</span> is an continous distribution for <span class="math inline">\(x\)</span> with support <span class="math inline">\([0, \infty]\)</span> and with specified mean <span class="math inline">\(\text{E}(x) = \theta\)</span>. We now show that <span class="math inline">\(G\)</span> has maximum entropy when <span class="math inline">\(G\)</span> is the exponential distribution.</p>
+<p>The log-density of the exponential distribution <span class="math inline">\(P\)</span> with scale parameter <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\log p(x | \theta) =  x/\theta -\log \theta\)</span>. The differential entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = -\text{E}_P \log p(x | \theta) = 1 +\log \theta\)</span> as <span class="math inline">\(\text{E}_P(x) = \theta\)</span>. The cross-entropy <span class="math inline">\(H(G, P) =  -\text{E}_G \log p(x | \theta) = 1 +\log \theta\)</span> as <span class="math inline">\(\text{E}_G(x) = \theta\)</span>. Note that both entropies are identical.</p>
+<p>From Gibbs’ inequality we know that <span class="math inline">\(H(G, P) \geq H(G)\)</span>. Since in our case <span class="math inline">\(H(G, P) = H(P)\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(G)\)</span>, i.e.&nbsp;the exponential distribution <span class="math inline">\(P\)</span> achieves the maximum entropy. Furthermore, any other distribution <span class="math inline">\(G\)</span> will have lower entropy, with equality only if <span class="math inline">\(G=P\)</span>.</p>
+</div>
 
 
 </section>
@@ -763,13 +688,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./03-likelihood-f-optim.html" class="pagination-link" aria-label="Optimality properties and conclusion">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span>
+      <a href="./02-entropy-c-fisher.html" class="pagination-link" aria-label="Expected Fisher information">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./08-bayes2.html" class="pagination-link" aria-label="Models with latent variables and missing data">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-likelihood-a-mle.html" class="pagination-link" aria-label="Principle of maximum likelihood">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

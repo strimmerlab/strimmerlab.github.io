@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Maximum likelihood estimation in practise – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-likelihood-c-obsfisher.html" rel="next">
+<link href="./03-likelihood-a-mle.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-b-mlpractise.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Entropy and likelihood</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-b-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-a-entropy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-c-fisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-a-mle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-b-mlpractise.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-c-obsfisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Observed Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-d-quadratic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-e-cilrt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-f-optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bayesian statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#likelihood-estimation-for-a-single-parameter" id="toc-likelihood-estimation-for-a-single-parameter" class="nav-link active" data-scroll-target="#likelihood-estimation-for-a-single-parameter"><span class="header-section-number">8.1</span> Likelihood estimation for a single parameter</a></li>
+  <li><a href="#likelihood-estimation-for-multiple-parameters" id="toc-likelihood-estimation-for-multiple-parameters" class="nav-link" data-scroll-target="#likelihood-estimation-for-multiple-parameters"><span class="header-section-number">8.2</span> Likelihood estimation for multiple parameters</a></li>
+  <li><a href="#further-properties-of-ml" id="toc-further-properties-of-ml" class="nav-link" data-scroll-target="#further-properties-of-ml"><span class="header-section-number">8.3</span> Further properties of ML</a>
+  <ul class="collapse">
+  <li><a href="#relationship-of-maximum-likelihood-with-least-squares-estimation" id="toc-relationship-of-maximum-likelihood-with-least-squares-estimation" class="nav-link" data-scroll-target="#relationship-of-maximum-likelihood-with-least-squares-estimation">Relationship of maximum likelihood with least squares estimation</a></li>
+  <li><a href="#bias-of-maximum-likelihood-estimates" id="toc-bias-of-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#bias-of-maximum-likelihood-estimates">Bias of maximum likelihood estimates</a></li>
+  <li><a href="#colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" id="toc-colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" class="nav-link" data-scroll-target="#colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Minimal sufficient statistics and maximal data reduction</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-b-mlpractise.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Next, maximum likelihood estimation is illustrated on a number of examples. Among others we discuss three basic problems, namely how to estimate a proportion, the mean and the variance in the likelihood framework. We also consider an example of non-regular model (<a href="#exm-nonregular" class="quarto-xref">Example&nbsp;<span>8.4</span></a>).</p>
+<section id="likelihood-estimation-for-a-single-parameter" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="likelihood-estimation-for-a-single-parameter"><span class="header-section-number">8.1</span> Likelihood estimation for a single parameter</h2>
+<p>In the following we illustrate likelihood estimation for models with a single parameter. In this case the score function and the second derivative of the log-likelihood are all scalar-valued like the log-likelihood function itself.</p>
+<div id="exm-mleproportion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.1</strong></span> Maximum likelihood estimation for the Bernoulli model:</p>
+<p>We aim to estimate the true proportion <span class="math inline">\(\theta\)</span> in a Bernoulli experiment with binary outcomes, say the proportion of “successes” vs.&nbsp;“failures” or of “heads” vs.&nbsp;“tails” in a coin tossing experiment.</p>
+<ul>
+<li>Bernoulli model <span class="math inline">\(\text{Ber}(\theta)\)</span>: <span class="math inline">\(\text{Pr}(\text{"success"}) = \theta\)</span> and <span class="math inline">\(\text{Pr}(\text{"failure"}) = 1-\theta\)</span>.</li>
+<li>The “success” is indicated by outcome <span class="math inline">\(x=1\)</span> and the “failure” by <span class="math inline">\(x=0\)</span>.</li>
+<li>We conduct <span class="math inline">\(n\)</span> trials and record <span class="math inline">\(n_1\)</span> successes and <span class="math inline">\(n-n_1\)</span> failures.</li>
+<li>Parameter: <span class="math inline">\(\theta\)</span> probability of “success”.</li>
+</ul>
+<p>What is the MLE of <span class="math inline">\(\theta\)</span>?</p>
+<ul>
+<li><p>the observations <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> take on values 0 or 1.</p></li>
+<li><p>the average of the data points is <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i = \frac{n_1}{n}\)</span>.</p></li>
+<li><p>the probability mass function (PMF) of the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is: <span class="math display">\[
+p(x| \theta) = \theta^x (1-\theta)^{1-x} =
+\begin{cases}
+\theta &amp;  \text{if $x=1$ }\\
+1-\theta &amp; \text{if $x=0$} \\
+\end{cases}
+\]</span></p></li>
+<li><p>log-PMF: <span class="math display">\[
+\log p(x| \theta) =  x \log(\theta) + (1-x) \log(1 - \theta)
+\]</span></p></li>
+<li><p>log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\theta| D) &amp; = \sum_{i=1}^n \log p(x_i| \theta) \\
+    &amp; = n_1 \log \theta + (n-n_1) \log(1-\theta) \\
+    &amp; = n \left( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) \right) \\
+\end{split}
+\]</span> Note that the log-likelihood depends on the data only via <span class="math inline">\(\bar{x}\)</span>. Thus, <span class="math inline">\(t(D) = \bar{x}\)</span> is a <strong>sufficient statistic</strong> for the parameter <span class="math inline">\(\theta\)</span>. In fact it is also a <strong>minimally sufficient statistic</strong> as will be discussed in more detail later.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\theta)=  \frac{dl_n(\theta| D)}{d\theta}= n \left( \frac{\bar{x}}{\theta}-\frac{1-\bar{x}}{1-\theta} \right)
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(S_n(\hat{\theta}_{ML})=0\)</span> yields as solution <span class="math display">\[
+\hat{\theta}_{ML} = \bar{x} = \frac{n_1}{n}
+\]</span></p>
+<p>With <span class="math inline">\(\frac{dS_n(\theta)}{d\theta} = -n \left( \frac{\bar{x}}{\theta^2} + \frac{1-\bar{x}}{(1-\theta)^2} \right) &lt;0\)</span> the optimum corresponds indeed to the maximum of the (log-)likelihood function as this is negative for <span class="math inline">\(\hat{\theta}_{ML}\)</span> (and indeed for any <span class="math inline">\(\theta\)</span>).</p>
+<p>The maximum likelihood estimator of <span class="math inline">\(\theta\)</span> is therefore identical to the frequency of the successes among all observations.</p></li>
+</ul>
+</div>
+<p>Note that to analyse the coin tossing experiment and to estimate <span class="math inline">\(\theta\)</span> we may equally well use the binomial distribution <span class="math inline">\(\text{Bin}(n, \theta)\)</span> as model for the number of successes. This results in the same MLE for <span class="math inline">\(\theta\)</span> but the likelihood function based on the binomial PMF includes the binomial coefficient. However, as it does not depend on <span class="math inline">\(\theta\)</span> it disappears in the score function and has no influence in the derivation of the MLE.</p>
+<div id="exm-mlenormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.2</strong></span> Maximum likelihood estimation for the normal distribution with unknown mean and known variance:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li>the parameter to be estimated is <span class="math inline">\(\mu\)</span> whereas <span class="math inline">\(\sigma^2\)</span> is known.</li>
+</ul>
+<p>What’s the MLE of the parameter <span class="math inline">\(\mu\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is real as well.</p></li>
+<li><p>Density: <span class="math display">\[ p(x| \mu)=
+\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log p(x| \mu) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\mu| D) &amp;= \sum_{i=1}^n \log p(x_i| \mu)\\
+&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2}\log(2 \pi \sigma^2) }_{\text{constant term, does not depend on } \mu \text{, can be removed}}\\
+&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i^2 - 2 x_i \mu+\mu^2)  + \text{ const.}\\
+&amp;=\frac{n}{\sigma^2}  ( \bar{x} \mu  - \frac{1}{2}\mu^2)  \underbrace{ - \frac{1}{2\sigma^2}\sum_{i=1}^n   x_i^2 }_{\text{another constant term}}   + \text{ const.}\\
+\end{split}
+\]</span> Note how the non-constant terms of the log-likelihood depend on the data only through <span class="math inline">\(\bar{x}\)</span>. Hence <span class="math inline">\(t(D) =\bar{x}\)</span> this is a <strong>sufficient statistic</strong> for <span class="math inline">\(\mu\)</span>.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\mu) =
+\frac{n}{\sigma^2} ( \bar{x}- \mu)
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[S_n(\hat{\mu}_{ML})=0 \Rightarrow \hat{\mu}_{ML} = \bar{x}\]</span></p></li>
+<li><p>With <span class="math inline">\(\frac{dS_n(\mu)}{d\mu} = -\frac{n}{\sigma^2}&lt;0\)</span> the optimum is indeed the maximum</p></li>
+</ul>
+<p>The constant term in the log-likelihood function collects all terms that do not depend on the parameter of interest. After taking the first derivative with regard to the parameter the constant term disappears thus it has no influence in maximum likelhood estimation. <strong>Therefore constant terms can be dropped from the log-likelihood function.</strong></p>
+</div>
+<div id="exm-mlenormalvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.3</strong></span> Maximum likelihood estimation for the normal distribution with known mean and unknown variance:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li><span class="math inline">\(\sigma^2\)</span> needs to be estimated whereas the mean <span class="math inline">\(\mu\)</span> is known</li>
+</ul>
+<p>What’s the MLE of <span class="math inline">\(\sigma^2\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average of the squared centred data <span class="math inline">\(\overline{(x-\mu)^2} = \frac{1}{n} \sum_{i=1}^n (x_i-\mu)^2 \geq 0\)</span> is non-negative.</p></li>
+<li><p>Density: <span class="math display">\[ p(x| \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log p(x | \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\sigma^2 | D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log p(x_i| \sigma^2)\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  \overline{(x-\mu)^2}  + C\\
+\end{split}
+\]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\overline{(x-\mu)^2}\)</span>. Hence <span class="math inline">\(t(D) = \overline{(x-\mu)^2}\)</span> is a sufficient statistic for <span class="math inline">\(\sigma^2\)</span>.</p></li>
+<li><p>Score function: <span class="math display">\[
+S_n(\sigma^2) =
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}    \overline{(x-\mu)^2}
+\]</span></p>
+<p>Note that to obtain the score function the derivative needs to be taken with regard to the variance parameter <span class="math inline">\(\sigma^2\)</span> — not with regard to <span class="math inline">\(\sigma\)</span>! As a trick, relabel <span class="math inline">\(\sigma^2 = v\)</span> in the log-likelihood function, then take the derivative with regard to <span class="math inline">\(v\)</span>, then backsubstitute <span class="math inline">\(v=\sigma^2\)</span> in the final result.</p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[
+S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
+\]</span> <span class="math display">\[
+\widehat{\sigma^2}_{ML}
+=\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
+\]</span></p></li>
+<li><p>To confirm that we actually have maximum we need to verify that the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(\frac{dS_n(\sigma^2)}{d\sigma^2} =
+-\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2}  \overline{(x-\mu)^2} -1\right)\)</span> and hence <span class="math inline">\(\frac{dS_n( \widehat{\sigma^2}_{ML}  )}{d\sigma^2} =
+-\frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}&lt;0\)</span> the optimum is indeed the maximum.</p></li>
+</ul>
+</div>
+<div id="exm-nonregular" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.4</strong></span> Uniform distribution with upper bound <span class="math inline">\(\theta\)</span>:</p>
+<p>This is an example of a non-regular model, as the parameter <span class="math inline">\(\theta\)</span> determines the support of the model.</p>
+<ul>
+<li><span class="math inline">\(x \sim U(0,\theta)\)</span> with <span class="math inline">\(\theta &gt; 0\)</span></li>
+<li>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [0, \theta]\)</span>.</li>
+<li>by <span class="math inline">\(x_{[i]}\)</span> we denote the <em>ordered</em> observations with <span class="math inline">\(0 \leq x_{[1]} &lt; x_{[2]} &lt; \ldots &lt; x_{[n]} \leq \theta\)</span> with <span class="math inline">\(x_{[n]} = \max(x_1,\dots,x_n)\)</span>.</li>
+</ul>
+<p>We would like to obtain the maximum likelihood estimator <span class="math inline">\(\hat{\theta}_{ML}\)</span>.</p>
+<ul>
+<li><p>The probability density function of <span class="math inline">\(U(0,\theta)\)</span> is <span class="math display">\[p(x|\theta) =\begin{cases}
+  \frac{1}{\theta} &amp;\text{if } x \in [0,\theta] \\
+  0              &amp; \text{otherwise.}
+\end{cases}
+\]</span></p></li>
+<li><p>the corresponding the log-density is <span class="math display">\[
+\log p(x|\theta) =\begin{cases}
+  - \log \theta &amp;\text{if } x \in [0,\theta] \\
+  - \infty              &amp; \text{otherwise.}
+\end{cases}
+\]</span></p></li>
+<li><p>the log-likelihood function is <span class="math display">\[
+l_n(\theta| D) =\begin{cases}
+-n\log \theta  &amp;\text{for } \theta \geq  x_{[n]}\\
+- \infty       &amp; \text{otherwise}
+\end{cases}
+\]</span> since all observed data <span class="math inline">\(D =\{x_1, \ldots, x_n\}\)</span> lie in the interval <span class="math inline">\([0,\theta]\)</span>. Note that the log-likelihood is a function of <span class="math inline">\(x_{[n]}\)</span> only so this single data point is the sufficient statistic <span class="math inline">\(t(D) =x_{[n]}\)</span>.</p></li>
+<li><p>the log-likelihood function remains at value <span class="math inline">\(-\infty\)</span> until <span class="math inline">\(\theta = x_{[n]}\)</span>, where it jumps to <span class="math inline">\(-n\log x_{[n]}\)</span> and then it decreases monotonically with increasing <span class="math inline">\(\theta &gt; x_{[n]}\)</span>. Hence the log-likelihood function has a maximum at <span class="math inline">\(\hat{\theta}_{ML}=x_{[n]}\)</span>.</p></li>
+<li><p>Due to the discontinuity at <span class="math inline">\(x_{[n]}\)</span> the log-likelihood <span class="math inline">\(l_n(\theta| D)\)</span> <strong>is not differentiable</strong> at <span class="math inline">\(\hat{\theta}_{ML}\)</span>. and hence the maximum cannot be found by setting the score function equal to zero as in a regular model.</p></li>
+<li><p>In addition, <strong>there is no quadratic approximation around <span class="math inline">\(\hat{\theta}_{ML}\)</span></strong> and therefore the <strong>observed Fisher information cannot be computed</strong> either.</p></li>
+</ul>
+</div>
+</section>
+<section id="likelihood-estimation-for-multiple-parameters" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="likelihood-estimation-for-multiple-parameters"><span class="header-section-number">8.2</span> Likelihood estimation for multiple parameters</h2>
+<p>If there are several parameters likelihood estimation is conceptually no different from the case of a single parameter. However, the score function is now vector-valued and the second derivative of the log-likelihood is a matrix-valued function.</p>
+<div id="exm-mlenormalmeanvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.5</strong></span> Normal distribution with mean and variance both unknown:</p>
+<ul>
+<li><span class="math inline">\(x \sim N(\mu,\sigma^2)\)</span> with <span class="math inline">\(\text{E}(x)=\mu\)</span> and <span class="math inline">\(\text{Var}(x) = \sigma^2\)</span></li>
+<li>both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> need to be estimated.</li>
+</ul>
+<p>What’s the MLE of the parameter vector <span class="math inline">\(\boldsymbol \theta= (\mu,\sigma^2)^T\)</span>?</p>
+<ul>
+<li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
+<li><p>the average <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is real as well.</p></li>
+<li><p>the average of the squared data <span class="math inline">\(\overline{x^2} = \frac{1}{n} \sum_{i=1}^n x_i^2 \geq 0\)</span> is non-negative.</p></li>
+<li><p>Density: <span class="math display">\[ f(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
+<li><p>Log-Density: <span class="math display">\[\log f(x | \mu, \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-likelihood function: <span class="math display">\[
+\begin{split}
+l_n(\boldsymbol \theta| D) &amp; = l_n(\mu, \sigma^2 | D) = \sum_{i=1}^n \log f(x_i| \mu, \sigma^2)\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2} \log(2 \pi) }_{\text{constant not depending on }\mu \text{ or } \sigma^2}\\
+&amp;= -\frac{n}{2}\log(\sigma^2)-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
+\end{split}
+\]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\overline{x^2}\)</span>. Hence, <span class="math inline">\(\boldsymbol t(D) = (\bar{x},  \overline{x^2})^T\)</span> are sufficient statistics for <span class="math inline">\(\boldsymbol \theta\)</span>.</p></li>
+<li><p>Score function <span class="math inline">\(\boldsymbol S_n\)</span>, gradient of <span class="math inline">\(l_n(\boldsymbol \theta| D)\)</span>: <span class="math display">\[
+\begin{split}
+\boldsymbol S_n(\boldsymbol \theta) &amp;= \boldsymbol S_n(\mu,\sigma^2)  \\
+&amp; =\nabla l_n(\mu, \sigma^2| D) \\
+&amp;=
+\begin{pmatrix}
+\frac{n}{\sigma^2} (\bar{x}-\mu) \\
+-\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}   \left( \overline{x^2} - 2\bar{x} \mu +\mu^2 \right)  \\
+\end{pmatrix}\\
+\end{split}
+\]</span></p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[
+\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow
+\]</span> <span class="math display">\[
+\hat{\boldsymbol \theta}_{ML}=
+\begin{pmatrix}
+\hat{\mu}_{ML}  \\
+\widehat{\sigma^2}_{ML} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\bar{x} \\
+\overline{x^2} -\bar{x}^2\\
+\end{pmatrix}
+\]</span> The ML estimate of the variance can also be written <span class="math inline">\(\widehat{\sigma^2}_{ML} = \overline{x^2} -\bar{x}^2 =\overline{(x-\bar{x})^2}  =
+\frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2\)</span>.</p></li>
+<li><p>To confirm that we actually have a maximum we need to verify that the eigenvalues of the Hessian matrix at the optimum are all negative. This is indeed the case, for details see <a href="03-likelihood-c-obsfisher.html#exm-obsfishernormalmeanvar" class="quarto-xref">Example&nbsp;<span>9.4</span></a>.</p></li>
+</ul>
+</div>
+<div id="exm-mlemultinorm" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.6</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum likelihood estimates of the parameters of the multivariate normal distribution:</p>
+<p>The results from <a href="#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>8.5</span></a> can be generalised to the multivariate normal distribution:</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol x\sim N(\boldsymbol \mu,\boldsymbol \Sigma)\)</span> with <span class="math inline">\(\text{E}(\boldsymbol x)=\boldsymbol \mu\)</span> and <span class="math inline">\(\text{Var}(\boldsymbol x) = \boldsymbol \Sigma\)</span></li>
+<li>both <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> need to be estimated.</li>
+</ul>
+<p>With</p>
+<ul>
+<li>the data <span class="math inline">\(D= \{\boldsymbol x_1, \ldots, \boldsymbol x_n\}\)</span> containing real vector-valued observations,</li>
+</ul>
+<p>the maximum likelihood can be written as follows:</p>
+<p>MLE for the mean: <span class="math display">\[
+\hat{\boldsymbol \mu}_{ML} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k = \bar{\boldsymbol x}
+\]</span></p>
+<p>MLE for the covariance: <span class="math display">\[
+\underbrace{\widehat{\boldsymbol \Sigma}_{ML}}_{d \times d} = \frac{1}{n}\sum^{n}_{k=1} \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)}_{d \times 1} \; \underbrace{\left(\boldsymbol x_k-\bar{\boldsymbol x}\right)^T}_{1 \times d}\]</span> Note the factor <span class="math inline">\(\frac{1}{n}\)</span> in the estimator of the covariance matrix.</p>
+<p>With <span class="math inline">\(\overline{\boldsymbol x\boldsymbol x^T} = \frac{1}{n}\sum^{n}_{k=1} \boldsymbol x_k \boldsymbol x_k^T\)</span> we can also write <span class="math display">\[
+\widehat{\boldsymbol \Sigma}_{ML} = \overline{\boldsymbol x\boldsymbol x^T} - \bar{\boldsymbol x} \bar{\boldsymbol x}^T
+\]</span></p>
+<p>Hence, the MLEs correspond to the well-known empirical estimates.</p>
+<p>The derivation of the MLEs is discussed in more detail in the module <a href="https://strimmerlab.github.io/publications/lecture-notes/MATH38161/">MATH38161 Multivariate Statistics and Machine Learning</a>.</p>
+</div>
+<div id="exm-catmle" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.7</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum likelihood estimation of the parameters of the categorical distribution:</p>
+<p>Maximum likelihood estimation of the parameters of <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span> at first seems a trivial extension of the Bernoulli model (cf. <a href="#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) but this a bit more complicated because of the constraint on the allowed values of <span class="math inline">\(\boldsymbol \pi\)</span> so there are only <span class="math inline">\(K-1\)</span> free parameters and not <span class="math inline">\(K\)</span>. Hence we either need to optimise with regard to a specific set of <span class="math inline">\(K-1\)</span> parameters (which is what we do below) or use a constrained optimisation procedure to enforce that <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> (e.g using Lagrange multipliers).</p>
+<ul>
+<li><p>The data: We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>. The data matrix of dimension <span class="math inline">\(n \times K\)</span> is <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T = (x_{ik})\)</span>. It contains each <span class="math inline">\(\boldsymbol x_i = (x_{i1}, \ldots, x_{iK})^T\)</span>. The corresponding summary (minimal sufficient) statistics are <span class="math inline">\(\boldsymbol t(D) = \bar{\boldsymbol x} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = (\bar{x}_1, \ldots, \bar{x}_K)^T\)</span> with <span class="math inline">\(\bar{x}_k = \frac{1}{n} \sum_{i=1}^n x_{ik}\)</span>. We can also write <span class="math inline">\(\bar{x}_{K} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k}\)</span>. The number of samples for class <span class="math inline">\(k\)</span> is <span class="math inline">\(n_k = n \bar{x}_k\)</span> with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span>.</p></li>
+<li><p>The log-likelihood is <span class="math display">\[
+\begin{split}
+l_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
+&amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \right)\\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \bar{x}_K \log \pi_K \right) \\  
+\end{split}
+\]</span></p></li>
+<li><p>Score function (gradient) <span class="math display">\[
+\begin{split}
+\boldsymbol S_n(\pi_1, \ldots, \pi_{K-1}) &amp;=  \nabla l_n(\pi_1, \ldots, \pi_{K-1} ) \\
+&amp; =
+\begin{pmatrix}
+\frac{\partial}{\partial \pi_1} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\vdots\\
+\frac{\partial}{\partial \pi_{K-1}} l_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\end{pmatrix}\\
+&amp; = n
+\begin{pmatrix}
+\frac{\bar{x}_1}{\pi_1}-\frac{\bar{x}_K}{\pi_K}  \\
+\vdots\\
+\frac{\bar{x}_{K-1}}{\pi_{K-1}}-\frac{\bar{x}_K}{\pi_K}  \\
+\end{pmatrix}\\
+\end{split}
+\]</span> Note in particular the need for the second term that arises because <span class="math inline">\(\pi_K\)</span> depends on all the <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>.</p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(\boldsymbol S_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML})=0\)</span> yields <span class="math inline">\(K-1\)</span> equations <span class="math display">\[
+\bar{x}_i \left(1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML}\right)  = \hat{\pi}_i^{ML} \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right)
+\]</span> for <span class="math inline">\(i=1, \ldots, K-1\)</span> and with solution <span class="math display">\[
+\hat{\pi}_i^{ML} = \bar{x}_i
+\]</span> It also follows that <span class="math display">\[
+\hat{\pi}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
+\]</span> The maximum likelihood estimator is therefore the frequency of the occurrence of a class among the <span class="math inline">\(n\)</span> samples.</p></li>
+</ul>
+</div>
+</section>
+<section id="further-properties-of-ml" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="further-properties-of-ml"><span class="header-section-number">8.3</span> Further properties of ML</h2>
+<section id="relationship-of-maximum-likelihood-with-least-squares-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-of-maximum-likelihood-with-least-squares-estimation">Relationship of maximum likelihood with least squares estimation</h3>
+<p>In <a href="#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a> the form of the log-likelihood function is a function of the sum of squared differences. Maximising <span class="math inline">\(l_n(\mu| D) =-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\)</span> is equivalent to <em>minimising</em> <span class="math inline">\(\sum_{i=1}^n(x_i-\mu)^2\)</span>. Hence, finding the mean by <strong>maximum likelihood assuming a normal model</strong> is <strong>equivalent to least-squares estimation</strong>!</p>
+<p>Note that least-squares estimation has been in use at least since the early 1800s <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and thus predates maximum likelihood (1922). Due to its simplicity it is still very popular in particular in regression and the link with maximum likelihood and normality allows to understand why it usually works well.</p>
+<p>See also <a href="02-entropy-a-entropy.html#exm-logscorenormdist" class="quarto-xref">Example&nbsp;<span>3.3</span></a> and <a href="02-entropy-b-kl.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>4.5</span></a> for further links of the normal distribution with squared error.</p>
+</section>
+<section id="bias-of-maximum-likelihood-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="bias-of-maximum-likelihood-estimates">Bias of maximum likelihood estimates</h3>
+<p><a href="#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>8.5</span></a> is interesting because it shows that maximum likelihood can result in both biased and as well as unbiased estimators.</p>
+<p>Recall that <span class="math inline">\(x \sim N(\mu, \sigma^2)\)</span>. As a result <span class="math display">\[\hat{\mu}_{ML}=\bar{x} \sim N\left(\mu, \frac{\sigma^2}{n}\right)\]</span> with <span class="math inline">\(\text{E}( \hat{\mu}_{ML} ) = \mu\)</span> and <span class="math display">\[
+\widehat{\sigma^2}_{\text{ML}} \sim
+W_1\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
+\]</span> (see <a href="20-stats.html#sec-distmeanvarest" class="quarto-xref"><span>Section A.8</span></a>) with mean <span class="math inline">\(\text{E}(\widehat{\sigma^2}_{ML}) = \frac{n-1}{n} \, \sigma^2\)</span>.</p>
+<p>Therefore, the MLE of <span class="math inline">\(\mu\)</span> is unbiased as<br>
+<span class="math display">\[
+\text{Bias}(\hat{\mu}_{ML}) = \text{E}( \hat{\mu}_{ML} ) - \mu = 0
+\]</span> In contrast, however, the MLE of <span class="math inline">\(\sigma^2\)</span> is negatively biased because <span class="math display">\[
+\text{Bias}(\widehat{\sigma^2}_{ML}) = \text{E}( \widehat{\sigma^2}_{ML} ) - \sigma^2 = -\frac{1}{n} \, \sigma^2
+\]</span></p>
+<p>Thus, in the case of the variance parameter of the normal distribution the MLE is <em>not</em> recovering the well-known unbiased estimator of the variance<br>
+<span class="math display">\[
+\widehat{\sigma^2}_{UB} = \frac{1}{n-1}\sum_{i=1}^n(x_i-\bar{x})^2 = \frac{n}{n-1} \widehat{\sigma^2}_{ML}
+\]</span> In other words, the unbiased variance estimate is not a maximum likelihood estimate!</p>
+<p>Therefore it is worth keeping in mind that maximum likelihood can result in biased estimates for finite <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span>, however, the bias disappears as MLEs are consistent.</p>
+</section>
+<section id="colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="colorred-blacktriangleright-minimal-sufficient-statistics-and-maximal-data-reduction"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Minimal sufficient statistics and maximal data reduction</h3>
+<p>In all the examples discussed above the sufficient statistic was typically either <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\overline{x^2}\)</span> (or both). This is not a coincidence since all of the examples are exponential families with canonical statistics <span class="math inline">\(x\)</span> and <span class="math inline">\(x^2\)</span>, and in exponential families a sufficient statistic can be obtained as the average of the canonical statistics.</p>
+<p>Crucially, in the above examples the identified sufficient statistics are also <strong>minimal sufficient statistics</strong> where the dimension of sufficient statistic is equal to the dimension of the parameter vector, and as such as low as possible. Minimal sufficient statistics provide maximal data reduction as will be discussed later.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Stigler, S. M. 1981. <em>Gauss and the invention of least squares</em>. Ann. Statist. <strong>9</strong>:465–474. <a href="https://doi.org/10.1214/aos/1176345451" class="uri">https://doi.org/10.1214/aos/1176345451</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-likelihood-a-mle.html" class="pagination-link" aria-label="Principle of maximum likelihood">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-likelihood-c-obsfisher.html" class="pagination-link" aria-label="Observed Fisher information">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Observed Fisher information</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

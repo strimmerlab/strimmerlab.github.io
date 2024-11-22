@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Entropy – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-entropy-b-kl.html" rel="next">
+<link href="./01-intro-b-models.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-a-entropy.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Entropy and likelihood</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-b-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-a-entropy.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-c-fisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-a-mle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-b-mlpractise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-c-obsfisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Observed Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-d-quadratic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-e-cilrt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-f-optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bayesian statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#shannon-entropy-and-differential-entropy" id="toc-shannon-entropy-and-differential-entropy" class="nav-link active" data-scroll-target="#shannon-entropy-and-differential-entropy"><span class="header-section-number">3.1</span> Shannon entropy and differential entropy</a>
+  <ul class="collapse">
+  <li><a href="#the-logarithm-and-units-of-information-storage" id="toc-the-logarithm-and-units-of-information-storage" class="nav-link" data-scroll-target="#the-logarithm-and-units-of-information-storage">The logarithm and units of information storage</a></li>
+  <li><a href="#surprise-or-surprisal-and-logarithmic-scoring-rule" id="toc-surprise-or-surprisal-and-logarithmic-scoring-rule" class="nav-link" data-scroll-target="#surprise-or-surprisal-and-logarithmic-scoring-rule">Surprise or surprisal and logarithmic scoring rule</a></li>
+  <li><a href="#entropy-of-a-distribution" id="toc-entropy-of-a-distribution" class="nav-link" data-scroll-target="#entropy-of-a-distribution">Entropy of a distribution</a></li>
+  </ul></li>
+  <li><a href="#entropy-examples" id="toc-entropy-examples" class="nav-link" data-scroll-target="#entropy-examples"><span class="header-section-number">3.2</span> Entropy examples</a>
+  <ul class="collapse">
+  <li><a href="#models-with-single-parameter" id="toc-models-with-single-parameter" class="nav-link" data-scroll-target="#models-with-single-parameter">Models with single parameter</a></li>
+  <li><a href="#models-with-multiple-parameters" id="toc-models-with-multiple-parameters" class="nav-link" data-scroll-target="#models-with-multiple-parameters">Models with multiple parameters</a></li>
+  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history">A bit of history</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-a-entropy.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-entropy" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Entropy, a fundamental concept that originated in physics, plays a crucial role in information theory and statistical learning. This chapter introduces entropy via the route of logarithmic scoring rules.</p>
+<section id="shannon-entropy-and-differential-entropy" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="shannon-entropy-and-differential-entropy"><span class="header-section-number">3.1</span> Shannon entropy and differential entropy</h2>
+<section id="the-logarithm-and-units-of-information-storage" class="level3">
+<h3 class="anchored" data-anchor-id="the-logarithm-and-units-of-information-storage">The logarithm and units of information storage</h3>
+<p>Assume we observe a discrete variable <span class="math inline">\(x\)</span> with <span class="math inline">\(K\)</span> possible states <span class="math inline">\(\Omega = \{\omega_1, \ldots, \omega_K\}\)</span>. Furthermore, we have a number of identical memory units each of which can record&nbsp;<span class="math inline">\(A\)</span> different states. Following the principle of common numeral systems, such as the decimal, binary or hexadecimal numbers, we see that using <span class="math inline">\(S = \log_A K\)</span> such information memory units is sufficient to describe the state of <span class="math inline">\(x\)</span>.</p>
+<p>The storage requirement <span class="math inline">\(S\)</span> is the <strong>code length</strong> or the <strong>cost</strong> needed to describe the state of <span class="math inline">\(x\)</span> using an alphabet of size&nbsp;<span class="math inline">\(A\)</span>.</p>
+<p>In the above we have tacitly assumed that all <span class="math inline">\(K\)</span> states are treated equally so that the storage size, code length, and cost requirement associated with each state is constant and the same for all possible <span class="math inline">\(K\)</span> states. This can be made more explicit by writing <span class="math display">\[
+S = -\log_A \left( \frac{1}{K} \right)
+\]</span> where <span class="math inline">\(1/K\)</span> is the equal probability of each of the <span class="math inline">\(K\)</span> states.</p>
+<div id="exm-units" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Information storage units:</p>
+<p>For <span class="math inline">\(A=2\)</span> the storage units are called “bits” (<a href="https://en.wikipedia.org/wiki/Bit">binary information units</a>), and a single bit can store 2 states. Hence to describe the <span class="math inline">\(K=256\)</span> possible states in a system <span class="math inline">\(8=\log_2 256\)</span> bits (or 1 byte) of storage are sufficient.</p>
+<p>For <span class="math inline">\(A=10\)</span> the units are “dits” (decimal information units), so to describe <span class="math inline">\(K=100\)</span> possible states <span class="math inline">\(2=\log_{10} 100\)</span> dits are sufficient, where a single dit can store 10 states.</p>
+<p>Finally, if the natural logarithm is used (<span class="math inline">\(A=e\)</span>) the storage units are called “nits” (<a href="https://en.wikipedia.org/wiki/Nat_(unit)">natural information units</a>). In the following we will use “nits” and natural logarithm throughout.</p>
+</div>
+</section>
+<section id="surprise-or-surprisal-and-logarithmic-scoring-rule" class="level3">
+<h3 class="anchored" data-anchor-id="surprise-or-surprisal-and-logarithmic-scoring-rule">Surprise or surprisal and logarithmic scoring rule</h3>
+<p>In practise, the <span class="math inline">\(K\)</span> states may not all be equally probably, and assume there is a discrete distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> to model the state probabilities. In this case, instead of using the same code length to describe each state, we may use <em>variable code lengths</em>, with more probable states assigned shorter codes and less probable states having longer codes. More specifically, generalising from the previous we may use the negative logarithm to map the probability of a state <span class="math inline">\(x\)</span> to a corresponding cost and code length: <span class="math display">\[
+S(x, P) = -\log p(x)
+\]</span> As we will see below (<a href="#exm-entropycategorical" class="quarto-xref">Example&nbsp;<span>3.8</span></a>, <a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a> and <a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>) using logarithmic cost allows for expected code lengths that are potentially much smaller than the fixed length <span class="math inline">\(\log K\)</span>, and hence leads to a more space saving representation.</p>
+<p>The negative logarithm of the probability <span class="math inline">\(p(x)\)</span> of an event <span class="math inline">\(x\)</span> is known as the <strong>surprise</strong> or <strong>surprisal</strong>. The surprise to observe a certain event (with <span class="math inline">\(p(x)=1\)</span>) is zero, and conversely the surprise to observe an event that is certain not to happen (with <span class="math inline">\(p(x)=0\)</span>) is infinite.</p>
+<p>We will apply <span class="math inline">\(S(x, P)\)</span> to both discrete and and continuous variables <span class="math inline">\(x\)</span> and corresponding distributions <span class="math inline">\(P\)</span> and then call it <strong>logarithmic score</strong> or <strong>logarithmic scoring rule</strong> (see also <a href="#exm-scoringrules" class="quarto-xref">Example&nbsp;<span>3.4</span></a>). As densities can take on values larger than 1 the logarithmic score <span class="math inline">\(S(x, P)\)</span> may therefore become negative when <span class="math inline">\(P\)</span> is a continuous distribution.</p>
+<div id="exm-logodds" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.2</strong></span> Log-odds ratio and surprise:</p>
+<p>The <strong>log-odds ratio</strong> of the probability <span class="math inline">\(p\)</span> of an event is the difference of the surprise of the complementary event (with probability <span class="math inline">\(1-p\)</span>) and the surprise of the event:</p>
+<p><span class="math display">\[
+\begin{split}
+\text{logit}(p) &amp;= \log\left( \frac{p}{1-p} \right) \\
+&amp;= -\log(1-p) - ( -\log p)\\
+\end{split}
+\]</span></p>
+</div>
+<div id="exm-logscorenormdist" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> Logarithmic score and normal distribution:</p>
+<p>If we quote in the logarithmic scoring rule the normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> with density <span class="math inline">\(p(x |\mu, \sigma^2)= \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\)</span> we get as score <span class="math display">\[
+S\left(x,N(\mu, \sigma^2 )\right) = \frac{1}{2} \left( \log(2\pi\sigma^2) + \frac{(x-\mu)^2}{\sigma^2}\right)
+\]</span> For fixed variance <span class="math inline">\(\sigma^2\)</span> this is equivalent to the squared error from the parameter&nbsp;<span class="math inline">\(\mu\)</span>.</p>
+</div>
+<div id="exm-scoringrules" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> General scoring rules:</p>
+<p>The function <span class="math inline">\(S(x, P) = -\log p(x)\)</span> is an important example of a <strong><a href="https://en.wikipedia.org/wiki/Scoring_rule">scoring rule</a></strong> for a probabilistic forecast represented by model <span class="math inline">\(P\)</span> evaluated on the observation <span class="math inline">\(x\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>While one can devise many different scoring rules the logarithmic scoring rule stands out as it has a number of unique and favourable properties (e.g.&nbsp;Hartley 1928, Shannon 1948, Good 1952, Bernardo 1979). In particular, it is the only scoring rule that is both <em>proper</em>, i.e.&nbsp;the expected score is minimised when the quoted model <span class="math inline">\(P\)</span> is identical to the data generating model, and <em>local</em> in that the score depends only on the value of the density/probability mass function at <span class="math inline">\(x\)</span>.</p>
+</div>
+</section>
+<section id="entropy-of-a-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="entropy-of-a-distribution">Entropy of a distribution</h3>
+<p>The entropy of the distribution <span class="math inline">\(P\)</span> is defined as the functional <span class="math display">\[
+\begin{split}
+H(P) &amp;= \text{E}_P\left( S(x, P) \right) \\
+     &amp;= - \text{E}_P\left(\log p(x)\right) \\
+\end{split}
+\]</span> i.e.&nbsp;as the expected logarithmic score when the data are generated by <span class="math inline">\(P\)</span> and the model <span class="math inline">\(P\)</span> is evaluated on the observations.</p>
+<p>As will become clear, entropy quantifies the <strong>spread of the probability mass</strong> within a distribution. When the probability mass is concentrated in a specific area, the entropy will be low; conversely, when the probability mass is more widely distributed, the entropy will be high.</p>
+<p>The entropy of a discrete probability distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x \in \Omega\)</span> is called <strong>Shannon entropy</strong> (1948)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. In statistical physics, the Shannon entropy is known as <a href="https://en.wikipedia.org/wiki/Entropy_(statistical_thermodynamics)#Gibbs_entropy_formula">Gibbs entropy (1878)</a>:</p>
+<p><span class="math display">\[
+H(P) = - \sum_{x \in \Omega} \log p(x) \, p(x)
+\]</span> The entropy of a discrete distribution is the <strong>expected surprise</strong>. We can also interpret it as the <strong>expected cost</strong> or <strong>expected code length</strong> when the data are generated according to model <span class="math inline">\(P\)</span> and we are also using model <span class="math inline">\(P\)</span> to describe the data. Furthermore, it also has a combinatorial interpretation (see <a href="#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>).</p>
+<p>As <span class="math inline">\(p(x) \in [0,1]\)</span> and hence <span class="math inline">\(-\log p(x) \geq 0\)</span> by construction Shannon entropy is bounded below and must be larger or equal to 0.</p>
+<p>Applying the definition of entropy to a continuous probability distribution <span class="math inline">\(P\)</span> with density <span class="math inline">\(p(x)\)</span> yields the <strong>differential entropy</strong>: <span class="math display">\[
+H(P) = - \int_x \log p(x) \, p(x) \, dx
+\]</span> Because the logarithm is taken of a density, which in contrast to a probability can assume values larger than one, differential entropy can be negative.</p>
+<p>Furthermore, since for continuous random variables the shape of the density typically changes under <strong>variable transformation</strong>, say from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, the <strong>differential entropy will change</strong> as well under such a transformation so that <span class="math inline">\(H(P_y) \neq H(P_x)\)</span>.</p>
+</section>
+</section>
+<section id="entropy-examples" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="entropy-examples"><span class="header-section-number">3.2</span> Entropy examples</h2>
+<section id="models-with-single-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-single-parameter">Models with single parameter</h3>
+<div id="exm-entropygeom" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.5</strong></span> The Shannon entropy of the geometric distribution <span class="math inline">\(F_x = \text{Geom}(\theta)\)</span> with probability mass function <span class="math inline">\(p(x|\theta) = \theta (1-\theta)^{x-1}\)</span>, <span class="math inline">\(\theta \in [0,1]\)</span>, support <span class="math inline">\(x \in \{1, 2, \ldots \}\)</span> and <span class="math inline">\(\text{E}(x)= 1/\theta\)</span> is <span class="math display">\[
+\begin{split}
+H(F_x) &amp;= - \text{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
+       &amp;= -\log \theta+ \left(\frac{1}{\theta}-1\right)\log(1-\theta)\\
+       &amp;= -\frac{\theta \log \theta + (1-\theta) \log(1-\theta) }{\theta}
+\end{split}
+\]</span> Using the identity <span class="math inline">\(0\times\log(0)=0\)</span> we see that the entropy of the geometric distribution for <span class="math inline">\(\theta = 1\)</span> equals 0, i.e.&nbsp;it achieves the minimum possible Shannon entropy. Conversely, as <span class="math inline">\(\theta \rightarrow 0\)</span> it diverges to infinity.</p>
+</div>
+<div id="exm-entropyunif" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.6</strong></span> Consider the uniform distribution <span class="math inline">\(F_x = U(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
+\begin{split}
+H( F_x ) &amp;= - \int_0^a \log\left(\frac{1}{a}\right) \, \frac{1}{a}  dx \\
+             &amp;=  \log a  \int_0^a \frac{1}{a} dx \\
+             &amp;= \log a \,.
+\end{split}
+\]</span> Note that for <span class="math inline">\(0 &lt; a &lt; 1\)</span> the differential entropy is negative.</p>
+</div>
+<div id="exm-entropyvartrans" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.7</strong></span> Starting with the uniform distribution <span class="math inline">\(F_x = U(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.6</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(F_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
+<p>The corresponding differential entropy is <span class="math display">\[
+\begin{split}
+H( F_y ) &amp;=  \int_0^{a^2}  \log \left(2 a \sqrt{y}\right) \, 1/\left(2 a \sqrt{y}\right) dy \\
+         &amp;= \left[ \sqrt{y}/a \, \left(\log \left( 2 a \sqrt{y} \right)-1\right)  \right]_{y=0}^{y=a^2} \\
+             &amp;= \log \left(2 a^2\right) -1 \,.
+\end{split}
+\]</span> This is negative for <span class="math inline">\(0 &lt; a &lt; \sqrt{e/2}\approx 1.1658\)</span>. As expected <span class="math inline">\(H( F_y ) \neq H( F_x )\)</span> as differential entropy is not invariant against variable transformations.</p>
+</div>
+</section>
+<section id="models-with-multiple-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
+<div id="exm-entropycategorical" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.8</strong></span> The Shannon entropy of the categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories with class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> is <span class="math display">\[
+H(P) = - \sum_{k=1}^{K } \log(p_k)\, p_k
+\]</span></p>
+<p>As <span class="math inline">\(P\)</span> is discrete <span class="math inline">\(H(P)\)</span> is bounded below by 0. Furthermore, it is also bounded above by <span class="math inline">\(\log K\)</span> (cf. <a href="02-entropy-d-maxent.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>). Hence for a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have <span class="math display">\[
+0 \leq  H(P) \leq \log K
+\]</span> The maximum is achieved for the discrete uniform distribution (<a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) and the minimum for a concentrated categorical distribution (<a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>).</p>
+</div>
+<div id="exm-entropydiscunif" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy for the discrete uniform distribution <span class="math inline">\(U_K\)</span>:</p>
+<p>Let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[H(U_K) = - \sum_{k=1}^{K}\log\left(\frac{1}{K}\right)\, \frac{1}{K}  = \log K\]</span></p>
+<p>Note that <span class="math inline">\(\log K\)</span> is the largest value the Shannon entropy can assume with <span class="math inline">\(K\)</span> classes (cf. <a href="02-entropy-d-maxent.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>) and indicates maximum spread of probability mass.</p>
+</div>
+<div id="exm-entropyconcentrated" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.10</strong></span> Entropy for a categorical distribution with concentrated probability mass:</p>
+<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon entropy <span class="math display">\[H(P) = \log(1)\times 1 + \log(0)\times 0 + \dots = 0\]</span></p>
+<p>Note that 0 is the smallest value that Shannon entropy can assume and that it corresponds to maximum concentration of probability mass.</p>
+</div>
+<div id="exm-entropynormal" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.11</strong></span> Differential entropy of the normal distribution:</p>
+<p>The log density of the univariate normal <span class="math inline">\(N(\mu, \sigma^2)\)</span> distribution is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>. The corresponding differential entropy is with <span class="math inline">\(\text{E}((x-\mu)^2) = \sigma^2\)</span> <span class="math display">\[
+\begin{split}
+H(P) &amp; = -\text{E}\left( \log p(x |\mu, \sigma^2) \right)\\
+&amp; = \frac{1}{2} \left( \log(2 \pi \sigma^2)+1\right) \,. \\
+\end{split}
+\]</span> Note that <span class="math inline">\(H(P)\)</span> only depends on the variance parameter and not on the mean parameter. This intuitively clear as only the variance controls the concentration of the probability mass. The entropy grows with the variance as the probability mass becomes more spread out and less concentrated around the mean. For <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
+</div>
+<div id="exm-entropymultinomial" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.12</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy of a categorical distribution and the multinomial coefficient:</p>
+<p>Let <span class="math inline">\(\hat{Q}\)</span> be the empirical categorical distribution with <span class="math inline">\(\hat{q}_k = n_k/n\)</span> the observed frequencies with <span class="math inline">\(n_k\)</span> counts in class <span class="math inline">\(k\)</span> and <span class="math inline">\(n=\sum_{k=1}^K\)</span> total counts.</p>
+<p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types is given by the multinomial coefficient <span class="math display">\[
+W = \binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
+\]</span></p>
+<p>It turns out that for large <span class="math inline">\(n\)</span> both quantities are directly linked: <span class="math display">\[
+H(\hat{Q})  \approx \frac{1}{n} \log W
+\]</span></p>
+<p>Recall the Moivre-Sterling formula which for large <span class="math inline">\(n\)</span> allow to approximate the factorial by <span class="math display">\[
+\log n! \approx  n \log n  -n
+\]</span> With this <span class="math display">\[
+\begin{split}
+\log W &amp;= \log n! - \sum_{k=1}^K \log n_k!\\
+&amp; \approx    n \log n  -n - \sum_{k=1}^K (n_k \log n_k  -n_k) \\
+&amp; = \sum_{k=1}^K n_k \log n - \sum_{k=1}^K n_k \log n_k\\
+&amp; = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)\\
+&amp; = -n \sum_{k=1}^K \log (\hat{q}_k) \, \hat{q}_k  \\
+&amp; = n H(\hat{Q})
+\end{split}
+\]</span></p>
+<p>The above combinatorial derivation of entropy is one of the cornerstones of statistical mechanics and is credited to Boltzmann (1877) and Gibbs (1878). The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_i\)</span>, i.e.&nbsp;when samples are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
+<p>In statistics the above derivation of entropy was rediscovered by Wallis (1962).</p>
+</div>
+</section>
+<section id="a-bit-of-history" class="level3">
+<h3 class="anchored" data-anchor-id="a-bit-of-history">A bit of history</h3>
+<p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the distribution of energy: if energy is concentrated then the entropy is low, and conversely if energy is spread out the entropy is large. The total energy is conserved (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
+<p>The modern probabilistic definition of entropy was discovered in the 1870s by <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a> and <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a>. In statistical mechanics entropy is proportional to the logarithm of the number of microstates (i.e.&nbsp;particular configurations of the system) compatible with the observed macrostate. Typically, in systems where the energy is spread out there are very large numbers of compatible configurations hence this corresponds to large entropy, and conversely, if the energy is concentrated there are only few such configurations, and thus is corresponds to low entropy.</p>
+<p>In the 1940–1950’s the notion of entropy turned out to be central also in information theory, a field pioneered by mathematicians such as <a href="https://en.wikipedia.org/wiki/Ralph_Hartley">Ralph Hartley (1888–1970)</a>, <a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a>, <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing (1912–1954)</a>, <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a>, <a href="https://en.wikipedia.org/wiki/I._J._Good">Irving J. Good (1916–2009)</a>, <a href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon (1916–2001)</a>, and <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a>, and later further explored by <a href="https://de.wikipedia.org/wiki/Shun%E2%80%99ichi_Amari">Shun’ichi Amari (1936–)</a>, <a href="https://en.wikipedia.org/wiki/Imre_Csisz%C3%A1r">Imre Ciszár (1938–)</a>, <a href="https://de.wikipedia.org/wiki/Bradley_Efron">Bradley Efron (1938–)</a>, <a href="https://en.wikipedia.org/wiki/Philip_Dawid">Philip Dawid (1946–)</a> and many others.</p>
+<p>Of the above, Turing and Good were affiliated with the University of Manchester.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>We use the convention that scoring rules are negatively oriented (e.g.&nbsp;Dawid 2007) with the aim to minimise the score (cost, code length, surprise). However, some authors prefer the positively oriented convention with a reversed sign in the definition of <span class="math inline">\(S(x, P)\)</span> so the score represents a <strong>reward</strong> that is maximised (e.g.&nbsp;Gneiting and Raftery 2007).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal <strong>27</strong>:379–423. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri">https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-intro-b-models.html" class="pagination-link" aria-label="Distributions for statistical models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-entropy-b-kl.html" class="pagination-link" aria-label="Relative entropy">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

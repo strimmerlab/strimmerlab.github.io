@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Principle of maximum likelihood – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-likelihood-b-mlpractise.html" rel="next">
+<link href="./02-entropy-d-maxent.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-a-mle.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Entropy and likelihood</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-b-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-a-entropy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-c-fisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-entropy-d-maxent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-a-mle.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-b-mlpractise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-c-obsfisher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Observed Fisher information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-d-quadratic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quadratic approximation and normal asymptotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-e-cilrt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Likelihood-based confidence interval and likelihood ratio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-likelihood-f-optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bayesian statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-bayes2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-bayes3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Essentials of Bayesian statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bayes4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-bayes5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-bayes7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistics refresher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-further-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">7.1</span> Overview</a>
+  <ul class="collapse">
+  <li><a href="#outline-of-maximum-likelihood-estimation" id="toc-outline-of-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#outline-of-maximum-likelihood-estimation">Outline of maximum likelihood estimation</a></li>
+  <li><a href="#origin-of-the-method-of-maximum-likelihood" id="toc-origin-of-the-method-of-maximum-likelihood" class="nav-link" data-scroll-target="#origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</a></li>
+  </ul></li>
+  <li><a href="#from-entropy-learning-to-maximum-likelihood" id="toc-from-entropy-learning-to-maximum-likelihood" class="nav-link" data-scroll-target="#from-entropy-learning-to-maximum-likelihood"><span class="header-section-number">7.2</span> From entropy learning to maximum likelihood</a>
+  <ul class="collapse">
+  <li><a href="#the-kl-divergence-between-true-model-and-approximating-model" id="toc-the-kl-divergence-between-true-model-and-approximating-model" class="nav-link" data-scroll-target="#the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</a></li>
+  <li><a href="#minimum-kl-divergence-and-maximum-likelihood" id="toc-minimum-kl-divergence-and-maximum-likelihood" class="nav-link" data-scroll-target="#minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</a></li>
+  </ul></li>
+  <li><a href="#properties-of-maximum-likelihood-estimation" id="toc-properties-of-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#properties-of-maximum-likelihood-estimation"><span class="header-section-number">7.3</span> Properties of maximum likelihood estimation</a>
+  <ul class="collapse">
+  <li><a href="#consistency-of-maximum-likelihood-estimates" id="toc-consistency-of-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#consistency-of-maximum-likelihood-estimates">Consistency of maximum likelihood estimates</a></li>
+  <li><a href="#invariance-property-of-the-maximum-likelihood" id="toc-invariance-property-of-the-maximum-likelihood" class="nav-link" data-scroll-target="#invariance-property-of-the-maximum-likelihood">Invariance property of the maximum likelihood</a></li>
+  <li><a href="#sufficient-statistics" id="toc-sufficient-statistics" class="nav-link" data-scroll-target="#sufficient-statistics">Sufficient statistics</a></li>
+  </ul></li>
+  <li><a href="#sec-mlregular" id="toc-sec-mlregular" class="nav-link" data-scroll-target="#sec-mlregular"><span class="header-section-number">7.4</span> Maximum likelihood estimation for regular models</a>
+  <ul class="collapse">
+  <li><a href="#regular-models" id="toc-regular-models" class="nav-link" data-scroll-target="#regular-models">Regular models</a></li>
+  <li><a href="#maximum-likelihood-estimation-in-regular-models" id="toc-maximum-likelihood-estimation-in-regular-models" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-in-regular-models">Maximum likelihood estimation in regular models</a></li>
+  <li><a href="#invariance-of-score-function-and-second-derivative-of-the-log-likelihood" id="toc-invariance-of-score-function-and-second-derivative-of-the-log-likelihood" class="nav-link" data-scroll-target="#invariance-of-score-function-and-second-derivative-of-the-log-likelihood">Invariance of score function and second derivative of the log-likelihood</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./03-likelihood-a-mle.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principle of maximum likelihood</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">7.1</span> Overview</h2>
+<section id="outline-of-maximum-likelihood-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="outline-of-maximum-likelihood-estimation">Outline of maximum likelihood estimation</h3>
+<p><strong>Maximum likelihood</strong> is a very general method for fitting probabilistic models to data that generalises the method of least-squares. It plays a very important role in statistics and was mainly developed by R.A. Fisher in the early 20th century. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>In a nutshell, the starting points in a maximum likelihood analysis are</p>
+<ol type="i">
+<li>the observed data <span class="math inline">\(D = \{x_1,\ldots,x_n\}\)</span> with <span class="math inline">\(n\)</span> independent and identically distributed (iid) samples, with the ordering irrelevant, and a</li>
+<li>a model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with corresponding probability density or probability mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> and parameters <span class="math inline">\(\boldsymbol \theta\)</span></li>
+</ol>
+<p>From model and data the likelihood function (note upper case “L”) is constructed as <span class="math display">\[
+L_n(\boldsymbol \theta|D)=\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
+\]</span> Equivalently, the log-likelihood function (note lower case “l”) is <span class="math display">\[
+l_n(\boldsymbol \theta|D)=\sum_{i=1}^n \log p(x_i|\boldsymbol \theta)
+\]</span> The likelihood is multiplicative and the log-likelihood additive over the samples <span class="math inline">\(x_i\)</span>.</p>
+<div id="fig-findingmle" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-findingmle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/findingmle.png" class="img-fluid figure-img" style="width:60.0%" data-fig-pos="t">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-findingmle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Finding the maximum likelihood estimate by maximisation.
+</figcaption>
+</figure>
+</div>
+<p>The maximum likelihood estimate (MLE) <span class="math inline">\(\hat{\boldsymbol \theta}^{ML}\)</span> is then found by maximising the (log)-likelihood function with regard to the parameters <span class="math inline">\(\boldsymbol \theta\)</span> (see <a href="#fig-findingmle" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>): <span class="math display">\[
+\hat{\boldsymbol \theta}_{ML} = \text{arg max}\, l_n(\boldsymbol \theta|D)
+\]</span></p>
+<p>Hence, once the model is chosen and data are collected, finding the MLE and thus fitting the model to the data is an <em>optimisation problem</em>.</p>
+<p>Depending on the complexity of the likelihood function and the number of the parameters finding the maximum likelihood can be very difficult. On the other hand, for likelihood functions constructed from common distribution families, such as exponential families, maximum likelihood estimation is very straightforward and can even be done analytically (this is the case for most examples we encounter in this course).</p>
+<p>In practise in application to more complex models the optimisation required for maximum likelihood analysis is done on the computer, typically on the log-likelihood rather than on the likelihood function in order to avoid problems with the computer representation of small floating point numbers. Suitable optimisation algorithm may rely only on function values without requiring derivatives, or use in addition gradient and possibly curvature information. In recent years there has been a lot of progress in high-dimensional optimisation using combined numerical and analytical approaches (e.g.&nbsp;using automatic differentiation) and stochastic approximations (e.g.&nbsp;stochastic gradient descent).</p>
+</section>
+<section id="origin-of-the-method-of-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</h3>
+<p>Historically, the likelihood has often interpreted and justified as the probability of the data given the model. However, while providing an intuitive understanding this is not strictly correct. First, this interpretation only applies to discrete random variables. Second, since the samples <span class="math inline">\(x_1, \ldots, x_n\)</span> are typically <strong>exchangeable</strong> (i.e.&nbsp;permutation invariant) even in this case one would still need to add a factor accounting for the multiplicity of the possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(p(x |\boldsymbol \theta)\)</span> is a density, not a probability.</p>
+<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest in terms of KL divergence to the unknown true data generating model as represented by the observed data and the empirical distribution.</p>
+</section>
+</section>
+<section id="from-entropy-learning-to-maximum-likelihood" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="from-entropy-learning-to-maximum-likelihood"><span class="header-section-number">7.2</span> From entropy learning to maximum likelihood</h2>
+<section id="the-kl-divergence-between-true-model-and-approximating-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</h3>
+<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
+<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\)</span> measures the divergence of the approximation <span class="math inline">\(P_{\boldsymbol \theta}\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(F,P_{\boldsymbol \theta}) &amp;= H(F,P_{\boldsymbol \theta}) - H(F) \\
+&amp;= \underbrace{- \text{E}_{F}\log p_{\boldsymbol \theta}(x)}_{\text{cross-entropy}}
+-(\underbrace{-\text{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\boldsymbol \theta$}})\\
+\end{split}
+\]</span></p>
+<p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\)</span> that becomes more and more accurate with growing sample size.</p>
+<hr>
+<p>Recall the “Law of Large Numbers” :</p>
+<ul>
+<li><p>The empirical distribution <span class="math inline">\(\hat{F}_n\)</span> based on observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> converges strongly (almost surely) to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>: <span class="math display">\[
+\hat{F}_n\overset{a. s.}{\to} F
+\]</span></p></li>
+<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
+</ul>
+<hr>
+<p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate cross-entropy and as a result the KL divergence. The cross-entropy <span class="math inline">\(H(F, P_{\boldsymbol \theta})\)</span> is approximated by the <strong>empirical cross-entropy</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>: <span class="math display">\[
+\begin{split}
+H(F, P_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, P_{\boldsymbol \theta}) \\
+                  &amp; = - \text{E}_{\hat{F}_n} (\log p(x|\boldsymbol \theta))  \\
+                  &amp; = -\frac{1}{n} \sum_{i=1}^n \log p(x_i | \boldsymbol \theta) \\
+                  &amp; = -\frac{1}{n} l_n ({\boldsymbol \theta}| D)
+\end{split}
+\]</span> The empirical cross-entropy is equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>. Conversely, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
+</section>
+<section id="minimum-kl-divergence-and-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</h3>
+<p>If we knew <span class="math inline">\(F\)</span> we would simply minimise <span class="math inline">\(D_{\text{KL}}(F, P_{\boldsymbol \theta})\)</span> to find the particular model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest to the true model, or equivalent, we would minimise the cross-entropy <span class="math inline">\(H(F, P_{\boldsymbol \theta})\)</span>. However, since we actually don’t know <span class="math inline">\(F\)</span> this is not possible.</p>
+<p>However, for large sample size <span class="math inline">\(n\)</span> when the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section. Thus, instead of minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(F, P_{\boldsymbol \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, P_{\boldsymbol \theta})\)</span> which is the same as maximising the log-likelihood <span class="math inline">\(l_n ({\boldsymbol \theta}| D)\)</span>.</p>
+<p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>!) to minimising the KL divergence of the approximating model and the unknown true model.</p>
+<p><span class="math display">\[
+\begin{split}
+\hat{\boldsymbol \theta}^{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, l_n(\boldsymbol \theta| D) \\
+&amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, P_{\boldsymbol \theta}) \\
+&amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, P_{\boldsymbol \theta}) \\
+\end{split}
+\]</span></p>
+<p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>. In other words, <strong>maximum likelihood estimators are minimum empirical KL divergence estimators</strong>.</p>
+<p>As the KL divergence is a functional of the true distribution <span class="math inline">\(F\)</span> <strong>maximum likelihood provides empirical estimators for parametric models</strong>.</p>
+<p>As a consequence of the close link of maximum likelihood and KL divergence maximum likelihood inherits for large <span class="math inline">\(n\)</span> (and only then!) all the optimality properties from KL divergence.</p>
+</section>
+</section>
+<section id="properties-of-maximum-likelihood-estimation" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="properties-of-maximum-likelihood-estimation"><span class="header-section-number">7.3</span> Properties of maximum likelihood estimation</h2>
+<section id="consistency-of-maximum-likelihood-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="consistency-of-maximum-likelihood-estimates">Consistency of maximum likelihood estimates</h3>
+<p>One important property of the method of maximum likelihood is that in general it produces <strong>consistent estimates</strong>. This means that estimates are well behaved so that they become more accurate with more data and in the limit of infinite data converge to the true parameters.</p>
+<p>Specifically, if the true underlying model <span class="math inline">\(F_{\text{true}}\)</span> is contained in the set of specified candidates models <span class="math inline">\(P_{\boldsymbol \theta}\)</span> <span class="math display">\[
+\underbrace{F_{\text{true}}}_{\text{true model}} \subset \underbrace{P_{\boldsymbol \theta}}_{\text{specified models}}
+\]</span> so that there is a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> for which <span class="math inline">\(F_{\text{true}} = P_{\boldsymbol \theta_{\text{true}}}\)</span>, then <span class="math display">\[\hat{\boldsymbol \theta}_{ML} \overset{\text{large }n}{\longrightarrow} \boldsymbol \theta_{\text{true}}
+\]</span></p>
+<p>This is a consequence of <span class="math inline">\(D_{\text{KL}}(F_{\text{true}},P_{\boldsymbol \theta})\rightarrow 0\)</span> for <span class="math inline">\(P_{\boldsymbol \theta} \rightarrow F_{\text{true}}\)</span>, and that maximisation of the likelihood function is for large <span class="math inline">\(n\)</span> equivalent to minimising the KL divergence.</p>
+<p>Thus given sufficient data the maximum likelihood estimate of the parameters of the model will converge to the true value of the parameters. Note that this also assumes that the model and in particular the number of parameters is fixed. As a consequence of consistency, <strong>maximum likelihood estimates are asympotically unbiased</strong>. As we will see in the examples they can still be biased in finite samples.</p>
+<p>Note that even if the candidate model family <span class="math inline">\(P_{\boldsymbol \theta}\)</span> is <strong>misspecified</strong> (so that it does not contain the actual true model), the maximum likelihood estimate is still optimal in the sense in that it will identify the model in the model family that is closest in terms of empirical KL divergence.</p>
+<p>Finally, it is possible to find inconsistent maximum likelihood estimates, but this occurs only in situations when the MLE lies at a boundary or when there are singularities in the likelihood function (in both cases the models are not regular). Furthermore, models are inconsistent by construction when the number of parameters grows with sample size (e.g.&nbsp;in the famous Neyman-Scott paradox) as the data available per parameter does not decrease.</p>
+</section>
+<section id="invariance-property-of-the-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="invariance-property-of-the-maximum-likelihood">Invariance property of the maximum likelihood</h3>
+<p>The maximum likelihood invariance principle states that the <strong>achieved maximum likelihood is invariant against reparameterisation of the model parameters</strong>. This property is shared by the KL divergence minimisation procedure as the achieved minimum KL divergence is also invariant against the change of parameters.</p>
+<p>Recall that the model parameter is just an arbitrary label to index a specific distribution within a distribution family, and changing that label does not affect the maximum (likelihood) or the minimum (KL divergence). For example, consider a function <span class="math inline">\(h_x(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h_x(x)\)</span>. Now we relabel the argument using <span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h_y(y) = h_x( g^{-1}(y))\)</span>. and clearly this function has a maximum at <span class="math inline">\(y_{\max} =  g(x_{\max})\)</span> since <span class="math inline">\(h_y(y_{\max}) = h_x(g^{-1}(y_{\max} ) ) = h_x( x_{\max} )\)</span>. Furthermore, the achieved maximum value is the same.</p>
+<p>In application to maximum likelihood, assume we transform a parameter <span class="math inline">\(\theta\)</span> into another parameter <span class="math inline">\(\omega\)</span> using some invertible function <span class="math inline">\(g()\)</span> so that <span class="math inline">\(\omega= g(\theta)\)</span>. Then the maximum likelihood estimate <span class="math inline">\(\hat{\omega}_{ML}\)</span> of the new parameter <span class="math inline">\(\omega\)</span> is simply the transformation of the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the original parameter <span class="math inline">\(\theta\)</span> with <span class="math inline">\(\hat{\omega}_{ML}= g( \hat{\theta}_{ML})\)</span>. The achieved maximum likelihood is the same in both cases.</p>
+<p>The invariance property can be very useful in practise because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
+<p>See Worksheet L1 for an example application of the invariance principle.</p>
+</section>
+<section id="sufficient-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="sufficient-statistics">Sufficient statistics</h3>
+<p>Another important concept are so-called sufficient statistics to summarise the information available in the data about a parameter in a model.</p>
+<p>A statistic <span class="math inline">\(\boldsymbol t(D)\)</span> is called a <strong>sufficient statistic</strong> for the model parameters <span class="math inline">\(\boldsymbol \theta\)</span> if the corresponding likelihood function can be written using only <span class="math inline">\(\boldsymbol t(D)\)</span> in the terms that involve <span class="math inline">\(\boldsymbol \theta\)</span> such that <span class="math display">\[
+L(\boldsymbol \theta| D) = h( \boldsymbol t(D) , \boldsymbol \theta) \, k(D) \,,
+\]</span> where <span class="math inline">\(h()\)</span> and <span class="math inline">\(k()\)</span> are positive-valued functions. This is known as the <strong>Fisher-Pearson factorisation</strong>. Equivalently on log-scale this becomes <span class="math display">\[
+l_n(\boldsymbol \theta| D) = \log h( \boldsymbol t(D) , \boldsymbol \theta) + \log k(D) \,.
+\]</span></p>
+<p>By construction, estimation and inference about <span class="math inline">\(\boldsymbol \theta\)</span> based on the factorised likelihood <span class="math inline">\(L(\boldsymbol \theta)\)</span> is mediated through the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span> and does not require knowledge of the original data <span class="math inline">\(D\)</span>. Instead, the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span> contains all the information in <span class="math inline">\(D\)</span> required to learn about the parameter <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(D\)</span> are themselves sufficient statistics, with <span class="math inline">\(\boldsymbol t(D) = D\)</span>. However, in practise one aims to find sufficient statistics that summarise the data <span class="math inline">\(D\)</span> and hence provide data reduction. This will become clear in the examples below.</p>
+<p>Furthermore, sufficient statistics are <strong>not unique</strong> since applying a one-to-one transformation to <span class="math inline">\(\boldsymbol t(D)\)</span> yields another sufficient statistic.</p>
+<p>Therefore, if the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> of <span class="math inline">\(\boldsymbol \theta\)</span> exists and is unique then <strong>the MLE is a unique function of the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span></strong>. If the MLE is not unique then it can be chosen to be function of <span class="math inline">\(\boldsymbol t(D)\)</span>.</p>
+</section>
+</section>
+<section id="sec-mlregular" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-mlregular"><span class="header-section-number">7.4</span> Maximum likelihood estimation for regular models</h2>
+<section id="regular-models" class="level3">
+<h3 class="anchored" data-anchor-id="regular-models">Regular models</h3>
+<p>A regular model is one that is well-behaved and well-suited for model fitting by optimisation. In particular this requires that:</p>
+<ul>
+<li><p>the support does not depend on the parameters,</p></li>
+<li><p>the model is identifiable (in particular the model is not overparameterised and has a minimal set of parameters),</p></li>
+<li><p>the density/probability mass function and hence the log-likelihood function is twice differentiable everywhere with regard to the parameters,</p></li>
+<li><p>the maximum (peak) of the likelihood function lies inside the parameter space and not at a boundary,</p></li>
+<li><p>the second derivative of the log-likelihood at the maximum is negative and not zero (for multiple parameters: the Hessian matrix at the maximum is negative definite and not singular)</p></li>
+</ul>
+<p>Most models considered in this course are regular.</p>
+</section>
+<section id="maximum-likelihood-estimation-in-regular-models" class="level3">
+<h3 class="anchored" data-anchor-id="maximum-likelihood-estimation-in-regular-models">Maximum likelihood estimation in regular models</h3>
+<p>For a regular model maximum likelihood estimation and the necessary optimisation is greatly simplified by being able to using gradient and curvature information.</p>
+<p>In order to maximise <span class="math inline">\(l_n(\boldsymbol \theta|D)\)</span> one may use the <strong>score function</strong> <span class="math inline">\(\boldsymbol S(\boldsymbol \theta)\)</span> which is the first derivative of the log-likelihood function with regard to the parameters <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span class="math display">\[\begin{align*}
+\begin{array}{cc}
+S_n(\theta) = \frac{d l_n(\theta|D)}{d \theta}\\
+\\
+\\
+\boldsymbol S_n(\boldsymbol \theta)=\nabla l_n(\boldsymbol \theta|D)\\
+\\
+\end{array}
+\begin{array}{ll}
+\text{scalar parameter $\theta$: first derivative}\\
+\text{of log-likelihood function}\\
+\\
+\text{gradient if } \boldsymbol \theta\text{ is a vector}\\
+\text{(i.e. if there's more than one parameter)}\\
+\end{array}
+\end{align*}\]</span></p>
+<p>In this case a necessary (but not sufficient) condition for the MLE is that <span class="math display">\[
+\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML}) = 0
+\]</span></p>
+<p>To demonstrate that the log-likelihood function actually achieves a maximum at <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> the curvature at the MLE must negative, i.e.&nbsp;that the log-likelihood must be locally concave at the MLE.</p>
+<p>In the case of a single parameter (scalar <span class="math inline">\(\theta\)</span>) this requires to check that the second derivative of the log-likelihood function with regard to the parameter is negative: <span class="math display">\[
+\frac{d^2 l_n(\hat{\theta}_{ML}| D)}{d \theta^2} &lt;0
+\]</span> In the case of a parameter vector (multivariate <span class="math inline">\(\boldsymbol \theta\)</span>) you need to compute the Hessian matrix (matrix of second order derivatives) at the MLE: <span class="math display">\[
+\nabla \nabla^T l_n(\hat{\boldsymbol \theta}_{ML}| D)
+\]</span> and then verify that this matrix is negative definite (i.e.&nbsp;all its eigenvalues must be negative). For multivariate parameter vector <span class="math inline">\(\boldsymbol \theta\)</span> of dimension <span class="math inline">\(d\)</span> the Hessian is a matrix of size <span class="math inline">\(d \times d\)</span>.</p>
+</section>
+<section id="invariance-of-score-function-and-second-derivative-of-the-log-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="invariance-of-score-function-and-second-derivative-of-the-log-likelihood">Invariance of score function and second derivative of the log-likelihood</h3>
+<p>The score function <span class="math inline">\(\boldsymbol S_n(\boldsymbol \theta)\)</span> is <strong>invariant against transformation of the sample space</strong>. Assume <span class="math inline">\(\boldsymbol x\)</span> has log-density <span class="math inline">\(\log f_{\boldsymbol x}(\boldsymbol x| \boldsymbol \theta)\)</span> then the log-density for <span class="math inline">\(\boldsymbol y\)</span> is <span class="math display">\[
+\log f_{\boldsymbol y}(\boldsymbol y| \boldsymbol \theta) = \log |\det\left( D\boldsymbol x(\boldsymbol y) \right)| +  \log f_{\boldsymbol x}\left( \boldsymbol x(\boldsymbol y)| \boldsymbol \theta\right)
+\]</span> where <span class="math inline">\(D\boldsymbol x(\boldsymbol y)\)</span> is the Jacobian matrix of the inverse transformation <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span>. When taking the derivative of the log-likelihood function with regard to the parameter <span class="math inline">\(\boldsymbol \theta\)</span> the first term containing the Jacobian determinant vanishes. Hence the score function <span class="math inline">\(\boldsymbol S_n(\boldsymbol \theta)\)</span> is not affected by a change of variables.</p>
+<p>As a consequence, the second derivative of log-likelihood function with regard to <span class="math inline">\(\boldsymbol \theta\)</span> is also invariant against transformations of the sample space.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Aldrich J. 1997. <em>R. A. Fisher and the Making of Maximum Likelihood 1912–1922.</em> Statist. Sci. <strong>12</strong>:162–176. <a href="https://doi.org/10.1214/ss/1030037906" class="uri">https://doi.org/10.1214/ss/1030037906</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The score function <span class="math inline">\(\boldsymbol S_n(\boldsymbol \theta)\)</span> as the gradient of the log-likelihood function must not be confused with the scoring rule <span class="math inline">\(S(x, P)\)</span> mentioned in the introduction to entropy and KL divergence, cf. <a href="02-entropy-a-entropy.html#exm-scoringrules" class="quarto-xref">Example&nbsp;<span>3.4</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-entropy-d-maxent.html" class="pagination-link" aria-label="Principle of maximum entropy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-likelihood-b-mlpractise.html" class="pagination-link" aria-label="Maximum likelihood estimation in practise">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>18&nbsp; Choosing priors in Bayesian analysis – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<title>4&nbsp; Relative entropy – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./13-bayes7.html" rel="next">
-<link href="./11-bayes5.html" rel="prev">
+<link href="./02-entropy-c-fisher.html" rel="next">
+<link href="./02-entropy-a-entropy.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./12-bayes6.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-b-kl.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,7 +182,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-entropy-b-kl.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
   </div>
 </li>
@@ -277,7 +277,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link active">
+  <a href="./12-bayes6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></span></a>
   </div>
 </li>
@@ -328,20 +328,22 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#choosing-a-prior" id="toc-choosing-a-prior" class="nav-link active" data-scroll-target="#choosing-a-prior"><span class="header-section-number">18.1</span> Choosing a prior</a>
+  <li><a href="#cross-entropy" id="toc-cross-entropy" class="nav-link active" data-scroll-target="#cross-entropy"><span class="header-section-number">4.1</span> Cross-entropy</a>
   <ul class="collapse">
-  <li><a href="#prior-as-part-of-the-model" id="toc-prior-as-part-of-the-model" class="nav-link" data-scroll-target="#prior-as-part-of-the-model">Prior as part of the model</a></li>
-  <li><a href="#some-guidelines" id="toc-some-guidelines" class="nav-link" data-scroll-target="#some-guidelines">Some guidelines</a></li>
+  <li><a href="#definition-of-cross-entropy" id="toc-definition-of-cross-entropy" class="nav-link" data-scroll-target="#definition-of-cross-entropy">Definition of cross-entropy</a></li>
+  <li><a href="#gibbs-inequality" id="toc-gibbs-inequality" class="nav-link" data-scroll-target="#gibbs-inequality">Gibbs’ inequality</a></li>
   </ul></li>
-  <li><a href="#default-priors-or-uninformative-priors" id="toc-default-priors-or-uninformative-priors" class="nav-link" data-scroll-target="#default-priors-or-uninformative-priors"><span class="header-section-number">18.2</span> Default priors or uninformative priors</a>
+  <li><a href="#boltzmann-relative-entropy-and-kl-divergence" id="toc-boltzmann-relative-entropy-and-kl-divergence" class="nav-link" data-scroll-target="#boltzmann-relative-entropy-and-kl-divergence"><span class="header-section-number">4.2</span> Boltzmann relative entropy and KL divergence</a>
   <ul class="collapse">
-  <li><a href="#jeffreys-prior" id="toc-jeffreys-prior" class="nav-link" data-scroll-target="#jeffreys-prior">Jeffreys prior</a></li>
-  <li><a href="#reference-priors" id="toc-reference-priors" class="nav-link" data-scroll-target="#reference-priors">Reference priors</a></li>
+  <li><a href="#boltzmann-relative-entropy" id="toc-boltzmann-relative-entropy" class="nav-link" data-scroll-target="#boltzmann-relative-entropy">Boltzmann relative entropy</a></li>
+  <li><a href="#definition-of-kl-divergence" id="toc-definition-of-kl-divergence" class="nav-link" data-scroll-target="#definition-of-kl-divergence">Definition of KL divergence</a></li>
+  <li><a href="#properties-of-kl-divergence-and-boltzmann-relative-entropy" id="toc-properties-of-kl-divergence-and-boltzmann-relative-entropy" class="nav-link" data-scroll-target="#properties-of-kl-divergence-and-boltzmann-relative-entropy">Properties of KL divergence and Boltzmann relative entropy</a></li>
+  <li><a href="#origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" id="toc-origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" class="nav-link" data-scroll-target="#origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions">Origin of Boltzmann relative entropy and KL divergence and naming conventions</a></li>
   </ul></li>
-  <li><a href="#empirical-bayes" id="toc-empirical-bayes" class="nav-link" data-scroll-target="#empirical-bayes"><span class="header-section-number">18.3</span> Empirical Bayes</a>
+  <li><a href="#kl-divergence-examples" id="toc-kl-divergence-examples" class="nav-link" data-scroll-target="#kl-divergence-examples"><span class="header-section-number">4.3</span> KL divergence examples</a>
   <ul class="collapse">
-  <li><a href="#type-ii-maximum-likelihood" id="toc-type-ii-maximum-likelihood" class="nav-link" data-scroll-target="#type-ii-maximum-likelihood">Type II maximum likelihood</a></li>
-  <li><a href="#shrinkage-estimation-using-empirical-risk-minimisation" id="toc-shrinkage-estimation-using-empirical-risk-minimisation" class="nav-link" data-scroll-target="#shrinkage-estimation-using-empirical-risk-minimisation">Shrinkage estimation using empirical risk minimisation</a></li>
+  <li><a href="#models-with-a-single-parameter" id="toc-models-with-a-single-parameter" class="nav-link" data-scroll-target="#models-with-a-single-parameter">Models with a single parameter</a></li>
+  <li><a href="#models-with-multiple-parameters" id="toc-models-with-multiple-parameters" class="nav-link" data-scroll-target="#models-with-multiple-parameters">Models with multiple parameters</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -349,9 +351,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./12-bayes6.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-entropy-b-kl.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Choosing priors in Bayesian analysis</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></h1>
 </div>
 
 
@@ -368,84 +370,168 @@ window.Quarto = {
 </header>
 
 
-<section id="choosing-a-prior" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="choosing-a-prior"><span class="header-section-number">18.1</span> Choosing a prior</h2>
-<section id="prior-as-part-of-the-model" class="level3">
-<h3 class="anchored" data-anchor-id="prior-as-part-of-the-model">Prior as part of the model</h3>
-<p>It is <strong>essential in a Bayesian analysis to specify your prior uncertainty about the model parameters</strong>. Note that this is simply <strong>part of the modelling process</strong>! Thus in a Bayesian approach the data analyst needs to be more explicit about all modelling assumptions.</p>
-<p>Typically, when choosing a suitable prior distribution we consider the overall form (shape and domain) of the distribution as well as its key characteristics such as the mean and variance. As we have learned the precision (inverse variance) of the prior may often be viewed as implied sample size.</p>
-<p>For large sample size <span class="math inline">\(n\)</span> the posterior mean converges to the maximum likelihood estimate (and the posterior distribution to normal distribution centered around the MLE), so for large <span class="math inline">\(n\)</span> we may ignore specifying a prior.</p>
-<p>However, for small <span class="math inline">\(n\)</span> it is essential that a prior is specified. In non-Bayesian approaches this prior is still there but it is either implicit (maximum likelihood estimation) or specified via a penality (penalised maximum likelihood estimation).</p>
+<section id="cross-entropy" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="cross-entropy"><span class="header-section-number">4.1</span> Cross-entropy</h2>
+<section id="definition-of-cross-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-cross-entropy">Definition of cross-entropy</h3>
+<p>If we modify the definition of entropy such that the expectation is taken with regard to a different distribution <span class="math inline">\(Q\)</span> we arrive at the <strong>cross-entropy</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[
+\begin{split}
+H(Q, P) &amp; =\text{E}_Q\left( S(x, P) \right)\\
+&amp; = -\text{E}_Q\left( \log p(x)  \right)\\
+\end{split}
+\]</span> i.e.&nbsp;the expected logarithmic score when the data are generated by <span class="math inline">\(Q\)</span> and model <span class="math inline">\(P\)</span> is evaluated on the observations. Thus, cross-entropy is a functional of two distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>.</p>
+<p>For two discrete distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with probability mass functions <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x\in \Omega\)</span> the cross-entropy is computed as the weighted sum <span class="math display">\[
+H(Q, P) = - \sum_{x \in \Omega}  \log p(x) \, q(x)
+\]</span> It can be interpreted as the expected cost or expected code length when when the data are generated according to model <span class="math inline">\(Q\)</span> and but we use model <span class="math inline">\(P\)</span> to describe the data.</p>
+<p>For two continuous distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with densities <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> we compute the integral <span class="math display">\[H(Q, P) =- \int_x  \log p(x)\, q(x) \, dx\]</span></p>
+<p>Note that</p>
+<ul>
+<li>Cross-entropy is not symmetric with regard to <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, because the expectation is taken with reference to <span class="math inline">\(Q\)</span>.</li>
+<li>By construction if both distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical cross-entropy reduces to entropy, i.e.&nbsp;<span class="math inline">\(H(Q, Q) = H(Q)\)</span>.</li>
+<li>Like entropy <strong>cross-entropy changes under variable transformation</strong> for continuous random variables, say from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, hence <span class="math inline">\(H(Q_y, P_y) \neq H(Q_x, P_x)\)</span>.</li>
+</ul>
+<div id="exm-crossentropynormals" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.1</strong></span> Cross-entropy between two normals:</p>
+<p>Assume <span class="math inline">\(F_{\text{ref}}=N(\mu_{\text{ref}},\sigma^2_{\text{ref}})\)</span> and <span class="math inline">\(F=N(\mu,\sigma^2)\)</span>. The cross-entropy <span class="math inline">\(H(F_{\text{ref}}, F)\)</span> is <span class="math display">\[
+\begin{split}
+H(F_{\text{ref}}, F) &amp;=  -\text{E}_{F_{\text{ref}}} \left( \log p(x |\mu, \sigma^2) \right)\\
+&amp;=  \frac{1}{2}  \text{E}_{F_{\text{ref}}} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right) \\
+&amp;= \frac{1}{2} \left( \frac{(\mu - \mu_{\text{ref}})^2}{ \sigma^2 }
++\frac{\sigma^2_{\text{ref}}}{\sigma^2}  +\log(2 \pi \sigma^2) \right)  \\
+\end{split}
+\]</span> using <span class="math inline">\(\text{E}_{F_{\text{ref}}} ((x-\mu)^2) = (\mu_{\text{ref}}-\mu)^2 + \sigma^2_{\text{ref}}\)</span>.</p>
+</div>
 </section>
-<section id="some-guidelines" class="level3">
-<h3 class="anchored" data-anchor-id="some-guidelines">Some guidelines</h3>
-<p>So the question remains what are good ways to choose a prior? Two useful ways are:</p>
+<section id="gibbs-inequality" class="level3">
+<h3 class="anchored" data-anchor-id="gibbs-inequality">Gibbs’ inequality</h3>
+<p>A crucial property of the cross-entropy <span class="math inline">\(H(Q, P)\)</span> is that it is bounded below by the entropy of <span class="math inline">\(Q\)</span>, therefore <span class="math display">\[
+H(Q, P) \geq H(Q)
+\]</span> with equality only if <span class="math inline">\(Q=P\)</span>. This is known as <a href="https://en.wikipedia.org/wiki/Gibbs%27_inequality"><strong>Gibbs’ inequality</strong></a>.</p>
+<p>This follows from <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality"><strong>Jensen’s inequality</strong></a>. For details see Worksheet E1.</p>
+<p>Essentially this means that when data are generated under model <span class="math inline">\(Q\)</span> and encoded with model <span class="math inline">\(P\)</span> there is always an extra cost, or penalty, to use model <span class="math inline">\(P\)</span> rather than the correct model <span class="math inline">\(Q\)</span>.</p>
+<div id="exm-scoringrulegibbs" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Scoring rules and Gibbs’ inequality:</p>
+<p>The logarithmic scoring rule <span class="math inline">\(S(x, P) = -\log p(x)\)</span> is called <em>proper</em> because the corresponding expected score, i.e.&nbsp;the cross-entropy <span class="math inline">\(H(Q, P)\)</span>, satisfies the Gibbs’ inequality, and thus the expected score is minimised for <span class="math inline">\(P=Q\)</span>.</p>
+</div>
+<div id="exm-crossentropylowerbound" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.3</strong></span> Entropy as lower bound of cross-entropy:</p>
+<p>If <span class="math inline">\(\mu_{\text{ref}} = \mu\)</span> and <span class="math inline">\(\sigma^2_{\text{ref}} = \sigma^2\)</span> then the cross-entropy <span class="math inline">\(H(F_{\text{ref}},F)\)</span> in <a href="#exm-crossentropynormals" class="quarto-xref">Example&nbsp;<span>4.1</span></a> degenerates to the differential entropy <span class="math inline">\(H(F_{\text{ref}}) = \frac{1}{2} \left(\log( 2 \pi \sigma^2_{\text{ref}}) +1 \right)\)</span>.</p>
+<p>See also <a href="02-entropy-a-entropy.html#exm-entropynormal" class="quarto-xref">Example&nbsp;<span>3.11</span></a>.</p>
+</div>
+</section>
+</section>
+<section id="boltzmann-relative-entropy-and-kl-divergence" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="boltzmann-relative-entropy-and-kl-divergence"><span class="header-section-number">4.2</span> Boltzmann relative entropy and KL divergence</h2>
+<section id="boltzmann-relative-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="boltzmann-relative-entropy">Boltzmann relative entropy</h3>
+<p>The <strong>Boltzmann relative entropy</strong> of a distribution <span class="math inline">\(Q\)</span> relative to a distribution <span class="math inline">\(P\)</span> is given by <span class="math display">\[
+\begin{split}
+B(Q, H) &amp;=  -\text{E}_Q\log\left(\frac{q(x)}{p(x)}\right) \\
+        &amp;= H(Q) - H(Q, P) \\
+\end{split}
+\]</span></p>
+<p>As a consequence of the Gibbs’s inequality <span class="math inline">\(B(Q, H) \leq 0\)</span>. In <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.8</span></a> it is shown that <span class="math inline">\(B(Q, H)\)</span> can be interpreted as a log-probability.</p>
+<p>By construction, the Boltzmann entropy of <span class="math inline">\(Q\)</span> relative to a uniform distribution <span class="math inline">\(U\)</span> with constant probability mass function / density is <span class="math display">\[
+B(Q, U) = H(Q) + \text{const.}
+\]</span> i.e.&nbsp;the entropy of <span class="math inline">\(Q\)</span> apart from constant.</p>
+</section>
+<section id="definition-of-kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-kl-divergence">Definition of KL divergence</h3>
+<p>The <strong>KL divergence</strong> is defined as the negative of the Boltzmann relative entropy as <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(Q,P)  &amp; = \text{E}_Q\log\left(\frac{q(x)}{p(x)}\right)\\
+&amp;= H(Q, P)-H(Q) \\
+&amp; = \text{E}_Q  \left(  S(x, P) - S(x, Q)  \right) \\
+\end{split}
+\]</span> As a consequence of the Gibbs’s inequality <span class="math inline">\(D_{\text{KL}}(Q, H) \geq 0\)</span>.</p>
+<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> is the expected difference in logarithmic scores when the data are generated by <span class="math inline">\(Q\)</span> and models <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> are evaluated on the observations. <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> can be interpreted as the additional cost if <span class="math inline">\(P\)</span> is used instead <span class="math inline">\(Q\)</span> to describe data from <span class="math inline">\(Q\)</span>. If <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical there is no extra cost and <span class="math inline">\(D_{\text{KL}}(Q,P)=0\)</span>. Conversely, if they are not identical then there is an additional cost and <span class="math inline">\(D_{\text{KL}}(Q,P)&gt; 0\)</span>.</p>
+<p><span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> thus serves as a measure of the <strong>divergence</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> of the two distribution <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>. The use of the term “divergence” rather than “distance” is a reminder the <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are not interchangeable in <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span>.</p>
+</section>
+<section id="properties-of-kl-divergence-and-boltzmann-relative-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="properties-of-kl-divergence-and-boltzmann-relative-entropy">Properties of KL divergence and Boltzmann relative entropy</h3>
+<p>Boltzmann relative entropy and KL divergence differ only by sign and thus share a number of key properties inherited from cross-entropy:</p>
 <ol type="1">
-<li><p>Use a weakly informative prior. This means that you do have an idea (even if only vague) about the suitable values of the parameter of interest, and you use a corresponding prior (for example with moderate variance) to model the uncertainty. This acknowledges that there are no uninformative priors and but also aims that the prior does not dominate the likelihood (i.e.&nbsp;the data). The result is a weakly regularised estimator. Note that it is often desirable that the prior adds information (if only a little) so that it can act as a regulariser.</p></li>
-<li><p>Empirical Bayes methods can often be used to determine one or all of the hyperparameters (i.e.&nbsp;the parameters in the prior) from the observed data. There are several ways to do this, one of them is to tune the shrinkage parameter <span class="math inline">\(\lambda\)</span> to achieve minimum MSE. We discuss this further below.</p></li>
+<li><span class="math inline">\(D_{\text{KL}}(Q, P) \neq D_{\text{KL}}(Q, P)\)</span>, i.e.&nbsp;the KL divergence is not symmetric, <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> cannot be interchanged. This follows from the same property of cross-entropy.</li>
+<li><span class="math inline">\(D_{\text{KL}}(Q, P)\geq 0\)</span>, follows from Gibbs’ inequality and proof via <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality"><strong>Jensen’s inequality</strong></a>.</li>
+<li><span class="math inline">\(D_{\text{KL}}(Q, P) = 0\)</span> if and only if <span class="math inline">\(P=Q\)</span>, i.e., the KL divergence is zero if and only if <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical. Also follows from Gibbs’ inequality.</li>
 </ol>
-<p>Furthermore, there also exist many proposals advocating so-called “uninformative priors” or “objective priors”. However, there are no actually unformative priors, since a prior distribution that looks uninformative (i.e.&nbsp;“flat”) in one coordinate system can be informative in another — this is a simple consequence of the rule for transformation of probability densities. As a result, often the suggested objective priors are in fact improper, i.e.&nbsp;are not actually probability distributions!</p>
+<p>For more details and proofs of properties 2 and 3 see Worksheet E1.</p>
+<p>A further crucial property of KL divergence is the <strong>invariance property</strong>:</p>
+<ol start="4" type="1">
+<li><span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> is <strong>invariant under general variable transformations</strong>, with <span class="math inline">\(D_{\text{KL}}(Q_y, P_y) =D_{\text{KL}}(Q_x, P_x)\)</span> under a change of variables from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>.</li>
+</ol>
+<p>Thus, KL divergence does not change when the sample space is reparameterised.</p>
+<p>In the definition of KL divergence the expectation is taken over a <em>ratio of densities</em> (or ratio of probabilities for discrete random variables). This creates the invariance under variable transformation as the Jacobian determinant that changes both densities cancel out.</p>
+<p>For more details and proof of the invariance property see Worksheet E1.</p>
+</section>
+<section id="origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" class="level3">
+<h3 class="anchored" data-anchor-id="origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions">Origin of Boltzmann relative entropy and KL divergence and naming conventions</h3>
+<p>Boltzmann relative entropy was first discovered by Boltzmann (1878)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> in physics in a discrete setting in the context of statistical mechanics (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.8</span></a>). In statistics and information theory KL divergence was formally introduced by Kullback and Leibler (1951)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Good (1979)<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> credits Turing with the first statistical application in 1940/1941 in the field of cryptography.</p>
+<p>The KL divergence is also known as <strong>KL information</strong> or <strong>KL information number</strong> named after two of the original authors (Kullback and Leibler) who themselves referred to this quantity as <strong>discrimination information</strong>. Another common name is <strong>information divergence</strong> or short <strong><span class="math inline">\(\boldsymbol I\)</span>-divergence</strong>. Some authors (e.g.&nbsp;Efron) call twice the KL divergence <span class="math inline">\(2 D_{\text{KL}}(Q, P) = D(Q, P)\)</span> the <strong>deviance</strong> of <span class="math inline">\(P\)</span> from <span class="math inline">\(Q\)</span>. In the more general context of scoring rules the divergence is also called <strong>discrepancy</strong>.</p>
+<p>Furthermore, KL divergence is also commonly referred to <strong>relative entropy</strong> however this use is rather confusing as the <strong>Boltzmann relative entropy</strong> is defined with opposite negative sign (and is usually maximised) whereas KL divergence is positive (and is usually minimised). Furthermore, Shannon (1948) defined relative entropy yet differently again as the ratio of entropy relative to its maximum value.</p>
+<p>Especially in older literature the KL divergence is referred to as “cross-entropy”. This use is discouraged to avoid confusion with the related but different definition of cross-entropy above.</p>
+<p>There also exist various notations for KL divergence in the literature. Here we use <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> but you often find as well <span class="math inline">\(\text{KL}(Q || P)\)</span> and <span class="math inline">\(I^{KL}(Q; P)\)</span>.</p>
+<p>In these notes we refer to either <strong>Boltzmann relative entropy</strong> or <strong>KL divergence</strong> and assign relative entropy a negative sign.</p>
 </section>
 </section>
-<section id="default-priors-or-uninformative-priors" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="default-priors-or-uninformative-priors"><span class="header-section-number">18.2</span> Default priors or uninformative priors</h2>
-<p>Objective or for default priors are attempts 1) to automatise specification of a prior and 2) to find uniformative priors.</p>
-<section id="jeffreys-prior" class="level3">
-<h3 class="anchored" data-anchor-id="jeffreys-prior">Jeffreys prior</h3>
-<p>The most well-known non-informative prior is given by a proposal by <a href="https://en.wikipedia.org/wiki/Harold_Jeffreys">Harold Jeffreys (1891–1989)</a> in 1946 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>Specifically, this prior is constructed from the expected Fisher information and thus promises automatic construction of objective uninformative priors using the likelihood: <span class="math display">\[
-p(\boldsymbol \theta) \propto \sqrt{\det \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)}
+<section id="kl-divergence-examples" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="kl-divergence-examples"><span class="header-section-number">4.3</span> KL divergence examples</h2>
+<section id="models-with-a-single-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-a-single-parameter">Models with a single parameter</h3>
+<div id="exm-klbernoulli" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.4</strong></span> KL divergence between two Bernoulli distributions <span class="math inline">\(\text{Ber}(\theta_1)\)</span> and <span class="math inline">\(\text{Ber}(\theta_2)\)</span>:</p>
+<p>The “success” probabilities for the two distributions are <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, respectively, and the complementary “failure” probabilities are <span class="math inline">\(1-\theta_1\)</span> and <span class="math inline">\(1-\theta_2\)</span>. With this we get for the KL divergence <span class="math display">\[
+D_{\text{KL}}(\text{Ber}(\theta_1), \text{Ber}(\theta_2))=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span></p>
-<p>The reasoning underlying this prior is <strong>invariance against transformation of the coordinate system of the parameters</strong>.</p>
-<p>For the Beta-Binomial model the Jeffreys prior corresponds to <span class="math inline">\(\text{Beta}(\frac{1}{2}, \frac{1}{2})\)</span>. Note this is not the uniform distribution but a U-shaped prior.</p>
-<p>For the normal-normal model it corresponds to the flat improper prior <span class="math inline">\(p(\mu) =1\)</span>.</p>
-<p>For the IG-normal model the Jeffreys prior is the improper prior <span class="math inline">\(p(\sigma^2) = \frac{1}{\sigma^2}\)</span>.</p>
-<p>This already illustrates the main problem with this type of prior – namely that it often is improper, i.e.&nbsp;the prior distribution is not actually a probability distribution (i.e.&nbsp;the density does not integrate to 1).</p>
-<p>Another issue is that Jeffreys priors are usually not conjugate which complicates the update from the prior to the posterior.</p>
-<p>Furthermore, if there are multiple parameters (<span class="math inline">\(\boldsymbol \theta\)</span> is a vector) then Jeffreys priors do not usually lead to sensible priors.</p>
+</div>
+<div id="exm-klnormalequalvar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.5</strong></span> KL divergence between two univariate normals with different means and common variance:</p>
+<p>Assume <span class="math inline">\(F_{\text{ref}}=N(\mu_{\text{ref}},\sigma^2)\)</span> and <span class="math inline">\(F=N(\mu,\sigma^2)\)</span>.</p>
+<p>Then we get <span class="math display">\[D_{\text{KL}}(F_{\text{ref}}, F )=\frac{1}{2} \left(\frac{(\mu-\mu_{\text{ref}})^2}{\sigma^2}\right)\]</span></p>
+<p>Thus, the squared Euclidean distance is a special case of KL divergence. Note that in this case the KL divergence is symmetric.</p>
+</div>
 </section>
-<section id="reference-priors" class="level3">
-<h3 class="anchored" data-anchor-id="reference-priors">Reference priors</h3>
-<p>An alternative to Jeffreys priors are the so-called <strong>reference priors</strong> developed by Bernardo (1979) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. This type of priors aims to choose the prior such that there is maximal “correlation” between the data and the parameter. More precisely, the mutual information between <span class="math inline">\(\theta\)</span> and <span class="math inline">\(x\)</span> is maximised (i.e.&nbsp;the the expected KL divergence between the posterior and prior distribution). The underlying motivation is that the data and parameters should be maximally linked (thereby minimising the influence of the prior).</p>
-<p>For univariate settings the reference priors are identical to Jeffreys priors. However, reference prior also provide reasonable priors in multivariate settings.</p>
-<p>In both Jeffreys’ and the reference prior approach the choice of prior is by expectation over the data, i.e.&nbsp;not for the specific data set at hand (this can be seen both as a positive and negative!).</p>
-</section>
-</section>
-<section id="empirical-bayes" class="level2" data-number="18.3">
-<h2 data-number="18.3" class="anchored" data-anchor-id="empirical-bayes"><span class="header-section-number">18.3</span> Empirical Bayes</h2>
-<p>In empirical Bayes the data analysist specifies a family of prior distribution (say a Beta distribution with free parameters), and then the data at hand are used to find an optimal choise for the hyper-parameters (hence the name “empirical”). Thus the hyper-parameters are not specified but themselves estimated.</p>
-<section id="type-ii-maximum-likelihood" class="level3">
-<h3 class="anchored" data-anchor-id="type-ii-maximum-likelihood">Type II maximum likelihood</h3>
-<p>In particular, assuming data <span class="math inline">\(D\)</span>, a likelihood <span class="math inline">\(p(D|\boldsymbol \theta)\)</span> for some model with parameters <span class="math inline">\(\boldsymbol \theta\)</span> as well as a prior <span class="math inline">\(p(\boldsymbol \theta| \lambda)\)</span> for <span class="math inline">\(\boldsymbol \theta\)</span> with hyper-parameter <span class="math inline">\(\lambda\)</span> the marginal likelihood now depends on <span class="math inline">\(\lambda\)</span>: <span class="math display">\[
-p(D | \lambda) = \int_{\boldsymbol \theta}  p(D|\boldsymbol \theta) p(\boldsymbol \theta| \lambda) d\boldsymbol \theta
-\]</span> We can therefore use maximum (marginal) likelihood find optimal values of <span class="math inline">\(\lambda\)</span> given the data.</p>
-<p>Since maximum-likelihood is used in a second level step (the hyper-parameters) this type of empirical Bayes is also often called “type II maximum likelihood”.</p>
-</section>
-<section id="shrinkage-estimation-using-empirical-risk-minimisation" class="level3">
-<h3 class="anchored" data-anchor-id="shrinkage-estimation-using-empirical-risk-minimisation">Shrinkage estimation using empirical risk minimisation</h3>
-<p>An alternative (but related) way to estimate hyper-parameters is by minimising the empirical risk.</p>
-<p>In the examples for Bayesian estimation that we have considered so far the posterior mean of the parameter of interest was obtained by linear shrinkage <span class="math display">\[
-\hat\theta_{\text{shrink}} = \text{E}( \theta | D) = \lambda \theta_0 + (1-\lambda) \hat\theta_{\text{ML}}
-\]</span> of the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> towards the prior mean <span class="math inline">\(\theta_0\)</span>, with shrinkage intensity <span class="math inline">\(\lambda=\frac{k_0}{k_0}\)</span> determined by the ration of the prior and posterior concentration parameters <span class="math inline">\(k_0\)</span> and <span class="math inline">\(k_1\)</span>.</p>
-<p>The resulting point estimate <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> is called <em>shrinkage estimate</em> and is a convex combination of <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>. The prior mean <span class="math inline">\(\theta_0\)</span> is also called the “target”.</p>
-<p>The hyperparameter in this setting is <span class="math inline">\(k_0\)</span> (linked to the precision of the prior) and or equivalently the shrinkage intensity <span class="math inline">\(\lambda\)</span>.</p>
-<p>An optimal value for <span class="math inline">\(\lambda\)</span> can be obtained by minimising the mean squared error of the estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span>.</p>
-<p>In particular, by construction, the target <span class="math inline">\(\theta_0\)</span> has low or even zero variance but non-vanishing and potentially large bias, whereas the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> will have low or zero bias but a substantial variance. By combinining these two estimators with opposite properties the aim is to achieve a <em>bias-variance tradeoff</em> so that the resulting estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> has lower MSE than either <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>.</p>
-<p>Specifically, the aim is to find <span class="math display">\[
-\lambda^{\star} = \underset{\lambda}{\arg \min \ }  
-\text{E}\left( ( \theta - \hat\theta_{\text{shrink}} )^2\right)
+<section id="models-with-multiple-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
+<div id="exm-catkl" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.6</strong></span> KL divergence between two categorical distributions with <span class="math inline">\(K\)</span> classes:</p>
+<p>With <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> and <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> and corresponding probabilities <span class="math inline">\(q_1,\dots,q_K\)</span> and <span class="math inline">\(p_1,\dots,p_K\)</span> satisfying <span class="math inline">\(\sum_{i=1}^K q_i = 1\)</span> and <span class="math inline">\(\sum_{i=1}^K p_i =1\)</span> we get:</p>
+<p><span class="math display">\[\begin{equation*}
+D_{\text{KL}}(Q, P)=\sum_{i=1}^K q_i\log\left(\frac{q_i}{p_i}\right)
+\end{equation*}\]</span></p>
+<p>To be explicit that there are only <span class="math inline">\(K-1\)</span> parameters in a categorical distribution we can also write <span class="math display">\[\begin{equation*}
+D_{\text{KL}}(Q, P)=\sum_{i=1}^{K-1} q_i\log\left(\frac{q_i}{p_i}\right)  + q_K\log\left(\frac{q_K}{p_K}\right)
+\end{equation*}\]</span> with <span class="math inline">\(q_K=\left(1- \sum_{i=1}^{K-1} q_i\right)\)</span> and <span class="math inline">\(p_K=\left(1- \sum_{i=1}^{K-1} p_i\right)\)</span>.</p>
+</div>
+<div id="exm-klnormal" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.7</strong></span> KL divergence between two univariate normals with different means and variances:</p>
+<p>Assume <span class="math inline">\(F_{\text{ref}}=N(\mu_{\text{ref}},\sigma^2_{\text{ref}})\)</span> and <span class="math inline">\(F=N(\mu,\sigma^2)\)</span>. Then <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(F_{\text{ref}},F) &amp;= H(F_{\text{ref}}, F) - H(F_{\text{ref}}) \\
+&amp;= \frac{1}{2} \left(   \frac{(\mu-\mu_{\text{ref}})^2}{\sigma^2}  + \frac{\sigma_{\text{ref}}^2}{\sigma^2}
+-\log\left(\frac{\sigma_{\text{ref}}^2}{\sigma^2}\right)-1  
+   \right) \\
+\end{split}
 \]</span></p>
-<p>It turns out that this can be minimised without knowing the actual true value of <span class="math inline">\(\theta\)</span> and the result for an unbiased <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> is <span class="math display">\[
-\lambda^{\star} = \frac{\text{Var}(\hat\theta_{\text{ML}})}{\text{E}( (\hat\theta_{\text{ML}} - \theta_0)^2 )}
-\]</span> Hence, the shrinkage intensity will be small if the variance of the MLE is small and/or if the target and the MLE differ substantially. On the other hand, if the variance of the MLE is large and/or the target is close to the MLE the shrinkage intensity will be large.</p>
-<p>Choosing the shrinkage parameter by optimising expected risk (here mean squared error) is also a form empirical Bayes.</p>
-<div id="exm-jamesstein" class="theorem example">
-<p><span class="theorem-title"><strong>Example 18.1</strong></span> James-Stein estimator:</p>
-<p>Empirical risk minimisation to estimate the shrinkage parameter of the normal-normal model for a single observation yields the James-Stein estimator (1955).</p>
-<p>Specifically, James and Stein propose the following estimate for the multivariate mean <span class="math inline">\(\boldsymbol \mu\)</span> of using a single sample <span class="math inline">\(\boldsymbol x\)</span> drawn from the multivariate normal <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol I)\)</span>: <span class="math display">\[
-\hat{\boldsymbol \mu}_{JS} = \left(1-\frac{d-2}{||\boldsymbol x||^2}\right) \boldsymbol x
-\]</span> Here, we recognise <span class="math inline">\(\hat{\boldsymbol \mu}_{ML} = \boldsymbol x\)</span>, <span class="math inline">\(\boldsymbol \mu_0=0\)</span> and shrinkage intensity <span class="math inline">\(\lambda^{\star}=\frac{d-2}{||\boldsymbol x||^2}\)</span>.</p>
-<p>Efron and Morris (1972) and Lindley and Smith (1972) later generalised the James-Stein estimator to the case of multiple observations <span class="math inline">\(\boldsymbol x_1, \ldots \boldsymbol x_n\)</span> and target <span class="math inline">\(\boldsymbol \mu_0\)</span>, yielding an empirical Bayes estimate of <span class="math inline">\(\mu\)</span> based on the normal-normal model.</p>
+<p>If variances are equal then we recover the previous <a href="#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>4.5</span></a> as special case.</p>
+</div>
+<div id="exm-empiricalcatkl" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.8</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Boltzmann relative entropy as log-probability:</p>
+<p>Assume <span class="math inline">\(\hat{Q}\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(n_k\)</span> (see <a href="02-entropy-a-entropy.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>) and <span class="math inline">\(P\)</span> is a second categorical distribution.</p>
+<p>The KL divergence is then <span class="math display">\[
+\begin{split}
+B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
+&amp; = H(\hat{Q})  +  \sum_{i=1}^K  \log ( p_i) \, \hat{q}_i   \\
+&amp; = H(\hat{Q})  +   \frac{1}{n} \sum_{i=1}^K n_i  \log p_i  \\
+\end{split}
+\]</span></p>
+<p>For large <span class="math inline">\(n\)</span> we may use the multinomial coefficient <span class="math inline">\(W = \binom{n}{n_1, \ldots, n_K}\)</span> to obtain the entropy of <span class="math inline">\(\hat{Q}\)</span> (see <a href="02-entropy-a-entropy.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>). This results in <span class="math display">\[
+\begin{split}
+B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{i=1}^K n_i \log p_i   \right)\\
+&amp; = \frac{1}{n} \log \left( W \times \prod_{i=1}^K  p_i^{n_i}    \right)\\
+&amp; = \frac{1}{n} \log  \text{Pr}(n_1, \ldots, n_k| \,\boldsymbol p) \\
+\end{split}
+\]</span> Hence the Boltzmann relative entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(n_1, \ldots, n_k\)</span> under the model <span class="math inline">\(P\)</span>. This derivation of the Boltzmann relative entropy as log-probability of a macrostate is due to Boltzmann (1878). See also Akaike (1985) for a historical account.</p>
 </div>
 
 
@@ -454,8 +540,11 @@ p(D | \lambda) = \int_{\boldsymbol \theta}  p(D|\boldsymbol \theta) p(\boldsymbo
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Jeffreys, H. 1946. <em>An invariant form for the prior probability in estimation problems</em>. Proc. Roy. Soc. A <strong>186</strong>:453–461. <a href="https://doi.org/10.1098/rspa.1946.0056" class="uri">https://doi.org/10.1098/rspa.1946.0056</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Bernardo, J. M. 1979. <em>Reference posterior distributions for Bayesian inference (with discussion).</em> JRSS B <strong>41</strong>:113–147. <a href="https://doi.org/10.1111/j.2517-6161.1979.tb01066.x" class="uri">https://doi.org/10.1111/j.2517-6161.1979.tb01066.x</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>This follows the current and widely accepted usage of the term cross-entropy. However, in some typically older literature cross-entropy may refer instead to the related but different KL divergence discussed further below.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Note that <a href="https://en.wikipedia.org/wiki/Divergence_(statistics)">divergence between distributions</a> is not related to and should not be confused with the <a href="https://en.wikipedia.org/wiki/Divergence">divergence vector operator</a> used in vector calculus.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Boltzmann, L. 1878. Weitere Bemerkungen über einige Probleme der mechanischen Wärmetheorie. Wien Ber. <strong>78</strong>:7–46. <a href="https://doi.org/10.1017/CBO9781139381437.013" class="uri">https://doi.org/10.1017/CBO9781139381437.013</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Kullback, S., and R. A. Leibler. 1951. On information and sufficiency. Ann. Math. Statist. <strong>22</strong> 79–86. <a href="https://doi.org/10.1214/aoms/1177729694" class="uri">https://doi.org/10.1214/aoms/1177729694</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Good, I. J. 1979. Studies in the history of probability. XXXVII. A. M. Turing’s statistical work in world war II. Biometrika, 66:393–396. <a href="https://doi.org/10.1093/biomet/66.2.393" class="uri">https://doi.org/10.1093/biomet/66.2.393</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -763,13 +852,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./11-bayes5.html" class="pagination-link" aria-label="Bayesian model comparison">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian model comparison</span></span>
+      <a href="./02-entropy-a-entropy.html" class="pagination-link" aria-label="Entropy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Entropy</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./13-bayes7.html" class="pagination-link" aria-label="Optimality properties and summary">
-        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Optimality properties and summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-entropy-c-fisher.html" class="pagination-link" aria-label="Expected Fisher information">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

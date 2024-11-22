@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Conditioning and Bayes rule – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<title>1&nbsp; Statistical learning – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,8 +50,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./08-bayes2.html" rel="next">
-<link href="./03-likelihood-f-optim.html" rel="prev">
+<link href="./01-intro-b-models.html" rel="next">
+<link href="./00-prerequisites.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +130,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./07-bayes1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./01-intro-a-overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -164,7 +184,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link">
+  <a href="./01-intro-a-overview.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></span></a>
   </div>
 </li>
@@ -247,7 +267,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link active">
+  <a href="./07-bayes1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></span></a>
   </div>
 </li>
@@ -328,20 +348,21 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link active" data-scroll-target="#conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</a></li>
-  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</a></li>
-  <li><a href="#conditional-mean-and-variance" id="toc-conditional-mean-and-variance" class="nav-link" data-scroll-target="#conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</a></li>
-  <li><a href="#conditional-entropy-and-entropy-chain-rules" id="toc-conditional-entropy-and-entropy-chain-rules" class="nav-link" data-scroll-target="#conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</a></li>
-  <li><a href="#entropy-bounds-for-the-marginal-variables" id="toc-entropy-bounds-for-the-marginal-variables" class="nav-link" data-scroll-target="#entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</a></li>
+  <li><a href="#how-to-learn-from-data" id="toc-how-to-learn-from-data" class="nav-link active" data-scroll-target="#how-to-learn-from-data"><span class="header-section-number">1.1</span> How to learn from data?</a></li>
+  <li><a href="#randomness-versus-uncertainty" id="toc-randomness-versus-uncertainty" class="nav-link" data-scroll-target="#randomness-versus-uncertainty"><span class="header-section-number">1.2</span> Randomness versus uncertainty</a></li>
+  <li><a href="#probabilistic-models-data-and-statistical-learning" id="toc-probabilistic-models-data-and-statistical-learning" class="nav-link" data-scroll-target="#probabilistic-models-data-and-statistical-learning"><span class="header-section-number">1.3</span> Probabilistic models, data and statistical learning</a></li>
+  <li><a href="#finding-the-best-models" id="toc-finding-the-best-models" class="nav-link" data-scroll-target="#finding-the-best-models"><span class="header-section-number">1.4</span> Finding the best models</a></li>
+  <li><a href="#aims-of-this-module" id="toc-aims-of-this-module" class="nav-link" data-scroll-target="#aims-of-this-module"><span class="header-section-number">1.5</span> Aims of this module</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.6</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-bayes1.html">Bayesian statistics</a></li><li class="breadcrumb-item"><a href="./07-bayes1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-a-overview.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./01-intro-a-overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Conditioning and Bayes rule</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical learning</span></h1>
 </div>
 
 
@@ -358,105 +379,112 @@ window.Quarto = {
 </header>
 
 
-<p>In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.</p>
-<section id="conditional-probability" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</h2>
-<p>Assume we have two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>. By definition <span class="math inline">\(\int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
-<p>The <strong>marginal densities</strong> for the individual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span> and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>. Thus, marginal densities are obtained from the joint density by integrating over all possible states of the variable that is removed. Like the joint density the marginal densities also integrate to 1, i.e. <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>.</p>
-<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span> we may wish to keep it fixed at some value, we may want to keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>. In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF) given by the ratio <span class="math display">\[
-p(x | y=y_0) = \frac{p(x, y=y_0)}{p(y=y_0)}
-\]</span> In this formula the denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> ensures that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises <span class="math inline">\(p(x, y=y_0)\)</span> so that it is a proper density integrating to one.</p>
-<p>To simplify notation, the particular value on which a variable is conditioned is often left unspecified so we just write <span class="math inline">\(p(x | y)\)</span>.</p>
+<section id="how-to-learn-from-data" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="how-to-learn-from-data"><span class="header-section-number">1.1</span> How to learn from data?</h2>
+<p>The two fundamental questions when learning from data are</p>
+<ul>
+<li>how to extract information from data in an optimal way, and</li>
+<li>how to make the best possible predictions based on this information.</li>
+</ul>
+<p>To achieve this goal, several <strong>theories of information</strong> have been emerging. <strong>Statistics</strong> is the oldest science of information and is concerned with using probabilistic models to offer a principled ways to learn from data and to extract and process information under uncertainty. However, there are various other theories of information, with some emphasising approximation while others conentrate on algorithmic approaches and on non-probabilistic methods. The domain of <strong>machine learning</strong> shares significant overlap with statistics. Rooted in computer science rather than mathematics, it frequently adopts a more engineering-centric perspective. <strong>Artificial intelligence</strong> (AI) is a branch of computer science that makes substantial use of statistical and machine learning techniques. The emerging field of <strong>data science</strong> today comprises both statistics and machine learning and brings together mathematics, computer science and area-specific applications, such as <strong>biomedical data science</strong>.</p>
+<p>Some important milestones in the development of learning from data are highlighted below:</p>
+<ul>
+<li><p>Starting as early as 1763, the <strong>Bayesian school</strong> of learning was started which later turned out to be closely linked with the theory of <strong>likelihood estimation</strong> formulated in 1922.</p></li>
+<li><p>Links of statistical learning with <strong>entropy</strong> were established in the 1940s with roots going back to discoveries in statistical physics in the 1870s. The close link of physics and statistical learning has recently been underlined by the <a href="https://www.nobelprize.org/prizes/physics/2024/summary/">2024 Nobel Prize in Physics</a> awarded to J. J.&nbsp;Hopfield and G.&nbsp;Hinton for advances in artificial neural networks.</p></li>
+<li><p>It was also in the 1950s that the first model of artificial <strong>neural network</strong> arises, essentially a nonlinear input-output map with no underlying probabilistic modelling. This field saw another leap in the 1980s and further progressed from 2010 onwards with the development of <em>deep dearning</em>. It is one of the most popular (and most effective) methods for analysing complex data and also underlies many generative AI models. Despite their non-probabilistic origins, modern interpretations of neural networks now view them as high-dimensional nonlinear statistical models.</p></li>
+<li><p>In the 1960s further advanced theories of information were developed under the umbrella of <strong>computational learning</strong>, most notably the Vapnik-Chernov theory, with the most prominent example of the “support vector machine” (another non-probabilistic model) devised in the 1990s. Other important advances include “ensemble learning” and corresponding algorithmic approaches to classification such as “random Forests”.</p></li>
+<li><p>Classical statistics has focused on data sets with a low number of variables and a large sample size. With the advent of large-scale genomics and the availability other high-dimensional data in the last 20 years there has been a surge of developments in both statistics and in machine learning to develop new methods to analyse <strong>high-dimensional data</strong> (large dimension, large number of variables) and <strong>big data</strong> (large dimension as well as large sample size).</p></li>
+</ul>
 </section>
-<section id="bayes-theorem" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</h2>
-<p><a href="https://de.wikipedia.org/wiki/Thomas_Bayes">Thomas Bayes (1701-1761)</a> was the first to state <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes’ theorem</a> on conditional probabilities.</p>
-<p>Using the definition of conditional probabilities we see that the joint density can be written as the product of marginal and conditional density in two different ways: <span class="math display">\[
-p(x,y) = p(x| y) p(y) = p(y | x) p(x)
-\]</span></p>
-<p>This directly leads to <strong>Bayes’ theorem</strong>: <span class="math display">\[
-p(x | y) = p(y | x) \frac{ p(x) }{ p(y)}
-\]</span> This rule relates the two possible conditional densities (or conditional probability mass functions) for two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. It thus allows to reverse the ordering of conditioning.</p>
-<p>Bayes’s theorem was <a href="https://en.wikipedia.org/wiki/An_Essay_towards_solving_a_Problem_in_the_Doctrine_of_Chances">published in 1763</a> only after his death by <a href="https://en.wikipedia.org/wiki/Richard_Price">Richard Price (1723-1791)</a>:</p>
-<p><a href="https://de.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> independently published Bayes’ theorem in 1774 and he was in fact the first to routinely apply it to statistical calculations.</p>
+<section id="randomness-versus-uncertainty" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="randomness-versus-uncertainty"><span class="header-section-number">1.2</span> Randomness versus uncertainty</h2>
+<p>When exploring statistics (or any other field related to information) it is important to recognise that there is a fundamental difference between probability theory and statistics, and that relates to the <strong>distinction between “randomness” and “uncertainty”</strong>.</p>
+<p>On the one hand, probability theory studies <strong>randomness</strong>, by developing mathematical models for randomness (such as probability distributions), and studying corresponding mathematical properties such as asymptotic behaviour. Probability theory can be viewed as a branch of measure theory, and as such it belongs to the domain of pure mathematics.</p>
+<p>On the other hand, statistics, and related areas of machine learning and data science, is not at all concerned with randomness. Instead the focus is on learning from data using mathematical models that represent our understanding about the world. Hence, statistics uses probability as a tool to describe <strong>uncertainty</strong>. Importantly, that uncertainty (e.g.&nbsp;about events, predictions, outcomes, model parameters) is mostly due to our ignorance and lack of knowledge of the true underlying processes but not necessarily because the underlying process is actually random. As soon as new data or information becomes available, the state of knowledge and the uncertainty changes. Hence <strong>uncertainty is an epistemological property</strong>. The enormous success of statistical methods is indeed due to the fact that they provide optimal procedures for learning from data and the same time allow to model and update this uncertainty.</p>
+<p>In short, statistics is about describing the state of knowledge of the world, which may be uncertain and incomplete, and to make decisions and predictions in face of uncertainty. This uncertainty can stem from randomness but more frequently arises from our ignorance (and sometimes this ignorance even helps to create a simple yet effective model).</p>
 </section>
-<section id="conditional-mean-and-variance" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</h2>
-<p>The mean <span class="math inline">\(\text{E}(x| y)\)</span> and variance <span class="math inline">\(\text{Var}(x|y)\)</span> of the conditional distribution with density <span class="math inline">\(p(x|y)\)</span> are called <strong>conditional mean</strong> and <strong>conditional variance</strong>.</p>
-<p>The <strong>law of total expectation</strong> states that <span class="math display">\[
-\text{E}(x) = \text{E}( \text{E}(x| y) )
+<section id="probabilistic-models-data-and-statistical-learning" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="probabilistic-models-data-and-statistical-learning"><span class="header-section-number">1.3</span> Probabilistic models, data and statistical learning</h2>
+<p>The aim of statistical learning is to use observed data in an optimal way to learn about the underlying mechanism of the data-generating process. Since data is typically finite but models can be in principle arbitrarily complex there may be issues of over-fitting (insufficient data for the complexity of the model) but also under-fitting (model is too simplistic).</p>
+<p>We observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> assumed to result from an underlying true data-generating model <span class="math inline">\(F_{\text{true}}\)</span>, the distribution for <span class="math inline">\(x\)</span>.</p>
+<p>To explain the observed data, and also to predict future data, we will make hypotheses in the form of candidate models <span class="math inline">\(P_{1}, P_{2}, \ldots\)</span>. Often these candidate models form a model family <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by a parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>, with specific values for each model so that we can also write <span class="math inline">\(P_{\boldsymbol \theta_1}, P_{\boldsymbol \theta_2}, \ldots\)</span> for the various models.</p>
+<p>Frequently parameters are chosen such that they allow some interpretation, such as moments or other properties of the distribution. However, intrinsically parameters are just labels and may be changed by any one-to-one transformation. For statistical learning it is necessary that models are <strong>identifiable</strong> within a family, i.e.&nbsp;each distinct model is identified by a unique parameter so that <span class="math inline">\(P_{\boldsymbol \theta_1} = P_{\boldsymbol \theta_2}\)</span> implies <span class="math inline">\(\boldsymbol \theta_1 = \boldsymbol \theta_2\)</span>, and conversely if <span class="math inline">\(P_{\boldsymbol \theta_1} \neq P_{\boldsymbol \theta_2}\)</span> then <span class="math inline">\(\boldsymbol \theta_1 \neq \boldsymbol \theta_2\)</span>.</p>
+<p>The true model underlying the data generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> from the true model <span class="math inline">\(F_{\text{true}}\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
+<p>The various candidate models <span class="math inline">\(P_1, P_2, \ldots\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data generating model <span class="math inline">\(F_{\text{true}}\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F_{\text{true}} = P_{\boldsymbol \theta_{\text{true}}}\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
+<p><span class="math display">\[
+\begin{array}{cc}
+\textbf{Hypothesis} \\
+\text{How the world works} \\
+\end{array}
+\longrightarrow
+\begin{array}{cc}
+\textbf{Model world} \\
+P_1,  \boldsymbol \theta_1  \\
+P_2, \boldsymbol \theta_2  \\
+\vdots\\
+\end{array}
+\]</span> <span class="math display">\[
+\longrightarrow
+\begin{array}{cc}
+\textbf{Real world,} \\
+\textbf{unknown true model} \\
+F_{\text{true}}, \boldsymbol \theta_{\text{true}} \\
+\end{array}
+\longrightarrow \textbf{Data } x_1, \ldots, x_n
 \]</span></p>
-<p>The <strong>law of total variance</strong> states that <span class="math display">\[
-\text{Var}(x) = \text{Var}(\text{E}(x| y)) + \text{E}(\text{Var}(x|y))
-\]</span> The first term on the right-hand side is the “explained” variance or “between-group” variance, and the second term is the “unexplained” variance or “mean within group” variance.</p>
-<div id="exm-meanmixture" class="theorem example">
-<p><span class="theorem-title"><strong>Example 13.1</strong></span> Mean and variance of a mixture model:</p>
-<p>Assume <span class="math inline">\(K\)</span> groups indicated by a discrete variable <span class="math inline">\(y = 1, 2, \ldots, K\)</span> with probability <span class="math inline">\(p(y) = \pi_y\)</span>. In each group the observations <span class="math inline">\(x\)</span> follow a density <span class="math inline">\(p(x|y)\)</span> with conditional mean <span class="math inline">\(E(x|y) = \mu_y\)</span> and conditional variance <span class="math inline">\(\text{Var}(x| y)= \sigma^2_y\)</span>. The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is <span class="math inline">\(p(x, y) = \pi_y p(x|y)\)</span>. The marginal density for <span class="math inline">\(x\)</span> is <span class="math inline">\(\sum_{y=1}^K \pi_y p(x|y)\)</span>. This is called a mixture model.</p>
-<p>The total mean <span class="math inline">\(\text{E}(x) = \mu_0\)</span> is equal to <span class="math inline">\(\sum_{y=1}^K \pi_y \mu_y\)</span>.</p>
-<p>The total variance <span class="math inline">\(\text{Var}(x) = \sigma^2_0\)</span> is equal to <span class="math display">\[
-\sum_{y=1}^K \pi_y (\mu_y - \mu_0)^2 + \sum_{y=1}^K \pi_y \sigma^2_y
-\]</span></p>
+<p><strong>The aim of statistical learning is to identify the model(s) that explain the current data and also predict future data (i.e.&nbsp;predict outcome of experiments that have not been conducted yet).</strong></p>
+<p>Thus a good model provides a good fit to the current data (i.e.&nbsp;it explains current observations well) and also to the future data (i.e.&nbsp;it generalises well).</p>
+<p>A large proportion of statistical theory is devoted to finding these “good” models that avoid both <em>over-fitting</em> (models being too complex and not generalising well) or <em>under-fitting</em> (models being too simplistic and hence also not predicting well).</p>
+<p>Typically the aim is to find an approximating model whose <strong>model complexity</strong> is well matched with the complexity of the unknown true model and also with the complexity of the observed data.</p>
+</section>
+<section id="finding-the-best-models" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="finding-the-best-models"><span class="header-section-number">1.4</span> Finding the best models</h2>
+<p>A core task in statistical learning is to identify those distributions that explain the existing data well and that also generalise well to future yet unseen observations.</p>
+<p>In a <strong>non-parametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(F\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(F)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math display">\[
+\hat{\text{E}}(x) = \hat{\mu} =  \text{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
+\]</span> and of the variance <span class="math display">\[
+\widehat{\text{Var}}(x) = \widehat{\sigma^2} =
+\text{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+\]</span> simply by replacing the expectation with the sample average.</p>
+<p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is then defined as <span class="math display">\[
+L_n(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
+\]</span> The parameter that maximises the likelihood is the <strong>maximum likelihood estimate</strong>.</p>
+<p>Historically, the likelihood function was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
+</section>
+<section id="aims-of-this-module" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="aims-of-this-module"><span class="header-section-number">1.5</span> Aims of this module</h2>
+<p>The first part of the module (Weeks 1–5) we will explore the method of maximum likelihood both practically and more theoretically in terms of its foundations. Specifically, we will see that the likelihood is closely linked to the cross-entropy between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P_{\boldsymbol \theta}\)</span>. As a consequence the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This insight illuminates both the optimality characteristics as well as the limitations of the maximum likelihood approach to statistical learning.</p>
+<p>The second part of the modules (Weeks 6–10) focuses on the <strong>Bayesian approach to statistical estimation and inference</strong> that can be viewed as a natural extension of likelihood-based statistical analysis that overcomes some of the limitations of maximum likelihood.</p>
+<p>In a nutshell, the two key aims of this module are</p>
+<ol type="i">
+<li>to provide a principled introduction to maximum likelihood and Bayesian statistical analysis and</li>
+<li>to demonstrate that statistics offers a well founded and coherent theory of information, rather than just seemingly unrelated collections of “recipes” for data analysis (a still widespread but wrong perception of statistics).</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.6</span> Further reading</h2>
+<p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">McGrayne (<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">2011</a>)</span> focuses on the history of Bayes’ theorem and and its importance in statistics. In a similar fashion, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
+<p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to various viewpoints of probability, discussing randomness and uncertainty including the frequentist ontological perspective versus the epistemological Bayesian perspective.</p>
+<p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-DiaconisSkyrms2018" class="csl-entry" role="listitem">
+Diaconis, P., and B. Skyrms. 2018. <em>Ten Great Ideas about Chance</em>. Princeton University Press.
+</div>
+<div id="ref-Domingos2015" class="csl-entry" role="listitem">
+Domingos, P. 2015. <em>The Master Algorithm: How the Quest for the Ultimate Learning Machine Will Remake Our World</em>. Basic Books.
+</div>
+<div id="ref-McGrayne2011" class="csl-entry" role="listitem">
+McGrayne, S. B. 2011. <em>The Theory That Would Not Die</em>. Yale University Press.
+</div>
 </div>
 </section>
-<section id="conditional-entropy-and-entropy-chain-rules" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</h2>
-<p>For the entropy of the joint distribution we find that <span class="math display">\[
-\begin{split}
-H( P_{x,y}) &amp;= -\text{E}_{P_{x,y}} \log p(x, y) \\
-&amp;= -\text{E}_{P_x} \text{E}_{P_{y| x}} (\log p(x) + \log p(y| x))\\
-&amp;= -\text{E}_{P_x} \log p(x) - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)\\
-&amp;= H(P_{x}) + H(P_{y| x} ) \\
-\end{split}
-\]</span> thus it decomposes into the entropy of the marginal distribution and the <strong>conditional entropy</strong> defined as <span class="math display">\[
-H(P_{y| x} ) = - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)
-\]</span> Note that to simplify notation by convention the expectation <span class="math inline">\(\text{E}_{P_{x}}\)</span> over the variable <span class="math inline">\(x\)</span> that we condition on (<span class="math inline">\(x\)</span>) is implicitly assumed.</p>
-<p>Similarly, for the cross-entropy we get <span class="math display">\[
-\begin{split}
-H(Q_{x,y} , P_{x, y}) &amp;= -\text{E}_{Q_{x,y}} \log  p(x, y) \\
-&amp;= -\text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\, p(x)\, p(y| x)\, \right)\\
-  &amp;= -\text{E}_{Q_x} \log p(x)    -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)         \\
-&amp;= H(Q_x, P_x)  +  H(Q_{y|x}, P_{y|x})
-\end{split}
-\]</span> where the <strong>conditional cross-entropy</strong> is defined as <span class="math display">\[
-H(Q_{y|x}, P_{y|x})= -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)
-\]</span> Note again the implicit expectation <span class="math inline">\(\text{E}_{Q_x}\)</span> over <span class="math inline">\(x\)</span> implied in this notation.</p>
-<p>The KL divergence between the joint distributions can be decomposed as follows: <span class="math display">\[
-\begin{split}
-D_{\text{KL}}(Q_{x,y} , P_{x, y}) &amp;= \text{E}_{Q_{x,y}} \log \left(\frac{ q(x, y) }{ p(x, y) }\right)\\
-&amp;= \text{E}_{Q_x} \text{E}_{Q_{y| x}} \log \left(\frac{ q(x) q(y| x) }{ p(x) p(y| x) }\right)\\
-&amp;= \text{E}_{Q_x} \log \left(\frac{ q(x) }{ p(x) }\right)      + \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)          \\
-&amp;= D_{\text{KL}}(Q_{x} , P_{x}) +   D_{\text{KL}}(Q_{y| x} , P_{y|x}) \\
-\end{split}
-\]</span> with the <strong>conditional KL divergence</strong> or <strong>conditional KL divergence</strong> defined as <span class="math display">\[
-D_{\text{KL}}(Q_{y| x} , P_{y|x})  = \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)
-\]</span> (again the expectation <span class="math inline">\(\text{E}_{Q_{x}}\)</span> is usually dropped for convenience). The conditional KL divergence can also be computed from the conditional (cross-)entropies by the familiar relationship <span class="math display">\[
-D_{\text{KL}}(Q_{y| x} , P_{y|x}) = H(Q_{y|x}, P_{y|x})
--  H(Q_{y| x})
-\]</span></p>
-<p>The above decompositions for the entropy, the cross-entropy and KL divergence are known as <strong>entropy chain rules</strong>.</p>
-</section>
-<section id="entropy-bounds-for-the-marginal-variables" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</h2>
-<p>The chain rule for KL divergence directly shows that <span class="math display">\[
-\begin{split}
-\underbrace{D_{\text{KL}}(Q_{x,y} , P_{x, y})}_{\text{upper bound}} &amp;= D_{\text{KL}}(Q_{x} , P_{x}) + \underbrace{  D_{\text{KL}}(Q_{y| x} , P_{y|x})   }_{\geq 0}\\
-&amp;\geq D_{\text{KL}}(Q_{x} , P_{x})
-\end{split}
-\]</span> This means that the KL divergence between the joint distributions forms an <strong>upper bound for the KL divergence between the marginal distributions</strong>, with the difference given by the conditional KL divergence <span class="math inline">\(D_{\text{KL}}(Q_{y| x} , P_{y|x})\)</span>.</p>
-<p>Equivalently, we can state an <strong>upper bound for the marginal cross-entropy</strong>: <span class="math display">\[
-\begin{split}
-\underbrace{H(Q_{x,y} , P_{x, y}) - H(Q_{y| x} )}_{\text{upper bound}} &amp;= H(Q_{x}, P_{x})  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x}) }_{\geq 0}\\
-&amp; \geq H(Q_{x}, P_{x}) \\
-\end{split}
-\]</span> Instead of an upper bound we may as well express this as <strong>lower bound for the negative marginal cross-entropy</strong> <span class="math display">\[.
-\begin{split}
-- H(Q_{x}, P_{x}) &amp;= \underbrace{ - H(Q_{x} Q_{y| x} , P_{x, y})  + H(Q_{y| x} )}_{\text{lower bound}}  + \underbrace{ D_{\text{KL}}(Q_{y| x} , P_{y|x})}_{\geq 0}\\
-&amp; \geq F\left( Q_{x}, Q_{y| x},  P_{x, y}\right)\\
-\end{split}
-\]</span></p>
-<p>Since entropy and KL divergence is closedly linked with maximum likelihood the above bounds play a major role in statistical learning of models with unobserved latent variables (here <span class="math inline">\(y\)</span>). They form the basis of important methods such as the EM algorithm as well as of variational Bayes.</p>
-
-
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Conversely, empirical estimators are, in fact, also likelihood estimators based on an <a href="https://en.wikipedia.org/wiki/Empirical_likelihood">empirical likelihood</a> function constructed from the empirical distribution.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
@@ -763,13 +791,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./03-likelihood-f-optim.html" class="pagination-link" aria-label="Optimality properties and conclusion">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Optimality properties and conclusion</span></span>
+      <a href="./00-prerequisites.html" class="pagination-link" aria-label="Prerequisites">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prerequisites</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./08-bayes2.html" class="pagination-link" aria-label="Models with latent variables and missing data">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Models with latent variables and missing data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./01-intro-b-models.html" class="pagination-link" aria-label="Distributions for statistical models">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
