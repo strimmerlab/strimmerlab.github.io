@@ -392,7 +392,7 @@ window.Quarto = {
 <li><p>Starting as early as 1763, the <strong>Bayesian school</strong> of learning was started which later turned out to be closely linked with the theory of <strong>likelihood estimation</strong> formulated in 1922.</p></li>
 <li><p>Links of statistical learning with <strong>entropy</strong> were established in the 1940s with roots going back to discoveries in statistical physics in the 1870s. The close link of physics and statistical learning has recently been underlined by the <a href="https://www.nobelprize.org/prizes/physics/2024/summary/">2024 Nobel Prize in Physics</a> awarded to J. J.&nbsp;Hopfield and G.&nbsp;Hinton for advances in artificial neural networks.</p></li>
 <li><p>It was also in the 1950s that the first model of artificial <strong>neural network</strong> arises, essentially a nonlinear input-output map with no underlying probabilistic modelling. This field saw another leap in the 1980s and further progressed from 2010 onwards with the development of <em>deep learning</em>. It is one of the most popular (and most effective) methods for analysing complex data and also underlies many generative AI models. Despite their non-probabilistic origins, modern interpretations of neural networks now view them as high-dimensional nonlinear statistical models.</p></li>
-<li><p>In the 1960s further advanced theories of information were developed under the umbrella of <strong>computational learning</strong>, most notably the Vapnik-Chernov theory, with the most prominent example of the “support vector machine” (another non-probabilistic model) devised in the 1990s. Other important advances include “ensemble learning” and corresponding algorithmic approaches to classification such as “random Forests”.</p></li>
+<li><p>In the 1960s further advanced theories of information were developed under the umbrella of <strong>computational learning</strong>, most notably the Vapnik-Chernov theory, with the most prominent example of the “support vector machine” (another non-probabilistic model) devised in the 1990s. Other important advances include “ensemble learning” and corresponding algorithmic approaches to classification such as “random forests”.</p></li>
 <li><p>Classical statistics has focused on data sets with a low number of variables and a large sample size. With the advent of large-scale genomics and the availability other high-dimensional data in the last 20 years there has been a surge of developments in both statistics and in machine learning to develop new methods to analyse <strong>high-dimensional data</strong> (large dimension, large number of variables) and <strong>big data</strong> (large dimension as well as large sample size).</p></li>
 </ul>
 </section>
@@ -413,24 +413,33 @@ window.Quarto = {
 <p>The various candidate models <span class="math inline">\(P_1, P_2, \ldots\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data generating model <span class="math inline">\(F_{\text{true}}\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F_{\text{true}} = P_{\boldsymbol \theta_{\text{true}}}\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
 <p><span class="math display">\[
 \begin{array}{cc}
-\textbf{Hypothesis} \\
-\text{How the world works} \\
+\textbf{Real world} \\
+\text{true model (unknown)} \\
+F_{\text{true}}, \boldsymbol \theta_{\text{true}} \\
 \end{array}
 \longrightarrow
 \begin{array}{cc}
+\textbf{Data}\\
+\text{Samples from true model} \\
+x_1, \ldots, x_n\\
+\end{array}
+\]</span> <span class="math display">\[
+\begin{array}{cc}
+\textbf{Statistical Learning}\\
+\text{Find model(s) and parameters} \\
+\text{approximating the true model} \\
+\text{and best explaining both} \\
+\text{observed and future data} \\
+\end{array}
+\longleftarrow
+\begin{array}{cc}
 \textbf{Model world} \\
+\text{Hypotheses about}\\
+\text{data generating process} \\
 P_1,  \boldsymbol \theta_1  \\
 P_2, \boldsymbol \theta_2  \\
 \vdots\\
 \end{array}
-\]</span> <span class="math display">\[
-\longrightarrow
-\begin{array}{cc}
-\textbf{Real world,} \\
-\textbf{unknown true model} \\
-F_{\text{true}}, \boldsymbol \theta_{\text{true}} \\
-\end{array}
-\longrightarrow \textbf{Data } x_1, \ldots, x_n
 \]</span></p>
 <p><strong>The aim of statistical learning is to identify the model(s) that explain the current data and also predict future data (i.e.&nbsp;predict outcome of experiments that have not been conducted yet).</strong></p>
 <p>Thus a good model provides a good fit to the current data (i.e.&nbsp;it explains current observations well) and also to the future data (i.e.&nbsp;it generalises well).</p>
@@ -440,16 +449,18 @@ F_{\text{true}}, \boldsymbol \theta_{\text{true}} \\
 <section id="finding-the-best-models" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="finding-the-best-models"><span class="header-section-number">1.4</span> Finding the best models</h2>
 <p>A core task in statistical learning is to identify those distributions that explain the existing data well and that also generalise well to future yet unseen observations.</p>
-<p>In a <strong>non-parametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(F\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(F)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math display">\[
+<p>In a <strong>non-parametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(F\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(F)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math inline">\(\text{E}_{F}(x) = \mu\)</span> by <span class="math display">\[
 \hat{\text{E}}(x) = \hat{\mu} =  \text{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
-\]</span> and of the variance <span class="math display">\[
+\]</span> and of the variance <span class="math inline">\(\text{Var}(x) = \sigma^2 = \text{E}_{F}((x - \mu)^2)\)</span> by <span class="math display">\[
 \widehat{\text{Var}}(x) = \widehat{\sigma^2} =
 \text{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \]</span> simply by replacing the expectation with the sample average.</p>
-<p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is then defined as <span class="math display">\[
+<p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is defined as <span class="math display">\[
 L_n(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
-\]</span> The parameter that maximises the likelihood is the <strong>maximum likelihood estimate</strong>.</p>
-<p>Historically, the likelihood function was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
+\]</span> The parameter value <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> that maximises the likelihood function for fixed data <span class="math inline">\(D\)</span> is the <strong>maximum likelihood estimate</strong>: <span class="math display">\[
+\hat{\boldsymbol \theta}_{ML} = \underset{\boldsymbol \theta}{\arg \max}\, L_n(\boldsymbol \theta|D)
+\]</span></p>
+<p>Historically, the likelihood was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
 </section>
 <section id="aims-of-this-module" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="aims-of-this-module"><span class="header-section-number">1.5</span> Aims of this module</h2>
