@@ -352,8 +352,7 @@ window.Quarto = {
   <li><a href="#randomness-versus-uncertainty" id="toc-randomness-versus-uncertainty" class="nav-link" data-scroll-target="#randomness-versus-uncertainty"><span class="header-section-number">1.2</span> Randomness versus uncertainty</a></li>
   <li><a href="#probabilistic-models-data-and-statistical-learning" id="toc-probabilistic-models-data-and-statistical-learning" class="nav-link" data-scroll-target="#probabilistic-models-data-and-statistical-learning"><span class="header-section-number">1.3</span> Probabilistic models, data and statistical learning</a></li>
   <li><a href="#finding-the-best-models" id="toc-finding-the-best-models" class="nav-link" data-scroll-target="#finding-the-best-models"><span class="header-section-number">1.4</span> Finding the best models</a></li>
-  <li><a href="#aims-of-this-module" id="toc-aims-of-this-module" class="nav-link" data-scroll-target="#aims-of-this-module"><span class="header-section-number">1.5</span> Aims of this module</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.6</span> Further reading</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.5</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -409,13 +408,13 @@ window.Quarto = {
 <p>We observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> assumed to result from an underlying true data-generating model <span class="math inline">\(F_{\text{true}}\)</span>, the distribution for <span class="math inline">\(x\)</span>.</p>
 <p>To explain the observed data, and also to predict future data, we will make hypotheses in the form of candidate models <span class="math inline">\(P_{1}, P_{2}, \ldots\)</span>. Often these candidate models form a model family <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by a parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>, with specific values for each model so that we can also write <span class="math inline">\(P_{\boldsymbol \theta_1}, P_{\boldsymbol \theta_2}, \ldots\)</span> for the various models.</p>
 <p>Frequently parameters are chosen such that they allow some interpretation, such as moments or other properties of the distribution. However, intrinsically parameters are just labels and may be changed by any one-to-one transformation. For statistical learning it is necessary that models are <strong>identifiable</strong> within a family, i.e.&nbsp;each distinct model is identified by a unique parameter so that <span class="math inline">\(P_{\boldsymbol \theta_1} = P_{\boldsymbol \theta_2}\)</span> implies <span class="math inline">\(\boldsymbol \theta_1 = \boldsymbol \theta_2\)</span>, and conversely if <span class="math inline">\(P_{\boldsymbol \theta_1} \neq P_{\boldsymbol \theta_2}\)</span> then <span class="math inline">\(\boldsymbol \theta_1 \neq \boldsymbol \theta_2\)</span>.</p>
-<p>The true model underlying the data generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> from the true model <span class="math inline">\(F_{\text{true}}\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
-<p>The various candidate models <span class="math inline">\(P_1, P_2, \ldots\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data generating model <span class="math inline">\(F_{\text{true}}\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F_{\text{true}} = P_{\boldsymbol \theta_{\text{true}}}\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
+<p>The true model underlying the data generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> from the true model <span class="math inline">\(F\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
+<p>The various candidate models <span class="math inline">\(P_{\boldsymbol \theta}\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data generating model <span class="math inline">\(F\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F = P_{\boldsymbol \theta_{\text{true}}}\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
 <p><span class="math display">\[
 \begin{array}{cc}
 \textbf{Real world} \\
 \text{true model (unknown)} \\
-F_{\text{true}}, \boldsymbol \theta_{\text{true}} \\
+F \\
 \end{array}
 \longrightarrow
 \begin{array}{cc}
@@ -430,15 +429,17 @@ x_1, \ldots, x_n\\
 \text{approximating the true model} \\
 \text{and best explaining both} \\
 \text{observed and future data} \\
+F \approx P_{\hat{\boldsymbol \theta}}\\
 \end{array}
 \longleftarrow
 \begin{array}{cc}
 \textbf{Model world} \\
 \text{Hypotheses about}\\
-\text{data generating process} \\
-P_1,  \boldsymbol \theta_1  \\
-P_2, \boldsymbol \theta_2  \\
-\vdots\\
+\text{data generating process:} \\
+\text{Model } P_{\boldsymbol \theta}\\
+\text{with parameter(s) } \boldsymbol \theta\\
+\text{Ideally, true model is } \\
+F = P_{\boldsymbol \theta_{\text{true}}}\\
 \end{array}
 \]</span></p>
 <p><strong>The aim of statistical learning is to identify the model(s) that explain the current data and also predict future data (i.e.&nbsp;predict outcome of experiments that have not been conducted yet).</strong></p>
@@ -461,19 +462,10 @@ L_n(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
 \hat{\boldsymbol \theta}_{ML} = \underset{\boldsymbol \theta}{\arg \max}\, L_n(\boldsymbol \theta|D)
 \]</span></p>
 <p>Historically, the likelihood was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
+<p>Specifically, we will see that the likelihood is closely linked to the cross-entropy between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P_{\boldsymbol \theta}\)</span>. As a consequence the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This insight illuminates both the optimality characteristics as well as the limitations of the maximum likelihood approach to statistical learning.</p>
 </section>
-<section id="aims-of-this-module" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="aims-of-this-module"><span class="header-section-number">1.5</span> Aims of this module</h2>
-<p>The first part of the module (Weeks 1–5) we will explore the method of maximum likelihood both practically and more theoretically in terms of its foundations. Specifically, we will see that the likelihood is closely linked to the cross-entropy between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P_{\boldsymbol \theta}\)</span>. As a consequence the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This insight illuminates both the optimality characteristics as well as the limitations of the maximum likelihood approach to statistical learning.</p>
-<p>The second part of the modules (Weeks 6–10) focuses on the <strong>Bayesian approach to statistical estimation and inference</strong> that can be viewed as a natural extension of likelihood-based statistical analysis that overcomes some of the limitations of maximum likelihood.</p>
-<p>In a nutshell, the two key aims of this module are</p>
-<ol type="i">
-<li>to provide a principled introduction to maximum likelihood and Bayesian statistical analysis and</li>
-<li>to demonstrate that statistics offers a well founded and coherent theory of information, rather than just seemingly unrelated collections of “recipes” for data analysis (a still widespread but wrong perception of statistics).</li>
-</ol>
-</section>
-<section id="further-reading" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.6</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.5</span> Further reading</h2>
 <p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">McGrayne (<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics. In a similar fashion, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
 <p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to various viewpoints of probability, discussing randomness and uncertainty including the frequentist ontological perspective versus the epistemological Bayesian perspective.</p>
 <p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
