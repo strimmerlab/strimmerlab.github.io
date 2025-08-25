@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -32,15 +32,16 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <link href="./14-bayes2.html" rel="next">
 <link href="./12-likelihood6.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c04d35918bfbae480bb424d60ad250e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ce57f618d012aa58b7306493b9cf9147.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,7 +102,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -331,7 +332,13 @@ window.Quarto = {
   <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link active" data-scroll-target="#conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</a></li>
   <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</a></li>
   <li><a href="#conditional-mean-and-variance" id="toc-conditional-mean-and-variance" class="nav-link" data-scroll-target="#conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</a></li>
-  <li><a href="#conditional-entropy-and-entropy-chain-rules" id="toc-conditional-entropy-and-entropy-chain-rules" class="nav-link" data-scroll-target="#conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</a></li>
+  <li><a href="#conditional-entropy-and-entropy-chain-rules" id="toc-conditional-entropy-and-entropy-chain-rules" class="nav-link" data-scroll-target="#conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</a>
+  <ul class="collapse">
+  <li><a href="#conditional-entropy" id="toc-conditional-entropy" class="nav-link" data-scroll-target="#conditional-entropy">Conditional entropy</a></li>
+  <li><a href="#conditional-cross-entropy" id="toc-conditional-cross-entropy" class="nav-link" data-scroll-target="#conditional-cross-entropy">Conditional cross-entropy</a></li>
+  <li><a href="#conditional-kl-divergence" id="toc-conditional-kl-divergence" class="nav-link" data-scroll-target="#conditional-kl-divergence">Conditional KL divergence</a></li>
+  <li><a href="#conditional-boltzmann-relative-entropy" id="toc-conditional-boltzmann-relative-entropy" class="nav-link" data-scroll-target="#conditional-boltzmann-relative-entropy">Conditional Boltzmann relative entropy</a></li>
+  </ul></li>
   <li><a href="#entropy-bounds-for-the-marginal-variables" id="toc-entropy-bounds-for-the-marginal-variables" class="nav-link" data-scroll-target="#entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</a></li>
   </ul>
 </nav>
@@ -361,12 +368,11 @@ window.Quarto = {
 <p>In this chapter we review conditional probabilities. Conditional probability is essential for Bayesian statistical modelling.</p>
 <section id="conditional-probability" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">13.1</span> Conditional probability</h2>
-<p>Assume we have two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>. By definition <span class="math inline">\(\int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
-<p>The <strong>marginal densities</strong> for the individual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span> and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>. Thus, marginal densities are obtained from the joint density by integrating over all possible states of the variable that is removed. Like the joint density the marginal densities also integrate to 1, i.e. <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>.</p>
-<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span> we may wish to keep it fixed at some value, we may want to keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>. In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF) given by the ratio <span class="math display">\[
+<p>We consider two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> and assume a <strong>joint density</strong> (or joint PMF) <span class="math inline">\(p(x,y)\)</span>. By definition <span class="math inline">\(\int_{x,y} p(x,y) dx dy = 1\)</span>.</p>
+<p>The <strong>marginal densities</strong> for the individual random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given by <span class="math inline">\(p(x) = \int_y p(x,y) dy\)</span> and <span class="math inline">\(p(y) = \int_x f(x,y) dx\)</span>, respectively. Therefore, the marginal densities are derived from the joint density by integrating over all possible states of the variable that is being excluded. As necessary for any density, the marginal densities also integrate to one, i.e. <span class="math inline">\(\int_x p(x) dx = 1\)</span> and <span class="math inline">\(\int_y p(y) dy = 1\)</span>.</p>
+<p>As alternative to integrating out a random variable in the joint density <span class="math inline">\(p(x,y)\)</span> we may wish to keep it fixed at some value. For instance we may want to keep <span class="math inline">\(y\)</span> fixed at <span class="math inline">\(y_0\)</span>. In this case <span class="math inline">\(p(x, y=y_0)\)</span> is proportional to the <strong>conditional density</strong> (or PMF) given by the ratio <span class="math display">\[
 p(x | y=y_0) = \frac{p(x, y=y_0)}{p(y=y_0)}
-\]</span> In this formula the denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> ensures that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises <span class="math inline">\(p(x, y=y_0)\)</span> so that it is a proper density integrating to one.</p>
-<p>To simplify notation, the particular value on which a variable is conditioned is often left unspecified so we just write <span class="math inline">\(p(x | y)\)</span>.</p>
+\]</span> In this formula the denominator <span class="math inline">\(p(y=y_0) = \int_x p(x, y=y_0) dx\)</span> ensures that <span class="math inline">\(\int_x p(x | y=y_0) dx = 1\)</span>, thus it renormalises <span class="math inline">\(p(x, y=y_0)\)</span> so that it becomes a density integrating to one. To simplify notation, the particular value on which a variable is conditioned is often left out, and we just write <span class="math inline">\(p(x | y)\)</span>.</p>
 </section>
 <section id="bayes-theorem" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">13.2</span> Bayes’ theorem</h2>
@@ -376,30 +382,54 @@ p(x,y) = p(x| y) p(y) = p(y | x) p(x)
 \]</span></p>
 <p>This directly leads to <strong>Bayes’ theorem</strong>: <span class="math display">\[
 p(x | y) = p(y | x) \frac{ p(x) }{ p(y)}
-\]</span> This rule relates the two possible conditional densities (or conditional probability mass functions) for two random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. It thus allows to reverse the ordering of conditioning.</p>
+\]</span> This rule relates the two possible conditional densities (or conditional probability mass functions) for the random variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, enabling the change of the order of conditioning.</p>
 <p>Bayes’s theorem was <a href="https://en.wikipedia.org/wiki/An_Essay_towards_solving_a_Problem_in_the_Doctrine_of_Chances">published in 1763</a> only after his death by <a href="https://en.wikipedia.org/wiki/Richard_Price">Richard Price (1723-1791)</a>:</p>
 <p><a href="https://de.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> independently published Bayes’ theorem in 1774 and he was in fact the first to routinely apply it to statistical calculations.</p>
 </section>
 <section id="conditional-mean-and-variance" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="conditional-mean-and-variance"><span class="header-section-number">13.3</span> Conditional mean and variance</h2>
-<p>The mean <span class="math inline">\(\text{E}(x| y)\)</span> and variance <span class="math inline">\(\text{Var}(x|y)\)</span> of the conditional distribution with density <span class="math inline">\(p(x|y)\)</span> are called <strong>conditional mean</strong> and <strong>conditional variance</strong>.</p>
-<p>The <strong>law of total expectation</strong> states that <span class="math display">\[
-\text{E}(x) = \text{E}( \text{E}(x| y) )
+<p>The conditional distribution <span class="math inline">\(P_{x|y}\)</span> with density <span class="math inline">\(p(x|y)\)</span> has mean <span class="math inline">\(\text{E}(x| y)\)</span> and variance <span class="math inline">\(\text{Var}(x|y)\)</span>. These are called the <strong>conditional mean</strong> and <strong>conditional variance</strong>, respectively.</p>
+<p>The conditional mean <span class="math inline">\(\text{E}(x| y)\)</span> is als denoted by <span class="math inline">\(\text{E}\left( P_{x|y}\right)\)</span> and <span class="math inline">\(\text{E}_{P_{x|y}}(x)\)</span>. It is obtained by calculating <span class="math display">\[
+\text{E}(x|y) = \text{E}\left( P_{x|y}\right) =  \text{E}_{P_{x|y}}(x) = \begin{cases}
+\sum_{x} p(x|y) \, x &amp; \text{discrete case} \\
+\int_{x } p(x| y) \, x \, dx  &amp; \text{continuous case} \\
+\end{cases}
 \]</span></p>
-<p>The <strong>law of total variance</strong> states that <span class="math display">\[
-\text{Var}(x) = \text{Var}(\text{E}(x| y)) + \text{E}(\text{Var}(x|y))
-\]</span> The first term on the right-hand side is the “explained” variance or “between-group” variance, and the second term is the “unexplained” variance or “mean within group” variance.</p>
+<p>The conditional variance <span class="math inline">\(\text{Var}(x| y)\)</span> is als denoted by <span class="math inline">\(\text{Var}\left( P_{x|y}\right)\)</span> and <span class="math inline">\(\text{Var}_{P_{x|y}}(x)\)</span>.</p>
+<p><span class="math display">\[
+\text{Var}(x| y) = \text{Var}\left( P_{x|y}\right) = \text{Var}_{P_{x|y}}(x)
+= \text{E}_{P_{x|y}}( (x-\text{E}_{P_{x|y}}(x))^2)    )
+= \text{E}( (x-\text{E}(x|y))^2 | y  )
+\]</span></p>
+<p>The <strong>law of total expectation</strong> links the means of the marginal distribution and of the conditional distributions, stating that <span class="math display">\[
+\begin{split}
+\text{E}(x) &amp;= \text{E}\left( \text{E}(x| y) \right) \\
+&amp;= \text{E}_{P_y} \text{E}_{P_{x| y}}(x)  \\
+&amp;= \text{E}_{P_{x,y}} (x)  \\
+\end{split}
+\]</span> Hence, the total mean (left side) is the weighted average (outer expectation) of the various conditional means (inner expectation).</p>
+<p>Similarly, the <strong>law of total variance</strong> states that <span class="math display">\[
+\begin{split}
+\text{Var}(x) &amp;= \text{Var}(\text{E}(x| y)) + \text{E}(\text{Var}(x|y)) \\
+&amp;= \text{Var}_{P_y} \text{E}_{P_{x| y}}(x) + \text{E}_{P_y} \text{Var}_{P_{x|y}}(x)
+\end{split}
+\]</span> The total variance (left side) decomposes into the “explained” variance or “between-group” variance (first term on right side) and the “unexplained” variance or “mean within group” variance (second term on the right side). Again, the outer expectations are with regard to <span class="math inline">\(P_y\)</span> and the inner expecations with regard to <span class="math inline">\(P_{x|y}\)</span>.</p>
 <div id="exm-meanmixture" class="theorem example">
 <p><span class="theorem-title"><strong>Example 13.1</strong></span> Mean and variance of a mixture model:</p>
-<p>Assume <span class="math inline">\(K\)</span> groups indicated by a discrete variable <span class="math inline">\(y = 1, 2, \ldots, K\)</span> with probability <span class="math inline">\(p(y) = \pi_y\)</span>. In each group the observations <span class="math inline">\(x\)</span> follow a density <span class="math inline">\(p(x|y)\)</span> with conditional mean <span class="math inline">\(E(x|y) = \mu_y\)</span> and conditional variance <span class="math inline">\(\text{Var}(x| y)= \sigma^2_y\)</span>. The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is <span class="math inline">\(p(x, y) = \pi_y p(x|y)\)</span>. The marginal density for <span class="math inline">\(x\)</span> is <span class="math inline">\(\sum_{y=1}^K \pi_y p(x|y)\)</span>. This is called a mixture model.</p>
-<p>The total mean <span class="math inline">\(\text{E}(x) = \mu_0\)</span> is equal to <span class="math inline">\(\sum_{y=1}^K \pi_y \mu_y\)</span>.</p>
+<p>Assume <span class="math inline">\(K\)</span> groups indicated by a discrete variable <span class="math inline">\(y \in\{ 1, 2, \ldots, K\}\)</span> with probability <span class="math inline">\(p(y) = \pi_y\)</span>. In each group the observations <span class="math inline">\(x\)</span> follow a density <span class="math inline">\(p(x|y)\)</span> with conditional mean <span class="math inline">\(E(x|y) = \mu_y\)</span> and conditional variance <span class="math inline">\(\text{Var}(x| y)= \sigma^2_y\)</span>. The joint density for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is <span class="math inline">\(p(x, y) = \pi_y p(x|y)\)</span>. The marginal density for <span class="math inline">\(x\)</span> is <span class="math inline">\(p(x) = \sum_{y=1}^K \pi_y p(x|y)\)</span>. This is called a mixture model.</p>
+<p>The total mean <span class="math inline">\(\text{E}(x) = \mu_0\)</span> is equal to <span class="math display">\[
+\mu_0= \sum_{y=1}^K \pi_y \mu_y
+\]</span></p>
 <p>The total variance <span class="math inline">\(\text{Var}(x) = \sigma^2_0\)</span> is equal to <span class="math display">\[
-\sum_{y=1}^K \pi_y (\mu_y - \mu_0)^2 + \sum_{y=1}^K \pi_y \sigma^2_y
+\sigma^2_0 = \sum_{y=1}^K \pi_y (\mu_y - \mu_0)^2 + \sum_{y=1}^K \pi_y \sigma^2_y
 \]</span></p>
 </div>
 </section>
 <section id="conditional-entropy-and-entropy-chain-rules" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="conditional-entropy-and-entropy-chain-rules"><span class="header-section-number">13.4</span> Conditional entropy and entropy chain rules</h2>
+<p>Similar to mean and variance one can also define conditional versions of entropies. These lead to decomposition of the joint entropy that are also known as <strong>entropy chain rules</strong>.</p>
+<section id="conditional-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-entropy">Conditional entropy</h3>
 <p>For the entropy of the joint distribution we find that <span class="math display">\[
 \begin{split}
 H( P_{x,y}) &amp;= -\text{E}_{P_{x,y}} \log p(x, y) \\
@@ -410,6 +440,9 @@ H( P_{x,y}) &amp;= -\text{E}_{P_{x,y}} \log p(x, y) \\
 \]</span> thus it decomposes into the entropy of the marginal distribution and the <strong>conditional entropy</strong> defined as <span class="math display">\[
 H(P_{y| x} ) = - \text{E}_{P_x} \text{E}_{P_{y| x}} \log p(y| x)
 \]</span> Note that to simplify notation by convention the expectation <span class="math inline">\(\text{E}_{P_{x}}\)</span> over the variable <span class="math inline">\(x\)</span> that we condition on (<span class="math inline">\(x\)</span>) is implicitly assumed.</p>
+</section>
+<section id="conditional-cross-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-cross-entropy">Conditional cross-entropy</h3>
 <p>Similarly, for the cross-entropy we get <span class="math display">\[
 \begin{split}
 H(Q_{x,y} , P_{x, y}) &amp;= -\text{E}_{Q_{x,y}} \log  p(x, y) \\
@@ -420,6 +453,9 @@ H(Q_{x,y} , P_{x, y}) &amp;= -\text{E}_{Q_{x,y}} \log  p(x, y) \\
 \]</span> where the <strong>conditional cross-entropy</strong> is defined as <span class="math display">\[
 H(Q_{y|x}, P_{y|x})= -\text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log  p(y| x)
 \]</span> Note again the implicit expectation <span class="math inline">\(\text{E}_{Q_x}\)</span> over <span class="math inline">\(x\)</span> implied in this notation.</p>
+</section>
+<section id="conditional-kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-kl-divergence">Conditional KL divergence</h3>
 <p>The KL divergence between the joint distributions can be decomposed as follows: <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(Q_{x,y} , P_{x, y}) &amp;= \text{E}_{Q_{x,y}} \log \left(\frac{ q(x, y) }{ p(x, y) }\right)\\
@@ -427,13 +463,24 @@ D_{\text{KL}}(Q_{x,y} , P_{x, y}) &amp;= \text{E}_{Q_{x,y}} \log \left(\frac{ q(
 &amp;= \text{E}_{Q_x} \log \left(\frac{ q(x) }{ p(x) }\right)      + \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)          \\
 &amp;= D_{\text{KL}}(Q_{x} , P_{x}) +   D_{\text{KL}}(Q_{y| x} , P_{y|x}) \\
 \end{split}
-\]</span> with the <strong>conditional KL divergence</strong> or <strong>conditional KL divergence</strong> defined as <span class="math display">\[
+\]</span> with the <strong>conditional KL divergence</strong> defined as <span class="math display">\[
 D_{\text{KL}}(Q_{y| x} , P_{y|x})  = \text{E}_{Q_x} \text{E}_{Q_{y| x}}  \log \left(\frac{  q(y| x) }{ p(y| x) }\right)
 \]</span> (again the expectation <span class="math inline">\(\text{E}_{Q_{x}}\)</span> is usually dropped for convenience). The conditional KL divergence can also be computed from the conditional (cross-)entropies by the familiar relationship <span class="math display">\[
 D_{\text{KL}}(Q_{y| x} , P_{y|x}) = H(Q_{y|x}, P_{y|x})
 -  H(Q_{y| x})
 \]</span></p>
-<p>The above decompositions for the entropy, the cross-entropy and KL divergence are known as <strong>entropy chain rules</strong>.</p>
+</section>
+<section id="conditional-boltzmann-relative-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-boltzmann-relative-entropy">Conditional Boltzmann relative entropy</h3>
+<p>The Boltzmann entropy is the negative of the KL divergence.</p>
+<p>Hence: <span class="math display">\[
+\begin{split}
+B(Q_{x,y} , P_{x, y})
+  &amp;= B(Q_{x} , P_{x}) +   B(Q_{y| x} , P_{y|x}) \\
+  &amp;= B(Q_{y} , P_{y}) +   B(Q_{x| y} , P_{x|y}) \\
+\end{split}
+\]</span></p>
+</section>
 </section>
 <section id="entropy-bounds-for-the-marginal-variables" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="entropy-bounds-for-the-marginal-variables"><span class="header-section-number">13.5</span> Entropy bounds for the marginal variables</h2>
@@ -461,304 +508,286 @@ D_{\text{KL}}(Q_{y| x} , P_{y|x}) = H(Q_{y|x}, P_{y|x})
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-        });
+        }
       }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
       }
-    } else {
-      return undefined;
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./12-likelihood6.html" class="pagination-link" aria-label="Optimality properties and conclusion">

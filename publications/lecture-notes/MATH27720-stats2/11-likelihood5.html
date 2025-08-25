@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -32,15 +32,16 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <link href="./12-likelihood6.html" rel="next">
 <link href="./10-likelihood4.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c04d35918bfbae480bb424d60ad250e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ce57f618d012aa58b7306493b9cf9147.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,7 +102,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -380,11 +381,11 @@ Figure&nbsp;11.1: Construction of a likelihood-based confidence intervals.
 </figure>
 </div>
 <p>Instead of relying on the normal resp. quadratic approximation, we can also use the log-likelihood directly to find <strong>likelihood confidence intervals</strong> (<a href="#fig-likelihoodci" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>).</p>
-<p>Idea: find all <span class="math inline">\(\boldsymbol \theta_0\)</span> that have a log-likelihood that is almost as good as <span class="math inline">\(l_n(\hat{\boldsymbol \theta}_{ML} | D)\)</span>. <span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: l_n(\hat{\boldsymbol \theta}_{ML}| D) - l_n(\boldsymbol \theta_0 | D) \leq \Delta\}\]</span> Here <span class="math inline">\(\Delta\)</span> is our tolerated deviation from the maximum log-likelihood. We will see below how to determine a suitable <span class="math inline">\(\Delta\)</span>.</p>
+<p>Idea: find all <span class="math inline">\(\boldsymbol \theta_0\)</span> that have a log-likelihood that is almost as good as <span class="math inline">\(ell_n(\hat{\boldsymbol \theta}_{ML})\)</span>. <span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: \ell_n(\hat{\boldsymbol \theta}_{ML}) - \ell_n(\boldsymbol \theta_0 ) \leq \Delta\}\]</span> Here <span class="math inline">\(\Delta\)</span> is our tolerated deviation from the maximum log-likelihood. We will see below how to determine a suitable <span class="math inline">\(\Delta\)</span>.</p>
 <p>The above leads naturally to the <strong>Wilks log-likelihood ratio statistic</strong> <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> defined as: <span class="math display">\[
 \begin{split}
 W(\boldsymbol \theta_0) &amp; = 2 \log \left(\frac{L(\hat{\boldsymbol \theta}_{ML}| D)}{L(\boldsymbol \theta_0| D)}\right) \\
-&amp; =2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0 |D))\\
+&amp; =2(\ell_n(\hat{\boldsymbol \theta}_{ML})-\ell_n(\boldsymbol \theta_0))\\
 \end{split}
 \]</span> With its help we can write the likelihood CI as follows: <span class="math display">\[\text{CI}= \{\boldsymbol \theta_0: W(\boldsymbol \theta_0) \leq 2 \Delta\}\]</span></p>
 <p>The Wilks statistic is named after <a href="https://en.wikipedia.org/wiki/Samuel_S._Wilks">Samuel S. Wilks (1906–1964)</a>.</p>
@@ -409,11 +410,11 @@ W(\boldsymbol \theta_0) = -2\log \Lambda(\boldsymbol \theta_0)
 <h3 class="anchored" data-anchor-id="examples-of-the-wilks-log-likelihood-ratio-statistic">Examples of the Wilks log-likelihood ratio statistic</h3>
 <div id="exm-wilksproportion" class="theorem example">
 <p><span class="theorem-title"><strong>Example 11.2</strong></span> Wilks statistic for the proportion:</p>
-<p>The log-likelihood for the parameter <span class="math inline">\(\theta\)</span> is (cf. <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) <span class="math display">\[
-l_n(\theta| D) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
+<p>The log-likelihood function for the parameter <span class="math inline">\(\theta\)</span> is (cf. <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) <span class="math display">\[
+\ell_n(\theta) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
 \]</span> Hence the Wilks statistic is with <span class="math inline">\(\hat{\theta}_{ML}=\bar{x}\)</span> <span class="math display">\[
 \begin{split}
-W(\theta_0) &amp; = 2 ( l_n( \hat{\theta}_{ML} | D)  -l_n( \theta_0 | D ) )\\
+W(\theta_0) &amp; = 2 ( \ell_n( \hat{\theta}_{ML})  -\ell_n( \theta_0 ) )\\
 &amp; = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{\theta_0}  \right)  
                 + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-\theta_0}  \right)  
     \right) \\
@@ -437,11 +438,13 @@ W(p_0) =2 n D_{\text{KL}}( N( \hat{\mu}_{ML}, \sigma^2 ), N(\mu_0, \sigma^2)  )
 <div id="exm-catwilks" class="theorem example">
 <p><span class="theorem-title"><strong>Example 11.4</strong></span> Wilks log-likelihood ratio statistic for the categorical distribution:</p>
 <p>The Wilks log-likelihood ratio is <span class="math display">\[
-W(\boldsymbol p_0) = 2 (l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) - l_n(p_1^{0}, \ldots, p_{K-1}^{0}    ))
+W(\boldsymbol p_0) = 2 \left( \ell_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  )
+           - \ell_n(p_1^{0}, \ldots, p_{K-1}^{0}  )  \right)
 \]</span> with <span class="math inline">\(\boldsymbol p_0 = c(p_1^{0}, \ldots, p_{K}^{0} )^T\)</span>. As the probabilities sum up to 1 there are only <span class="math inline">\(K-1\)</span> free parameters.</p>
 <p>The log-likelihood at the MLE is <span class="math display">\[
-l_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log \hat{\pi}_k^{ML}  =  n   \sum_{k=1}^{K}  \bar{x}_k \log \bar{x}_k
-\]</span> with <span class="math inline">\(\hat{\pi}_k^{ML} = \frac{n_k}{n} = \bar{x}_k\)</span>. Note that here and in the following the sums run from <span class="math inline">\(1\)</span> to <span class="math inline">\(K\)</span> where the <span class="math inline">\(K\)</span>-th component is always computed from the components <span class="math inline">\(1\)</span> to <span class="math inline">\(K-1\)</span>, as in the previous section. The log-likelihood at <span class="math inline">\(\boldsymbol p_0\)</span> is <span class="math display">\[l_n( p_1^{0}, \ldots, p_{K-1}^{0}    ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0}
+\ell_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML}  ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log \hat{\pi}_k^{ML}  =  n   \sum_{k=1}^{K}  \bar{x}_k \log \bar{x}_k
+\]</span> with <span class="math inline">\(\hat{\pi}_k^{ML} = \frac{n_k}{n} = \bar{x}_k\)</span>. Note that here and in the following the sums run from <span class="math inline">\(1\)</span> to <span class="math inline">\(K\)</span> where the <span class="math inline">\(K\)</span>-th component is always computed from the components <span class="math inline">\(1\)</span> to <span class="math inline">\(K-1\)</span>, as in the previous section. The log-likelihood at <span class="math inline">\(\boldsymbol p_0\)</span> is <span class="math display">\[
+\ell_n( p_1^{0}, \ldots, p_{K-1}^{0}   ) =  n   \sum_{k=1}^{K}  \bar{x}_k \log p_k^{0}
 \]</span> so that the Wilks statistic becomes <span class="math display">\[
 W(\boldsymbol p_0) = 2 n   \sum_{k=1}^{K}  \bar{x}_k \log\left(\frac{\bar{x}_k}{ p_k^{0}} \right)
 \]</span> It is asymptotically chi-squared distributed with <span class="math inline">\(K-1\)</span> degrees of freedom.</p>
@@ -456,11 +459,11 @@ W(\boldsymbol p_0) = 2   \sum_{k=1}^{K}  n_k \log\left(\frac{  n_k }{  n_k^{\tex
 </section>
 <section id="quadratic-approximation-of-the-wilks-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="quadratic-approximation-of-the-wilks-statistic">Quadratic approximation of the Wilks statistic</h3>
-<p>Recall the <em>quadratic approximation</em> of the log-likelihood function <span class="math inline">\(l_n(\boldsymbol \theta_0| D)\)</span> (= second order Taylor series around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>):</p>
-<p><span class="math display">\[l_n(\boldsymbol \theta_0| D)\approx l_n(\hat{\boldsymbol \theta}_{ML}| D)-\frac{1}{2}(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\]</span></p>
+<p>Recall the <em>quadratic approximation</em> of the log-likelihood function <span class="math inline">\(\ell_n(\boldsymbol \theta_0)\)</span> (= second order Taylor series around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>):</p>
+<p><span class="math display">\[\ell_n(\boldsymbol \theta_0)\approx \ell_n(\hat{\boldsymbol \theta}_{ML})-\frac{1}{2}(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\]</span></p>
 <p>With this we can then approximate the Wilks statistic: <span class="math display">\[
 \begin{split}
-W(\boldsymbol \theta_0) &amp; = 2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\boldsymbol \theta_0| D))\\
+W(\boldsymbol \theta_0) &amp; = 2(\ell_n(\hat{\boldsymbol \theta}_{ML})-\ell_n(\boldsymbol \theta_0))\\
 &amp; \approx (\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})^T \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})(\boldsymbol \theta_0-\hat{\boldsymbol \theta}_{ML})\\
 &amp; =t(\boldsymbol \theta_0)^2 \\
 \end{split}
@@ -472,11 +475,15 @@ W(\boldsymbol \theta_0) &amp; = 2(l_n(\hat{\boldsymbol \theta}_{ML}| D)-l_n(\bol
 <h3 class="anchored" data-anchor-id="examples-of-quadratic-approximations">Examples of quadratic approximations</h3>
 <div id="exm-wilksproportionquadraticapprox" class="theorem example">
 <p><span class="theorem-title"><strong>Example 11.5</strong></span> Quadratic approximation of the Wilks statistic for a proportion (continued from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a>):</p>
-<p>A Taylor series of second order (for <span class="math inline">\(p_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields <span class="math display">\[
+<p>The Wilks statistic is <span class="math display">\[
+W(\theta_0) = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{\theta_0}  \right)  
+                + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-\theta_0}  \right)  
+    \right)
+\]</span> Computing Taylor series of second order (for <span class="math inline">\(p_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields the following approximations: <span class="math display">\[
 \log \left( \frac{  \bar{x}  }{p_0} \right) \approx -\frac{p_0-\bar{x}}{\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}^2   }
 \]</span> and <span class="math display">\[
 \log \left( \frac{ 1- \bar{x}  }{1- p_0} \right) \approx \frac{p_0-\bar{x}}{1-\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x})^2   }
-\]</span> With this we can approximate the Wilks statistic of the proportion as <span class="math display">\[
+\]</span> With the above we can approximate the Wilks statistic of the proportion as <span class="math display">\[
 \begin{split}
 W(p_0) &amp; \approx  2 n \left(  - (p_0-\bar{x})  +\frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}  }
 + (p_0-\bar{x}) + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x}) } \right)   \\
@@ -627,10 +634,10 @@ H_1: \boldsymbol \theta\neq \boldsymbol \theta_0\\
 <p>Assume that <span class="math inline">\(F\)</span> is the true (and unknown) data generating model and that <span class="math inline">\(G_{\boldsymbol \theta}\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> corresponding to parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(F, G_A)\)</span> and <span class="math inline">\(D_{\text{KL}}(F, G_B)\)</span> indicate how close each of the models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> fit the true <span class="math inline">\(F\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
 D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A) = \text{E}_{F} \log \frac{g(x|\boldsymbol \theta_A )}{g(x| \boldsymbol \theta_B)}
 \]</span> Replacing <span class="math inline">\(F\)</span> by the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> leads to the large sample approximation <span class="math display">\[
-2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (l_n(\boldsymbol \theta_A| D) - l_n(\boldsymbol \theta_B| D))
+2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (\ell_n(\boldsymbol \theta_A) - \ell_n(\boldsymbol \theta_B))
 \]</span> Hence, the difference in the log-likelihoods provides an estimate of the difference in the KL divergence of the two models involved.</p>
 <p>The Wilks log likelihood ratio statistic <span class="math display">\[
-W(\boldsymbol \theta_0) = 2 ( l_n( \hat{\boldsymbol \theta}_{ML}| D ) - l_n(\boldsymbol \theta_0| D) )
+W(\boldsymbol \theta_0) = 2 ( \ell_n( \hat{\boldsymbol \theta}_{ML} ) - \ell_n(\boldsymbol \theta_0) )
 \]</span> thus compares the best-fit distribution with <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> as the parameter to the distribution with parameter <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
 <p>For exponential families the Wilks statistic can also be written in the form of the KL divergence: <span class="math display">\[
 W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( F_{\hat{\boldsymbol \theta}_{ML}}, F_{\boldsymbol \theta_0})
@@ -643,21 +650,22 @@ W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( F_{\hat{\boldsymbol \theta}_{ML}}, F
 <span class="math display">\[\begin{align*}
 \begin{array}{ll}
 H_0: \boldsymbol \theta\in \omega_0 \subset \Omega \\
-H_1: \boldsymbol \theta\in \omega_1  = \Omega \setminus \omega_0\\
+H_1: \boldsymbol \theta\in \Omega \\
 \end{array}
 \begin{array}{ll}
-\text{ True model lies in restricted model space }\\
-\text{ True model is not the restricted model space } \\
+\text{ True model lies in the restricted space }\\
+\text{ True model lies in the unstricted space } \\
 \end{array}
 \end{align*}\]</span></p>
 <p>Both <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> are now composite hypotheses. <span class="math inline">\(\Omega\)</span> represents the unrestricted model space with dimension (=number of free parameters) <span class="math inline">\(d = |\Omega|\)</span>. The constrained space <span class="math inline">\(\omega_0\)</span> has degree of freedom <span class="math inline">\(d_0 = |\omega_0|\)</span> with <span class="math inline">\(d_0 &lt; d\)</span>. Note that in the standard LRT the set <span class="math inline">\(\omega_0\)</span> is a simple point with <span class="math inline">\(d_0=0\)</span> as the null model is a simple distribution. Thus, LRT is contained in GLRT as special case!</p>
-<p>The corresponding generalised (log) likelihood ratio statistic is given by</p>
-<p><span class="math display">\[
-W = 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}\right)
-\text{ and }
+<p>The corresponding generalised (log) likelihood ratio statistic is given by <span class="math display">\[
+\begin{split}
+W &amp;= 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}\right)\\
+&amp; = 2 ( \ell_n( \hat{\theta}_{ML} ) -  \ell_n( \hat{\theta}_{ML}^0 ) )
+\end{split}
+\]</span> and <span class="math display">\[
 \Lambda = \frac{\underset{\theta \in \omega_0}{\max}\, L(\theta| D)}{\underset{\theta \in \Omega}{\max}\, L(\theta | D)}
-\]</span></p>
-<p>where <span class="math inline">\(L(\hat{\theta}_{ML}| D)\)</span> is the maximised likelihood assuming the full model (with parameter space <span class="math inline">\(\Omega\)</span>) and <span class="math inline">\(L(\hat{\theta}_{ML}^0| D)\)</span> is the maximised likelihood for the restricted model (with parameter space <span class="math inline">\(\omega_0\)</span>). Hence, to compute the GRLT test statistic we need to perform two optimisations, one for the full and another for the restricted model.</p>
+\]</span> where <span class="math inline">\(L(\hat{\theta}_{ML}| D)\)</span> is the maximised likelihood assuming the full model (with full parameter space <span class="math inline">\(\Omega\)</span>) and <span class="math inline">\(L(\hat{\theta}_{ML}^0| D)\)</span> is the maximised likelihood for the restricted model (with restricted parameter space <span class="math inline">\(\omega_0\)</span>). Hence, to compute the GRLT test statistic we need to perform two optimisations, one for the full and another for the restricted model.</p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li>MLE in the restricted model space <span class="math inline">\(\omega_0\)</span> is taken as a representative of <span class="math inline">\(H_0\)</span>.</li>
@@ -688,12 +696,12 @@ H_1: \mu_1\neq\mu_2\\
 <p><span class="math inline">\(\Omega\)</span>: full model with three parameters <span class="math inline">\(\mu_1, \mu_2, \sigma^2\)</span>.</p>
 <p><em>Corresponding log-likelihood functions:</em></p>
 <p>Restricted model <span class="math inline">\(\omega_0\)</span>: <span class="math display">\[
-\log L(\mu_0, \sigma_0^2 | D) = -\frac{n}{2} \log(\sigma_0^2)
+\ell_n(\mu_0, \sigma_0^2) = -\frac{n}{2} \log(\sigma_0^2)
 - \frac{1}{2\sigma_0^2} \sum_{i=1}^n (x_i-\mu_0)^2
 \]</span></p>
 <p>Full model <span class="math inline">\(\Omega\)</span>: <span class="math display">\[
 \begin{split}
-\log L(\mu_1, \mu_2, \sigma^2 | D) &amp; =
+\ell_n(\mu_1, \mu_2, \sigma^2) &amp; =
 \left(-\frac{n_1}{2} \log(\sigma^2) - \frac{1}{2\sigma^2}  \sum_{i=1}^{n_1} (x_i-\mu_1)^2   \right) + \\
 &amp; \phantom{==}
 \left(-\frac{n_2}{2} \log(\sigma^2) - \frac{1}{2\sigma^2}  \sum_{i=n_1+1}^{n} (x_i-\mu_2)^2   \right)
@@ -748,16 +756,16 @@ t_{\text{ML}} = \sqrt{n \hat{\pi_1} \hat{\pi_2} }  \frac{\hat{\mu}_1-\hat{\mu}_2
 \]</span> is the two sample <span class="math inline">\(t\)</span>-statistic based on the ML variance estimate <span class="math inline">\(\widehat{\sigma^2}\)</span> and <span class="math inline">\(t_{\text{UB}} = t_{ML} \sqrt{\frac{n-2}{n}}\)</span> is the conventional two sample <span class="math inline">\(t\)</span>-statistic based on the unbiased variance estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}}=\frac{n}{n-2} \widehat{\sigma^2}\)</span> (see <a href="20-stats.html#sec-tstat" class="quarto-xref"><span>Section A.9</span></a>).</p>
 <p><em>Corresponding maximised log-likelihood:</em></p>
 <p>Restricted model:</p>
-<p><span class="math display">\[\log L(\hat{\mu}_0,\widehat{\sigma^2_0}| D) = -\frac{n}{2} \log(\widehat{\sigma^2_0}) -\frac{n}{2} \]</span></p>
+<p><span class="math display">\[\ell_n(\hat{\mu}_0,\widehat{\sigma^2_0}) = -\frac{n}{2} \log(\widehat{\sigma^2_0}) -\frac{n}{2} \]</span></p>
 <p>Full model:</p>
 <p><span class="math display">\[
-\log L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}| D) = -\frac{n}{2} \log(\widehat{\sigma^2}) -\frac{n}{2}
+\ell_n(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} = -\frac{n}{2} \log(\widehat{\sigma^2}) -\frac{n}{2}
 \]</span></p>
 <p><em>Likelihood ratio statistic:</em></p>
 <p><span class="math display">\[
 \begin{split}
-W &amp; = 2\log\left(\frac{L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} | D)}{L(\hat{\mu}_0,\widehat{\sigma^2_0} | D)}\right)\\
-&amp; = 2 \log L\left(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}| D\right) - 2 \log L\left(\hat{\mu}_0,\widehat{\sigma^2_0}| D\right) \\
+W &amp; = 2 \left( \ell_n\left(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}\right)
+    -  \ell_n \left(\hat{\mu}_0,\widehat{\sigma^2_0}\right) \right) \\
 &amp; = n\log\left(\frac{\widehat{\sigma^2_0}}{\widehat{\sigma^2}} \right) \\
 &amp; = n\log\left(\frac{t^2_{\text{ML}}}{n}+1\right) \\
 &amp; = n\log\left(\frac{t^2_{\text{UB}}}{n-2}+1\right) \\
@@ -782,304 +790,286 @@ W &amp; = 2\log\left(\frac{L(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} | D)}{L(
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/MATH27720-stats2");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-        });
+        }
       }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
       }
-    } else {
-      return undefined;
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./10-likelihood4.html" class="pagination-link" aria-label="Quadratic approximation and normal asymptotics">
