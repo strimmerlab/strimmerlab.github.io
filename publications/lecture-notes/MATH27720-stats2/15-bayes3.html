@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,14 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./14-bayes2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c63e616a2164fee75212f002d4510366.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0c40499cbe776dcbb59891309e44f779.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -84,7 +85,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -124,7 +125,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -208,7 +211,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-likelihood2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -267,7 +270,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./16-bayes4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -377,11 +380,11 @@ window.Quarto = {
 <ul>
 <li><span class="math inline">\(\boldsymbol \theta\)</span> parameter(s) of interest, unknown and fixed.</li>
 <li>prior distribution with density <span class="math inline">\(p(\boldsymbol \theta)\)</span> describing the <em>uncertainty</em> (not randomness!) about <span class="math inline">\(\boldsymbol \theta\)</span></li>
-<li>data generating process <span class="math inline">\(p(x | \boldsymbol \theta)\)</span></li>
+<li>data-generating process <span class="math inline">\(p(x | \boldsymbol \theta)\)</span></li>
 </ul>
 <p>Note the <strong>model underlying the Bayesian approach is the joint distribution</strong> <span class="math display">\[
 p(\boldsymbol \theta, x) = p(\boldsymbol \theta) p(x | \boldsymbol \theta)
-\]</span> as both a prior distribution over the parameters as well as a data generating process have to be specified.</p>
+\]</span> as both a prior distribution over the parameters as well as a data-generating process have to be specified.</p>
 <p>Question: new information in the form of a new observation <span class="math inline">\(x\)</span> arrives - how does the uncertainty about <span class="math inline">\(\boldsymbol \theta\)</span> change?</p>
 <div id="fig-bayesupdate" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
@@ -489,10 +492,10 @@ Figure&nbsp;15.2: Bayesian credible interval based on the posterior distribution
 <p>As we have seen Bayesian learning is <em>conceptually straightforward</em>:</p>
 <ol type="1">
 <li>Specify prior uncertainty <span class="math inline">\(p(\boldsymbol \theta\)</span>) about the parameters of interest <span class="math inline">\(\boldsymbol \theta\)</span>.</li>
-<li>Specify the data generating process for a specified parameter: <span class="math inline">\(p(x | \boldsymbol \theta)\)</span>.</li>
+<li>Specify the data-generating process for a specified parameter: <span class="math inline">\(p(x | \boldsymbol \theta)\)</span>.</li>
 <li>Apply Bayes’ theorem to update prior uncertainty in the light of the new data.</li>
 </ol>
-<p>In practise, however, computing the posterior distribution can be <em>computationally very demanding</em>, especially for complex models.</p>
+<p>In practice, however, computing the posterior distribution can be <em>computationally very demanding</em>, especially for complex models.</p>
 <p>For this reason specialised software packages have been developed for computational Bayesian modelling, for example:</p>
 <ul>
 <li><p>Bayesian statistics in R: <a href="https://cran.r-project.org/web/views/Bayesian.html" class="uri">https://cran.r-project.org/web/views/Bayesian.html</a></p></li>
@@ -524,17 +527,21 @@ Figure&nbsp;15.2: Bayesian credible interval based on the posterior distribution
 <h4 class="anchored" data-anchor-id="interpretations-of-probability">Interpretations of probability</h4>
 <p>Essentially, there are two major commonly used interpretation of probability in statistics - the <strong>frequentist interpretation</strong> and the <strong>Bayesian interpretation</strong>.</p>
 <p><strong>A: Frequentist interpretation</strong></p>
-<p>probability = relative frequency (of an event in a long-running series of identically repeated experiments, ideally based on infinitely many trials)</p>
-<p>This is the <em>ontological view</em> of probability, i.e.&nbsp;probability “exists” and is identical to something that can be observed.</p>
-<p>It is also a very restrictive view of probability. For example, frequentist probability cannot be used to describe events that occur only a single time. Frequentist probability thus can only be applied asymptotically, for large samples.</p>
-<p>The law of large numbers provides justification to interpret long-running relative frequencies as probabilities. However, the converse assumption that all probabilities have a frequentist interpretation does not follow from the law of large numbers.</p>
+<p>Probability is interpreted as a relative frequency (of an event in a long-running series of identically repeated experiments, ideally based on infinitely many trials)</p>
+<p>Note that the law of large numbers provides justification to interpret long-running relative frequencies as probabilities. However, the converse assumption — and the key frequentist assumption! — that all probabilities have a frequentist interpretation does <em>not</em> follow from the law of large numbers.</p>
+<p>By definition, the frequentist view of probability is very restrictive. For example, frequentist probability cannot be used to describe events that occur only a single time. Frequentist probability thus can only be applied asymptotically, for large samples.</p>
+<p>The frequentist view of probability is also called the <em>ontological view</em> of probability as it assumes that probability “exists” independently of an observer and our knowledge.</p>
+<p>In turn, ontological probability implies actual inherent randomness which, as we have discussed already in the introduction, amounts only to a small fraction of settings in which probability is used.</p>
+<p>As a result, in classical frequentist statistics there are constructs other than probability to assess the uncertainty about parameters (e.g.&nbsp;confidence intervals, sampling distributions).</p>
 <p><strong>B: Bayesian probability</strong></p>
 <p>“Probability does not exist” — famous quote by <a href="https://en.wikipedia.org/wiki/Bruno_de_Finetti">Bruno de Finetti (1906–1985)</a>, a Bayesian statistician.</p>
 <p>What does this mean?</p>
 <p>Probability is a <strong>description of the state of knowledge</strong> and of <strong>uncertainty</strong>.</p>
-<p>Probability is thus an <em>epistemological quantity</em> that is assigned and that changes rather than something that is an inherent property of an object.</p>
-<p>Note that this does not require any repeated experiments. The Bayesian interpretation of probability is valid regardless of sample size or the number or repetitions of an experiment.</p>
+<p>Probability is thus an <em>epistemological quantity</em> that is assigned and that changes with more information rather than something that is an inherent property.</p>
+<p>Note that this notion of probability does not require any repeated experiments. The Bayesian interpretation of probability is valid regardless of sample size or the number or repetitions of an experiment.</p>
+<p>Epistemiological probability can be applied both to single repetitions and to large number of trials, in the latter case (by means of the law of large numbers) it agrees numerically with frequentist probability.</p>
 <p><strong>Hence, the key difference between frequentist and Bayesian approaches is not the use of Bayes’ theorem. Rather it is whether you consider probability as ontological (frequentist) or epistemological entity (Bayesian).</strong></p>
+<p>As a result, in Bayesian statistics to assess the uncertainty about parameters one can use probability directy (in the form of prior and posterior distributions).</p>
 </section>
 </section>
 <section id="historical-developments" class="level3">
@@ -637,13 +644,14 @@ Figure&nbsp;15.2: Bayesian credible interval based on the posterior distribution
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -874,8 +882,8 @@ Figure&nbsp;15.2: Bayesian credible interval based on the posterior distribution
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./16-bayes4.html" class="pagination-link" aria-label="Bayesian learning in practise">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./16-bayes4.html" class="pagination-link" aria-label="Bayesian learning in practice">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practice</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

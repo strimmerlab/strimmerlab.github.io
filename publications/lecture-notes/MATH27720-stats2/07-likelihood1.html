@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,14 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./06-entropy4.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c63e616a2164fee75212f002d4510366.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0c40499cbe776dcbb59891309e44f779.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -84,7 +85,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -124,7 +125,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -208,7 +211,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-likelihood2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -267,7 +270,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./16-bayes4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -407,19 +410,19 @@ Figure&nbsp;7.1: Finding the maximum likelihood estimate by maximisation of the 
 \]</span></p>
 <p>Hence, once the model is chosen and data are collected, finding the MLE and thus fitting the model to the data is an <em>optimisation problem</em>.</p>
 <p>Depending on the complexity of the likelihood function and the number of the parameters finding the maximum likelihood can be very difficult. On the other hand, for likelihood functions constructed from common distribution families, such as exponential families, maximum likelihood estimation is very straightforward and can even be done analytically (this is the case for most examples we encounter in this course).</p>
-<p>In practise in application to more complex models the optimisation required for maximum likelihood analysis is done on the computer, typically on the log-likelihood rather than on the likelihood function in order to avoid problems with the computer representation of small floating point numbers. Suitable optimisation algorithm may rely only on function values without requiring derivatives, or use in addition gradient and possibly curvature information. In recent years there has been a lot of progress in high-dimensional optimisation using combined numerical and analytical approaches (e.g.&nbsp;using automatic differentiation) and stochastic approximations (e.g.&nbsp;stochastic gradient descent).</p>
+<p>In practice in application to more complex models the optimisation required for maximum likelihood analysis is done on the computer, typically on the log-likelihood rather than on the likelihood function in order to avoid problems with the computer representation of small floating point numbers. Suitable optimisation algorithm may rely only on function values without requiring derivatives, or use in addition gradient and possibly curvature information. In recent years there has been a lot of progress in high-dimensional optimisation using combined numerical and analytical approaches (e.g.&nbsp;using automatic differentiation) and stochastic approximations (e.g.&nbsp;stochastic gradient descent).</p>
 </section>
 <section id="origin-of-the-method-of-maximum-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</h3>
 <p>Historically, the likelihood has often interpreted and justified as the probability of the data given the model. However, while providing an intuitive understanding this is not strictly correct. First, this interpretation only applies to discrete random variables. Second, since the samples <span class="math inline">\(x_1, \ldots, x_n\)</span> are typically <strong>exchangeable</strong> (i.e.&nbsp;permutation invariant) even in this case one would still need to add a factor accounting for the multiplicity of the possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(p(x |\boldsymbol \theta)\)</span> is a density, not a probability.</p>
-<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest in terms of KL divergence to the unknown true data generating model as represented by the observed data and the empirical distribution.</p>
+<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest in terms of KL divergence to the unknown true data-generating model as represented by the observed data and the empirical distribution.</p>
 </section>
 </section>
 <section id="from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood"><span class="header-section-number">7.2</span> From minimum KL divergence (or maximum Boltzmann relative entropy) to maximum likelihood</h2>
 <section id="the-kl-divergence-between-true-model-and-approximating-model" class="level3">
 <h3 class="anchored" data-anchor-id="the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</h3>
-<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data generating distribution. We also specify a family of distributions <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
+<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data-generating distribution. We also specify a family of distributions <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
 <p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\)</span> measures the divergence of the approximation <span class="math inline">\(P_{\boldsymbol \theta}\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(F,P_{\boldsymbol \theta}) &amp;= H(F,P_{\boldsymbol \theta}) - H(F) \\
@@ -482,7 +485,7 @@ H(F, P_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, P_{\boldsymbol \theta}) 
 <p>The maximum likelihood invariance principle states that the <strong>achieved maximum likelihood is invariant against reparametrisation of the model parameters</strong>. This property is shared by the KL divergence minimisation procedure as the achieved minimum KL divergence is also invariant against the change of parameters.</p>
 <p>Recall that the model parameter is just an arbitrary label to index a specific distribution within a distribution family, and changing that label does not affect the maximum (likelihood) or the minimum (KL divergence). For example, consider a function <span class="math inline">\(h_x(x)\)</span> with a maximum at <span class="math inline">\(x_{\max} = \text{arg max } h_x(x)\)</span>. Now we relabel the argument using <span class="math inline">\(y = g(x)\)</span> where <span class="math inline">\(g\)</span> is an invertible function. Then the function in terms of <span class="math inline">\(y\)</span> is <span class="math inline">\(h_y(y) = h_x( g^{-1}(y))\)</span>. and clearly this function has a maximum at <span class="math inline">\(y_{\max} =  g(x_{\max})\)</span> since <span class="math inline">\(h_y(y_{\max}) = h_x(g^{-1}(y_{\max} ) ) = h_x( x_{\max} )\)</span>. Furthermore, the achieved maximum value is the same.</p>
 <p>In application to maximum likelihood, assume we transform a parameter <span class="math inline">\(\theta\)</span> into another parameter <span class="math inline">\(\omega\)</span> using some invertible function <span class="math inline">\(g()\)</span> so that <span class="math inline">\(\omega= g(\theta)\)</span>. Then the maximum likelihood estimate <span class="math inline">\(\hat{\omega}_{ML}\)</span> of the new parameter <span class="math inline">\(\omega\)</span> is simply the transformation of the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{ML}\)</span> of the original parameter <span class="math inline">\(\theta\)</span> with <span class="math inline">\(\hat{\omega}_{ML}= g( \hat{\theta}_{ML})\)</span>. The achieved maximum likelihood is the same in both cases.</p>
-<p>The invariance property can be very useful in practise because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
+<p>The invariance property can be very useful in practice because it is often easier (and sometimes numerically more stable) to maximise the likelihood for a different set of parameters.</p>
 <p>See Worksheet L1 for an example application of the invariance principle.</p>
 </section>
 <section id="sufficient-statistics" class="level3">
@@ -494,7 +497,7 @@ L(\boldsymbol \theta| D) = h( \boldsymbol t(D) , \boldsymbol \theta) \, k(D) \,,
 \ell(\boldsymbol \theta| D) = \log h( \boldsymbol t(D) , \boldsymbol \theta) + \log k(D) \,.
 \]</span></p>
 <p>By construction, estimation and inference about <span class="math inline">\(\boldsymbol \theta\)</span> based on the factorised likelihood <span class="math inline">\(L(\boldsymbol \theta)\)</span> is mediated through the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span> and does not require knowledge of the original data <span class="math inline">\(D\)</span>. Instead, the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span> contains all the information in <span class="math inline">\(D\)</span> required to learn about the parameter <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-<p>Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(D\)</span> are themselves sufficient statistics, with <span class="math inline">\(\boldsymbol t(D) = D\)</span>. However, in practise one aims to find sufficient statistics that summarise the data <span class="math inline">\(D\)</span> and hence provide data reduction. This will become clear in the examples below.</p>
+<p>Note that <strong>a sufficient statistic always exists</strong> since the data <span class="math inline">\(D\)</span> are themselves sufficient statistics, with <span class="math inline">\(\boldsymbol t(D) = D\)</span>. However, in practice one aims to find sufficient statistics that summarise the data <span class="math inline">\(D\)</span> and hence provide data reduction. This will become clear in the examples below.</p>
 <p>Furthermore, sufficient statistics are <strong>not unique</strong> since applying a one-to-one transformation to <span class="math inline">\(\boldsymbol t(D)\)</span> yields another sufficient statistic.</p>
 <p>Therefore, if the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> of <span class="math inline">\(\boldsymbol \theta\)</span> exists and is unique then <strong>the MLE is a unique function of the sufficient statistic <span class="math inline">\(\boldsymbol t(D)\)</span></strong>. If the MLE is not unique then it can be chosen to be function of <span class="math inline">\(\boldsymbol t(D)\)</span>.</p>
 </section>
@@ -613,13 +616,14 @@ H_n(\theta) = \frac{d^2 \ell_n(\theta)}{d \theta^2}
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -850,8 +854,8 @@ H_n(\theta) = \frac{d^2 \ell_n(\theta)}{d \theta^2}
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./08-likelihood2.html" class="pagination-link" aria-label="Maximum likelihood estimation in practise">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./08-likelihood2.html" class="pagination-link" aria-label="Maximum likelihood estimation in practice">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practice</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

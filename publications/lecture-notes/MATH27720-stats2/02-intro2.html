@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,14 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./01-intro1.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c63e616a2164fee75212f002d4510366.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0c40499cbe776dcbb59891309e44f779.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -84,7 +85,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -124,7 +125,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -208,7 +211,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-likelihood2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maximum likelihood estimation in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -267,7 +270,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./16-bayes4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practise</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bayesian learning in practice</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -457,9 +460,9 @@ window.Quarto = {
 </section>
 <section id="choosing-the-right-distribution" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="choosing-the-right-distribution"><span class="header-section-number">2.3</span> Choosing the right distribution</h2>
-<p>When choosing a distribution for a data model we typically aim to to align the characteristics of the distribution with the observations. For instance, if the data exhibit long tails, we will need to use a long-tailed model. Additionally, there may be a mechanistic rationale, such as derived from physics, that the underlying process adheres to a particular distribution</p>
+<p>When choosing a distribution we typically aim to to align the characteristics of the distribution with those of the observations. For instance, if the data exhibit long tails, we will need to use a long-tailed model. Additionally, there may be a mechanistic rationale, such as a physical law, suggesting that the underlying process follows a particular model.</p>
 <p>In many cases, the central limit theorem justifies using a normal distribution.</p>
-<p>Another approach to selecting a distribution family involves constraining specific properties of the distribution, such as its mean and variance, and then selecting a model family that maximises the spread of the probability mass. This method is closely related to the maximum entropy principle, which will be discussed in more detail later, and is also in fact one of the reasons why exponential families are favoured in statistical modelling.</p>
+<p>Another approach to selecting a distribution family is to fix certain properties of the distribution, such as its mean and variance, and then selecting the family that maximises the spread of the probability mass. This method is closely linked to the principle of maximum entropy, which will be discussed in more detail later. It is also helps to explain why exponential families are often preferred in statistical modelling.</p>
 </section>
 <section id="building-complex-statistical-models" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="building-complex-statistical-models"><span class="header-section-number">2.4</span> Building complex statistical models</h2>
@@ -473,7 +476,7 @@ window.Quarto = {
 <li>generalised linear and nonparametric models.</li>
 </ul>
 <p>Much of statistics is concerned with methods to quantify how well a model fits to data and how well it predicts future observations, and this allows to build successive models and compare them in a systematic and principled fashion.</p>
-<p>Finally, it is worth recalling that all distributions (and models in general) are best considered as approximations of the true unknown data generating process. Hence, the focus of any data analysis will be to find the model that captures the essential properties at an appropriate level of detail<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Finally, it is worth recalling that all distributions (and models in general) are best considered as approximations of the true unknown data-generating process. Hence, the focus of any data analysis will be to find the model that captures the essential properties at an appropriate level of detail<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 </section>
 <section id="further-reading" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.5</span> Further reading</h2>
@@ -541,13 +544,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
