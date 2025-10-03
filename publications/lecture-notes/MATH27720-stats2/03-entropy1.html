@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -500,9 +500,9 @@ Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Traditionally, entropy has often been considered as a measure of order, with large entropy corresponding to disorder and low entropy to order. However, this classic interpretation is now viewed as outdated as there are numerous systems that appear ordered but have large entropy, and vice versa.</p>
-<p>A better intuition about entropy is the notion of <strong>spread</strong> or <strong>dispersal</strong> which is now preferred in Physics<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and this also aligns best with the interpretation of entropy in Statistics and Machine Learning.</p>
-<p>As will become clear from the examples, entropy quantifies the <strong>spread of the probability mass</strong> within a distribution. When the probability mass is concentrated within a specific area, the entropy is low; conversely, when the probability mass is more broadly distributed, the entropy is high.</p>
+<p>Traditionally, entropy has been considered as a measure of order, with large entropy corresponding to disorder and low entropy to order. However, this interpretation is now viewed as outdated and in fact misleading as many apparently ordered systems have large entropy and some disordered-looking systems have low entropy.</p>
+<p>A better and more useful intuition is that entropy measures <strong>spread</strong> or <strong>dispersal</strong>. This notion is now preferred in Physics<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and it also aligns with the interpretation of entropy in Statistics and Machine Learning.</p>
+<p>As will become clear from the examples, entropy quantifies the <strong>spread of the probability mass</strong>. When the probability mass is concentrated within a specific area, the entropy is low; conversely, when the probability mass is more broadly distributed, the entropy is high.</p>
 </div>
 </div>
 </section>
@@ -568,7 +568,8 @@ H(P) = - \sum_{k=1}^{K } \log(p_k)\, p_k
 H(P) &amp; = -\text{E}\left( \log p(x |\mu, \sigma^2) \right)\\
 &amp; = \frac{1}{2} \left( \log(2 \pi \sigma^2)+1\right) \,. \\
 \end{split}
-\]</span> Note that <span class="math inline">\(H(P)\)</span> only depends on the variance parameter and not on the mean parameter. This intuitively clear as only the variance controls the concentration of the probability mass. The entropy grows with the variance as the probability mass becomes more spread out and less concentrated around the mean. For <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
+\]</span> Crucially, the entropy of a normal distribution depends only on its variance&nbsp;<span class="math inline">\(\sigma^2\)</span>, not on its mean&nbsp; <span class="math inline">\(\mu\)</span>. This is intuitively clear as the variance controls the concentration of the probability mass. A large variance means that the probability mass is more spread out and thus less concentrated around the mean.</p>
+<p>For <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
 </div>
 <div id="exm-entropymultinomial" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.11</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy and the multinomial coefficient:</p>
@@ -597,7 +598,7 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 </section>
 <section id="a-bit-of-history" class="level3">
 <h3 class="anchored" data-anchor-id="a-bit-of-history">A bit of history</h3>
-<p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the distribution of energy: if energy is concentrated then the entropy is low, and conversely if energy is spread out the entropy is large. The total energy is conserved (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
+<p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the dispersal of energy in a system. If energy is concentrated (and capacity for work is high) then the entropy is low, and conversely if energy is spread out (and capacity for work is low) the entropy is large. The total energy is conserved<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (and capacity for work will decrease) (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
 <p>The modern probabilistic definition of entropy was discovered in the 1870s by <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a> and <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a>. In statistical mechanics entropy is proportional to the logarithm of the number of microstates (i.e.&nbsp;particular configurations of the system) compatible with the observed macrostate. Typically, in systems where the energy is spread out there are very large numbers of compatible configurations hence this corresponds to large entropy, and conversely, if the energy is concentrated there are only few such configurations, and thus it corresponds to low entropy.</p>
 <p>In the 1940–1950’s the notion of entropy turned out to be central also in information theory, a field pioneered by mathematicians such as <a href="https://en.wikipedia.org/wiki/Ralph_Hartley">Ralph Hartley (1888–1970)</a>, <a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a>, <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing (1912–1954)</a>, <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a>, <a href="https://en.wikipedia.org/wiki/I._J._Good">Irving J. Good (1916–2009)</a>, <a href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon (1916–2001)</a>, and <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a>, and later further explored by <a href="https://de.wikipedia.org/wiki/Shun%E2%80%99ichi_Amari">Shun’ichi Amari (1936–)</a>, <a href="https://en.wikipedia.org/wiki/Imre_Csisz%C3%A1r">Imre Ciszár (1938–)</a>, <a href="https://de.wikipedia.org/wiki/Bradley_Efron">Bradley Efron (1938–)</a>, <a href="https://en.wikipedia.org/wiki/Philip_Dawid">Philip Dawid (1946–)</a> and many others.</p>
 <p>Of the above, Turing and Good were affiliated with the University of Manchester in the 1940–50s.</p>
@@ -612,6 +613,7 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 <li id="fn2"><p>For other proper scoring rules it is called the <strong>generalised entropy</strong> or the <strong>minimum risk</strong>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal <strong>27</strong>:379–423. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri">https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>For example, see: H. S. Leff. 2007. <em>Entropy, its language, and interpretation.</em> Found. Phys. <strong>37</strong>: 1744–1766, D. S. Lemons. 2013. <em>A student’s guide to entropy</em>. CUP, and <a href="https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)">https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Energy conservation itself arises as a consequence of the time-translation symmetry of physical laws, see <a href="https://en.wikipedia.org/wiki/Noether%27s_theorem">Noether’s theorem</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
