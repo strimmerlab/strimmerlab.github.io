@@ -340,12 +340,11 @@ window.Quarto = {
   </ul></li>
   <li><a href="#boltzmann-relative-entropy-and-kl-divergence" id="toc-boltzmann-relative-entropy-and-kl-divergence" class="nav-link" data-scroll-target="#boltzmann-relative-entropy-and-kl-divergence"><span class="header-section-number">4.2</span> Boltzmann relative entropy and KL divergence</a>
   <ul class="collapse">
-  <li><a href="#boltzmann-entropy-aka-relative-entropy" id="toc-boltzmann-entropy-aka-relative-entropy" class="nav-link" data-scroll-target="#boltzmann-entropy-aka-relative-entropy">Boltzmann entropy aka relative entropy</a></li>
+  <li><a href="#boltzmann-relative-entropy" id="toc-boltzmann-relative-entropy" class="nav-link" data-scroll-target="#boltzmann-relative-entropy">Boltzmann relative entropy</a></li>
   <li><a href="#definition-of-kl-divergence" id="toc-definition-of-kl-divergence" class="nav-link" data-scroll-target="#definition-of-kl-divergence">Definition of KL divergence</a></li>
   <li><a href="#properties-of-kl-divergence-and-boltzmann-relative-entropy" id="toc-properties-of-kl-divergence-and-boltzmann-relative-entropy" class="nav-link" data-scroll-target="#properties-of-kl-divergence-and-boltzmann-relative-entropy">Properties of KL divergence and Boltzmann relative entropy</a></li>
   <li><a href="#invariance-and-data-processing-properties" id="toc-invariance-and-data-processing-properties" class="nav-link" data-scroll-target="#invariance-and-data-processing-properties">Invariance and data processing properties</a></li>
   <li><a href="#further-properties" id="toc-further-properties" class="nav-link" data-scroll-target="#further-properties">Further properties</a></li>
-  <li><a href="#origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" id="toc-origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" class="nav-link" data-scroll-target="#origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions">Origin of Boltzmann relative entropy and KL divergence and naming conventions</a></li>
   </ul></li>
   <li><a href="#kl-divergence-examples" id="toc-kl-divergence-examples" class="nav-link" data-scroll-target="#kl-divergence-examples"><span class="header-section-number">4.3</span> KL divergence examples</a>
   <ul class="collapse">
@@ -377,6 +376,7 @@ window.Quarto = {
 </header>
 
 
+<p>This chapter introduces entropy measures involving two distributions, such as cross-entropy, Boltzmann relative entropy and Kullback-Leibler (KL) divergence.</p>
 <section id="cross-entropy" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="cross-entropy"><span class="header-section-number">4.1</span> Cross-entropy</h2>
 <section id="definition-of-cross-entropy" class="level3">
@@ -431,8 +431,8 @@ H(Q, P) \geq H(Q)
 </section>
 <section id="boltzmann-relative-entropy-and-kl-divergence" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="boltzmann-relative-entropy-and-kl-divergence"><span class="header-section-number">4.2</span> Boltzmann relative entropy and KL divergence</h2>
-<section id="boltzmann-entropy-aka-relative-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="boltzmann-entropy-aka-relative-entropy">Boltzmann entropy aka relative entropy</h3>
+<section id="boltzmann-relative-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="boltzmann-relative-entropy">Boltzmann relative entropy</h3>
 <p>The <strong>Boltzmann entropy</strong> of a distribution <span class="math inline">\(Q\)</span> relative to a distribution <span class="math inline">\(P\)</span> is given by <span class="math display">\[
 \begin{split}
 B(Q, P) &amp;=  H(Q) - H(Q, P) \\
@@ -446,7 +446,7 @@ B(Q, U) = H(Q) + \text{const.}
 </section>
 <section id="definition-of-kl-divergence" class="level3">
 <h3 class="anchored" data-anchor-id="definition-of-kl-divergence">Definition of KL divergence</h3>
-<p>The <strong>KL divergence</strong> is defined as the negative of the Boltzmann relative entropy as <span class="math display">\[
+<p>The <strong>Kullback-Leibler (KL) divergence</strong> is the negative of the Boltzmann relative entropy and is defined as <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
             &amp; = \text{E}_Q\log\left(\frac{q(x)}{p(x)}\right)\\
@@ -454,6 +454,22 @@ D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
 \]</span> As a consequence of the Gibbs inequality the KL divergence is always non-negative: <span class="math inline">\(D_{\text{KL}}(Q, H) \geq 0\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <p>The KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> can be interpreted as the additional cost if model <span class="math inline">\(P\)</span> is used instead <span class="math inline">\(Q\)</span> to describe data from <span class="math inline">\(Q\)</span>. If <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical there is no extra cost and <span class="math inline">\(D_{\text{KL}}(Q,P)=0\)</span>. However, if they are not identical then there is an additional cost and <span class="math inline">\(D_{\text{KL}}(Q,P)&gt; 0\)</span>.</p>
 <p><span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> thus measures the <strong>divergence</strong><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> between the two distributions <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>. The use of the term “divergence” rather than “distance” is a reminder that <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are not interchangeable in <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span>.</p>
+<div id="nte-klnames" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;4.1: KL divergence and naming conventions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The KL divergence is also known as <strong>KL information</strong> , <strong>KL information number</strong> or <strong>discrimination information</strong>. Another name is <strong>information divergence</strong> or <strong><span class="math inline">\(\boldsymbol I\)</span>-divergence</strong>. Some authors refer to <span class="math inline">\(2 D_{\text{KL}}(Q, P) = D(Q, P)\)</span> as the <strong>deviance</strong> of <span class="math inline">\(P\)</span> from <span class="math inline">\(Q\)</span>.</p>
+<p>Various notations for KL divergence exist, we use <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> but <span class="math inline">\(\text{KL}(Q || P)\)</span> and <span class="math inline">\(I^{KL}(Q; P)\)</span> are also common.</p>
+<p>In older literature KL divergence is sometimes referred to as “cross-entropy”. This use is outdated and leads to confusion with the modern definition of cross-entropy.</p>
+<p>KL divergence is also referred to as “relative entropy” but this leads to confusion in sign with Boltzmann relative entropy. Shannon (1948) defined relative entropy as entropy standardised relative to its maximum value. In this text relative entropy always refers to <strong>Boltzmann relative entropy</strong>, with the opposite orientation compared to <strong>KL divergence</strong>.</p>
+</div>
+</div>
 </section>
 <section id="properties-of-kl-divergence-and-boltzmann-relative-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="properties-of-kl-divergence-and-boltzmann-relative-entropy">Properties of KL divergence and Boltzmann relative entropy</h3>
@@ -481,15 +497,6 @@ D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
 <h3 class="anchored" data-anchor-id="further-properties">Further properties</h3>
 <p>The KL divergence and cross-entropy inherit a number of further useful properties from proper scoring rules. We will not cover these in this text. For example, there are various <strong>decompositions</strong> for the risk and the divergence satisfies a <strong>generalised Pythagorean theorem</strong>.</p>
 <p>In summary, KL divergence stands out among divergences between distributions due to many valuable and in some cases unique properties. It is therefore not surprising that it plays a central role in statistics and machine learning.</p>
-</section>
-<section id="origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions" class="level3">
-<h3 class="anchored" data-anchor-id="origin-of-boltzmann-relative-entropy-and-kl-divergence-and-naming-conventions">Origin of Boltzmann relative entropy and KL divergence and naming conventions</h3>
-<p>Boltzmann relative entropy was first discovered by Boltzmann (1878)<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> in physics in a discrete setting in the context of statistical mechanics (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>). In statistics and information theory KL divergence was formally introduced by Kullback and Leibler (1951)<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. Good (1979)<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> credits Turing with the first statistical application in 1940/1941 in the field of cryptography.</p>
-<p>The KL divergence is also known as <strong>KL information</strong> or <strong>KL information number</strong> named after two of the original authors (Kullback and Leibler) who themselves referred to this quantity as <strong>discrimination information</strong>. Another common name is <strong>information divergence</strong> or short <strong><span class="math inline">\(\boldsymbol I\)</span>-divergence</strong>. Some authors (e.g.&nbsp;Efron) call twice the KL divergence <span class="math inline">\(2 D_{\text{KL}}(Q, P) = D(Q, P)\)</span> the <strong>deviance</strong> of <span class="math inline">\(P\)</span> from <span class="math inline">\(Q\)</span>.</p>
-<p>There also exist various notations for KL divergence in the literature. Here we use <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> but you will often find both <span class="math inline">\(\text{KL}(Q || P)\)</span> and <span class="math inline">\(I^{KL}(Q; P)\)</span>.</p>
-<p>Especially in older literature the KL divergence is also referred to as “cross-entropy”. This use is outdated and only leads to confusion with the related but different definition of cross-entropy above.</p>
-<p>Furthermore, KL divergence is also frequently referred to as “relative entropy” however this use also leads to confusion as KL divergence is normally minimised whereas entropy and relative entropy (i.e.&nbsp;Boltzmann entropy) is normally maximised. Shannon (1948) defined “relative entropy” yet differently again as the ratio of Shannon-Gibbs entropy relative to its maximum value, i.e.&nbsp;as standardised entropy.</p>
-<p>In this text relative entropy always refers to <strong>Boltzmann entropy</strong> with the opposite orientation compared to <strong>KL divergence</strong>.</p>
 </section>
 </section>
 <section id="kl-divergence-examples" class="level2" data-number="4.3">
@@ -559,6 +566,19 @@ B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{i=1}^K n_i \log p_
 &amp; = \frac{1}{n} \log  \text{Pr}(n_1, \ldots, n_K| \,\boldsymbol p) \\
 \end{split}
 \]</span> Hence the Boltzmann relative entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(n_1, \ldots, n_k\)</span> under the model <span class="math inline">\(P\)</span>. This derivation of the Boltzmann relative entropy as log-probability of a macrostate is due to Boltzmann (1878). See also Akaike (1985) for a historical account.</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A bit of history
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Boltzmann relative entropy was first discovered by Boltzmann (1878)<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> in physics in a discrete setting in the context of statistical mechanics (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>). In statistics and information theory KL divergence was formally introduced by Kullback and Leibler (1951)<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. Good (1979)<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> credits Turing with the first statistical application in 1940/1941 in the field of cryptography.</p>
+</div>
 </div>
 
 

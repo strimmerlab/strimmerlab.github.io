@@ -353,13 +353,18 @@ window.Quarto = {
    
   <ul>
   <li><a href="#what-is-statistics" id="toc-what-is-statistics" class="nav-link active" data-scroll-target="#what-is-statistics"><span class="header-section-number">1.1</span> What is statistics?</a></li>
-  <li><a href="#randomness-probability-and-uncertainty" id="toc-randomness-probability-and-uncertainty" class="nav-link" data-scroll-target="#randomness-probability-and-uncertainty"><span class="header-section-number">1.2</span> Randomness, probability and uncertainty</a></li>
-  <li><a href="#probability-theory-versus-statistics" id="toc-probability-theory-versus-statistics" class="nav-link" data-scroll-target="#probability-theory-versus-statistics"><span class="header-section-number">1.3</span> Probability theory versus statistics</a></li>
-  <li><a href="#sketch-of-statistical-learning" id="toc-sketch-of-statistical-learning" class="nav-link" data-scroll-target="#sketch-of-statistical-learning"><span class="header-section-number">1.4</span> Sketch of statistical learning</a></li>
-  <li><a href="#finding-the-best-models" id="toc-finding-the-best-models" class="nav-link" data-scroll-target="#finding-the-best-models"><span class="header-section-number">1.5</span> Finding the best models</a></li>
-  <li><a href="#models-and-decomposition-of-uncertainty" id="toc-models-and-decomposition-of-uncertainty" class="nav-link" data-scroll-target="#models-and-decomposition-of-uncertainty"><span class="header-section-number">1.6</span> Models and decomposition of uncertainty</a></li>
-  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">1.7</span> A bit of history</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.8</span> Further reading</a></li>
+  <li><a href="#probabilistic-underpinnings" id="toc-probabilistic-underpinnings" class="nav-link" data-scroll-target="#probabilistic-underpinnings"><span class="header-section-number">1.2</span> Probabilistic underpinnings</a>
+  <ul class="collapse">
+  <li><a href="#randomness-probability-and-uncertainty" id="toc-randomness-probability-and-uncertainty" class="nav-link" data-scroll-target="#randomness-probability-and-uncertainty">Randomness, probability and uncertainty</a></li>
+  <li><a href="#probability-theory-versus-statistics" id="toc-probability-theory-versus-statistics" class="nav-link" data-scroll-target="#probability-theory-versus-statistics">Probability theory versus statistics</a></li>
+  </ul></li>
+  <li><a href="#model-based-learning" id="toc-model-based-learning" class="nav-link" data-scroll-target="#model-based-learning"><span class="header-section-number">1.3</span> Model-based learning</a>
+  <ul class="collapse">
+  <li><a href="#sketch-of-statistical-learning" id="toc-sketch-of-statistical-learning" class="nav-link" data-scroll-target="#sketch-of-statistical-learning">Sketch of statistical learning</a></li>
+  <li><a href="#finding-the-best-models" id="toc-finding-the-best-models" class="nav-link" data-scroll-target="#finding-the-best-models">Finding the best models</a></li>
+  <li><a href="#models-and-decomposition-of-uncertainty" id="toc-models-and-decomposition-of-uncertainty" class="nav-link" data-scroll-target="#models-and-decomposition-of-uncertainty">Models and decomposition of uncertainty</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.4</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -385,6 +390,7 @@ window.Quarto = {
 </header>
 
 
+<p>Learning from data using probabilistic models lies at the heart of statistical learning. This chapter provides an overview over key foundational concepts.</p>
 <section id="what-is-statistics" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="what-is-statistics"><span class="header-section-number">1.1</span> What is statistics?</h2>
 <p>The following fundamental questions typically arise in any scientific data analysis:</p>
@@ -394,24 +400,32 @@ window.Quarto = {
 <li><p><strong>Interpretability</strong>: How can we construct models that reveal underlying mechanisms and remain understandable?</p></li>
 <li><p><strong>Prediction</strong>: How do we use these models and information to make the best possible predictions?</p></li>
 </ul>
-<p><strong>Statistics</strong> is a mathematical science for reasoning about data and uncertainty. It employs <strong>probabilistic models</strong> to address the questions above, offering a principled framework for learning from data and extracting and for processing information under uncertainty in an optimal way.</p>
+<p><strong>Statistics</strong> is a mathematical science for reasoning about data and uncertainty. It employs <strong>probabilistic models</strong> to address the questions above, offering a principled framework for learning from data and extracting and for processing information under uncertainty in an optimal way. This includes model selection, approximation and inference.</p>
+<p><strong>Machine learning</strong> overlaps substantially with statistics. Rooted in computer science it frequently adopts an engineering-centric perspective and often emphasises algorithmic approaches. Some methods are non-probabilistic while many modern approaches adopt a statistical perspective.</p>
+<p><strong>Data science</strong> today comprises elements of both statistics and machine learning and brings together mathematics, computer science and domain-specific expertise (e.g.&nbsp;<strong>biomedical data science</strong>).</p>
+<p><strong>Artificial intelligence</strong> (AI) is a branch of computer science that makes substantial use of statistical and machine learning techniques, along with other methods (e.g.&nbsp;natural language processing and symbolic reasoning) to create systems that perceive, reason, and act.</p>
 </section>
-<section id="randomness-probability-and-uncertainty" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="randomness-probability-and-uncertainty"><span class="header-section-number">1.2</span> Randomness, probability and uncertainty</h2>
+<section id="probabilistic-underpinnings" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="probabilistic-underpinnings"><span class="header-section-number">1.2</span> Probabilistic underpinnings</h2>
+<section id="randomness-probability-and-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="randomness-probability-and-uncertainty">Randomness, probability and uncertainty</h3>
 <p><strong>Random</strong> and <strong>randomness</strong> refer to unpredictable, non-deterministic outcomes or events. Equivalent, more technical terms are <strong>stochastic</strong> and <strong>stochasticity</strong>.</p>
 <p>The degree of randomness (or uncertainty, see below) is quantified by the <strong>probability</strong>, or equivalently, by the <strong>chance</strong> of particular outcomes.</p>
 <p>An interesting question is the source of the randomness. On a fundamental level, some phenomena are <em>intrinsically</em> random (e.g.&nbsp;radioactive decay, measurement outcomes in quantum theory). However, much <em>apparent</em> randomness arises from our ignorance of the underlying mechanisms. The process may be deterministic in principle but we treat it as random for convenience. For example, a coin flip is often considered random. However, in reality the outcome of a coin flip is fully determined by classical physics.</p>
 <p>Randomness that is not intrinsic but stems from a lack of knowledge or understanding, is called <strong>uncertainty</strong>, and corresponding events are <strong>uncertain</strong>. Uncertainty generally decreases if more data and information or a better model is available.</p>
 </section>
-<section id="probability-theory-versus-statistics" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="probability-theory-versus-statistics"><span class="header-section-number">1.3</span> Probability theory versus statistics</h2>
-<p>When studying statistics (or any other field related to information) we should recognise the key differences between the fields of probability theory versus statistics.</p>
+<section id="probability-theory-versus-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="probability-theory-versus-statistics">Probability theory versus statistics</h3>
+<p>It is important to recognise the distinct domains of probability theory and statistics.</p>
 <p>On the one hand, <strong>probability theory</strong> provides the <strong>mathematical underpinnings</strong> of probability and chance (e.g.&nbsp;probability axioms, measure theory) and corresponding models for randomness and uncertainty (e.g.&nbsp;probability distributions, stochastic processes). Crucially, it is neutral about the sources of randomness and interpretations of probability, and may simply be viewed as <strong>pure mathematics</strong>.</p>
 <p>On the other hand, <strong>statistics</strong> uses probabilistic approaches to <strong>learn from observations</strong>, thus linking real-world phenomena with mathematical models. Thus, it is a branch of <strong>applied mathematics</strong>. Importantly, statistics is concerned with <strong>uncertainty</strong> (e.g.&nbsp;about events, predictions, outcomes, model parameters) without assuming that the underlying process is actually random, and to make decisions and predictions under that uncertainty.</p>
 <p>The link of statistics with the real world also leads to different interpretations of probability, with the two most common being the <strong>frequentist interpretation</strong> (<strong>ontological</strong>, “every probability is a long running frequency and exists independently from an observer”) and the <strong>Bayesian interpretation</strong> (<strong>epistemological</strong>, “probability is a degree of belief and represent the state of knowledge”), both to be discussed later.</p>
 </section>
-<section id="sketch-of-statistical-learning" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sketch-of-statistical-learning"><span class="header-section-number">1.4</span> Sketch of statistical learning</h2>
+</section>
+<section id="model-based-learning" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="model-based-learning"><span class="header-section-number">1.3</span> Model-based learning</h2>
+<section id="sketch-of-statistical-learning" class="level3">
+<h3 class="anchored" data-anchor-id="sketch-of-statistical-learning">Sketch of statistical learning</h3>
 <p>The aim of statistical learning is to use observed data in an optimal way to learn about the underlying mechanism of the data-generating process. Since data is typically finite but models can be in principle arbitrarily complex there may be issues of over-fitting (insufficient data for the complexity of the model) but also under-fitting (model is too simplistic).</p>
 <p>We observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> assumed to result from an underlying probabilistic model <span class="math inline">\(F\)</span>, the distribution for&nbsp;<span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[
@@ -456,8 +470,8 @@ F = P_{\boldsymbol \theta_{\text{true}}}\\
 <p>A large proportion of statistical theory is devoted to finding these “good” models that avoid both <em>over-fitting</em> (models being too complex and not generalising well) or <em>under-fitting</em> (models being too simplistic and hence also not predicting well).</p>
 <p>Typically the aim is to find an approximating model whose <strong>model complexity</strong> is well matched with the complexity of the unknown true model and also with the complexity of the observed data.</p>
 </section>
-<section id="finding-the-best-models" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="finding-the-best-models"><span class="header-section-number">1.5</span> Finding the best models</h2>
+<section id="finding-the-best-models" class="level3">
+<h3 class="anchored" data-anchor-id="finding-the-best-models">Finding the best models</h3>
 <p>A core task in statistical learning is to identify those distributions that explain the existing data well and that also generalise well to future yet unseen observations.</p>
 <p>In a <strong>non-parametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(F\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(F)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math inline">\(\text{E}_{F}(x) = \mu\)</span> by <span class="math display">\[
 \hat{\text{E}}(x) = \hat{\mu} =  \text{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
@@ -473,38 +487,47 @@ L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\bold
 <p>Historically, the likelihood was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
 <p>Specifically, we will see that the likelihood is closely linked to the cross-entropy between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P_{\boldsymbol \theta}\)</span>. As a consequence the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This insight illuminates both the optimality characteristics as well as the limitations of the maximum likelihood approach to statistical learning.</p>
 </section>
-<section id="models-and-decomposition-of-uncertainty" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="models-and-decomposition-of-uncertainty"><span class="header-section-number">1.6</span> Models and decomposition of uncertainty</h2>
+<section id="models-and-decomposition-of-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="models-and-decomposition-of-uncertainty">Models and decomposition of uncertainty</h3>
 <p>When constructing statistical models we will often choose to explain some aspects of the uncertainty while intentionally ignoring others, to create simple yet effective models.</p>
 <p>As a result, for any given model, uncertainty decomposes into the sum&nbsp;of</p>
 <ol type="i">
-<li><strong>reducible uncertainty</strong> (epistemic / <strong>explained by model</strong>) and</li>
-<li><strong>irreducible uncertainty</strong> (aleatoric / residual / intrinsic / <strong>unexplained by model</strong>).</li>
+<li><strong>reducible uncertainty</strong> (epistemic uncertainty): <strong>explained by model</strong>, and</li>
+<li><strong>irreducible uncertainty</strong> (aleatoric / residual / intrinsic uncertainty): <strong>unexplained by model</strong>.</li>
 </ol>
 <p>Crucially, even with arbitrarily large amounts of data, the total uncertainty cannot always be eliminated fully, since the residual uncertainty depends on the employed model. Consequently, to reduce the unexplained uncertainty the model itself must be changed, but whether this is at all desirable is a different matter (taking into account model complexity, interpretability, etc.).</p>
-<p>For example, in linear regression or classification, the decomposition of uncertainty is expressed by the law of total variance with decomposes <strong>total variance</strong> into <strong>explained variance</strong> (“signal”, between-group) and <strong>unexplained variance</strong> (“noise”, within-group). Additional data improves the accuracy of estimates of the residual and the explained variance but does not eliminate the model’s unexplained variance. To reduce the residual error you need to change the model, e.g.&nbsp;by adding further covariates.</p>
+<p>For example, in linear regression or classification, the decomposition of uncertainty is expressed by the law of total variance with decomposes <strong>total variance</strong> into <strong>explained variance</strong> (“signal”, between-group variance) and <strong>unexplained variance</strong> (“noise”, within-group variance). Additional data improves the accuracy of estimates of the residual and the explained variance but does not eliminate the model’s unexplained variance. To reduce the residual error you need to change the model, e.g.&nbsp;by adding further covariates.</p>
 <p>Importantly, intrinsic uncertainty should not be confused with intrinsic randomness: the latter is a claim about nature (fundamental non-determinism), whereas the first is a property of the model (residual uncertainty). Hence, unexplained uncertainty does not imply intrinsic randomness.</p>
 </section>
-<section id="a-bit-of-history" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">1.7</span> A bit of history</h2>
-<p><strong>Statistics</strong> is the oldest formal science for reasoning about data and uncertainty and relies on probabilistic models. Other theories of information emphasise approximation, algorithmic approaches, or non-probabilistic methods.</p>
-<p><strong>Machine learning</strong> overlaps substantially with statistics. Rooted in computer science rather than mathematics, it frequently adopts a more engineering-centric perspective. <strong>Artificial intelligence</strong> (AI) is a branch of computer science that makes substantial use of statistical and machine learning techniques. The emerging field of <strong>data science</strong> today comprises both statistics and machine learning and brings together mathematics, computer science and area-specific applications, such as <strong>biomedical data science</strong>.</p>
+</section>
+<section id="further-reading" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.4</span> Further reading</h2>
+<p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to the history and and philosophical foundations of probability as well as to the frequentist and Bayesian interpretations.</p>
+<p>The book “Probability Theory: The Logic of Science” by <span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> advocates that probability theory, as an extension of logic, is the natural framework for scientific reasoning.</p>
+<p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">McGrayne (<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics. Similarly, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
+<p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+<div style="page-break-after: always;"></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A bit of history
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Some important milestones in the development of learning from data are highlighted below:</p>
 <ul>
 <li><p><strong>Bayesian statistics</strong> dates back to Thomas Bayes’s 1763 essay and was further developed by Laplace in the early 19th century.</p></li>
 <li><p><strong>Maximum likelihood</strong> was developed by R. A. Fisher in the early 20th century, with a seminar paper published in 1922.</p></li>
 <li><p>Links of statistical learning with <strong>entropy</strong> were established in the 1940s with roots going back to discoveries in statistical physics in the 1870s. The close link of physics and statistical learning has recently been underlined by the <a href="https://www.nobelprize.org/prizes/physics/2024/summary/">2024 Nobel Prize in Physics</a> awarded to J. J.&nbsp;Hopfield and G.&nbsp;Hinton for advances in artificial neural networks.</p></li>
-<li><p>The first artificial <strong>neural network</strong> model appeared in the 1950s as a nonlinear input-output mapping, without an underlying probabilistic support. The field advanced through the 1980s and accelerated after 2010 with the rise of <strong>deep learning</strong>. Today neural networks are among the most popular and powerful tools for analysing complex data and form the basis of many generative AI systems. Although they began as non‑probabilistic constructs, contemporary perspectives treat them as high‑dimensional nonlinear statistical models.</p></li>
+<li><p>The first artificial <strong>neural network</strong> model appeared in the 1950s as a nonlinear input-output mapping without probabilistic foundations. Progress continued through the 1980s and accelerated after 2010 with <strong>deep learning</strong>. Today neural networks are widely used for complex data analysis and underpin many generative AI systems. Modern views treat them as high-dimensional nonlinear statistical models.</p></li>
 <li><p>In the 1960s the theoretical foundations for <strong>algorithmic or computational learning</strong> were developed under the umbrella the Vapnik-Chernov theory, with the most prominent example of the “support vector machine” (another non-probabilistic model) devised in the 1990s. Other important advances include “ensemble learning” and corresponding algorithmic approaches to classification such as “random forests”.</p></li>
-<li><p>Classical statistics focused on data sets with a low number of variables and a large sample size. Over the past two decades, the advent of large‑scale genomics and the availability of other high‑dimensional datasets has driven rapid advances in statistics and machine learning to develop new methods for analysing <strong>high‑dimensional data</strong> (many variables, possibly moderate sample sizes) and <strong>big data</strong> (many variables as well as large sample size).</p></li>
+<li><p>Classical statistics focused on settings with few variables and large sample sizes. Since about 2000, large‑scale genomics and other high‑dimensional datasets have driven rapid advances in statistics and machine learning to develop new methods to handle <strong>high‑dimensional data</strong> (many variables with moderate sample sizes) and <strong>big data</strong> (many variables and large sample sizes).</p></li>
 </ul>
-</section>
-<section id="further-reading" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.8</span> Further reading</h2>
-<p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to the history and and philosophical foundations of probability as well as to the frequentist and Bayesian interpretations.</p>
-<p>The book “Probability Theory: The Logic of Science” by <span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> advocates that probability theory, as an extension of logic, is the natural framework for scientific reasoning.</p>
-<p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">McGrayne (<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics. Similarly, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
-<p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

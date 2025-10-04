@@ -348,7 +348,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#models-with-single-parameter" id="toc-models-with-single-parameter" class="nav-link" data-scroll-target="#models-with-single-parameter">Models with single parameter</a></li>
   <li><a href="#models-with-multiple-parameters" id="toc-models-with-multiple-parameters" class="nav-link" data-scroll-target="#models-with-multiple-parameters">Models with multiple parameters</a></li>
-  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history">A bit of history</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -399,8 +398,8 @@ S = -\log \left( \frac{1}{K} \right)
 </section>
 <section id="variable-code-length-and-scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="variable-code-length-and-scoring-rules">Variable code length and scoring rules</h3>
-<p>However, in practice, the <span class="math inline">\(K\)</span> states are often not equally probable. For example <span class="math inline">\(x\)</span> might be describing the letters in a text message, where each letter has a different frequency of occurrence (e.g.&nbsp;the most common letter in the English language is “e”). Hence, rather than assuming equal probabilities we use a discrete distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> to describe the different probabilities.</p>
-<p>In this case, instead of assuming the same code length to describe each state, we utilise <em>variable code lengths</em>, with more probable states having shorter codes and less probable states assigned longer codes. Specifically, generalising from the previous we may wish to employ the negative logarithm to map the probability of a state <span class="math inline">\(x\)</span> to a corresponding cost and code length: <span class="math display">\[
+<p>However, in practice, the <span class="math inline">\(K\)</span> states are often not equally probable. For example <span class="math inline">\(x\)</span> might be describing the letters in a text message, each occuring with different frequency (e.g.&nbsp;the most common letter in the English language is “e”). Hence, rather than assuming equal probabilities we use a discrete distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> to describe the different probabilities. As a result, instead of constant code length for each state, we use <em>variable code lengths</em>, with more probable states having shorter codes and less probable states assigned longer codes.</p>
+<p>Specifically, generalising from the case of constant code length above, we employ the negative logarithm to map the probability of a state <span class="math inline">\(x\)</span> to a corresponding cost and code length: <span class="math display">\[
 S(x, P) = -\log p(x)
 \]</span> This is called <strong>logarithmic loss</strong> or <strong>logarithmic scoring rule</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> — see also <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="#nte-logloss" class="quarto-xref">Note&nbsp;<span>3.2</span></a>.</p>
 <p>As we will see below (<a href="#exm-entropycategorical" class="quarto-xref">Example&nbsp;<span>3.7</span></a>, <a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.8</span></a> and <a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) using variable code lengths allows for expected code lengths that are potentially much smaller than using a fixed length <span class="math inline">\(\log K\)</span> for all states, and hence leads to a more space saving representation.</p>
@@ -595,13 +594,22 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 <p>The above combinatorial derivation of entropy is one of the cornerstones of statistical mechanics and is credited to Boltzmann (1877) and Gibbs (1878). The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_i\)</span>, i.e.&nbsp;when the individual elements are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
 <p>In statistics the above derivation of entropy was rediscovered by Wallis (1962).</p>
 </div>
-</section>
-<section id="a-bit-of-history" class="level3">
-<h3 class="anchored" data-anchor-id="a-bit-of-history">A bit of history</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A bit of history
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the dispersal of energy in a system. If energy is concentrated (and capacity for work is high) then the entropy is low, and conversely if energy is spread out (and capacity for work is low) the entropy is large. The total energy is conserved<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (and capacity for work will decrease) (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
 <p>The modern probabilistic definition of entropy was discovered in the 1870s by <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a> and <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a>. In statistical mechanics entropy is proportional to the logarithm of the number of microstates (i.e.&nbsp;particular configurations of the system) compatible with the observed macrostate. Typically, in systems where the energy is spread out there are very large numbers of compatible configurations hence this corresponds to large entropy, and conversely, if the energy is concentrated there are only few such configurations, and thus it corresponds to low entropy.</p>
 <p>In the 1940–1950’s the notion of entropy turned out to be central also in information theory, a field pioneered by mathematicians such as <a href="https://en.wikipedia.org/wiki/Ralph_Hartley">Ralph Hartley (1888–1970)</a>, <a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a>, <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing (1912–1954)</a>, <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a>, <a href="https://en.wikipedia.org/wiki/I._J._Good">Irving J. Good (1916–2009)</a>, <a href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon (1916–2001)</a>, and <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a>, and later further explored by <a href="https://de.wikipedia.org/wiki/Shun%E2%80%99ichi_Amari">Shun’ichi Amari (1936–)</a>, <a href="https://en.wikipedia.org/wiki/Imre_Csisz%C3%A1r">Imre Ciszár (1938–)</a>, <a href="https://de.wikipedia.org/wiki/Bradley_Efron">Bradley Efron (1938–)</a>, <a href="https://en.wikipedia.org/wiki/Philip_Dawid">Philip Dawid (1946–)</a> and many others.</p>
 <p>Of the above, Turing and Good were affiliated with the University of Manchester in the 1940–50s.</p>
+</div>
+</div>
 
 
 </section>
@@ -609,7 +617,7 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>We follow the <strong>convention</strong> that <strong>scoring rules are negatively oriented</strong> (e.g.&nbsp;Dawid 2007) with the <strong>aim to minimise the score</strong> (cost, code length). However, some authors prefer the positively oriented convention with a reversed sign in the definition of <span class="math inline">\(S(x, P)\)</span> so the score represents a reward that is maximised (e.g.&nbsp;Gneiting and Raftery 2007).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>We follow the convention that <strong>scoring rules are loss functions and negatively oriented</strong>, so the goal is to <strong>minimise the score</strong> (cost, code length). However, some authors define <span class="math inline">\(S(x, P)\)</span> with the opposite sign as a utility function with a positive orientation, in which case the aim is to maximise the score (reward).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>For other proper scoring rules it is called the <strong>generalised entropy</strong> or the <strong>minimum risk</strong>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal <strong>27</strong>:379–423. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri">https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>For example, see: H. S. Leff. 2007. <em>Entropy, its language, and interpretation.</em> Found. Phys. <strong>37</strong>: 1744–1766, D. S. Lemons. 2013. <em>A student’s guide to entropy</em>. CUP, and <a href="https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)">https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
