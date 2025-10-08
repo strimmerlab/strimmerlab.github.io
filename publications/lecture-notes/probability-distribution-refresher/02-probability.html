@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,10 +59,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -297,7 +297,7 @@ window.Quarto = {
 <section id="probability-mass-and-density-function" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="probability-mass-and-density-function"><span class="header-section-number">2.3</span> Probability mass and density function</h2>
 <p>The <strong>distribution</strong> (or <strong>law</strong>) of a random variable <span class="math inline">\(x\)</span> with sample space <span class="math inline">\(\Omega\)</span> gives the probability for each value or a range of values of <span class="math inline">\(x\)</span> according to the underlying probability measure. This is done in practise by employing probability mass functions (for discrete random variables) or probability density functions (for continuous random variables).</p>
-<p>Since <span class="math inline">\(x\)</span> is a scalar random variable we use lower case.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This notation is common in statistical machine learning and multivariate statistics, see for example <span class="citation" data-cites="MKB1979">Mardia, Kent, and Bibby (<a href="bibliography.html#ref-MKB1979" role="doc-biblioref">1979</a>)</span>.</p>
+<p>Here <span class="math inline">\(x\)</span> is a scalar random variable, denoted by lower case and plain font. We also write <span class="math inline">\(x\)</span> for the outcomes of the random variable. Thus, we use the same symbol to denote a random variable and its realisations.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>For a discrete random variable we define the event <span class="math inline">\(A = \{x: x=a\} = \{a\}\)</span> (corresponding to a single elementary event) and get the probability <span class="math display">\[
 \text{Pr}(A) = \text{Pr}(x=a) = f(a)
 \]</span> directly from the <strong>probability mass function</strong> (<strong>pmf</strong>). The pmf has the property that <span class="math inline">\(\sum_{x \in \Omega} f(x) = 1\)</span> and that <span class="math inline">\(f(x) \in [0,1]\)</span>.</p>
@@ -357,23 +357,28 @@ q_F(3/4) - q_F(1/4)\)</span>.</p>
 </section>
 <section id="expectation-or-mean" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="expectation-or-mean"><span class="header-section-number">2.6</span> Expectation or mean</h2>
-<p>The expected value <span class="math inline">\(\text{E}(x)\)</span> of a random variable <span class="math inline">\(x\)</span> is defined as the weighted average over all possible outcomes, with the weight given by the pdmf&nbsp;<span class="math inline">\(f(x)\)</span>: <span class="math display">\[
-\text{E}(x) =
+<p>The expected value of a random variable <span class="math inline">\(x\sim F\)</span> is defined as the weighted average over all possible outcomes, with the weight given by the pdmf&nbsp;<span class="math inline">\(f(x)\)</span>: <span class="math display">\[
+\begin{split}
+\text{E}(F) &amp;= \text{E}(x)\\
+&amp; = \mu =
 \begin{cases}
 \sum_{x \in \Omega} f(x) \, x &amp; \text{discrete case} \\
 \int_{x \in \Omega} f(x) \, x \, dx  &amp; \text{continuous case} \\
-\end{cases}
-\]</span> We may can also write <span class="math inline">\(\text{E}_{F}(x)\)</span> as a reminder that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>. Usually, the subscript <span class="math inline">\(F\)</span> is left out if there are no ambiguities. A further variant is to write the expectation as <span class="math inline">\(\text{E}(F)\)</span> to indicate that we are computing the mean of the distribution&nbsp;<span class="math inline">\(F\)</span>.</p>
+\end{cases}\\
+\end{split}
+\]</span> We may can also write <span class="math inline">\(\text{E}_{F}(x)\)</span> as a reminder that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>. Usually, the subscript <span class="math inline">\(F\)</span> is left out if there are no ambiguities. A further variant is to write the expectation as <span class="math inline">\(\text{E}(F)\)</span> to indicate that the mean is a functional of the distribution&nbsp;<span class="math inline">\(F\)</span>.</p>
 <p>Because the sum or integral may diverge, not all distributions have finite means so the mean does not always exist (in contrast to the median, or quantiles in general). For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{$t_{\nu}$}(\mu, \tau^2)\)</span> does not have a mean for a degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 1\)</span> (see <a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
 </section>
 <section id="variance" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="variance"><span class="header-section-number">2.7</span> Variance</h2>
-<p>The variance of a random variable <span class="math inline">\(x\)</span> is the expected value of the squared deviation around the mean: <span class="math display">\[
-\text{Var}(x) = \text{E}\left( (x - \text{E}(x))^2 \right)
-\]</span> By construction, <span class="math inline">\(\text{Var}(x) \geq 0\)</span>. The variance can also be obtained by <span class="math display">\[
-\text{Var}(x) = \text{E}(x^2)-\text{E}(x)^2
-\]</span><br>
-Occasionally we write <span class="math inline">\(\text{Var}_F(x)\)</span> to express that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>. The alternative notation <span class="math inline">\(\text{Var}(F)\)</span> highlights that we are computing the variance of the distribution&nbsp;<span class="math inline">\(F\)</span>.</p>
+<p>The variance of a random variable <span class="math inline">\(x\sim F\)</span> is the expected value of the squared deviation around the mean <span class="math inline">\(\mu = \text{E}(x)\)</span>: <span class="math display">\[
+\begin{split}
+\text{Var}(F)&amp; = \text{Var}(x) \\
+       &amp;= \text{E}\left( (x - \mu))^2 \right) \\
+       &amp;=  \text{E}(x^2)-\mu^2
+\end{split}
+\]</span> By construction, <span class="math inline">\(\text{Var}(x) \geq 0\)</span>.</p>
+<p>The notation <span class="math inline">\(\text{Var}(F)\)</span> highlights that the variance is a functional of the distribution&nbsp;<span class="math inline">\(F\)</span>. Occasionally, we write <span class="math inline">\(\text{Var}_F(x)\)</span> indicate that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>.</p>
 <p>Like the mean, the variance may diverge and hence not necessarily exists for all distribution. For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{$t_{\nu}$}(\mu, \tau^2)\)</span> does not have a variance for the degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 2\)</span> (see <a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
 </section>
 <section id="moments-of-a-distribution" class="level2" data-number="2.8">
@@ -435,12 +440,18 @@ m_n(F) = \text{E}((x-\mu)^n)
 </section>
 <section id="random-vectors-and-their-mean-and-variance" class="level2" data-number="2.12">
 <h2 data-number="2.12" class="anchored" data-anchor-id="random-vectors-and-their-mean-and-variance"><span class="header-section-number">2.12</span> Random vectors and their mean and variance</h2>
-<p>In addition to scalar random variables we often make use of random vectors and also random matrices.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p>For a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T \sim F\)</span> the mean <span class="math inline">\(\text{E}(\boldsymbol x) = \boldsymbol \mu\)</span> is given by the means of its elements, i.e.&nbsp;<span class="math inline">\(\boldsymbol \mu= (\mu_1, \ldots, \mu_d)^T\)</span> with <span class="math inline">\(\mu_i = \text{E}(x_i)\)</span>. Thus, the mean of a random vector of dimension <span class="math inline">\(d\)</span> is a vector of the same length.</p>
-<p>The variance of a random vector of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>: <span class="math display">\[
+<p>In addition to scalar random variables we often make use of random vectors and random matrices.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The mean of a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T \sim F\)</span> is given by <span class="math display">\[
 \begin{split}
-\text{Var}(\boldsymbol x) &amp;= \underbrace{\boldsymbol \Sigma}_{d\times d} = (\sigma_{ij}) \\
-          &amp;= \begin{pmatrix}
+\text{E}(F) &amp;= \text{E}(\boldsymbol x) \\
+           &amp;= \underbrace{\boldsymbol \mu}_{d \times 1} = (\mu_1, \ldots, \mu_d)^T\\
+\end{split}
+\]</span> and thus is a vector of the same dimension as <span class="math inline">\(\boldsymbol x\)</span>, where <span class="math inline">\(\mu_i = \text{E}(x_i)\)</span> are the means of the individual components <span class="math inline">\(x_i\)</span>.</p>
+<p>The variance of a random vector <span class="math inline">\(\boldsymbol x\)</span> of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>: <span class="math display">\[
+\begin{split}
+\text{Var}(F) &amp;= \text{Var}(\boldsymbol x) \\
+          &amp;= \underbrace{\boldsymbol \Sigma}_{d\times d} = (\sigma_{ij})
+          = \begin{pmatrix}
     \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
      \vdots &amp; \ddots &amp; \vdots \\
     \sigma_{d1} &amp; \dots &amp; \sigma_{dd}
@@ -448,7 +459,7 @@ m_n(F) = \text{E}((x-\mu)^n)
   &amp;=\text{E}\left(\underbrace{(\boldsymbol x-\boldsymbol \mu)}_{d\times 1} \underbrace{(\boldsymbol x-\boldsymbol \mu)^T}_{1\times d}\right) \\
   &amp; = \text{E}(\boldsymbol x\boldsymbol x^T)-\boldsymbol \mu\boldsymbol \mu^T \\
 \end{split}
-\]</span> The entries of the covariance matrix <span class="math inline">\(\text{Cov}(x_i, x_j)=\sigma_{ij}\)</span> describe the covariance between the random variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>. The covariance matrix is symmetric, hence <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. The diagonal entries <span class="math inline">\(\text{Cov}(x_i, x_i)=\sigma_{ii}\)</span> correspond to the variances <span class="math inline">\(\text{Var}(x_i) = \sigma_i^2\)</span> of the elements of <span class="math inline">\(\boldsymbol x\)</span>. The covariance matrix is by construction <strong>positive semi-definite</strong>, i.e.&nbsp;the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> are all positive or equal to zero.</p>
+\]</span> The elements <span class="math inline">\(\text{Cov}(x_i, x_j)=\sigma_{ij}\)</span> describe the covariance between the random variables <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span>. The covariance matrix is symmetric, hence <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. The diagonal elements <span class="math inline">\(\text{Cov}(x_i, x_i)=\sigma_{ii}\)</span> correspond to the individual variances <span class="math inline">\(\text{Var}(x_i) = \sigma_i^2\)</span>. By construction, the covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span> is <strong>positive semi-definite</strong>, i.e.&nbsp;the eigenvalues of <span class="math inline">\(\boldsymbol \Sigma\)</span> are all positive or equal to zero.</p>
 <p>However, wherever possible one will aim to use models with non-singular covariance matrices, with all eigenvalues positive, so that the covariance matrix is invertible.</p>
 </section>
 <section id="correlation-matrix" class="level2" data-number="2.13">
@@ -470,7 +481,7 @@ m_n(F) = \text{E}((x-\mu)^n)
 <p>Equivalently, in component notation the correlation between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> is given by <span class="math display">\[
 \rho_{ij} = \text{Cor}(x_i,x_j) = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}
 \]</span></p>
-<p>Using the above, a covariance matrix can be factorised into the product of standard deviations <span class="math inline">\(\boldsymbol V^{1/2}\)</span> and the correlation matrix as follows: <span class="math display">\[
+<p>Following from the definition above, a covariance matrix <span class="math inline">\(\boldsymbol \Sigma\)</span> can be factorised into the product of standard deviations <span class="math inline">\(\boldsymbol V^{1/2}\)</span> and the correlation matrix <span class="math inline">\(\boldsymbol P\)</span> as follows: <span class="math display">\[
 \boldsymbol \Sigma= \boldsymbol V^{1/2}\, \boldsymbol P\,\boldsymbol V^{1/2}
 \]</span></p>
 </section>
@@ -496,8 +507,8 @@ Whittle, P. 2000. <em>Probability via Expectation</em>. 3rd ed. Springer. <a hre
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>For scalar random variables often upper case is used denote the variable and lower case for the associated realisations. However, that convention doesn’t work well for random vectors and matrices and is also ill-suited in Bayesian statistics where random variables describe the uncertainty of parameters. Therefore, we use the same symbol to denote a random variable and its realisations.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>In our notational conventions, a <strong>vector</strong> <span class="math inline">\(\boldsymbol x\)</span> is written in <em>lower case bold font</em>, a <strong>matrix</strong> <span class="math inline">\(\boldsymbol M\)</span> in <em>upper case bold font</em>. Hence random vectors and matrices as well as their realisations are indicated in bold font, with vectors given in lower case and matrices in upper case. Hence, as for scalar variables, upper case versus lower case does not indicate randomness versus realisation.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>This notation is common in statistical machine learning and multivariate statistics, see for example <span class="citation" data-cites="MKB1979">Mardia, Kent, and Bibby (<a href="bibliography.html#ref-MKB1979" role="doc-biblioref">1979</a>)</span>. In alternative notation, random variables are often written in upper case and the outcomes in lower case. However, that convention doesn’t work well for multivariate random quantities (i.e.&nbsp;random vectors and random matrices) and is also ill-suited in Bayesian statistics where the uncertainty of parameters are modelled by random variables.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In our notational conventions, a scalar <span class="math inline">\(x\)</span> is written in lower case plain font, a vector <span class="math inline">\(\boldsymbol x\)</span> is written in lower case bold font, a matrix <span class="math inline">\(\boldsymbol X\)</span> in upper case bold font.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
