@@ -430,17 +430,17 @@ L(x, a) = | x - a|
 <p>The most important scoring rule is the <strong>logarithmic scoring rule</strong> or <strong>log-loss</strong> <span class="math display">\[
 S(x, P) = - \log p(x)
 \]</span></p>
-<p>The risk of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> based on the log-loss is the <strong>mean log-loss</strong> <span class="math display">\[
-R_Q(P) = - \text{E}_{Q} \log p(x)
+<p>The risk of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> based on the log-loss is the <strong>mean log-loss</strong> or <strong>cross-entropy</strong> <span class="math display">\[
+R_Q(P) = - \text{E}_{Q} \log p(x) = H(Q,P)
 \]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span>. Thus, the log-loss is <strong>strictly proper</strong>. Furthermore, the log-loss is notably the only <strong>local</strong> strictly proper scoring rule, as it solely depends on the value of the pdmf at the observed outcome <span class="math inline">\(x\)</span>, and not on any other features of the distribution&nbsp;<span class="math inline">\(P\)</span>. The minimum risk is the Shannon-Gibbs <strong>entropy</strong> of&nbsp;<span class="math inline">\(Q\)</span>: <span class="math display">\[
 R_Q(Q) = -\text{E}_{Q} \log q(x) = H(Q)
-\]</span> The relationship <span class="math inline">\(R_Q(P) \geq H(Q)\)</span>, with equality exclusively for <span class="math inline">\(P=Q\)</span>, is known as <strong>Gibbs’ inequality</strong>.</p>
+\]</span> The relationship <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>, with equality exclusively for <span class="math inline">\(P=Q\)</span>, is known as <strong>Gibbs’ inequality</strong>.</p>
 <p>The divergence induced by the log-loss is the Kullback-Leibler (KL) divergence <span class="math display">\[
-D_{\text{KL}}(Q,P) =  R_Q(P) -H(Q) = \text{E}_{Q} \log\left(\frac{q(x)}{p(x)}\right)
+D_{\text{KL}}(Q,P) =  H(Q,P) -H(Q) = \text{E}_{Q} \log\left(\frac{q(x)}{p(x)}\right)
 \]</span> The KL divergence obeys the <strong>data processing inequality</strong>, i.e.&nbsp;applying a transformation to the underlying random variables cannot increase the KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>. This property also holds for all <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> (of which the KL divergence is a principal example), but is notably <em>not</em> satisfied by divergences of other proper scoring rules (and thus other Bregman divergences).</p>
 <p>Furthermore, the KL divergence is the only divergence induced by proper scoring rules (and thus the only Bregman divergence), as well as the only <span class="math inline">\(f\)</span>-divergence, that is <strong>invariant against general coordinate transformations</strong>. Coordinate transformations can be viewed as a special case of data processing, and for <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> the data-processing inequality under general invertible transformations becomes an identity.</p>
 <p>The empirical risk of a distribution family <span class="math inline">\(P(\theta)\)</span> based on the log-loss is proportional to the log-likelihood function <span class="math display">\[
-\hat{R}(\theta) = R_{\hat{Q}_n}(P(\theta)) = - \frac{1}{n} \sum_{i=1}^n \log p(x_i; \theta) = - \frac{1}{n} \ell_n(\theta)
+\hat{R}(\theta) = H(\hat{Q}_n, P(\theta)) = - \frac{1}{n} \sum_{i=1}^n \log p(x_i | \theta) = - \frac{1}{n} \ell_n(\theta)
 \]</span> Minimising the empirical risk <span class="math inline">\(\hat{R}(\theta)\)</span> is equivalent to maximising the log-likelihood function <span class="math inline">\(\ell_n(\theta)\)</span>.</p>
 <p>Similary, minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(\hat{Q}_n,P(\theta))\)</span> with regard to&nbsp;<span class="math inline">\(\theta\)</span> is equivalent to minimising the empirical risk <span class="math inline">\(\hat{R}(\theta)\)</span> and hence to maximum likelihood.</p>
 </section>
@@ -464,7 +464,7 @@ D(Q, P) = R_Q(P) - R_Q(Q) = \sum_{y=1}^K  \left(q_y - p_y\right)^2
 </section>
 <section id="other-proper-scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="other-proper-scoring-rules">Other proper scoring rules</h3>
-<p>An example of a proper, but not strictly proper, scoring rule is the squared error to the mean of the quoted model <span class="math inline">\(P\)</span>: <span class="math display">\[
+<p>An example of a proper, but not strictly proper, scoring rule is the squared error relative to the mean of the quoted model <span class="math inline">\(P\)</span>: <span class="math display">\[
 S(x, P) = (x- \text{E}(P))^2
 \]</span></p>
 <p>The corresponding risk is <span class="math display">\[
