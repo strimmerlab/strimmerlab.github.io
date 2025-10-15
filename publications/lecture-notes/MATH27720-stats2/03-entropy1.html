@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -39,7 +59,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -187,7 +207,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -335,10 +355,10 @@ window.Quarto = {
   <li><a href="#information-storage-and-scoring-rules" id="toc-information-storage-and-scoring-rules" class="nav-link active" data-scroll-target="#information-storage-and-scoring-rules"><span class="header-section-number">3.1</span> Information storage and scoring rules</a>
   <ul class="collapse">
   <li><a href="#information-storage-units" id="toc-information-storage-units" class="nav-link" data-scroll-target="#information-storage-units">Information storage units</a></li>
-  <li><a href="#information-storage-with-constant-code-length" id="toc-information-storage-with-constant-code-length" class="nav-link" data-scroll-target="#information-storage-with-constant-code-length">Information storage with constant code length</a></li>
-  <li><a href="#variable-code-length-and-scoring-rules" id="toc-variable-code-length-and-scoring-rules" class="nav-link" data-scroll-target="#variable-code-length-and-scoring-rules">Variable code length and scoring rules</a></li>
+  <li><a href="#constant-code-length" id="toc-constant-code-length" class="nav-link" data-scroll-target="#constant-code-length">Constant code length</a></li>
+  <li><a href="#variable-code-length" id="toc-variable-code-length" class="nav-link" data-scroll-target="#variable-code-length">Variable code length</a></li>
   </ul></li>
-  <li><a href="#expected-score-and-entropy" id="toc-expected-score-and-entropy" class="nav-link" data-scroll-target="#expected-score-and-entropy"><span class="header-section-number">3.2</span> Expected score and entropy</a>
+  <li><a href="#scoring-rules-and-entropy" id="toc-scoring-rules-and-entropy" class="nav-link" data-scroll-target="#scoring-rules-and-entropy"><span class="header-section-number">3.2</span> Scoring rules and entropy</a>
   <ul class="collapse">
   <li><a href="#entropy-of-a-distribution" id="toc-entropy-of-a-distribution" class="nav-link" data-scroll-target="#entropy-of-a-distribution">Entropy of a distribution</a></li>
   <li><a href="#shannon-gibbs-entropy" id="toc-shannon-gibbs-entropy" class="nav-link" data-scroll-target="#shannon-gibbs-entropy">Shannon-Gibbs entropy</a></li>
@@ -387,8 +407,8 @@ window.Quarto = {
 <p>Bit and dit are <strong>units of information</strong> to describe information content. One dit is equal to <span class="math inline">\(\log_2 10 \approx 3.32\)</span> bits.</p>
 <p>If the natural logarithm is used (<span class="math inline">\(A=e\)</span>) the unit of information is called <strong>nat</strong>. This is the standard unit of information used in statistics. It is equal to <span class="math inline">\(\log_2 e \approx 1.44\)</span> bits.</p>
 </section>
-<section id="information-storage-with-constant-code-length" class="level3">
-<h3 class="anchored" data-anchor-id="information-storage-with-constant-code-length">Information storage with constant code length</h3>
+<section id="constant-code-length" class="level3">
+<h3 class="anchored" data-anchor-id="constant-code-length">Constant code length</h3>
 <p>We now assume a discrete variable <span class="math inline">\(x\)</span> with <span class="math inline">\(K\)</span> possible outcomes <span class="math inline">\(\Omega = \{\omega_1, \ldots, \omega_K\}\)</span>. In order to record a realised state of <span class="math inline">\(x\)</span> using an alphabet of size <span class="math inline">\(A\)</span> we require <span class="math display">\[
 S = \log_A K
 \]</span> units of information. The base <span class="math inline">\(A\)</span> can be larger or smaller than <span class="math inline">\(K\)</span>. We simply set <span class="math inline">\(A=e\)</span> and use the natural logarithm and nats as units of information throughout. <span class="math inline">\(S\)</span> is called the <strong>code length</strong> or the <strong>cost</strong> to describe the state of <span class="math inline">\(x\)</span>.</p>
@@ -396,14 +416,14 @@ S = \log_A K
 S = -\log \left( \frac{1}{K} \right)
 \]</span> where <span class="math inline">\(1/K\)</span> is the equal probability of each of the <span class="math inline">\(K\)</span> states.</p>
 </section>
-<section id="variable-code-length-and-scoring-rules" class="level3">
-<h3 class="anchored" data-anchor-id="variable-code-length-and-scoring-rules">Variable code length and scoring rules</h3>
-<p>However, in practice, the <span class="math inline">\(K\)</span> states are often not equally probable. For example <span class="math inline">\(x\)</span> might be describing the letters in a text message, each occuring with different frequency (e.g.&nbsp;the most common letter in the English language is “e”). Hence, rather than assuming equal probabilities we use a discrete distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> to describe the different probabilities. As a result, instead of constant code length for each state, we use <em>variable code lengths</em>, with more probable states having shorter codes and less probable states assigned longer codes.</p>
+<section id="variable-code-length" class="level3">
+<h3 class="anchored" data-anchor-id="variable-code-length">Variable code length</h3>
+<p>However, in practice, the <span class="math inline">\(K\)</span> states are often not equally probable. For example <span class="math inline">\(x\)</span> might be describing the letters in a text message, each occurring with different frequency (e.g.&nbsp;the most common letter in the English language is “e”). Hence, rather than assuming equal probabilities we use a discrete distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> to describe the different probabilities. As a result, instead of constant code length for each state, we use <em>variable code lengths</em>, with more probable states having shorter codes and less probable states assigned longer codes.</p>
 <p>Specifically, generalising from the case of constant code length above, we employ the negative logarithm to map the probability of a state <span class="math inline">\(x\)</span> to a corresponding cost and code length: <span class="math display">\[
 S(x, P) = -\log p(x)
-\]</span> This is called <strong>logarithmic loss</strong> or <strong>logarithmic scoring rule</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> — see also <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="#nte-logloss" class="quarto-xref">Note&nbsp;<span>3.2</span></a>.</p>
-<p>As we will see below (<a href="#exm-entropycategorical" class="quarto-xref">Example&nbsp;<span>3.7</span></a>, <a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.8</span></a> and <a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) using variable code lengths allows for expected code lengths that are potentially much smaller than using a fixed length <span class="math inline">\(\log K\)</span> for all states, and hence leads to a more space saving representation.</p>
-<p>We will apply the logarithmic scoring rule <span class="math inline">\(S(x, P) = -\log p(x)\)</span> to both discrete and continuous variables <span class="math inline">\(x\)</span> and corresponding distributions <span class="math inline">\(P\)</span>. As densities can take on values larger than 1 the logarithmic loss may become negative when <span class="math inline">\(P\)</span> is a continuous distribution.</p>
+\]</span> This is called the <strong>log-loss</strong> or the <strong>logarithmic scoring rule</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> — see also <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="#nte-logloss" class="quarto-xref">Note&nbsp;<span>3.2</span></a>.</p>
+<p>As we will see below (<a href="#exm-entropycategorical" class="quarto-xref">Example&nbsp;<span>3.8</span></a>, <a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a> and <a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>) using variable code lengths allows for expected code lengths that are potentially much smaller than using a fixed length <span class="math inline">\(\log K\)</span> for all states, and hence leads to a more space saving representation.</p>
+<p>We will apply the logarithmic scoring rule <span class="math inline">\(S(x, P) = -\log p(x)\)</span> to both discrete and continuous variables <span class="math inline">\(x\)</span> and corresponding distributions&nbsp;<span class="math inline">\(P\)</span>. As densities can take on values larger than one the logarithmic loss may become negative when <span class="math inline">\(P\)</span> is a continuous distribution.</p>
 <div id="nte-scoringrules" class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -414,10 +434,11 @@ Note&nbsp;3.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The function <span class="math inline">\(S(x, P)\)</span> is a <strong><a href="https://en.wikipedia.org/wiki/Scoring_rule">scoring rule</a></strong>, a loss function that assesses a probabilistic forecast <span class="math inline">\(P\)</span> given the observed outcome <span class="math inline">\(x\)</span>.</p>
-<p>A desirable property is that the scoring rule is <strong>proper</strong>, i.e.&nbsp;its <strong>risk</strong> the expected score <span class="math inline">\(\text{E}_Q\left( S(x, P) \right)\)</span> is minimised when the quoted model <span class="math inline">\(P\)</span> equals the true data-generating model <span class="math inline">\(Q\)</span>. If the minimum is unique then the scoring rule is <strong>strictly proper</strong>.</p>
-<p>Proper scoring rules are widely used in statistics and machine learning because they permit identification of best-approximating models by risk minimisation.</p>
-<p>The theory of proper scoring rules is closely related to that of <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a>.</p>
+<p>The function <span class="math inline">\(S(x, P)\)</span> is a <strong><a href="https://en.wikipedia.org/wiki/Scoring_rule">scoring rule</a></strong> which is a type of loss function that assesses a probabilistic forecast <span class="math inline">\(P\)</span> given the observed outcome&nbsp;<span class="math inline">\(x\)</span>.</p>
+<p>A desirable property is that the scoring rule is <strong>proper</strong>, i.e.&nbsp;its <strong>risk</strong> the expected score <span class="math inline">\(R_Q(P) =\text{E}_Q\left( S(x, P) \right)\)</span> is minimised when the quoted model <span class="math inline">\(P\)</span> equals the true data-generating model <span class="math inline">\(Q\)</span>. If the minimum is exclusively achieved at <span class="math inline">\(P=Q\)</span> then the scoring rule is <strong>strictly proper</strong>.</p>
+<p>Proper scoring rules are widely used in statistics and machine learning because they permit identification of best-approximating models by risk minimisation <span class="citation" data-cites="DawidMusio2014">(<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">Dawid and Musio 2014</a>)</span>.</p>
+<p>See the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a> for examples of (strictly) proper scoring rules used in statistics and machine learning.</p>
+<p>The theory of proper scoring rules (established in statistics) is closely related to that of <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a> (established in optimisation).</p>
 </div>
 </div>
 <div id="nte-logloss" class="callout callout-style-default callout-note callout-titled">
@@ -430,18 +451,18 @@ Note&nbsp;3.2: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The logarithmic scoring rule <span class="math inline">\(S(x, P) = -\log p(x)\)</span> is uniquely characterised (e.g.&nbsp;Hartley 1928, Shannon 1948, Good 1952, Bernardo 1979). In particular, it is the only scoring rule that is both</p>
+<p>The logarithmic scoring rule <span class="math inline">\(S(x, P) = -\log p(x)\)</span> is uniquely characterised (e.g. <span class="citation" data-cites="Good1952">Good (<a href="bibliography.html#ref-Good1952" role="doc-biblioref">1952</a>)</span> and <span class="citation" data-cites="Bernardo1979">Bernardo (<a href="bibliography.html#ref-Bernardo1979" role="doc-biblioref">1979</a>)</span>). In particular, it is the only scoring rule that is both</p>
 <ul>
 <li><strong>strictly proper</strong> and</li>
-<li><strong>local</strong> with the score depending only on the value of the pdmf at <span class="math inline">\(x\)</span>.</li>
+<li><strong>local</strong> with the score depending only on the value of the pdmf at <span class="math inline">\(x\)</span> and not any other features of <span class="math inline">\(P\)</span>.</li>
 </ul>
-<p>While there are other choices of suitable scoring rules (and some common in machine learning) we will exclusively use the logarithmic scoring rule because it underpins classical likelihood inference and Bayesian learning.</p>
-<p>See also <a href="04-entropy2.html#exm-scoringrulegibbs" class="quarto-xref">Example&nbsp;<span>4.2</span></a>.</p>
+<p>For statistics the logarithmic scoring rule is of prime importance because it underpins likelihood inference and Bayesian learning.</p>
+<p>See also <a href="04-entropy2.html#nte-scoringrulegibbs" class="quarto-xref">Note&nbsp;<span>4.1</span></a>.</p>
 </div>
 </div>
 <div id="exm-surprise" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.1</strong></span> Surprise:</p>
-<p>The negative logarithm of a probability is called the <strong>surprise</strong> or <strong>surprisal</strong>. The surprise <span class="math inline">\(-\log p\)</span> to observe a certain outcome (with probability <span class="math inline">\(p=1\)</span>) is zero, and conversely the surprise to observe an outcome that cannot happen (with probability <span class="math inline">\(p=0\)</span>) is infinite.</p>
+<p>The negative logarithm of a probability is called the <strong>surprise</strong> or <strong>surprisal</strong>. The surprise <span class="math inline">\(-\log p\)</span> to observe a certain outcome (with probability <span class="math inline">\(p=1\)</span>) is zero, and conversely the surprise to observe an outcome that cannot happen (with probability <span class="math inline">\(p=0\)</span>) is infinite. The logarithmic scoring rule thus returns the surprise for the outcomes of a discrete random variable.</p>
 </div>
 <div id="exm-logodds" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.2</strong></span> Logit and log-odds:</p>
@@ -454,56 +475,65 @@ Note&nbsp;3.2: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 \]</span> The log-odds function is also know as <strong>logit</strong> function. It maps the interval <span class="math inline">\([0,1]\)</span> to the interval <span class="math inline">\([-\infty, +\infty]\)</span>. Its inverse is the <strong>logistic</strong> function <span class="math inline">\(\exp(x)/(1+\exp(x))\)</span> mapping the interval <span class="math inline">\([-\infty, +\infty]\)</span> to the interval <span class="math inline">\([0,1]\)</span>.</p>
 </div>
 <div id="exm-logscorenormdist" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.3</strong></span> Logarithmic score and normal distribution:</p>
-<p>If we quote in the logarithmic scoring rule the normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> with density <span class="math inline">\(p(x |\mu, \sigma^2)= \frac{1}{\sqrt{2\pi\sigma^2}}
-\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\)</span> we get as score <span class="math display">\[
-S\left(x,N(\mu, \sigma^2 )\right) = \frac{1}{2} \left( \log(2\pi\sigma^2) + \frac{(x-\mu)^2}{\sigma^2}\right)
-\]</span> For fixed variance <span class="math inline">\(\sigma^2\)</span> the logarithmic score is thus equivalent to the squared distance between <span class="math inline">\(x\)</span> and&nbsp;<span class="math inline">\(\mu\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> Logarithmic scoring rule for a normal model:</p>
+<p>If we quote in the log-loss <span class="math inline">\(S(x, P) = -\log p(x)\)</span> the normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> with density <span class="math inline">\(p(x |\mu, \sigma^2)= \frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\)</span> we get <span class="math display">\[
+S\left(x,P\right) = \frac{1}{2} \left( \log(2\pi\sigma^2) + \frac{(x-\mu)^2}{\sigma^2}\right)
+\]</span> For a normal model with fixed variance the the log-loss is thus equivalent to the squared distance between <span class="math inline">\(x\)</span> and&nbsp;<span class="math inline">\(\mu\)</span>.</p>
+</div>
+<div id="exm-" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> Dawid-Sebastiani scoring rule:</p>
+<p>The <strong>Dawid-Sebastiani scoring rule</strong> is given by <span class="math display">\[
+S\left(x, P\right) =  \log \text{Var}(P) + \frac{(x-\text{E}(P))^2}{\text{Var}(P)}
+\]</span> For normal <span class="math inline">\(P\)</span> this is equivalent to the log-loss (<a href="#exm-logscorenormdist" class="quarto-xref">Example&nbsp;<span>3.3</span></a>).</p>
+<p>Note that adding a constant or a positive scaling factor to a loss function will not change the location of its minimum, so such loss functions are considered equivalent.</p>
+<p>Unlike the log-loss, which is strictly proper, the Dawid-Sebastiani scoring rule is proper. Since all <span class="math inline">\(P\)</span> with the same mean and variance yield identical scores there are multiple <span class="math inline">\(P\)</span> achieving the minimum risk (<a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a>).</p>
 </div>
 </section>
 </section>
-<section id="expected-score-and-entropy" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="expected-score-and-entropy"><span class="header-section-number">3.2</span> Expected score and entropy</h2>
+<section id="scoring-rules-and-entropy" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="scoring-rules-and-entropy"><span class="header-section-number">3.2</span> Scoring rules and entropy</h2>
 <section id="entropy-of-a-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="entropy-of-a-distribution">Entropy of a distribution</h3>
-<p>Given the scoring rule <span class="math inline">\(S(x, P)\)</span> we can compute its expectation assuming <span class="math inline">\(x \sim P\)</span>, i.e.&nbsp;that the quoted model and the model for <span class="math inline">\(x\)</span> are identical: <span class="math display">\[
+<p>Assume that <span class="math inline">\(P\)</span> is the model generating the data <span class="math inline">\(x\)</span>. The expectation of the scoring rule <span class="math inline">\(S(x, P)\)</span> with regard to <span class="math inline">\(P\)</span> is the risk <span class="math inline">\(R_P(P)\)</span> of the model <span class="math inline">\(P\)</span> under itself: <span class="math display">\[
 \begin{split}
-H(P) &amp;= \text{E}_P\left( S(x, P) \right) \\
-     &amp;= - \text{E}_P\left(\log p(x)\right) \\
+R_P(P) &amp;= \text{E}_P\left( S(x, P) \right) \\
+     &amp;= - \text{E}_P\left(\log p(x)\right) = H(P)
 \end{split}
-\]</span> For the logarithmic scoring rule this is the <strong>entropy</strong> of the distribution&nbsp;<span class="math inline">\(P\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p>As note, in the above the distribution <span class="math inline">\(P\)</span> serves two distinct purposes. First, it acts as data-generating model (as indicated by the expectation <span class="math inline">\(\text{E}_P\)</span> with regard to <span class="math inline">\(P\)</span>). Second, it is the model that is evaluated on the observations (through <span class="math inline">\(-\log p(x)\)</span>). Therefore, entropy can be viewed as a functional of the distribution <span class="math inline">\(P\)</span>.</p>
-</section>
-<section id="shannon-gibbs-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="shannon-gibbs-entropy">Shannon-Gibbs entropy</h3>
-<p>The entropy of a discrete probability distribution <span class="math inline">\(P\)</span> with probability mass function <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x \in \Omega\)</span> is called <strong>Shannon entropy</strong> (1948)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. In statistical physics, the Shannon entropy is known as the <a href="https://en.wikipedia.org/wiki/Entropy_(statistical_thermodynamics)#Gibbs_entropy_formula">Gibbs entropy (1878)</a>:</p>
-<p><span class="math display">\[
-H(P) = - \sum_{x \in \Omega} \log p(x) \, p(x)
-\]</span> The entropy of a discrete distribution is the <strong>expected surprise</strong>. We can also interpret it as the <strong>expected cost</strong> or <strong>expected code length</strong> when the data are generated according to model <span class="math inline">\(P\)</span> (“sender”, “encoder” ) and we are using the same model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
-<p>Furthermore, the Shannon-Gibbs entropy also has a combinatorial interpretation (see <a href="#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.11</span></a>).</p>
-<p>As <span class="math inline">\(p(x) \in [0,1]\)</span> and hence <span class="math inline">\(-\log p(x) \geq 0\)</span>, so the Shannon-Gibbs entropy is bounded below and is non-negative.</p>
-</section>
-<section id="differential-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="differential-entropy">Differential entropy</h3>
-<p>Applying the definition of entropy to a continuous probability distribution <span class="math inline">\(P\)</span> with density <span class="math inline">\(p(x)\)</span> yields the <strong>differential entropy</strong>: <span class="math display">\[
-H(P) = - \int_x \log p(x) \, p(x) \, dx
-\]</span> Differential entropy can be negative because the logarithm is applied to a density, which, unlike a probability, can take on values greater than one.</p>
-<p>Moreover, for continuous random variables, the shape of the density typically changes under <strong>variable transformation</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, the <strong>differential entropy will change</strong> as well and is <strong>not invariant</strong> under such a transformation so that <span class="math inline">\(H(P_y) \neq H(P_x)\)</span>.</p>
+\]</span> For the log-loss this yields the information <strong>entropy</strong> <span class="math inline">\(H(P)\)</span> of the distribution&nbsp;<span class="math inline">\(P\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> The notation <span class="math inline">\(H(P)\)</span> is a reminder that entropy is a functional of the distribution&nbsp;<span class="math inline">\(P\)</span>.</p>
+<p>For an overview of the two main interpretations of entropy, disorder versus dispersal, see <a href="#nte-entropyinterpretation" class="quarto-xref">Note&nbsp;<span>3.3</span></a>.</p>
 <div id="nte-entropyinterpretation" class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Interpretation of entropy — spread versus disorder
+Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Interpretation of entropy — disorder or dispersal?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Traditionally, entropy has been considered as a measure of order, with large entropy corresponding to disorder and low entropy to order. However, this interpretation is now viewed as outdated and in fact misleading as many apparently ordered systems have large entropy and some disordered-looking systems have low entropy.</p>
-<p>A better and more useful intuition is that entropy measures <strong>spread</strong> or <strong>dispersal</strong>. This notion is now preferred in Physics<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and it also aligns with the interpretation of entropy in Statistics and Machine Learning.</p>
-<p>As will become clear from the examples, entropy quantifies the <strong>spread of the probability mass</strong>. When the probability mass is concentrated within a specific area, the entropy is low; conversely, when the probability mass is more broadly distributed, the entropy is high.</p>
+<p>Traditionally, entropy has been considered as a measure of disorder. However, this interpretation is now viewed as outdated and in fact misleading as many apparently ordered systems have large entropy and some disordered-looking systems have low entropy.</p>
+<p>A better and more useful intuition is that entropy measures <strong>spread</strong> or <strong>dispersal</strong>. This notion is now preferred in physics<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and it also aligns with the interpretation of entropy in statistics and machine learning.</p>
+<p>As will become clear from the examples, information entropy quantifies the <strong>spread of the probability mass</strong>. When the probability mass is concentrated within a specific area, the entropy is low; conversely, when the probability mass is more broadly distributed, the entropy is high.</p>
 </div>
 </div>
+</section>
+<section id="shannon-gibbs-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="shannon-gibbs-entropy">Shannon-Gibbs entropy</h3>
+<p>The information entropy <span class="math inline">\(H(P)\)</span> of a discrete probability distribution <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x \in \Omega\)</span> is called <strong>Shannon entropy</strong> <span class="citation" data-cites="Shannon1948">(<a href="bibliography.html#ref-Shannon1948" role="doc-biblioref">Shannon 1948</a>)</span>: <span class="math display">\[
+H(P) = - \sum_{x} \log p(x) \, p(x)
+\]</span> In statistical physics, it is known as <strong>Gibbs entropy</strong>, sharing the same mathematical form.</p>
+<p>However, physical entropies carry an additional factor, the Boltzmann constant <span class="math inline">\(k=1.380649 \times 10^{-23} J/K\)</span>, to give entropy units of energy/temperature, whereas information entropies lack a physical unit.</p>
+<p>The entropy of a discrete distribution is the <strong>expected surprise</strong>. We can also interpret it as the <strong>expected cost</strong> or <strong>expected code length</strong> when the data are generated according to model <span class="math inline">\(P\)</span> (“sender”, “encoder” ) and we are using the same model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
+<p>By construction, since all <span class="math inline">\(p(x) \in [0,1]\)</span> and hence <span class="math inline">\(-\log p(x) \geq 0\)</span>, the Shannon-Gibbs entropy is <strong>non-negative</strong>.</p>
+<p>Importantly, the Shannon-Gibbs entropy also has a combinatorial interpretation (see <a href="#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a> for details).</p>
+</section>
+<section id="differential-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="differential-entropy">Differential entropy</h3>
+<p>The entropy <span class="math inline">\(H(P)\)</span> of a continuous distribution <span class="math inline">\(P\)</span> with pdf <span class="math inline">\(p(x)\)</span> is called <strong>differential entropy</strong>: <span class="math display">\[
+H(P) = - \int_x \log p(x) \, p(x) \, dx
+\]</span> Differential entropy <strong>can be negative</strong> because the logarithm is taken of a density value, and unlike probabilities, densities are not constrained to be less than or equal to one.</p>
+<p>Also, under a <strong>variable change</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, the shape of the pdf typically changes, so that differential entropy changes as well and is <strong>not invariant</strong>: <span class="math inline">\(H(P_y) \neq H(P_x)\)</span>.</p>
 </section>
 </section>
 <section id="entropy-examples" class="level2" data-number="3.3">
@@ -511,67 +541,71 @@ Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <section id="models-with-single-parameter" class="level3">
 <h3 class="anchored" data-anchor-id="models-with-single-parameter">Models with single parameter</h3>
 <div id="exm-entropygeom" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.4</strong></span> The Shannon-Gibbs entropy of the geometric distribution <span class="math inline">\(F_x = \text{Geom}(\theta)\)</span> with probability mass function <span class="math inline">\(p(x|\theta) = \theta (1-\theta)^{x-1}\)</span>, <span class="math inline">\(\theta \in [0,1]\)</span>, support <span class="math inline">\(x \in \{1, 2, \ldots \}\)</span> and <span class="math inline">\(\text{E}(x)= 1/\theta\)</span> is <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.5</strong></span> Entropy of the geometric distribution:</p>
+<p>With <span class="math inline">\(P = \text{Geom}(\theta)\)</span> and passociated pmf <span class="math inline">\(p(x|\theta) = \theta (1-\theta)^{x-1}\)</span>, <span class="math inline">\(\theta \in [0,1]\)</span>, support <span class="math inline">\(x \in \{1, 2, \ldots \}\)</span> and <span class="math inline">\(\text{E}(x)= 1/\theta\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
 \begin{split}
-H(F_x) &amp;= - \text{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
+H(P) &amp;= - \text{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
        &amp;= -\log \theta+ \left(\frac{1}{\theta}-1\right)\log(1-\theta)\\
        &amp;= -\frac{\theta \log \theta + (1-\theta) \log(1-\theta) }{\theta}
 \end{split}
 \]</span> Using the identity <span class="math inline">\(0\times\log(0)=0\)</span> we see that the entropy of the geometric distribution for <span class="math inline">\(\theta = 1\)</span> equals 0, i.e.&nbsp;it achieves the minimum possible Shannon-Gibbs entropy. Conversely, as <span class="math inline">\(\theta \rightarrow 0\)</span> it diverges to infinity.</p>
 </div>
 <div id="exm-entropyunif" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.5</strong></span> Consider the uniform distribution <span class="math inline">\(F_x = \text{Unif}(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support <span class="math inline">\(x \in [0, a]\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.6</strong></span> Entropy of the uniform distribution:</p>
+<p>Consider the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support <span class="math inline">\(x \in [0, a]\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
 \begin{split}
-H( F_x ) &amp;= - \int_0^a \log\left(\frac{1}{a}\right) \, \frac{1}{a}  dx \\
+H( P_x ) &amp;= - \int_0^a \log\left(\frac{1}{a}\right) \, \frac{1}{a}  dx \\
              &amp;=  \log a  \int_0^a \frac{1}{a} dx \\
              &amp;= \log a \,.
 \end{split}
 \]</span> Note that for <span class="math inline">\(0 &lt; a &lt; 1\)</span> the differential entropy is negative.</p>
 </div>
 <div id="exm-entropyvartrans" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.6</strong></span> Starting with the uniform distribution <span class="math inline">\(F_x = \text{Unif}(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.5</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(F_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 3.7</strong></span> Entropy and variable change:</p>
+<p>Starting with the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.6</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(P_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
 <p>The corresponding differential entropy is <span class="math display">\[
 \begin{split}
-H( F_y ) &amp;=  \int_0^{a^2}  \log \left(2 a \sqrt{y}\right) \, 1/\left(2 a \sqrt{y}\right) dy \\
+H( P_y ) &amp;=  \int_0^{a^2}  \log \left(2 a \sqrt{y}\right) \, 1/\left(2 a \sqrt{y}\right) dy \\
          &amp;= \left[ \sqrt{y}/a \, \left(\log \left( 2 a \sqrt{y} \right)-1\right)  \right]_{y=0}^{y=a^2} \\
              &amp;= \log \left(2 a^2\right) -1 \,.
 \end{split}
-\]</span> This is negative for <span class="math inline">\(0 &lt; a &lt; \sqrt{e/2}\approx 1.1658\)</span>. As expected <span class="math inline">\(H( F_y ) \neq H( F_x )\)</span> as differential entropy is not invariant against variable transformations.</p>
+\]</span> This is negative for <span class="math inline">\(0 &lt; a &lt; \sqrt{e/2}\approx 1.1658\)</span>. As expected <span class="math inline">\(H( P_y ) \neq H( P_x )\)</span> as differential entropy is not invariant against variable transformations.</p>
 </div>
 </section>
 <section id="models-with-multiple-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
 <div id="exm-entropycategorical" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.7</strong></span> Entropy of the categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories.</p>
+<p><span class="theorem-title"><strong>Example 3.8</strong></span> Entropy of the categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories:</p>
 <p>Assuming class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
 H(P) = - \sum_{k=1}^{K } \log(p_k)\, p_k
-\]</span></p>
-<p>As <span class="math inline">\(P\)</span> is discrete <span class="math inline">\(H(P)\)</span> is bounded below by 0. Furthermore, it is also bounded above by <span class="math inline">\(\log K\)</span> (cf. <a href="06-entropy4.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>). Hence for a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have <span class="math display">\[
+\]</span> The maximum entropy (<span class="math inline">\(\log K\)</span>) is achieved for the discrete uniform distribution (<a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) and the minimum entropy (<span class="math inline">\(0\)</span>) for a concentrated categorical distribution (<a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>). Hence for a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have <span class="math display">\[
 0 \leq  H(P) \leq \log K
-\]</span> The maximum (<span class="math inline">\(\log K\)</span>) is achieved for the discrete uniform distribution (<a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.8</span></a>) and the minimum (<span class="math inline">\(0\)</span>) for a concentrated categorical distribution (<a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.9</span></a>).</p>
+\]</span></p>
 </div>
 <div id="exm-entropydiscunif" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.8</strong></span> Entropy of the discrete uniform distribution <span class="math inline">\(U_K\)</span>:</p>
+<p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy of the discrete uniform distribution <span class="math inline">\(U_K\)</span>:</p>
 <p>Let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[H(U_K) = - \sum_{k=1}^{K}\log\left(\frac{1}{K}\right)\, \frac{1}{K}  = \log K\]</span></p>
 <p>Note that <span class="math inline">\(\log K\)</span> is the largest value the Shannon-Gibbs entropy can assume with <span class="math inline">\(K\)</span> classes (cf. <a href="06-entropy4.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>) and indicates maximum spread of probability mass.</p>
 </div>
 <div id="exm-entropyconcentrated" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy of a categorical distribution with concentrated probability mass:</p>
-<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon-Gibbs entropy <span class="math display">\[H(P) = \log(1)\times 1 + \log(0)\times 0 + \dots = 0\]</span></p>
+<p><span class="theorem-title"><strong>Example 3.10</strong></span> Entropy of a categorical distribution with concentrated probability mass:</p>
+<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon-Gibbs entropy <span class="math display">\[
+H(P) = \log(1)\times 1 + \log(0)\times 0 + \dots = 0
+\]</span></p>
 <p>Note that 0 is the smallest value that Shannon-Gibbs entropy can assume and that it corresponds to maximum concentration of probability mass.</p>
 </div>
 <div id="exm-entropynormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.10</strong></span> Differential entropy of the normal distribution:</p>
-<p>The log density of the univariate normal <span class="math inline">\(N(\mu, \sigma^2)\)</span> distribution is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>. The corresponding differential entropy is with <span class="math inline">\(\text{E}((x-\mu)^2) = \sigma^2\)</span> <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.11</strong></span> Differential entropy of the normal distribution:</p>
+<p>The log-density of the univariate normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>. The corresponding differential entropy is with <span class="math inline">\(\text{E}((x-\mu)^2) = \sigma^2\)</span> <span class="math display">\[
 \begin{split}
 H(P) &amp; = -\text{E}\left( \log p(x |\mu, \sigma^2) \right)\\
 &amp; = \frac{1}{2} \left( \log(2 \pi \sigma^2)+1\right) \,. \\
 \end{split}
-\]</span> Crucially, the entropy of a normal distribution depends only on its variance&nbsp;<span class="math inline">\(\sigma^2\)</span>, not on its mean&nbsp; <span class="math inline">\(\mu\)</span>. This is intuitively clear as the variance controls the concentration of the probability mass. A large variance means that the probability mass is more spread out and thus less concentrated around the mean.</p>
+\]</span> Crucially, the entropy of a normal distribution depends only on its variance&nbsp;<span class="math inline">\(\sigma^2\)</span>, not on its mean&nbsp;<span class="math inline">\(\mu\)</span>. This is intuitively clear as the variance controls the concentration of the probability mass. A large variance means that the probability mass is more spread out and thus less concentrated around the mean.</p>
 <p>For <span class="math inline">\(\sigma^2 &lt; 1/(2 \pi e) \approx 0.0585\)</span> the differential entropy is negative.</p>
 </div>
 <div id="exm-entropymultinomial" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.11</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy and the multinomial coefficient:</p>
+<p><span class="theorem-title"><strong>Example 3.12</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy and the multinomial coefficient:</p>
 <p>Let <span class="math inline">\(\hat{Q}\)</span> be the empirical categorical distribution with <span class="math inline">\(\hat{q}_k = n_k/n\)</span> the observed frequencies with <span class="math inline">\(n_k\)</span> counts in class <span class="math inline">\(k\)</span> and <span class="math inline">\(n=\sum_{k=1}^K\)</span> total counts.</p>
 <p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types is given by the multinomial coefficient <span class="math display">\[
 W = \binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
@@ -591,8 +625,8 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 &amp; = n H(\hat{Q})
 \end{split}
 \]</span></p>
-<p>The above combinatorial derivation of entropy is one of the cornerstones of statistical mechanics and is credited to Boltzmann (1877) and Gibbs (1878). The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_i\)</span>, i.e.&nbsp;when the individual elements are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
-<p>In statistics the above derivation of entropy was rediscovered by Wallis (1962).</p>
+<p>The above combinatorial derivation of entropy is one of the cornerstones of statistical mechanics, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a review of historical developments. The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_i\)</span>, i.e.&nbsp;when the individual elements are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
+<p><span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> cites Graham Wallis (1962) for the rediscovery of the combinatorial foundations of information entropy.</p>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -604,24 +638,46 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the dispersal of energy in a system. If energy is concentrated (and capacity for work is high) then the entropy is low, and conversely if energy is spread out (and capacity for work is low) the entropy is large. The total energy is conserved<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (and capacity for work will decrease) (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
-<p>The modern probabilistic definition of entropy was discovered in the 1870s by <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a> and <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a>. In statistical mechanics entropy is proportional to the logarithm of the number of microstates (i.e.&nbsp;particular configurations of the system) compatible with the observed macrostate. Typically, in systems where the energy is spread out there are very large numbers of compatible configurations hence this corresponds to large entropy, and conversely, if the energy is concentrated there are only few such configurations, and thus it corresponds to low entropy.</p>
+<p>The concept of entropy was first introduced in 1865 by <a href="https://en.wikipedia.org/wiki/Rudolf_Clausius">Rudolph Clausius (1822-1888)</a> in the context of thermodynamics. In physics entropy measures the dispersal of energy in a system. If energy is concentrated (and capacity for work is high) then the entropy is low, and conversely if energy is spread out (and capacity for work is low) the entropy is large. The total energy is conserved<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> (<a href="https://en.wikipedia.org/wiki/First_law_of_thermodynamics">first law of thermodynamics</a>) but with time it will diffuse and thus entropy will increase with time (and capacity for work will decrease) (<a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">second law of thermodynamics</a>).</p>
+<p>The modern probabilistic definition of entropy was discovered in the 1870s by <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a> and <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a>. In statistical mechanics entropy is proportional to the logarithm of the number of microstates (i.e.&nbsp;particular configurations of the system) compatible with the observed macrostate. Typically, in systems where the energy is spread out there are very large numbers of compatible configurations hence this corresponds to large entropy, and conversely, if the energy is concentrated there are only few such configurations, and thus it corresponds to low entropy.</p>
 <p>In the 1940–1950’s the notion of entropy turned out to be central also in information theory, a field pioneered by mathematicians such as <a href="https://en.wikipedia.org/wiki/Ralph_Hartley">Ralph Hartley (1888–1970)</a>, <a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a>, <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing (1912–1954)</a>, <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a>, <a href="https://en.wikipedia.org/wiki/I._J._Good">Irving J. Good (1916–2009)</a>, <a href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon (1916–2001)</a>, and <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a>, and later further explored by <a href="https://de.wikipedia.org/wiki/Shun%E2%80%99ichi_Amari">Shun’ichi Amari (1936–)</a>, <a href="https://en.wikipedia.org/wiki/Imre_Csisz%C3%A1r">Imre Ciszár (1938–)</a>, <a href="https://de.wikipedia.org/wiki/Bradley_Efron">Bradley Efron (1938–)</a>, <a href="https://en.wikipedia.org/wiki/Philip_Dawid">Philip Dawid (1946–)</a> and many others.</p>
 <p>Of the above, Turing and Good were affiliated with the University of Manchester in the 1940–50s.</p>
 </div>
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Akaike1985" class="csl-entry" role="listitem">
+Akaike, H. 1985. <span>“Prediction and Entropy.”</span> In <em>A Celebration of Statistics</em>, edited by A. C. Atkinson and S. E. Fienberg, 1–24. Springer. <a href="https://doi.org/10.1007/978-1-4613-8560-8_1">https://doi.org/10.1007/978-1-4613-8560-8_1</a>.
+</div>
+<div id="ref-Bernardo1979" class="csl-entry" role="listitem">
+Bernardo, J. M. 1979. <span>“Expected Information as Expected Utility.”</span> <em>Ann. Stat.</em> 7: 686–90. <a href="https://doi.org/10.1214/aos/1176344689">https://doi.org/10.1214/aos/1176344689</a>.
+</div>
+<div id="ref-DawidMusio2014" class="csl-entry" role="listitem">
+Dawid, A. P., and M. Musio. 2014. <span>“Theory and Applications of Proper Scoring Rules.”</span> <em>METRON</em> 72: 169–83. <a href="https://doi.org/10.1007/s40300-014-0039-y">https://doi.org/10.1007/s40300-014-0039-y</a>.
+</div>
+<div id="ref-Good1952" class="csl-entry" role="listitem">
+Good, I. J. 1952. <span>“Rational Decisions.”</span> <em>J. R. Statist. Soc. B</em> 14: 107–14. <a href="https://doi.org/10.1111/j.2517-6161.1952.tb00104.x">https://doi.org/10.1111/j.2517-6161.1952.tb00104.x</a>.
+</div>
+<div id="ref-Jaynes2003" class="csl-entry" role="listitem">
+Jaynes, E. T. 2003. <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511790423">https://doi.org/10.1017/CBO9780511790423</a>.
+</div>
+<div id="ref-Leff2007" class="csl-entry" role="listitem">
+Leff, H. S. 2007. <span>“Entropy, Its Language, and Interpretation.”</span> <em>Bell Syst. Tech. J.</em> 77: 1744–66. <a href="https://doi.org/10.1007/s10701-007-9163-3">https://doi.org/10.1007/s10701-007-9163-3</a>.
+</div>
+<div id="ref-Shannon1948" class="csl-entry" role="listitem">
+Shannon, C. E. 1948. <span>“A Mathematical Theory of Communication.”</span> <em>Bell Syst. Tech. J.</em> 27: 379–423. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</a>.
+</div>
+</div>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>We follow the convention that <strong>scoring rules are loss functions and negatively oriented</strong>, so the goal is to <strong>minimise the score</strong> (cost, code length). However, some authors define <span class="math inline">\(S(x, P)\)</span> with the opposite sign as a utility function with a positive orientation, in which case the aim is to maximise the score (reward).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>For other proper scoring rules it is called the <strong>generalised entropy</strong> or the <strong>minimum risk</strong>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Shannon, C. E. 1948. A mathematical theory of communication. Bell System Technical Journal <strong>27</strong>:379–423. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" class="uri">https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>For example, see: H. S. Leff. 2007. <em>Entropy, its language, and interpretation.</em> Found. Phys. <strong>37</strong>: 1744–1766, D. S. Lemons. 2013. <em>A student’s guide to entropy</em>. CUP, and <a href="https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)">https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Energy conservation itself arises as a consequence of the time-translation symmetry of physical laws, see <a href="https://en.wikipedia.org/wiki/Noether%27s_theorem">Noether’s theorem</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>For a proper scoring rule <span class="math inline">\(R_P(P)\)</span> is the <strong>minimum risk</strong> with regard to the <strong>risk</strong> <span class="math inline">\(R_Q(P) = \text{E}_Q\left( S(x, P) \right)\)</span>. See <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="04-entropy2.html" class="quarto-xref"><span>Chapter 4</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>See for example <span class="citation" data-cites="Leff2007">Leff (<a href="bibliography.html#ref-Leff2007" role="doc-biblioref">2007</a>)</span> and <a href="https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)">Entropy (energy dispersal) (Wikipedia)</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Energy conservation itself arises as a consequence of the time-translation symmetry of physical laws, see <a href="https://en.wikipedia.org/wiki/Noether%27s_theorem">Noether’s theorem (Wikipedia)</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -915,8 +971,8 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-entropy2.html" class="pagination-link" aria-label="Relative entropy">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-entropy2.html" class="pagination-link" aria-label="Divergence">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

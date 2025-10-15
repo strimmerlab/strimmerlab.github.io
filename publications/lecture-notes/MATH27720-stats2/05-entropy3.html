@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -39,7 +59,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -187,7 +207,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -334,9 +354,10 @@ window.Quarto = {
   <ul>
   <li><a href="#expected-fisher-information" id="toc-expected-fisher-information" class="nav-link active" data-scroll-target="#expected-fisher-information"><span class="header-section-number">5.1</span> Expected Fisher information</a>
   <ul class="collapse">
-  <li><a href="#definition-of-expected-fisher-information" id="toc-definition-of-expected-fisher-information" class="nav-link" data-scroll-target="#definition-of-expected-fisher-information">Definition of expected Fisher information</a></li>
+  <li><a href="#local-quadratic-approximation-of-kl-divergence" id="toc-local-quadratic-approximation-of-kl-divergence" class="nav-link" data-scroll-target="#local-quadratic-approximation-of-kl-divergence">Local quadratic approximation of KL divergence</a></li>
+  <li><a href="#parameter-identifiability" id="toc-parameter-identifiability" class="nav-link" data-scroll-target="#parameter-identifiability">Parameter identifiability</a></li>
   <li><a href="#sec-additivityfisher" id="toc-sec-additivityfisher" class="nav-link" data-scroll-target="#sec-additivityfisher">Additivity of Fisher information</a></li>
-  <li><a href="#invariance-property-of-the-fisher-information" id="toc-invariance-property-of-the-fisher-information" class="nav-link" data-scroll-target="#invariance-property-of-the-fisher-information">Invariance property of the Fisher information</a></li>
+  <li><a href="#invariance-property-of-fisher-information" id="toc-invariance-property-of-fisher-information" class="nav-link" data-scroll-target="#invariance-property-of-fisher-information">Invariance property of Fisher information</a></li>
   <li><a href="#sec-covariantfisher" id="toc-sec-covariantfisher" class="nav-link" data-scroll-target="#sec-covariantfisher"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Transformation of Fisher information under change of parameters</a></li>
   </ul></li>
   <li><a href="#expected-fisher-information-examples" id="toc-expected-fisher-information-examples" class="nav-link" data-scroll-target="#expected-fisher-information-examples"><span class="header-section-number">5.2</span> Expected Fisher information examples</a>
@@ -369,39 +390,77 @@ window.Quarto = {
 </header>
 
 
-<p>This chapter introduces expected Fisher information as the local rate of change in KL divergence.</p>
+<p>This chapter introduces the expected Fisher information matrix as the local curvature (the Hessian matrix) of the Kullback-Leibler divergence, serving as the local second-order sensitivity matrix for model parameters.</p>
 <section id="expected-fisher-information" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="expected-fisher-information"><span class="header-section-number">5.1</span> Expected Fisher information</h2>
-<section id="definition-of-expected-fisher-information" class="level3">
-<h3 class="anchored" data-anchor-id="definition-of-expected-fisher-information">Definition of expected Fisher information</h3>
-<p>KL information measures the divergence of two distributions. Previously we have seen examples of KL divergence between two distributions belonging to the same family. We now consider the KL divergence of two such distributions separated in parameter space only by some small&nbsp;<span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
-<p>Specifically, we consider the function <span class="math display">\[
+<section id="local-quadratic-approximation-of-kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="local-quadratic-approximation-of-kl-divergence">Local quadratic approximation of KL divergence</h3>
+<p>The Kullback-Leibler (KL) number measures the divergence between two distribution. We now study the KL divergence of two distributions within a parametric family separate only by some small&nbsp;<span class="math inline">\(\boldsymbol \varepsilon\)</span>.</p>
+<p>Specifically, we consider <span class="math display">\[
 \begin{split}
-h(\boldsymbol \theta+\boldsymbol \varepsilon) &amp; = D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon}) \\
-&amp;= \text{E}_{F_{\boldsymbol \theta}}\left(  \log f(\boldsymbol x| \boldsymbol \theta)  - \log f(\boldsymbol x| \boldsymbol \theta+\boldsymbol \varepsilon)   \right)\\
+D_{\text{KL}}(P(\boldsymbol \theta), P(\boldsymbol \theta+\boldsymbol \varepsilon)) &amp;= \text{E}_{P(\boldsymbol \theta)}\left(  \log p(\boldsymbol x| \boldsymbol \theta)  - \log p(\boldsymbol x| \boldsymbol \theta+\boldsymbol \varepsilon)   \right)\\
+&amp; = h(\boldsymbol \theta+\boldsymbol \varepsilon) \\
 \end{split}
-\]</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is kept constant and <span class="math inline">\(\boldsymbol \varepsilon\)</span> is varying. Assuming that <span class="math inline">\(f(\boldsymbol x| \boldsymbol \theta)\)</span> is twice differentiable with regard to <span class="math inline">\(\boldsymbol \theta\)</span> we can approximate <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> quadratically by <span class="math display">\[
+\]</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is kept constant and <span class="math inline">\(\boldsymbol \varepsilon\)</span> is varying. Assuming that the pdmf <span class="math inline">\(p(\boldsymbol x| \boldsymbol \theta)\)</span> is <strong>twice differentiable</strong> with regard to <span class="math inline">\(\boldsymbol \theta\)</span> we can approximate the function <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> quadratically by <span class="math display">\[
 h(\boldsymbol \theta+\boldsymbol \varepsilon) \approx h(\boldsymbol \theta) + \nabla h(\boldsymbol \theta)^T\boldsymbol \varepsilon+ \frac{1}{2} \boldsymbol \varepsilon^T \, \nabla \nabla^T h(\boldsymbol \theta) \,\boldsymbol \varepsilon
 \]</span></p>
-<p>From the properties of the KL divergence we know that <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon})\geq 0\)</span> and that it becomes zero only if <span class="math inline">\(\boldsymbol \varepsilon=0\)</span>. Thus, by construction the function <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> achieves for <span class="math inline">\(\boldsymbol \varepsilon=0\)</span></p>
-<ol type="i">
-<li>a true minimum with <span class="math inline">\(h(\boldsymbol \theta)=0\)</span>,</li>
-<li>a vanishing gradient with <span class="math inline">\(\nabla h(\boldsymbol \theta) = 0\)</span>, and</li>
-<li>a positive definite Hessian matrix with <span class="math inline">\(\nabla \nabla^T h(\boldsymbol \theta) =  -\text{E}_{F_{\boldsymbol \theta}} \nabla \nabla^T  \log f(\boldsymbol x| \boldsymbol \theta)\)</span>.</li>
-</ol>
-<p>Therefore in the quadratic approximation of <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> around <span class="math inline">\(\boldsymbol \theta\)</span> above the first two terms (constant and linear) vanish and only the quadratic term remains. The Hessian matrix evaluated at <span class="math inline">\(\boldsymbol \theta\)</span> <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) =   -\text{E}_{F_{\boldsymbol \theta}} \nabla \nabla^T  \log f(\boldsymbol x| \boldsymbol \theta)
-\]</span> is called <strong>expected Fisher information</strong> for <span class="math inline">\(\boldsymbol \theta\)</span>, or short <strong>Fisher information</strong>. Hence, the KL divergence can be locally approximated by <span class="math display">\[
-D_{\text{KL}}(F_{\boldsymbol \theta}, F_{\boldsymbol \theta+\boldsymbol \varepsilon})\approx \frac{1}{2} \boldsymbol \varepsilon^T  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \boldsymbol \varepsilon
+<p>From the familiar properties of the KL divergence we conclude</p>
+<ul>
+<li><span class="math inline">\(D_{\text{KL}}(P(\boldsymbol \theta), P(\boldsymbol \theta+\boldsymbol \varepsilon))\geq 0\)</span> and</li>
+<li>with equality only if <span class="math inline">\(\boldsymbol \varepsilon=0\)</span>.</li>
+</ul>
+<p>Thus, by construction the function <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> assumes a minimum at <span class="math inline">\(\boldsymbol \varepsilon=0\)</span> with <span class="math inline">\(h(\boldsymbol \theta)=0\)</span> and a vanishing gradient <span class="math inline">\(\nabla h(\boldsymbol \theta) = 0\)</span>. Therefore, in the quadratic approximation of <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> around <span class="math inline">\(\boldsymbol \theta\)</span> the first two terms (constant and linear) vanish and only the quadratic term remains: <span class="math display">\[
+h(\boldsymbol \theta+\boldsymbol \varepsilon) \approx  \frac{1}{2} \boldsymbol \varepsilon^T \, \nabla \nabla^T h(\boldsymbol \theta) \,\boldsymbol \varepsilon
+\]</span></p>
+<p>Furthermore, the Hessian matrix of <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> evaluated at <span class="math inline">\(\boldsymbol \varepsilon=0\)</span> is given by <span class="math display">\[
+\begin{split}
+\nabla \nabla^T h(\boldsymbol \theta) &amp;=  -\text{E}_{P(\boldsymbol \theta)} \nabla \nabla^T  \log p(\boldsymbol x| \boldsymbol \theta) \\
+&amp;= \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)
+\end{split}
+\]</span></p>
+<p>This matrix is known as the <strong>Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta\)</span>, denoted by <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>. It is also called <strong>expected Fisher information</strong> to emphasise that it is computed as the mean Hessian of the negative log-pdmf. The Fisher information matrix is always <strong>symmetric</strong> and <strong>positive semidefinite</strong>.</p>
+<p>With its help the KL divergence can be locally approximated by <span class="math display">\[
+D_{\text{KL}}(P(\boldsymbol \theta), P(\boldsymbol \theta+\boldsymbol \varepsilon))\approx \frac{1}{2} \boldsymbol \varepsilon^T  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \boldsymbol \varepsilon
 \]</span></p>
 <p>We may also vary the first argument in the KL divergence. It is straightforward to show that this leads to the same approximation to second order in <span class="math inline">\(\boldsymbol \varepsilon\)</span>: <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(F_{\boldsymbol \theta+\boldsymbol \varepsilon}, F_{\boldsymbol \theta})
+D_{\text{KL}}(P(\boldsymbol \theta+\boldsymbol \varepsilon), P(\boldsymbol \theta))
 &amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\, \boldsymbol \varepsilon\\
 \end{split}
 \]</span></p>
-<p>Hence, the KL divergence, while generally not symmetric in its arguments, is still locally symmetric.</p>
-<p>Computing the expected Fisher information involves no observed data, it is purely a property of the model family <span class="math inline">\(F_{\boldsymbol \theta}\)</span>. In <a href="09-likelihood3.html" class="quarto-xref"><span>Chapter 9</span></a> we will study a related quantity, the <em>observed Fisher information</em> that in contrast to the expected Fisher information is a function of the observed data.</p>
+<p>Hence, although the KL divergence is not symmetric in its arguments in general, it is symmetric to second order (locally symmetric).</p>
+</section>
+<section id="parameter-identifiability" class="level3">
+<h3 class="anchored" data-anchor-id="parameter-identifiability">Parameter identifiability</h3>
+<p>For a <strong>regular model</strong> the Fisher information is <strong>positive definite</strong> (with only positive eigenvalues) and hence <strong>parameters are locally identifiable</strong>. Recall that a positive definite Hessian implies that <span class="math inline">\(h(\boldsymbol \theta+ \boldsymbol \varepsilon)\)</span> has a true minimum at&nbsp;<span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>Conversely, for a <strong>singular statistical model</strong> the Fisher information matrix is <strong>singular</strong> (some or all of its eigenvalues vanish) at some parameter values. This indicates <strong>local non-identifiability</strong> arising, e.g., from overparametrisation, latent structure, boundary conditions or other regularity failures.</p>
+</section>
+<section id="sec-additivityfisher" class="level3">
+<h3 class="anchored" data-anchor-id="sec-additivityfisher">Additivity of Fisher information</h3>
+<p>We may wish to compute the expected Fisher information based on a set of independent identically distributed (iid) random variables.</p>
+<p>Assume that a random variable <span class="math inline">\(x \sim P(\boldsymbol \theta)\)</span> has log-pdmf <span class="math inline">\(\log p(x| \boldsymbol \theta)\)</span> and expected Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>. The expected Fisher information <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim P(\boldsymbol \theta)\)</span> is computed from the joint log-pdmf <span class="math inline">\(\log p(x_1, \ldots, x_n) = \sum_{i}^n \log p(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
+\begin{split}
+\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta) &amp;= -\text{E}_{P(\boldsymbol \theta)} \nabla \nabla^T  \sum_{i}^n \log p(x_i| \boldsymbol \theta)\\
+&amp;= \sum_{i=1}^n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) =n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \\
+\end{split}
+\]</span> Hence, the expected Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables is the <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
+</section>
+<section id="invariance-property-of-fisher-information" class="level3">
+<h3 class="anchored" data-anchor-id="invariance-property-of-fisher-information">Invariance property of Fisher information</h3>
+<p>Like KL divergence the <strong>expected Fisher information is invariant against change of variables in the sample space</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> and from distribution <span class="math inline">\(F_x\)</span> to <span class="math inline">\(F_y\)</span>. This is easy to see as the KL divergence itself is invariant against such reparametrisation, and thus also its curvature, and hence the expected Fisher information.</p>
+<p>More specifically, when the sample space is changed the density will gain a factor in the form of the Jacobian determinant according to this transformation. However, since this factor does not depend on the model parameters, the first and second derivatives of the log-density with regard to the model parameters are not affected by it.</p>
+<p>See also <a href="07-likelihood1.html#sec-mlregular" class="quarto-xref"><span>Section 7.4</span></a> for related sample space invariance of the gradient and curvature of the log-likelihood and <a href="09-likelihood3.html" class="quarto-xref"><span>Chapter 9</span></a> for the sample invariance of observed Fisher information.</p>
+</section>
+<section id="sec-covariantfisher" class="level3">
+<h3 class="anchored" data-anchor-id="sec-covariantfisher"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Transformation of Fisher information under change of parameters</h3>
+<p>The Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> depends on the parameter <span class="math inline">\(\boldsymbol \theta\)</span>. If we use a different parametrisation of the underlying distribution family, say <span class="math inline">\(\boldsymbol \zeta\)</span> with a map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> from <span class="math inline">\(\boldsymbol \zeta\)</span> to <span class="math inline">\(\boldsymbol \theta\)</span>, then the Fisher information changes according to the chain rule in calculus.</p>
+<p>To find the resulting Fisher information in terms of the new parameter <span class="math inline">\(\boldsymbol \zeta\)</span> we need to use the Jacobian matrix <span class="math inline">\(D \boldsymbol \theta(\boldsymbol \zeta)\)</span>. This matrix contains the gradients for each component of the map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> in its rows: <span class="math display">\[
+D \boldsymbol \theta(\boldsymbol \zeta) =
+\begin{pmatrix}\nabla^T \theta_1(\boldsymbol \zeta)\\ \nabla^T \theta_2(\boldsymbol \zeta) \\ \vdots \\  \end{pmatrix}
+\]</span></p>
+<p>With the above the Fisher information for <span class="math inline">\(\boldsymbol \theta\)</span> is then transformed to the Fisher information for <span class="math inline">\(\boldsymbol \zeta\)</span> applying the chain rule for the Hessian matrix: <span class="math display">\[
+\boldsymbol I^{\text{Fisher}}(\boldsymbol \zeta)   = (D \boldsymbol \theta(\boldsymbol \zeta))^T \, \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \rvert_{\boldsymbol \theta= \boldsymbol \theta(\boldsymbol \zeta)}  \, D \boldsymbol \theta(\boldsymbol \zeta)
+\]</span> This type of transformation is also known as <em>covariant transformation</em>.</p>
 <div id="nte-fimmetrictensor" class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -412,36 +471,10 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In the field of <em>information geometry</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> sets of distributions are studied using tools from differential geometry. It turns out that distribution families are manifolds and that the expected Fisher information matrix plays the role of the (symmetric!) <a href="https://en.wikipedia.org/wiki/Fisher_information_metric">metric tensor</a> on this manifold.</p>
+<p>In <strong>information geometry</strong> <span class="citation" data-cites="Amari2016">(<a href="bibliography.html#ref-Amari2016" role="doc-biblioref">Amari 2016</a>)</span> probability distributions are studied using tools from differential geometry. From this geometric perspective, smoothly parametrised distribution families <span class="math inline">\(P(\boldsymbol \theta)\)</span> are viewed as <strong>manifolds</strong>. In KL divergence geometry the Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> serves as <a href="https://en.wikipedia.org/wiki/Fisher_information_metric"><strong>metric tensor</strong></a>, measuring local distances between nearby distributions.</p>
+<p>Other divergences induce related geometries, with local metrics similarly obtained by quadratic approximation of the divergence (for metrics associated with proper scoring rules see <span class="citation" data-cites="DawidMusio2014">Dawid and Musio (<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">2014</a>)</span>).</p>
 </div>
 </div>
-</section>
-<section id="sec-additivityfisher" class="level3">
-<h3 class="anchored" data-anchor-id="sec-additivityfisher">Additivity of Fisher information</h3>
-<p>We may wish to compute the expected Fisher information based on a set of independent identically distributed (iid) random variables.</p>
-<p>Assume that a random variable <span class="math inline">\(x \sim F_{\boldsymbol \theta}\)</span> has log-density <span class="math inline">\(\log f(x| \boldsymbol \theta)\)</span> and expected Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>. The expected Fisher information <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim F_{\boldsymbol \theta}\)</span> is computed from the joint log-density <span class="math inline">\(\log f(x_1, \ldots, x_n) = \sum_{i}^n \log f(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
-\begin{split}
-\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta) &amp;= -\text{E}_{F_{\boldsymbol \theta}} \nabla \nabla^T  \sum_{i}^n \log f(x_i| \boldsymbol \theta)\\
-&amp;= \sum_{i=1}^n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) =n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \\
-\end{split}
-\]</span> Hence, the expected Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables is the <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
-</section>
-<section id="invariance-property-of-the-fisher-information" class="level3">
-<h3 class="anchored" data-anchor-id="invariance-property-of-the-fisher-information">Invariance property of the Fisher information</h3>
-<p>Like KL divergence the <strong>expected Fisher information is invariant against change of parametrisation of the sample space</strong>, say from variable <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> and from distribution <span class="math inline">\(F_x\)</span> to <span class="math inline">\(F_y\)</span>. This is easy to see as the KL divergence itself is invariant against such reparametrisation, and thus also its curvature, and hence the expected Fisher information.</p>
-<p>More specifically, when the sample space is changed the density will gain a factor in the form of the Jacobian determinant according to this transformation. However, since this factor does not depend on the model parameters, the first and second derivatives of the log-density with regard to the model parameters are not affected by it.</p>
-<p>See also <a href="07-likelihood1.html#sec-mlregular" class="quarto-xref"><span>Section 7.4</span></a> for related sample space invariance of the gradient and curvature of the log-likelihood and <a href="09-likelihood3.html" class="quarto-xref"><span>Chapter 9</span></a> for the sample invariance of observed Fisher information.</p>
-</section>
-<section id="sec-covariantfisher" class="level3">
-<h3 class="anchored" data-anchor-id="sec-covariantfisher"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Transformation of Fisher information under change of parameters</h3>
-<p>The Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> depends on the parameter <span class="math inline">\(\boldsymbol \theta\)</span>. If we use a different parametrisation of the underlying parametric distribution family, say <span class="math inline">\(\boldsymbol \zeta\)</span> with a map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> from <span class="math inline">\(\boldsymbol \zeta\)</span> to <span class="math inline">\(\boldsymbol \theta\)</span>, then the Fisher information changes according to the chain rule in calculus.</p>
-<p>To find the resulting Fisher information in terms of the new parameter <span class="math inline">\(\boldsymbol \zeta\)</span> we need to use the Jacobian matrix <span class="math inline">\(D \boldsymbol \theta(\boldsymbol \zeta)\)</span>. This matrix contains the gradients for each component of the map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> in its rows: <span class="math display">\[
-D \boldsymbol \theta(\boldsymbol \zeta) =
-\begin{pmatrix}\nabla^T \theta_1(\boldsymbol \zeta)\\ \nabla^T \theta_2(\boldsymbol \zeta) \\ \vdots \\  \end{pmatrix}
-\]</span></p>
-<p>With the above the Fisher information for <span class="math inline">\(\boldsymbol \theta\)</span> is then transformed to the Fisher information for <span class="math inline">\(\boldsymbol \zeta\)</span> applying the chain rule for the Hessian matrix: <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \zeta)   = (D \boldsymbol \theta(\boldsymbol \zeta))^T \, \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \rvert_{\boldsymbol \theta= \boldsymbol \theta(\boldsymbol \zeta)}  \, D \boldsymbol \theta(\boldsymbol \zeta)
-\]</span> This type of transformation is also known as <em>covariant transformation</em>.</p>
 </section>
 </section>
 <section id="expected-fisher-information-examples" class="level2" data-number="5.2">
@@ -450,7 +483,7 @@ D \boldsymbol \theta(\boldsymbol \zeta) =
 <h3 class="anchored" data-anchor-id="models-with-a-single-parameter">Models with a single parameter</h3>
 <div id="exm-expectedfisherbernoulli" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.1</strong></span> Expected Fisher information for the Bernoulli distribution:</p>
-<p>The log-probability mass function of the Bernoulli <span class="math inline">\(\text{Ber}(\theta)\)</span> distribution is <span class="math display">\[
+<p>The log-pmf for the Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> is <span class="math display">\[
 \log p(x | \theta) = x \log(\theta) + (1-x) \log(1-\theta)
 \]</span> where <span class="math inline">\(\theta\)</span> is the probability of “success”. The second derivative with regard to the parameter <span class="math inline">\(\theta\)</span> is <span class="math display">\[
 \frac{d^2}{d\theta^2} \log p(x | \theta)  =  -\frac{x}{\theta^2}-  \frac{1-x}{(1-\theta)^2}
@@ -464,7 +497,7 @@ I^{\text{Fisher}}(\theta) &amp; = -\text{E}\left(\frac{d^2}{d\theta^2} \log p(x 
 </div>
 <div id="exm-quadapproxklbernoulli" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.2</strong></span> Quadratic approximations of the KL divergence between two Bernoulli distributions:</p>
-<p>From <a href="04-entropy2.html#exm-klbernoulli" class="quarto-xref">Example&nbsp;<span>4.4</span></a> we have as KL divergence <span class="math display">\[
+<p>From <a href="04-entropy2.html#exm-klbernoulli" class="quarto-xref">Example&nbsp;<span>4.3</span></a> we have as KL divergence <span class="math display">\[
 D_{\text{KL}}\left (\text{Ber}(\theta_1), \text{Ber}(\theta_2) \right)=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span> and from <a href="#exm-expectedfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a> the corresponding expected Fisher information.</p>
 <p>The quadratic approximation implies that <span class="math display">\[
@@ -475,12 +508,12 @@ D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \
 <p>In Worksheet E1 this is verified by using a second order Taylor series applied to the KL divergence.</p>
 </div>
 <div id="exm-expectedfishernormknownvar" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.3</strong></span> Expected Fisher information for the normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> with known variance.</p>
-<p>The log-density is <span class="math display">\[
-\log f(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2)
+<p><span class="theorem-title"><strong>Example 5.3</strong></span> Expected Fisher information for the normal distribution with known variance.</p>
+<p>The log-pdf for <span class="math inline">\(N(\mu, \sigma^2)\)</span> is <span class="math display">\[
+\log p(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2)
 -\frac{1}{2 \sigma^2} (x-\mu)^2 - \frac{1}{2}\log(2 \pi)
 \]</span> The second derivative with respect to <span class="math inline">\(\mu\)</span> is <span class="math display">\[
-\frac{d^2}{d\mu^2} \log f(x | \mu, \sigma^2) = -\frac{1}{\sigma^2}
+\frac{d^2}{d\mu^2} \log p(x | \mu, \sigma^2) = -\frac{1}{\sigma^2}
 \]</span> Therefore the expected Fisher information is <span class="math display">\[
 \boldsymbol I^{\text{Fisher}}\left(\mu\right) = \frac{1}{\sigma^2}
 \]</span></p>
@@ -489,19 +522,19 @@ D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \
 <section id="models-with-multiple-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
 <div id="exm-expectedfishernormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.4</strong></span> Expected Fisher information for the normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p>
-<p>The log-density is <span class="math display">\[
-\log f(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2)
+<p><span class="theorem-title"><strong>Example 5.4</strong></span> Expected Fisher information for the normal distribution.</p>
+<p>The log-pdf for <span class="math inline">\(N(\mu, \sigma^2)\)</span> is <span class="math display">\[
+\log p(x | \mu, \sigma^2) = -\frac{1}{2} \log(\sigma^2)
 -\frac{1}{2 \sigma^2} (x-\mu)^2 - \frac{1}{2}\log(2 \pi)
 \]</span> The gradient with respect to <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> (!) is the vector <span class="math display">\[
-\nabla \log f(x | \mu, \sigma^2) =
+\nabla \log p(x | \mu, \sigma^2) =
 \begin{pmatrix}
 \frac{1}{\sigma^2} (x-\mu) \\
 - \frac{1}{2 \sigma^2} + \frac{1}{2 \sigma^4} (x- \mu)^2 \\
 \end{pmatrix}
 \]</span> Hint for calculating the gradient: replace <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(v\)</span> and then take the partial derivative with regard to <span class="math inline">\(v\)</span>, then substitute back.</p>
 <p>The corresponding Hessian matrix is <span class="math display">\[
-\nabla \nabla^T \log f(x | \mu, \sigma^2) =
+\nabla \nabla^T \log p(x | \mu, \sigma^2) =
 \begin{pmatrix}
 -\frac{1}{\sigma^2} &amp; -\frac{1}{\sigma^4} (x-\mu)\\
 -\frac{1}{\sigma^4} (x-\mu) &amp;  \frac{1}{2\sigma^4} - \frac{1}{\sigma^6}(x- \mu)^2 \\
@@ -512,13 +545,13 @@ D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \
 </div>
 <div id="exm-catexpectfisher" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.5</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Expected Fisher information of the categorical distribution:</p>
-<p>The log-probability mass function for the categorical distribution with <span class="math inline">\(K\)</span> classes and <span class="math inline">\(K-1\)</span> free parameters <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span> is <span class="math display">\[
+<p>The log-pmf function for the categorical distribution <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span> with <span class="math inline">\(K\)</span> classes and <span class="math inline">\(K-1\)</span> free parameters <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span> is <span class="math display">\[
 \begin{split}
 \log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1}  ) &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + x_K \log \pi_K \\
 &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \\
 \end{split}
 \]</span></p>
-<p>From the log-probability mass function we compute the Hessian matrix of second order partial derivatives <span class="math inline">\(\nabla \nabla^T \log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1} )\)</span> with regard to <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>:</p>
+<p>From the log-pmf we compute the Hessian matrix of second order partial derivatives <span class="math inline">\(\nabla \nabla^T \log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1} )\)</span> with regard to <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>:</p>
 <ul>
 <li><p>The diagonal entries of the Hessian matrix (with <span class="math inline">\(i=1, \ldots, K-1\)</span>) are <span class="math display">\[
 \frac{\partial^2}{\partial \pi_i^2} \log p(\boldsymbol x|\pi_1, \ldots, \pi_{K-1}) =
@@ -542,7 +575,7 @@ D_{\text{KL}}\left( \text{Ber}(\theta+\varepsilon), \text{Ber}(\theta) \right) \
 &amp; = \text{Diag}\left( \frac{1}{\pi_1} , \ldots,  \frac{1}{\pi_{K-1}}   \right) + \frac{1}{\pi_K} \mathbf 1\\
 \end{split}
 \]</span></p>
-<p>For <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\pi_1=\theta\)</span> this reduces to the expected Fisher information of a Bernoulli variable, see <a href="#exm-expectedfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a>. <span class="math display">\[
+<p>For <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\pi_1=\theta\)</span> this reduces to the expected Fisher information of the Bernoulli distribution, see <a href="#exm-expectedfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a>. <span class="math display">\[
 \begin{split}
 I^{\text{Fisher}}(\theta) &amp; =  \left(\frac{1}{\theta} + \frac{1}{1-\theta} \right) \\
   &amp;= \frac{1}{\theta (1-\theta)} \\
@@ -551,9 +584,9 @@ I^{\text{Fisher}}(\theta) &amp; =  \left(\frac{1}{\theta} + \frac{1}{1-\theta} \
 </div>
 <div id="exm-catquadapproxkl" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.6</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Quadratic approximation of KL divergence of the categorical distribution and the Neyman and Pearson divergence:</p>
-<p>We now consider the local approximation of the KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> between the categorical distribution <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> with probabilities <span class="math inline">\(\boldsymbol q=(q_1, \ldots, q_K)^T\)</span> with the categorical distribution <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> with probabilities <span class="math inline">\(\boldsymbol p= (p_1, \ldots, p_K)^T\)</span>.</p>
-<p>From <a href="04-entropy2.html#exm-catkl" class="quarto-xref">Example&nbsp;<span>4.7</span></a> we already know the KL divergence and from <a href="#exm-catexpectfisher" class="quarto-xref">Example&nbsp;<span>5.5</span></a> the corresponding expected Fisher information.</p>
-<p>First, we keep the first argument <span class="math inline">\(Q\)</span> fixed and assume that <span class="math inline">\(P\)</span> is a perturbed version of <span class="math inline">\(Q\)</span> with <span class="math inline">\(\boldsymbol p= \boldsymbol q+\boldsymbol \varepsilon\)</span>. Note that the perturbations <span class="math inline">\(\boldsymbol \varepsilon=(\varepsilon_1, \ldots, \varepsilon_K)^T\)</span> satisfy <span class="math inline">\(\sum_{k=1}^K \varepsilon_k = 0\)</span> because <span class="math inline">\(\sum_{k=1}^K q_i=1\)</span> and <span class="math inline">\(\sum_{k=1}^K p_i=1\)</span>. Thus <span class="math inline">\(\varepsilon_K = -\sum_{k=1}^{K-1} \varepsilon_k\)</span>. Then <span class="math display">\[
+<p>We now consider the local approximation of the KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> between the categorical distribution <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> with probabilities <span class="math inline">\(\boldsymbol q=(q_1, \ldots, q_K)^T\)</span> and the categorical distribution <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> with probabilities <span class="math inline">\(\boldsymbol p= (p_1, \ldots, p_K)^T\)</span>.</p>
+<p>From <a href="04-entropy2.html#exm-catkl" class="quarto-xref">Example&nbsp;<span>4.6</span></a> we already know the KL divergence and from <a href="#exm-catexpectfisher" class="quarto-xref">Example&nbsp;<span>5.5</span></a> the corresponding expected Fisher information.</p>
+<p>First, we keep <span class="math inline">\(Q\)</span> fixed and assume that <span class="math inline">\(P\)</span> is a perturbed version of <span class="math inline">\(Q\)</span> with <span class="math inline">\(\boldsymbol p= \boldsymbol q+\boldsymbol \varepsilon\)</span>. The perturbations <span class="math inline">\(\boldsymbol \varepsilon=(\varepsilon_1, \ldots, \varepsilon_K)^T\)</span> satisfy <span class="math inline">\(\sum_{k=1}^K \varepsilon_k = 0\)</span> because <span class="math inline">\(\sum_{k=1}^K q_i=1\)</span> and <span class="math inline">\(\sum_{k=1}^K p_i=1\)</span>. Thus <span class="math inline">\(\varepsilon_K = -\sum_{k=1}^{K-1} \varepsilon_k\)</span>. Then <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(\text{Cat}(\boldsymbol q), \text{Cat}(\boldsymbol q+\boldsymbol \varepsilon))
 &amp;  \approx \frac{1}{2} (\varepsilon_1, \ldots,  \varepsilon_{K-1}) \,
@@ -565,24 +598,26 @@ D_{\text{KL}}(\text{Cat}(\boldsymbol q), \text{Cat}(\boldsymbol q+\boldsymbol \v
 &amp;= \frac{1}{2}  \sum_{k=1}^{K} \frac{(q_k-p_k)^2}{q_k}\\
 &amp; = \frac{1}{2} D_{\text{Neyman}}(Q, P)\\
 \end{split}
-\]</span> Similarly, if we keep <span class="math inline">\(P\)</span> fixed and consider <span class="math inline">\(Q\)</span> as a perturbed version of <span class="math inline">\(P\)</span> we get <span class="math display">\[
+\]</span> Second, keeping <span class="math inline">\(P\)</span> fixed and with <span class="math inline">\(Q\)</span> a perturbation of <span class="math inline">\(P\)</span> we get <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(\text{Cat}(\boldsymbol p+\boldsymbol \varepsilon), \text{Cat}(\boldsymbol p))
 &amp;\approx \frac{1}{2}  \sum_{k=1}^{K} \frac{(q_k-p_k)^2}{p_k}\\
 &amp;= \frac{1}{2} D_{\text{Pearson}}(Q, P)
 \end{split}
 \]</span> Note that in both approximations we divide by the probabilities of the distribution that is kept fixed.</p>
-<p>Note the appearance of the <em>Pearson <span class="math inline">\(\chi^2\)</span> divergence</em> and the <em>Neyman <span class="math inline">\(\chi^2\)</span> divergence</em> in the above. Both are, like the KL divergence, part of the family of <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>. The Neyman <span class="math inline">\(\chi^2\)</span> divergence is also known as the reverse Pearson divergence as <span class="math inline">\(D_{\text{Neyman}}(Q, P) = D_{\text{Pearson}}(P, Q)\)</span>.</p>
+<p>In the above we encounter the <em>Pearson <span class="math inline">\(\chi^2\)</span> divergence</em> and the <em>Neyman <span class="math inline">\(\chi^2\)</span> divergence</em>. Both are, like the KL divergence, part of the family of <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>. The Neyman <span class="math inline">\(\chi^2\)</span> divergence is also known as the reverse Pearson divergence as <span class="math inline">\(D_{\text{Neyman}}(Q, P) = D_{\text{Pearson}}(P, Q)\)</span>.</p>
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Amari2016" class="csl-entry" role="listitem">
+Amari, S.-I. 2016. <em>Information Geometry and Its Applications</em>. Springer. <a href="https://doi.org/10.1007/978-4-431-55978-8">https://doi.org/10.1007/978-4-431-55978-8</a>.
+</div>
+<div id="ref-DawidMusio2014" class="csl-entry" role="listitem">
+Dawid, A. P., and M. Musio. 2014. <span>“Theory and Applications of Proper Scoring Rules.”</span> <em>METRON</em> 72: 169–83. <a href="https://doi.org/10.1007/s40300-014-0039-y">https://doi.org/10.1007/s40300-014-0039-y</a>.
+</div>
+</div>
 </section>
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>A recent review is given, e.g., in: Nielsen, F. 2020. <em>An elementary introduction to information geometry.</em> Entropy <strong>22</strong>:1100. <a href="https://doi.org/10.3390/e22101100" class="uri">https://doi.org/10.3390/e22101100</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -870,13 +905,13 @@ D_{\text{KL}}(\text{Cat}(\boldsymbol p+\boldsymbol \varepsilon), \text{Cat}(\bol
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-entropy2.html" class="pagination-link" aria-label="Relative entropy">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span>
+      <a href="./04-entropy2.html" class="pagination-link" aria-label="Divergence">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-entropy4.html" class="pagination-link" aria-label="Principle of maximum entropy">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./06-entropy4.html" class="pagination-link" aria-label="$\advanced$ Principle of maximum entropy">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

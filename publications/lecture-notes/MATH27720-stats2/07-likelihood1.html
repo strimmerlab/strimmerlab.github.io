@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -187,7 +187,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +199,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -337,7 +337,7 @@ window.Quarto = {
   <li><a href="#outline-of-maximum-likelihood-estimation" id="toc-outline-of-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#outline-of-maximum-likelihood-estimation">Outline of maximum likelihood estimation</a></li>
   <li><a href="#origin-of-the-method-of-maximum-likelihood" id="toc-origin-of-the-method-of-maximum-likelihood" class="nav-link" data-scroll-target="#origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</a></li>
   </ul></li>
-  <li><a href="#from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood" id="toc-from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood" class="nav-link" data-scroll-target="#from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood"><span class="header-section-number">7.2</span> From minimum KL divergence (or maximum Boltzmann relative entropy) to maximum likelihood</a>
+  <li><a href="#from-minimum-kl-divergence-or-maximum-boltzmann-entropy-to-maximum-likelihood" id="toc-from-minimum-kl-divergence-or-maximum-boltzmann-entropy-to-maximum-likelihood" class="nav-link" data-scroll-target="#from-minimum-kl-divergence-or-maximum-boltzmann-entropy-to-maximum-likelihood"><span class="header-section-number">7.2</span> From minimum KL divergence (or maximum Boltzmann entropy) to maximum likelihood</a>
   <ul class="collapse">
   <li><a href="#the-kl-divergence-between-true-model-and-approximating-model" id="toc-the-kl-divergence-between-true-model-and-approximating-model" class="nav-link" data-scroll-target="#the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</a></li>
   <li><a href="#minimum-kl-divergence-and-maximum-likelihood" id="toc-minimum-kl-divergence-and-maximum-likelihood" class="nav-link" data-scroll-target="#minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</a></li>
@@ -387,7 +387,7 @@ window.Quarto = {
 <p>In a nutshell, the starting points in a maximum likelihood analysis are</p>
 <ol type="i">
 <li>the observed data <span class="math inline">\(D = \{x_1,\ldots,x_n\}\)</span> with <span class="math inline">\(n\)</span> independent and identically distributed (iid) samples, with the ordering irrelevant, and a</li>
-<li>a model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with corresponding probability density or probability mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> and parameters <span class="math inline">\(\boldsymbol \theta\)</span></li>
+<li>a model <span class="math inline">\(P(\boldsymbol \theta)\)</span> with corresponding probability density or probability mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> and parameters <span class="math inline">\(\boldsymbol \theta\)</span></li>
 </ol>
 <p>From model and data the likelihood function (note upper case “L”) is constructed as <span class="math display">\[
 L_n(\boldsymbol \theta) = L(\boldsymbol \theta|D)=\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
@@ -415,22 +415,22 @@ Figure&nbsp;7.1: Finding the maximum likelihood estimate by maximisation of the 
 <section id="origin-of-the-method-of-maximum-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="origin-of-the-method-of-maximum-likelihood">Origin of the method of maximum likelihood</h3>
 <p>Historically, the likelihood has often interpreted and justified as the probability of the data given the model. However, while providing an intuitive understanding this is not strictly correct. First, this interpretation only applies to discrete random variables. Second, since the samples <span class="math inline">\(x_1, \ldots, x_n\)</span> are typically <strong>exchangeable</strong> (i.e.&nbsp;permutation invariant) even in this case one would still need to add a factor accounting for the multiplicity of the possible orderings of the samples to obtain the correct probability of the data. Third, the interpretation of likelihood as probability of the data completely breaks down for continuous random variables because then <span class="math inline">\(p(x |\boldsymbol \theta)\)</span> is a density, not a probability.</p>
-<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest in terms of KL divergence to the unknown true data-generating model as represented by the observed data and the empirical distribution.</p>
+<p>Next, we will see that maximum likelihood estimation is a well-justified method that arises naturally from an entropy perspective. More specifically, the maximum likelihood estimate corresponds to the distribution <span class="math inline">\(P(\boldsymbol \theta)\)</span> that is closest in terms of KL divergence to the unknown true data-generating model as represented by the observed data and the empirical distribution.</p>
 </section>
 </section>
-<section id="from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="from-minimum-kl-divergence-or-maximum-boltzmann-relative-entropy-to-maximum-likelihood"><span class="header-section-number">7.2</span> From minimum KL divergence (or maximum Boltzmann relative entropy) to maximum likelihood</h2>
+<section id="from-minimum-kl-divergence-or-maximum-boltzmann-entropy-to-maximum-likelihood" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="from-minimum-kl-divergence-or-maximum-boltzmann-entropy-to-maximum-likelihood"><span class="header-section-number">7.2</span> From minimum KL divergence (or maximum Boltzmann entropy) to maximum likelihood</h2>
 <section id="the-kl-divergence-between-true-model-and-approximating-model" class="level3">
 <h3 class="anchored" data-anchor-id="the-kl-divergence-between-true-model-and-approximating-model">The KL divergence between true model and approximating model</h3>
-<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data-generating distribution. We also specify a family of distributions <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
-<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\)</span> measures the divergence of the approximation <span class="math inline">\(P_{\boldsymbol \theta}\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
+<p>Assume we have observations <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The data are sampled from <span class="math inline">\(F\)</span>, the true but unknown data-generating distribution. We also specify a family of distributions <span class="math inline">\(P(\boldsymbol \theta)\)</span> indexed by <span class="math inline">\(\boldsymbol \theta\)</span> to approximate <span class="math inline">\(F\)</span>.</p>
+<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> measures the divergence of the approximation <span class="math inline">\(P(\boldsymbol \theta)\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
 \begin{split}
-D_{\text{KL}}(F,P_{\boldsymbol \theta}) &amp;= H(F,P_{\boldsymbol \theta}) - H(F) \\
-&amp;= \underbrace{- \text{E}_{F}\log p_{\boldsymbol \theta}(x)}_{\text{cross-entropy}}
+D_{\text{KL}}(F,P(\boldsymbol \theta)) &amp;= H(F,P(\boldsymbol \theta)) - H(F) \\
+&amp;= \underbrace{- \text{E}_{F}\log p(x| \boldsymbol \theta)}_{\text{mean log-loss}}
 -(\underbrace{-\text{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\boldsymbol \theta$}})\\
 \end{split}
 \]</span></p>
-<p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\)</span> that becomes more and more accurate with growing sample size.</p>
+<p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> that becomes more and more accurate with growing sample size.</p>
 <hr>
 <p>Recall the “Law of Large Numbers” :</p>
 <ul>
@@ -440,28 +440,28 @@ D_{\text{KL}}(F,P_{\boldsymbol \theta}) &amp;= H(F,P_{\boldsymbol \theta}) - H(F
 <li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
 </ul>
 <hr>
-<p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate cross-entropy and as a result the KL divergence. The cross-entropy <span class="math inline">\(H(F, P_{\boldsymbol \theta})\)</span> is approximated by the <strong>empirical cross-entropy</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>: <span class="math display">\[
+<p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate the mean log-loss and as a result the KL divergence. The mean log-loss <span class="math inline">\(H(F, P(\boldsymbol \theta))\)</span> is approximated by the <strong>empirical mean log-loss</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>: <span class="math display">\[
 \begin{split}
-H(F, P_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, P_{\boldsymbol \theta}) \\
+H(F, P(\boldsymbol \theta)) &amp; \approx H(\hat{F}_n, P(\boldsymbol \theta)) \\
                   &amp; = - \text{E}_{\hat{F}_n} (\log p(x|\boldsymbol \theta))  \\
                   &amp; = -\frac{1}{n} \sum_{i=1}^n \log p(x_i | \boldsymbol \theta) \\
                   &amp; = -\frac{1}{n} \ell_n ({\boldsymbol \theta})
 \end{split}
-\]</span> The empirical cross-entropy is equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>. Conversely, the <strong>log-likelihood</strong> is the <strong>negative empirical cross-entropy multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
+\]</span> The empirical risk is equal to the negative log-likelihood standardised by the sample size <span class="math inline">\(n\)</span>. Conversely, the <strong>log-likelihood</strong> is the <strong>negative empirical risk based on the log-loss multiplied by sample size <span class="math inline">\(n\)</span></strong>.</p>
 </section>
 <section id="minimum-kl-divergence-and-maximum-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="minimum-kl-divergence-and-maximum-likelihood">Minimum KL divergence and maximum likelihood</h3>
-<p>If we knew <span class="math inline">\(F\)</span> we would simply minimise <span class="math inline">\(D_{\text{KL}}(F, P_{\boldsymbol \theta})\)</span> to find the particular model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> that is closest to the true model, or equivalent, we would minimise the cross-entropy <span class="math inline">\(H(F, P_{\boldsymbol \theta})\)</span>. However, since we actually don’t know <span class="math inline">\(F\)</span> this is not possible.</p>
-<p>However, for large sample size <span class="math inline">\(n\)</span> when the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section. Thus, instead of minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(F, P_{\boldsymbol \theta})\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, P_{\boldsymbol \theta})\)</span> which is the same as maximising the log-likelihood <span class="math inline">\(\ell_n ({\boldsymbol \theta})\)</span>.</p>
+<p>If we knew <span class="math inline">\(F\)</span> we would simply minimise <span class="math inline">\(D_{\text{KL}}(F, P(\boldsymbol \theta))\)</span> to find the particular model <span class="math inline">\(P(\boldsymbol \theta)\)</span> that is closest to the true model, or equivalently, we would minimise the mean log-loss <span class="math inline">\(H(F, P(\boldsymbol \theta))\)</span>. However, since we actually don’t know <span class="math inline">\(F\)</span> this is not possible.</p>
+<p>However, for large sample size <span class="math inline">\(n\)</span> when the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> is a good approximation for <span class="math inline">\(F\)</span>, we can use the results from the previous section. Thus, instead of minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(F, P(\boldsymbol \theta))\)</span> we simply minimise <span class="math inline">\(H(\hat{F}_n, P(\boldsymbol \theta))\)</span> which is the same as maximising the log-likelihood <span class="math inline">\(\ell_n ({\boldsymbol \theta})\)</span>.</p>
 <p>Conversely, this implies that maximising the likelihood with regard to the <span class="math inline">\(\boldsymbol \theta\)</span> is equivalent ( asymptotically for large <span class="math inline">\(n\)</span>!) to minimising the KL divergence of the approximating model and the unknown true model.</p>
 <p><span class="math display">\[
 \begin{split}
 \hat{\boldsymbol \theta}_{ML} &amp;= \underset{\boldsymbol \theta}{\arg \max}\,\, \ell_n(\boldsymbol \theta) \\
-&amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, P_{\boldsymbol \theta}) \\
-&amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, P_{\boldsymbol \theta}) \\
+&amp;= \underset{\boldsymbol \theta}{\arg \min}\,\, H(\hat{F}_n, P(\boldsymbol \theta)) \\
+&amp;\approx \underset{\boldsymbol \theta}{\arg \min}\,\, D_{\text{KL}}(F, P(\boldsymbol \theta)) \\
 \end{split}
 \]</span></p>
-<p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(P_{\boldsymbol \theta}\)</span> from the unkown true model <span class="math inline">\(F\)</span>. In other words, <strong>maximum likelihood estimators are minimum empirical KL divergence estimators</strong>.</p>
+<p>Therefore, the reasoning behind the method of <strong>maximum likelihood</strong> is that it minimises a <strong>large sample approximation of the KL divergence</strong> of the candidate model <span class="math inline">\(P(\boldsymbol \theta)\)</span> from the unkown true model <span class="math inline">\(F\)</span>. In other words, <strong>maximum likelihood estimators are minimum empirical KL divergence estimators</strong>.</p>
 <p>As the KL divergence is a functional of the true distribution <span class="math inline">\(F\)</span> <strong>maximum likelihood provides empirical estimators for parametric models</strong>.</p>
 <p>As a consequence of the close link of maximum likelihood and KL divergence maximum likelihood inherits for large <span class="math inline">\(n\)</span> (and only then!) all the optimality properties from KL divergence.</p>
 </section>
@@ -471,14 +471,14 @@ H(F, P_{\boldsymbol \theta}) &amp; \approx H(\hat{F}_n, P_{\boldsymbol \theta}) 
 <section id="consistency-of-maximum-likelihood-estimates" class="level3">
 <h3 class="anchored" data-anchor-id="consistency-of-maximum-likelihood-estimates">Consistency of maximum likelihood estimates</h3>
 <p>One important property of the method of maximum likelihood is that in general it produces <strong>consistent estimates</strong>. This means that estimates are well behaved so that they become more accurate with more data and in the limit of infinite data converge to the true parameters.</p>
-<p>Specifically, if the true underlying model <span class="math inline">\(F\)</span> is contained in the set of specified candidates models <span class="math inline">\(P_{\boldsymbol \theta}\)</span> <span class="math display">\[
-\underbrace{F}_{\text{true model}} \subset \underbrace{P_{\boldsymbol \theta}}_{\text{specified models}}
-\]</span> there is a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> for which <span class="math inline">\(F = P_{\boldsymbol \theta_{\text{true}}}\)</span>.</p>
-<p>Maximisation of the likelihood function is, for large <span class="math inline">\(n\)</span>, equivalent to minimising the KL divergence, and <span class="math inline">\(D_{\text{KL}}(F,P_{\boldsymbol \theta})\rightarrow 0\)</span> implies <span class="math inline">\(P_{\boldsymbol \theta} \rightarrow F\)</span>, hence <span class="math display">\[
+<p>Specifically, if the true underlying model <span class="math inline">\(F\)</span> is contained in the set of specified candidates models <span class="math inline">\(P(\boldsymbol \theta)\)</span> <span class="math display">\[
+\underbrace{F}_{\text{true model}} \subset \underbrace{P(\boldsymbol \theta)}_{\text{specified models}}
+\]</span> there is a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> for which <span class="math inline">\(F = P(\boldsymbol \theta_{\text{true}})\)</span>.</p>
+<p>Maximisation of the likelihood function is, for large <span class="math inline">\(n\)</span>, equivalent to minimising the KL divergence, and <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\rightarrow 0\)</span> implies <span class="math inline">\(P(\boldsymbol \theta)\rightarrow F\)</span>, hence <span class="math display">\[
 \hat{\boldsymbol \theta}_{ML} \overset{\text{large }n}{\longrightarrow} \boldsymbol \theta_{\text{true}}
 \]</span> Thus, given sufficient data, the maximum likelihood estimate of the model parameters will converge to the true parameter values. Note that the above assumes the model family, and therefore the number of parameters, is fixed.</p>
 <p>As a consequence of consistency, <strong>maximum likelihood estimates are asympotically unbiased</strong>. As we will see in the examples, they can still be biased in finite samples.</p>
-<p>Note that even if the candidate model family <span class="math inline">\(P_{\boldsymbol \theta}\)</span> is <strong>misspecified</strong> (so that it does not contain the actual true model), the maximum likelihood estimate is still optimal, for large sample size, in the sense in that it will identify the distribution in the family that is closest in terms of KL divergence.</p>
+<p>Note that even if the candidate model family <span class="math inline">\(P(\boldsymbol \theta)\)</span> is <strong>misspecified</strong> (so that it does not contain the actual true model), the maximum likelihood estimate is still optimal, for large sample size, in the sense in that it will identify the distribution in the family that is closest in terms of KL divergence.</p>
 <p>Finally, inconsistent maximum likelihood estimates can occur, but only in non-regular situations, for example when the MLE lies on a boundary or when there are singularities in the likelihood function. Furthermore, inconsistency can arise when the number of parameters grows with the sample size and hence the information per parameter does not sufficiently increase (as in the well-known Neyman–Scott paradox).</p>
 </section>
 <section id="invariance-property-of-the-maximum-likelihood" class="level3">
@@ -850,8 +850,8 @@ H_n(\theta) = \frac{d^2 \ell_n(\theta)}{d \theta^2}
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./06-entropy4.html" class="pagination-link" aria-label="Principle of maximum entropy">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span>
+      <a href="./06-entropy4.html" class="pagination-link" aria-label="$\advanced$ Principle of maximum entropy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

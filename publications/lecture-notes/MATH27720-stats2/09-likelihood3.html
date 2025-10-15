@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -187,7 +187,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +199,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -390,13 +390,13 @@ Figure&nbsp;9.1: Flat and sharp log-likelihood function.
 {\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = - \boldsymbol H(\hat{\boldsymbol \theta}_{ML}  ) = -\nabla \nabla^T \ell_n(\hat{\boldsymbol \theta}_{ML})
 \]</span></p>
 <p>Sometimes this is simply called the “observed information”. To avoid confusion with the <strong>expected Fisher information</strong> <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{F_{\boldsymbol \theta}} \left( \nabla \nabla^T \log f(x|\boldsymbol \theta)\right)
+\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) = -\text{E}_{P(\boldsymbol \theta)} \left( \nabla \nabla^T \log p(x|\boldsymbol \theta)\right)
 \]</span> introduced earlier it is necessary to always use the qualifier “observed” when referring to <span class="math inline">\({\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML})\)</span>.</p>
 <p>We will see in more detail later that the observed Fisher information plays an important role at quantifying the uncertainty of a maximum likelihood estimate.</p>
 <section id="transformation-properties" class="level3">
 <h3 class="anchored" data-anchor-id="transformation-properties">Transformation properties</h3>
 <p>As a consequence of the invariance of the score function and curvature function the <strong>observed Fisher information is invariant against transformations of the sample space</strong>. This is the same invariance also shown by the expected Fisher information and by the KL divergence.</p>
-<p><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Like the expected Fisher information the observed Fisher information (as a Hessian matrix) transforms covariantly under change of model parameters — see <a href="05-entropy3.html#sec-covariantfisher" class="quarto-xref"><span>Section 5.1.4</span></a>.</p>
+<p><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Like the expected Fisher information the observed Fisher information (as a Hessian matrix) transforms covariantly under change of model parameters — see <a href="05-entropy3.html#sec-covariantfisher" class="quarto-xref"><span>Section 5.1.5</span></a>.</p>
 </section>
 <section id="relationship-between-observed-and-expected-fisher-information" class="level3">
 <h3 class="anchored" data-anchor-id="relationship-between-observed-and-expected-fisher-information">Relationship between observed and expected Fisher information</h3>
@@ -413,11 +413,11 @@ Figure&nbsp;9.1: Flat and sharp log-likelihood function.
 <p>Data-based vs.&nbsp;model only:</p>
 <ul>
 <li><p>The observed Fisher information is computed from the log-likelihood function. Therefore it takes both the model and the observed data <span class="math inline">\(D\)</span> into account and explicitly depends on the sample size <span class="math inline">\(n\)</span>. It contains estimates of the parameters but not the parameters themselves. While the curvature of the log-likelihood function may be computed for any point of the log-likelihood function the observed Fisher information specifically refers to the curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>. It is linked to the (asymptotic) variance of the MLE (see the examples and as will be discussed in more detail later).</p></li>
-<li><p>In contrast, the expected Fisher information is derived directly from the log-density of the model family. It does not depend on the observed data, and thus does not depend on sample size. It makes sense and can be computed for any value of the parameters. It describes the geometry of the space of the model family, and is the local approximation of KL information.</p></li>
+<li><p>In contrast, the expected Fisher information is derived directly from the log-density of the model family. It does not depend on the observed data, and thus does not depend on sample size. It is a property of the model family <span class="math inline">\(P(\boldsymbol \theta)\)</span> alone. It makes sense and can be computed at any <span class="math inline">\(\boldsymbol \theta\)</span>. It describes the local geometry of the space of the model family, and is the local approximation of KL information.</p></li>
 </ul>
 <p>Large sample equivalence:</p>
 <ul>
-<li>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_0\)</span>. It follows from the construction of the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol I^{\text{Fisher}}( \boldsymbol \theta_0 )\)</span> (i.e.&nbsp;the expected Fisher information for a set of iid random variables, see <a href="05-entropy3.html#sec-additivityfisher" class="quarto-xref"><span>Section 5.1.2</span></a>.</li>
+<li>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_0\)</span>. It follows from the construction of the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol I^{\text{Fisher}}( \boldsymbol \theta_0 )\)</span> (i.e.&nbsp;the expected Fisher information for a set of iid random variables, see <a href="05-entropy3.html#sec-additivityfisher" class="quarto-xref"><span>Section 5.1.3</span></a>.</li>
 </ul>
 <p><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Finite sample equivalence for exponential families:</p>
 <ul>

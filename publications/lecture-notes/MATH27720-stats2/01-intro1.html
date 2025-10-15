@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -207,7 +207,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -219,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -403,7 +403,7 @@ window.Quarto = {
 <p><strong>Statistics</strong> is a mathematical science for reasoning about data and uncertainty. It employs <strong>probabilistic models</strong> to address the questions above, offering a principled framework for learning from data and extracting and for processing information under uncertainty in an optimal way. This includes model selection, approximation and inference.</p>
 <p><strong>Machine learning</strong> overlaps substantially with statistics. Rooted in computer science it frequently adopts an engineering-centric perspective and often emphasises algorithmic approaches. Some methods are non-probabilistic while many modern approaches adopt a statistical perspective.</p>
 <p><strong>Data science</strong> today comprises elements of both statistics and machine learning and brings together mathematics, computer science and domain-specific expertise (e.g.&nbsp;<strong>biomedical data science</strong>).</p>
-<p><strong>Artificial intelligence</strong> (AI) is a branch of computer science that makes substantial use of statistical and machine learning techniques, along with other methods (e.g.&nbsp;natural language processing and symbolic reasoning) to create systems that perceive, reason, and act.</p>
+<p><strong>Artificial intelligence</strong> (AI) is a branch of computer science that makes substantial use of statistical and machine learning techniques, along with methods such as natural language processing and symbolic reasoning, to create systems that can generate and interpret highly complex data, including language and images, and make decisions to achieve goals.</p>
 </section>
 <section id="probabilistic-underpinnings" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="probabilistic-underpinnings"><span class="header-section-number">1.2</span> Probabilistic underpinnings</h2>
@@ -442,9 +442,10 @@ D = \{x_1, \ldots, x_n\}\\
 x_i \sim F\\
 \end{array}
 \]</span> The true model underlying the data-generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> arising from the true model <span class="math inline">\(F\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
-<p>To explain the observed data <span class="math inline">\(D\)</span>, and also to predict future data, we will make hypotheses in the form of candidate models <span class="math inline">\(P_{1}, P_{2}, \ldots\)</span>. Often these candidate models form a model family <span class="math inline">\(P_{\boldsymbol \theta}\)</span> indexed by a parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>, with specific values for each model so that we can also write <span class="math inline">\(P_{\boldsymbol \theta_1}, P_{\boldsymbol \theta_2}, \ldots\)</span> for the various models.</p>
-<p>Frequently parameters are chosen such that they allow some interpretation, such as moments or other properties of the distribution. However, intrinsically parameters are just labels and may be changed by any one-to-one transformation. For statistical learning it is necessary that models are <strong>identifiable</strong> within a family, i.e.&nbsp;each distinct model is identified by a unique parameter so that <span class="math inline">\(P_{\boldsymbol \theta_1} = P_{\boldsymbol \theta_2}\)</span> implies <span class="math inline">\(\boldsymbol \theta_1 = \boldsymbol \theta_2\)</span>, and conversely if <span class="math inline">\(P_{\boldsymbol \theta_1} \neq P_{\boldsymbol \theta_2}\)</span> then <span class="math inline">\(\boldsymbol \theta_1 \neq \boldsymbol \theta_2\)</span>.</p>
-<p>The various candidate models <span class="math inline">\(P_{\boldsymbol \theta}\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data-generating model&nbsp;<span class="math inline">\(F\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F = P_{\boldsymbol \theta_{\text{true}}}\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
+<p>To explain the observed data <span class="math inline">\(D\)</span>, and also to predict future data, we consider various competing hypotheses in the form of candidate models <span class="math inline">\(P_{1}, P_{2}, \ldots\)</span>. Often these candidates belong to a parametric family <span class="math inline">\(P(\boldsymbol \theta)\)</span> indexed by a parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>. Individual models such as <span class="math inline">\(P(\boldsymbol \theta_1)\)</span> or <span class="math inline">\(P(\boldsymbol \theta_2)\)</span> correspond to specific parameter values <span class="math inline">\(\boldsymbol \theta_1\)</span> and <span class="math inline">\(\boldsymbol \theta_2\)</span>.</p>
+<p>Frequently parameters are chosen such that they allow some interpretation, such as moments or other properties of the distribution. However, intrinsically parameters are just labels and may be changed by any one-to-one transformation.</p>
+<p>For statistical learning it is important that models are <strong>identifiable</strong> within a family, i.e.&nbsp;that distinct parameters correspond to distinct distributions. Specifically, <span class="math inline">\(P(\boldsymbol \theta_1) = P(\boldsymbol \theta_2)\)</span> implies <span class="math inline">\(\boldsymbol \theta_1 = \boldsymbol \theta_2\)</span>, and conversely if <span class="math inline">\(P(\boldsymbol \theta_1) \neq P(\boldsymbol \theta_2)\)</span> then <span class="math inline">\(\boldsymbol \theta_1 \neq \boldsymbol \theta_2\)</span>. If parameters and distributions are unique within a neighbourhood <span class="math inline">\(\boldsymbol \theta+\boldsymbol \varepsilon\)</span> relative to a reference parameter <span class="math inline">\(\boldsymbol \theta\)</span>, rather than globally, the family is <strong>locally identifiable</strong> at <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>The various candidate models <span class="math inline">\(P(\boldsymbol \theta)\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data-generating model&nbsp;<span class="math inline">\(F\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F = P(\boldsymbol \theta_{\text{true}})\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
 <p><span class="math display">\[
 \begin{array}{cc}
 \textbf{Statistical Learning}\\
@@ -452,17 +453,17 @@ x_i \sim F\\
 \text{approximating the true model} \\
 \text{and best explaining both} \\
 \text{observed and future data} \\
-F \approx P_{\hat{\boldsymbol \theta}}\\
+F \approx P(\hat{\boldsymbol \theta})\\
 \end{array}
 \longleftarrow
 \begin{array}{cc}
 \textbf{Model world} \\
 \text{Hypotheses about}\\
 \text{data-generating process:} \\
-\text{Model } P_{\boldsymbol \theta}\\
+\text{Model } P(\boldsymbol \theta)\\
 \text{with parameter(s) } \boldsymbol \theta\\
 \text{Ideally, true model is } \\
-F = P_{\boldsymbol \theta_{\text{true}}}\\
+F = P(\boldsymbol \theta_{\text{true}})\\
 \end{array}
 \]</span></p>
 <p><strong>The aim of statistical learning is to identify the model(s) that explain the current data and also predict future data (i.e.&nbsp;predict outcome of experiments that have not been conducted yet).</strong></p>
@@ -479,13 +480,14 @@ F = P_{\boldsymbol \theta_{\text{true}}}\\
 \widehat{\text{Var}}(x) = \widehat{\sigma^2} =
 \text{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \]</span> simply by replacing the expectation with the sample average.</p>
-<p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data-generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P_{\boldsymbol \theta}\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is defined as <span class="math display">\[
+<p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data-generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P(\boldsymbol \theta)\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is defined as <span class="math display">\[
 L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
 \]</span> The parameter value <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> that maximises the likelihood function for fixed data <span class="math inline">\(D\)</span> is the <strong>maximum likelihood estimate</strong>: <span class="math display">\[
 \hat{\boldsymbol \theta}_{ML} = \underset{\boldsymbol \theta}{\arg \max}\, L_n(\boldsymbol \theta)
 \]</span></p>
-<p>Historically, the likelihood was introduced as the probability to observe the data given the model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>. However, this view is incorrect as this interpretation of the likelihood breaks down for continuous random variables which use densities rather than probabilities in the likelihood. Furthermore even for discrete random variables an additional factor accounting for the possible permutations of samples is needed to obtain the actual probability of the data. Instead, as will soon become evident, the basis of the method of maximum likelihood is fundamentally linked to entropy.</p>
-<p>Specifically, we will see that the likelihood is closely linked to the cross-entropy between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P_{\boldsymbol \theta}\)</span>. As a consequence the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This insight illuminates both the optimality characteristics as well as the limitations of the maximum likelihood approach to statistical learning.</p>
+<p>Historically, the likelihood was introduced as “the probability of observing the data given a model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>”.</p>
+<p>However, this view breaks down for continuous random variables, where the likelihood function is formed from densities rather than probabilities. Furthermore, for discrete random variables the likelihood function typically does not include the additional factor accounting for the permutations of samples that is needed to obtain the actual probability of the data.</p>
+<p>Instead, we will see that estimation and inference in statistics are closely linked to information-theoretic concepts such entropy and divergences between distributions. Specifically, maximising the likelihood function is, for large samples, equivalent to minimising the Kullback-Leibler divergence <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P(\boldsymbol \theta)\)</span>. As a consequence, the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This connection explains both the optimality properties as well as the limitations of the maximum likelihood approach in statistical learning.</p>
 </section>
 <section id="models-and-decomposition-of-uncertainty" class="level3">
 <h3 class="anchored" data-anchor-id="models-and-decomposition-of-uncertainty">Models and decomposition of uncertainty</h3>
@@ -504,7 +506,7 @@ L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\bold
 <h2 data-number="1.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.4</span> Further reading</h2>
 <p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to the history and and philosophical foundations of probability as well as to the frequentist and Bayesian interpretations.</p>
 <p>The book “Probability Theory: The Logic of Science” by <span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> advocates that probability theory, as an extension of logic, is the natural framework for scientific reasoning.</p>
-<p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">McGrayne (<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics. Similarly, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
+<p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">(<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">McGrayne 2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics. Similarly, “The Master Algorithm” by <span class="citation" data-cites="Domingos2015">Domingos (<a href="bibliography.html#ref-Domingos2015" role="doc-biblioref">2015</a>)</span> provides an informal overview over the various schools of information science.</p>
 <p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
 <div style="page-break-after: always;"></div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -538,7 +540,7 @@ Diaconis, P., and B. Skyrms. 2018. <em>Ten Great Ideas about Chance</em>. Prince
 Domingos, P. 2015. <em>The Master Algorithm: How the Quest for the Ultimate Learning Machine Will Remake Our World</em>. Basic Books.
 </div>
 <div id="ref-Jaynes2003" class="csl-entry" role="listitem">
-Jaynes, E. T. 2003. <em>Probability Theory: The Logic of Science</em>. Cambridge University Press.
+Jaynes, E. T. 2003. <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511790423">https://doi.org/10.1017/CBO9780511790423</a>.
 </div>
 <div id="ref-McGrayne2011" class="csl-entry" role="listitem">
 McGrayne, S. B. 2011. <em>The Theory That Would Not Die</em>. Yale University Press.

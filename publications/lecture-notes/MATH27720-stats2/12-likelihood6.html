@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -187,7 +187,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Relative entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +199,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -379,8 +379,8 @@ window.Quarto = {
 </ol>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{cc}
-\text{Kullback-Leibler 1951}\\
-\textbf{Entropy learning: minimise  } D_{\text{KL}}(F,P_{\boldsymbol \theta})\\
+\text{Kullback and Leibler (1951)}\\
+\textbf{Entropy learning: minimise  } D_{\text{KL}}(F,P(\boldsymbol \theta))\\
 \downarrow\\
 \text{large } n\\
 \downarrow\\
@@ -395,7 +395,7 @@ window.Quarto = {
 \end{align*}\]</span></p>
 <ol start="3" type="1">
 <li><p>Given a model, derivation of the MLE is basically automatic (only optimisation required)!</p></li>
-<li><p>MLEs are <strong>consistent</strong>, i.e.&nbsp;if the true underlying model <span class="math inline">\(F\)</span> is contained in the set of specified candidates models <span class="math inline">\(F_{\boldsymbol \theta}\)</span> then the MLE will converge to the true model corresponding to parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span>.</p></li>
+<li><p>MLEs are <strong>consistent</strong>, i.e.&nbsp;if the true underlying model <span class="math inline">\(F\)</span> is contained in the set of specified candidates models <span class="math inline">\(P(\boldsymbol \theta)\)</span> then the MLE will converge to the true model corresponding to parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span>.</p></li>
 <li><p>Correspondingly, <strong>MLEs are asympotically unbiased</strong>.</p></li>
 <li><p>However, MLEs are <em>not</em> necessarily unbiased in finite samples (e.g.&nbsp;the MLE of the variance parameter in the normal distribution).</p></li>
 <li><p>The maximum likelihood is invariant against parameter transformations.</p></li>
@@ -454,8 +454,8 @@ L(\boldsymbol \theta| D) = h( \boldsymbol t(D) , \boldsymbol \theta) \, k(D)
 <li><span class="math inline">\(P\)</span> is the approximating model (typically a parametric distribution family)</li>
 </ul>
 <p>Optimising (i.e.&nbsp;minimising) the KL divergence with regard to <span class="math inline">\(P\)</span> amounts to <em>approximation</em> and optimising with regard to <span class="math inline">\(Q\)</span> to <em>imputation</em>.</p>
-<p>In previous chapters we have seen how the KL divergence leads to maximum likelihood (via minimum empirical cross-entropy) and also allows to choose distribution families (via maximum entropy). Later we will also see how KL divergence is linked to Bayesian learning.</p>
-<p>Since the KL divergence is not symmetric there two distinct ways to minimise the divergence between a fixed <span class="math inline">\(F_0\)</span> and the family <span class="math inline">\(F_{\boldsymbol \theta}\)</span> (see <a href="#fig-klopt" class="quarto-xref">Figure&nbsp;<span>12.1</span></a>). minimising the parameter <span class="math inline">\(\boldsymbol \theta\)</span> in <span class="math inline">\(D_{\text{KL}}(\hat{F}_0,F_{\boldsymbol \theta})\)</span> (“forward KL”) and in <span class="math inline">\(D_{\text{KL}}(F_{\boldsymbol \theta}, \hat{F}_0)\)</span> (“backward KL”).</p>
+<p>In previous chapters we have seen how the KL divergence leads to maximum likelihood (via minimum empirical risk) and also allows to choose distribution families (via maximum entropy). Later we will also see how KL divergence is linked to Bayesian learning.</p>
+<p>Since the KL divergence is not symmetric there two distinct ways to minimise the divergence between a fixed <span class="math inline">\(F_0\)</span> and the family <span class="math inline">\(F(\boldsymbol \theta)\)</span> (see <a href="#fig-klopt" class="quarto-xref">Figure&nbsp;<span>12.1</span></a>). minimising the parameter <span class="math inline">\(\boldsymbol \theta\)</span> in <span class="math inline">\(D_{\text{KL}}(\hat{F}_0,F(\boldsymbol \theta))\)</span> (“forward KL”) and in <span class="math inline">\(D_{\text{KL}}(F(\boldsymbol \theta), \hat{F}_0)\)</span> (“backward KL”).</p>
 <p>Each way has different properties:</p>
 <div id="fig-klopt" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -493,13 +493,13 @@ Figure&nbsp;12.1: Illustration of (a) forward KL and b) reverse KL optimisation.
 </figure>
 </div>
 <ol type="a">
-<li><p><strong>forward KL</strong>, <strong>approximation KL</strong>: <span class="math inline">\(\min_{\boldsymbol \theta}  D_{\text{KL}}(F_0,F_{\boldsymbol \theta})\)</span></p>
-<p>Here we keep the first argument fixed and minimise KL by changing the second argument. This is also called an “M (Moment) projection”. It has a <strong>zero avoiding</strong> property: <span class="math inline">\(f_{\boldsymbol \theta}(x)&gt;0 \text{ whenever } f_0(x)&gt;0\)</span>.</p>
-<p>This procedure is mean-seeking and inclusive, i.e.&nbsp;when there are multiple modes in the density of <span class="math inline">\(F_0\)</span> a fitted unimodal density <span class="math inline">\(F_{\hat{\boldsymbol \theta}}\)</span> will seek to cover all modes (<strong>mass covering</strong> property).</p>
+<li><p><strong>forward KL</strong>, <strong>approximation KL</strong>: <span class="math inline">\(\min_{\boldsymbol \theta}  D_{\text{KL}}(F_0,F(\boldsymbol \theta))\)</span></p>
+<p>Here we keep the first argument fixed and minimise KL by changing the second argument. This is also called an “M (Moment) projection”. It has a <strong>zero avoiding</strong> property: <span class="math inline">\(f(x| \boldsymbol \theta)&gt;0 \text{ whenever } f_0(x)&gt;0\)</span>.</p>
+<p>This procedure is mean-seeking and inclusive, i.e.&nbsp;when there are multiple modes in the density of <span class="math inline">\(F_0\)</span> a fitted unimodal density <span class="math inline">\(F(\hat{\boldsymbol \theta})\)</span> will seek to cover all modes (<strong>mass covering</strong> property).</p>
 <p>Maximum likelihood is based on “forward KL”.</p></li>
-<li><p><strong>reverse KL</strong>, <strong>inference KL</strong>: <span class="math inline">\(\min_{\boldsymbol \theta} D_{\text{KL}}(F_{\boldsymbol \theta},F_0)\)</span></p>
-<p>Here we keep the second argument fixed and minimise KL by changing the first argument. This is also called an “I (Information) projection”. It has a <strong>zero forcing</strong> property: <span class="math inline">\(f_{\boldsymbol \theta}(x)=0 \text{ whenever } f_0(x)=0\)</span>.</p>
-<p>This procedure is mode-seeking and exclusive, i.e.&nbsp;when there are multiple modes in the density of <span class="math inline">\(F_0\)</span> a fitted unimodal density <span class="math inline">\(F_{\hat{\boldsymbol \theta}}\)</span> will seek out one mode to the exclusion of the others (<strong>mode attracting</strong> property).</p>
+<li><p><strong>reverse KL</strong>, <strong>inference KL</strong>: <span class="math inline">\(\min_{\boldsymbol \theta} D_{\text{KL}}(F(\boldsymbol \theta),F_0)\)</span></p>
+<p>Here we keep the second argument fixed and minimise KL by changing the first argument. This is also called an “I (Information) projection”. It has a <strong>zero forcing</strong> property: <span class="math inline">\(f(x| \boldsymbol \theta)=0 \text{ whenever } f_0(x)=0\)</span>.</p>
+<p>This procedure is mode-seeking and exclusive, i.e.&nbsp;when there are multiple modes in the density of <span class="math inline">\(F_0\)</span> a fitted unimodal density <span class="math inline">\(F(\hat{\boldsymbol \theta})\)</span> will seek out one mode to the exclusion of the others (<strong>mode attracting</strong> property).</p>
 <p>Bayesian updating and variational Bayes approximations use “reverse KL”.</p></li>
 </ol>
 </section>
