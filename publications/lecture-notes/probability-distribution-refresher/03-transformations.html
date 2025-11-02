@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -183,6 +183,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./06-expfam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exponential families</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliography</span></a>
   </div>
@@ -210,14 +216,13 @@ window.Quarto = {
   <li><a href="#density-1" id="toc-density-1" class="nav-link" data-scroll-target="#density-1">Density</a></li>
   <li><a href="#moments-1" id="toc-moments-1" class="nav-link" data-scroll-target="#moments-1">Moments</a></li>
   </ul></li>
-  <li><a href="#exponential-tilting-and-exponential-families" id="toc-exponential-tilting-and-exponential-families" class="nav-link" data-scroll-target="#exponential-tilting-and-exponential-families"><span class="header-section-number">3.3</span> Exponential tilting and exponential families</a></li>
-  <li><a href="#sec-convolution" id="toc-sec-convolution" class="nav-link" data-scroll-target="#sec-convolution"><span class="header-section-number">3.4</span> Sums of random variables and convolution</a>
+  <li><a href="#sec-convolution" id="toc-sec-convolution" class="nav-link" data-scroll-target="#sec-convolution"><span class="header-section-number">3.3</span> Sums of random variables and convolution</a>
   <ul class="collapse">
   <li><a href="#moments-2" id="toc-moments-2" class="nav-link" data-scroll-target="#moments-2">Moments</a></li>
   <li><a href="#convolution" id="toc-convolution" class="nav-link" data-scroll-target="#convolution">Convolution</a></li>
   <li><a href="#central-limit-theorem" id="toc-central-limit-theorem" class="nav-link" data-scroll-target="#central-limit-theorem">Central limit theorem</a></li>
   </ul></li>
-  <li><a href="#sec-lossfunc" id="toc-sec-lossfunc" class="nav-link" data-scroll-target="#sec-lossfunc"><span class="header-section-number">3.5</span> Loss functions and scoring rules</a>
+  <li><a href="#sec-lossfunc" id="toc-sec-lossfunc" class="nav-link" data-scroll-target="#sec-lossfunc"><span class="header-section-number">3.4</span> Loss functions and scoring rules</a>
   <ul class="collapse">
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss function</a></li>
   <li><a href="#risk-function" id="toc-risk-function" class="nav-link" data-scroll-target="#risk-function">Risk function</a></li>
@@ -315,28 +320,8 @@ y(x) \approx y\left(\mu_x\right) + D y\left(\mu_x\right)\, \left(x-\mu_x\right)
 <p>Assuming <span class="math inline">\(y(x) = a + b x\)</span>, with <span class="math inline">\(x(y) = (y-a)/b\)</span>, <span class="math inline">\(D y(x) = b\)</span> and <span class="math inline">\(D x(y) = b^{-1}\)</span>, recovers the univariate location-scale transformation. Likewise, assuming <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span>, with <span class="math inline">\(\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\)</span>, <span class="math inline">\(D\boldsymbol y(\boldsymbol x) = \boldsymbol B\)</span> and <span class="math inline">\(D\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}\)</span>, recovers the multivariate location-scale transformation.</p>
 </section>
 </section>
-<section id="exponential-tilting-and-exponential-families" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="exponential-tilting-and-exponential-families"><span class="header-section-number">3.3</span> Exponential tilting and exponential families</h2>
-<p>Another way to change the distribution of a random variable is by <strong>exponential tilting</strong>.</p>
-<p>Suppose there is a vector valued function <span class="math inline">\(\boldsymbol t(x)\)</span> where each component is a transformation of <span class="math inline">\(x\)</span>, usually a simple function such the identity <span class="math inline">\(x\)</span>, the square <span class="math inline">\(x^2\)</span>, the logarithm <span class="math inline">\(\log(x)\)</span> etc. These are called the <strong>canonical statistics</strong>. Typically, the dimension of <span class="math inline">\(\boldsymbol t(x)\)</span> is small.</p>
-<p>The exponential tilt of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with base function <span class="math inline">\(h(x)\)</span> (possibly unnormalised) toward the linear combination <span class="math inline">\(\boldsymbol \eta^T \boldsymbol t(x)\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> and the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span> yields the distribution family <span class="math inline">\(P(\boldsymbol \eta)\)</span> with pdmf <span class="math display">\[
-p(x|\boldsymbol \eta) =    \underbrace{e^{ \boldsymbol \eta^T \boldsymbol t(x)}}_{\text{exponential tilt}}\, h(x) \, /\, z(\boldsymbol \eta)
-\]</span> The <strong>normaliser</strong> or <strong>partition function</strong> <span class="math inline">\(z(\boldsymbol \eta)\)</span> ensures that <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one, with <span class="math display">\[
-z(\boldsymbol \eta) = \int_x \, e^{ \boldsymbol \eta^T \boldsymbol t(x)}\, h(x) \, dx
-\]</span> In particular, <span class="math inline">\(z(\mathbf 0)=\int_x  h(x) \, dx\)</span> ensures that <span class="math display">\[
-p(x|\mathbf 0) = h(x)/z(\mathbf 0) = b(x)
-\]</span> is a valid base pdmf. If <span class="math inline">\(h(x)\)</span> is a pdmf then <span class="math inline">\(z(\mathbf 0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
-<p>A distribution family <span class="math inline">\(P(\boldsymbol \eta)\)</span> obtained by exponential tiling is called an <strong>exponential family</strong>. The set of values of <span class="math inline">\(\boldsymbol \eta\)</span> for which <span class="math inline">\(z(\boldsymbol \eta)  &lt; \infty\)</span>, and hence for which <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> is well defined, comprises the parameter space of the exponential family. Some choices of <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(\boldsymbol t(x)\)</span> do not yield a finite normalising factor for any <span class="math inline">\(\boldsymbol \eta\)</span> and hence these cannot be used to form an exponential family.</p>
-<p>The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math inline">\(a(\boldsymbol \eta) = \log z(\boldsymbol \eta)\)</span> is the cumulant generating function for the canonical statistics. Its gradient yields the mean <span class="math display">\[
-\text{E}( \boldsymbol t(x) )  = \boldsymbol \mu_{\boldsymbol t}= \nabla a(\boldsymbol \eta)
-\]</span> and the Hessian matrix the variance <span class="math display">\[
-\text{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t}= \nabla \nabla^T a(\boldsymbol \eta)
-\]</span></p>
-<p>Many common distributions are exponential families, such as the normal distribution and the Bernoulli distribution. Exponential families are central in probability and statistics. They support effective statistical learning using likelihood and Bayesian approaches, enable data reduction via minimal sufficiency and provide the basis for generalised linear models. Furthermore, exponential families often allow to generalise results established for specific cases, such as the normal distribution, to a broader domain.</p>
-<p>See also (Wikipedia): <a href="https://en.wikipedia.org/wiki/Exponential_family#Table_of_distributions">exponential family — table of distributions</a>.</p>
-</section>
-<section id="sec-convolution" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="sec-convolution"><span class="header-section-number">3.4</span> Sums of random variables and convolution</h2>
+<section id="sec-convolution" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-convolution"><span class="header-section-number">3.3</span> Sums of random variables and convolution</h2>
 <section id="moments-2" class="level3">
 <h3 class="anchored" data-anchor-id="moments-2">Moments</h3>
 <p>Suppose we have a sum of <span class="math inline">\(n\)</span> <em>independent</em> random variables. <span class="math display">\[
@@ -367,8 +352,8 @@ f_y(y) = \left(f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n}\right)(y)
 <p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and later proved by <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace (1749–1827)</a> asserts that the distribution of the sum of <span class="math inline">\(n\)</span> independent and identically distributed random variables with finite mean and finite variance converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution (<a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a>), even if the individual random variables are not themselves normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span> identical distributions with finite first two moments converges to the normal distribution.</p>
 </section>
 </section>
-<section id="sec-lossfunc" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="sec-lossfunc"><span class="header-section-number">3.5</span> Loss functions and scoring rules</h2>
+<section id="sec-lossfunc" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-lossfunc"><span class="header-section-number">3.4</span> Loss functions and scoring rules</h2>
 <section id="loss-function" class="level3">
 <h3 class="anchored" data-anchor-id="loss-function">Loss function</h3>
 <p>A <strong>loss or cost function</strong> <span class="math inline">\(L(x, a)\)</span> evaluates a prediction <span class="math inline">\(a\)</span> (for example a parameter or a probability distribution) on the basis of an observed outcome <span class="math inline">\(x\)</span>, and returns a numerical score.</p>
