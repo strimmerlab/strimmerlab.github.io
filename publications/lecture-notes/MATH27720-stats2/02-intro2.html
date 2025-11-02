@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Distributions for statistical models – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
+<title>2&nbsp; Distributions – Statistics 2: Statistical Learning with Likelihood and Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -42,7 +62,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,7 +132,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro1.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-intro2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro1.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-intro2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -175,7 +195,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-intro2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -199,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -337,19 +357,26 @@ window.Quarto = {
   <li><a href="#model-building" id="toc-model-building" class="nav-link" data-scroll-target="#model-building"><span class="header-section-number">2.3</span> Model building</a>
   <ul class="collapse">
   <li><a href="#choosing-the-right-distribution" id="toc-choosing-the-right-distribution" class="nav-link" data-scroll-target="#choosing-the-right-distribution">Choosing the right distribution</a></li>
-  <li><a href="#complex-statistical-models" id="toc-complex-statistical-models" class="nav-link" data-scroll-target="#complex-statistical-models">Complex statistical models</a></li>
+  <li><a href="#complex-models" id="toc-complex-models" class="nav-link" data-scroll-target="#complex-models">Complex models</a></li>
   <li><a href="#iterative-refinement" id="toc-iterative-refinement" class="nav-link" data-scroll-target="#iterative-refinement">Iterative refinement</a></li>
   </ul></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.4</span> Further reading</a></li>
+  <li><a href="#sec-expfamintro" id="toc-sec-expfamintro" class="nav-link" data-scroll-target="#sec-expfamintro"><span class="header-section-number">2.4</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Exponential families</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
+  <li><a href="#partition-function" id="toc-partition-function" class="nav-link" data-scroll-target="#partition-function">Partition function</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.5</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro1.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-intro2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro1.html">Entropy and likelihood</a></li><li class="breadcrumb-item"><a href="./02-intro2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-commondist" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions for statistical models</span></span></h1>
+<h1 class="title"><span id="sec-commondist" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Distributions</span></span></h1>
 </div>
 
 
@@ -409,16 +436,11 @@ window.Quarto = {
 <li>single parameter</li>
 <li>multiple parameters</li>
 <li>multiple types of parameters (e.g.&nbsp;location+scale)</li>
+<li>nonparametric model (i.e.&nbsp;highly parametric model)</li>
 </ul>
 <p>A distribution <strong>family</strong> consists of a finite or infinite set of distributions that correspond to specific instances of parameter values.</p>
+<p>Models with many parameters or nonparametric models are employed when there is an abundance of data and they typically make weak assumptions about the data-generating process. Conversely, simpler parametric models are generally preferred for smaller sample sizes, and typically make stronger assumptions about how the data were generated.</p>
 <p>In data analysis, we aim to build models that are complex enough to capture the essential features of the data, but simple enough to avoiding overfitting. Consequently, when two models have similar explanatory and predictive power, the one with fewer parameters is generally preferred.</p>
-<p>Lastly, it is important to take into account the general <strong>structure</strong> of the distribution:</p>
-<ul>
-<li>parametric versus nonparametric models</li>
-<li>exponential family versus non-exponential family</li>
-<li>special exponential families, e.g.&nbsp;Gibbs family, natural exponential family (NEF)</li>
-</ul>
-<p>Nonparametric models with fewer assumptions about the data generating process are typically employed when there is an abundance of data. Conversely, simpler parametric models are generally preferred for smaller sample sizes.</p>
 </section>
 <section id="commonly-used-distribution-families" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="commonly-used-distribution-families"><span class="header-section-number">2.2</span> Commonly used distribution families</h2>
@@ -440,7 +462,7 @@ window.Quarto = {
 </ul></li>
 <li><p>Inverse gamma distribution <span class="math inline">\(\text{IG}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. Also know as univariate inverse Wishart distribution <span class="math inline">\(\text{IW}(\psi, k)\)</span>.</p></li>
 </ol>
-<p>All the above distributions are so-called <a href="https://en.wikipedia.org/wiki/Exponential_family"><strong>exponential families</strong></a>. As such they can be written in a particular structural form. Exponential families have many useful properties that facilitate statistical analysis.</p>
+<p>All of the distributions above belong to the class of <strong>exponential families</strong> (see <a href="#sec-expfamintro" class="quarto-xref"><span>Section 2.4</span></a>). These families have many properties that are highly convenient for statistical analysis.</p>
 <ol start="6" type="1">
 <li><p>Location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{$t_{\nu}$}(\mu, \tau^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p>
 <p>Special cases of the location-scale <span class="math inline">\(t\)</span>-distribution are:</p>
@@ -459,7 +481,7 @@ window.Quarto = {
 </ul></li>
 <li><p>Multivariate normal distribution <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>, generalising the univariate normal distribution.</p></li>
 </ol>
-<p>A distribution family can be parametrised in multiple equivalent ways. Typically, there is a standard parametrisation, and also a mean parametrisation, where one of the parameters can be interpreted as the mean. Sometimes, the same distribution is referred to by different names and there are various default parametrisations.</p>
+<p>A distribution family can be parametrised in multiple equivalent ways. Typically, there is a standard parametrisation, and also a mean parametrisation, where one of the parameters can be interpreted as the mean of the data. Sometimes, the same distribution is referred to by different names and there are various default parametrisations.</p>
 <p>Importantly, any parametrisation is a matter of choice and simply provides as an alternative means to index the elementary distributions within the family. However, certain parametrisations may be more interpretable or offer computational advantages.</p>
 </section>
 <section id="model-building" class="level2" data-number="2.3">
@@ -470,8 +492,8 @@ window.Quarto = {
 <p>In many cases, the central limit theorem justifies using a normal distribution.</p>
 <p>Another approach to selecting a distribution family is to fix certain properties of the distribution, such as its mean and variance, and then selecting the family that maximises the spread of the probability mass. This method is closely linked to the principle of maximum entropy, which will be discussed in more detail in <a href="06-entropy4.html" class="quarto-xref"><span>Chapter 6</span></a>. It is also helps to explain why exponential families are often preferred in statistical modelling.</p>
 </section>
-<section id="complex-statistical-models" class="level3">
-<h3 class="anchored" data-anchor-id="complex-statistical-models">Complex statistical models</h3>
+<section id="complex-models" class="level3">
+<h3 class="anchored" data-anchor-id="complex-models">Complex models</h3>
 <p>Statistical analysis often uses models that are composed of many random variables. These models can be complex, with hierarchical or network-like structures that connect observed and latent variables, and potentially nonlinear functional relationships. Even so, the most sophisticated statistical models are constructed from simpler, more fundamental components.</p>
 <p>Specifically, the large class of <em>graphical models</em> provide a principled means to form complex joint distributions for observed and unobserved random variables built from more elementary components. This include <em>regression models</em>, <em>mixture models</em> and <em>compound models</em> (continuous version of mixture models) as well as more general network-like and hierarchically structured models.</p>
 <p>In these complex models some of the underlying elementary distributions will serve to model the observed output while others represent internal variables or account for the uncertainty regarding a parameter (in a Bayesian context).</p>
@@ -488,12 +510,150 @@ window.Quarto = {
 <p>Finally, it is worth recalling that all distributions (and models in general) are best considered as approximations of the true unknown data-generating process. Hence, the focus of any data analysis will be to find the model that captures the essential properties at an appropriate level of detail<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 </section>
 </section>
-<section id="further-reading" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.4</span> Further reading</h2>
-<p>For details about the above-mentioned distributions, and their parametrisations, see the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a>.</p>
-<p>There you can also find a definition of exponential families.</p>
+<section id="sec-expfamintro" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-expfamintro"><span class="header-section-number">2.4</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Exponential families</h2>
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
+<p>Many commonly used distributions in statistics are exponential families, including core examples such as the Bernoulli distribution and the normal distribution.</p>
+<p>Exponential families are central in probability and statistics. They support effective statistical learning using likelihood and Bayesian approaches, enable data reduction via minimal sufficiency and provide the basis for generalised linear models. Furthermore, exponential families often allow to generalise results established for specific cases, such as the normal distribution, to a broader domain.</p>
+</section>
+<section id="definition" class="level3">
+<h3 class="anchored" data-anchor-id="definition">Definition</h3>
+<p>An <strong>exponential family</strong> <span class="math inline">\(P(\boldsymbol \eta)\)</span> arises by <strong>exponential tilting</strong> of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with (typically unnormalised) <strong>base function</strong> <span class="math inline">\(h(x)\)</span> toward the linear combination <span class="math inline">\(\boldsymbol \eta^T \boldsymbol t(x)\)</span> of the <strong>canonical statistics</strong> <span class="math inline">\(\boldsymbol t(x)\)</span> and the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>. This yields a pdmf of the form <span class="math display">\[
+p(x|\boldsymbol \eta) =    \underbrace{e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle }}_{\text{exponential tilt}}\, h(x) \, /\, z(\boldsymbol \eta)
+\]</span></p>
+<p>The canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> are transformations of <span class="math inline">\(x\)</span>, usually a simple function such the identity (<span class="math inline">\(x\)</span>), the square (<span class="math inline">\(x^2\)</span>), the inverse (<span class="math inline">\(1/x\)</span>) or the logarithm (<span class="math inline">\(\log(x)\)</span>). Typically, the dimension of <span class="math inline">\(\boldsymbol t(x)\)</span> is small. For each canonical statistic <span class="math inline">\(t_i\)</span> there is a corresponding canonical parameter <span class="math inline">\(\eta_i\)</span>. The canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> are typically some transformation of the conventional parameters <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) . Likewise, canonical statistics and parameters are written as vectors but these may also be scalars or matrices (or a combination of both). The use of inner product notation <span class="math inline">\(\langle, \rangle\)</span> includes all these cases, vectorising matrices as required (<span class="math inline">\(\langle \boldsymbol A, \boldsymbol B\rangle = \text{Tr}( \boldsymbol A^T \boldsymbol B) = \text{Vec}(\boldsymbol A)^T \text{Vec}(\boldsymbol B)\)</span>).</p>
+</section>
+<section id="partition-function" class="level3">
+<h3 class="anchored" data-anchor-id="partition-function">Partition function</h3>
+<p>The <strong>normaliser</strong> or <strong>partition function</strong> <span class="math inline">\(z(\boldsymbol \eta)\)</span> ensures that <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one, with <span class="math display">\[
+z(\boldsymbol \eta) = \int_x \, e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle}\, h(x) \, dx
+\]</span> For discrete x replace the integral by a sum. In particular, <span class="math inline">\(z(0)=\int_x  h(x) \, dx\)</span> ensures that <span class="math display">\[
+p(x|\boldsymbol \eta=0) = h(x)/z(0) = b(x)
+\]</span> is a valid base pdmf. If <span class="math inline">\(h(x)\)</span> is a pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
+<p>The set of values of <span class="math inline">\(\boldsymbol \eta\)</span> for which <span class="math inline">\(z(\boldsymbol \eta)  &lt; \infty\)</span>, and hence for which <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> is well defined, comprises the parameter space of the exponential family. Some choices of <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(\boldsymbol t(x)\)</span> do not yield a finite normalising factor for any <span class="math inline">\(\boldsymbol \eta\)</span> and hence these cannot be used to form an exponential family.</p>
+<p>The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math inline">\(a(\boldsymbol \eta) = \log z(\boldsymbol \eta)\)</span> allows to compute the cumulants of the canonical statistics. In particular, its gradient yields the mean <span class="math display">\[
+\text{E}( \boldsymbol t(x) )  = \boldsymbol \mu_{\boldsymbol t}= \nabla a(\boldsymbol \eta)
+\]</span> and the Hessian matrix the variance <span class="math display">\[
+\text{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t}= \nabla \nabla^T a(\boldsymbol \eta)
+\]</span></p>
+<p>The means <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> provide a further alternative parametrisation of exponential families (in addition to canonical <span class="math inline">\(\boldsymbol \eta\)</span> and conventional <span class="math inline">\(\boldsymbol \theta\)</span> parameters) and are called the <strong>expectation parameters</strong>.</p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="exm-expfambernoulli" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> The Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> can be specified in exponential family form as follows:</p>
+<ul>
+<li><span class="math inline">\(x \in \{0, 1\}\)</span></li>
+<li>canonical statistic <span class="math inline">\(t(x) = x\)</span></li>
+<li>base function <span class="math inline">\(h(x) = 1\)</span></li>
+<li>canonical parameter <span class="math inline">\(\eta\)</span></li>
+</ul>
+<p>This results in the partition function <span class="math display">\[
+z(\eta) = \sum_{x \in \{0,1\}} e^{\eta x}  = 1+e^\eta
+\]</span> and the log-partition function <span class="math display">\[
+a(\eta) = \log(1+e^\eta)
+\]</span> both of which are defined for <span class="math inline">\(\eta \in \mathbb{R}\)</span>.</p>
+<p>The mean <span class="math inline">\(\mu_t\)</span> of the canonical statistic <span class="math inline">\(t(x)=x\)</span> is given by <span class="math display">\[
+\begin{split}
+\mu_t =  a'(\eta) &amp;=  \frac{ 1}{1+e^{-\eta}}  \\
+                  &amp;= \theta
+\end{split}
+\]</span> Thus, for the Bernoulli distribution the expectation parameter <span class="math inline">\(\mu_t\)</span> corresponds to the conventional mean parameter <span class="math inline">\(\text{E}(x) = \theta \in [0, 1]\)</span>.</p>
+<p>In the above <span class="math inline">\(\mu_t\)</span> and <span class="math inline">\(\theta\)</span> are obtained from <span class="math inline">\(\eta\)</span> by the inverse logit function (also known as the logistic function). Conversely, the canonical parameter <span class="math inline">\(\eta\)</span> can be computed from <span class="math inline">\(\theta\)</span> (or <span class="math inline">\(\mu_t\)</span>) by the logit function <span class="math display">\[
+\eta = \text{logit}(\theta) = \log\left(\frac{\theta}{1-\theta}\right)
+\]</span>.</p>
+<p>The variance <span class="math inline">\(\sigma^2_t\)</span> of the canonical statistic <span class="math inline">\(t(x)=x\)</span> is <span class="math display">\[
+\begin{split}
+\sigma^2_t =a''(\eta) &amp;= \frac{ e^{\eta}}{(e^{\eta}+1)^2} \\
+           &amp;= \theta (1-\theta)
+\end{split}
+\]</span></p>
+<p>The pmf of the Bernoulli distribution is <span class="math display">\[
+p(x | \eta) = \frac{ e^{\eta x} }{ 1+e^\eta }
+\]</span> which in terms of the conventional parameter <span class="math inline">\(\theta\)</span> takes on the familiar form <span class="math display">\[
+\begin{split}
+p(x | \theta) &amp;= \theta^x \, (1-\theta)^{1-x} \\
+                   &amp;= \begin{cases} \theta &amp;\text{if } x=1\\ 1-\theta &amp;\text{if } x=0 \end{cases}
+\end{split}
+\]</span></p>
+</div>
+<div id="exm-expfamnormal" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> The two-parameter normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> can be written in exponential family form as follows:</p>
+<ul>
+<li><span class="math inline">\(x \in  \mathbb{R}\)</span></li>
+<li>canonical statistics <span class="math inline">\(\boldsymbol t(x) = (x, x^2)^T\)</span></li>
+<li>base function <span class="math inline">\(h(x) = 1\)</span></li>
+<li>canonical parameters <span class="math inline">\(\boldsymbol \eta= (\eta_1, \eta_2)^T\)</span></li>
+</ul>
+<p>This results in the partition function <span class="math display">\[
+z(\boldsymbol \eta) = \left(   -\frac{\pi}{\eta_2} \right)^{1/2} \, \exp\left(-\frac{\eta_1^2}{4\eta_2}\right)
+\]</span> and the log-partition function <span class="math display">\[
+a(\boldsymbol \eta) =-\frac{\eta_1^2}{4 \eta_2}  +\frac{1}{2} \log\left(-\frac{\pi}{\eta_2} \right)
+\]</span> which are defined for <span class="math inline">\(\eta_1 \in \mathbb{R}\)</span> and <span class="math inline">\(\eta_2 \in \mathbb{R}^{-}\)</span>.</p>
+<p>The mean <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(x) = (x, x^2)^T\)</span> is given by <span class="math display">\[
+\begin{split}
+\boldsymbol \mu_{\boldsymbol t} &amp;= \nabla a(\boldsymbol \eta) \\
+&amp;=
+\begin{pmatrix}
+  -\frac{\eta_1}{2 \eta_2} \\
+  \frac{\eta_1^2}{4 \eta_2^2} - \frac{1}{2\eta_2}\\
+\end{pmatrix}\\
+&amp;=\begin{pmatrix}\mu \\ \mu^2+ \sigma^2 \end{pmatrix}
+\end{split}
+\]</span> The conventional parameters <span class="math inline">\(\mu = \text{E}(x)\)</span> and <span class="math inline">\(\sigma^2=\text{Var}(x)\)</span> are thus directly linked to the expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> and can be obtained from the canonical parameters by <span class="math inline">\(\mu = -\frac{\eta_1}{2\eta_2}\)</span> and <span class="math inline">\(\sigma^2 = -\frac{1}{2\eta_2}\)</span>. Conversely, we have <span class="math display">\[
+\boldsymbol \eta= \begin{pmatrix} \eta_1 \\ \eta_2 \end{pmatrix}  = \begin{pmatrix} \frac{\mu}{\sigma^2} \\  - \frac{1}{2 \sigma^2} \end{pmatrix}
+\]</span></p>
+<p>The covariance matrix of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> is <span class="math display">\[
+\begin{split}
+\boldsymbol \Sigma_{\boldsymbol t} &amp;= \begin{pmatrix}
+                 \text{Var}(x) &amp; \text{Cov}(x, x^2) \\
+                 \text{Cov}(x^2, x) &amp;  \text{Var}(x^2) \\
+                 \end{pmatrix}\\
+             &amp;= \nabla \nabla^T a(\boldsymbol \eta) \\
+             &amp;= \begin{pmatrix}
+                 -\frac{1}{2\eta_2} &amp; \frac{\eta_1}{2 \eta_2^2} \\
+                 \frac{\eta_1}{2 \eta_2^2} &amp;  \frac{ \eta_2 -\eta_1^2 }{2 \eta_2^3} \\
+                 \end{pmatrix}\\
+             &amp;= \begin{pmatrix}
+                 \sigma^2 &amp;  2 \mu \sigma^2 \\
+                  2 \mu \sigma^2 &amp;   2 \sigma^4 +4 \mu^2 \sigma^2  \\
+                 \end{pmatrix}\\
+\end{split}
+\]</span></p>
+<p>The pdf in terms of <span class="math inline">\(\boldsymbol \eta\)</span> is <span class="math display">\[
+p(x | \boldsymbol \eta) = \left(   -\frac{\pi}{\eta_2} \right)^{-1/2} \,   \exp\left( \eta_1 x + \eta_2 x^2   +\frac{\eta_1^2}{4\eta_2}\right)    \\
+\]</span> which in terms of the standard parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> takes on the familiar form <span class="math display">\[
+p(x | \mu, \sigma^2) =  \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -  \frac{(x- \mu)^2}{2\sigma^2 } \right)
+\]</span></p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A bit of history
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The concept of exponential families in statistics was independently developed in the 1930s by <a href="https://de.wikipedia.org/wiki/Georges_Darmois">Georges Darmois (1888–1960)</a>, <a href="https://de.wikipedia.org/wiki/Edwin_James_George_Pitman">Edwin J. G. Pitman (1897–1993)</a>, and <a href="https://de.wikipedia.org/wiki/Bernard_Koopman">Bernard Koopman (1900–1981)</a>. However, exponential families were introduced earlier in statistical mechanics in the 1870s by <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839-1903)</a> and <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844-1906)</a>.</p>
+<p>In statistics, exponential families were motivated by identifying distributions allowing minimal sufficient statistics whereas in physics the objective was to find distributions maximising entropy.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="further-reading" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.5</span> Further reading</h2>
+<p>For details of the distributions listed above and additional background on exponential families see the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a>. A recent textbook on exponential families is <span class="citation" data-cites="EfronExpFam2022">Efron (<a href="bibliography.html#ref-EfronExpFam2022" role="doc-biblioref">2022</a>)</span>.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-EfronExpFam2022" class="csl-entry" role="listitem">
+Efron, B. 2022. <em>Exponential Families in Theory and Practise</em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781108773157">https://doi.org/10.1017/9781108773157</a>.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
