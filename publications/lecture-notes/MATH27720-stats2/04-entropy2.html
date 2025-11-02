@@ -408,10 +408,10 @@ R_Q(P) =\text{E}_Q\left( S(x, P) \right)
 R_Q(P) = - \text{E}_Q \log p(x) = H(Q,P).
 \]</span> The risk <span class="math inline">\(R_Q(P)\)</span> is thus a functional of two distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, where <span class="math inline">\(Q\)</span> represents the data-generating process (note the expectation <span class="math inline">\(\text{E}_Q\)</span> with regard to <span class="math inline">\(Q\)</span>) and the distribution <span class="math inline">\(P\)</span> is the model that is evaluated on the observations.</p>
 <p>For two discrete distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x\in \Omega\)</span> the mean log-loss is computed as the weighted sum <span class="math display">\[
-H(Q, P) = - \sum_{x \in \Omega}  \log p(x) \, q(x)
+H(Q, P) = - \sum_{x \in \Omega} q(x) \, \log p(x)  
 \]</span> It can be interpreted as the expected cost or expected code length when the data are generated according to model <span class="math inline">\(Q\)</span> (“sender”, “encoder”) and but we use model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
 <p>For two continuous distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with pdfs <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> we compute the integral <span class="math display">\[
-H(Q, P) =- \int_x  \log p(x)\, q(x) \, dx
+H(Q, P) =- \int_x q(x) \, \log p(x) \, dx
 \]</span></p>
 </section>
 <section id="properties-of-the-mean-log-loss" class="level3">
@@ -610,21 +610,21 @@ B(Q, U) = H(Q) + \text{const.}
 </div>
 <div id="exm-empiricalcatkl" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.9</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Boltzmann entropy as log-probability:</p>
-<p>Assume <span class="math inline">\(\hat{Q}\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(n_k\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>) and <span class="math inline">\(P\)</span> is a second categorical distribution.</p>
+<p>Assume <span class="math inline">\(\hat{Q}\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(D = \{n_1, \ldots, n_K\}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>) and <span class="math inline">\(P\)</span> is a second categorical distribution.</p>
 <p>The Boltzmann entropy is then <span class="math display">\[
 \begin{split}
 B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
-&amp; = H(\hat{Q})  +  \sum_{i=1}^K  \log ( p_i) \, \hat{q}_i   \\
-&amp; = H(\hat{Q})  +   \frac{1}{n} \sum_{i=1}^K n_i  \log p_i  \\
+&amp; = H(\hat{Q})  +  \sum_{k=1}^K \hat{q}_k  \log  p_k  \\
+&amp; = H(\hat{Q})  +   \frac{1}{n} \sum_{k=1}^K n_k  \log p_k  \\
 \end{split}
 \]</span></p>
 <p>For large <span class="math inline">\(n\)</span> we may use the multinomial coefficient <span class="math inline">\(W = \binom{n}{n_1, \ldots, n_K}\)</span> to obtain the entropy of <span class="math inline">\(\hat{Q}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>). This results in <span class="math display">\[
 \begin{split}
-B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{i=1}^K n_i \log p_i   \right)\\
-&amp; = \frac{1}{n} \log \left( W \times \prod_{i=1}^K  p_i^{n_i}    \right)\\
-&amp; = \frac{1}{n} \log  \text{Pr}(n_1, \ldots, n_K| \,\boldsymbol p) \\
+B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{k=1}^K n_k \log p_k   \right)\\
+&amp; = \frac{1}{n} \log \left( W \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
+&amp; = \frac{1}{n} \log  \text{Pr}(D| \,\boldsymbol p) \\
 \end{split}
-\]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(n_1, \ldots, n_k\)</span> under the model <span class="math inline">\(P\)</span>. Note the Boltzmann entropy is essentially the multinomial log-likelihood.</p>
+\]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(D\)</span> under the model <span class="math inline">\(P\)</span>. Note the Boltzmann entropy is essentially the multinomial log-likelihood.</p>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">

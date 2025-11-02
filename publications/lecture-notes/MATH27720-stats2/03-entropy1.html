@@ -402,7 +402,7 @@ window.Quarto = {
 <p>When we record information on paper or on a computer, we need an alphabet, whose symbols act as units of stored information:</p>
 <ul>
 <li><p>For an alphabet of size <span class="math inline">\(A=2\)</span> (e.g.&nbsp;symbols <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>) the storage unit is called <strong>bit</strong> (binary digit). To represent <span class="math inline">\(K=256\)</span> possible states requires <span class="math inline">\(\log_2 256 = 8\)</span> bits (or 1 byte) of storage.</p></li>
-<li><p>For an alphabet of size <span class="math inline">\(A=10\)</span> (e.g.&nbsp;arabic numerals) the unit is called <strong>dit</strong> (decimal digit). To represent <span class="math inline">\(K=100\)</span> possible states requires <span class="math inline">\(\log_{10} 100 = 2\)</span> dits.</p></li>
+<li><p>For an alphabet of size <span class="math inline">\(A=10\)</span> (e.g.&nbsp;Arabic numerals) the unit is called <strong>dit</strong> (decimal digit). To represent <span class="math inline">\(K=100\)</span> possible states requires <span class="math inline">\(\log_{10} 100 = 2\)</span> dits.</p></li>
 </ul>
 <p>Bit and dit are <strong>units of information</strong> to describe information content. One dit is equal to <span class="math inline">\(\log_2 10 \approx 3.32\)</span> bits.</p>
 <p>If the natural logarithm is used (<span class="math inline">\(A=e\)</span>) the unit of information is called <strong>nat</strong>. This is the standard unit of information used in statistics. It is equal to <span class="math inline">\(\log_2 e \approx 1.44\)</span> bits.</p>
@@ -521,7 +521,7 @@ Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <section id="shannon-gibbs-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="shannon-gibbs-entropy">Shannon-Gibbs entropy</h3>
 <p>The information entropy <span class="math inline">\(H(P)\)</span> of a discrete probability distribution <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x \in \Omega\)</span> is called <strong>Shannon entropy</strong> <span class="citation" data-cites="Shannon1948">(<a href="bibliography.html#ref-Shannon1948" role="doc-biblioref">Shannon 1948</a>)</span>: <span class="math display">\[
-H(P) = - \sum_{x} \log p(x) \, p(x)
+H(P) = - \sum_{x} p(x) \, \log p(x)
 \]</span> In statistical physics, it is known as <strong>Gibbs entropy</strong>, sharing the same mathematical form.</p>
 <p>However, physical entropies carry an additional factor, the Boltzmann constant <span class="math inline">\(k=1.380649 \times 10^{-23} J/K\)</span>, to give entropy units of energy/temperature, whereas information entropies lack a physical unit.</p>
 <p>The entropy of a discrete distribution is the <strong>expected surprise</strong>. We can also interpret it as the <strong>expected cost</strong> or <strong>expected code length</strong> when the data are generated according to model <span class="math inline">\(P\)</span> (“sender”, “encoder” ) and we are using the same model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
@@ -531,7 +531,7 @@ H(P) = - \sum_{x} \log p(x) \, p(x)
 <section id="differential-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="differential-entropy">Differential entropy</h3>
 <p>The entropy <span class="math inline">\(H(P)\)</span> of a continuous distribution <span class="math inline">\(P\)</span> with pdf <span class="math inline">\(p(x)\)</span> is called <strong>differential entropy</strong>: <span class="math display">\[
-H(P) = - \int_x \log p(x) \, p(x) \, dx
+H(P) = - \int_x  p(x) \, \log p(x)  \, dx
 \]</span> Differential entropy <strong>can be negative</strong> because the logarithm is taken of a density value, and unlike probabilities, densities are not constrained to be less than or equal to one.</p>
 <p>Also, under a <strong>variable change</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, the shape of the pdf typically changes, so that differential entropy changes as well and is <strong>not invariant</strong>: <span class="math inline">\(H(P_y) \neq H(P_x)\)</span>.</p>
 </section>
@@ -554,8 +554,8 @@ H(P) &amp;= - \text{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
 <p><span class="theorem-title"><strong>Example 3.6</strong></span> Entropy of the uniform distribution:</p>
 <p>Consider the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support <span class="math inline">\(x \in [0, a]\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
 \begin{split}
-H( P_x ) &amp;= - \int_0^a \log\left(\frac{1}{a}\right) \, \frac{1}{a}  dx \\
-             &amp;=  \log a  \int_0^a \frac{1}{a} dx \\
+H( P_x ) &amp;= - \int_0^a \frac{1}{a} \, \log\left(\frac{1}{a}\right) \,   dx \\
+             &amp;= \frac{1}{a} \, \log a \,\int_0^a  dx \\
              &amp;= \log a \,.
 \end{split}
 \]</span> Note that for <span class="math inline">\(0 &lt; a &lt; 1\)</span> the differential entropy is negative.</p>
@@ -565,7 +565,7 @@ H( P_x ) &amp;= - \int_0^a \log\left(\frac{1}{a}\right) \, \frac{1}{a}  dx \\
 <p>Starting with the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.6</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(P_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
 <p>The corresponding differential entropy is <span class="math display">\[
 \begin{split}
-H( P_y ) &amp;=  \int_0^{a^2}  \log \left(2 a \sqrt{y}\right) \, 1/\left(2 a \sqrt{y}\right) dy \\
+H( P_y ) &amp;=  \int_0^{a^2} 1/\left(2 a \sqrt{y}\right) \, \log \left(2 a \sqrt{y}\right) dy \\
          &amp;= \left[ \sqrt{y}/a \, \left(\log \left( 2 a \sqrt{y} \right)-1\right)  \right]_{y=0}^{y=a^2} \\
              &amp;= \log \left(2 a^2\right) -1 \,.
 \end{split}
@@ -577,22 +577,24 @@ H( P_y ) &amp;=  \int_0^{a^2}  \log \left(2 a \sqrt{y}\right) \, 1/\left(2 a \sq
 <div id="exm-entropycategorical" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.8</strong></span> Entropy of the categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories:</p>
 <p>Assuming class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
-H(P) = - \sum_{k=1}^{K } \log(p_k)\, p_k
+H(P) = - \sum_{k=1}^{K } p_k \log p_k
 \]</span> The maximum entropy (<span class="math inline">\(\log K\)</span>) is achieved for the discrete uniform distribution (<a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) and the minimum entropy (<span class="math inline">\(0\)</span>) for a concentrated categorical distribution (<a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>). Hence for a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have <span class="math display">\[
 0 \leq  H(P) \leq \log K
 \]</span></p>
 </div>
 <div id="exm-entropydiscunif" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy of the discrete uniform distribution <span class="math inline">\(U_K\)</span>:</p>
-<p>Let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[H(U_K) = - \sum_{k=1}^{K}\log\left(\frac{1}{K}\right)\, \frac{1}{K}  = \log K\]</span></p>
+<p>Let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[
+H(U_K) = - \sum_{k=1}^{K}  \frac{1}{K}  \log\left(\frac{1}{K}\right) = \log K
+\]</span></p>
 <p>Note that <span class="math inline">\(\log K\)</span> is the largest value the Shannon-Gibbs entropy can assume with <span class="math inline">\(K\)</span> classes (cf. <a href="06-entropy4.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>) and indicates maximum spread of probability mass.</p>
 </div>
 <div id="exm-entropyconcentrated" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.10</strong></span> Entropy of a categorical distribution with concentrated probability mass:</p>
-<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log(0)=0\)</span> we obtain for the Shannon-Gibbs entropy <span class="math display">\[
-H(P) = \log(1)\times 1 + \log(0)\times 0 + \dots = 0
+<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log 0=0\)</span> we obtain for the Shannon-Gibbs entropy <span class="math display">\[
+H(P) = 1 \times \log 1  + 0 \times \log 0 + \dots = 0
 \]</span></p>
-<p>Note that 0 is the smallest value that Shannon-Gibbs entropy can assume and that it corresponds to maximum concentration of probability mass.</p>
+<p>Note that zero is the smallest value that Shannon-Gibbs entropy can assume and that it corresponds to maximum concentration of probability mass.</p>
 </div>
 <div id="exm-entropynormal" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.11</strong></span> Differential entropy of the normal distribution:</p>
@@ -621,7 +623,7 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 &amp; \approx    n \log n  -n - \sum_{k=1}^K (n_k \log n_k  -n_k) \\
 &amp; = \sum_{k=1}^K n_k \log n - \sum_{k=1}^K n_k \log n_k\\
 &amp; = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)\\
-&amp; = -n \sum_{k=1}^K \log (\hat{q}_k) \, \hat{q}_k  \\
+&amp; = -n \sum_{k=1}^K \hat{q}_k  \log \hat{q}_k   \\
 &amp; = n H(\hat{Q})
 \end{split}
 \]</span></p>
