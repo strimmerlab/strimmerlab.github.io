@@ -205,8 +205,8 @@ window.Quarto = {
   <ul>
   <li><a href="#some-basic-mathematical-notation" id="toc-some-basic-mathematical-notation" class="nav-link active" data-scroll-target="#some-basic-mathematical-notation"><span class="header-section-number">1.1</span> Some basic mathematical notation</a></li>
   <li><a href="#number-of-permutations" id="toc-number-of-permutations" class="nav-link" data-scroll-target="#number-of-permutations"><span class="header-section-number">1.2</span> Number of permutations</a></li>
-  <li><a href="#de-moivre-sterling-approximation-of-the-factorial" id="toc-de-moivre-sterling-approximation-of-the-factorial" class="nav-link" data-scroll-target="#de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial</a></li>
-  <li><a href="#multinomial-and-binomial-coefficient" id="toc-multinomial-and-binomial-coefficient" class="nav-link" data-scroll-target="#multinomial-and-binomial-coefficient"><span class="header-section-number">1.4</span> Multinomial and binomial coefficient</a></li>
+  <li><a href="#multinomial-and-binomial-coefficient" id="toc-multinomial-and-binomial-coefficient" class="nav-link" data-scroll-target="#multinomial-and-binomial-coefficient"><span class="header-section-number">1.3</span> Multinomial and binomial coefficient</a></li>
+  <li><a href="#de-moivre-sterling-approximation" id="toc-de-moivre-sterling-approximation" class="nav-link" data-scroll-target="#de-moivre-sterling-approximation"><span class="header-section-number">1.4</span> De Moivre-Sterling approximation</a></li>
   </ul>
 </nav>
     </div>
@@ -257,14 +257,32 @@ window.Quarto = {
 </section>
 <section id="number-of-permutations" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="number-of-permutations"><span class="header-section-number">1.2</span> Number of permutations</h2>
-<p>The number of possible orderings, or permutations, of <span class="math inline">\(n\)</span> distinct items is the number of ways to put <span class="math inline">\(n\)</span> items in <span class="math inline">\(n\)</span> bins with exactly one item in each bin. It is given by the <strong>factorial</strong> <span class="math display">\[
+<p>A <strong>permutation</strong> or <strong>ordering</strong> is a specific arrangement of items in sequence or positions.</p>
+<p>The number of permutations of <span class="math inline">\(n\)</span> items, each of distinct type, is the <strong>factorial</strong> <span class="math display">\[
 n! = \prod_{i=1}^n i = 1 \times 2 \times \ldots \times n
 \]</span> where <span class="math inline">\(n\)</span> is a positive integer. For <span class="math inline">\(n=0\)</span> the factorial is defined as <span class="math display">\[
 0! = 1
-\]</span> as there is exactly one permutation of zero objects.</p>
+\]</span></p>
 </section>
-<section id="de-moivre-sterling-approximation-of-the-factorial" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="de-moivre-sterling-approximation-of-the-factorial"><span class="header-section-number">1.3</span> De Moivre-Sterling approximation of the factorial</h2>
+<section id="multinomial-and-binomial-coefficient" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="multinomial-and-binomial-coefficient"><span class="header-section-number">1.3</span> Multinomial and binomial coefficient</h2>
+<p>The number of permutations of <span class="math inline">\(n\)</span> items, partitioned into <span class="math inline">\(K\leq n\)</span> distinct types, with <span class="math inline">\(n_k\)</span> items of type <span class="math inline">\(k\)</span> and <span class="math inline">\(\sum_{k=1}^K n_k=n\)</span>, is given by the <strong>multinomial coefficient</strong> <span class="math display">\[
+\begin{split}
+W_K &amp;= \binom{n}{n_1, \ldots, n_K} \\
+    &amp;= \frac {n!}{n_1! \, n_2! \, \ldots \, n_K! }
+\end{split}
+\]</span></p>
+<p>If all items are of distinct type (<span class="math inline">\(K=n\)</span> and <span class="math inline">\(n_k=1\)</span>) the multinomial coefficient reduces to the factorial.</p>
+<p>If there are only two types (<span class="math inline">\(K=2\)</span>) the multinomial coefficient becomes the <strong>binomial coefficient</strong> <span class="math display">\[
+\begin{split}
+W_2 &amp;= \binom{n}{n_1, n_2} = \binom{n}{n_1, n- n_1}\\
+    &amp;=  \frac {n!}{n_1! \, (n - n_1)!}\\
+    &amp; = \binom{n}{n_1}
+\end{split}
+\]</span></p>
+</section>
+<section id="de-moivre-sterling-approximation" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="de-moivre-sterling-approximation"><span class="header-section-number">1.4</span> De Moivre-Sterling approximation</h2>
 <p>The factorial is frequently approximated by the following formula derived by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and <a href="https://en.wikipedia.org/wiki/James_Stirling_(mathematician)">James Stirling (1692-1770)</a> <span class="math display">\[
 n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
 \]</span> or equivalently on logarithmic scale <span class="math display">\[
@@ -272,19 +290,9 @@ n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
 \]</span> The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to <span class="math display">\[
 \log n! \approx  n \log n  -n
 \]</span></p>
-</section>
-<section id="multinomial-and-binomial-coefficient" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="multinomial-and-binomial-coefficient"><span class="header-section-number">1.4</span> Multinomial and binomial coefficient</h2>
-<p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types, with <span class="math inline">\(n_1\)</span> of type 1, <span class="math inline">\(n_2\)</span> of type 2 and so on, equals the number of ways to put <span class="math inline">\(n\)</span> items into <span class="math inline">\(K\)</span> bins with <span class="math inline">\(n_1\)</span> items in the first bin, <span class="math inline">\(n_2\)</span> in the second and so on. It is given by the <strong>multinomial</strong> coefficient <span class="math display">\[
-\binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \, n_2! \, \ldots \, n_K! }
-\]</span> with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span> and <span class="math inline">\(K \leq n\)</span>. Note that it equals the number of permutation of all items divided by the number of permutations of the items in each bin (or of each type).</p>
-<p>If all <span class="math inline">\(n_k=1\)</span> and hence <span class="math inline">\(K=n\)</span> the multinomial coefficient reduces to the factorial.</p>
-<p>If there are only two types (<span class="math inline">\(K=2\)</span>) the multinomial coefficients becomes the <strong>binomial coefficient</strong> <span class="math display">\[
-\binom{n}{n_1} = \binom{n}{n_1, n-n_1}    =  \frac {n!}{n_1! \, (n - n_1)!}
-\]</span> which counts the number of ways to choose <span class="math inline">\(n_1\)</span> elements from a set of <span class="math inline">\(n\)</span> elements.</p>
-<p>For large <span class="math inline">\(n\)</span> and <span class="math inline">\(n_k\)</span> we can apply the De Moivre-Sterling approximation to the multinomial coefficient, yielding <span class="math display">\[
-\log\binom{n}{n_1, \ldots, n_K} = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)
-\]</span> Note this is <span class="math inline">\(n\)</span> times the Shannon-Gibbs entropy of a categorical distribution with <span class="math inline">\(n_k/n\)</span> as class probabilities.</p>
+<p>The de&nbsp;Moivre-Sterling approximation applied to the multinomial coefficient yields <span class="math display">\[
+\log W_K \approx - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)
+\]</span> Hence, for large <span class="math inline">\(n\)</span> and large <span class="math inline">\(n_k\)</span> the logarithm of the multinomial coefficient equals <span class="math inline">\(n\)</span> times the Shannon-Gibbs entropy of a categorical distribution with class probabilities <span class="math inline">\(n_k/n\)</span>.</p>
 
 
 </section>
