@@ -289,7 +289,7 @@ p(x|\boldsymbol \eta) &amp;=  \underbrace{e^{ \langle \boldsymbol \eta, \boldsym
 </ul>
 <p>The base pdmf is obtained at <span class="math inline">\(\boldsymbol \eta=0\)</span> yielding <span class="math inline">\(b(x) = p(x | \boldsymbol \eta=0)  =   h(x) / z(0)\)</span>. If <span class="math inline">\(h(x)\)</span> is already a normalised pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
 <p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) .</p>
-<p>Likewise, canonical statistics and parameters are written as vectors but these may also be scalars or matrices (or a combination of both). The use of inner product notation <span class="math inline">\(\langle, \rangle\)</span> includes all these cases, recall that for scalars <span class="math inline">\(\langle a, b \rangle = ab\)</span>, for vectors <span class="math inline">\(\langle \boldsymbol a, \boldsymbol b\rangle = \boldsymbol a^T \boldsymbol a\)</span> and for matrices <span class="math inline">\(\langle \boldsymbol A, \boldsymbol B\rangle = \text{Tr}( \boldsymbol A^T \boldsymbol B) = \text{Vec}(\boldsymbol A)^T \text{Vec}(\boldsymbol B)\)</span>.</p>
+<p>Likewise, canonical statistics and parameters are written as vectors but these may also be scalars or matrices (or a combination of both). The use of inner product notation <span class="math inline">\(\langle, \rangle\)</span> includes all these cases, recall that for scalars <span class="math inline">\(\langle a, b \rangle = ab\)</span>, for vectors <span class="math inline">\(\langle \boldsymbol a, \boldsymbol b\rangle = \boldsymbol a^T \boldsymbol a\)</span> and for matrices <span class="math inline">\(\langle \boldsymbol A, \boldsymbol B\rangle = \operatorname{Tr}( \boldsymbol A^T \boldsymbol B) = \operatorname{Vec}(\boldsymbol A)^T \operatorname{Vec}(\boldsymbol B)\)</span>.</p>
 </section>
 <section id="canonical-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="canonical-statistics">Canonical statistics</h3>
@@ -298,7 +298,7 @@ p(x|\boldsymbol \eta) &amp;=  \underbrace{e^{ \langle \boldsymbol \eta, \boldsym
 <p>The canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> may be affinely dependent. If this is the case there is a vector <span class="math inline">\(\boldsymbol \eta_0\)</span> for which<br>
 <span class="math display">\[
 \langle \boldsymbol \eta_0, \boldsymbol t(x) \rangle  = \text{const.}
-\]</span> A common example is when <span class="math inline">\(\boldsymbol x\)</span> is a vector of counts <span class="math inline">\((n_1, \ldots, n_K)^T\)</span> for <span class="math inline">\(K\)</span> classes with a fixed total count <span class="math inline">\(n = \sum_{i=1}^K n_i = \mathbf 1_K \boldsymbol x\)</span> and the canonical statistics are <span class="math inline">\(\boldsymbol t(\boldsymbol x) = \boldsymbol x\)</span> and thus include all <span class="math inline">\(K\)</span> counts.</p>
+\]</span> A common example is when <span class="math inline">\(\boldsymbol x\)</span> is a vector of counts <span class="math inline">\((n_1, \ldots, n_K)^T\)</span> for <span class="math inline">\(K\)</span> classes with a fixed total count <span class="math inline">\(n = \sum_{i=k}^K n_k =  \boldsymbol x^T \mathbf 1_K\)</span> and the canonical statistics are <span class="math inline">\(\boldsymbol t(\boldsymbol x) = \boldsymbol x\)</span> and thus include all <span class="math inline">\(K\)</span> counts.</p>
 <p>If the elements in <span class="math inline">\(\boldsymbol t(x)\)</span> are affinely independent the representation of the exponential family is <strong>minimal</strong> or <strong>complete</strong>, otherwise the representation is <strong>non-minimal</strong> or <strong>overcomplete</strong>.</p>
 </section>
 <section id="canonical-parameters-and-identifiability" class="level3">
@@ -312,7 +312,7 @@ p(x|\boldsymbol \eta) &amp;=  \underbrace{e^{ \langle \boldsymbol \eta, \boldsym
 <h3 class="anchored" data-anchor-id="moment-and-cumulant-generating-functions">Moment and cumulant generating functions</h3>
 <p>The moment generating function for the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> is <span class="math display">\[
 \begin{split}
-M(\boldsymbol \tau) &amp; = \text{E}\left( e^{\langle \boldsymbol \tau, \boldsymbol t(x)\rangle} \right)\\
+M(\boldsymbol \tau) &amp; = \operatorname{E}\left( e^{\langle \boldsymbol \tau, \boldsymbol t(x)\rangle} \right)\\
          &amp;=  \int_x    e^{\langle \boldsymbol \tau, \boldsymbol t(x)\rangle}  p(x |\boldsymbol \eta) dx \\
           &amp;=  \int_x    e^{\langle \boldsymbol \tau, \boldsymbol t(x)\rangle}\,  e^{\langle \boldsymbol \eta, \boldsymbol t(x)\rangle}\, h(x)\, / z(\boldsymbol \eta) dx \\
          &amp; =  \left( \int_x    e^{\langle \boldsymbol \tau+\boldsymbol \eta,\boldsymbol t(x)\rangle}\, h(x) \, dx\right) /z(\boldsymbol \eta)  \\
@@ -345,9 +345,15 @@ z(\boldsymbol \eta)= \int_x  e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \ran
 <h3 class="anchored" data-anchor-id="sec-meanvarcanonstat">Moments of canonical statistics</h3>
 <p>The first cumulant (the mean) and second cumulant (the variance) are obtained as the first and second derivatives of the cumulant generating function <span class="math inline">\(K(\boldsymbol \tau) = a(\boldsymbol \tau+\boldsymbol \eta)-a(\boldsymbol \eta)\)</span> evaluated at <span class="math inline">\(\boldsymbol \tau=0\)</span>, respectively. As a result, the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> provides a practical way to obtain the mean and variance of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span>.</p>
 <p>Specifically, computing its gradient yields the mean <span class="math display">\[
-\text{E}( \boldsymbol t(x) )  = \boldsymbol u_{\boldsymbol t}= \nabla a(\boldsymbol \eta)
+\begin{split}
+\operatorname{E}( \boldsymbol t(x) )  = \boldsymbol \mu_{\boldsymbol t} &amp; = \nabla a(\boldsymbol \eta)\\
+&amp;= \frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}
+\end{split}
 \]</span> and computing the Hessian matrix the covariance matrix <span class="math display">\[
-\text{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t}= \nabla \nabla^T a(\boldsymbol \eta)
+\begin{split}
+\operatorname{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t} &amp; = \nabla \nabla^T a(\boldsymbol \eta)\\
+&amp;= \frac{\nabla \nabla^T z(\boldsymbol \eta)}{z(\boldsymbol \eta)} - \left(\frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}\right) \left(\frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}\right)^T
+\end{split}
 \]</span></p>
 <p>For an exponential family with minimal representation the log-partition function is strictly convex, hence the variance <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol t}\)</span> is a positive definite matrix and invertible.</p>
 <p>For overcomplete representations the log-partition function is convex but not strictly convex, hence the covariance matrix is positive semi-definite and not invertible.</p>
@@ -358,20 +364,20 @@ z(\boldsymbol \eta)= \int_x  e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \ran
 <h2 data-number="6.3" class="anchored" data-anchor-id="further-properties"><span class="header-section-number">6.3</span> Further properties</h2>
 <section id="equivalent-representations" class="level3">
 <h3 class="anchored" data-anchor-id="equivalent-representations">Equivalent representations</h3>
-<p>An exponential family can have many equivalent representations such that two different specifications of canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> and base function <span class="math inline">\(h(x)\)</span> can describe the same family.</p>
-<p>First, any linear transformation of the canonical statistic <span class="math inline">\(\boldsymbol t(x)\)</span> yields the same distribution family.</p>
-<p>Second, any member of the family may serve as its base distribution. Specifically, with <span class="math inline">\(P(\boldsymbol \eta_{0})\)</span> as base distribution with pdmf <span class="math inline">\(p(x | \boldsymbol \eta_{0})\)</span> the pdmf for <span class="math inline">\(P(\boldsymbol \eta)\)</span> can be written as <span class="math display">\[
+<p>An exponential family admits many equivalent representations such that different specifications of canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> and base function <span class="math inline">\(h(x)\)</span> describe the same family.</p>
+<p>First, any invertible linear transformation of the canonical statistic <span class="math inline">\(\boldsymbol t(x)\)</span> yields the same distribution family.</p>
+<p>Second, any member of the family, say <span class="math inline">\(P(\boldsymbol \eta_{0})\)</span>, can serve as its base distribution. Specifically, with <span class="math inline">\(p(x | \boldsymbol \eta_{0})\)</span> used as base the pdmf for the exponential family <span class="math inline">\(P(\boldsymbol \eta)\)</span> is <span class="math display">\[
 p(x| \boldsymbol \eta) = e^{ \langle \boldsymbol \eta- \boldsymbol \eta_{0},  \boldsymbol t(x)\rangle - (a(\boldsymbol \eta) -a(\boldsymbol \eta_{0}))}\, p(x| \boldsymbol \eta_{0})
 \]</span> which is in exponential family form.</p>
-<p>Third, here are infinitely many positive base functions <span class="math inline">\(h(x)\)</span> that yield the same based pdmf <span class="math inline">\(b(x)\)</span> after normalisation.</p>
-<p>Fourth, factors in the base function <span class="math inline">\(h(x)\)</span> that have exponential form (<span class="math inline">\(e^{\langle \boldsymbol \eta- \boldsymbol \eta_{0},  \boldsymbol t(x)\rangle }\)</span> where <span class="math inline">\(\boldsymbol \eta_0\)</span> is a constant) may be removed from <span class="math inline">\(h(x)\)</span>. If the pdmf depends on <span class="math inline">\(x\)</span> entirely through canonical statistics then the base function can be set to <span class="math inline">\(h(x)=1\)</span>.</p>
+<p>Third, the base function <span class="math inline">\(h(x)\)</span> can be left unnormalised, so there are infinitely many positive base functions <span class="math inline">\(h(x)\)</span> that yield the same base pdmf <span class="math inline">\(b(x)\)</span> after normalisation.</p>
+<p>Fourth, any factors in <span class="math inline">\(h(x)\)</span> of the form <span class="math inline">\(e^{ \langle \boldsymbol \eta_{0},  \boldsymbol t(x)\rangle}\)</span> for constant <span class="math inline">\(\boldsymbol \eta_{0}\)</span> can be removed from <span class="math inline">\(h(x)\)</span>. As a result, many commonly used exponential families set the base function to <span class="math inline">\(h(x)=1\)</span>.</p>
 </section>
 <section id="alternative-parametrisations" class="level3">
 <h3 class="anchored" data-anchor-id="alternative-parametrisations">Alternative parametrisations</h3>
 <p>An exponential family can be parametrised by three different sets of parameters:</p>
 <ol type="1">
-<li>the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>,</li>
-<li>the <strong>expectation parameters</strong> <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t} = \text{E}(\boldsymbol t(x))\)</span> (the mean of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span>), as well as</li>
+<li><strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>,</li>
+<li><strong>expectation parameters</strong> <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t} = \operatorname{E}(\boldsymbol t(x))\)</span> (the mean of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span>), as well as</li>
 <li><strong>conventional parameters</strong> <span class="math inline">\(\boldsymbol \theta\)</span> (such as mean and variance of <span class="math inline">\(x\)</span>).</li>
 </ol>
 <p>If the exponential family is minimal then there is a one-to-one map between the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> and the expectation parameters&nbsp; <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span>.</p>
@@ -387,13 +393,13 @@ p(x| \boldsymbol \eta) = e^{ \langle \boldsymbol \eta- \boldsymbol \eta_{0},  \b
 <section id="univariate-exponential-families" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="univariate-exponential-families"><span class="header-section-number">6.4</span> Univariate exponential families</h2>
 <p><a href="#tbl-efuni" class="quarto-xref">Table&nbsp;<span>6.1</span></a> lists univariate exponential families, more details about these distributions are found in <a href="04-univariate.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
-<p>For <span class="math inline">\(\text{Bin}(n, \theta)\)</span> and <span class="math inline">\(\text{Ber}(\theta)\)</span> the conventional parameter is <span class="math display">\[
-\theta = \text{logit}^{-1}(\eta)=\frac{e^\eta}{1+e^\eta}
+<p>For <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span> and <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> the conventional parameter is <span class="math display">\[
+\theta = \operatorname{logit}^{-1}(\eta)=\frac{e^\eta}{1+e^\eta}
 \]</span> (logistic function). Conversely, since this is a one-to-one map, the canonical parameter equals <span class="math display">\[
-\eta = \text{logit}(\theta)= \log\left(\frac{\theta}{1-\theta}\right)
+\eta = \operatorname{logit}(\theta)= \log\left(\frac{\theta}{1-\theta}\right)
 \]</span></p>
-<p>Apart from <span class="math inline">\(\text{Bin}(n, \theta)\)</span> all families listed in <a href="#tbl-efuni" class="quarto-xref">Table&nbsp;<span>6.1</span></a> are Gibbs families (<span class="math inline">\(h(x)=1\)</span>).</p>
-<p>Furthermore, <span class="math inline">\(\text{Bin}(n, \theta)\)</span>, <span class="math inline">\(\text{Ber}(\theta)\)</span> and <span class="math inline">\(\text{Exp}(\theta)\)</span> are NEFs. <span class="math inline">\(N(\mu,\sigma^2)\)</span> with fixed <span class="math inline">\(\sigma^2\)</span> (variance), <span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span> with fixed <span class="math inline">\(\alpha\)</span> (shape) and <span class="math inline">\(\text{Wis}(s^2, k)\)</span> with fixed <span class="math inline">\(k\)</span> (shape) are also NEFs.</p>
+<p>Apart from <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span> all families listed in <a href="#tbl-efuni" class="quarto-xref">Table&nbsp;<span>6.1</span></a> are Gibbs families (<span class="math inline">\(h(x)=1\)</span>).</p>
+<p>Furthermore, <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span>, <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> and <span class="math inline">\(\operatorname{Exp}(\theta)\)</span> are NEFs. <span class="math inline">\(N(\mu,\sigma^2)\)</span> with fixed <span class="math inline">\(\sigma^2\)</span> (variance), <span class="math inline">\(\operatorname{Gam}(\alpha, \theta)\)</span> with fixed <span class="math inline">\(\alpha\)</span> (shape) and <span class="math inline">\(\operatorname{Wis}(s^2, k)\)</span> with fixed <span class="math inline">\(k\)</span> (shape) are also NEFs.</p>
 <div style="page-break-after: always;"></div>
 <div id="tbl-efuni" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[17,4,26,15,18,23]">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -422,23 +428,23 @@ Table&nbsp;6.1: Common univariate exponential families
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(\text{Bin}(n, \theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span></td>
 <td><span class="math inline">\(\text{b.c.}\)</span></td>
 <td><span class="math inline">\((1+e^\eta)^n\)</span></td>
-<td><span class="math inline">\(\text{logit}(\theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{logit}(\theta)\)</span></td>
 <td><span class="math inline">\(x\)</span></td>
 <td><span class="math inline">\(\theta\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\text{Ber}(\theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Ber}(\theta)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(1+e^\eta\)</span></td>
-<td><span class="math inline">\(\text{logit}(\theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{logit}(\theta)\)</span></td>
 <td><span class="math inline">\(x\)</span></td>
 <td><span class="math inline">\(\theta\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{Beta}(\alpha_1, \alpha_2)\)</span></td>
+<td><span class="math inline">\(\operatorname{Beta}(\alpha_1, \alpha_2)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(B(\eta_1+1, \eta_2+1)\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix}\alpha_1-1 \\ \alpha_2-1\end{pmatrix}\)</span></td>
@@ -454,7 +460,7 @@ Table&nbsp;6.1: Common univariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} \mu \\ \sigma^2 + \mu^2 \end{pmatrix}\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Gam}(\alpha, \theta)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\((-\eta_1)^{-\eta_2-1}\)</span> <span class="math inline">\(\Gamma(\eta_2+1)\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -1/\theta \\ \alpha-1 \end{pmatrix}\)</span></td>
@@ -462,7 +468,7 @@ Table&nbsp;6.1: Common univariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} \alpha \theta \\ \psi^{(0)}(\alpha) +\log\theta\end{pmatrix}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\text{Exp}(\theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Exp}(\theta)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(-\eta^{-1}\)</span></td>
 <td><span class="math inline">\(-1/\theta\)</span></td>
@@ -470,7 +476,7 @@ Table&nbsp;6.1: Common univariate exponential families
 <td><span class="math inline">\(\theta\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{Wis}(s^2, k)\)</span></td>
+<td><span class="math inline">\(\operatorname{Wis}(s^2, k)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\((-\eta_1)^{-\eta_2-1}\)</span> <span class="math inline">\(\Gamma(\eta_2+1)\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -\frac{1}{2} s^{-2} \\ \frac{k}{2} -1 \end{pmatrix}\)</span></td>
@@ -478,7 +484,7 @@ Table&nbsp;6.1: Common univariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} k s^2 \\ \psi^{(0)}(\frac{k}{2}) +\log(2 s^2)\end{pmatrix}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\text{IG}(\alpha, \beta)\)</span></td>
+<td><span class="math inline">\(\operatorname{IG}(\alpha, \beta)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\((-\eta_1)^{\eta_2+1}\)</span> <span class="math inline">\(\Gamma(-\eta_2-1)\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -\beta \\  -\alpha-1 \end{pmatrix}\)</span></td>
@@ -486,7 +492,7 @@ Table&nbsp;6.1: Common univariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} \alpha/\beta \\ -\psi^{(0)}(\alpha) +\log\beta \end{pmatrix}\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{IW}(\psi, k)\)</span></td>
+<td><span class="math inline">\(\operatorname{IW}(\psi, k)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\((-\eta_1)^{\eta_2+1}\)</span> <span class="math inline">\(\Gamma(-\eta_2-1)\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -\frac{\psi}{2} \\  -\frac{k}{2}-1 \end{pmatrix}\)</span></td>
@@ -510,16 +516,14 @@ Table&nbsp;6.1: Common univariate exponential families
 <section id="multivariate-exponential-families" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="multivariate-exponential-families"><span class="header-section-number">6.5</span> Multivariate exponential families</h2>
 <p><a href="#tbl-efmul" class="quarto-xref">Table&nbsp;<span>6.2</span></a> lists multvariate exponential families, more details about these distributions are found in <a href="05-multivariate.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
-<p>Note that <span class="math inline">\(\text{Mult}(n, \boldsymbol \theta)\)</span> and <span class="math inline">\(\text{Cat}(\boldsymbol \theta)\)</span> are given in overcomplete representation, i.e.&nbsp;each distribution in the family is represented by multiple values of <span class="math inline">\(\boldsymbol \eta\)</span>. Specifically, adding the same constant <span class="math inline">\(c\)</span> to all individual canonical parameters <span class="math inline">\(\eta_i\)</span> does not change the distribution.</p>
-<p>The conventional parameters are given by <span class="math inline">\(\boldsymbol \theta= \text{softmax}(\boldsymbol \eta)\)</span> with <span class="math display">\[
-\theta_i = \text{softmax}(\boldsymbol \eta)_i = \frac{e^{\eta_i}}{\sum_{k=1}^K e^{\eta_k}}
-\]</span> The softmax function is invariant to translation by <span class="math inline">\(c\)</span> as <span class="math display">\[
-\text{softmax}(\boldsymbol \eta) = \text{softmax}(\boldsymbol \eta+ c\mathbf 1_K)
-\]</span> The inverse of the softmax function is not unique, yielding <span class="math display">\[
-\eta_i = \log(\theta_i) + c
-\]</span> A minimal representation with <span class="math inline">\(K-1\)</span> parameters <span class="math inline">\(\eta_1, \ldots, \eta_{K-1}\)</span> and <span class="math inline">\(\eta_K=0\)</span> corresponds to <span class="math inline">\(c=-\log(\theta_K)\)</span> and <span class="math inline">\(\eta_i = \log \left( \frac{\theta_i}{\theta_K}\right)\)</span>.</p>
-<p>Apart from <span class="math inline">\(\text{Mult}(n, \boldsymbol \theta)\)</span> all families listed in <a href="#tbl-efmul" class="quarto-xref">Table&nbsp;<span>6.2</span></a> all are Gibbs families (<span class="math inline">\(h(\boldsymbol x)=1\)</span>).</p>
-<p>Furthermore, <span class="math inline">\(\text{Mult}(n, \boldsymbol \theta)\)</span> and <span class="math inline">\(\text{Cat}(\boldsymbol \theta)\)</span> are NEFs. <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with fixed <span class="math inline">\(\boldsymbol \Sigma\)</span> (variance) and <span class="math inline">\(\text{Wis}(\boldsymbol S, k)\)</span> with fixed <span class="math inline">\(k\)</span> (shape) are NEFs as well.</p>
+<p>For <span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \theta)\)</span> and <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> the conventional parameters are given by <span class="math display">\[
+\boldsymbol \theta= \operatorname{softmax}(\boldsymbol \eta) = \frac{(\exp \eta_k)}{\sum_{i=1}^K \exp \eta_i}
+\]</span> As the softmax function is invariant against translation and is a many-to-one map, its inverse is not unique and the canonical parameters <span class="math display">\[
+\boldsymbol \eta= (c + \log \theta_k)
+\]</span> are determined by the conventional parameters <span class="math inline">\(\boldsymbol \theta\)</span> only up to a constant&nbsp;<span class="math inline">\(c\)</span>. This representation using <span class="math inline">\(K\)</span> canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> is non-minimal, hence <span class="math inline">\(\boldsymbol \eta\)</span> is not identifiable and different values of <span class="math inline">\(\boldsymbol \eta\)</span> can represent the same distribution.</p>
+<p>A minimal representation with <span class="math inline">\(K-1\)</span> parameters <span class="math inline">\(\eta_1, \ldots, \eta_{K-1}\)</span> and <span class="math inline">\(\eta_K=0\)</span> corresponds to <span class="math inline">\(c=-\log \theta_K\)</span> and <span class="math inline">\(\eta_k = \log (\theta_k/ \theta_K )\)</span>. For <span class="math inline">\(K=2\)</span> this yields the minimal representations of <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span> and <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> shown in <a href="#tbl-efuni" class="quarto-xref">Table&nbsp;<span>6.1</span></a>.</p>
+<p>Apart from <span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \theta)\)</span> all families listed in <a href="#tbl-efmul" class="quarto-xref">Table&nbsp;<span>6.2</span></a> all are Gibbs families (<span class="math inline">\(h(\boldsymbol x)=1\)</span>).</p>
+<p>Furthermore, <span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \theta)\)</span> and <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> are NEFs. <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> with fixed <span class="math inline">\(\boldsymbol \Sigma\)</span> (variance) and <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span> with fixed <span class="math inline">\(k\)</span> (shape) are NEFs as well.</p>
 <div style="page-break-after: always;"></div>
 <div id="tbl-efmul" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[17,4,26,15,18,23]">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -548,28 +552,28 @@ Table&nbsp;6.2: Common multivariate exponential families
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(\text{Mult}(n, \boldsymbol \theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \theta)\)</span></td>
 <td><span class="math inline">\(\text{m.c.}\)</span></td>
-<td><span class="math inline">\((\sum_{k=1}^K \exp(\eta_k))^n\)</span></td>
-<td><span class="math inline">\((\log \theta_i)\)</span></td>
+<td><span class="math inline">\((\sum_{k=1}^K \exp \eta_k)^n\)</span></td>
+<td><span class="math inline">\((c+\log \theta_k)\)</span></td>
 <td><span class="math inline">\(\boldsymbol x\)</span></td>
 <td><span class="math inline">\(\boldsymbol \theta\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\text{Cat}(\boldsymbol \theta)\)</span></td>
+<td><span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
-<td><span class="math inline">\(\sum_{k=1}^K \exp(\eta_k)\)</span></td>
-<td><span class="math inline">\((\log \theta_i)\)</span></td>
+<td><span class="math inline">\(\sum_{k=1}^K \exp \eta_k\)</span></td>
+<td><span class="math inline">\((c+ \log \theta_k)\)</span></td>
 <td><span class="math inline">\(\boldsymbol x\)</span></td>
 <td><span class="math inline">\(\boldsymbol \theta\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{Dir}(\boldsymbol \alpha)\)</span></td>
+<td><span class="math inline">\(\operatorname{Dir}(\boldsymbol \alpha)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(B(\boldsymbol \eta+1)\)</span></td>
-<td><span class="math inline">\(\begin{pmatrix}\alpha_i-1 \end{pmatrix}\)</span></td>
-<td><span class="math inline">\(\begin{pmatrix} \log x_i \end{pmatrix}\)</span></td>
-<td><span class="math inline">\(\begin{pmatrix}  \psi^{(0)}(\alpha_i)-\psi^{(0)}(m)\end{pmatrix}\)</span></td>
+<td><span class="math inline">\(\begin{pmatrix}\alpha_k-1 \end{pmatrix}\)</span></td>
+<td><span class="math inline">\(\begin{pmatrix} \log x_k \end{pmatrix}\)</span></td>
+<td><span class="math inline">\(\begin{pmatrix}  \psi^{(0)}(\alpha_k)-\psi^{(0)}(m)\end{pmatrix}\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span></td>
@@ -580,7 +584,7 @@ Table&nbsp;6.2: Common multivariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} \boldsymbol \mu\\ \boldsymbol \Sigma+ \boldsymbol \mu\boldsymbol \mu^T \end{pmatrix}\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\text{Wis}(\boldsymbol S, k)\)</span></td>
+<td><span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(\det(-\boldsymbol \eta_1)^{-\eta_2-\frac{d+1}{2}}\)</span> <span class="math inline">\(\Gamma_d(\eta_2+\frac{d+1}{2})\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -\frac{1}{2}\boldsymbol S^{-1} \\ \frac{k}{2} - \frac{d+1}{2} \end{pmatrix}\)</span></td>
@@ -588,7 +592,7 @@ Table&nbsp;6.2: Common multivariate exponential families
 <td><span class="math inline">\(\begin{pmatrix} k \boldsymbol S\\ \psi^{(0)}_d(\frac{k}{2}) + \log \det(2 \boldsymbol S)\end{pmatrix}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\text{IW}\left(\boldsymbol \Psi, k\right)\)</span></td>
+<td><span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span></td>
 <td><span class="math inline">\(1\)</span></td>
 <td><span class="math inline">\(\det(-\boldsymbol \eta_1)^{\eta_2+\frac{d+1}{2}}\)</span> <span class="math inline">\(\Gamma_d(-\eta_2-\frac{d+1}{2})\)</span></td>
 <td><span class="math inline">\(\begin{pmatrix} -\frac{1}{2}\boldsymbol \Psi\\ -\frac{k}{2} - \frac{d+1}{2} \end{pmatrix}\)</span></td>
@@ -604,7 +608,7 @@ Table&nbsp;6.2: Common multivariate exponential families
 <ul>
 <li><span class="math inline">\(\text{m.c.} = \binom{n}{x_1, \ldots, x_K}\)</span> multinomial coefficient.</li>
 <li><span class="math inline">\(B(\boldsymbol \alpha)\)</span> is the multivariate beta function.</li>
-<li><span class="math inline">\(m=\sum_{i=1}^K \alpha_i\)</span>.</li>
+<li><span class="math inline">\(m=\sum_{i=k}^K \alpha_k\)</span>.</li>
 <li><span class="math inline">\(\psi^{(0)}_d  = \frac{d}{dx} \log \Gamma_d(x) = \sum_{i=1}^d \psi^{(0)}(x - (i-1)/2)\)</span> is the <strong>multivariate digamma function</strong>.</li>
 </ul>
 <p>See also: <a href="https://en.wikipedia.org/wiki/Exponential_family">Exponential family (Wikipedia)</a> and <span class="citation" data-cites="EfronExpFam2022">Efron (<a href="bibliography.html#ref-EfronExpFam2022" role="doc-biblioref">2022</a>)</span>.</p>
