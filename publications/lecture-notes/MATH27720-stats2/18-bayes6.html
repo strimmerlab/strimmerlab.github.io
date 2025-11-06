@@ -193,7 +193,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -397,11 +397,11 @@ window.Quarto = {
 <section id="jeffreys-prior" class="level3">
 <h3 class="anchored" data-anchor-id="jeffreys-prior">Jeffreys prior</h3>
 <p>The most well-known non-informative prior is given by a proposal by <a href="https://en.wikipedia.org/wiki/Harold_Jeffreys">Harold Jeffreys (1891–1989)</a> in 1946 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>Specifically, this prior is constructed from the expected Fisher information and thus promises automatic construction of objective uninformative priors using the likelihood: <span class="math display">\[
+<p>Specifically, this prior is constructed from the Fisher information and thus promises automatic construction of objective uninformative priors using the likelihood: <span class="math display">\[
 p(\boldsymbol \theta) \propto \sqrt{\det \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)}
 \]</span></p>
 <p>The reasoning underlying this prior is <strong>invariance against transformation of the coordinate system of the parameters</strong>.</p>
-<p>For the Beta-Binomial model the Jeffreys prior corresponds to <span class="math inline">\(\text{Beta}(\frac{1}{2}, \frac{1}{2})\)</span>. Note this is not the uniform distribution but a U-shaped prior.</p>
+<p>For the Beta-Binomial model the Jeffreys prior corresponds to <span class="math inline">\(\operatorname{Beta}(\frac{1}{2}, \frac{1}{2})\)</span>. Note this is not the uniform distribution but a U-shaped prior.</p>
 <p>For the normal-normal model it corresponds to the flat improper prior <span class="math inline">\(p(\mu) =1\)</span>.</p>
 <p>For the IG-normal model the Jeffreys prior is the improper prior <span class="math inline">\(p(\sigma^2) = \frac{1}{\sigma^2}\)</span>.</p>
 <p>This already illustrates the main problem with this type of prior – namely that it often is improper, i.e.&nbsp;the prior distribution is not actually a probability distribution (i.e.&nbsp;the density does not integrate to 1).</p>
@@ -429,7 +429,7 @@ p(D | \lambda) = \int_{\boldsymbol \theta}  p(D|\boldsymbol \theta) p(\boldsymbo
 <h3 class="anchored" data-anchor-id="shrinkage-estimation-using-empirical-risk-minimisation">Shrinkage estimation using empirical risk minimisation</h3>
 <p>An alternative (but related) way to estimate hyper-parameters is by minimising the empirical risk.</p>
 <p>In the examples for Bayesian estimation that we have considered so far the posterior mean of the parameter of interest was obtained by linear shrinkage <span class="math display">\[
-\hat\theta_{\text{shrink}} = \text{E}( \theta | D) = \lambda \theta_0 + (1-\lambda) \hat\theta_{\text{ML}}
+\hat\theta_{\text{shrink}} = \operatorname{E}( \theta | D) = \lambda \theta_0 + (1-\lambda) \hat\theta_{\text{ML}}
 \]</span> of the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> towards the prior mean <span class="math inline">\(\theta_0\)</span>, with shrinkage intensity <span class="math inline">\(\lambda=\frac{k_0}{k_1}\)</span> determined by the ratio of the prior and posterior concentration parameters <span class="math inline">\(k_0\)</span> and <span class="math inline">\(k_1\)</span>.</p>
 <p>The resulting point estimate <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> is called <em>shrinkage estimate</em> and is a convex combination of <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>. The prior mean <span class="math inline">\(\theta_0\)</span> is also called the “target”.</p>
 <p>The hyperparameter in this setting is <span class="math inline">\(k_0\)</span> (linked to the precision of the prior) and or equivalently the shrinkage intensity <span class="math inline">\(\lambda\)</span>.</p>
@@ -437,10 +437,10 @@ p(D | \lambda) = \int_{\boldsymbol \theta}  p(D|\boldsymbol \theta) p(\boldsymbo
 <p>In particular, by construction, the target <span class="math inline">\(\theta_0\)</span> has low or even zero variance but non-vanishing and potentially large bias, whereas the MLE <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> will have low or zero bias but a substantial variance. By combinining these two estimators with opposite properties the aim is to achieve a <em>bias-variance tradeoff</em> so that the resulting estimator <span class="math inline">\(\hat\theta_{\text{shrink}}\)</span> has lower MSE than either <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\hat\theta_{\text{ML}}\)</span>.</p>
 <p>Specifically, the aim is to find <span class="math display">\[
 \lambda^{\star} = \underset{\lambda}{\arg \min \ }  
-\text{E}\left( ( \theta - \hat\theta_{\text{shrink}} )^2\right)
+\operatorname{E}\left( ( \theta - \hat\theta_{\text{shrink}} )^2\right)
 \]</span></p>
 <p>It turns out that this can be minimised without knowing the actual true value of <span class="math inline">\(\theta\)</span> and the result for an unbiased <span class="math inline">\(\hat\theta_{\text{ML}}\)</span> is <span class="math display">\[
-\lambda^{\star} = \frac{\text{Var}(\hat\theta_{\text{ML}})}{\text{E}( (\hat\theta_{\text{ML}} - \theta_0)^2 )}
+\lambda^{\star} = \frac{\operatorname{Var}(\hat\theta_{\text{ML}})}{\operatorname{E}( (\hat\theta_{\text{ML}} - \theta_0)^2 )}
 \]</span> Hence, the shrinkage intensity will be small if the variance of the MLE is small and/or if the target and the MLE differ substantially. On the other hand, if the variance of the MLE is large and/or the target is close to the MLE the shrinkage intensity will be large.</p>
 <p>Choosing the shrinkage parameter by optimising expected risk (here mean squared error) is also a form empirical Bayes.</p>
 <div id="exm-jamesstein" class="theorem example">

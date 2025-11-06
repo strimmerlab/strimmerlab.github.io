@@ -213,7 +213,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -435,7 +435,7 @@ Note&nbsp;3.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 <div class="callout-body-container callout-body">
 <p>The function <span class="math inline">\(S(x, P)\)</span> is a <strong><a href="https://en.wikipedia.org/wiki/Scoring_rule">scoring rule</a></strong> which is a type of loss function that assesses a probabilistic forecast <span class="math inline">\(P\)</span> given the observed outcome&nbsp;<span class="math inline">\(x\)</span>.</p>
-<p>A desirable property is that the scoring rule is <strong>proper</strong>, i.e.&nbsp;its <strong>risk</strong> the expected score <span class="math inline">\(R_Q(P) =\text{E}_Q\left( S(x, P) \right)\)</span> is minimised when the quoted model <span class="math inline">\(P\)</span> equals the true data-generating model <span class="math inline">\(Q\)</span>. If the minimum is exclusively achieved at <span class="math inline">\(P=Q\)</span> then the scoring rule is <strong>strictly proper</strong>.</p>
+<p>A desirable property is that the scoring rule is <strong>proper</strong>, i.e.&nbsp;its <strong>risk</strong> the expected score <span class="math inline">\(R_Q(P) =\operatorname{E}_Q\left( S(x, P) \right)\)</span> is minimised when the quoted model <span class="math inline">\(P\)</span> equals the true data-generating model <span class="math inline">\(Q\)</span>. If the minimum is exclusively achieved at <span class="math inline">\(P=Q\)</span> then the scoring rule is <strong>strictly proper</strong>.</p>
 <p>Proper scoring rules are widely used in statistics and machine learning because they permit identification of best-approximating models by risk minimisation <span class="citation" data-cites="DawidMusio2014">(<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">Dawid and Musio 2014</a>)</span>.</p>
 <p>See the supplementary <a href="https://strimmerlab.github.io/publications/lecture-notes/probability-distribution-refresher/index.html">Probability and Distribution Refresher notes</a> for examples of (strictly) proper scoring rules used in statistics and machine learning.</p>
 <p>The theory of proper scoring rules (established in statistics) is closely related to that of <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a> (established in optimisation).</p>
@@ -469,10 +469,10 @@ Note&nbsp;3.2: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <p>The <strong>odds</strong> of an event with probability <span class="math inline">\(p\)</span> are given by the ratio <span class="math inline">\(\frac{p}{1-p}\)</span>.</p>
 <p>The <strong>log-odds</strong> are therefore the difference of the surprise of the complementary event (with probability <span class="math inline">\(1-p\)</span>) and the surprise of the event (with probability <span class="math inline">\(p\)</span>): <span class="math display">\[
 \begin{split}
-\text{logit}(p) &amp;= \log\left( \frac{p}{1-p} \right) \\
+\operatorname{logit}p &amp;= \log\left( \frac{p}{1-p} \right) \\
 &amp;= -\log(1-p) - ( -\log p)\\
 \end{split}
-\]</span> The log-odds function is also know as <strong>logit</strong> function. It maps the interval <span class="math inline">\([0,1]\)</span> to the interval <span class="math inline">\([-\infty, +\infty]\)</span>. Its inverse is the <strong>logistic</strong> function <span class="math inline">\(\exp(x)/(1+\exp(x))\)</span> mapping the interval <span class="math inline">\([-\infty, +\infty]\)</span> to the interval <span class="math inline">\([0,1]\)</span>.</p>
+\]</span> The log-odds function is also know as <strong>logit</strong> function. It maps the interval <span class="math inline">\([0,1]\)</span> to the interval <span class="math inline">\([-\infty, +\infty]\)</span>. Its inverse is the <strong>logistic</strong> function <span class="math inline">\((\exp x)/(1+\exp x)\)</span> mapping the interval <span class="math inline">\([-\infty, +\infty]\)</span> to the interval <span class="math inline">\([0,1]\)</span>.</p>
 </div>
 <div id="exm-logscorenormdist" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.3</strong></span> Logarithmic scoring rule for a normal model:</p>
@@ -484,7 +484,7 @@ S\left(x,P\right) = \frac{1}{2} \left( \log(2\pi\sigma^2) + \frac{(x-\mu)^2}{\si
 <div id="exm-" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.4</strong></span> Dawid-Sebastiani scoring rule:</p>
 <p>The <strong>Dawid-Sebastiani scoring rule</strong> is given by <span class="math display">\[
-S\left(x, P\right) =  \log \text{Var}(P) + \frac{(x-\text{E}(P))^2}{\text{Var}(P)}
+S\left(x, P\right) =  \log \operatorname{Var}(P) + \frac{(x-\operatorname{E}(P))^2}{\operatorname{Var}(P)}
 \]</span> For normal <span class="math inline">\(P\)</span> this is equivalent to the log-loss (<a href="#exm-logscorenormdist" class="quarto-xref">Example&nbsp;<span>3.3</span></a>).</p>
 <p>Note that adding a constant or a positive scaling factor to a loss function will not change the location of its minimum, so such loss functions are considered equivalent.</p>
 <p>Unlike the log-loss, which is strictly proper, the Dawid-Sebastiani scoring rule is proper. Since all <span class="math inline">\(P\)</span> with the same mean and variance yield identical scores there are multiple <span class="math inline">\(P\)</span> achieving the minimum risk (<a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a>).</p>
@@ -497,8 +497,8 @@ S\left(x, P\right) =  \log \text{Var}(P) + \frac{(x-\text{E}(P))^2}{\text{Var}(P
 <h3 class="anchored" data-anchor-id="entropy-of-a-distribution">Entropy of a distribution</h3>
 <p>Assume that <span class="math inline">\(P\)</span> is the model generating the data <span class="math inline">\(x\)</span>. The expectation of the scoring rule <span class="math inline">\(S(x, P)\)</span> with regard to <span class="math inline">\(P\)</span> is the risk <span class="math inline">\(R_P(P)\)</span> of the model <span class="math inline">\(P\)</span> under itself: <span class="math display">\[
 \begin{split}
-R_P(P) &amp;= \text{E}_P\left( S(x, P) \right) \\
-     &amp;= - \text{E}_P\left(\log p(x)\right) = H(P)
+R_P(P) &amp;= \operatorname{E}_P\left( S(x, P) \right) \\
+     &amp;= - \operatorname{E}_P\left(\log p(x)\right) = H(P)
 \end{split}
 \]</span> For the log-loss this yields the information <strong>entropy</strong> <span class="math inline">\(H(P)\)</span> of the distribution&nbsp;<span class="math inline">\(P\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> The notation <span class="math inline">\(H(P)\)</span> is a reminder that entropy is a functional of the distribution&nbsp;<span class="math inline">\(P\)</span>.</p>
 <p>For an overview of the two main interpretations of entropy, disorder versus dispersal, see <a href="#nte-entropyinterpretation" class="quarto-xref">Note&nbsp;<span>3.3</span></a>.</p>
@@ -521,7 +521,7 @@ Note&nbsp;3.3: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <section id="shannon-gibbs-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="shannon-gibbs-entropy">Shannon-Gibbs entropy</h3>
 <p>The information entropy <span class="math inline">\(H(P)\)</span> of a discrete probability distribution <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x \in \Omega\)</span> is called <strong>Shannon entropy</strong> <span class="citation" data-cites="Shannon1948">(<a href="bibliography.html#ref-Shannon1948" role="doc-biblioref">Shannon 1948</a>)</span>: <span class="math display">\[
-H(P) = - \sum_{x} p(x) \, \log p(x)
+H(P) = - \sum_{x} p(x) \log p(x)
 \]</span> In statistical physics, it is known as <strong>Gibbs entropy</strong>, sharing the same mathematical form.</p>
 <p>However, physical entropies carry an additional factor, the Boltzmann constant <span class="math inline">\(k=1.380649 \times 10^{-23} J/K\)</span>, to give entropy units of energy/temperature, whereas information entropies lack a physical unit.</p>
 <p>The entropy of a discrete distribution is the <strong>expected surprise</strong>. We can also interpret it as the <strong>expected cost</strong> or <strong>expected code length</strong> when the data are generated according to model <span class="math inline">\(P\)</span> (“sender”, “encoder” ) and we are using the same model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
@@ -531,7 +531,7 @@ H(P) = - \sum_{x} p(x) \, \log p(x)
 <section id="differential-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="differential-entropy">Differential entropy</h3>
 <p>The entropy <span class="math inline">\(H(P)\)</span> of a continuous distribution <span class="math inline">\(P\)</span> with pdf <span class="math inline">\(p(x)\)</span> is called <strong>differential entropy</strong>: <span class="math display">\[
-H(P) = - \int_x  p(x) \, \log p(x)  \, dx
+H(P) = - \int_x  p(x)  \log p(x)  \, dx
 \]</span> Differential entropy <strong>can be negative</strong> because the logarithm is taken of a density value, and unlike probabilities, densities are not constrained to be less than or equal to one.</p>
 <p>Also, under a <strong>variable change</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, the shape of the pdf typically changes, so that differential entropy changes as well and is <strong>not invariant</strong>: <span class="math inline">\(H(P_y) \neq H(P_x)\)</span>.</p>
 </section>
@@ -542,17 +542,17 @@ H(P) = - \int_x  p(x) \, \log p(x)  \, dx
 <h3 class="anchored" data-anchor-id="models-with-single-parameter">Models with single parameter</h3>
 <div id="exm-entropygeom" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.5</strong></span> Entropy of the geometric distribution:</p>
-<p>With <span class="math inline">\(P = \text{Geom}(\theta)\)</span> and passociated pmf <span class="math inline">\(p(x|\theta) = \theta (1-\theta)^{x-1}\)</span>, <span class="math inline">\(\theta \in [0,1]\)</span>, support <span class="math inline">\(x \in \{1, 2, \ldots \}\)</span> and <span class="math inline">\(\text{E}(x)= 1/\theta\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
+<p>With <span class="math inline">\(P = \operatorname{Geom}(\theta)\)</span> and passociated pmf <span class="math inline">\(p(x|\theta) = \theta (1-\theta)^{x-1}\)</span>, <span class="math inline">\(\theta \in [0,1]\)</span>, support <span class="math inline">\(x \in \{1, 2, \ldots \}\)</span> and <span class="math inline">\(\operatorname{E}(x)= 1/\theta\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
 \begin{split}
-H(P) &amp;= - \text{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
+H(P) &amp;= - \operatorname{E}\left( \log \theta + (x-1) \log(1-\theta)   \right)\\
        &amp;= -\log \theta+ \left(\frac{1}{\theta}-1\right)\log(1-\theta)\\
        &amp;= -\frac{\theta \log \theta + (1-\theta) \log(1-\theta) }{\theta}
 \end{split}
-\]</span> Using the identity <span class="math inline">\(0\times\log(0)=0\)</span> we see that the entropy of the geometric distribution for <span class="math inline">\(\theta = 1\)</span> equals 0, i.e.&nbsp;it achieves the minimum possible Shannon-Gibbs entropy. Conversely, as <span class="math inline">\(\theta \rightarrow 0\)</span> it diverges to infinity.</p>
+\]</span> Using the identity <span class="math inline">\(0\times\log 0=0\)</span> we see that the entropy of the geometric distribution for <span class="math inline">\(\theta = 1\)</span> equals 0, i.e.&nbsp;it achieves the minimum possible Shannon-Gibbs entropy. Conversely, as <span class="math inline">\(\theta \rightarrow 0\)</span> it diverges to infinity.</p>
 </div>
 <div id="exm-entropyunif" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.6</strong></span> Entropy of the uniform distribution:</p>
-<p>Consider the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support <span class="math inline">\(x \in [0, a]\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
+<p>Consider the uniform distribution <span class="math inline">\(P_x = \operatorname{Unif}(0, a)\)</span> with <span class="math inline">\(a&gt;0\)</span>, support <span class="math inline">\(x \in [0, a]\)</span> and density <span class="math inline">\(p(x) = 1/a\)</span>. The corresponding differential entropy is <span class="math display">\[
 \begin{split}
 H( P_x ) &amp;= - \int_0^a \frac{1}{a} \, \log\left(\frac{1}{a}\right) \,   dx \\
              &amp;= \frac{1}{a} \, \log a \,\int_0^a  dx \\
@@ -562,7 +562,7 @@ H( P_x ) &amp;= - \int_0^a \frac{1}{a} \, \log\left(\frac{1}{a}\right) \,   dx \
 </div>
 <div id="exm-entropyvartrans" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.7</strong></span> Entropy and variable change:</p>
-<p>Starting with the uniform distribution <span class="math inline">\(P_x = \text{Unif}(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.6</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(P_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
+<p>Starting with the uniform distribution <span class="math inline">\(P_x = \operatorname{Unif}(0, a)\)</span> from <a href="#exm-entropyunif" class="quarto-xref">Example&nbsp;<span>3.6</span></a> the variable <span class="math inline">\(x\)</span> is changed to <span class="math inline">\(y = x^2\)</span> yielding the distribution <span class="math inline">\(P_y\)</span> with support from <span class="math inline">\(0\)</span> to <span class="math inline">\(a^2\)</span> and density <span class="math inline">\(p(y) = 1/\left(2 a \sqrt{y}\right)\)</span>.</p>
 <p>The corresponding differential entropy is <span class="math display">\[
 \begin{split}
 H( P_y ) &amp;=  \int_0^{a^2} 1/\left(2 a \sqrt{y}\right) \, \log \left(2 a \sqrt{y}\right) dy \\
@@ -598,9 +598,9 @@ H(P) = 1 \times \log 1  + 0 \times \log 0 + \dots = 0
 </div>
 <div id="exm-entropynormal" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.11</strong></span> Differential entropy of the normal distribution:</p>
-<p>The log-density of the univariate normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>. The corresponding differential entropy is with <span class="math inline">\(\text{E}((x-\mu)^2) = \sigma^2\)</span> <span class="math display">\[
+<p>The log-density of the univariate normal distribution <span class="math inline">\(P = N(\mu, \sigma^2)\)</span> is <span class="math inline">\(\log p(x |\mu, \sigma^2) = -\frac{1}{2} \left(  \log(2\pi\sigma^2)  + \frac{(x-\mu)^2}{\sigma^2} \right)\)</span> with <span class="math inline">\(\sigma^2 &gt; 0\)</span>. The corresponding differential entropy is with <span class="math inline">\(\operatorname{E}((x-\mu)^2) = \sigma^2\)</span> <span class="math display">\[
 \begin{split}
-H(P) &amp; = -\text{E}\left( \log p(x |\mu, \sigma^2) \right)\\
+H(P) &amp; = -\operatorname{E}\left( \log p(x |\mu, \sigma^2) \right)\\
 &amp; = \frac{1}{2} \left( \log(2 \pi \sigma^2)+1\right) \,. \\
 \end{split}
 \]</span> Crucially, the entropy of a normal distribution depends only on its variance&nbsp;<span class="math inline">\(\sigma^2\)</span>, not on its mean&nbsp;<span class="math inline">\(\mu\)</span>. This is intuitively clear as the variance controls the concentration of the probability mass. A large variance means that the probability mass is more spread out and thus less concentrated around the mean.</p>
@@ -677,7 +677,7 @@ Shannon, C. E. 1948. <span>“A Mathematical Theory of Communication.”</span> 
 <hr>
 <ol>
 <li id="fn1"><p>We follow the convention that <strong>scoring rules are loss functions and negatively oriented</strong>, so the goal is to <strong>minimise the score</strong> (cost, code length). However, some authors define <span class="math inline">\(S(x, P)\)</span> with the opposite sign as a utility function with a positive orientation, in which case the aim is to maximise the score (reward).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>For a proper scoring rule <span class="math inline">\(R_P(P)\)</span> is the <strong>minimum risk</strong> with regard to the <strong>risk</strong> <span class="math inline">\(R_Q(P) = \text{E}_Q\left( S(x, P) \right)\)</span>. See <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="04-entropy2.html" class="quarto-xref"><span>Chapter 4</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>For a proper scoring rule <span class="math inline">\(R_P(P)\)</span> is the <strong>minimum risk</strong> with regard to the <strong>risk</strong> <span class="math inline">\(R_Q(P) = \operatorname{E}_Q\left( S(x, P) \right)\)</span>. See <a href="#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a> and <a href="04-entropy2.html" class="quarto-xref"><span>Chapter 4</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>See for example <span class="citation" data-cites="Leff2007">Leff (<a href="bibliography.html#ref-Leff2007" role="doc-biblioref">2007</a>)</span> and <a href="https://en.wikipedia.org/wiki/Entropy_(energy_dispersal)">Entropy (energy dispersal) (Wikipedia)</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Energy conservation itself arises as a consequence of the time-translation symmetry of physical laws, see <a href="https://en.wikipedia.org/wiki/Noether%27s_theorem">Noether’s theorem (Wikipedia)</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>

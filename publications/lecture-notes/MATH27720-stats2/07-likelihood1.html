@@ -193,7 +193,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -426,8 +426,8 @@ Figure&nbsp;7.1: Finding the maximum likelihood estimate by maximisation of the 
 <p>The KL divergence <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> measures the divergence of the approximation <span class="math inline">\(P(\boldsymbol \theta)\)</span> from the unknown true model <span class="math inline">\(F\)</span>. It can be written as <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(F,P(\boldsymbol \theta)) &amp;= H(F,P(\boldsymbol \theta)) - H(F) \\
-&amp;= \underbrace{- \text{E}_{F}\log p(x| \boldsymbol \theta)}_{\text{mean log-loss}}
--(\underbrace{-\text{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\boldsymbol \theta$}})\\
+&amp;= \underbrace{- \operatorname{E}_{F}\log p(x| \boldsymbol \theta)}_{\text{mean log-loss}}
+-(\underbrace{-\operatorname{E}_{F}\log f(x)}_{\text{entropy of $F$, does not depend on $\boldsymbol \theta$}})\\
 \end{split}
 \]</span></p>
 <p>However, since we do not know <span class="math inline">\(F\)</span> we cannot actually compute this divergence. Nonetheless, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> — a function of the observed data — as approximation for <span class="math inline">\(F\)</span>, and in this way we arrive at an approximation for <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> that becomes more and more accurate with growing sample size.</p>
@@ -437,13 +437,13 @@ D_{\text{KL}}(F,P(\boldsymbol \theta)) &amp;= H(F,P(\boldsymbol \theta)) - H(F) 
 <li><p>The empirical distribution <span class="math inline">\(\hat{F}_n\)</span> based on observed data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> converges strongly (almost surely) to the true underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>: <span class="math display">\[
 \hat{F}_n\overset{a. s.}{\to} F
 \]</span></p></li>
-<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\text{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\text{E}_{F}(h(x))\)</span>.</p></li>
+<li><p>Correspondingly, for <span class="math inline">\(n \rightarrow \infty\)</span> the average <span class="math inline">\(\operatorname{E}_{\hat{F}_n}(h(x)) = \frac{1}{n} \sum_{i=1}^n h(x_i)\)</span> converges to the expectation <span class="math inline">\(\operatorname{E}_{F}(h(x))\)</span>.</p></li>
 </ul>
 <hr>
 <p>Hence, for large sample size <span class="math inline">\(n\)</span> we can approximate the mean log-loss and as a result the KL divergence. The mean log-loss <span class="math inline">\(H(F, P(\boldsymbol \theta))\)</span> is approximated by the <strong>empirical mean log-loss</strong> where the expectation is taken with regard to <span class="math inline">\(\hat{F}_n\)</span> rather than <span class="math inline">\(F\)</span>: <span class="math display">\[
 \begin{split}
 H(F, P(\boldsymbol \theta)) &amp; \approx H(\hat{F}_n, P(\boldsymbol \theta)) \\
-                  &amp; = - \text{E}_{\hat{F}_n} (\log p(x|\boldsymbol \theta))  \\
+                  &amp; = - \operatorname{E}_{\hat{F}_n} (\log p(x|\boldsymbol \theta))  \\
                   &amp; = -\frac{1}{n} \sum_{i=1}^n \log p(x_i | \boldsymbol \theta) \\
                   &amp; = -\frac{1}{n} \ell_n ({\boldsymbol \theta})
 \end{split}

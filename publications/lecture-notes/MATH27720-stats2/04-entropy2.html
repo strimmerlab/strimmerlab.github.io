@@ -213,7 +213,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -403,10 +403,10 @@ window.Quarto = {
 <section id="mean-log-loss-or-cross-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="mean-log-loss-or-cross-entropy">Mean log-loss or cross-entropy</h3>
 <p>The <strong>risk</strong> of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> associated with a scoring rule <span class="math inline">\(S(x, P)\)</span> is the expected loss <span class="math display">\[
-R_Q(P) =\text{E}_Q\left( S(x, P) \right)
+R_Q(P) =\operatorname{E}_Q\left( S(x, P) \right)
 \]</span> For the logarithmic scoring rule the risk is the <strong>mean log-loss</strong> or <strong>cross-entropy</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[
-R_Q(P) = - \text{E}_Q \log p(x) = H(Q,P).
-\]</span> The risk <span class="math inline">\(R_Q(P)\)</span> is thus a functional of two distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, where <span class="math inline">\(Q\)</span> represents the data-generating process (note the expectation <span class="math inline">\(\text{E}_Q\)</span> with regard to <span class="math inline">\(Q\)</span>) and the distribution <span class="math inline">\(P\)</span> is the model that is evaluated on the observations.</p>
+R_Q(P) = - \operatorname{E}_Q \log p(x) = H(Q,P).
+\]</span> The risk <span class="math inline">\(R_Q(P)\)</span> is thus a functional of two distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, where <span class="math inline">\(Q\)</span> represents the data-generating process (note the expectation <span class="math inline">\(\operatorname{E}_Q\)</span> with regard to <span class="math inline">\(Q\)</span>) and the distribution <span class="math inline">\(P\)</span> is the model that is evaluated on the observations.</p>
 <p>For two discrete distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x\in \Omega\)</span> the mean log-loss is computed as the weighted sum <span class="math display">\[
 H(Q, P) = - \sum_{x \in \Omega} q(x) \, \log p(x)  
 \]</span> It can be interpreted as the expected cost or expected code length when the data are generated according to model <span class="math inline">\(Q\)</span> (“sender”, “encoder”) and but we use model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
@@ -427,7 +427,7 @@ H(Q, P) =- \int_x q(x) \, \log p(x) \, dx
 <p>A crucial further property of the mean log-loss <span class="math inline">\(H(Q, P)\)</span> is that it is bounded below by the entropy of <span class="math inline">\(Q\)</span>, therefore <span class="math display">\[
 H(Q, P) \geq H(Q)
 \]</span> with equality only if <span class="math inline">\(P=Q\)</span>. This is known as <a href="https://en.wikipedia.org/wiki/Gibbs%27_inequality"><strong>Gibbs’ inequality</strong></a>.</p>
-<p>This lower bound can be established<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> using <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality"><strong>Jensen’s inequality</strong></a> for convex functions (recall that <span class="math inline">\(-\log(x)\)</span> is strictly convex).</p>
+<p>This lower bound can be established<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> using <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality"><strong>Jensen’s inequality</strong></a> for convex functions (recall that <span class="math inline">\(-\log x\)</span> is strictly convex).</p>
 <p>As a consequence, when data are generated (encoded) under model <span class="math inline">\(Q\)</span> and described (decoded) using model <span class="math inline">\(P\)</span> there is always an extra cost, or penalty, to employ the approximating model <span class="math inline">\(P\)</span> rather than the correct model <span class="math inline">\(Q\)</span>.</p>
 <p>More generally, proper scoring rules (see <a href="03-entropy1.html#nte-scoringrules" class="quarto-xref">Note&nbsp;<span>3.1</span></a>) satisfy the inequality <span class="math inline">\(R_Q(P) \geq R_Q(Q)\)</span>. For strictly proper scoring rules the minimum is achieved uniquely at the true distribution <span class="math inline">\(Q\)</span> (see <a href="#nte-scoringrulegibbs" class="quarto-xref">Note&nbsp;<span>4.1</span></a>).</p>
 </section>
@@ -437,12 +437,12 @@ H(Q, P) \geq H(Q)
 <p><span class="theorem-title"><strong>Example 4.1</strong></span> Mean log-loss for two normal distributions:</p>
 <p>Assume <span class="math inline">\(P_1=N(\mu_1,\sigma^2_1)\)</span> and <span class="math inline">\(P_2=N(\mu_2,\sigma^2_2)\)</span>. The mean log-loss is <span class="math display">\[
 \begin{split}
-H(P_1, P_2) &amp;=  -\text{E}_{P_1} \left( \log p(x |\mu_2, \sigma^2_2) \right)\\
-&amp;=  \frac{1}{2}  \text{E}_{P_1} \left(  \log(2\pi\sigma^2_2)  + \frac{(x-\mu_2)^2}{\sigma^2_2} \right) \\
+H(P_1, P_2) &amp;=  -\operatorname{E}_{P_1} \left( \log p(x |\mu_2, \sigma^2_2) \right)\\
+&amp;=  \frac{1}{2}  \operatorname{E}_{P_1} \left(  \log(2\pi\sigma^2_2)  + \frac{(x-\mu_2)^2}{\sigma^2_2} \right) \\
 &amp;= \frac{1}{2} \left( \frac{(\mu_1 - \mu_2)^2}{ \sigma^2_2 }
 +\frac{\sigma^2_1}{\sigma^2_2}  +\log(2 \pi \sigma^2_2) \right)  \\
 \end{split}
-\]</span> using <span class="math inline">\(\text{E}_{P_1} ((x-\mu_2)^2) = (\mu_1-\mu_2)^2 + \sigma^2_1\)</span>.</p>
+\]</span> using <span class="math inline">\(\operatorname{E}_{P_1} ((x-\mu_2)^2) = (\mu_1-\mu_2)^2 + \sigma^2_1\)</span>.</p>
 </div>
 <div id="exm-normcrossenttwoentropy" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.2</strong></span> Normal mean log-loss reduces to normal differential entropy:</p>
@@ -478,7 +478,7 @@ D(Q,P) = R_Q(P) - R_Q(Q) \geq 0
 <p>For the logarithmic scoring rule this yields the <strong>Kullback-Leibler (KL) divergence</strong> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>: <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
-            &amp; = \text{E}_Q\log\left(\frac{q(x)}{p(x)}\right)\\
+            &amp; = \operatorname{E}_Q\log\left(\frac{q(x)}{p(x)}\right)\\
 \end{split}
 \]</span> The KL divergence is always non-negative, <span class="math inline">\(D_{\text{KL}}(Q, H) \geq 0\)</span>, as a consequence of Gibbs’ inequality.</p>
 <p>The KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> can be interpreted as the additional risk or cost incurred if model <span class="math inline">\(P\)</span> is used instead <span class="math inline">\(Q\)</span> to describe data that actually follow <span class="math inline">\(Q\)</span>. If <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical there is no extra cost and <span class="math inline">\(D_{\text{KL}}(Q,P)=0\)</span>. However, if they differ then there is an additional cost and <span class="math inline">\(D_{\text{KL}}(Q,P)&gt; 0\)</span>.</p>
@@ -491,7 +491,7 @@ D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
 <p>The <strong>Boltzmann entropy</strong> of a distribution <span class="math inline">\(Q\)</span> relative to a distribution <span class="math inline">\(P\)</span> is given by <span class="math display">\[
 \begin{split}
 B(Q, P) &amp;=  H(Q) - H(Q, P) \\
-&amp;=  -\text{E}_Q\log\left(\frac{q(x)}{p(x)}\right) \\
+&amp;=  -\operatorname{E}_Q\log\left(\frac{q(x)}{p(x)}\right) \\
 \end{split}
 \]</span></p>
 <p>Boltzmann entropy is the negative of the KL divergence, and hence it is always non-positive, <span class="math inline">\(B(Q, P) \leq 0\)</span>.</p>
@@ -554,7 +554,7 @@ Note&nbsp;4.2: Usage of cross-entropy and relative entropy
 <section id="models-with-a-single-parameter" class="level3">
 <h3 class="anchored" data-anchor-id="models-with-a-single-parameter">Models with a single parameter</h3>
 <div id="exm-klbernoulli" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.3</strong></span> KL divergence between two Bernoulli distributions <span class="math inline">\(B_1 = \text{Ber}(\theta_1)\)</span> and <span class="math inline">\(B_2 = \text{Ber}(\theta_2)\)</span>:</p>
+<p><span class="theorem-title"><strong>Example 4.3</strong></span> KL divergence between two Bernoulli distributions <span class="math inline">\(B_1 = \operatorname{Ber}(\theta_1)\)</span> and <span class="math inline">\(B_2 = \operatorname{Ber}(\theta_2)\)</span>:</p>
 <p>The “success” probabilities for the two distributions are <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, respectively, and the complementary “failure” probabilities are <span class="math inline">\(1-\theta_1\)</span> and <span class="math inline">\(1-\theta_2\)</span>. With this we get for the KL divergence <span class="math display">\[
 D_{\text{KL}}(B_1, B_2)=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span></p>
@@ -579,7 +579,7 @@ D_{\text{KL}}(P_1,P_2)
 <h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
 <div id="exm-catkl" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.6</strong></span> KL divergence between two categorical distributions with <span class="math inline">\(K\)</span> classes:</p>
-<p>With <span class="math inline">\(Q=\text{Cat}(\boldsymbol q)\)</span> and <span class="math inline">\(P=\text{Cat}(\boldsymbol p)\)</span> and corresponding probabilities <span class="math inline">\(q_1,\dots,q_K\)</span> and <span class="math inline">\(p_1,\dots,p_K\)</span> satisfying <span class="math inline">\(\sum_{i=1}^K q_i = 1\)</span> and <span class="math inline">\(\sum_{i=1}^K p_i =1\)</span> we get:</p>
+<p>With <span class="math inline">\(Q=\operatorname{Cat}(\boldsymbol q)\)</span> and <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> and corresponding probabilities <span class="math inline">\(q_1,\dots,q_K\)</span> and <span class="math inline">\(p_1,\dots,p_K\)</span> satisfying <span class="math inline">\(\sum_{i=1}^K q_i = 1\)</span> and <span class="math inline">\(\sum_{i=1}^K p_i =1\)</span> we get:</p>
 <p><span class="math display">\[\begin{equation*}
 D_{\text{KL}}(Q, P)=\sum_{i=1}^K q_i\log\left(\frac{q_i}{p_i}\right)
 \end{equation*}\]</span></p>
@@ -622,7 +622,7 @@ B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
 \begin{split}
 B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{k=1}^K n_k \log p_k   \right)\\
 &amp; = \frac{1}{n} \log \left( W \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
-&amp; = \frac{1}{n} \log  \text{Pr}(D| \,\boldsymbol p) \\
+&amp; = \frac{1}{n} \log  \operatorname{Pr}(D| \,\boldsymbol p) \\
 \end{split}
 \]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(D\)</span> under the model <span class="math inline">\(P\)</span>. Note the Boltzmann entropy is essentially the multinomial log-likelihood.</p>
 </div>
@@ -970,8 +970,8 @@ Shannon, C. E. 1948. <span>“A Mathematical Theory of Communication.”</span> 
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./05-entropy3.html" class="pagination-link" aria-label="Expected Fisher information">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./05-entropy3.html" class="pagination-link" aria-label="Fisher information">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

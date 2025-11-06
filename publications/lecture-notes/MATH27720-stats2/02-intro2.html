@@ -213,7 +213,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -364,6 +364,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
+  <li><a href="#canonical-statistics-and-canonical-parameters" id="toc-canonical-statistics-and-canonical-parameters" class="nav-link" data-scroll-target="#canonical-statistics-and-canonical-parameters">Canonical statistics and canonical parameters</a></li>
   <li><a href="#partition-function" id="toc-partition-function" class="nav-link" data-scroll-target="#partition-function">Partition function</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
@@ -446,38 +447,38 @@ window.Quarto = {
 <h2 data-number="2.2" class="anchored" data-anchor-id="commonly-used-distribution-families"><span class="header-section-number">2.2</span> Commonly used distribution families</h2>
 <p>In this module we will often make use of the following common univariate distributions:</p>
 <ol type="1">
-<li><p>Binomial distribution <span class="math inline">\(\text{Bin}(n, \theta)\)</span>, with support <span class="math inline">\(\{0, 1, \ldots, n\}\)</span>.</p>
+<li><p>Binomial distribution <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span>, with support <span class="math inline">\(\{0, 1, \ldots, n\}\)</span>.</p>
 <p>As special case (<span class="math inline">\(n=1)\)</span> is:</p>
 <ul>
-<li>Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span>, with support <span class="math inline">\(\{0, 1\}\)</span>.</li>
+<li>Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span>, with support <span class="math inline">\(\{0, 1\}\)</span>.</li>
 </ul></li>
-<li><p>Beta distribution <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, 1]\)</span>.</p></li>
+<li><p>Beta distribution <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, 1]\)</span>.</p></li>
 <li><p>Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p></li>
-<li><p>Gamma distribution <span class="math inline">\(\text{Gam}(\alpha, \theta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. It is also known as univariate Wishart distribution <span class="math inline">\(\text{Wis}\left(s^2, k \right)\)</span>.</p>
+<li><p>Gamma distribution <span class="math inline">\(\operatorname{Gam}(\alpha, \theta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. It is also known as univariate Wishart distribution <span class="math inline">\(\operatorname{Wis}\left(s^2, k \right)\)</span>.</p>
 <p>Special cases of the gamma/Wishart distribution are:</p>
 <ul>
-<li>scaled chi-squared distribution <span class="math inline">\(s^2 \text{$\chi^2_{k}$}\)</span> (discrete <span class="math inline">\(k\)</span>)</li>
-<li>chi-squared distribution <span class="math inline">\(\text{$\chi^2_{k}$}\)</span> (discrete <span class="math inline">\(k\)</span>, <span class="math inline">\(s^2=1\)</span>)</li>
-<li>exponential distribution <span class="math inline">\(\text{Exp}(\theta)\)</span> (<span class="math inline">\(\alpha=1\)</span>)</li>
+<li>scaled chi-squared distribution <span class="math inline">\(s^2 \chi^2_{k}\)</span> (discrete <span class="math inline">\(k\)</span>)</li>
+<li>chi-squared distribution <span class="math inline">\(\chi^2_{k}\)</span> (discrete <span class="math inline">\(k\)</span>, <span class="math inline">\(s^2=1\)</span>)</li>
+<li>exponential distribution <span class="math inline">\(\operatorname{Exp}(\theta)\)</span> (<span class="math inline">\(\alpha=1\)</span>)</li>
 </ul></li>
-<li><p>Inverse gamma distribution <span class="math inline">\(\text{IG}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. Also know as univariate inverse Wishart distribution <span class="math inline">\(\text{IW}(\psi, k)\)</span>.</p></li>
+<li><p>Inverse gamma distribution <span class="math inline">\(\operatorname{IG}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. Also know as univariate inverse Wishart distribution <span class="math inline">\(\operatorname{IW}(\psi, k)\)</span>.</p></li>
 </ol>
 <p>All of the distributions above belong to the class of <strong>exponential families</strong> (see <a href="#sec-expfamintro" class="quarto-xref"><span>Section 2.4</span></a>). These families have many properties that are highly convenient for statistical analysis.</p>
 <ol start="6" type="1">
-<li><p>Location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(\text{$t_{\nu}$}(\mu, \tau^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p>
+<li><p>Location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p>
 <p>Special cases of the location-scale <span class="math inline">\(t\)</span>-distribution are:</p>
 <ul>
 <li>Student’s <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_\nu\)</span></li>
-<li>Cauchy distribution <span class="math inline">\(\text{Cau}(\mu, \tau)\)</span></li>
+<li>Cauchy distribution <span class="math inline">\(\operatorname{Cau}(\mu, \tau)\)</span></li>
 </ul>
 <p>The location-scale <span class="math inline">\(t\)</span>-distribution is generalisation of the normal distribution but with more probability mass in the tails. Depending on the choice of the degrees of freedom <span class="math inline">\(\nu\)</span>, not all moments of the distribution may exist. Furthermore, it’s not an exponential family.</p></li>
 </ol>
 <p>For all of the above univariate distribution there exist corresponding multivariate variants. In this module we will make use of the following multivariate distributions:</p>
 <ol type="1">
-<li><p>Multinomial distribution <span class="math inline">\(\text{Mult}(n, \boldsymbol \pi)\)</span>, generalising the binomial distribution.</p>
+<li><p>Multinomial distribution <span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \pi)\)</span>, generalising the binomial distribution.</p>
 <p>Special case (<span class="math inline">\(n=1)\)</span>:</p>
 <ul>
-<li>Categorical distribution <span class="math inline">\(\text{Cat}(\boldsymbol \pi)\)</span>, generalising the Bernoulli distribution.</li>
+<li>Categorical distribution <span class="math inline">\(\operatorname{Cat}(\boldsymbol \pi)\)</span>, generalising the Bernoulli distribution.</li>
 </ul></li>
 <li><p>Multivariate normal distribution <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>, generalising the univariate normal distribution.</p></li>
 </ol>
@@ -506,8 +507,7 @@ window.Quarto = {
 </section>
 <section id="iterative-refinement" class="level3">
 <h3 class="anchored" data-anchor-id="iterative-refinement">Iterative refinement</h3>
-<p>Much of statistics is concerned with methods to quantify how well a model fits to data and how well it predicts future observations, and this allows to build successive models and compare them in a systematic and principled fashion.</p>
-<p>Finally, it is worth recalling that all distributions (and models in general) are best considered as approximations of the true unknown data-generating process. Hence, the focus of any data analysis will be to find the model that captures the essential properties at an appropriate level of detail<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Remember that all distributions (and models in general) are best considered as approximations of the true unknown data-generating process. Hence, the goal of any data analysis is therefore to find models that capture the essential properties at an appropriate level of detail<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This is typically done in an iterative fashion, either starting from a simple model and increase complexity as needed, or alternatively, starting from a highly parametrised model that one tries to simplify. Either way what is required are methods to compare different models, to quantify how well they fit to data and how well they predict future observations. Statistics provides principled, systematic tools for these tasks.</p>
 </section>
 </section>
 <section id="sec-expfamintro" class="level2" data-number="2.4">
@@ -522,28 +522,48 @@ window.Quarto = {
 <p>An <strong>exponential family</strong> <span class="math inline">\(P(\boldsymbol \eta)\)</span> arises by <strong>exponential tilting</strong> of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with (typically unnormalised) <strong>base function</strong> <span class="math inline">\(h(x)\)</span> toward the linear combination <span class="math inline">\(\boldsymbol \eta^T \boldsymbol t(x)\)</span> of the <strong>canonical statistics</strong> <span class="math inline">\(\boldsymbol t(x)\)</span> and the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>. This yields a pdmf of the form <span class="math display">\[
 p(x|\boldsymbol \eta) =    \underbrace{e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle }}_{\text{exponential tilt}}\, h(x) \, /\, z(\boldsymbol \eta)
 \]</span></p>
-<p>The canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> are transformations of <span class="math inline">\(x\)</span>, usually a simple function such the identity (<span class="math inline">\(x\)</span>), the square (<span class="math inline">\(x^2\)</span>), the inverse (<span class="math inline">\(1/x\)</span>) or the logarithm (<span class="math inline">\(\log(x)\)</span>). Typically, the dimension of <span class="math inline">\(\boldsymbol t(x)\)</span> is small. For each canonical statistic <span class="math inline">\(t_i\)</span> there is a corresponding canonical parameter <span class="math inline">\(\eta_i\)</span>. The canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> are typically some transformation of the conventional parameters <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-<p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) . Likewise, canonical statistics and parameters are written as vectors but these may also be scalars or matrices (or a combination of both). The use of inner product notation <span class="math inline">\(\langle, \rangle\)</span> includes all these cases, vectorising matrices as required (<span class="math inline">\(\langle \boldsymbol A, \boldsymbol B\rangle = \text{Tr}( \boldsymbol A^T \boldsymbol B) = \text{Vec}(\boldsymbol A)^T \text{Vec}(\boldsymbol B)\)</span>).</p>
+<p>The base pdmf is obtained at <span class="math inline">\(\boldsymbol \eta=0\)</span> yielding <span class="math inline">\(b(x) = p(x | \boldsymbol \eta=0)  =   h(x) / z(0)\)</span>. If <span class="math inline">\(h(x)\)</span> is already a normalised pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
+<p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) .</p>
+<p>Likewise, canonical statistics and parameters are written as vectors but these may also be scalars or matrices (or a combination of both). The use of inner product notation <span class="math inline">\(\langle, \rangle\)</span> includes all these cases, vectorising matrices as required, recalling that <span class="math inline">\(\langle \boldsymbol A, \boldsymbol B\rangle = \operatorname{Tr}( \boldsymbol A^T \boldsymbol B) = \operatorname{Vec}(\boldsymbol A)^T \operatorname{Vec}(\boldsymbol B)\)</span>.</p>
+</section>
+<section id="canonical-statistics-and-canonical-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="canonical-statistics-and-canonical-parameters">Canonical statistics and canonical parameters</h3>
+<p>The canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> are transformations of <span class="math inline">\(x\)</span>, usually simple functions such the identity (<span class="math inline">\(x\)</span>), the square (<span class="math inline">\(x^2\)</span>), the inverse (<span class="math inline">\(1/x\)</span>) or the logarithm (<span class="math inline">\(\log x\)</span>). Typically, the dimension of <span class="math inline">\(\boldsymbol t(x)\)</span> is small.</p>
+<p>The canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> may be affinely dependent. If this is the case there is a vector <span class="math inline">\(\boldsymbol \eta_0\)</span> for which<br>
+<span class="math display">\[
+\langle \boldsymbol \eta_0, \boldsymbol t(x) \rangle  = \text{const.}
+\]</span> If the elements in <span class="math inline">\(\boldsymbol t(x)\)</span> are affinely independent the representation of the exponential family is <strong>minimal</strong> or <strong>complete</strong>, otherwise the representation is <strong>non-minimal</strong> or <strong>overcomplete</strong>.</p>
+<p>For each canonical statistic there is a corresponding canonical parameter so the dimensions and shape of <span class="math inline">\(\boldsymbol t(x)\)</span> and <span class="math inline">\(\boldsymbol \eta\)</span> match.</p>
+<p>In a minimal representation the canonical parameters of the exponential family are <strong>identifiable</strong> and hence distinct parameter settings for <span class="math inline">\(\boldsymbol \eta\)</span> yield distinct distributions. Conversely, in a non-minimal or overcomplete representation there are redundant elements in the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> and the distributions within the exponential family are <strong>not identifiable</strong>. Specifically, there will be multiple <span class="math inline">\(\boldsymbol \eta\)</span> yielding the same underlying distribution.</p>
+<p>The canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> are typically some transformation of the conventional parameters <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
 </section>
 <section id="partition-function" class="level3">
 <h3 class="anchored" data-anchor-id="partition-function">Partition function</h3>
 <p>The <strong>normaliser</strong> or <strong>partition function</strong> <span class="math inline">\(z(\boldsymbol \eta)\)</span> ensures that <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> integrates to one, with <span class="math display">\[
 z(\boldsymbol \eta) = \int_x \, e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle}\, h(x) \, dx
-\]</span> For discrete x replace the integral by a sum. In particular, <span class="math inline">\(z(0)=\int_x  h(x) \, dx\)</span> ensures that <span class="math display">\[
-p(x|\boldsymbol \eta=0) = h(x)/z(0) = b(x)
-\]</span> is a valid base pdmf. If <span class="math inline">\(h(x)\)</span> is a pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
+\]</span> For discrete x replace the integral by a sum.</p>
 <p>The set of values of <span class="math inline">\(\boldsymbol \eta\)</span> for which <span class="math inline">\(z(\boldsymbol \eta)  &lt; \infty\)</span>, and hence for which <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> is well defined, comprises the parameter space of the exponential family. Some choices of <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(\boldsymbol t(x)\)</span> do not yield a finite normalising factor for any <span class="math inline">\(\boldsymbol \eta\)</span> and hence these cannot be used to form an exponential family.</p>
-<p>The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math inline">\(a(\boldsymbol \eta) = \log z(\boldsymbol \eta)\)</span> allows to compute the cumulants of the canonical statistics. In particular, its gradient yields the mean <span class="math display">\[
-\text{E}( \boldsymbol t(x) )  = \boldsymbol \mu_{\boldsymbol t}= \nabla a(\boldsymbol \eta)
+<p>The <strong>log-normaliser</strong> or <strong>log-partition function</strong> <span class="math display">\[
+a(\boldsymbol \eta) = \log z(\boldsymbol \eta)
+\]</span> allows to compute the cumulants of the canonical statistics. In particular, its gradient yields the mean <span class="math display">\[
+\begin{split}
+\operatorname{E}( \boldsymbol t(x) )  = \boldsymbol \mu_{\boldsymbol t} &amp; = \nabla a(\boldsymbol \eta)\\
+&amp;= \frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}
+\end{split}
 \]</span> and the Hessian matrix the variance <span class="math display">\[
-\text{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t}= \nabla \nabla^T a(\boldsymbol \eta)
+\begin{split}
+\operatorname{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t} &amp; = \nabla \nabla^T a(\boldsymbol \eta)\\
+&amp;= \frac{\nabla \nabla^T z(\boldsymbol \eta)}{z(\boldsymbol \eta)} - \left(\frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}\right) \left(\frac{\nabla z(\boldsymbol \eta)}{z(\boldsymbol \eta)}\right)^T
+\end{split}
 \]</span></p>
-<p>The means <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> provide a further alternative parametrisation of exponential families (in addition to canonical <span class="math inline">\(\boldsymbol \eta\)</span> and conventional <span class="math inline">\(\boldsymbol \theta\)</span> parameters) and are called the <strong>expectation parameters</strong>.</p>
+<p>For a minimal exponential family <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol t}\)</span> is a positive definite matrix and invertible, whereas for non-minimal representations the covariance matrix is positive semi-definite and not invertible.</p>
+<p>The means <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> provide a further parametrisation of exponential families, in addition to the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> and the conventional parameters <span class="math inline">\(\boldsymbol \theta\)</span>, and are called the <strong>expectation parameters</strong>.</p>
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
 <div id="exm-expfambernoulli" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> The Bernoulli distribution <span class="math inline">\(\text{Ber}(\theta)\)</span> can be specified in exponential family form as follows:</p>
+<p><span class="theorem-title"><strong>Example 2.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> as exponential family:</p>
+<p>The Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> can be specified in exponential family form as follows:</p>
 <ul>
 <li><span class="math inline">\(x \in \{0, 1\}\)</span></li>
 <li>canonical statistic <span class="math inline">\(t(x) = x\)</span></li>
@@ -552,26 +572,27 @@ p(x|\boldsymbol \eta=0) = h(x)/z(0) = b(x)
 </ul>
 <p>This results in the partition function <span class="math display">\[
 z(\eta) = \sum_{x \in \{0,1\}} e^{\eta x}  = 1+e^\eta
-\]</span> and the log-partition function <span class="math display">\[
-a(\eta) = \log(1+e^\eta)
-\]</span> both of which are defined for <span class="math inline">\(\eta \in \mathbb{R}\)</span>.</p>
+\]</span> and the log-partition function <span class="math inline">\(a(\eta) = \log z(\eta)\)</span>, both of which are defined for <span class="math inline">\(\eta \in \mathbb{R}\)</span>.</p>
+<p>The first and second derivatives of the partition function <span class="math inline">\(z(\eta)\)</span> are <span class="math inline">\(z'(\eta) =  e^\eta\)</span> and <span class="math inline">\(z''(\eta) = e^\eta\)</span>.</p>
 <p>The mean <span class="math inline">\(\mu_t\)</span> of the canonical statistic <span class="math inline">\(t(x)=x\)</span> is given by <span class="math display">\[
 \begin{split}
-\mu_t =  a'(\eta) &amp;=  \frac{ 1}{1+e^{-\eta}}  \\
+\mu_t =  a'(\eta) &amp;= \frac{z'(\eta)}{z(\eta)} = \frac{ e^{\eta}}{1+e^{\eta}} \\
+                  &amp; = \operatorname{logit}^{-1}(\eta) \\
                   &amp;= \theta
 \end{split}
-\]</span> Thus, for the Bernoulli distribution the expectation parameter <span class="math inline">\(\mu_t\)</span> corresponds to the conventional mean parameter <span class="math inline">\(\text{E}(x) = \theta \in [0, 1]\)</span>.</p>
-<p>In the above <span class="math inline">\(\mu_t\)</span> and <span class="math inline">\(\theta\)</span> are obtained from <span class="math inline">\(\eta\)</span> by the inverse logit function (also known as the logistic function). Conversely, the canonical parameter <span class="math inline">\(\eta\)</span> can be computed from <span class="math inline">\(\theta\)</span> (or <span class="math inline">\(\mu_t\)</span>) by the logit function <span class="math display">\[
-\eta = \text{logit}(\theta) = \log\left(\frac{\theta}{1-\theta}\right)
-\]</span>.</p>
+\]</span> Since <span class="math inline">\(z(x)=x\)</span> for the Bernoulli distribution the expectation parameter <span class="math inline">\(\mu_t\)</span> corresponds to the conventional mean parameter <span class="math inline">\(\operatorname{E}(x) = \theta \in [0, 1]\)</span>. In the above <span class="math inline">\(\mu_t\)</span> and <span class="math inline">\(\theta\)</span> are obtained from <span class="math inline">\(\eta\)</span> by the <strong>inverse logit</strong> function (also known as the <strong>logistic</strong> function).</p>
+<p>Conversely, the canonical parameter <span class="math inline">\(\eta\)</span> can be computed from <span class="math inline">\(\theta\)</span> (or <span class="math inline">\(\mu_t\)</span>) by the <strong>logit</strong> function <span class="math display">\[
+\eta = \operatorname{logit}\theta  = \log\left(\frac{\theta}{1-\theta}\right)
+\]</span></p>
 <p>The variance <span class="math inline">\(\sigma^2_t\)</span> of the canonical statistic <span class="math inline">\(t(x)=x\)</span> is <span class="math display">\[
 \begin{split}
-\sigma^2_t =a''(\eta) &amp;= \frac{ e^{\eta}}{(e^{\eta}+1)^2} \\
-           &amp;= \theta (1-\theta)
+\sigma^2_t =a''(\eta) &amp;= \frac{z''(\eta)}{z(\eta)} - \left(\frac{z'(\eta)}{z(\eta)}\right)^2 \\
+                      &amp;= \frac{ e^{\eta}}{(1+e^{\eta})^2} \\
+                      &amp;= \theta (1-\theta)
 \end{split}
 \]</span></p>
 <p>The pmf of the Bernoulli distribution is <span class="math display">\[
-p(x | \eta) = \frac{ e^{\eta x} }{ 1+e^\eta }
+p(x | \eta) = \frac{ e^{\eta x} }{ z(\eta) } = \frac{ e^{\eta x} }{ 1+e^\eta }
 \]</span> which in terms of the conventional parameter <span class="math inline">\(\theta\)</span> takes on the familiar form <span class="math display">\[
 \begin{split}
 p(x | \theta) &amp;= \theta^x \, (1-\theta)^{1-x} \\
@@ -580,7 +601,8 @@ p(x | \theta) &amp;= \theta^x \, (1-\theta)^{1-x} \\
 \]</span></p>
 </div>
 <div id="exm-expfamnormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> The two-parameter normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> can be written in exponential family form as follows:</p>
+<p><span class="theorem-title"><strong>Example 2.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> as exponential family:</p>
+<p>The two-parameter normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> can be written in exponential family form as follows:</p>
 <ul>
 <li><span class="math inline">\(x \in  \mathbb{R}\)</span></li>
 <li>canonical statistics <span class="math inline">\(\boldsymbol t(x) = (x, x^2)^T\)</span></li>
@@ -602,14 +624,14 @@ a(\boldsymbol \eta) =-\frac{\eta_1^2}{4 \eta_2}  +\frac{1}{2} \log\left(-\frac{\
 \end{pmatrix}\\
 &amp;=\begin{pmatrix}\mu \\ \mu^2+ \sigma^2 \end{pmatrix}
 \end{split}
-\]</span> The conventional parameters <span class="math inline">\(\mu = \text{E}(x)\)</span> and <span class="math inline">\(\sigma^2=\text{Var}(x)\)</span> are thus directly linked to the expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> and can be obtained from the canonical parameters by <span class="math inline">\(\mu = -\frac{\eta_1}{2\eta_2}\)</span> and <span class="math inline">\(\sigma^2 = -\frac{1}{2\eta_2}\)</span>. Conversely, we have <span class="math display">\[
+\]</span> The conventional parameters <span class="math inline">\(\mu = \operatorname{E}(x)\)</span> and <span class="math inline">\(\sigma^2=\operatorname{Var}(x)\)</span> are thus directly linked to the expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> and can be obtained from the canonical parameters by <span class="math inline">\(\mu = -\frac{\eta_1}{2\eta_2}\)</span> and <span class="math inline">\(\sigma^2 = -\frac{1}{2\eta_2}\)</span>. Conversely, we have <span class="math display">\[
 \boldsymbol \eta= \begin{pmatrix} \eta_1 \\ \eta_2 \end{pmatrix}  = \begin{pmatrix} \frac{\mu}{\sigma^2} \\  - \frac{1}{2 \sigma^2} \end{pmatrix}
 \]</span></p>
 <p>The covariance matrix of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> is <span class="math display">\[
 \begin{split}
 \boldsymbol \Sigma_{\boldsymbol t} &amp;= \begin{pmatrix}
-                 \text{Var}(x) &amp; \text{Cov}(x, x^2) \\
-                 \text{Cov}(x^2, x) &amp;  \text{Var}(x^2) \\
+                 \operatorname{Var}(x) &amp; \operatorname{Cov}(x, x^2) \\
+                 \operatorname{Cov}(x^2, x) &amp;  \operatorname{Var}(x^2) \\
                  \end{pmatrix}\\
              &amp;= \nabla \nabla^T a(\boldsymbol \eta) \\
              &amp;= \begin{pmatrix}

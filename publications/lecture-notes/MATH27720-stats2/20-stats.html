@@ -193,7 +193,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Expected Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -414,28 +414,28 @@ An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is
 \\
 \end{array}
 \begin{array}{rr}
-\text{Bias}(\hat{\theta})\\
-\text{Var}(\hat{\theta})\\
-\text{MSE}(\hat{\theta})\\
+\operatorname{Bias}(\hat{\theta})\\
+\operatorname{Var}(\hat{\theta})\\
+\operatorname{MSE}(\hat{\theta})\\
 \\
 \end{array}
 \begin{array}{ll}
-=\text{E}(\hat{\theta})-\theta\\
-=\text{E}\left((\hat{\theta}-\text{E}(\hat{\theta}))^2\right)\\
-=\text{E}((\hat{\theta}-\theta)^2)\\
-=\text{Var}(\hat{\theta})+\text{Bias}(\hat{\theta})^2\\
+=\operatorname{E}(\hat{\theta})-\theta\\
+=\operatorname{E}\left((\hat{\theta}-\operatorname{E}(\hat{\theta}))^2\right)\\
+=\operatorname{E}((\hat{\theta}-\theta)^2)\\
+=\operatorname{Var}(\hat{\theta})+\operatorname{Bias}(\hat{\theta})^2\\
 \end{array}
 \end{align*}\]</span></p>
-<p>The last identity about MSE follows from <span class="math inline">\(\text{E}(x^2)=\text{Var}(x)+\text{E}(x)^2\)</span>.</p>
+<p>The last identity about MSE follows from <span class="math inline">\(\operatorname{E}(x^2)=\operatorname{Var}(x)+\operatorname{E}(x)^2\)</span>.</p>
 <p>At first sight it seems desirable to focus on unbiased (for finite sample size <span class="math inline">\(n\)</span>) estimators. However, requiring strict unbiasedness is not always a good idea. In many situations it is better to accept some bias in an estimator in order to achieve a smaller variance and an overall smaller MSE. This is called <strong>bias-variance tradeoff</strong> — as more bias is traded for smaller variance (or, conversely, less bias is traded for higher variance). This is also related to the above mentioned problems of underfitting (large bias) and overfitting (large variance).</p>
 </section>
 <section id="efficiency-and-consistency-of-an-estimator" class="level2" data-number="A.4">
 <h2 data-number="A.4" class="anchored" data-anchor-id="efficiency-and-consistency-of-an-estimator"><span class="header-section-number">A.4</span> Efficiency and consistency of an estimator</h2>
-<p>Typically, <span class="math inline">\(\text{Bias}\)</span>, <span class="math inline">\(\text{Var}\)</span> and <span class="math inline">\(\text{MSE}\)</span> all decrease with increasing sample size so that with more data <span class="math inline">\(n \to \infty\)</span> the errors become smaller and smaller.</p>
+<p>Typically, <span class="math inline">\(\operatorname{Bias}\)</span>, <span class="math inline">\(\operatorname{Var}\)</span> and <span class="math inline">\(\operatorname{MSE}\)</span> all decrease with increasing sample size so that with more data <span class="math inline">\(n \to \infty\)</span> the errors become smaller and smaller.</p>
 <p><strong>Efficiency</strong>: An estimator <span class="math inline">\(\hat\theta_A\)</span> is said to more efficient than estimator <span class="math inline">\(\hat\theta_B\)</span> if for same sample size <span class="math inline">\(n\)</span> it has smaller error (e.g.&nbsp;MSE) than the competing estimator.</p>
 <p>The typical rate of decrease in variance of a good estimator is <span class="math inline">\(\frac{1}{n}\)</span> and the rate of decrease in the standard deviation is <span class="math inline">\(\frac{1}{\sqrt{n}}\)</span>. Note that this implies that to get one digit more accuracy in an estimate (standard deviation decreasing by factor of 10) we need 100 times more data!</p>
 <p><strong>Consistency</strong>: <span class="math inline">\(\hat{\theta}\)</span> is called consistent if <span class="math display">\[
-\text{MSE}(\hat{\theta}) \longrightarrow 0 \text{ with $n\rightarrow \infty$ }
+\operatorname{MSE}(\hat{\theta}) \longrightarrow 0 \text{ with $n\rightarrow \infty$ }
 \]</span></p>
 <p>Consistency is an essential yet relatively weak requirement for any reasonable estimator. Among all consistent estimators we generally choose those that are most <strong>efficient</strong>, meaning that they exhibit the smallest variance and/or MSE for a given finite <span class="math inline">\(n\)</span>.</p>
 <p>Consistency implies that, given an infinite amount of data, the true model can be accurately identified, provided that the model class includes the actual data-generating model. If the model class does not encompass the true model, strict consistency cannot be attained. Nevertheless, our goal remains to choose a model that is closest to the true model and approximates it as best as possible.</p>
@@ -445,8 +445,8 @@ An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is
 <p>The <strong>law of large numbers</strong>, discovered by <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a>, asserts that, if the mean exists, the sample average will converge to the mean as the sample size <span class="math inline">\(n\)</span> becomes large. Therefore, when the mean is defined, it can be approximated by the empirical mean for sufficiently large values of <span class="math inline">\(n\)</span>.</p>
 <p>A variant of the law of large numbers is that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> convergences strongly to <span class="math inline">\(F\)</span> (<a href="#sec-empiricalcdf" class="quarto-xref"><span>Section A.6</span></a>).</p>
 <p>As a result, with <span class="math inline">\(n \rightarrow \infty\)</span> there’s also convergence of the average of a function of the observed samples to the corresponding expectation of the function of the random variable: <span class="math display">\[
-\text{E}_{\hat{F}_n}(h(x)) =
-\frac{1}{n} \sum_{i=1}^n h(x_i) \to \text{E}_{F}(h(x))
+\operatorname{E}_{\hat{F}_n}(h(x)) =
+\frac{1}{n} \sum_{i=1}^n h(x_i) \to \operatorname{E}_{F}(h(x))
 \]</span> Hence, the law of large numbers also ensures that empirical estimators (<a href="#sec-empiricalestimators" class="quarto-xref"><span>Section A.7</span></a>) will converge to the corresponding true values for sufficiently large <span class="math inline">\(n\)</span>.</p>
 <p>Moreover, the law of large numbers provides a <strong>justification for interpreting large-sample limits of frequencies as probabilities</strong>. However, <strong>the converse</strong> assumption that all probabilities can be interpreted in frequentist manner <strong>does not follow</strong> from the law of large numbers or from the axioms of probability.</p>
 <p>Finally, it is worth pointing out that the law of large number doesn’t say anything about the finite sample properties of an estimator, it is only concerned with the asymptotic domain (large <span class="math inline">\(n\)</span>).</p>
@@ -469,17 +469,17 @@ An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is
 <h2 data-number="A.7" class="anchored" data-anchor-id="sec-empiricalestimators"><span class="header-section-number">A.7</span> Empirical estimators</h2>
 <p>The fact that for large sample size <span class="math inline">\(n\)</span> the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> may be used as a substitute for the unknown <span class="math inline">\(F\)</span> allows us to easily construct empirical estimators.</p>
 <p>Specifically, parameters of a model can typically be expressed as a functional of the distribution <span class="math inline">\(\theta = g(F)\)</span>. An <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> is constructed by substituting the true distribution by the empirical distribution <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>.</p>
-<p>An example is the mean <span class="math inline">\(\text{E}_F(x)\)</span> with regard to <span class="math inline">\(F\)</span>. The <strong>empirical mean</strong> is the expectation with regard to the empirical distribution which equals the <strong>average of the samples</strong>: <span class="math display">\[
-\hat{\text{E}}(x) = \hat{\mu} =  \text{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
+<p>An example is the mean <span class="math inline">\(\operatorname{E}_F(x)\)</span> with regard to <span class="math inline">\(F\)</span>. The <strong>empirical mean</strong> is the expectation with regard to the empirical distribution which equals the <strong>average of the samples</strong>: <span class="math display">\[
+\hat{\operatorname{E}}(x) = \hat{\mu} =  \operatorname{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
 \]</span></p>
 <p>Similarly, other empirical estimators can be constructed simply by replacing the expectation in the definition of the quantity of interest by the sample average. For example, the <strong>empirical variance</strong> with unknown mean is given by <span class="math display">\[
-\widehat{\text{Var}}(x) = \widehat{\sigma^2} =
-\text{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+\widehat{\operatorname{Var}}(x) = \widehat{\sigma^2} =
+\operatorname{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \]</span> Note the factor <span class="math inline">\(1/n\)</span> before the summation sign. We can also write the empirical variance in terms of <span class="math inline">\(\overline{x^2} =\frac{1}{n}\sum^{n}_{k=1} x^2\)</span> as <span class="math display">\[
-\widehat{\text{Var}}(x) = \overline{x^2} - \bar{x}^2
+\widehat{\operatorname{Var}}(x) = \overline{x^2} - \bar{x}^2
 \]</span></p>
 <p>By construction, as a result of the strong convergence of <span class="math inline">\(\hat{F}_n\)</span> to <span class="math inline">\(F\)</span> empirical estimators are consistent, with their MSE, variance and bias all decreasing to zero with large sample size <span class="math inline">\(n\)</span>. However, for finite sample size they do have a finite variance and may also be biased.</p>
-<p>For example, the empirical variance given above is biased with <span class="math inline">\(\text{Bias}(\widehat{\sigma^2}) = -\sigma^2/n\)</span>. Note this bias decreases with <span class="math inline">\(n\)</span>. An unbiased estimator can be obtained by rescaling the empirical estimator by the factor <span class="math inline">\(n/(n-1)\)</span>: <span class="math display">\[
+<p>For example, the empirical variance given above is biased with <span class="math inline">\(\operatorname{Bias}(\widehat{\sigma^2}) = -\sigma^2/n\)</span>. Note this bias decreases with <span class="math inline">\(n\)</span>. An unbiased estimator can be obtained by rescaling the empirical estimator by the factor <span class="math inline">\(n/(n-1)\)</span>: <span class="math display">\[
 \widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\bar{x})^2
 \]</span></p>
 <p>The empirical estimators for the mean and variance can also be obtained for random vectors <span class="math inline">\(\boldsymbol x\)</span>. In this case the data <span class="math inline">\(D = \{\boldsymbol x_1, \ldots, \boldsymbol x_n \}\)</span> is comprised of <span class="math inline">\(n\)</span> vector-valued observations.</p>
@@ -497,16 +497,16 @@ An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is
 <ul>
 <li><p>The empirical estimator of the mean parameter <span class="math inline">\(\mu\)</span> is given by <span class="math inline">\(\hat{\mu} = \frac{1}{n} \sum_{i=1}^n x_i\)</span>. Under the normal assumption the distribution of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math display">\[
 \hat{\mu} \sim N\left(\mu, \frac{\sigma^2}{n}\right)
-\]</span> Thus <span class="math inline">\(\text{E}(\hat{\mu}) = \mu\)</span> and <span class="math inline">\(\text{Var}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>. The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased as <span class="math inline">\(\text{E}(\hat{\mu})-\mu = 0\)</span>. The mean squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\text{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
+\]</span> Thus <span class="math inline">\(\operatorname{E}(\hat{\mu}) = \mu\)</span> and <span class="math inline">\(\operatorname{Var}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>. The estimate <span class="math inline">\(\hat{\mu}\)</span> is unbiased as <span class="math inline">\(\operatorname{E}(\hat{\mu})-\mu = 0\)</span>. The mean squared error of <span class="math inline">\(\hat{\mu}\)</span> is <span class="math inline">\(\operatorname{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}\)</span>.</p></li>
 <li><p>The empirical variance <span class="math inline">\(\widehat{\sigma^2} = \frac{1}{n} \sum_{i=1}^n (x_i -\bar{x})^2\)</span> for normal data follows a one-dimensional Wishart distribution <span class="math display">\[
 \widehat{\sigma^2} \sim
-\text{Wis}\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
-\]</span> Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2} ) = \frac{n-1}{n}\sigma^2\)</span> and <span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{ML}}  ) = \frac{2(n-1)}{n^2}\sigma^4\)</span>. The estimate <span class="math inline">\(\widehat{\sigma^2}\)</span> is biased since <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{ML}}  )-\sigma^2 = -\frac{1}{n}\sigma^2\)</span>. The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}) = \frac{2(n-1)}{n^2}\sigma^4 +\frac{1}{n^2}\sigma^4 =\frac{2 n-1}{n^2}\sigma^4\)</span>.</p></li>
+\operatorname{Wis}\left(s^2 = \frac{\sigma^2}{n}, k=n-1\right)
+\]</span> Thus, <span class="math inline">\(\operatorname{E}( \widehat{\sigma^2} ) = \frac{n-1}{n}\sigma^2\)</span> and <span class="math inline">\(\operatorname{Var}( \widehat{\sigma^2}_{\text{ML}}  ) = \frac{2(n-1)}{n^2}\sigma^4\)</span>. The estimate <span class="math inline">\(\widehat{\sigma^2}\)</span> is biased since <span class="math inline">\(\operatorname{E}( \widehat{\sigma^2}_{\text{ML}}  )-\sigma^2 = -\frac{1}{n}\sigma^2\)</span>. The mean squared error is <span class="math inline">\(\operatorname{MSE}( \widehat{\sigma^2}) = \frac{2(n-1)}{n^2}\sigma^4 +\frac{1}{n^2}\sigma^4 =\frac{2 n-1}{n^2}\sigma^4\)</span>.</p></li>
 <li><p>The unbiased variance estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\bar{x})^2\)</span> for normal data follows a one-dimensional Wishart distribution <span class="math display">\[
 \widehat{\sigma^2}_{\text{UB}} \sim
-\text{Wis}\left(s^2 = \frac{\sigma^2}{n-1}, k = n-1 \right)
-\]</span> Thus, <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}}  ) = \sigma^2\)</span> and <span class="math inline">\(\text{Var}( \widehat{\sigma^2}_{\text{UB}}  ) = \frac{2}{n-1}\sigma^4\)</span>. The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is unbiased since <span class="math inline">\(\text{E}( \widehat{\sigma^2}_{\text{UB}}  )-\sigma^2 =0\)</span>. The mean squared error is <span class="math inline">\(\text{MSE}( \widehat{\sigma^2}_{\text{UB}} ) =\frac{2}{n-1}\sigma^4\)</span>.</p>
-<p>Interestingly, for any <span class="math inline">\(n&gt;1\)</span> we find that <span class="math inline">\(\text{Var}\left( \widehat{\sigma^2}_{\text{UB}}  \right) &gt; \text{Var}\left( \widehat{\sigma^2}_{\text{ML}}  \right)\)</span> and <span class="math inline">\(\text{MSE}\left( \widehat{\sigma^2}_{\text{UB}} \right) &gt; \text{MSE}\left( \widehat{\sigma^2}_{\text{ML}} \right)\)</span> so that the biased empirical estimator has both lower variance and lower mean squared error than the unbiased estimator.</p></li>
+\operatorname{Wis}\left(s^2 = \frac{\sigma^2}{n-1}, k = n-1 \right)
+\]</span> Thus, <span class="math inline">\(\operatorname{E}( \widehat{\sigma^2}_{\text{UB}}  ) = \sigma^2\)</span> and <span class="math inline">\(\operatorname{Var}( \widehat{\sigma^2}_{\text{UB}}  ) = \frac{2}{n-1}\sigma^4\)</span>. The estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{ML}}\)</span> is unbiased since <span class="math inline">\(\operatorname{E}( \widehat{\sigma^2}_{\text{UB}}  )-\sigma^2 =0\)</span>. The mean squared error is <span class="math inline">\(\operatorname{MSE}( \widehat{\sigma^2}_{\text{UB}} ) =\frac{2}{n-1}\sigma^4\)</span>.</p>
+<p>Interestingly, for any <span class="math inline">\(n&gt;1\)</span> we find that <span class="math inline">\(\operatorname{Var}\left( \widehat{\sigma^2}_{\text{UB}}  \right) &gt; \operatorname{Var}\left( \widehat{\sigma^2}_{\text{ML}}  \right)\)</span> and <span class="math inline">\(\operatorname{MSE}\left( \widehat{\sigma^2}_{\text{UB}} \right) &gt; \operatorname{MSE}\left( \widehat{\sigma^2}_{\text{ML}} \right)\)</span> so that the biased empirical estimator has both lower variance and lower mean squared error than the unbiased estimator.</p></li>
 </ul>
 </section>
 <section id="sec-tstat" class="level2" data-number="A.9">
@@ -521,14 +521,14 @@ z = \frac{\bar{x}-\mu}{\sqrt{\sigma^2/n}} \sim N(0, 1)
 <span class="math display">\[
 s^2_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\bar{x})^2
 \]</span> then one arrives at the one sample <span class="math inline">\(t\)</span>-statistic <span class="math display">\[
-t_{\text{UB}} = \frac{\bar{x}-\mu}{\sqrt{s^2_{\text{UB}}/n}} \sim \text{$t_{n-1}$} \,.
+t_{\text{UB}} = \frac{\bar{x}-\mu}{\sqrt{s^2_{\text{UB}}/n}} \sim t_{n-1} \,.
 \]</span> It is distributed according to a Student’s <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom, with mean 0 for <span class="math inline">\(n&gt;2\)</span> and variance <span class="math inline">\((n-1)/(n-3)\)</span> for <span class="math inline">\(n&gt;3\)</span>.</p>
 <p>If instead of the unbiased estimate the <em>empirical variance</em> (i.e.&nbsp;the maximum likelihood estimate, ML) <span class="math display">\[
 s^2_{\text{ML}} = \frac{1}{n} \sum_{i=1}^n (x_i -\bar{x})^2 = \frac{n-1}{n} s^2_{\text{UB}}
 \]</span> is used then this leads to a slightly different statistic <span class="math display">\[
 t_{\text{ML}} = \frac{\bar{x}-\mu}{ \sqrt{ s^2_{\text{ML}}/n}}  = \sqrt{\frac{n}{n-1}} t_{\text{UB}}
 \]</span> with <span class="math display">\[
-t_{\text{ML}} \sim \text{$t_{n-1}$}\left(0, \tau^2=\frac{n}{n-1}\right)
+t_{\text{ML}} \sim t_{n-1}\left(0, \tau^2=\frac{n}{n-1}\right)
 \]</span> Thus, <span class="math inline">\(t_{\text{ML}}\)</span> follows a location-scale <span class="math inline">\(t\)</span>-distribution, with mean 0 for <span class="math inline">\(n&gt;2\)</span> and variance <span class="math inline">\(n/(n-3)\)</span> for <span class="math inline">\(n&gt;3\)</span>.</p>
 </section>
 <section id="two-sample-t-statistic-with-common-variance" class="level3">
@@ -548,7 +548,7 @@ t_{\text{UB}} = \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{ \left(\frac{1}{n_1}+\frac
 t_{\text{UB}} = \sqrt{n} \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{  \left(\frac{1}{\hat{\pi}_1}+\frac{1}{\hat{\pi}_2}\right) s^2_{\text{UB}} }}
 = \sqrt{n\hat{\pi}_1 \hat{\pi}_2} \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{ s^2_{\text{UB}}}}
 \]</span> The two sample <span class="math inline">\(t\)</span>-statistic is distributed as <span class="math display">\[
-t_{\text{UB}} \sim \text{$t_{n-2}$}
+t_{\text{UB}} \sim t_{n-2}
 \]</span> i.e.&nbsp;according to a Student’s <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-2\)</span> degrees of freedom, with mean 0 for <span class="math inline">\(n&gt;3\)</span> and variance <span class="math inline">\((n-2)/(n-4)\)</span> for <span class="math inline">\(n&gt;4\)</span>. Large values of the two sample <span class="math inline">\(t\)</span>-statistic indicates that there are indeed two groups rather than just one.</p>
 <p>The two sample <span class="math inline">\(t\)</span>-statistic using the empirical (ML) pooled estimate of the variance is <span class="math display">\[
 \begin{split}
@@ -559,7 +559,7 @@ t_{\text{ML}} &amp; = \frac{\hat{\mu}_1-\hat{\mu}_2}{ \sqrt{ \left(\frac{1}{n_1}
 &amp; = \sqrt{\frac{n}{n-2}} t_{\text{UB}}
 \end{split}
 \]</span> with <span class="math display">\[
-t_{\text{ML}} \sim \text{$t_{n-2}$}\left(0, \tau^2=\frac{n}{n-2}\right)
+t_{\text{ML}} \sim t_{n-2}\left(0, \tau^2=\frac{n}{n-2}\right)
 \]</span> Thus, <span class="math inline">\(t_{\text{ML}}\)</span> follows a location-scale <span class="math inline">\(t\)</span>-distribution, with mean 0 for <span class="math inline">\(n&gt;3\)</span> and variance <span class="math inline">\(n/(n-4)\)</span> for <span class="math inline">\(n&gt;4\)</span>.</p>
 </section>
 </section>
@@ -567,7 +567,7 @@ t_{\text{ML}} \sim \text{$t_{n-2}$}\left(0, \tau^2=\frac{n}{n-2}\right)
 <h2 data-number="A.10" class="anchored" data-anchor-id="sec-ci"><span class="header-section-number">A.10</span> Confidence intervals</h2>
 <section id="general-concept" class="level3">
 <h3 class="anchored" data-anchor-id="general-concept">General concept</h3>
-<p>A <strong>confidence</strong> interval (CI) is an <strong>interval estimate</strong> <span class="math inline">\(\widehat{\text{CI}}(x_1, \ldots, x_n)\)</span> that depends on data and has a random (sampling) variation as well as a <strong>frequentist</strong> interpretation.</p>
+<p>A <strong>confidence</strong> interval (CI) is an <strong>interval estimate</strong> <span class="math inline">\(\widehat{\operatorname{CI}}(x_1, \ldots, x_n)\)</span> that depends on data and has a random (sampling) variation as well as a <strong>frequentist</strong> interpretation.</p>
 <div id="fig-coverageci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coverageci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -579,8 +579,8 @@ Figure&nbsp;A.1: Coverage property of confidence intervals.
 </figure>
 </div>
 <p>A key property of a confidence interval is its <strong>coverage probability</strong> <span class="math display">\[
-\kappa = \text{Pr}( \theta \in \widehat{\text{CI}})
-\]</span> which describes how often — in repeated identical experiments — the estimated confidence interval overlaps the true parameter value <span class="math inline">\(\theta\)</span>, i.e.&nbsp;how often it will “cover” <span class="math inline">\(\theta\)</span> (see <a href="#fig-coverageci" class="quarto-xref">Figure&nbsp;<span>A.1</span></a>). In the above <span class="math inline">\(\theta\)</span> is fixed and <span class="math inline">\(\widehat{\text{CI}}\)</span> is random. Note that <span class="math inline">\(\kappa\)</span> is explicitly <strong>not</strong> the probability that the true value is contained in a specific instance of an estimated confidence interval. Specifically, any particular confidence interval either covers <span class="math inline">\(\theta\)</span> or it doesn’t.</p>
+\kappa = \operatorname{Pr}( \theta \in \widehat{\operatorname{CI}})
+\]</span> which describes how often — in repeated identical experiments — the estimated confidence interval overlaps the true parameter value <span class="math inline">\(\theta\)</span>, i.e.&nbsp;how often it will “cover” <span class="math inline">\(\theta\)</span> (see <a href="#fig-coverageci" class="quarto-xref">Figure&nbsp;<span>A.1</span></a>). In the above <span class="math inline">\(\theta\)</span> is fixed and <span class="math inline">\(\widehat{\operatorname{CI}}\)</span> is random. Note that <span class="math inline">\(\kappa\)</span> is explicitly <strong>not</strong> the probability that the true value is contained in a specific instance of an estimated confidence interval. Specifically, any particular confidence interval either covers <span class="math inline">\(\theta\)</span> or it doesn’t.</p>
 <p>For example, a coverage probability <span class="math inline">\(\kappa=0.95\)</span> (95%) implies that in 95 out of 100 repeated experiments the corresponding estimated confidence interval will contain the (unknown) true value.</p>
 <p>It is trivial to create a confidence with high coverage, simply by assuming a wide interval. Therefore, a useful confidence interval must be both <strong>compact</strong> and have <strong>high coverage</strong>.</p>
 <p>Finally, there is also a direct relationship between confidence intervals and statistical testing procedures. Specifically, a confidence interval can be interpreted as the set of parameter values that cannot be rejected. The complement <span class="math inline">\(\alpha=1-\kappa\)</span> is called the <strong>rejection probability</strong> or <strong>significance level</strong>.</p>
@@ -604,9 +604,9 @@ Figure&nbsp;A.2: Construction of a symmetric two-sided normal confidence interva
 <li>with normally distributed estimate <span class="math inline">\(\hat{\theta} \sim N(\theta, \sigma^2)\)</span></li>
 </ul>
 <p>is given by <span class="math display">\[
-\widehat{\text{CI}}=[\hat{\theta} \pm c \sigma]
+\widehat{\operatorname{CI}}=[\hat{\theta} \pm c \sigma]
 \]</span> where the critical value <span class="math inline">\(c\)</span> is chosen to achieve the desired coverage probability <span class="math display">\[
-\kappa = \text{Pr}(\hat{\theta} - c \sigma \leq \theta  \leq  \hat{\theta} + c \sigma)
+\kappa = \operatorname{Pr}(\hat{\theta} - c \sigma \leq \theta  \leq  \hat{\theta} + c \sigma)
 \]</span> The critical value <span class="math inline">\(c\)</span> is obtained as the <span class="math inline">\((1+\kappa)/2 = 1- \alpha/2\)</span> quantile <span class="math inline">\(z_{(1+\kappa)/2} = z_{1- \alpha/2}\)</span> of the standard normal distribution <span class="math inline">\(N(0,1)\)</span> so that <span class="math display">\[
 c=\Phi^{-1}\left(\frac{1+\kappa}{2}\right) = \Phi^{-1}\left(1- \frac{\alpha}{2}\right)
 \]</span> where where <span class="math inline">\(\Phi(c)\)</span> is the cumulative distribution function (CDF) of the standard normal <span class="math inline">\(N(0,1)\)</span> distribution. Its inverse <span class="math inline">\(\Phi^{-1}\)</span> is the standard normal quantile function.</p>
@@ -659,7 +659,7 @@ Figure&nbsp;A.3: Construction of a one-sided confidence interval based on a chi-
 </figcaption>
 </figure>
 </div>
-<p>For a chi-squared distributed statistic commonly a one-sided confidence interval of the form <span class="math inline">\([0, c ]\)</span> is used with nominal coverage probability <span class="math inline">\(\kappa = \text{Pr}(x \leq c)\)</span> (see <a href="#fig-chisqci" class="quarto-xref">Figure&nbsp;<span>A.3</span></a>). The right tail contains <span class="math inline">\(1-\kappa = \alpha\)</span> probability mass.</p>
+<p>For a chi-squared distributed statistic commonly a one-sided confidence interval of the form <span class="math inline">\([0, c ]\)</span> is used with nominal coverage probability <span class="math inline">\(\kappa = \operatorname{Pr}(x \leq c)\)</span> (see <a href="#fig-chisqci" class="quarto-xref">Figure&nbsp;<span>A.3</span></a>). The right tail contains <span class="math inline">\(1-\kappa = \alpha\)</span> probability mass.</p>
 <p>We obtain the critical value <span class="math inline">\(c\)</span> as the <span class="math inline">\(\kappa=1-\alpha\)</span> quantile of the chi-squared distribution by using the quantile function, i.e. by inverting the CDF of the chi-squared distribution.</p>
 <div id="tbl-critchisq" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
