@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Multivariate distributions – Probability and Distribution Refresher</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-expfam.html" rel="next">
+<link href="./04-univariate.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-multivariate.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probability and Distribution Refresher</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-multivariate.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-expfam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exponential families</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#multinomial-distribution" id="toc-multinomial-distribution" class="nav-link active" data-scroll-target="#multinomial-distribution"><span class="header-section-number">5.1</span> Multinomial distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation" id="toc-standard-parametrisation" class="nav-link" data-scroll-target="#standard-parametrisation">Standard parametrisation</a></li>
+  <li><a href="#mean-parametrisation" id="toc-mean-parametrisation" class="nav-link" data-scroll-target="#mean-parametrisation">Mean parametrisation</a></li>
+  <li><a href="#special-case-categorical-distribution" id="toc-special-case-categorical-distribution" class="nav-link" data-scroll-target="#special-case-categorical-distribution">Special case: categorical distribution</a></li>
+  <li><a href="#convolution-property" id="toc-convolution-property" class="nav-link" data-scroll-target="#convolution-property">Convolution property</a></li>
+  </ul></li>
+  <li><a href="#dirichlet-distribution" id="toc-dirichlet-distribution" class="nav-link" data-scroll-target="#dirichlet-distribution"><span class="header-section-number">5.2</span> Dirichlet distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation-1" id="toc-standard-parametrisation-1" class="nav-link" data-scroll-target="#standard-parametrisation-1">Standard parametrisation</a></li>
+  <li><a href="#mean-parametrisation-1" id="toc-mean-parametrisation-1" class="nav-link" data-scroll-target="#mean-parametrisation-1">Mean parametrisation</a></li>
+  <li><a href="#special-case-symmetric-dirichlet-distribution" id="toc-special-case-symmetric-dirichlet-distribution" class="nav-link" data-scroll-target="#special-case-symmetric-dirichlet-distribution">Special case: symmetric Dirichlet distribution</a></li>
+  <li><a href="#special-case-uniform-distribution" id="toc-special-case-uniform-distribution" class="nav-link" data-scroll-target="#special-case-uniform-distribution">Special case: uniform distribution</a></li>
+  </ul></li>
+  <li><a href="#sec-mvndist" id="toc-sec-mvndist" class="nav-link" data-scroll-target="#sec-mvndist"><span class="header-section-number">5.3</span> Multivariate normal distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation-2" id="toc-standard-parametrisation-2" class="nav-link" data-scroll-target="#standard-parametrisation-2">Standard parametrisation</a></li>
+  <li><a href="#scale-parametrisation" id="toc-scale-parametrisation" class="nav-link" data-scroll-target="#scale-parametrisation">Scale parametrisation</a></li>
+  <li><a href="#special-case-multivariate-standard-normal-distribution" id="toc-special-case-multivariate-standard-normal-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-standard-normal-distribution">Special case: multivariate standard normal distribution</a></li>
+  <li><a href="#special-case-multivariate-delta-distribution" id="toc-special-case-multivariate-delta-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-delta-distribution">Special case: multivariate delta distribution</a></li>
+  <li><a href="#location-scale-transformation" id="toc-location-scale-transformation" class="nav-link" data-scroll-target="#location-scale-transformation">Location-scale transformation</a></li>
+  <li><a href="#convolution-property-1" id="toc-convolution-property-1" class="nav-link" data-scroll-target="#convolution-property-1">Convolution property</a></li>
+  </ul></li>
+  <li><a href="#sec-wisdist" id="toc-sec-wisdist" class="nav-link" data-scroll-target="#sec-wisdist"><span class="header-section-number">5.4</span> Wishart distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation-3" id="toc-standard-parametrisation-3" class="nav-link" data-scroll-target="#standard-parametrisation-3">Standard parametrisation</a></li>
+  <li><a href="#mean-parametrisation-2" id="toc-mean-parametrisation-2" class="nav-link" data-scroll-target="#mean-parametrisation-2">Mean parametrisation</a></li>
+  <li><a href="#special-case-standard-wishart-distribution" id="toc-special-case-standard-wishart-distribution" class="nav-link" data-scroll-target="#special-case-standard-wishart-distribution">Special case: standard Wishart distribution</a></li>
+  <li><a href="#scale-transformation" id="toc-scale-transformation" class="nav-link" data-scroll-target="#scale-transformation">Scale transformation</a></li>
+  <li><a href="#convolution-property-2" id="toc-convolution-property-2" class="nav-link" data-scroll-target="#convolution-property-2">Convolution property</a></li>
+  </ul></li>
+  <li><a href="#sec-iwdist" id="toc-sec-iwdist" class="nav-link" data-scroll-target="#sec-iwdist"><span class="header-section-number">5.5</span> Inverse Wishart distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation-4" id="toc-standard-parametrisation-4" class="nav-link" data-scroll-target="#standard-parametrisation-4">Standard parametrisation</a></li>
+  <li><a href="#mean-parametrisation-3" id="toc-mean-parametrisation-3" class="nav-link" data-scroll-target="#mean-parametrisation-3">Mean parametrisation</a></li>
+  <li><a href="#biased-mean-parametrisation" id="toc-biased-mean-parametrisation" class="nav-link" data-scroll-target="#biased-mean-parametrisation">Biased mean parametrisation</a></li>
+  <li><a href="#scale-transformation-1" id="toc-scale-transformation-1" class="nav-link" data-scroll-target="#scale-transformation-1">Scale transformation</a></li>
+  </ul></li>
+  <li><a href="#sec-mvtdist" id="toc-sec-mvtdist" class="nav-link" data-scroll-target="#sec-mvtdist"><span class="header-section-number">5.6</span> Multivariate <span class="math inline">\(t\)</span>-distribution</a>
+  <ul class="collapse">
+  <li><a href="#standard-parametrisation-5" id="toc-standard-parametrisation-5" class="nav-link" data-scroll-target="#standard-parametrisation-5">Standard parametrisation</a></li>
+  <li><a href="#scale-parametrisation-1" id="toc-scale-parametrisation-1" class="nav-link" data-scroll-target="#scale-parametrisation-1">Scale parametrisation</a></li>
+  <li><a href="#special-case-multivariate-standard-t-distribution" id="toc-special-case-multivariate-standard-t-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-standard-t-distribution">Special case: multivariate standard <span class="math inline">\(t\)</span>-distribution</a></li>
+  <li><a href="#special-case-multivariate-normal-distribution" id="toc-special-case-multivariate-normal-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-normal-distribution">Special case: multivariate normal distribution</a></li>
+  <li><a href="#special-case-multivariate-cauchy-distribution" id="toc-special-case-multivariate-cauchy-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-cauchy-distribution">Special case: multivariate Cauchy distribution</a></li>
+  <li><a href="#special-case-multivariate-standard-cauchy-distribution" id="toc-special-case-multivariate-standard-cauchy-distribution" class="nav-link" data-scroll-target="#special-case-multivariate-standard-cauchy-distribution">Special case: multivariate standard Cauchy distribution</a></li>
+  <li><a href="#location-scale-transformation-1" id="toc-location-scale-transformation-1" class="nav-link" data-scroll-target="#location-scale-transformation-1">Location-scale transformation</a></li>
+  <li><a href="#convolution-property-3" id="toc-convolution-property-3" class="nav-link" data-scroll-target="#convolution-property-3">Convolution property</a></li>
+  <li><a href="#multivariate-t-distribution-as-compound-distribution" id="toc-multivariate-t-distribution-as-compound-distribution" class="nav-link" data-scroll-target="#multivariate-t-distribution-as-compound-distribution">Multivariate <span class="math inline">\(t\)</span>-distribution as compound distribution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-distribmul" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="multinomial-distribution" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="multinomial-distribution"><span class="header-section-number">5.1</span> Multinomial distribution</h2>
+<p>The <strong>multinomial distribution</strong> <span class="math inline">\(\operatorname{Mult}(n, \boldsymbol \theta)\)</span> is the multivariate generalisation of the binomial distribution <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span> (<a href="04-univariate.html#sec-binomdist" class="quarto-xref"><span>Section 4.1</span></a>) from two classes to <span class="math inline">\(K\)</span> classes.</p>
+<p>A special case is the <strong>categorical distribution</strong> <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> that generalises the Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span>.</p>
+<section id="standard-parametrisation" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation">Standard parametrisation</h3>
+<p>A multinomial random variable <span class="math inline">\(\boldsymbol x\)</span> describes describes the allocation of <span class="math inline">\(n\)</span> items to <span class="math inline">\(K\)</span> classes. We write <span class="math display">\[
+\boldsymbol x\sim \operatorname{Mult}(n, \boldsymbol \theta)
+\]</span> where the parameter vector <span class="math inline">\(\boldsymbol \theta=(\theta_1, \ldots, \theta_K)^T\)</span> specifies the probability of each of <span class="math inline">\(K\)</span> classes, with <span class="math inline">\(\theta_k \in [0,1]\)</span> and <span class="math inline">\(\boldsymbol \theta^T \mathbf 1_K = \sum_{k=1}^K \theta_k = 1\)</span>. Thus there are <span class="math inline">\(K-1\)</span> independent elements in <span class="math inline">\(\boldsymbol \theta\)</span>. The number of classes <span class="math inline">\(K\)</span> is implicitly given by the dimension of the vector <span class="math inline">\(\boldsymbol \theta\)</span>. Each element of the vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T\)</span> is an integer <span class="math inline">\(x_k \in \{0, 1, \ldots, n\}\)</span> and <span class="math inline">\(\boldsymbol x\)</span> satisfies the constraint <span class="math inline">\(\boldsymbol x^T \mathbf 1_K = \sum_{k=1}^K x_k = n\)</span>. Therefore the support of <span class="math inline">\(\boldsymbol x\)</span> is a <span class="math inline">\(K-1\)</span> dimensional space and it notably depends on <span class="math inline">\(n\)</span>.</p>
+<div id="fig-urnmultinom" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="h">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-urnmultinom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/urn-multinom.jpg" class="img-fluid figure-img" style="width:60.0%" data-fig-pos="h">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-urnmultinom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Multinomial urn model.
+</figcaption>
+</figure>
+</div>
+<p>The multinomial distribution is best illustrated by an urn model distributing <span class="math inline">\(n\)</span> items into <span class="math inline">\(K\)</span> bins where <span class="math inline">\(\boldsymbol \theta\)</span> contains the corresponding bin probabilities (<a href="#fig-urnmultinom" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>).</p>
+<p>The expected value is <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = n \boldsymbol \theta
+\]</span> The covariance matrix is <span class="math display">\[
+\operatorname{Var}(\boldsymbol x) = n (\operatorname{Diag}(\boldsymbol \theta) - \boldsymbol \theta\boldsymbol \theta^T)
+\]</span> The covariance matrix is singular by construction because of the dependencies among the elements of <span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>The corresponding pmf is <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \theta) = W_K \prod_{k=1}^K \theta_k^{x_k}
+\]</span> The multinomial coefficient <span class="math display">\[
+W_K = \binom{n}{x_1, \ldots, x_K}
+\]</span> in the pmf accounts for the number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types. Note that the multinomial coefficient <span class="math inline">\(W_K\)</span> does not depend on <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
+<p>While all <span class="math inline">\(K\)</span> elements of <span class="math inline">\(\boldsymbol x\)</span> appear in the pmf recall that due the dependencies among the <span class="math inline">\(x_k\)</span> the pmf is defined over a <span class="math inline">\(K-1\)</span> dimensional support.</p>
+<p>For <span class="math inline">\(K=2\)</span> the multinomial distribution reduces to the binomial distribution (<a href="04-univariate.html#sec-binomdist" class="quarto-xref"><span>Section 4.1</span></a>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The pmf of the multinomial distribution is given by <code>dmultinom()</code>. The corresponding random number generator is <code>rmultinom()</code>.</p>
+</div>
+</div>
+</section>
+<section id="mean-parametrisation" class="level3">
+<h3 class="anchored" data-anchor-id="mean-parametrisation">Mean parametrisation</h3>
+<p>Instead of <span class="math inline">\(\boldsymbol \theta\)</span> one may also use a mean parameter <span class="math inline">\(\boldsymbol \mu\)</span>, with elements <span class="math inline">\(\mu_k \in [0,n]\)</span> and <span class="math inline">\(\boldsymbol \mu^T \mathbf 1_K = \sum^{K}_{k=1}\mu_k = n\)</span>, so that <span class="math display">\[
+\boldsymbol x\sim \operatorname{Mult}\left(n, \boldsymbol \theta= \frac{\boldsymbol \mu}{n}\right)
+\]</span> The mean parameter <span class="math inline">\(\boldsymbol \mu\)</span> can be obtained from <span class="math inline">\(\boldsymbol \theta\)</span> and <span class="math inline">\(n\)</span> by <span class="math inline">\(\boldsymbol \mu= n \boldsymbol \theta\)</span>. Note that the parameter space for <span class="math inline">\(\boldsymbol \mu\)</span> and the support of <span class="math inline">\(\boldsymbol x\)</span> are both of dimension <span class="math inline">\(K-1\)</span>.</p>
+<p>The mean and variance of the multinomial distribution expressed in terms of <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(n\)</span> are <span class="math display">\[
+\operatorname{E}(x) = \boldsymbol \mu
+\]</span> and <span class="math display">\[
+\operatorname{Var}(x) = \operatorname{Diag}(\boldsymbol \mu) - \frac{\boldsymbol \mu\boldsymbol \mu^T}{n}
+\]</span> The covariance matrix is singular by construction because of the dependencies among the elements of <span class="math inline">\(\boldsymbol x\)</span>.</p>
+</section>
+<section id="special-case-categorical-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-categorical-distribution">Special case: categorical distribution</h3>
+<p>For <span class="math inline">\(n=1\)</span> the multinomial distribution reduces to the <strong>categorical distribution</strong> <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> which in turn is the multivariate generalisation of the Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> from two classes to <span class="math inline">\(K\)</span> classes.</p>
+<p>If a random variable <span class="math inline">\(\boldsymbol x\)</span> follows the categorical distribution we write <span class="math display">\[
+\boldsymbol x\sim \operatorname{Cat}(\boldsymbol \theta)
+\]</span> with class probabilities <span class="math inline">\(\boldsymbol \theta\)</span> and <span class="math inline">\(\boldsymbol \theta^T \mathbf 1_K = 1\)</span>. The support is <span class="math inline">\(x_k \in \{0, 1\}\)</span> and <span class="math inline">\(\boldsymbol x^T \mathbf 1_K =1\)</span> and is a <span class="math inline">\(K-1\)</span> dimensional space.</p>
+<p>The random vector <span class="math inline">\(\boldsymbol x\)</span> takes the form of an indicator vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> containing zeros everywhere except for a single element indicating the class to which the item has been allocated. This is called “one hot encoding”, as opposed to “integer encoding” (i.e.&nbsp;stating the class number directly).</p>
+<p>The expected value is <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = \boldsymbol \theta
+\]</span> The covariance matrix is <span class="math display">\[
+\operatorname{Var}(\boldsymbol x) = \operatorname{Diag}(\boldsymbol \theta) - \boldsymbol \theta\boldsymbol \theta^T
+\]</span> The covariance matrix is singular because of the dependencies among the elements of <span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>The corresponding pmf is <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \theta) = \prod_{k=1}^K \theta_k^{x_k} =
+\begin{cases}
+   \theta_k  &amp; \text{if } x_k = 1 \\
+\end{cases}
+\]</span> Recall that the pmf is defined over the <span class="math inline">\(K-1\)</span> dimensional support of <span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>For <span class="math inline">\(K=2\)</span> the categorical distribution reduces to the Bernoulli <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> distribution, with <span class="math inline">\(\theta_1=\theta\)</span>, <span class="math inline">\(\theta_2=1-\theta\)</span> and <span class="math inline">\(x_1=x\)</span> and <span class="math inline">\(x_2=1-x\)</span>.</p>
+</section>
+<section id="convolution-property" class="level3">
+<h3 class="anchored" data-anchor-id="convolution-property">Convolution property</h3>
+<p>The convolution of <span class="math inline">\(n\)</span> multinomial distributions, each with identical bin probabilities <span class="math inline">\(\boldsymbol \theta\)</span> but possibly different number of items <span class="math inline">\(n_i\)</span>, yields another multinomial distribution with the same parameter <span class="math inline">\(\boldsymbol \theta\)</span>: <span class="math display">\[
+\sum_{i=1}^n \operatorname{Mult}(n_i, \boldsymbol \theta) \sim \operatorname{Mult}\left(\sum_{i=1}^n n_i, \boldsymbol \theta\right)
+\]</span></p>
+<p>It follows that the multinomial distribution with <span class="math inline">\(n\)</span> items is the result of the convolution of <span class="math inline">\(n\)</span> categorical distributions: <span class="math display">\[
+\sum_{i=1}^n \operatorname{Cat}(\boldsymbol \theta) \sim \operatorname{Mult}(n, \boldsymbol \theta)
+\]</span> Thus, repeating the same categorical trial <span class="math inline">\(n\)</span> times and counting the total number of allocations in each bin yields a multinomial random variable.</p>
+</section>
+</section>
+<section id="dirichlet-distribution" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="dirichlet-distribution"><span class="header-section-number">5.2</span> Dirichlet distribution</h2>
+<p>The <strong>Dirichlet distribution</strong> <span class="math inline">\(\operatorname{Dir}(\boldsymbol \alpha)\)</span> is the multivariate generalisation of the beta distribution <span class="math inline">\(\operatorname{Beta}(\alpha_1, \alpha_2)\)</span> (<a href="04-univariate.html#sec-betadist" class="quarto-xref"><span>Section 4.2</span></a>) that is useful to model proportions or probabilities for <span class="math inline">\(K\geq 2\)</span> classes. It is named after <a href="https://en.wikipedia.org/wiki/Peter_Gustav_Lejeune_Dirichlet">Peter Gustav Lejeune Dirichlet (1805–1859)</a>.</p>
+<p>It includes the <strong>uniform distribution</strong> over the <span class="math inline">\(K-1\)</span> unit simplex as special case.</p>
+<section id="standard-parametrisation-1" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation-1">Standard parametrisation</h3>
+<p>A Dirichlet distributed random vector is denoted by <span class="math display">\[
+\boldsymbol x\sim \operatorname{Dir}(\boldsymbol \alpha)
+\]</span> with shape parameter <span class="math inline">\(\boldsymbol \alpha= (\alpha_1,...,\alpha_K)^T &gt;0\)</span> and <span class="math inline">\(K\geq 2\)</span>. Let <span class="math inline">\(m = \boldsymbol \alpha^T \mathbf 1_K = \sum^{K}_{k=1}\alpha_k\)</span>. The support of <span class="math inline">\(\boldsymbol x\)</span> is the <span class="math inline">\(K-1\)</span> dimensional unit simplex given by <span class="math inline">\(x_k \in [0,1]\)</span> and <span class="math inline">\(\boldsymbol x^T \mathbf 1_K = \sum^{K}_{k=1} x_k = 1\)</span>. Thus, the Dirichlet distribution is defined over a <span class="math inline">\(K-1\)</span> dimensional space.</p>
+<div id="fig-stickdirichlet" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="h">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stickdirichlet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fig/stick-dirichlet.png" class="img-fluid figure-img" style="width:60.0%" data-fig-pos="h">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stickdirichlet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Stick breaking visualisation of a Dirichlet random variable.
+</figcaption>
+</figure>
+</div>
+<p>A Dirichlet random variable can be visualised as breaking a unit stick into <span class="math inline">\(K\)</span> individual pieces of lengths <span class="math inline">\(x_1, x_2, \ldots, x_K\)</span> adding up to one (<a href="#fig-stickdirichlet" class="quarto-xref">Figure&nbsp;<span>5.2</span></a>). Thus, the <span class="math inline">\(x_k\)</span> may be used as the exclusive proportions or probabilities for <span class="math inline">\(K\)</span> classes.</p>
+<p>The mean is <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = \frac{\boldsymbol \alpha}{m }
+\]</span> and the variance is <span class="math display">\[
+\operatorname{Var}\left(\boldsymbol x\right) = \frac{ m \operatorname{Diag}(\boldsymbol \alpha)-\boldsymbol \alpha\boldsymbol \alpha^T}{m^2(m+1)}
+\]</span> The covariance matrix is singular by construction because of the dependencies among the elements of <span class="math inline">\(\boldsymbol x\)</span>. In component notation it is <span class="math display">\[
+\operatorname{Cov}(x_i,x_j) =  \frac{[i=j] m \alpha_i -  \alpha_i \alpha_j}{m^2(m+1)}
+\]</span> where the indicator function <span class="math inline">\([i=j]\)</span> equals 1 if <span class="math inline">\(i=j\)</span> and 0 otherwise.</p>
+<p>The pdf of the Dirichlet distribution <span class="math inline">\(\operatorname{Dir}(\boldsymbol \alpha)\)</span> is <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \alpha) = \frac{1}{B(\boldsymbol \alpha)}  \prod_{k=1}^K x_k^{\alpha_k-1}
+\]</span> In this density the normalisation factor is given by the <strong>multivariate beta function</strong> <span class="math display">\[
+B(\boldsymbol \alpha) = \frac{ \prod_{k=1}^K \Gamma(\alpha_k) }{\Gamma( \sum_{k=1}^K \alpha_k )}
+\]</span> For <span class="math inline">\(K=2\)</span> it reduces to the conventional beta function <span class="math inline">\(B(\alpha_1, \alpha_2)\)</span>.</p>
+<p>While all <span class="math inline">\(K\)</span> elements of <span class="math inline">\(\boldsymbol x\)</span> appear in the pdf recall that due the dependencies among the <span class="math inline">\(x_k\)</span> the pdf is defined over a <span class="math inline">\(K-1\)</span> dimensional support.</p>
+<p>For <span class="math inline">\(K=2\)</span> the Dirichlet distribution reduces to the beta distribution (<a href="04-univariate.html#sec-betadist" class="quarto-xref"><span>Section 4.2</span></a>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>extraDistr</code> package implements the Dirichlet distribution. The pmf of the Dirichlet distribution is given by <code>extraDistr::ddirichlet()</code>. The corresponding random number generator is <code>extraDistr::rdirichlet()</code>.</p>
+</div>
+</div>
+</section>
+<section id="mean-parametrisation-1" class="level3">
+<h3 class="anchored" data-anchor-id="mean-parametrisation-1">Mean parametrisation</h3>
+<p>Instead of employing <span class="math inline">\(\boldsymbol \alpha\)</span> as parameter vector another useful reparametrisation of the Dirichlet distribution is in terms of a mean parameter <span class="math inline">\(\boldsymbol \mu\)</span>, with elements <span class="math inline">\(\mu_k \in [0,1]\)</span> and <span class="math inline">\(\boldsymbol \mu^T \mathbf 1_K = \sum^{K}_{k=1}\mu_k = 1\)</span>, and a concentration parameter <span class="math inline">\(m &gt; 0\)</span> so that <span class="math display">\[
+\boldsymbol x\sim \operatorname{Dir}(\boldsymbol \alpha=m \boldsymbol \mu)
+\]</span> The concentration and mean parameters can be obtained from <span class="math inline">\(\boldsymbol \alpha\)</span> by <span class="math inline">\(m = \boldsymbol \alpha^T \mathbf 1_K\)</span> and <span class="math inline">\(\boldsymbol \mu= \boldsymbol \alpha/m\)</span>. The space of possible values for the mean parameter <span class="math inline">\(\boldsymbol \mu\)</span> and the support of <span class="math inline">\(\boldsymbol x\)</span> are both of dimension <span class="math inline">\(K-1\)</span>.</p>
+<p>The mean and variance of the Dirichlet distribution expressed in terms of <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(m\)</span> are <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = \boldsymbol \mu
+\]</span> and <span class="math display">\[\operatorname{Var}\left(\boldsymbol x\right) = \frac{ \operatorname{Diag}(\boldsymbol \mu)-\boldsymbol \mu\boldsymbol \mu^T}{m+1}\]</span> The covariance matrix is singular by construction because of the dependencies among the elements of <span class="math inline">\(\boldsymbol x\)</span>. In component notation it is <span class="math display">\[
+\begin{split}
+\operatorname{Cov}(x_i,x_j) &amp;=  \frac{[i=j]\mu_i -  \mu_i \mu_j}{m+1} \\
+&amp;=
+\begin{cases}
+\mu_i(1-\mu_i)/(m+1) &amp; \text{if $i=j$}\\
+-\mu_i \mu_j / (m+1) &amp; \text{if $i\neq j$}\\
+\end{cases}\\
+\end{split}
+\]</span></p>
+</section>
+<section id="special-case-symmetric-dirichlet-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-symmetric-dirichlet-distribution">Special case: symmetric Dirichlet distribution</h3>
+<p>For <span class="math inline">\(\boldsymbol \alpha= \alpha \mathbf 1_K\)</span> the Dirichlet distribution becomes the <strong>symmetric beta distribution</strong> with a single shape parameters <span class="math inline">\(\alpha&gt;0\)</span>. In mean parametrisation the symmetric Dirichlet distribution corresponds to <span class="math inline">\(\boldsymbol \mu=\mathbf 1_K/K\)</span> and <span class="math inline">\(m=\alpha K\)</span>.</p>
+</section>
+<section id="special-case-uniform-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-uniform-distribution">Special case: uniform distribution</h3>
+<p>For <span class="math inline">\(\boldsymbol \alpha= \mathbf 1_K\)</span> the Dirichlet distribution becomes the uniform distribution over the <span class="math inline">\(K-1\)</span> unit simplex with pdf <span class="math inline">\(p(\boldsymbol x)=1/\Gamma(K)\)</span>. In mean parametrisation the uniform distribution corresponds to <span class="math inline">\(\boldsymbol \mu=\mathbf 1_K/K\)</span> and <span class="math inline">\(m=K\)</span>.</p>
+</section>
+</section>
+<section id="sec-mvndist" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-mvndist"><span class="header-section-number">5.3</span> Multivariate normal distribution</h2>
+<p>The <strong>multivariate normal distribution</strong> <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> generalises the univariate normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> (<a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a>) from one to <span class="math inline">\(d\)</span> dimensions.</p>
+<p>Special cases are the <strong>multivariate standard normal distribution</strong> <span class="math inline">\(N(\mathbf 0, \boldsymbol I)\)</span> and the <strong>multivariate delta distribution</strong>&nbsp;<span class="math inline">\(\delta\)</span>.</p>
+<section id="standard-parametrisation-2" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation-2">Standard parametrisation</h3>
+<p>The multivariate normal distribution <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> has a mean or location parameter <span class="math inline">\(\boldsymbol \mu\)</span> (a <span class="math inline">\(d\)</span> dimensional vector), a variance parameter <span class="math inline">\(\boldsymbol \Sigma\)</span> (a <span class="math inline">\(d \times d\)</span> positive definite symmetric matrix) and support <span class="math inline">\(\boldsymbol x\in \mathbb{R}^d\)</span>.</p>
+<p>If a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T\)</span> follows a multivariate normal distribution we write <span class="math display">\[
+\boldsymbol x\sim N(\boldsymbol \mu, \boldsymbol \Sigma)
+\]</span> with mean <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = \boldsymbol \mu
+\]</span> and variance <span class="math display">\[
+\operatorname{Var}(\boldsymbol x) = \boldsymbol \Sigma
+\]</span> In the above notation the dimension <span class="math inline">\(d\)</span> is implicitly given by the dimensions of <span class="math inline">\(\boldsymbol \mu\)</span> and <span class="math inline">\(\boldsymbol \Sigma\)</span> but for clarity one often also writes <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> to explicitly indicate the dimension.</p>
+<p>The pdf is given by <span class="math display">\[
+\begin{split}
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) &amp;= \det(2 \pi \boldsymbol \Sigma)^{-1/2} \exp\left(-\frac{1}{2} (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)   \right)\\
+&amp;= \det(\boldsymbol \Sigma)^{-1/2} (2\pi)^{-d/2}  e^{-\Delta^2 /2}\\
+\end{split}
+\]</span> Here <span class="math inline">\(\Delta^2 = (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)\)</span> is the <strong>squared Mahalanobis distance</strong> between <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu\)</span> taking into account the variance&nbsp;<span class="math inline">\(\boldsymbol \Sigma\)</span>. Note that this pdf is a joint pdf over the <span class="math inline">\(d\)</span> elements <span class="math inline">\(x_1, \ldots, x_d\)</span> of the random vector&nbsp;<span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>The multivariate normal distribution is sometimes also used by specifying the precision matrix <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> instead of the variance <span class="math inline">\(\boldsymbol \Sigma\)</span>.</p>
+<p>For <span class="math inline">\(d=1\)</span> the random vector <span class="math inline">\(\boldsymbol x=x\)</span> is a scalar, <span class="math inline">\(\boldsymbol \mu= \mu\)</span>, <span class="math inline">\(\boldsymbol \Sigma= \sigma^2\)</span> and thus the multivariate normal distribution reduces to the univariate normal distribution (<a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>mnormt</code> package implements the multivariate normal distribution. The function <code>mnormt::dmnorm()</code> provides the pdf and <code>mnormt::pmnorm()</code> returns the distribution function. The function <code>mnormt::rmnorm()</code> is the corresponding random number generator.</p>
+<p>The <code>mniw</code> package also implements the multivariate normal distribution. The pdf of the Wishart distribution is given by <code>mniw::dmNorm()</code>. The corresponding random number generator is <code>mniw::rmNorm()</code>.</p>
+</div>
+</div>
+</section>
+<section id="scale-parametrisation" class="level3">
+<h3 class="anchored" data-anchor-id="scale-parametrisation">Scale parametrisation</h3>
+<p>In the univariate case it is straightforward to use the standard deviation <span class="math inline">\(\sigma\)</span> as scale parameter instead of the variance <span class="math inline">\(\sigma^2\)</span>, and similarly the inverse standard deviation <span class="math inline">\(w=1/\sigma\)</span> instead of the precision <span class="math inline">\(\sigma^{-2}\)</span>. However, in the multivariate setting with a matrix variance parameter <span class="math inline">\(\boldsymbol \Sigma\)</span> it is less obvious how to define a suitable matrix scale parameter.</p>
+<p>Let <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol U\boldsymbol \Lambda\boldsymbol U^T\)</span> be the eigendecomposition of the positive definite matrix <span class="math inline">\(\boldsymbol \Sigma\)</span>. Then <span class="math inline">\(\boldsymbol \Sigma^{1/2} = \boldsymbol U\boldsymbol \Lambda^{1/2} \boldsymbol U^T\)</span> is the principal matrix square root and <span class="math inline">\(\boldsymbol \Sigma^{-1/2} = \boldsymbol U\boldsymbol \Lambda^{-1/2} \boldsymbol U^T\)</span> the inverse principal matrix square root. Furthermore, let <span class="math inline">\(\boldsymbol Q\)</span> be an arbitrary orthogonal matrix with <span class="math inline">\(\boldsymbol Q^T \boldsymbol Q= \boldsymbol Q\boldsymbol Q^T = \boldsymbol I\)</span>.</p>
+<p>Then <span class="math inline">\(\boldsymbol W= \boldsymbol Q\boldsymbol \Sigma^{-1/2}\)</span> is called a <strong>whitening matrix</strong> based on <span class="math inline">\(\boldsymbol \Sigma\)</span> and <span class="math inline">\(\boldsymbol L= \boldsymbol W^{-1}= \boldsymbol \Sigma^{1/2} \boldsymbol Q^T\)</span> is the corresponding <strong>inverse whitening matrix</strong>. By construction, the matrix <span class="math inline">\(\boldsymbol L\)</span> provides a factorisation of the covariance matrix by <span class="math inline">\(\boldsymbol L\boldsymbol L^T = \boldsymbol \Sigma\)</span>. Similarly, <span class="math inline">\(\boldsymbol W\)</span> factorises the precision matrix by <span class="math inline">\(\boldsymbol W^T \boldsymbol W= \boldsymbol \Sigma^{-1}\)</span>. The two matrices thus provide the basis for the scale parametrisation of the multivariate normal distribution.</p>
+<p>Specifically, the matrix <span class="math inline">\(\boldsymbol L\)</span> is used in place of <span class="math inline">\(\boldsymbol \Sigma\)</span> and plays the role of the matrix scale parameter (corresponding to <span class="math inline">\(\sigma\)</span> in the univariate setting) and <span class="math inline">\(\boldsymbol W\)</span> is used in place of the precision matrix <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span> and plays the role of the inverse matrix scale parameter (corresponding to <span class="math inline">\(1/\sigma\)</span> in the univariate case). The determinants occurring in the multivariate normal pdf can be rewritten in terms of <span class="math inline">\(\boldsymbol L\)</span> and <span class="math inline">\(\boldsymbol W\)</span> using the identities <span class="math inline">\(|\det(\boldsymbol W)|=\det(\boldsymbol \Sigma)^{-1/2}\)</span> and <span class="math inline">\(|\det(\boldsymbol L)|=\det(\boldsymbol \Sigma)^{1/2}\)</span> as <span class="math inline">\(\det(\boldsymbol Q) = \pm 1\)</span>.</p>
+<p>Since <span class="math inline">\(\boldsymbol Q\)</span> can be freely chosen the matrices <span class="math inline">\(\boldsymbol W\)</span> and <span class="math inline">\(\boldsymbol L\)</span> are not fully determined by <span class="math inline">\(\boldsymbol \Sigma\)</span> alone but there is rotational freedom due to <span class="math inline">\(\boldsymbol Q\)</span>. Standard choices are</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol Q^{\text{ZCA}}=\boldsymbol I\)</span> for ZCA-type factorisation with <span class="math inline">\(\boldsymbol W^{\text{ZCA}}=\boldsymbol \Sigma^{-1/2}\)</span> and</li>
+<li><span class="math inline">\(\boldsymbol Q^{\text{PCA}}=\boldsymbol U^T\)</span> for PCA-type factorisation with <span class="math inline">\(\boldsymbol W^{\text{PCA}}=\boldsymbol \Lambda^{-1/2} \boldsymbol U^T\)</span>. Note that the matrix <span class="math inline">\(\boldsymbol U\)</span> is not unique because its columns (eigenvectors) can have different signs (directions), hence <span class="math inline">\(\boldsymbol W^{\text{PCA}}\)</span> and <span class="math inline">\(\boldsymbol L^{\text{PCA}}\)</span> are also not unique without further constraints, such as positive diagonal elements of the (inverse) whitening matrix.</li>
+<li>A third common choice is to compute <span class="math inline">\(\boldsymbol L\)</span> directly by Cholesky decomposition of <span class="math inline">\(\boldsymbol \Sigma\)</span>, which yields an <span class="math inline">\(\boldsymbol L^{\text{Chol}}\)</span> (and also a <span class="math inline">\(\boldsymbol W^{\text{Chol}}\)</span>) in the form of a lower-triangular matrix with a positive diagonal, and a corresponding underlying <span class="math inline">\(\boldsymbol Q^{\text{Chol}}=(\boldsymbol L^{\text{Chol}})^T \boldsymbol \Sigma^{-1/2}\)</span>.</li>
+</ul>
+<p>Finally, the whitening matrix <span class="math inline">\(\boldsymbol W\)</span> and its inverse may also be constructed from the correlation matrix <span class="math inline">\(\boldsymbol P\)</span> and the diagonal matrix containing the variances <span class="math inline">\(\boldsymbol V\)</span> (with <span class="math inline">\(\boldsymbol \Sigma= \boldsymbol V^{1/2} \boldsymbol P\boldsymbol V^{1/2}\)</span>) in the form <span class="math inline">\(\boldsymbol W= \boldsymbol Q\boldsymbol P^{-1/2} \boldsymbol V^{-1/2}\)</span> and <span class="math inline">\(\boldsymbol L= \boldsymbol V^{1/2}  \boldsymbol P^{1/2} \boldsymbol Q^T\)</span>.</p>
+</section>
+<section id="special-case-multivariate-standard-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-standard-normal-distribution">Special case: multivariate standard normal distribution</h3>
+<p>The <strong>multivariate standard normal distribution</strong> <span class="math inline">\(N(\mathbf 0, \boldsymbol I)\)</span> has mean <span class="math inline">\(\boldsymbol \mu=\mathbf 0\)</span> and variance <span class="math inline">\(\boldsymbol \Sigma=\boldsymbol I\)</span>. The corresponding pdf is <span class="math display">\[
+p(\boldsymbol x) = (2\pi)^{-d/2} e^{-\boldsymbol x^T \boldsymbol x/2 }
+\]</span> with the squared Mahalanobis distance reduced to <span class="math inline">\(\Delta^2=\boldsymbol x^T \boldsymbol x= \sum_{i=1}^d x_i^2\)</span>.</p>
+<p>The density of the multivariate standard normal distribution is the product of the corresponding univariate standard normal densities <span class="math display">\[
+p(\boldsymbol x) = \prod_{i=1}^d \, (2\pi)^{-1/2} e^{-x_i^2/2 }
+\]</span> and therefore the elements <span class="math inline">\(x_i\)</span> of <span class="math inline">\(\boldsymbol x=(x_1, \ldots, x_d)^T\)</span> are independent of each other.</p>
+</section>
+<section id="special-case-multivariate-delta-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-delta-distribution">Special case: multivariate delta distribution</h3>
+<p>The <strong>multivariate delta distribution</strong> <span class="math inline">\(\delta\)</span> is obtained as the limit of <span class="math inline">\(N(\mathbf 0, \varepsilon \boldsymbol A)\)</span> for <span class="math inline">\(\varepsilon \rightarrow 0\)</span> and where <span class="math inline">\(\boldsymbol A\)</span> is a positive definite matrix (e.g.&nbsp;<span class="math inline">\(\boldsymbol A=\boldsymbol I\)</span>). Thus <span class="math inline">\(\delta\)</span> is a distribution that behaves like an infinite spike at zero.</p>
+<p>The corresponding pdf <span class="math inline">\(\delta(\boldsymbol x)\)</span> is called the <strong>multivariate Dirac delta function</strong>, even though it is not an ordinary function. It satisfies <span class="math inline">\(\delta(\boldsymbol x)=0\)</span> for all <span class="math inline">\(\boldsymbol x\neq \mathbf 0\)</span> and integrates to one, thus representing a point mass at zero.</p>
+</section>
+<section id="location-scale-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="location-scale-transformation">Location-scale transformation</h3>
+<p>Let <span class="math inline">\(\boldsymbol W\)</span> be a whitening matrix for <span class="math inline">\(\boldsymbol \Sigma\)</span> and <span class="math inline">\(\boldsymbol L\)</span> the corresponding inverse whitening matrix.</p>
+<p>If <span class="math inline">\(\boldsymbol x\sim  N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span> then <span class="math inline">\(\boldsymbol y= \boldsymbol W(\boldsymbol x-\boldsymbol \mu)  \sim N(\mathbf 0, \boldsymbol I)\)</span>. This location-scale transformation corresponds to centring and whitening (i.e.&nbsp;standardisation and decorrelation) of a multivariate normal random variable.</p>
+<p>Conversely, if <span class="math inline">\(\boldsymbol y\sim N(\mathbf 0, \boldsymbol I)\)</span> then <span class="math inline">\(\boldsymbol x= \boldsymbol \mu+ \boldsymbol L\boldsymbol y\sim N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>. This location-scale transformation generates the multivariate normal distribution from the multivariate standard normal distribution.</p>
+<p>Note that under the location-scale transformation <span class="math inline">\(\boldsymbol x= \boldsymbol \mu+ \boldsymbol L\boldsymbol y\)</span> with <span class="math inline">\(\operatorname{Var}(\boldsymbol y)=\boldsymbol I\)</span> we get <span class="math inline">\(\operatorname{Cov}(\boldsymbol x, \boldsymbol y) = \boldsymbol L\)</span>. This provides a means to choose between different (inverse) whitening transformation and the corresponding factorisations of <span class="math inline">\(\boldsymbol \Sigma\)</span> and <span class="math inline">\(\boldsymbol \Sigma^{-1}\)</span>. For example, if positive correlation between corresponding elements in <span class="math inline">\(\boldsymbol x\)</span> and&nbsp;<span class="math inline">\(\boldsymbol y\)</span> is desired then the diagonal elements in <span class="math inline">\(\boldsymbol L\)</span> must be positive.</p>
+</section>
+<section id="convolution-property-1" class="level3">
+<h3 class="anchored" data-anchor-id="convolution-property-1">Convolution property</h3>
+<p>The convolution of <span class="math inline">\(n\)</span> independent, but not necessarily identical, multivariate normal distributions of the same dimension <span class="math inline">\(d\)</span> results in another <span class="math inline">\(d\)</span>-dimensional multivariate normal distribution with corresponding mean and variance: <span class="math display">\[
+\sum_{i=1}^n N(\boldsymbol \mu_i, \boldsymbol \Sigma_i) \sim N\left( \sum_{i=1}^n \boldsymbol \mu_i,  \sum_{i=1}^n \boldsymbol \Sigma_i \right)
+\]</span> Hence, any multivariate normal random variable can be constructed as the sum of <span class="math inline">\(n\)</span> suitable independent multivariate normal random variables.</p>
+<p>Since <span class="math inline">\(n\)</span> is an arbitrary positive integer the multivariate normal distribution is said to be <strong>infinitely divisible</strong>.</p>
+</section>
+</section>
+<section id="sec-wisdist" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-wisdist"><span class="header-section-number">5.4</span> Wishart distribution</h2>
+<p>The Wishart distribution <span class="math inline">\(\operatorname{Wis}\left(\boldsymbol S, k\right)\)</span> is a multivariate generalisation of the gamma distribution <span class="math inline">\(\operatorname{Gam}(\alpha, \theta)\)</span> (<a href="04-univariate.html#sec-gamdist" class="quarto-xref"><span>Section 4.4</span></a>) from one to <span class="math inline">\(d\)</span> dimensions.</p>
+<section id="standard-parametrisation-3" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation-3">Standard parametrisation</h3>
+<p>If the symmetric random matrix <span class="math inline">\(\boldsymbol X\)</span> of dimension <span class="math inline">\(d \times d\)</span> is Wishart distributed we write <span class="math display">\[
+\boldsymbol X\sim  \operatorname{Wis}\left(\boldsymbol S, k\right)
+\]</span> where <span class="math inline">\(\boldsymbol S=(s_{ij})\)</span> is the scale parameter (a symmetric <span class="math inline">\(d \times d\)</span> positive definite matrix with elements <span class="math inline">\(s_{ij}\)</span>). The dimension <span class="math inline">\(d\)</span> is implicit in the scale parameter <span class="math inline">\(\boldsymbol S\)</span>.</p>
+<p>The shape parameter <span class="math inline">\(k\)</span> takes on real values in the range <span class="math inline">\(k &gt; d-1\)</span> and integer values in the range <span class="math inline">\(k \in {1, \ldots, d-1}\)</span> for <span class="math inline">\(d&gt;1\)</span>. For <span class="math inline">\(k&gt;d-1\)</span> the matrix <span class="math inline">\(\boldsymbol X\)</span> is positive definite and invertible (see also <a href="#sec-iwdist" class="quarto-xref"><span>Section 5.5</span></a>), otherwise <span class="math inline">\(\boldsymbol X\)</span> is singular and positive semi-definite.</p>
+<p>The distribution has mean <span class="math display">\[
+\operatorname{E}(\boldsymbol X) = k \boldsymbol S
+\]</span> and variances of the elements of <span class="math inline">\(\boldsymbol X\)</span> are <span class="math display">\[
+\operatorname{Var}(x_{ij})  = k \left(s^2_{ij}+s_{ii} s_{jj}  \right)
+\]</span></p>
+<p>The pdf is (for <span class="math inline">\(k&gt;d-1\)</span>) <span class="math display">\[
+p(\boldsymbol X| \boldsymbol S, k) = \frac{1}{\Gamma_d(k/2) \det(2 \boldsymbol S)^{k/2}} \det(\boldsymbol X)^{(k-d-1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol S^{-1}\boldsymbol X)/2\right)
+\]</span> This pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>Part of the normalisation factor in the density is the <strong>multivariate gamma function</strong> <span class="math display">\[
+\Gamma_d(x) = \pi^{d (d-1)/4} \prod_{j=1}^d  \Gamma(x - (j-1)/2)
+\]</span> For <span class="math inline">\(d=1\)</span> it reduces to the standard gamma function. The multivariate gamma function also occurs in densities of other matrix-variate distributions.</p>
+<p>If <span class="math inline">\(\boldsymbol S\)</span> is a scalar rather than a matrix (and hence <span class="math inline">\(d=1\)</span>) then the multivariate Wishart distribution reduces to the univariate Wishart aka gamma distribution (<a href="04-univariate.html#sec-gamdist" class="quarto-xref"><span>Section 4.4</span></a>).</p>
+<p>The Wishart distribution is closely related to the multivariate normal distribution with mean zero. Specifically, if <span class="math inline">\(\boldsymbol z\sim N(\mathbf 0, \boldsymbol S)\)</span> then <span class="math inline">\(\boldsymbol z\boldsymbol z^T \sim  \operatorname{Wis}(\boldsymbol S, 1)\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>mniw</code> package implements the Wishart distribution. The pdf of the Wishart distribution is given by <code>mniw::dwish()</code>. The corresponding random number generator is <code>mniw::rwish()</code>.</p>
+</div>
+</div>
+</section>
+<section id="mean-parametrisation-2" class="level3">
+<h3 class="anchored" data-anchor-id="mean-parametrisation-2">Mean parametrisation</h3>
+<p>It is useful to employ the Wishart distribution in <strong>mean parametrisation</strong> <span class="math display">\[
+\operatorname{Wis}\left(\boldsymbol S= \frac{\boldsymbol M}{k}, k \right)
+\]</span> with parameters <span class="math inline">\(\boldsymbol M= k \boldsymbol S\)</span> and <span class="math inline">\(k\)</span>. In this parametrisation the mean is <span class="math display">\[
+\operatorname{E}(\boldsymbol X) = \boldsymbol M= (\mu_{ij})
+\]</span> and variances of the elements of <span class="math inline">\(\boldsymbol X\)</span> are <span class="math display">\[
+\operatorname{Var}(x_{ij})  = \frac{ \mu^2_{ij}+\mu_{ii}\mu_{jj} }{k}
+\]</span></p>
+</section>
+<section id="special-case-standard-wishart-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-standard-wishart-distribution">Special case: standard Wishart distribution</h3>
+<p>For <span class="math inline">\(\boldsymbol S=\boldsymbol I\)</span> the Wishart distribution reduces to the <strong>standard Wishart distribution</strong> <span class="math display">\[
+\boldsymbol X\sim  \operatorname{Wis}\left(\boldsymbol I, k\right)
+\]</span> with a single shape parameter <span class="math inline">\(k\)</span>. The mean is <span class="math display">\[
+\operatorname{E}(\boldsymbol X) = k \boldsymbol I
+\]</span> and variances of the elements of <span class="math inline">\(\boldsymbol X\)</span> are <span class="math display">\[
+\operatorname{Var}(x_{ij})  = \begin{cases}
+2k &amp; \text{if $i=j$}\\
+k &amp; \text{if $i\neq j$}\\
+\end{cases}
+\]</span> The pdf is (for <span class="math inline">\(k&gt; d-1\)</span>) <span class="math display">\[
+p(\boldsymbol X| k) = \frac{1}{\Gamma_d(k/2) 2^{d k/2}} \det(\boldsymbol X)^{(k-d-1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol X)/2\right)
+\]</span></p>
+<p>The standard Wishart distribution is closely related to the standard multivariate normal distribution with mean zero. Specifically, if <span class="math inline">\(\boldsymbol z\sim N(\mathbf 0, \boldsymbol I)\)</span> then <span class="math inline">\(\boldsymbol z\boldsymbol z^T \sim  \operatorname{Wis}(\boldsymbol I, 1)\)</span>.</p>
+<p>The <strong>Bartlett decomposition</strong> of the standard multivariate Wishart <span class="math inline">\(\operatorname{Wis}(\boldsymbol I, k)\)</span> distribution for any real <span class="math inline">\(k &gt; d-1\)</span> is obtained by Cholesky factorisation of the random matrix <span class="math inline">\(\boldsymbol X= \boldsymbol Z\boldsymbol Z^T\)</span>. By construction <span class="math inline">\(\boldsymbol Z\)</span> is a lower-triangular matrix with positive diagonal elements <span class="math inline">\(z_{ii}\)</span> and lower off-diagonal elements <span class="math inline">\(z_{ij}\)</span> with <span class="math inline">\(i&gt;j\)</span> and <span class="math inline">\(i,j \in \{1, \ldots, d\}\)</span>. The corresponding upper off-diagonal elements are set to zero (<span class="math inline">\(z_{ji}=0\)</span>).</p>
+<p>The <span class="math inline">\(d(d+1)/2\)</span> elements of <span class="math inline">\(\boldsymbol Z\)</span> are independent and allow to generate a standard Wishart variate as follows:</p>
+<ol type="1">
+<li>the <em>squared</em> diagonal elements follow a univariate standard Wishart distribution <span class="math inline">\(z_{ii}^2 \sim \operatorname{Wis}(1, k-i+1)\)</span> and</li>
+<li>the off-diagonal elements follow the univariate standard normal distribution <span class="math inline">\(z_{ij}\sim N(0,1)\)</span>.</li>
+<li>Then <span class="math inline">\(\boldsymbol X= \boldsymbol Z\boldsymbol Z^T \sim \operatorname{Wis}(\boldsymbol I, k)\)</span>.</li>
+</ol>
+</section>
+<section id="scale-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="scale-transformation">Scale transformation</h3>
+<p>If <span class="math inline">\(\boldsymbol X\sim \operatorname{Wis}(\boldsymbol S, k)\)</span> then the scaled symmetric random matrix <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> is also Wishart distributed with <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T \sim \operatorname{Wis}(\boldsymbol A\boldsymbol S\boldsymbol A^T, k)\)</span> where the matrix <span class="math inline">\(\boldsymbol A\)</span> must be full rank and <span class="math inline">\(\boldsymbol A\boldsymbol S\boldsymbol A^T\)</span> remains positive definite. The matrix <span class="math inline">\(\boldsymbol A\)</span> may be rectangular, hence the size of <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol S\boldsymbol A^T\)</span> may be smaller compared to <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol S\)</span>.</p>
+<p>The transformations between the Wishart distribution and the standard Wishart distribution are two important special cases:</p>
+<ol type="1">
+<li><p>With <span class="math inline">\(\boldsymbol W^T \boldsymbol W= \boldsymbol S^{-1}\)</span> and <span class="math inline">\(\boldsymbol X\sim \operatorname{Wis}(\boldsymbol S, k)\)</span> then <span class="math inline">\(\boldsymbol Y= \boldsymbol W\boldsymbol X\boldsymbol W^T  \sim \operatorname{Wis}(\boldsymbol I, k)\)</span> as <span class="math inline">\(\boldsymbol W\boldsymbol S\boldsymbol W^T=\boldsymbol I\)</span>. This transformation reduces the Wishart distribution to the standard Wishart distribution.</p></li>
+<li><p>Conversely, with <span class="math inline">\(\boldsymbol L\boldsymbol L^T = \boldsymbol S\)</span> and <span class="math inline">\(\boldsymbol Y\sim \operatorname{Wis}(\boldsymbol I, k)\)</span> then <span class="math inline">\(\boldsymbol X= \boldsymbol L\boldsymbol Y\boldsymbol L^T \sim \operatorname{Wis}(\boldsymbol S, k)\)</span> as <span class="math inline">\(\boldsymbol L\boldsymbol I\boldsymbol L^T=\boldsymbol S\)</span>. This transformation generates the Wishart distribution from the standard Wishart distribution.</p></li>
+</ol>
+</section>
+<section id="convolution-property-2" class="level3">
+<h3 class="anchored" data-anchor-id="convolution-property-2">Convolution property</h3>
+<p>The convolution of <span class="math inline">\(n\)</span> Wishart distributions with the same scale parameter <span class="math inline">\(\boldsymbol S\)</span> but possible different shape parameters <span class="math inline">\(k_i\)</span> yields another Wishart distribution: <span class="math display">\[
+\sum_{i=1}^n \operatorname{Wis}(\boldsymbol S, k_i) \sim \operatorname{Wis}\left(\boldsymbol S, \sum_{i=1}^n k_i\right)
+\]</span> Note that the shape parameter <span class="math inline">\(k\)</span> is restricted to be an integer in the range <span class="math inline">\(1, \ldots, d-1\)</span> for <span class="math inline">\(d&gt;1\)</span> but is a real number in the range <span class="math inline">\(k&gt; d-1\)</span>. Thus, if the <span class="math inline">\(k_i\)</span> are all valid shape parameters (for dimension <span class="math inline">\(d\)</span>) then <span class="math inline">\(\sum_{i=1}^n k_i\)</span> is also a valid shape parameter.</p>
+<p>Due the partial restriction of the shape parameter <span class="math inline">\(k\)</span> to integer values the multivariate Wishart distribution is <strong>not infinitely divisible</strong> for <span class="math inline">\(d&gt;1\)</span>.</p>
+<p>The above includes the following construction of the multivariate Wishart distribution <span class="math inline">\(\operatorname{Wis}(S, k)\)</span> for integer-valued <span class="math inline">\(k\)</span>. The sum of <span class="math inline">\(k\)</span> independent Wishart random variables <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, 1)\)</span> with one degree of freedom and identical scale parameter yields a Wishart random variable <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span> with degree of freedom <span class="math inline">\(k\)</span> and the same scale parameter. Thus, if <span class="math inline">\(\boldsymbol z_1,\boldsymbol z_2,\dots,\boldsymbol z_k\sim N(\mathbf 0,\boldsymbol S)\)</span> are <span class="math inline">\(k\)</span> independent samples from <span class="math inline">\(N(\mathbf 0,\boldsymbol S)\)</span> then <span class="math inline">\(\sum_{i_1}^k \boldsymbol z_i \boldsymbol z_i^T \sim  \operatorname{Wis}(\boldsymbol S, k)\)</span>.</p>
+</section>
+</section>
+<section id="sec-iwdist" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-iwdist"><span class="header-section-number">5.5</span> Inverse Wishart distribution</h2>
+<p>The <strong>inverse Wishart distribution</strong> <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> is a multivariate generalisation of the inverse gamma distribution <span class="math inline">\(\operatorname{IG}(\alpha, \beta)\)</span> (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.5</span></a>) from one to <span class="math inline">\(d\)</span> dimensions. It is linked to the Wishart distribution <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span> (<a href="#sec-wisdist" class="quarto-xref"><span>Section 5.4</span></a>).</p>
+<section id="standard-parametrisation-4" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation-4">Standard parametrisation</h3>
+<p>A symmetric positive definite random matrix <span class="math inline">\(\boldsymbol X\)</span> of dimension <span class="math inline">\(d \times d\)</span> following an inverse Wishart distribution is denoted by <span class="math display">\[
+\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi, k\right)
+\]</span> where <span class="math inline">\(\boldsymbol \Psi= (\psi_{ij})\)</span> is the scale parameter (a <span class="math inline">\(d \times d\)</span> positive definite symmetric matrix) and <span class="math inline">\(k&gt; d-1\)</span> is the shape parameter. The dimension <span class="math inline">\(d\)</span> is implicit in the scale parameter <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
+<p>The mean is (for <span class="math inline">\(k &gt; d+1\)</span>) <span class="math display">\[
+\operatorname{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{k-d-1}
+\]</span> and the variances of elements of <span class="math inline">\(\boldsymbol X\)</span> are (for <span class="math inline">\(k &gt; d+3\)</span>) <span class="math display">\[
+\operatorname{Var}(x_{ij})= \frac{ (k-d-1) \, \psi_{ii} \psi_{jj} + (k-d+1)\, \psi_{ij}^2 }{ (k-d)  (k-d-3) (k-d-1)^2  }
+\]</span></p>
+<p>The inverse Wishart distribution <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> has pdf <span class="math display">\[
+p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }{\Gamma_d(k/2) } \det(\boldsymbol X)^{-(k+d+1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol \Psi\boldsymbol X^{-1})/2\right)
+\]</span> As with the Wishart distribution his pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>The inverse Wishart and the Wishart distributions are linked. If <span class="math inline">\(\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> then the inverse of <span class="math inline">\(\boldsymbol X\)</span> is Wishart distributed with inverted scale parameter: <span class="math display">\[
+\boldsymbol X^{-1} \sim \operatorname{Wis}\left( \boldsymbol S= \boldsymbol \Psi^{-1}   \, , k \right)
+\]</span> where <span class="math inline">\(k\)</span> is the shape parameter and <span class="math inline">\(\boldsymbol S\)</span> the scale parameter of the Wishart distribution.</p>
+<p>If <span class="math inline">\(\boldsymbol \Psi\)</span> is a scalar <span class="math inline">\(\psi\)</span> (and <span class="math inline">\(d=1\)</span>) then the multivariate inverse Wishart distribution reduces to the univariate inverse Wishart distribution (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.5</span></a>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>mniw</code> package implements the inverse Wishart distribution. The pdf of the inverse Wishart distribution is given by <code>mniw::diwish()</code>. The corresponding random number generator is <code>mniw::riwish()</code>.</p>
+</div>
+</div>
+</section>
+<section id="mean-parametrisation-3" class="level3">
+<h3 class="anchored" data-anchor-id="mean-parametrisation-3">Mean parametrisation</h3>
+<p>Instead of <span class="math inline">\(\boldsymbol \Psi\)</span> and <span class="math inline">\(k\)</span> we may also equivalently use <span class="math inline">\(\boldsymbol M= \boldsymbol \Psi/(k-d-1)\)</span> and <span class="math inline">\(\kappa = k-d-1\)</span> as parameters for the inverse Wishart distribution, so that <span class="math display">\[
+\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi=  \kappa  \boldsymbol M\, , \, k= \kappa+d+1\right)
+\]</span> with mean (for <span class="math inline">\(\kappa &gt; 0\)</span>) <span class="math display">\[
+\operatorname{E}(\boldsymbol X) =\boldsymbol M
+\]</span> and variances (for <span class="math inline">\(\kappa &gt;2)\)</span> <span class="math display">\[
+\operatorname{Var}(x_{ij})= \frac{\kappa \, \mu_{ii} \mu_{jj} +(\kappa+2) \, \mu_{ij}^2   }{(\kappa + 1)(\kappa-2)}
+\]</span></p>
+<p>For <span class="math inline">\(\boldsymbol M\)</span> equal to scalar <span class="math inline">\(\mu\)</span> with <span class="math inline">\(d=1\)</span> the above reduces to the univariate inverse Wishart distribution in mean parametrisation.</p>
+</section>
+<section id="biased-mean-parametrisation" class="level3">
+<h3 class="anchored" data-anchor-id="biased-mean-parametrisation">Biased mean parametrisation</h3>
+<p>Using <span class="math inline">\(\boldsymbol T= (t_{ij}) = \boldsymbol \Psi/(k-d+1) = \boldsymbol \Psi/\nu\)</span> as biased mean parameter together with <span class="math inline">\(\nu=k-d+1\)</span> we arrive at the <strong>biased mean parametrisation</strong> <span class="math display">\[
+\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi=  \nu \boldsymbol T\, , \, k=\nu+d-1\right)
+\]</span></p>
+<p>The corresponding mean is (for <span class="math inline">\(\nu &gt; 2\)</span>) <span class="math display">\[
+\operatorname{E}(\boldsymbol X) = \frac{\nu}{\nu-2} \boldsymbol T= \boldsymbol M
+\]</span> and the variances of elements of <span class="math inline">\(\boldsymbol X\)</span> are (for <span class="math inline">\(\nu &gt; 4\)</span>) <span class="math display">\[
+\operatorname{Var}(x_{ij})= \left(\frac{\nu}{\nu-2}\right)^2 \, \frac{    (\nu-2) \, t_{ii} t_{jj} + \nu \, t_{ij}^2  }{(\nu-1)(\nu-4)}
+\]</span> As <span class="math inline">\(\boldsymbol T= \boldsymbol M(\nu-2)/\nu\)</span> for large <span class="math inline">\(\nu\)</span> the parameter <span class="math inline">\(\boldsymbol T\)</span> will become identical to the true mean&nbsp;<span class="math inline">\(\boldsymbol M\)</span>.</p>
+<p>For <span class="math inline">\(\boldsymbol T\)</span> equal to scalar <span class="math inline">\(\tau^2\)</span> with <span class="math inline">\(d=1\)</span> the above reduces to the univariate inverse Wishart distribution in biased mean parametrisation.</p>
+</section>
+<section id="scale-transformation-1" class="level3">
+<h3 class="anchored" data-anchor-id="scale-transformation-1">Scale transformation</h3>
+<p>If <span class="math inline">\(\boldsymbol X\sim \operatorname{IW}(\boldsymbol \Psi, k)\)</span> then the scaled symmetric random matrix <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> is also inverse Wishart distributed with <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T \sim \operatorname{IW}(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T, k)\)</span> where the matrix <span class="math inline">\(\boldsymbol A\)</span> has full rank and both <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> remain positive definite. The matrix <span class="math inline">\(\boldsymbol A\)</span> may be rectangular, hence the size of <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> may be smaller compared to <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
+</section>
+</section>
+<section id="sec-mvtdist" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="sec-mvtdist"><span class="header-section-number">5.6</span> Multivariate <span class="math inline">\(t\)</span>-distribution</h2>
+<p>The <strong>multivariate <span class="math inline">\(t\)</span>-distribution</strong> <span class="math inline">\(t_{\nu}(\boldsymbol \mu, \boldsymbol T)\)</span> is a multivariate generalisation of the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> (<a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>) from one to <span class="math inline">\(d\)</span> dimensions. It is a generalisation of the multivariate normal distribution <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol T)\)</span> (<a href="#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a>) with an additional parameter <span class="math inline">\(\nu &gt; 0\)</span> (degrees of freedom) controlling the probability mass in the tails.</p>
+<p>Special cases include the <strong>multivariate standard <span class="math inline">\(t\)</span>-distribution</strong> <span class="math inline">\(t_{\nu}(\mathbf 0, \boldsymbol I)\)</span>, the <strong>multivariate normal distribution</strong> <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol T)\)</span> and the <strong>multivariate Cauchy</strong> distribution <span class="math inline">\(\operatorname{Cau}(\boldsymbol \mu, \boldsymbol T)\)</span>.</p>
+<section id="standard-parametrisation-5" class="level3">
+<h3 class="anchored" data-anchor-id="standard-parametrisation-5">Standard parametrisation</h3>
+<p>If <span class="math inline">\(\boldsymbol x\in \mathbb{R}^d\)</span> is a multivariate <span class="math inline">\(t\)</span>-distributed random variable we write <span class="math display">\[
+\boldsymbol x\sim t_{\nu}(\boldsymbol \mu, \boldsymbol T)
+\]</span> where the vector <span class="math inline">\(\boldsymbol \mu\)</span> is the location parameter (a <span class="math inline">\(d\)</span> dimensional vector) and the dispersion parameter <span class="math inline">\(\boldsymbol T\)</span> is a symmetric positive definite matrix of dimension <span class="math inline">\(d \times d\)</span>. The dimension <span class="math inline">\(d\)</span> is implicit in both parameters. The parameter <span class="math inline">\(\nu &gt; 0\)</span> prescribes the degrees of freedom. For small values of <span class="math inline">\(\nu\)</span> the distribution is heavy-tailed and as a result only moments of order smaller than <span class="math inline">\(\nu\)</span> are finite and defined.</p>
+<p>The mean is (for <span class="math inline">\(\nu&gt;1\)</span>) <span class="math display">\[
+\operatorname{E}(\boldsymbol x) = \boldsymbol \mu
+\]</span> and the variance (for <span class="math inline">\(\nu&gt;2\)</span>) <span class="math display">\[
+\operatorname{Var}(\boldsymbol x) = \frac{\nu}{\nu-2} \boldsymbol T
+\]</span></p>
+<p>The pdf of <span class="math inline">\(t_{\nu}(\boldsymbol \mu, \boldsymbol T)\)</span> is <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol T, \nu) = \det(\boldsymbol T)^{-1/2}
+\frac{\Gamma(\frac{\nu+d}{2})} { (\pi\nu)^{d/2}   \,\Gamma(\frac{\nu}{2})}
+\left(1+ \frac{\Delta^2}{\nu}  \right)^{-(\nu+d)/2}
+\]</span> with <span class="math inline">\(\Delta^2 = (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol T^{-1} (\boldsymbol x-\boldsymbol \mu)\)</span> the squared Mahalanobis distance between <span class="math inline">\(\boldsymbol x\)</span> and&nbsp;<span class="math inline">\(\boldsymbol \mu\)</span>. Note that this pdf is a joint pdf over the <span class="math inline">\(d\)</span> elements <span class="math inline">\(x_1, \ldots, x_d\)</span> of the random vector&nbsp;<span class="math inline">\(\boldsymbol x\)</span>.</p>
+<p>For <span class="math inline">\(d=1\)</span> the random vector <span class="math inline">\(\boldsymbol x=x\)</span> is a scalar, <span class="math inline">\(\boldsymbol \mu= \mu\)</span>, <span class="math inline">\(\boldsymbol T= \tau^2\)</span> and thus the multivariate <span class="math inline">\(t\)</span>-distribution reduces to the location-scale <span class="math inline">\(t\)</span>-distribution (<a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>mnormt</code> package implements the multivariate <span class="math inline">\(t\)</span>-distribution. The function <code>mnormt::dmt()</code> provides the pdf and <code>mnormt::pmt()</code> returns the distribution function. The function <code>mnormt::rmt()</code> is the corresponding random number generator.</p>
+</div>
+</div>
+</section>
+<section id="scale-parametrisation-1" class="level3">
+<h3 class="anchored" data-anchor-id="scale-parametrisation-1">Scale parametrisation</h3>
+<p>The multivariate <span class="math inline">\(t\)</span>-distribution, like the multivariate distribution, can also be represented with a matrix scale parameter <span class="math inline">\(\boldsymbol L\)</span> in place of a matrix dispersion parameter <span class="math inline">\(\boldsymbol T\)</span>.</p>
+<p>Let <span class="math inline">\(\boldsymbol L\)</span> be a matrix scale parameter such that <span class="math inline">\(\boldsymbol L\boldsymbol L^T = \boldsymbol T\)</span> and <span class="math inline">\(\boldsymbol W=\boldsymbol L^{-1}\)</span> be the corresponding inverse matrix scale parameter with <span class="math inline">\(\boldsymbol W^T \boldsymbol W= \boldsymbol T^{-1}\)</span>. By construction <span class="math inline">\(|\det(\boldsymbol W)|=\det(\boldsymbol T)^{-1/2}\)</span> and <span class="math inline">\(|\det(\boldsymbol L)|=\det(\boldsymbol T)^{1/2}\)</span>.</p>
+<p>Note that <span class="math inline">\(\boldsymbol T\)</span> alone does not fully determine <span class="math inline">\(\boldsymbol L\)</span> and <span class="math inline">\(\boldsymbol W\)</span> due to rotational freedom, see the discussion in <a href="#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a> for details.</p>
+</section>
+<section id="special-case-multivariate-standard-t-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-standard-t-distribution">Special case: multivariate standard <span class="math inline">\(t\)</span>-distribution</h3>
+<p>With <span class="math inline">\(\boldsymbol \mu=\mathbf 0\)</span> and <span class="math inline">\(\boldsymbol T=\boldsymbol I\)</span> the multivariate <span class="math inline">\(t\)</span>-distribution reduces to the <strong>multivariate standard <span class="math inline">\(t\)</span>-distribution</strong> <span class="math inline">\(t_{\nu}(\mathbf 0,\boldsymbol I)\)</span>. It is a generalisation of the multivariate standard normal distribution <span class="math inline">\(N(\mathbf 0,\boldsymbol I)\)</span> to allow for heavy tails.</p>
+<p>The distribution has mean <span class="math inline">\(\operatorname{E}(\boldsymbol x)=\mathbf 0\)</span> (for <span class="math inline">\(\nu&gt;1\)</span>) and variance <span class="math inline">\(\operatorname{Var}(\boldsymbol x)=\frac{\nu}{\nu-2}\boldsymbol I\)</span> (for <span class="math inline">\(\nu&gt;2\)</span>).</p>
+<p>The pdf of <span class="math inline">\(t_{\nu}(\mathbf 0,\boldsymbol I)\)</span> is <span class="math display">\[
+p(\boldsymbol x| \nu) =
+\frac{\Gamma(\frac{\nu+d}{2})} { (\pi \nu)^{d/2}   \,\Gamma(\frac{\nu}{2})}
+\left(1+ \frac{  \boldsymbol x^T \boldsymbol x}{\nu}  \right)^{-(\nu+d)/2}
+\]</span> with the squared Mahalanobis distance reducing to <span class="math inline">\(\Delta^2=\boldsymbol x^T \boldsymbol x\)</span>.</p>
+<p>For scalar <span class="math inline">\(x\)</span> (and hence <span class="math inline">\(d=1\)</span>) the multivariate standard <span class="math inline">\(t\)</span>-distribution reduces to the Student’s <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}=t_{\nu}(0,1)\)</span>.</p>
+<p>Unlike the multivariate standard normal distribution, the density of the multivariate standard <span class="math inline">\(t\)</span>-distribution cannot be written as product of corresponding univariate standard densities.</p>
+</section>
+<section id="special-case-multivariate-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-normal-distribution">Special case: multivariate normal distribution</h3>
+<p>For <span class="math inline">\(\nu \rightarrow \infty\)</span> the multivariate <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\boldsymbol \mu, \boldsymbol T)\)</span> reduces to the <strong>multivariate normal distribution</strong> <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol T)\)</span> (<a href="#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a>). Correspondingly, for <span class="math inline">\(\nu \rightarrow \infty\)</span> the multivariate standard <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mathbf 0,\boldsymbol I)\)</span> becomes equal to the <strong>multivariate standard normal distribution</strong> <span class="math inline">\(N(\mathbf 0,\boldsymbol I)\)</span>.</p>
+<p>This can be seen from the corresponding limits of the two factors in the pdf of the multivariate <span class="math inline">\(t\)</span>-distribution that depend on <span class="math inline">\(\nu\)</span>:</p>
+<ol type="1">
+<li><p>Following Sterling’s approximation for large <span class="math inline">\(x\)</span> we can approximate <span class="math inline">\(\log \Gamma(x) \approx (x-1) \log(x-1)\)</span>. For large <span class="math inline">\(\nu\)</span> this implies that <span class="math display">\[\frac{\Gamma((\nu+d)/2)} {(\pi\nu)^{d/2}  \,\Gamma(\nu/2)} \rightarrow  (2\pi)^{-d/2}\]</span></p></li>
+<li><p>For small <span class="math inline">\(x\)</span> we can approximate <span class="math inline">\(\log(1+x) \approx x\)</span>. Thus for large <span class="math inline">\(\nu \gg d\)</span> (and hence small <span class="math inline">\(\Delta^2 / \nu\)</span>) this yields <span class="math inline">\((\nu+d) \log(1+ \Delta^2 / \nu) \rightarrow \Delta^2\)</span> and hence <span class="math inline">\(\left(1+ \Delta^2 / \nu \right)^{-(\nu+d)/2} \rightarrow e^{-\Delta^2/2}\)</span>.</p></li>
+</ol>
+<p>Hence, the pdf of <span class="math inline">\(t_{\infty}(\boldsymbol \mu, \boldsymbol T)\)</span> is the multivariate normal pdf <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol T, \nu=\infty) =
+\det(\boldsymbol T)^{-1/2}
+(2\pi)^{-d/2}
+e^{-\Delta^2/2}
+\]</span></p>
+</section>
+<section id="special-case-multivariate-cauchy-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-cauchy-distribution">Special case: multivariate Cauchy distribution</h3>
+<p>For <span class="math inline">\(\nu=1\)</span> the multivariate <span class="math inline">\(t\)</span>-distribution becomes the <strong>multivariate Cauchy distribution</strong> <span class="math inline">\(\operatorname{Cau}(\boldsymbol \mu, \boldsymbol T)=t_{1}(\boldsymbol \mu, \boldsymbol T)\)</span>.</p>
+<p>Its mean, variance and other higher moments are all undefined.</p>
+<p>It has pdf <span class="math display">\[
+p(\boldsymbol x| \boldsymbol \mu, \boldsymbol T) =
+\det(\boldsymbol T)^{-1/2}
+\Gamma\left(\frac{d+1}{2}\right)
+\left(  \pi (1+ \Delta^2 ) \right)^{-(d+1)/2}
+\]</span></p>
+<p>For scalar <span class="math inline">\(x\)</span> (and hence <span class="math inline">\(d=1\)</span>) the multivariate Cauchy distribution <span class="math inline">\(\operatorname{Cau}(\boldsymbol \mu, \boldsymbol T)\)</span> reduces to the univariate Cauchy distribution <span class="math inline">\(\operatorname{Cau}(\mu, \tau^2)\)</span>.</p>
+</section>
+<section id="special-case-multivariate-standard-cauchy-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-case-multivariate-standard-cauchy-distribution">Special case: multivariate standard Cauchy distribution</h3>
+<p>The <strong>multivariate standard Cauchy distribution</strong> <span class="math inline">\(\operatorname{Cau}(\mathbf 0, \boldsymbol I)=t_{1}(\mathbf 0, \boldsymbol I)\)</span> is obtained by setting <span class="math inline">\(\boldsymbol \mu=\mathbf 0\)</span> and <span class="math inline">\(\boldsymbol T=\boldsymbol I\)</span> in the multivariate Cauchy distribution or, equivalently, by setting <span class="math inline">\(\nu=1\)</span> in the multivariate standard <span class="math inline">\(t\)</span>-distribution.</p>
+<p>It has pdf <span class="math display">\[
+p(\boldsymbol x) =
+\Gamma\left(\frac{d+1}{2}\right)
+\left(  \pi (1+ \boldsymbol x^T \boldsymbol x) \right)^{-(d+1)/2}
+\]</span></p>
+<p>For scalar <span class="math inline">\(x\)</span> (and hence <span class="math inline">\(d=1\)</span>) the multivariate standard Cauchy distribution <span class="math inline">\(\operatorname{Cau}(\mathbf 0, \boldsymbol I)\)</span> reduces to the standard univariate Cauchy distribution <span class="math inline">\(\operatorname{Cau}(0, 1)\)</span>.</p>
+</section>
+<section id="location-scale-transformation-1" class="level3">
+<h3 class="anchored" data-anchor-id="location-scale-transformation-1">Location-scale transformation</h3>
+<p>Let <span class="math inline">\(\boldsymbol L\)</span> be a scale matrix for <span class="math inline">\(\boldsymbol T\)</span> and <span class="math inline">\(\boldsymbol W\)</span> the corresponding inverse scale matrix.</p>
+<p>If <span class="math inline">\(\boldsymbol x\sim  t_{\nu}(\boldsymbol \mu, \boldsymbol T)\)</span> then <span class="math inline">\(\boldsymbol y= \boldsymbol W(\boldsymbol x-\boldsymbol \mu)  \sim t_{\nu}(\mathbf 0, \boldsymbol I)\)</span>. This location-scale transformation reduces a multivariate <span class="math inline">\(t\)</span>-distributed random variable to a standard multivariate <span class="math inline">\(t\)</span>-distributed random variable.</p>
+<p>Conversely, if <span class="math inline">\(\boldsymbol y\sim t_{\nu}(\mathbf 0, \boldsymbol I)\)</span> then <span class="math inline">\(\boldsymbol x= \boldsymbol \mu+ \boldsymbol L\boldsymbol y\sim t_{\nu}(\boldsymbol \mu, \boldsymbol T)\)</span>. This location-scale transformation generates the multivariate <span class="math inline">\(t\)</span>-distribution from the multivariate standard <span class="math inline">\(t\)</span>-distribution.</p>
+<p>Note that for <span class="math inline">\(\nu &gt; 2\)</span> under the location-scale transformation <span class="math inline">\(\boldsymbol x= \boldsymbol \mu+ \boldsymbol L\boldsymbol y\)</span> with <span class="math inline">\(\operatorname{Var}(\boldsymbol y)=\nu/(\nu-2) \boldsymbol I\)</span> we get <span class="math inline">\(\operatorname{Cov}(\boldsymbol x, \boldsymbol y) = \nu/(\nu-2)\boldsymbol L\)</span>. This provides a means to choose between different factorisations of <span class="math inline">\(\boldsymbol T\)</span> and <span class="math inline">\(\boldsymbol T^{-1}\)</span>. For example, if positive correlation between corresponding elements in <span class="math inline">\(\boldsymbol x\)</span> and&nbsp;<span class="math inline">\(\boldsymbol y\)</span> is desired then the diagonal elements in <span class="math inline">\(\boldsymbol L\)</span> must be positive.</p>
+<p>For the special case of the multivariate Cauchy distribution (corresponding to <span class="math inline">\(\nu=1\)</span>) similar relations hold between it and the multivariate standard Cauchy distribution. If <span class="math inline">\(\boldsymbol x\sim  \operatorname{Cau}(\boldsymbol \mu, \boldsymbol T)\)</span> then <span class="math inline">\(\boldsymbol y= \boldsymbol W(\boldsymbol x-\boldsymbol \mu)  \sim \operatorname{Cau}(\mathbf 0, \boldsymbol I)\)</span>. Conversely, if <span class="math inline">\(\boldsymbol y\sim \operatorname{Cau}(\mathbf 0, \boldsymbol I)\)</span> then <span class="math inline">\(\boldsymbol x= \boldsymbol \mu+ \boldsymbol L\boldsymbol y\sim \operatorname{Cau}(\boldsymbol \mu, \boldsymbol T)\)</span>.</p>
+</section>
+<section id="convolution-property-3" class="level3">
+<h3 class="anchored" data-anchor-id="convolution-property-3">Convolution property</h3>
+<p>The multivariate <span class="math inline">\(t\)</span>-distribution is not generally closed under convolution, with the exception of two special cases, the multivariate normal distribution (<span class="math inline">\(\nu=\infty\)</span>), see <a href="#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a>, and the multivariate Cauchy distribution (<span class="math inline">\(\nu=1\)</span>) with the additional restriction that the dispersion parameters are proportional.</p>
+<p>For the Cauchy distribution with <span class="math inline">\(\boldsymbol T_i= a_i^2 \boldsymbol T\)</span>, where <span class="math inline">\(a_i&gt;0\)</span> are positive scalars, <span class="math display">\[
+\sum_{i=1}^n  \operatorname{Cau}(\boldsymbol \mu_i, a_i^2 \boldsymbol T)  \sim
+  \operatorname{Cau}\left( \sum_{i=1}^n \boldsymbol \mu_i, \left(\sum_{i=1}^n a_i\right)^2  \boldsymbol T\right)
+\]</span></p>
+</section>
+<section id="multivariate-t-distribution-as-compound-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-t-distribution-as-compound-distribution">Multivariate <span class="math inline">\(t\)</span>-distribution as compound distribution</h3>
+<p>The multivariate <span class="math inline">\(t\)</span>-distribution can be obtained as mixture of multivariate normal distributions with identical mean and varying covariance matrix. Specifically, let <span class="math inline">\(z\)</span> be a univariate inverse Wishart random variable <span class="math display">\[
+z \sim  \operatorname{IW}(\psi=\nu, k=\nu) =
+        \operatorname{IG}\left(\alpha=\frac{\nu}{2}, \beta=\frac{\nu}{2}\right)
+\]</span> and let <span class="math inline">\(\boldsymbol x| z\)</span> be multivariate normal <span class="math display">\[
+\boldsymbol x| z \sim N(\boldsymbol \mu,\boldsymbol \Sigma= z \boldsymbol T)
+\]</span> The resulting marginal (scale mixture) distribution for <span class="math inline">\(\boldsymbol x\)</span> is the multivariate <span class="math inline">\(t\)</span>-distribution <span class="math display">\[
+\boldsymbol x\sim t_{\nu}\left(\boldsymbol \mu, \boldsymbol T\right)
+\]</span></p>
+<p>An alternative way to arrive at <span class="math inline">\(t_{\nu}\left(\boldsymbol \mu, \boldsymbol T\right)\)</span> is to include <span class="math inline">\(\boldsymbol T\)</span> as parameter in the inverse Wishart distribution <span class="math display">\[
+\boldsymbol Z\sim \operatorname{IW}(\boldsymbol \Psi=\nu \boldsymbol T, k=\nu+d-1)
+\]</span> and let <span class="math display">\[
+\boldsymbol x| \boldsymbol Z\sim N(\boldsymbol \mu,\boldsymbol \Sigma= \boldsymbol Z)
+\]</span> Note that <span class="math inline">\(\boldsymbol T\)</span> is now the biased mean parameter of the multivariate inverse Wishart distribution. This characterisation is useful in Bayesian analysis.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/probability-distribution-refresher\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-univariate.html" class="pagination-link" aria-label="Univariate distributions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-expfam.html" class="pagination-link" aria-label="Exponential families">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exponential families</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
