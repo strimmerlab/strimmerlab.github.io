@@ -219,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -601,16 +601,16 @@ D_{\text{KL}}(P_1,P_2) &amp;= H(P_1, P_2) - H(P_1) \\
 </div>
 <div id="exm-boltzmannuniform" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.8</strong></span> Boltzmann entropy reduces to entropy:</p>
-<p>The mean log-loss <span class="math inline">\(H(Q, U)\)</span> for true model <span class="math inline">\(Q\)</span> and a uniform distribution <span class="math inline">\(U\)</span> with constant pdmf is <span class="math display">\[
+<p>The mean log-loss <span class="math inline">\(H(Q, U)\)</span> for a true model <span class="math inline">\(Q\)</span> and the uniform distribution <span class="math inline">\(U\)</span> (with constant pdmf) is <span class="math display">\[
 H(Q, U) = \text{const.}
 \]</span> and does not depend on <span class="math inline">\(Q\)</span>.</p>
-<p>The Boltzmann entropy of <span class="math inline">\(Q\)</span> relative to a uniform distribution <span class="math inline">\(U\)</span> is therefore <span class="math display">\[
+<p>The Boltzmann entropy of <span class="math inline">\(Q\)</span> relative to <span class="math inline">\(U\)</span> is therefore <span class="math display">\[
 B(Q, U) = H(Q) + \text{const.}
-\]</span> Thus, up to a constant Boltzmann entropy is equal to the entropy of <span class="math inline">\(Q\)</span>, and crucially, both quantities share the same sign (and hence orientation).</p>
+\]</span> Thus, the Boltzmann entropy of <span class="math inline">\(Q\)</span> relative to the uniform distribution <span class="math inline">\(U\)</span> is, up to a constant, equal to the entropy of <span class="math inline">\(Q\)</span>. Crucially, both quantities share the same sign and orientation.</p>
 </div>
 <div id="exm-empiricalcatkl" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4.9</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Boltzmann entropy as log-probability:</p>
-<p>Assume <span class="math inline">\(\hat{Q}\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(D = \{n_1, \ldots, n_K\}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>) and <span class="math inline">\(P\)</span> is a second categorical distribution.</p>
+<p>Assume <span class="math inline">\(\hat{Q}=\operatorname{Cat}(\hat{\boldsymbol q})\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(D = \{n_1, \ldots, n_K\}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>) and <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> is a second categorical distribution.</p>
 <p>The Boltzmann entropy is then <span class="math display">\[
 \begin{split}
 B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
@@ -618,10 +618,10 @@ B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
 &amp; = H(\hat{Q})  +   \frac{1}{n} \sum_{k=1}^K n_k  \log p_k  \\
 \end{split}
 \]</span></p>
-<p>For large <span class="math inline">\(n\)</span> we may use the multinomial coefficient <span class="math inline">\(W = \binom{n}{n_1, \ldots, n_K}\)</span> to obtain the entropy of <span class="math inline">\(\hat{Q}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>). This results in <span class="math display">\[
+<p>For large <span class="math inline">\(n\)</span> we may use the multinomial coefficient <span class="math inline">\(W_K = \binom{n}{n_1, \ldots, n_K}\)</span> to obtain the entropy of <span class="math inline">\(\hat{Q}\)</span> (see <a href="03-entropy1.html#exm-entropymultinomial" class="quarto-xref">Example&nbsp;<span>3.12</span></a>). This results in <span class="math display">\[
 \begin{split}
-B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{k=1}^K n_k \log p_k   \right)\\
-&amp; = \frac{1}{n} \log \left( W \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
+B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W_K  + \sum_{k=1}^K n_k \log p_k   \right)\\
+&amp; = \frac{1}{n} \log \left( W_K \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
 &amp; = \frac{1}{n} \log  \operatorname{Pr}(D| \,\boldsymbol p) \\
 \end{split}
 \]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(D\)</span> under the model <span class="math inline">\(P\)</span>. Note the Boltzmann entropy is essentially the multinomial log-likelihood.</p>
@@ -636,7 +636,7 @@ B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W  + \sum_{k=1}^K n_k \log p_
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The concept of relative entropy and the insight that entropy is log- probability (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>) is due to Boltzmann, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a historical account.</p>
+<p>The concept of relative entropy and the insight that entropy is log-probability (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>) is due to Boltzmann, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a historical account.</p>
 <p>In statistics KL divergence was formally introduced by <span class="citation" data-cites="KullbackLeibler1951">Kullback and Leibler (<a href="bibliography.html#ref-KullbackLeibler1951" role="doc-biblioref">1951</a>)</span>, even though <span class="citation" data-cites="Good1979">Good (<a href="bibliography.html#ref-Good1979" role="doc-biblioref">1979</a>)</span> credits Turing with an earlier application in 1940/1941 in the field of cryptography.</p>
 <p><span class="citation" data-cites="DawidMusio2014">Dawid and Musio (<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">2014</a>)</span> review entropy and divergence associated with general proper scoring rules.</p>
 </div>

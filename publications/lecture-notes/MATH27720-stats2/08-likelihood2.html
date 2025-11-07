@@ -199,7 +199,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -586,42 +586,42 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 </div>
 <div id="exm-catmle" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.7</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum likelihood estimation of the parameters of the categorical distribution:</p>
-<p>Maximum likelihood estimation of the parameters of <span class="math inline">\(\operatorname{Cat}(\boldsymbol \pi)\)</span> at first seems a trivial extension of the Bernoulli model (cf. <a href="#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) but this a bit more complicated because of the constraint on the allowed values of <span class="math inline">\(\boldsymbol \pi\)</span> so there are only <span class="math inline">\(K-1\)</span> free parameters and not <span class="math inline">\(K\)</span>. Hence we either need to optimise with regard to a specific set of <span class="math inline">\(K-1\)</span> parameters (which is what we do below) or use a constrained optimisation procedure to enforce that <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> (e.g using Lagrange multipliers).</p>
+<p>Maximum likelihood estimation of the parameters of <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> at first seems a trivial extension of the Bernoulli model (cf. <a href="#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) but this a bit more complicated because of the constraint on the allowed values of <span class="math inline">\(\boldsymbol \theta\)</span> so there are only <span class="math inline">\(K-1\)</span> free parameters and not <span class="math inline">\(K\)</span>. Hence we either need to optimise with regard to a specific set of <span class="math inline">\(K-1\)</span> parameters (which is what we do below) or use a constrained optimisation procedure to enforce that <span class="math inline">\(\sum_{k=1}^K \theta_k = 1\)</span> (e.g using Lagrange multipliers).</p>
 <ul>
 <li><p>The data: We observe <span class="math inline">\(n\)</span> samples <span class="math inline">\(\boldsymbol x_1, \ldots, \boldsymbol x_n\)</span>. The data matrix of dimension <span class="math inline">\(n \times K\)</span> is <span class="math inline">\(\boldsymbol X= (\boldsymbol x_1, \ldots, \boldsymbol x_n)^T = (x_{ik})\)</span>. It contains each <span class="math inline">\(\boldsymbol x_i = (x_{i1}, \ldots, x_{iK})^T\)</span>. The corresponding summary (minimal sufficient) statistics are <span class="math inline">\(\boldsymbol t(D) = \bar{\boldsymbol x} = \frac{1}{n} \sum_{i=1}^n \boldsymbol x_i = (\bar{x}_1, \ldots, \bar{x}_K)^T\)</span> with <span class="math inline">\(\bar{x}_k = \frac{1}{n} \sum_{i=1}^n x_{ik}\)</span>. We can also write <span class="math inline">\(\bar{x}_{K} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k}\)</span>. The number of samples for class <span class="math inline">\(k\)</span> is <span class="math inline">\(n_k = n \bar{x}_k\)</span> with <span class="math inline">\(\sum_{k=1}^K n_k = n\)</span>.</p></li>
 <li><p>The log-likelihood is <span class="math display">\[
 \begin{split}
-\ell_n(\pi_1, \ldots, \pi_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
-&amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \right)\\
-&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \left(
-1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \pi_k\right) \right) \\
-&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \pi_k    + \bar{x}_K \log \pi_K \right) \\  
+\ell_n(\theta_1, \ldots, \theta_{K-1}) &amp; = \sum_{i=1}^n \log f(\boldsymbol x_i) \\
+&amp; =\sum_{i=1}^n \left( \sum_{k=1}^{K-1}  x_{ik} \log \theta_k    + \left( 1 - \sum_{k=1}^{K-1} x_{ik}  \right) \log \left( 1 - \sum_{k=1}^{K-1} \theta_k \right) \right)\\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \theta_k    + \left(
+1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right) \log\left(1 - \sum_{k=1}^{K-1} \theta_k\right) \right) \\
+&amp; = n \left(  \sum_{k=1}^{K-1}  \bar{x}_k \log \theta_k    + \bar{x}_K \log \theta_K \right) \\  
 \end{split}
 \]</span></p></li>
 <li><p>Score function (gradient) <span class="math display">\[
 \begin{split}
-\boldsymbol S_n(\pi_1, \ldots, \pi_{K-1}) &amp;=  \nabla \ell_n(\pi_1, \ldots, \pi_{K-1} ) \\
+\boldsymbol S_n(\theta_1, \ldots, \theta_{K-1}) &amp;=  \nabla \ell_n(\theta_1, \ldots, \theta_{K-1} ) \\
 &amp; =
 \begin{pmatrix}
-\frac{\partial}{\partial \pi_1} \ell_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\frac{\partial}{\partial \theta_1} \ell_n(\theta_1, \ldots, \theta_{K-1} )  \\
 \vdots\\
-\frac{\partial}{\partial \pi_{K-1}} \ell_n(\pi_1, \ldots, \pi_{K-1} )  \\
+\frac{\partial}{\partial \theta_{K-1}} \ell_n(\theta_1, \ldots, \theta_{K-1} )  \\
 \end{pmatrix}\\
 &amp; = n
 \begin{pmatrix}
-\frac{\bar{x}_1}{\pi_1}-\frac{\bar{x}_K}{\pi_K}  \\
+\frac{\bar{x}_1}{\theta_1}-\frac{\bar{x}_K}{\theta_K}  \\
 \vdots\\
-\frac{\bar{x}_{K-1}}{\pi_{K-1}}-\frac{\bar{x}_K}{\pi_K}  \\
+\frac{\bar{x}_{K-1}}{\theta_{K-1}}-\frac{\bar{x}_K}{\theta_K}  \\
 \end{pmatrix}\\
 \end{split}
-\]</span> Note in particular the need for the second term that arises because <span class="math inline">\(\pi_K\)</span> depends on all the <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>.</p></li>
-<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(\boldsymbol S_n(\hat{\pi}_1^{ML}, \ldots, \hat{\pi}_{K-1}^{ML})=0\)</span> yields <span class="math inline">\(K-1\)</span> equations <span class="math display">\[
-\bar{x}_i \left(1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML}\right)  = \hat{\pi}_i^{ML} \left(
+\]</span> Note in particular the need for the second term that arises because <span class="math inline">\(\theta_K\)</span> depends on all the <span class="math inline">\(\theta_1, \ldots, \theta_{K-1}\)</span>.</p></li>
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(\boldsymbol S_n(\hat{\theta}_1^{ML}, \ldots, \hat{\theta}_{K-1}^{ML})=0\)</span> yields <span class="math inline">\(K-1\)</span> equations <span class="math display">\[
+\bar{x}_i \left(1 - \sum_{k=1}^{K-1} \hat{\theta}_k^{ML}\right)  = \hat{\theta}_i^{ML} \left(
 1 - \sum_{k=1}^{K-1} \bar{x}_{k} \right)
 \]</span> for <span class="math inline">\(i=1, \ldots, K-1\)</span> and with solution <span class="math display">\[
-\hat{\pi}_i^{ML} = \bar{x}_i
+\hat{\theta}_i^{ML} = \bar{x}_i
 \]</span> It also follows that <span class="math display">\[
-\hat{\pi}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\pi}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
+\hat{\theta}_K^{ML} = 1 - \sum_{k=1}^{K-1} \hat{\theta}_k^{ML} = 1 - \sum_{k=1}^{K-1} \bar{x}_{k} = \bar{x}_K
 \]</span> The maximum likelihood estimator is therefore the frequency of the occurrence of a class among the <span class="math inline">\(n\)</span> samples.</p></li>
 <li><p>To confirm that we actually have a maximum we need to verify that the eigenvalues of the Hessian matrix at the optimum are all negative. This is indeed the case, for details see <a href="09-likelihood3.html#exm-obsfishercat" class="quarto-xref">Example&nbsp;<span>9.5</span></a>.</p></li>
 </ul>

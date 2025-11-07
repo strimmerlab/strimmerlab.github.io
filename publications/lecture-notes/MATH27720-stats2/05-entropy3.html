@@ -219,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -433,7 +433,7 @@ D_{\text{KL}}(P(\boldsymbol \theta+\boldsymbol \varepsilon), P(\boldsymbol \thet
 <section id="parameter-identifiability" class="level3">
 <h3 class="anchored" data-anchor-id="parameter-identifiability">Parameter identifiability</h3>
 <p>For a <strong>regular model</strong> the Fisher information is <strong>positive definite</strong> (with only positive eigenvalues) and hence <strong>parameters are locally identifiable</strong>. Recall that a positive definite Hessian implies that <span class="math inline">\(h(\boldsymbol \theta+ \boldsymbol \varepsilon)\)</span> has a true minimum at&nbsp;<span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-<p>Conversely, for a <strong>singular statistical model</strong> the Fisher information matrix is <strong>singular</strong> (some or all of its eigenvalues vanish) at some parameter values. This indicates <strong>local non-identifiability</strong> arising, e.g., from overparametrisation, latent structure, boundary conditions or other regularity failures.</p>
+<p>Conversely, for a <strong>singular statistical model</strong> the Fisher information matrix is <strong>singular</strong> (some or all of its eigenvalues vanish) at some parameter values. This indicates <strong>local non-identifiability</strong> arising, e.g., from overparametrisation, parameters linked by exact constraints, lower dimensional latent structure, parameters on boundaries or other regularity failures.</p>
 </section>
 <section id="sec-additivityfisher" class="level3">
 <h3 class="anchored" data-anchor-id="sec-additivityfisher">Additivity of Fisher information</h3>
@@ -443,7 +443,7 @@ D_{\text{KL}}(P(\boldsymbol \theta+\boldsymbol \varepsilon), P(\boldsymbol \thet
 \boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta) &amp;= -\operatorname{E}_{P(\boldsymbol \theta)} \nabla \nabla^T  \sum_{i}^n \log p(x_i| \boldsymbol \theta)\\
 &amp;= \sum_{i=1}^n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) =n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \\
 \end{split}
-\]</span> Hence, the Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables is the <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
+\]</span> Hence, the Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables equals <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
 </section>
 <section id="invariance-property-of-fisher-information" class="level3">
 <h3 class="anchored" data-anchor-id="invariance-property-of-fisher-information">Invariance property of Fisher information</h3>
@@ -545,37 +545,37 @@ D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\
 </div>
 <div id="exm-exfishercat" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.5</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Fisher information of the categorical distribution:</p>
-<p>The log-pmf function for the categorical distribution <span class="math inline">\(\operatorname{Cat}(\boldsymbol \pi)\)</span> with <span class="math inline">\(K\)</span> classes and <span class="math inline">\(K-1\)</span> free parameters <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span> is <span class="math display">\[
+<p>The log-pmf function for the categorical distribution <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span> with <span class="math inline">\(K\)</span> classes and <span class="math inline">\(K-1\)</span> free parameters <span class="math inline">\(\theta_1, \ldots, \theta_{K-1}\)</span> is <span class="math display">\[
 \begin{split}
-\log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1}  ) &amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + x_K \log \pi_K \\
-&amp; =\sum_{k=1}^{K-1}  x_k \log \pi_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \pi_k \right) \\
+\log p(\boldsymbol x| \theta_1, \ldots, \theta_{K-1}  ) &amp; =\sum_{k=1}^{K-1}  x_k \log \theta_k    + x_K \log \theta_K \\
+&amp; =\sum_{k=1}^{K-1}  x_k \log \theta_k    + \left( 1 - \sum_{k=1}^{K-1} x_k  \right) \log \left( 1 - \sum_{k=1}^{K-1} \theta_k \right) \\
 \end{split}
 \]</span></p>
-<p>From the log-pmf we compute the Hessian matrix of second order partial derivatives <span class="math inline">\(\nabla \nabla^T \log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1} )\)</span> with regard to <span class="math inline">\(\pi_1, \ldots, \pi_{K-1}\)</span>:</p>
+<p>From the log-pmf we compute the Hessian matrix of second order partial derivatives <span class="math inline">\(\nabla \nabla^T \log p(\boldsymbol x| \theta_1, \ldots, \theta_{K-1} )\)</span> with regard to <span class="math inline">\(\theta_1, \ldots, \theta_{K-1}\)</span>:</p>
 <ul>
 <li><p>The diagonal entries of the Hessian matrix (with <span class="math inline">\(i=1, \ldots, K-1\)</span>) are <span class="math display">\[
-\frac{\partial^2}{\partial \pi_i^2} \log p(\boldsymbol x|\pi_1, \ldots, \pi_{K-1}) =
--\frac{x_i}{\pi_i^2}-\frac{x_K}{\pi_K^2}
+\frac{\partial^2}{\partial \theta_i^2} \log p(\boldsymbol x|\theta_1, \ldots, \theta_{K-1}) =
+-\frac{x_i}{\theta_i^2}-\frac{x_K}{\theta_K^2}
 \]</span></p></li>
 <li><p>the off-diagonal entries are (with <span class="math inline">\(j=1, \ldots, K-1\)</span> and <span class="math inline">\(j \neq i\)</span>) <span class="math display">\[
-\frac{\partial^2}{\partial \pi_i \partial \pi_j} \log p(\boldsymbol x|\pi_1, \ldots, \pi_{K-1}) =
--\frac{ x_K}{\pi_K^2}
+\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log p(\boldsymbol x|\theta_1, \ldots, \theta_{K-1}) =
+-\frac{ x_K}{\theta_K^2}
 \]</span></p></li>
 </ul>
-<p>Recalling that <span class="math inline">\(\operatorname{E}(x_i) = \pi_i\)</span> we obtain the Fisher information matrix for a categorical distribution as <span class="math inline">\(K-1  \times K-1\)</span> dimensional matrix <span class="math display">\[
+<p>Recalling that <span class="math inline">\(\operatorname{E}(x_i) = \theta_i\)</span> we obtain the Fisher information matrix for a categorical distribution as <span class="math inline">\(K-1  \times K-1\)</span> dimensional matrix <span class="math display">\[
 \begin{split}
-\boldsymbol I^{\text{Fisher}}\left( \pi_1, \ldots, \pi_{K-1}  \right) &amp;=
--\operatorname{E}\left( \nabla \nabla^T \log p(\boldsymbol x| \pi_1, \ldots, \pi_{K-1}) \right) \\
+\boldsymbol I^{\text{Fisher}}\left( \theta_1, \ldots, \theta_{K-1}  \right) &amp;=
+-\operatorname{E}\left( \nabla \nabla^T \log p(\boldsymbol x| \theta_1, \ldots, \theta_{K-1}) \right) \\
 &amp; =
 \begin{pmatrix}
-\frac{1}{\pi_1} + \frac{1}{\pi_K} &amp; \cdots &amp; \frac{1}{\pi_K} \\
+\frac{1}{\theta_1} + \frac{1}{\theta_K} &amp; \cdots &amp; \frac{1}{\theta_K} \\
 \vdots &amp; \ddots &amp; \vdots \\
-\frac{1}{\pi_K} &amp; \cdots &amp; \frac{1}{\pi_{K-1}} + \frac{1}{\pi_K} \\
+\frac{1}{\theta_K} &amp; \cdots &amp; \frac{1}{\theta_{K-1}} + \frac{1}{\theta_K} \\
 \end{pmatrix}\\
-&amp; = \operatorname{Diag}\left( \frac{1}{\pi_1} , \ldots,  \frac{1}{\pi_{K-1}}   \right) + \frac{1}{\pi_K} \mathbf 1\\
+&amp; = \operatorname{Diag}\left( \frac{1}{\theta_1} , \ldots,  \frac{1}{\theta_{K-1}}   \right) + \frac{1}{\theta_K} \mathbf 1\\
 \end{split}
 \]</span></p>
-<p>For <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\pi_1=\theta\)</span> this reduces to the Fisher information of the Bernoulli distribution, see <a href="#exm-exfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a>. <span class="math display">\[
+<p>For <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\theta_1=\theta\)</span> this reduces to the Fisher information of the Bernoulli distribution, see <a href="#exm-exfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a>, with <span class="math display">\[
 \begin{split}
 I^{\text{Fisher}}(\theta) &amp; =  \left(\frac{1}{\theta} + \frac{1}{1-\theta} \right) \\
   &amp;= \frac{1}{\theta (1-\theta)} \\
@@ -606,6 +606,21 @@ D_{\text{KL}}(\operatorname{Cat}(\boldsymbol p+\boldsymbol \varepsilon), \operat
 \end{split}
 \]</span> Note that in both approximations we divide by the probabilities of the distribution that is kept fixed.</p>
 <p>In the above we encounter the <em>Pearson <span class="math inline">\(\chi^2\)</span> divergence</em> and the <em>Neyman <span class="math inline">\(\chi^2\)</span> divergence</em>. Both are, like the KL divergence, part of the family of <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>. The Neyman <span class="math inline">\(\chi^2\)</span> divergence is also known as the reverse Pearson divergence as <span class="math inline">\(D_{\text{Neyman}}(Q, P) = D_{\text{Pearson}}(P, Q)\)</span>.</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A bit of history
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Fisher information matrix was originally introduced by <a href="https://en.wikipedia.org/wiki/Ronald_Fisher">Ronald Aylmer Fisher (1890–1962)</a> in the 1920s to measure the precision of an estimator.</p>
+<p><a href="https://en.wikipedia.org/wiki/C._R._Rao">Calyampudi Radhakrishna Rao (1920–2023)</a> showed in 1945 that the Fisher information matrix defines a local metric tensor on the parameter space and established its interpretation as a local sensitivity measure.</p>
+<p>This insight later helped lead to the development of information geometry and to the study of singular or non-regular models in statistics.</p>
+</div>
 </div>
 
 
@@ -910,8 +925,8 @@ Dawid, A. P., and M. Musio. 2014. <span>“Theory and Applications of Proper Sco
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-entropy4.html" class="pagination-link" aria-label="Principle of maximum entropy">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./06-entropy4.html" class="pagination-link" aria-label="Maximum entropy">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum entropy</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -219,7 +219,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-entropy4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principle of maximum entropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Maximum entropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -575,23 +575,23 @@ H( P_y ) &amp;=  \int_0^{a^2} 1/\left(2 a \sqrt{y}\right) \, \log \left(2 a \sqr
 <section id="models-with-multiple-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="models-with-multiple-parameters">Models with multiple parameters</h3>
 <div id="exm-entropycategorical" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.8</strong></span> Entropy of the categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories:</p>
-<p>Assuming class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> the Shannon-Gibbs entropy is <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.8</strong></span> Entropy of the categorical distribution:</p>
+<p>For <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> with class probabilities <span class="math inline">\(\boldsymbol p=(p_1, \ldots, p_K)^K\)</span> the Shannon-Gibbs entropy of <span class="math inline">\(P\)</span> is <span class="math display">\[
 H(P) = - \sum_{k=1}^{K } p_k \log p_k
 \]</span> The maximum entropy (<span class="math inline">\(\log K\)</span>) is achieved for the discrete uniform distribution (<a href="#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.9</span></a>) and the minimum entropy (<span class="math inline">\(0\)</span>) for a concentrated categorical distribution (<a href="#exm-entropyconcentrated" class="quarto-xref">Example&nbsp;<span>3.10</span></a>). Hence for a categorical distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(K\)</span> categories we have <span class="math display">\[
 0 \leq  H(P) \leq \log K
 \]</span></p>
 </div>
 <div id="exm-entropydiscunif" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy of the discrete uniform distribution <span class="math inline">\(U_K\)</span>:</p>
-<p>Let <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 3.9</strong></span> Entropy of the discrete uniform distribution:</p>
+<p>The discrete uniform distribution is <span class="math inline">\(U_K=\operatorname{Cat}(\boldsymbol p=\mathbf 1_K/K)\)</span> so that <span class="math inline">\(p_1=p_2= \ldots = p_K = \frac{1}{K}\)</span>. Then <span class="math display">\[
 H(U_K) = - \sum_{k=1}^{K}  \frac{1}{K}  \log\left(\frac{1}{K}\right) = \log K
 \]</span></p>
 <p>Note that <span class="math inline">\(\log K\)</span> is the largest value the Shannon-Gibbs entropy can assume with <span class="math inline">\(K\)</span> classes (cf. <a href="06-entropy4.html#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.1</span></a>) and indicates maximum spread of probability mass.</p>
 </div>
 <div id="exm-entropyconcentrated" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.10</strong></span> Entropy of a categorical distribution with concentrated probability mass:</p>
-<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log 0=0\)</span> we obtain for the Shannon-Gibbs entropy <span class="math display">\[
+<p>Let <span class="math inline">\(p_1=1\)</span> and <span class="math inline">\(p_2=p_3=\ldots=p_K=0\)</span>. Using <span class="math inline">\(0\times\log 0=0\)</span> we obtain for the Shannon-Gibbs entropy of <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> <span class="math display">\[
 H(P) = 1 \times \log 1  + 0 \times \log 0 + \dots = 0
 \]</span></p>
 <p>Note that zero is the smallest value that Shannon-Gibbs entropy can assume and that it corresponds to maximum concentration of probability mass.</p>
@@ -608,18 +608,21 @@ H(P) &amp; = -\operatorname{E}\left( \log p(x |\mu, \sigma^2) \right)\\
 </div>
 <div id="exm-entropymultinomial" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.12</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy and the multinomial coefficient:</p>
-<p>Let <span class="math inline">\(\hat{Q}\)</span> be the empirical categorical distribution with <span class="math inline">\(\hat{q}_k = n_k/n\)</span> the observed frequencies with <span class="math inline">\(n_k\)</span> counts in class <span class="math inline">\(k\)</span> and <span class="math inline">\(n=\sum_{k=1}^K\)</span> total counts.</p>
-<p>The number of possible permutation of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types is given by the multinomial coefficient <span class="math display">\[
-W = \binom{n}{n_1, \ldots, n_K} = \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
+<p>Assume there are <span class="math inline">\(n\)</span> items allocated to <span class="math inline">\(K\)</span> classes, with <span class="math inline">\(n_k\)</span> counts in class <span class="math inline">\(k\)</span> and <span class="math inline">\(n=\sum_{k=1}^K\)</span>, and let <span class="math inline">\(\hat{Q} = \operatorname{Cat}(\hat{\boldsymbol q})\)</span> be the corresponding empirical categorical distribution with observed frequencies <span class="math inline">\(\hat{q}_k = n_k/n\)</span> and entropy <span class="math inline">\(H(\hat{Q})\)</span>.</p>
+<p>The number of possible permutations of <span class="math inline">\(n\)</span> items of <span class="math inline">\(K\)</span> distinct types is given by the multinomial coefficient <span class="math display">\[
+\begin{split}
+W_K &amp;= \binom{n}{n_1, \ldots, n_K} \\
+    &amp;= \frac {n!}{n_1! \times n_2! \times\ldots \times n_K! }
+\end{split}
 \]</span></p>
-<p>It turns out that for large <span class="math inline">\(n\)</span> both quantities are directly linked: <span class="math display">\[
-H(\hat{Q})  \approx \frac{1}{n} \log W
+<p>Interestingly, the multinomial coefficient and entropy are directly linked as for large <span class="math inline">\(n\)</span> <span class="math display">\[
+H(\hat{Q})  \approx \frac{1}{n} \log W_K
 \]</span></p>
 <p>Recall the Moivre-Sterling formula which for large <span class="math inline">\(n\)</span> allow to approximate the factorial by <span class="math display">\[
 \log n! \approx  n \log n  -n
 \]</span> With this <span class="math display">\[
 \begin{split}
-\log W &amp;= \log n! - \sum_{k=1}^K \log n_k!\\
+\log W_K &amp;= \log n! - \sum_{k=1}^K \log n_k!\\
 &amp; \approx    n \log n  -n - \sum_{k=1}^K (n_k \log n_k  -n_k) \\
 &amp; = \sum_{k=1}^K n_k \log n - \sum_{k=1}^K n_k \log n_k\\
 &amp; = - n \sum_{k=1}^K \frac{n_k}{n} \log\left( \frac{n_k}{n} \right)\\
@@ -627,7 +630,8 @@ H(\hat{Q})  \approx \frac{1}{n} \log W
 &amp; = n H(\hat{Q})
 \end{split}
 \]</span></p>
-<p>The above combinatorial derivation of entropy is one of the cornerstones of statistical mechanics, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a review of historical developments. The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_i\)</span>, i.e.&nbsp;when the individual elements are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
+<p>The combinatorial derivation of entropy is foundational in statistical mechanics, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a review of historical developments.</p>
+<p>The number of elements <span class="math inline">\(n_1, \ldots, n_K\)</span> in each of the <span class="math inline">\(K\)</span> classes corresponds to the macrostate and any of the <span class="math inline">\(W_K\)</span> different allocations of the <span class="math inline">\(n\)</span> elements to the <span class="math inline">\(K\)</span> classes to an underlying microstate. The multinomial coefficient, and hence entropy, is largest when there are only small differences (or none) among the <span class="math inline">\(n_k\)</span>, i.e.&nbsp;when the individual elements are equally spread across the <span class="math inline">\(K\)</span> bins.</p>
 <p><span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> cites Graham Wallis (1962) for the rediscovery of the combinatorial foundations of information entropy.</p>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
