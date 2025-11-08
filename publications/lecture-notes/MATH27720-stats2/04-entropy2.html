@@ -355,13 +355,16 @@ window.Quarto = {
   <li><a href="#scoring-rules-and-risk" id="toc-scoring-rules-and-risk" class="nav-link active" data-scroll-target="#scoring-rules-and-risk"><span class="header-section-number">4.1</span> Scoring rules and risk</a>
   <ul class="collapse">
   <li><a href="#mean-log-loss-or-cross-entropy" id="toc-mean-log-loss-or-cross-entropy" class="nav-link" data-scroll-target="#mean-log-loss-or-cross-entropy">Mean log-loss or cross-entropy</a></li>
+  <li><a href="#computing-the-mean-log-loss" id="toc-computing-the-mean-log-loss" class="nav-link" data-scroll-target="#computing-the-mean-log-loss">Computing the mean log-loss</a></li>
   <li><a href="#properties-of-the-mean-log-loss" id="toc-properties-of-the-mean-log-loss" class="nav-link" data-scroll-target="#properties-of-the-mean-log-loss">Properties of the mean log-loss</a></li>
   <li><a href="#gibbs-inequality" id="toc-gibbs-inequality" class="nav-link" data-scroll-target="#gibbs-inequality">Gibbs’ inequality</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   <li><a href="#kl-divergence-and-boltzmann-entropy" id="toc-kl-divergence-and-boltzmann-entropy" class="nav-link" data-scroll-target="#kl-divergence-and-boltzmann-entropy"><span class="header-section-number">4.2</span> KL divergence and Boltzmann entropy</a>
   <ul class="collapse">
-  <li><a href="#definition-of-kl-divergence" id="toc-definition-of-kl-divergence" class="nav-link" data-scroll-target="#definition-of-kl-divergence">Definition of KL divergence</a></li>
+  <li><a href="#divergence" id="toc-divergence" class="nav-link" data-scroll-target="#divergence">Divergence</a></li>
+  <li><a href="#kl-divergence" id="toc-kl-divergence" class="nav-link" data-scroll-target="#kl-divergence">KL divergence</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   <li><a href="#boltzmann-entropy-or-relative-entropy" id="toc-boltzmann-entropy-or-relative-entropy" class="nav-link" data-scroll-target="#boltzmann-entropy-or-relative-entropy">Boltzmann entropy or relative entropy</a></li>
   <li><a href="#properties-of-kl-divergence-and-boltzmann-entropy" id="toc-properties-of-kl-divergence-and-boltzmann-entropy" class="nav-link" data-scroll-target="#properties-of-kl-divergence-and-boltzmann-entropy">Properties of KL divergence and Boltzmann entropy</a></li>
   <li><a href="#invariance-and-data-processing-properties" id="toc-invariance-and-data-processing-properties" class="nav-link" data-scroll-target="#invariance-and-data-processing-properties">Invariance and data processing properties</a></li>
@@ -372,6 +375,7 @@ window.Quarto = {
   <li><a href="#models-with-a-single-parameter" id="toc-models-with-a-single-parameter" class="nav-link" data-scroll-target="#models-with-a-single-parameter">Models with a single parameter</a></li>
   <li><a href="#models-with-multiple-parameters" id="toc-models-with-multiple-parameters" class="nav-link" data-scroll-target="#models-with-multiple-parameters">Models with multiple parameters</a></li>
   </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">4.4</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -404,12 +408,17 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="mean-log-loss-or-cross-entropy">Mean log-loss or cross-entropy</h3>
 <p>The <strong>risk</strong> of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> associated with a scoring rule <span class="math inline">\(S(x, P)\)</span> is the expected loss <span class="math display">\[
 R_Q(P) =\operatorname{E}_Q\left( S(x, P) \right)
-\]</span> For the logarithmic scoring rule the risk is the <strong>mean log-loss</strong> or <strong>cross-entropy</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[
+\]</span></p>
+<p>For the logarithmic scoring rule the risk is called the <strong>mean log-loss</strong> or <strong>cross-entropy</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[
 R_Q(P) = - \operatorname{E}_Q \log p(x) = H(Q,P).
 \]</span> The risk <span class="math inline">\(R_Q(P)\)</span> is thus a functional of two distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, where <span class="math inline">\(Q\)</span> represents the data-generating process (note the expectation <span class="math inline">\(\operatorname{E}_Q\)</span> with regard to <span class="math inline">\(Q\)</span>) and the distribution <span class="math inline">\(P\)</span> is the model that is evaluated on the observations.</p>
+<p>It can be interpreted as the expected cost or expected code length when the data are generated according to model <span class="math inline">\(Q\)</span> (“sender”, “encoder”) and but we use model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
+</section>
+<section id="computing-the-mean-log-loss" class="level3">
+<h3 class="anchored" data-anchor-id="computing-the-mean-log-loss">Computing the mean log-loss</h3>
 <p>For two discrete distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with pmf <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> with <span class="math inline">\(x\in \Omega\)</span> the mean log-loss is computed as the weighted sum <span class="math display">\[
 H(Q, P) = - \sum_{x \in \Omega} q(x) \, \log p(x)  
-\]</span> It can be interpreted as the expected cost or expected code length when the data are generated according to model <span class="math inline">\(Q\)</span> (“sender”, “encoder”) and but we use model <span class="math inline">\(P\)</span> to describe the data (“receiver”, “decoder”).</p>
+\]</span></p>
 <p>For two continuous distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with pdfs <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(p(x)\)</span> we compute the integral <span class="math display">\[
 H(Q, P) =- \int_x q(x) \, \log p(x) \, dx
 \]</span></p>
@@ -470,21 +479,27 @@ Note&nbsp;4.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </section>
 <section id="kl-divergence-and-boltzmann-entropy" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="kl-divergence-and-boltzmann-entropy"><span class="header-section-number">4.2</span> KL divergence and Boltzmann entropy</h2>
-<section id="definition-of-kl-divergence" class="level3">
-<h3 class="anchored" data-anchor-id="definition-of-kl-divergence">Definition of KL divergence</h3>
-<p>The <strong>divergence</strong><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> associated with a proper scoring rule <span class="math inline">\(S(x, P)\)</span> is defined as the difference between the risk and the minimum risk<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>: <span class="math display">\[
+<section id="divergence" class="level3">
+<h3 class="anchored" data-anchor-id="divergence">Divergence</h3>
+<p>The <strong>divergence</strong> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> associated with a proper scoring rule <span class="math inline">\(S(x, P)\)</span> is defined as the difference between the risk and the minimum risk<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>: <span class="math display">\[
 D(Q,P) = R_Q(P) - R_Q(Q) \geq 0
-\]</span></p>
+\]</span> The use of the term “divergence” rather than “distance” is a reminder that <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are not interchangeable in <span class="math inline">\(D(Q, P)\)</span>.</p>
+<p>Furthermore, note that <a href="https://en.wikipedia.org/wiki/Divergence_(statistics)">divergence between distributions</a> is unrelated to the <a href="https://en.wikipedia.org/wiki/Divergence">divergence vector operator</a> from vector calculus.</p>
+</section>
+<section id="kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="kl-divergence">KL divergence</h3>
 <p>For the logarithmic scoring rule this yields the <strong>Kullback-Leibler (KL) divergence</strong> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>: <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(Q,P)  &amp;= H(Q, P)-H(Q) \\
             &amp; = \operatorname{E}_Q\log\left(\frac{q(x)}{p(x)}\right)\\
 \end{split}
 \]</span> The KL divergence is always non-negative, <span class="math inline">\(D_{\text{KL}}(Q, H) \geq 0\)</span>, as a consequence of Gibbs’ inequality.</p>
-<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> can be interpreted as the additional risk or cost incurred if model <span class="math inline">\(P\)</span> is used instead <span class="math inline">\(Q\)</span> to describe data that actually follow <span class="math inline">\(Q\)</span>. If <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical there is no extra cost and <span class="math inline">\(D_{\text{KL}}(Q,P)=0\)</span>. However, if they differ then there is an additional cost and <span class="math inline">\(D_{\text{KL}}(Q,P)&gt; 0\)</span>.</p>
-<p>The use of the term “divergence” rather than “distance” is a reminder that <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are not interchangeable in <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span>.</p>
-<p>The KL divergence is also known as <strong>KL information</strong> , <strong>KL information number</strong> or <strong>discrimination information</strong>. Further names are <strong>information divergence</strong> or <strong><span class="math inline">\(\boldsymbol I\)</span>-divergence</strong>. Some authors refer to <span class="math inline">\(2 D_{\text{KL}}(Q, P) = D(Q, P)\)</span> as the <strong>deviance</strong> of <span class="math inline">\(P\)</span> from <span class="math inline">\(Q\)</span>.</p>
 <p>Various notations for KL divergence exist, we use <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> but <span class="math inline">\(\text{KL}(Q || P)\)</span> and <span class="math inline">\(I^{KL}(Q; P)\)</span> are also common.</p>
+<p>The KL divergence is also known as <strong>KL information</strong> , <strong>KL information number</strong> or <strong>discrimination information</strong>. Further names are <strong>information divergence</strong> or <strong><span class="math inline">\(\boldsymbol I\)</span>-divergence</strong>. Some authors refer to <span class="math inline">\(2 D_{\text{KL}}(Q, P) = D(Q, P)\)</span> as the <strong>deviance</strong> of <span class="math inline">\(P\)</span> from <span class="math inline">\(Q\)</span>.</p>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>The KL divergence <span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> can be interpreted as the excess risk or additional cost incurred if model <span class="math inline">\(P\)</span> is used to describe data that actually follow <span class="math inline">\(Q\)</span>. If <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> are identical there is no extra cost and <span class="math inline">\(D_{\text{KL}}(Q,P)=0\)</span>. However, if they differ then there is an additional cost and <span class="math inline">\(D_{\text{KL}}(Q,P)&gt; 0\)</span>.</p>
 </section>
 <section id="boltzmann-entropy-or-relative-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="boltzmann-entropy-or-relative-entropy">Boltzmann entropy or relative entropy</h3>
@@ -494,26 +509,9 @@ B(Q, P) &amp;=  H(Q) - H(Q, P) \\
 &amp;=  -\operatorname{E}_Q\log\left(\frac{q(x)}{p(x)}\right) \\
 \end{split}
 \]</span></p>
-<p>Boltzmann entropy is the negative of the KL divergence, and hence it is always non-positive, <span class="math inline">\(B(Q, P) \leq 0\)</span>.</p>
-<p>Boltzmann entropy can be interpreted as <strong>relative entropy</strong>, containing entropy as a special case without a change of sign (<a href="#exm-boltzmannuniform" class="quarto-xref">Example&nbsp;<span>4.8</span></a>).</p>
+<p>Boltzmann entropy is the <em>negative</em> of the KL divergence, and hence it is always non-positive, <span class="math inline">\(B(Q, P) \leq 0\)</span>.</p>
+<p>Boltzmann entropy can be interpreted as <strong>relative entropy</strong> of <span class="math inline">\(Q\)</span> relative to <span class="math inline">\(P\)</span>, containing entropy as a special case without a change of sign (<a href="#exm-boltzmannuniform" class="quarto-xref">Example&nbsp;<span>4.8</span></a>).</p>
 <p>Furthermore, <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a> shows that <span class="math inline">\(B(Q, P)\)</span> can be interpreted as a log-probability and that it is closely linked with the log-likelihood.</p>
-<p>The terminology to refer to the <em>negative</em> KL divergence as Boltzmann entropy and as relative entropy follows <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> and is in line with the conventions in statistical physics, where this quantity is also known as relative Boltzmann-Gibbs entropy<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (see <a href="#nte-klnames" class="quarto-xref">Note&nbsp;<span>4.2</span></a>).</p>
-<div id="nte-klnames" class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note&nbsp;4.2: Usage of cross-entropy and relative entropy
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>There are inconsistent and ambiguous uses of the terms “cross-entropy” and “relative entropy” in the literature.</p>
-<p>In these notes, “cross-entropy” denotes the <strong>mean log-loss</strong> and “relative entropy” refers to <strong>Boltzmann entropy</strong>.</p>
-<p>Our use of “cross-entropy” follows common modern usage. However, many statistical and engineering sources use the term to mean KL divergence or relative entropy.</p>
-<p>The term “relative entropy” is also ambiguous. We follow the convention in statistical mechanics and refer to relative entropy as the <em>negative</em> of KL divergence, denoted here as Boltzmann entropy, since it exhibits the correct orientation for maximisation principles and also contains entropy as special case without a change of sign. However, many authors, particularly in computer science, equate relative entropy directly with KL divergence. <span class="citation" data-cites="Shannon1948">Shannon (<a href="bibliography.html#ref-Shannon1948" role="doc-biblioref">1948</a>)</span> used relative entropy to denote entropy standardised by its maximum value.</p>
-</div>
-</div>
 </section>
 <section id="properties-of-kl-divergence-and-boltzmann-entropy" class="level3">
 <h3 class="anchored" data-anchor-id="properties-of-kl-divergence-and-boltzmann-entropy">Properties of KL divergence and Boltzmann entropy</h3>
@@ -536,17 +534,33 @@ Note&nbsp;4.2: Usage of cross-entropy and relative entropy
 <h3 class="anchored" data-anchor-id="invariance-and-data-processing-properties">Invariance and data processing properties</h3>
 <p>A further crucial property of KL divergence is its <strong>invariance property</strong>:</p>
 <ol start="4" type="1">
-<li><span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> is <strong>invariant under general invertible variable transformations</strong> , so that <span class="math inline">\(D_{\text{KL}}(Q_y, P_y) =D_{\text{KL}}(Q_x, P_x)\)</span> under a change of random variable from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>. Hence, KL divergence does not change when the sample space is reparametrised.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></li>
+<li><span class="math inline">\(D_{\text{KL}}(Q, P)\)</span> is <strong>invariant under general invertible variable transformations</strong> , so that <span class="math inline">\(D_{\text{KL}}(Q_y, P_y) =D_{\text{KL}}(Q_x, P_x)\)</span> under a change of random variable from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>. Hence, KL divergence does not change when the sample space is reparametrised.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
 </ol>
-<p>This is a remarkable property<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> <a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> as it holds not just for discrete but also for continuous random variables. For comparison, recall that both differential entropy as well as mean log-loss for continuous random variables are not transformation invariant.</p>
+<p>This is a remarkable property<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> as it holds not just for discrete but also for continuous random variables. For comparison, recall that both differential entropy as well as mean log-loss for continuous random variables are not transformation invariant.</p>
 <p>In the definition of KL divergence the expectation is taken over a <em>ratio of two densities</em>. The invariance is created because the Jacobian determinant changes both densities in the same way under variable transformation and thus cancel out.</p>
-<p>More broadly, the KL divergence satisfies the <strong>data processing inequality</strong><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>, i.e.&nbsp;applying a stochastic or deterministic transformation to the underlying random variables cannot increase the KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>. Thus, by processing data you cannot increase information about which distribution generated the data.</p>
+<p>More broadly, the KL divergence satisfies the <strong>data processing inequality</strong><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, i.e.&nbsp;applying a stochastic or deterministic transformation to the underlying random variables cannot increase the KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>. Thus, by processing data you cannot increase information about which distribution generated the data.</p>
 <p>Coordinate transformations can be viewed as a special case of data processing, and for <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> the data-processing inequality under general invertible transformations becomes an identity.</p>
 </section>
 <section id="further-properties" class="level3">
 <h3 class="anchored" data-anchor-id="further-properties">Further properties</h3>
 <p>The KL divergence and mean log-loss inherit a number of further useful properties from proper scoring rules. We will not cover these in this text. For example, there are various <strong>decompositions</strong> for the risk and the divergence satisfies a <strong>generalised Pythagorean theorem</strong>.</p>
 <p>In summary, KL divergence stands out among divergences between distributions due to many valuable and in some cases unique properties. It is therefore not surprising that it plays a central role in statistics and machine learning.</p>
+<div id="nte-klnames" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;4.2: Terminology for cross-entropy and relative entropy
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are inconsistent and ambiguous uses of the terms “cross-entropy” and “relative entropy” in the literature.</p>
+<p>In these notes, “cross-entropy” denotes the <strong>mean log-loss</strong> and “relative entropy” refers to <strong>Boltzmann entropy</strong>.</p>
+<p>Our use of “cross-entropy” follows common modern usage. However, many works in statistics and engineering also use the term to mean KL divergence or relative entropy.</p>
+<p>The term “relative entropy” is also ambiguous. Our terminology to equate relative entropy with the <em>negative</em> KL divergence and to refer to it as Boltzmann entropy follows <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> and is in line with the conventions in statistical physics, where this quantity is also known as relative Boltzmann-Gibbs entropy<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. However, many current authors, particularly in computer science, consider relative entropy to be identical with KL divergence. <span class="citation" data-cites="Shannon1948">Shannon (<a href="bibliography.html#ref-Shannon1948" role="doc-biblioref">1948</a>)</span> also used the term relative entropy to denote entropy standardised by its maximum value.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="kl-divergence-examples" class="level2" data-number="4.3">
@@ -622,10 +636,17 @@ B(\hat{Q}, P) &amp; = H(\hat{Q}) -H(\hat{Q}, P) \\
 \begin{split}
 B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W_K  + \sum_{k=1}^K n_k \log p_k   \right)\\
 &amp; = \frac{1}{n} \log \left( W_K \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
-&amp; = \frac{1}{n} \log  \operatorname{Pr}(D| \,\boldsymbol p) \\
+&amp; = \frac{1}{n} \log  p(D| \,\boldsymbol p) \\
 \end{split}
-\]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(D\)</span> under the model <span class="math inline">\(P\)</span>. Note the Boltzmann entropy is essentially the multinomial log-likelihood.</p>
+\]</span> Hence the Boltzmann entropy is directly linked to the multinomial probability of the observed counts <span class="math inline">\(D\)</span> under the model <span class="math inline">\(P\)</span> and equals the standardised multinomial log-likelihood.</p>
 </div>
+</section>
+</section>
+<section id="further-reading" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">4.4</span> Further reading</h2>
+<p>See <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a historical account of Boltzmann entropy as log-probability</p>
+<p><span class="citation" data-cites="DawidMusio2014">Dawid and Musio (<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">2014</a>)</span> review divergences associated with general proper scoring rules.</p>
+<p>See also: <a href="https://en.wikipedia.org/wiki/Bregman_divergence">Bregman divergences (Wikipedia)</a></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -636,9 +657,8 @@ B(\hat{Q}, P) &amp;\approx \frac{1}{n} \left( \log W_K  + \sum_{k=1}^K n_k \log 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The concept of relative entropy and the insight that entropy is log-probability (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>) is due to Boltzmann, see <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a historical account.</p>
-<p>In statistics KL divergence was formally introduced by <span class="citation" data-cites="KullbackLeibler1951">Kullback and Leibler (<a href="bibliography.html#ref-KullbackLeibler1951" role="doc-biblioref">1951</a>)</span>, even though <span class="citation" data-cites="Good1979">Good (<a href="bibliography.html#ref-Good1979" role="doc-biblioref">1979</a>)</span> credits Turing with an earlier application in 1940/1941 in the field of cryptography.</p>
-<p><span class="citation" data-cites="DawidMusio2014">Dawid and Musio (<a href="bibliography.html#ref-DawidMusio2014" role="doc-biblioref">2014</a>)</span> review entropy and divergence associated with general proper scoring rules.</p>
+<p>The concept of relative entropy and entropy as log-probability (see <a href="#exm-empiricalcatkl" class="quarto-xref">Example&nbsp;<span>4.9</span></a>) is due to <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a> and <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a> introduced KL divergence in statistics in <span class="citation" data-cites="KullbackLeibler1951">Kullback and Leibler (<a href="bibliography.html#ref-KullbackLeibler1951" role="doc-biblioref">1951</a>)</span>. An earlier application of KL divergence in 1940/1941 is credited to <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing (1912–1954)</a> by <span class="citation" data-cites="Good1979">Good (<a href="bibliography.html#ref-Good1979" role="doc-biblioref">1979</a>)</span>.</p>
 </div>
 </div>
 
@@ -664,19 +684,17 @@ Shannon, C. E. 1948. <span>“A Mathematical Theory of Communication.”</span> 
 </div>
 </div>
 </section>
-</section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>There are multiple, inconsistent uses of the term “cross-entropy” in the literature, so we will mostly use “mean log-loss” for clarity (see <a href="#nte-klnames" class="quarto-xref">Note&nbsp;<span>4.2</span></a>).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>For details see Worksheet E1.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Note that <a href="https://en.wikipedia.org/wiki/Divergence_(statistics)">divergence between distributions</a> is unrelated to the <a href="https://en.wikipedia.org/wiki/Divergence">divergence vector operator</a> from vector calculus.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Such divergences closely correspond to <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>See, e.g., Eq.&nbsp;14 in <span class="citation" data-cites="PachterYangDill2024">Pachter, Yang, and Dill (<a href="bibliography.html#ref-PachterYangDill2024" role="doc-biblioref">2024</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>For a proof of the invariance property see Worksheet&nbsp;E1.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>Even more striking, this property only holds for the KL divergence, not for any other divergence induced by a proper scoring rule, making the KL divergence the sole invariant Bregman divergence.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>Furthermore, the KL divergence is also the only <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergence</a> (of which the KL divergence is a principal example) that is invariant against coordinate transformations.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>The data processing inequality also holds for all <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> but is notably <em>not</em> satisfied by divergences of other proper scoring rules (and thus other Bregman divergences).<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>These divergences derived from proper scoring rules (established in statistics) are closely related to <strong>Bregman divergences</strong> (established in optimisation and widely used under this name in machine learning)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>For a proof of the invariance property see Worksheet&nbsp;E1.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Even more striking, this property only holds for the KL divergence, not for any other divergence induced by a proper scoring rule, making the KL divergence the sole invariant Bregman divergence.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Furthermore, the KL divergence is also the only <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergence</a> (of which the KL divergence is a principal example) that is invariant against coordinate transformations.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>The data processing inequality also holds for all <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> but is notably <em>not</em> satisfied by divergences of other proper scoring rules (and thus other Bregman divergences).<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>See, e.g., Eq.&nbsp;14 in <span class="citation" data-cites="PachterYangDill2024">Pachter, Yang, and Dill (<a href="bibliography.html#ref-PachterYangDill2024" role="doc-biblioref">2024</a>)</span>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
