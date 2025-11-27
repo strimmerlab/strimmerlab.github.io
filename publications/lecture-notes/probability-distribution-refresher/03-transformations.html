@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Transformations – Probability and Distribution Refresher</title>
+<title>3&nbsp; Transformations, convolution and loss functions – Probability and Distribution Refresher</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,7 +112,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-transformations.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-transformations.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations, convolution and loss functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,9 +125,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Probability and Distribution Refresher</a> 
     </div>
@@ -166,7 +164,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-transformations.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations, convolution and loss functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -206,18 +204,22 @@ window.Quarto = {
   <li><a href="#sec-affinetrans" id="toc-sec-affinetrans" class="nav-link active" data-scroll-target="#sec-affinetrans"><span class="header-section-number">3.1</span> Affine or location-scale transformation</a>
   <ul class="collapse">
   <li><a href="#transformation-rule" id="toc-transformation-rule" class="nav-link" data-scroll-target="#transformation-rule">Transformation rule</a></li>
+  <li><a href="#probability-mass-function" id="toc-probability-mass-function" class="nav-link" data-scroll-target="#probability-mass-function">Probability mass function</a></li>
   <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density">Density</a></li>
   <li><a href="#moments" id="toc-moments" class="nav-link" data-scroll-target="#moments">Moments</a></li>
   <li><a href="#importance-of-affine-transformations" id="toc-importance-of-affine-transformations" class="nav-link" data-scroll-target="#importance-of-affine-transformations">Importance of affine transformations</a></li>
   </ul></li>
-  <li><a href="#general-invertible-transformation" id="toc-general-invertible-transformation" class="nav-link" data-scroll-target="#general-invertible-transformation"><span class="header-section-number">3.2</span> General invertible transformation</a>
+  <li><a href="#sec-geninvtrans" id="toc-sec-geninvtrans" class="nav-link" data-scroll-target="#sec-geninvtrans"><span class="header-section-number">3.2</span> General invertible transformation</a>
   <ul class="collapse">
   <li><a href="#transformation-rule-1" id="toc-transformation-rule-1" class="nav-link" data-scroll-target="#transformation-rule-1">Transformation rule</a></li>
+  <li><a href="#probability-mass-function-1" id="toc-probability-mass-function-1" class="nav-link" data-scroll-target="#probability-mass-function-1">Probability mass function</a></li>
   <li><a href="#density-1" id="toc-density-1" class="nav-link" data-scroll-target="#density-1">Density</a></li>
   <li><a href="#moments-1" id="toc-moments-1" class="nav-link" data-scroll-target="#moments-1">Moments</a></li>
+  <li><a href="#invertible-affine-transformation-as-special-case" id="toc-invertible-affine-transformation-as-special-case" class="nav-link" data-scroll-target="#invertible-affine-transformation-as-special-case">Invertible affine transformation as special case</a></li>
   </ul></li>
-  <li><a href="#sec-convolution" id="toc-sec-convolution" class="nav-link" data-scroll-target="#sec-convolution"><span class="header-section-number">3.3</span> Sums of random variables and convolution</a>
+  <li><a href="#sec-convolution" id="toc-sec-convolution" class="nav-link" data-scroll-target="#sec-convolution"><span class="header-section-number">3.3</span> Convolution of random variables</a>
   <ul class="collapse">
+  <li><a href="#sum-of-independent-random-variables" id="toc-sum-of-independent-random-variables" class="nav-link" data-scroll-target="#sum-of-independent-random-variables">Sum of independent random variables</a></li>
   <li><a href="#moments-2" id="toc-moments-2" class="nav-link" data-scroll-target="#moments-2">Moments</a></li>
   <li><a href="#convolution" id="toc-convolution" class="nav-link" data-scroll-target="#convolution">Convolution</a></li>
   <li><a href="#central-limit-theorem" id="toc-central-limit-theorem" class="nav-link" data-scroll-target="#central-limit-theorem">Central limit theorem</a></li>
@@ -241,7 +243,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-transformations" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations</span></span></h1>
+<h1 class="title"><span id="sec-transformations" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations, convolution and loss functions</span></span></h1>
 </div>
 
 
@@ -262,18 +264,34 @@ window.Quarto = {
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-affinetrans"><span class="header-section-number">3.1</span> Affine or location-scale transformation</h2>
 <section id="transformation-rule" class="level3">
 <h3 class="anchored" data-anchor-id="transformation-rule">Transformation rule</h3>
-<p>Suppose <span class="math inline">\(x \sim F_x\)</span> is a scalar random variable. The random variable <span class="math display">\[y= a + b x\]</span> is a <strong>location-scale transformation</strong> or <strong>affine transformation</strong> of <span class="math inline">\(x\)</span>, where <span class="math inline">\(a\)</span> plays the role of the <strong>location parameter</strong> and <span class="math inline">\(b\)</span> is the <strong>scale parameter</strong>. For <span class="math inline">\(a=0\)</span> this is a <strong>linear transformation</strong>. If <span class="math inline">\(b\neq 0\)</span> then the transformation is <strong>invertible</strong>, with back-transformation <span class="math display">\[x = (y-a)/b\]</span> Invertible transformations provide a one-to-one map between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
-<p>For a random vector <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> of dimension <span class="math inline">\(d\)</span> the location-scale transformation is <span class="math display">\[
+<p>Suppose <span class="math inline">\(x\)</span> is a scalar. The variable <span class="math display">\[y= a + b x\]</span> is a <strong>location-scale transformation</strong> or <strong>affine transformation</strong> of <span class="math inline">\(x\)</span>, where <span class="math inline">\(a\)</span> plays the role of the <strong>location parameter</strong> and <span class="math inline">\(b\)</span> is the <strong>scale parameter</strong>. For <span class="math inline">\(a=0\)</span> this is a <strong>linear transformation</strong>.</p>
+<p>If <span class="math inline">\(b\neq 0\)</span> then the transformation is <strong>invertible</strong>, with back-transformation <span class="math display">\[x = (y-a)/b\]</span> Invertible transformations provide a one-to-one map between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>For a vector <span class="math inline">\(\boldsymbol x\)</span> of dimension <span class="math inline">\(d\)</span> the location-scale transformation is <span class="math display">\[
 \boldsymbol y= \boldsymbol a+ \boldsymbol B\boldsymbol x
-\]</span> where <span class="math inline">\(\boldsymbol a\)</span> (a <span class="math inline">\(m \times 1\)</span> vector) is the <strong>location parameter</strong> and <span class="math inline">\(\boldsymbol B\)</span> (a <span class="math inline">\(m \times d\)</span> matrix) the <strong>scale parameter</strong> For <span class="math inline">\(m=d\)</span> (square <span class="math inline">\(\boldsymbol B\)</span>) and <span class="math inline">\(\det(\boldsymbol B) \neq 0\)</span> the affine transformation is <strong>invertible</strong> with back-transformation <span class="math display">\[\boldsymbol x= \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\]</span></p>
+\]</span> where <span class="math inline">\(\boldsymbol a\)</span> (a <span class="math inline">\(m \times 1\)</span> vector) is the <strong>location parameter</strong> and <span class="math inline">\(\boldsymbol B\)</span> (a <span class="math inline">\(m \times d\)</span> matrix) the <strong>scale parameter</strong>. For <span class="math inline">\(\boldsymbol a=0\)</span> this is a <strong>linear transformation</strong>.</p>
+<p>For <span class="math inline">\(m=d\)</span> (square <span class="math inline">\(\boldsymbol B\)</span>) and <span class="math inline">\(\det(\boldsymbol B) \neq 0\)</span> the affine transformation is <strong>invertible</strong> with back-transformation <span class="math display">\[\boldsymbol x= \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\]</span></p>
+</section>
+<section id="probability-mass-function" class="level3">
+<h3 class="anchored" data-anchor-id="probability-mass-function">Probability mass function</h3>
+<p>If <span class="math inline">\(x \sim F_x\)</span> is a discrete scalar random variable with pmf <span class="math inline">\(f_{x}(x)\)</span> and assuming an invertible transformation <span class="math inline">\(y(x)= a + b x\)</span> the pmf <span class="math inline">\(f_{y}(y)\)</span> for the discrete scalar random variable <span class="math inline">\(y\)</span> is given by <span class="math display">\[
+f_{y}(y)= f_{x} \left( \frac{y-a}{b}\right)
+\]</span></p>
+<p>Likewise, if <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> is a discrete random vector with pmf <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> and assuming an invertible transformation <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span> the pmf <span class="math inline">\(f_{\boldsymbol y}(\boldsymbol y)\)</span> for the discrete random vector <span class="math inline">\(\boldsymbol y\)</span> is given by <span class="math display">\[
+f_{\boldsymbol y}(\boldsymbol y)= f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)
+\]</span></p>
 </section>
 <section id="density" class="level3">
 <h3 class="anchored" data-anchor-id="density">Density</h3>
-<p>If <span class="math inline">\(x\)</span> is a continuous random variable with density <span class="math inline">\(f_{x}(x)\)</span> and assuming an invertible transformation the density for <span class="math inline">\(y\)</span> is given by <span class="math display">\[
+<p>If <span class="math inline">\(x \sim F_x\)</span> is a continuous scalar random variable with pdf <span class="math inline">\(f_{x}(x)\)</span> and assuming an invertible transformation <span class="math inline">\(y(x)= a + b x\)</span> the pdf <span class="math inline">\(f_{y}(y)\)</span> for the continuous random scalar <span class="math inline">\(y\)</span> is given by <span class="math display">\[
 f_{y}(y)=|b|^{-1} f_{x} \left( \frac{y-a}{b}\right)
-\]</span> where <span class="math inline">\(|b|\)</span> is the absolute value of <span class="math inline">\(b\)</span>. Likewise, assuming an invertible transformation for a continuous random vector <span class="math inline">\(\boldsymbol x\)</span> with density <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> the density for <span class="math inline">\(\boldsymbol y\)</span> is given by <span class="math display">\[
-f_{\boldsymbol y}(\boldsymbol y)=|\det(\boldsymbol B)|^{-1} f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)
-\]</span> where <span class="math inline">\(|\det(\boldsymbol B)|\)</span> is the absolute value of the determinant <span class="math inline">\(\det(\boldsymbol B)\)</span>.</p>
+\]</span> where <span class="math inline">\(|b|\)</span> is the absolute value of <span class="math inline">\(b\)</span>. The transformation of the corresponding differential element is <span class="math display">\[
+dy = |b| \, dx
+\]</span></p>
+<p>Likewise, if <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> is a continuous random vector with pdf <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> and assuming an invertible transformation <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span> the pdf <span class="math inline">\(f_{\boldsymbol y}(\boldsymbol y)\)</span> for the continuous random vector <span class="math inline">\(\boldsymbol y\)</span> is given by <span class="math display">\[
+f_{\boldsymbol y}(\boldsymbol y)=|\det\left(\boldsymbol B\right)|^{-1} f_{\boldsymbol x} \left( \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\right)
+\]</span> where <span class="math inline">\(|\det(\boldsymbol B)|\)</span> is the absolute value of the determinant <span class="math inline">\(\det(\boldsymbol B)\)</span>. The transformation of the corresponding infinitesimal volume element is <span class="math display">\[
+d{\boldsymbol y} = |\det\left(\boldsymbol B\right)|\, d{\boldsymbol x}
+\]</span></p>
 </section>
 <section id="moments" class="level3">
 <h3 class="anchored" data-anchor-id="moments">Moments</h3>
@@ -282,24 +300,37 @@ f_{\boldsymbol y}(\boldsymbol y)=|\det(\boldsymbol B)|^{-1} f_{\boldsymbol x} \l
 </section>
 <section id="importance-of-affine-transformations" class="level3">
 <h3 class="anchored" data-anchor-id="importance-of-affine-transformations">Importance of affine transformations</h3>
-<p>The constants <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol B\)</span> (or <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the univariate case) are the parameters of the <strong>location-scale family</strong> <span class="math inline">\(F_{\boldsymbol y}\)</span> created from <span class="math inline">\(F_{\boldsymbol x}\)</span>. Many important distributions are location-scale families such as the normal distribution (cf. <a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a> and <a href="05-multivariate.html#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a>) and the location-scale <span class="math inline">\(t\)</span>-distribution (<a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a> and <a href="05-multivariate.html#sec-mvtdist" class="quarto-xref"><span>Section 5.6</span></a>). Furthermore, key procedures in multivariate statistics such as orthogonal transformations (including PCA) or whitening transformations (e.g.&nbsp;the Mahalanobis transformation) are affine transformations.</p>
+<p>The constants <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol B\)</span> (or <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the univariate case) are the parameters of the <strong>location-scale family</strong> <span class="math inline">\(F_{\boldsymbol y}(\boldsymbol a, \boldsymbol B)\)</span> created from <span class="math inline">\(F_{\boldsymbol x}\)</span>. Many important distributions are location-scale families such as the normal distribution (cf. <a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a> and <a href="05-multivariate.html#sec-mvndist" class="quarto-xref"><span>Section 5.3</span></a>) and the location-scale <span class="math inline">\(t\)</span>-distribution (<a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a> and <a href="05-multivariate.html#sec-mvtdist" class="quarto-xref"><span>Section 5.6</span></a>). Furthermore, key procedures in multivariate statistics such as orthogonal transformations (including PCA) or whitening transformations (e.g.&nbsp;the Mahalanobis transformation) are affine transformations.</p>
 </section>
 </section>
-<section id="general-invertible-transformation" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="general-invertible-transformation"><span class="header-section-number">3.2</span> General invertible transformation</h2>
+<section id="sec-geninvtrans" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-geninvtrans"><span class="header-section-number">3.2</span> General invertible transformation</h2>
 <section id="transformation-rule-1" class="level3">
 <h3 class="anchored" data-anchor-id="transformation-rule-1">Transformation rule</h3>
-<p>As above we assume <span class="math inline">\(x \sim F_x\)</span> is a scalar random variable and <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> is a random vector.</p>
-<p>As a generalisation of invertible affine transformations we now consider general invertible transformations. For a scalar random variable we assume the transformation is specified by <span class="math inline">\(y(x) = h(x)\)</span> and the back-transformation by <span class="math inline">\(x(y) = h^{-1}(y)\)</span> For a random vector we assume <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol h(\boldsymbol x)\)</span> is invertible with back-transformation <span class="math inline">\(\boldsymbol x(\boldsymbol y) = \boldsymbol h^{-1}(\boldsymbol y)\)</span>.</p>
+<p>As above we assume <span class="math inline">\(x\)</span> is a scalar and <span class="math inline">\(\boldsymbol x\)</span> is a vector and consider the general invertible transformation.</p>
+<p>For a scalar variable the transformation is specified by <span class="math inline">\(y(x) = h(x)\)</span> and the back-transformation by <span class="math inline">\(x(y) = h^{-1}(y)\)</span>. For a vector this becomes <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol h(\boldsymbol x)\)</span> with back-transformation <span class="math inline">\(\boldsymbol x(\boldsymbol y) = \boldsymbol h^{-1}(\boldsymbol y)\)</span>. The functions <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> are assumed to be invertible.</p>
+</section>
+<section id="probability-mass-function-1" class="level3">
+<h3 class="anchored" data-anchor-id="probability-mass-function-1">Probability mass function</h3>
+<p>If <span class="math inline">\(x \sim F_x\)</span> is a discrete scalar random variable with pmf <span class="math inline">\(f_{x}(x)\)</span> then the pmf <span class="math inline">\(f_y(y)\)</span> of the transformed discrete scalar random variable <span class="math inline">\(y(x)\)</span> is given by <span class="math display">\[
+f_y(y) = f_x(x(y))
+\]</span></p>
+<p>Likewise, for a discrete random vector <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> with pmf <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> the pmf <span class="math inline">\(f_{\boldsymbol y}(\boldsymbol y)\)</span> for the discrete random vector <span class="math inline">\(\boldsymbol y(\boldsymbol x)\)</span> is obtained by <span class="math display">\[
+f_{\boldsymbol y}(\boldsymbol y) =  f_{\boldsymbol x}\left( \boldsymbol x(\boldsymbol y) \right)
+\]</span></p>
 </section>
 <section id="density-1" class="level3">
 <h3 class="anchored" data-anchor-id="density-1">Density</h3>
-<p>If <span class="math inline">\(x\)</span> is a continuous random variable with density <span class="math inline">\(f_{x}(x)\)</span> the density of the transformed variable <span class="math inline">\(y\)</span> can be computed exactly and is given by <span class="math display">\[
+<p>If <span class="math inline">\(x \sim F_x\)</span> is a continuous scalar random variable with pdf <span class="math inline">\(f_{x}(x)\)</span> the pdf <span class="math inline">\(f_y(y)\)</span> of the transformed continuous scalar random variable <span class="math inline">\(y(x)\)</span> is given by <span class="math display">\[
 f_y(y) =\left| D x(y) \right|\, f_x(x(y))
-\]</span> where <span class="math inline">\(D x(y)\)</span> is the derivative of the inverse transformation <span class="math inline">\(x(y)\)</span>.</p>
-<p>Likewise, for a continuous random vector <span class="math inline">\(\boldsymbol x\)</span> with density <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> the density for <span class="math inline">\(\boldsymbol y\)</span> is obtained by <span class="math display">\[
+\]</span> where <span class="math inline">\(D x(y)\)</span> is the derivative of the inverse transformation <span class="math inline">\(x(y)\)</span>. The transformation of the differential element is <span class="math display">\[
+dy = \left| D y(x) \right| \, dx
+\]</span> Note that <span class="math inline">\(| D x(y)| = | D y(x)|^{-1}\rvert_{x = x(y)}\)</span>.</p>
+<p>Likewise, for a continuous random vector <span class="math inline">\(\boldsymbol x\sim F_{\boldsymbol x}\)</span> with pdf <span class="math inline">\(f_{\boldsymbol x}(\boldsymbol x)\)</span> the pdf <span class="math inline">\(f_{\boldsymbol y}(\boldsymbol y)\)</span> for the continuous random vector <span class="math inline">\(\boldsymbol y(\boldsymbol x)\)</span> is obtained by <span class="math display">\[
 f_{\boldsymbol y}(\boldsymbol y) = |\det\left( D\boldsymbol x(\boldsymbol y) \right)| \,\,  f_{\boldsymbol x}\left( \boldsymbol x(\boldsymbol y) \right)
-\]</span> where <span class="math inline">\(D\boldsymbol x(\boldsymbol y)\)</span> is the Jacobian matrix of the inverse transformation <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span>.</p>
+\]</span> where <span class="math inline">\(D\boldsymbol x(\boldsymbol y)\)</span> is the Jacobian matrix of the inverse transformation <span class="math inline">\(\boldsymbol x(\boldsymbol y)\)</span>. The transformation of the infinitesimal volume element is <span class="math display">\[
+d{\boldsymbol y} = |\det\left( D\boldsymbol y(\boldsymbol x) \right)|\, d{\boldsymbol x}
+\]</span> Note that <span class="math inline">\(|\det\left( D\boldsymbol x(\boldsymbol y) \right)| = |\det\left( D\boldsymbol y(\boldsymbol x) \right)|^{-1} \rvert_{\boldsymbol x= \boldsymbol x(\boldsymbol y)}\)</span>.</p>
 </section>
 <section id="moments-1" class="level3">
 <h3 class="anchored" data-anchor-id="moments-1">Moments</h3>
@@ -317,26 +348,37 @@ y(x) \approx y\left(\mu_x\right) + D y\left(\mu_x\right)\, \left(x-\mu_x\right)
 <p>For the vector random variable <span class="math inline">\(\boldsymbol y\)</span> the delta method yields <span class="math display">\[\operatorname{E}(\boldsymbol y)\approx\boldsymbol y\left(\boldsymbol \mu_{\boldsymbol x}\right)\]</span> and <span class="math display">\[
 \operatorname{Var}(\boldsymbol y)\approx D \boldsymbol y\left(\boldsymbol \mu_{\boldsymbol x}\right) \, \boldsymbol \Sigma_{\boldsymbol x} \, D\boldsymbol y\left(\boldsymbol \mu_{\boldsymbol x}\right)^T
 \]</span></p>
-<p>Assuming <span class="math inline">\(y(x) = a + b x\)</span>, with <span class="math inline">\(x(y) = (y-a)/b\)</span>, <span class="math inline">\(D y(x) = b\)</span> and <span class="math inline">\(D x(y) = b^{-1}\)</span>, recovers the univariate location-scale transformation. Likewise, assuming <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span>, with <span class="math inline">\(\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\)</span>, <span class="math inline">\(D\boldsymbol y(\boldsymbol x) = \boldsymbol B\)</span> and <span class="math inline">\(D\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}\)</span>, recovers the multivariate location-scale transformation.</p>
+</section>
+<section id="invertible-affine-transformation-as-special-case" class="level3">
+<h3 class="anchored" data-anchor-id="invertible-affine-transformation-as-special-case">Invertible affine transformation as special case</h3>
+<p>The invertible affine transformation (<a href="#sec-affinetrans" class="quarto-xref"><span>Section 3.1</span></a>) is special case of the general invertible transformation.</p>
+<p>Assuming <span class="math inline">\(y(x) = a + b x\)</span>, with <span class="math inline">\(x(y) = (y-a)/b\)</span>, <span class="math inline">\(D y(x) = b\)</span> and <span class="math inline">\(D x(y) = b^{-1}\)</span>, recovers the univariate location-scale transformation.</p>
+<p>Likewise, assuming <span class="math inline">\(\boldsymbol y(\boldsymbol x) = \boldsymbol a+ \boldsymbol B\boldsymbol x\)</span>, with <span class="math inline">\(\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}(\boldsymbol y-\boldsymbol a)\)</span>, <span class="math inline">\(D\boldsymbol y(\boldsymbol x) = \boldsymbol B\)</span> and <span class="math inline">\(D\boldsymbol x(\boldsymbol y) = \boldsymbol B^{-1}\)</span>, recovers the multivariate location-scale transformation.</p>
 </section>
 </section>
 <section id="sec-convolution" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-convolution"><span class="header-section-number">3.3</span> Sums of random variables and convolution</h2>
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-convolution"><span class="header-section-number">3.3</span> Convolution of random variables</h2>
+<section id="sum-of-independent-random-variables" class="level3">
+<h3 class="anchored" data-anchor-id="sum-of-independent-random-variables">Sum of independent random variables</h3>
+<p>Suppose we have a sum of <span class="math inline">\(n\)</span> <em>independent</em> scalar random variables. <span class="math display">\[
+y = x_1 + x_2 + \ldots + x_n
+\]</span> where each <span class="math inline">\(x_i \sim F_{x_i}\)</span> has its own distribution and corresponding pdmf <span class="math inline">\(f_{x_i}(x)\)</span>. The corresponding means are <span class="math inline">\(\operatorname{E}(x_i) = \mu_i\)</span> and the variances are <span class="math inline">\(\operatorname{Var}(x_i) = \sigma^2_i\)</span>. As the <span class="math inline">\(x_i\)</span> are independent, and therefore uncorrelated, the covariances <span class="math inline">\(\operatorname{Cov}(x_i, x_j)=0\)</span> vanish for <span class="math inline">\(i \neq j\)</span>.</p>
+<p>With <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_n)^T\)</span> and <span class="math inline">\(\mathbf 1_n = (1, 1, \ldots, 1)^T\)</span> the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> can be written as the linear transformation <span class="math display">\[
+y= \mathbf 1_n^T \boldsymbol x
+\]</span> As <span class="math inline">\(y\)</span> is a scalar and <span class="math inline">\(\boldsymbol x\)</span> a vector the transformation from <span class="math inline">\(\boldsymbol x\)</span> to <span class="math inline">\(y\)</span> is not invertible.</p>
+</section>
 <section id="moments-2" class="level3">
 <h3 class="anchored" data-anchor-id="moments-2">Moments</h3>
-<p>Suppose we have a sum of <span class="math inline">\(n\)</span> <em>independent</em> random variables. <span class="math display">\[
-y = x_1 + x_2 + \ldots + x_n
-\]</span> where each <span class="math inline">\(x_i \sim F_{x_i}\)</span> has its own distribution and corresponding probability density mass function <span class="math inline">\(f_{x_i}(x)\)</span>.</p>
-<p>With <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_n)^T\)</span> and <span class="math inline">\(\mathbf 1_n = (1, 1, \ldots, 1)^T\)</span> the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(\boldsymbol x\)</span> can be written as affine transformation <span class="math inline">\(y= \mathbf 1_n^T \boldsymbol x\)</span>. Assuming <span class="math inline">\(\operatorname{E}(x_i) = \mu_i\)</span>, <span class="math inline">\(\operatorname{Var}(x_i) = \sigma^2_i\)</span> and <span class="math inline">\(\operatorname{Cov}(x_i, x_j)=0\)</span> for <span class="math inline">\(i\neq j\)</span> the mean and variance of the random variable <span class="math inline">\(y\)</span> equals (cf. <a href="#sec-affinetrans" class="quarto-xref"><span>Section 3.1</span></a>) <span class="math display">\[
+<p>With <span class="math inline">\(\operatorname{E}(\boldsymbol x) = \boldsymbol \mu\)</span> and <span class="math inline">\(\operatorname{Var}(\boldsymbol x) = \operatorname{Diag}(\sigma^2_1, \ldots, \sigma^2_n)\)</span> the mean of the random variable <span class="math inline">\(y\)</span> equals <span class="math display">\[
 \operatorname{E}(y) = \mathbf 1_n^T \boldsymbol \mu= \sum_{i=1}^n \mu_i
-\]</span> and <span class="math display">\[
+\]</span> and the variance of <span class="math inline">\(y\)</span> is <span class="math display">\[
 \operatorname{Var}(y) = \mathbf 1_n^T \, \operatorname{Var}(\boldsymbol x) \,  \mathbf 1_n  =   \sum_{i=1}^n \sigma^2_i
 \]</span><br>
-Thus both the means and variance are additive (but note that for the variance this is only true because of the independence assumption).</p>
+(cf. <a href="#sec-affinetrans" class="quarto-xref"><span>Section 3.1</span></a>). Thus both the mean and variance of <span class="math inline">\(y\)</span> are simply the sums of the individual means and variances (note that for the variance this only holds because the individual variables are uncorrelated).</p>
 </section>
 <section id="convolution" class="level3">
 <h3 class="anchored" data-anchor-id="convolution">Convolution</h3>
-<p>The pdmf for <span class="math inline">\(y\)</span> is obtained by repeatedly convolving (denoted by the asterisk <span class="math inline">\(\ast\)</span> operator) the pdmfs of the <span class="math inline">\(x_i\)</span>: <span class="math display">\[
+<p>The pdmf <span class="math inline">\(f_y(y)\)</span> for <span class="math inline">\(y\)</span> is obtained by repeatedly convolving (denoted by the asterisk <span class="math inline">\(\ast\)</span> operator) the pdmfs of the <span class="math inline">\(x_i\)</span>: <span class="math display">\[
 f_y(y) = \left(f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n}\right)(y)
 \]</span></p>
 <p>The <strong>convolution</strong> of two functions is defined as (continuous case) <span class="math display">\[
@@ -349,7 +391,7 @@ f_y(y) = \left(f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n}\right)(y)
 </section>
 <section id="central-limit-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="central-limit-theorem">Central limit theorem</h3>
-<p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and later proved by <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace (1749–1827)</a> asserts that the distribution of the sum of <span class="math inline">\(n\)</span> independent and identically distributed random variables with finite mean and finite variance converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution (<a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a>), even if the individual random variables are not themselves normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span> identical distributions with finite first two moments converges to the normal distribution.</p>
+<p>The <strong>central limit theorem</strong>, first postulated by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and later proved by <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace (1749–1827)</a> asserts that the distribution of the sum of <span class="math inline">\(n\)</span> independent and identically distributed random variables with finite mean and finite variance converges in the limit of large <span class="math inline">\(n\)</span> to a normal distribution (<a href="04-univariate.html#sec-normdist" class="quarto-xref"><span>Section 4.3</span></a>), even if the individual random variables are not themselves normal. In other words, it asserts that for large <span class="math inline">\(n\)</span> the convolution of <span class="math inline">\(n\)</span> identical distributions with finite first two moments converges to a normal distribution.</p>
 </section>
 </section>
 <section id="sec-lossfunc" class="level2" data-number="3.4">
