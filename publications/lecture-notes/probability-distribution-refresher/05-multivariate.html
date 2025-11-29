@@ -609,24 +609,21 @@ p(\boldsymbol X| k) = \frac{1}{\Gamma_d(k/2) 2^{d k/2}} \det(\boldsymbol X)^{(k-
 </section>
 <section id="sec-iwdist" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="sec-iwdist"><span class="header-section-number">5.5</span> Inverse Wishart distribution</h2>
-<p>The <strong>inverse Wishart distribution</strong> <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> is a multivariate generalisation of the inverse gamma distribution <span class="math inline">\(\operatorname{IG}(\alpha, \beta)\)</span> (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.5</span></a>) from one to <span class="math inline">\(d\)</span> dimensions. It is linked to the Wishart distribution <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span> (<a href="#sec-wisdist" class="quarto-xref"><span>Section 5.4</span></a>).</p>
+<p>The <strong>inverse Wishart distribution</strong> <span class="math inline">\(\operatorname{IWis}\left(\boldsymbol \Psi, k\right)\)</span> is a multivariate generalisation of the inverse gamma distribution <span class="math inline">\(\operatorname{IGam}(\alpha, \beta)\)</span> (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.5</span></a>) from one to <span class="math inline">\(d\)</span> dimensions. It is linked to the Wishart distribution <span class="math inline">\(\operatorname{Wis}(\boldsymbol S, k)\)</span> (<a href="#sec-wisdist" class="quarto-xref"><span>Section 5.4</span></a>).</p>
 <section id="standard-parametrisation-4" class="level3">
 <h3 class="anchored" data-anchor-id="standard-parametrisation-4">Standard parametrisation</h3>
 <p>A symmetric positive definite random matrix <span class="math inline">\(\boldsymbol X\)</span> of dimension <span class="math inline">\(d \times d\)</span> following an inverse Wishart distribution is denoted by <span class="math display">\[
-\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi, k\right)
+\boldsymbol X\sim \operatorname{IWis}\left(\boldsymbol \Psi, k\right)
 \]</span> where <span class="math inline">\(\boldsymbol \Psi= (\psi_{ij})\)</span> is the scale parameter (a <span class="math inline">\(d \times d\)</span> positive definite symmetric matrix) and <span class="math inline">\(k&gt; d-1\)</span> is the shape parameter. The dimension <span class="math inline">\(d\)</span> is implicit in the scale parameter <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
 <p>The mean is (for <span class="math inline">\(k &gt; d+1\)</span>) <span class="math display">\[
 \operatorname{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{k-d-1}
 \]</span> and the variances of elements of <span class="math inline">\(\boldsymbol X\)</span> are (for <span class="math inline">\(k &gt; d+3\)</span>) <span class="math display">\[
 \operatorname{Var}(x_{ij})= \frac{ (k-d-1) \, \psi_{ii} \psi_{jj} + (k-d+1)\, \psi_{ij}^2 }{ (k-d)  (k-d-3) (k-d-1)^2  }
 \]</span></p>
-<p>The inverse Wishart distribution <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> has pdf <span class="math display">\[
+<p>The inverse Wishart distribution <span class="math inline">\(\operatorname{IWis}\left(\boldsymbol \Psi, k\right)\)</span> has pdf <span class="math display">\[
 p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }{\Gamma_d(k/2) } \det(\boldsymbol X)^{-(k+d+1)/2}
 \exp\left(-\operatorname{Tr}(\boldsymbol \Psi\boldsymbol X^{-1})/2\right)
 \]</span> As with the Wishart distribution his pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
-<p>The inverse Wishart and the Wishart distributions are linked. If <span class="math inline">\(\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> then the inverse of <span class="math inline">\(\boldsymbol X\)</span> is Wishart distributed with inverted scale parameter: <span class="math display">\[
-\boldsymbol X^{-1} \sim \operatorname{Wis}\left( \boldsymbol S= \boldsymbol \Psi^{-1}   \, , k \right)
-\]</span> where <span class="math inline">\(k\)</span> is the shape parameter and <span class="math inline">\(\boldsymbol S\)</span> the scale parameter of the Wishart distribution.</p>
 <p>If <span class="math inline">\(\boldsymbol \Psi\)</span> is a scalar <span class="math inline">\(\psi\)</span> (and <span class="math inline">\(d=1\)</span>) then the multivariate inverse Wishart distribution reduces to the univariate inverse Wishart distribution (<a href="04-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 4.5</span></a>).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -641,11 +638,22 @@ p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }
 <p>The <code>mniw</code> package implements the inverse Wishart distribution. The pdf of the inverse Wishart distribution is given by <code>mniw::diwish()</code>. The corresponding random number generator is <code>mniw::riwish()</code>.</p>
 </div>
 </div>
+<section id="relation-to-the-wishart-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="relation-to-the-wishart-distribution">Relation to the Wishart distribution</h4>
+<p>The inverse Wishart distribution is closely linked to the Wishart distribution. Assume that the random variable <span class="math inline">\(\boldsymbol Y\)</span> (positive definite and symmetric) follows a Wishart distribution with <span class="math display">\[
+\boldsymbol Y\sim \operatorname{Wis}\left(\boldsymbol S, k \right)
+\]</span> then the inverse random variable <span class="math inline">\(\boldsymbol X= \boldsymbol Y^{-1}\)</span> (positive definite and symmetric) follows an inverse Wishart distribution with inverted scale parameter <span class="math display">\[
+\boldsymbol X= \boldsymbol Y^{-1} \sim \operatorname{IWis}\left(\boldsymbol \Psi= \boldsymbol S^{-1}, k\right)
+\]</span> where <span class="math inline">\(k\)</span> is the shared shape parameter, <span class="math inline">\(\boldsymbol S\)</span> the scale parameter of the Wishart distribution and <span class="math inline">\(\boldsymbol \Psi\)</span> the scale parameter of the inverse Wishart distribution.</p>
+<p>Correspondingly, the density <span class="math inline">\(p_{\boldsymbol X}(\boldsymbol X| \boldsymbol \Psi, k)\)</span> of the inverse Wishart distribution is obtained from the density <span class="math inline">\(p_{\boldsymbol Y}(\boldsymbol Y|\boldsymbol S, k)\)</span> of the Wishart distribution via <span class="math display">\[
+p_{\boldsymbol X}(\boldsymbol X| \boldsymbol \Psi, k) = \det(\boldsymbol X)^{-d-1} p_{\boldsymbol Y}\left( \boldsymbol X^{-1} | \boldsymbol S=\boldsymbol \Psi^{-1}, k \right)
+\]</span></p>
+</section>
 </section>
 <section id="mean-parametrisation-3" class="level3">
 <h3 class="anchored" data-anchor-id="mean-parametrisation-3">Mean parametrisation</h3>
 <p>Instead of <span class="math inline">\(\boldsymbol \Psi\)</span> and <span class="math inline">\(k\)</span> we may also equivalently use <span class="math inline">\(\boldsymbol M= \boldsymbol \Psi/(k-d-1)\)</span> and <span class="math inline">\(\kappa = k-d-1\)</span> as parameters for the inverse Wishart distribution, so that <span class="math display">\[
-\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi=  \kappa  \boldsymbol M\, , \, k= \kappa+d+1\right)
+\boldsymbol X\sim \operatorname{IWis}\left(\boldsymbol \Psi=  \kappa  \boldsymbol M\, , \, k= \kappa+d+1\right)
 \]</span> with mean (for <span class="math inline">\(\kappa &gt; 0\)</span>) <span class="math display">\[
 \operatorname{E}(\boldsymbol X) =\boldsymbol M
 \]</span> and variances (for <span class="math inline">\(\kappa &gt;2)\)</span> <span class="math display">\[
@@ -656,7 +664,7 @@ p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }
 <section id="biased-mean-parametrisation" class="level3">
 <h3 class="anchored" data-anchor-id="biased-mean-parametrisation">Biased mean parametrisation</h3>
 <p>Using <span class="math inline">\(\boldsymbol T= (t_{ij}) = \boldsymbol \Psi/(k-d+1) = \boldsymbol \Psi/\nu\)</span> as biased mean parameter together with <span class="math inline">\(\nu=k-d+1\)</span> we arrive at the <strong>biased mean parametrisation</strong> <span class="math display">\[
-\boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi=  \nu \boldsymbol T\, , \, k=\nu+d-1\right)
+\boldsymbol X\sim \operatorname{IWis}\left(\boldsymbol \Psi=  \nu \boldsymbol T\, , \, k=\nu+d-1\right)
 \]</span></p>
 <p>The corresponding mean is (for <span class="math inline">\(\nu &gt; 2\)</span>) <span class="math display">\[
 \operatorname{E}(\boldsymbol X) = \frac{\nu}{\nu-2} \boldsymbol T= \boldsymbol M
@@ -667,7 +675,8 @@ p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }
 </section>
 <section id="scale-transformation-1" class="level3">
 <h3 class="anchored" data-anchor-id="scale-transformation-1">Scale transformation</h3>
-<p>If <span class="math inline">\(\boldsymbol X\sim \operatorname{IW}(\boldsymbol \Psi, k)\)</span> then the scaled symmetric random matrix <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> is also inverse Wishart distributed with <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T \sim \operatorname{IW}(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T, k)\)</span> where the matrix <span class="math inline">\(\boldsymbol A\)</span> has full rank and both <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> remain positive definite. The matrix <span class="math inline">\(\boldsymbol A\)</span> may be rectangular, hence the size of <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> may be smaller compared to <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
+<p>If <span class="math inline">\(\boldsymbol X\sim \operatorname{IWis}(\boldsymbol \Psi, k)\)</span> then the scaled symmetric random matrix <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> is also inverse Wishart distributed with <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T \sim \operatorname{IWis}(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T, k)\)</span> where the matrix <span class="math inline">\(\boldsymbol A\)</span> has full rank and both <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> remain positive definite. The matrix <span class="math inline">\(\boldsymbol A\)</span> may be rectangular, hence the size of <span class="math inline">\(\boldsymbol A\boldsymbol X\boldsymbol A^T\)</span> and <span class="math inline">\(\boldsymbol A\boldsymbol \Psi\boldsymbol A^T\)</span> may be smaller compared to <span class="math inline">\(\boldsymbol X\)</span> and <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
+<p><span class="math inline">\(\operatorname{SWis}\)</span></p>
 </section>
 </section>
 <section id="sec-mvtdist" class="level2" data-number="5.6">
@@ -778,15 +787,15 @@ p(\boldsymbol x) =
 <section id="multivariate-t-distribution-as-compound-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="multivariate-t-distribution-as-compound-distribution">Multivariate <span class="math inline">\(t\)</span>-distribution as compound distribution</h3>
 <p>The multivariate <span class="math inline">\(t\)</span>-distribution can be obtained as mixture of multivariate normal distributions with identical mean and varying covariance matrix. Specifically, let <span class="math inline">\(z\)</span> be a univariate inverse Wishart random variable <span class="math display">\[
-z \sim  \operatorname{IW}(\psi=\nu, k=\nu) =
-        \operatorname{IG}\left(\alpha=\frac{\nu}{2}, \beta=\frac{\nu}{2}\right)
+z \sim  \operatorname{IWis}(\psi=\nu, k=\nu) =
+        \operatorname{IGam}\left(\alpha=\frac{\nu}{2}, \beta=\frac{\nu}{2}\right)
 \]</span> and let <span class="math inline">\(\boldsymbol x| z\)</span> be multivariate normal <span class="math display">\[
 \boldsymbol x| z \sim N(\boldsymbol \mu,\boldsymbol \Sigma= z \boldsymbol T)
 \]</span> The resulting marginal (scale mixture) distribution for <span class="math inline">\(\boldsymbol x\)</span> is the multivariate <span class="math inline">\(t\)</span>-distribution <span class="math display">\[
 \boldsymbol x\sim t_{\nu}\left(\boldsymbol \mu, \boldsymbol T\right)
 \]</span></p>
 <p>An alternative way to arrive at <span class="math inline">\(t_{\nu}\left(\boldsymbol \mu, \boldsymbol T\right)\)</span> is to include <span class="math inline">\(\boldsymbol T\)</span> as parameter in the inverse Wishart distribution <span class="math display">\[
-\boldsymbol Z\sim \operatorname{IW}(\boldsymbol \Psi=\nu \boldsymbol T, k=\nu+d-1)
+\boldsymbol Z\sim \operatorname{IWis}(\boldsymbol \Psi=\nu \boldsymbol T, k=\nu+d-1)
 \]</span> and let <span class="math display">\[
 \boldsymbol x| \boldsymbol Z\sim N(\boldsymbol \mu,\boldsymbol \Sigma= \boldsymbol Z)
 \]</span> Note that <span class="math inline">\(\boldsymbol T\)</span> is now the biased mean parameter of the multivariate inverse Wishart distribution. This characterisation is useful in Bayesian analysis.</p>
