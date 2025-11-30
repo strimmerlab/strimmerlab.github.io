@@ -228,6 +228,8 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss function</a></li>
   <li><a href="#risk-function" id="toc-risk-function" class="nav-link" data-scroll-target="#risk-function">Risk function</a></li>
+  <li><a href="#minimising-risk" id="toc-minimising-risk" class="nav-link" data-scroll-target="#minimising-risk">Minimising risk</a></li>
+  <li><a href="#equivalent-loss-functions" id="toc-equivalent-loss-functions" class="nav-link" data-scroll-target="#equivalent-loss-functions">Equivalent loss functions</a></li>
   <li><a href="#scoring-rules" id="toc-scoring-rules" class="nav-link" data-scroll-target="#scoring-rules">Scoring rules</a></li>
   <li><a href="#common-loss-functions" id="toc-common-loss-functions" class="nav-link" data-scroll-target="#common-loss-functions">Common loss functions</a></li>
   <li><a href="#logarithmic-scoring-rule" id="toc-logarithmic-scoring-rule" class="nav-link" data-scroll-target="#logarithmic-scoring-rule">Logarithmic scoring rule</a></li>
@@ -398,9 +400,8 @@ f_y(y) = \left(f_{x_1} \ast f_{x_2} \ast \ldots f_{x_n}\right)(y)
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-lossfunc"><span class="header-section-number">3.4</span> Loss functions and scoring rules</h2>
 <section id="loss-function" class="level3">
 <h3 class="anchored" data-anchor-id="loss-function">Loss function</h3>
-<p>A <strong>loss or cost function</strong> <span class="math inline">\(L(x, a)\)</span> evaluates a prediction <span class="math inline">\(a\)</span> (for example a parameter or a probability distribution) on the basis of an observed outcome <span class="math inline">\(x\)</span>, and returns a numerical score.</p>
+<p>A <strong>loss or cost function</strong> <span class="math inline">\(L(x, a)\)</span> evaluates a prediction <span class="math inline">\(a\)</span>, for example a parameter or a probability distribution, on the basis of an observed outcome <span class="math inline">\(x\)</span>, and returns a numerical score.</p>
 <p>A loss function measures, informally, the error between <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span>. During optimisation the prediction <span class="math inline">\(a\)</span> is varied and the aim is minimisation of the error (hence a loss function has <em>negative orientation</em>, smaller is better).</p>
-<p>Adding a constant or a positive scaling factor to the loss function will not change the location of its minimum, so such loss functions are considered equivalent.</p>
 <p>A <strong>utility or reward function</strong> is a loss function with a reversed sign (hence it has <em>positive orientation</em>, larger is better).</p>
 </section>
 <section id="risk-function" class="level3">
@@ -414,10 +415,22 @@ R(a) = \operatorname{E}(L(x, a))
 \hat{R}(a) = R_{\hat{Q}_n}(a) =
 \frac{1}{n} \sum_{i=1}^{n} L(x_i, a)
 \]</span> where the expectation is replaced by the sample average.</p>
+</section>
+<section id="minimising-risk" class="level3">
+<h3 class="anchored" data-anchor-id="minimising-risk">Minimising risk</h3>
 <p>Minimising <span class="math inline">\(R(a)\)</span> finds optimal predictions<br>
 <span class="math display">\[
 a^{\ast} = \underset{a}{\arg \min}\, R(a)
-\]</span> Depending on the choice of underlying loss <span class="math inline">\(L(x, a)\)</span> minimising the risk provides a very general optimisation-based way to identify distributional features of the distribution <span class="math inline">\(Q\)</span> and to obtain parameter estimates.</p>
+\]</span></p>
+<p>Depending on the choice of underlying loss <span class="math inline">\(L(x, a)\)</span> minimising the risk provides a very general optimisation-based way to identify distributional features of the distribution <span class="math inline">\(Q\)</span> and to obtain parameter estimates.</p>
+</section>
+<section id="equivalent-loss-functions" class="level3">
+<h3 class="anchored" data-anchor-id="equivalent-loss-functions">Equivalent loss functions</h3>
+<p>Adding a positive scaling factor <span class="math inline">\(s &gt; 0\)</span> or an additive term <span class="math inline">\(k(x)\)</span> to the loss function generates the <strong>family of losses</strong> <span class="math display">\[
+s L(x, a) + k(x)
+\]</span> with associated risk <span class="math display">\[
+s R(a) + \operatorname{E}(k(x))
+\]</span> All such losses yield the same risk minimiser <span class="math inline">\(a^{\ast}\)</span> and are therefore <strong>equivalent for risk minimisation</strong>.</p>
 </section>
 <section id="scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="scoring-rules">Scoring rules</h3>
