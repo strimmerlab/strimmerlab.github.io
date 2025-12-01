@@ -229,8 +229,8 @@ window.Quarto = {
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss function</a></li>
   <li><a href="#risk-function" id="toc-risk-function" class="nav-link" data-scroll-target="#risk-function">Risk function</a></li>
   <li><a href="#minimising-risk" id="toc-minimising-risk" class="nav-link" data-scroll-target="#minimising-risk">Minimising risk</a></li>
-  <li><a href="#equivalent-loss-functions" id="toc-equivalent-loss-functions" class="nav-link" data-scroll-target="#equivalent-loss-functions">Equivalent loss functions</a></li>
   <li><a href="#scoring-rules" id="toc-scoring-rules" class="nav-link" data-scroll-target="#scoring-rules">Scoring rules</a></li>
+  <li><a href="#equivalent-loss-functions-and-scoring-rules" id="toc-equivalent-loss-functions-and-scoring-rules" class="nav-link" data-scroll-target="#equivalent-loss-functions-and-scoring-rules">Equivalent loss functions and scoring rules</a></li>
   <li><a href="#common-loss-functions" id="toc-common-loss-functions" class="nav-link" data-scroll-target="#common-loss-functions">Common loss functions</a></li>
   <li><a href="#logarithmic-scoring-rule" id="toc-logarithmic-scoring-rule" class="nav-link" data-scroll-target="#logarithmic-scoring-rule">Logarithmic scoring rule</a></li>
   <li><a href="#brier-or-quadratic-scoring-rule" id="toc-brier-or-quadratic-scoring-rule" class="nav-link" data-scroll-target="#brier-or-quadratic-scoring-rule">Brier or quadratic scoring rule</a></li>
@@ -424,27 +424,32 @@ a^{\ast} = \underset{a}{\arg \min}\, R(a)
 \]</span></p>
 <p>Depending on the choice of underlying loss <span class="math inline">\(L(x, a)\)</span> minimising the risk provides a very general optimisation-based way to identify distributional features of the distribution <span class="math inline">\(Q\)</span> and to obtain parameter estimates.</p>
 </section>
-<section id="equivalent-loss-functions" class="level3">
-<h3 class="anchored" data-anchor-id="equivalent-loss-functions">Equivalent loss functions</h3>
-<p>Adding a positive scaling factor <span class="math inline">\(s &gt; 0\)</span> or an additive term <span class="math inline">\(k(x)\)</span> to the loss function generates the <strong>family of losses</strong> <span class="math display">\[
-s L(x, a) + k(x)
-\]</span> with associated risk <span class="math display">\[
-s R(a) + \operatorname{E}(k(x))
-\]</span> All such losses yield the same risk minimiser <span class="math inline">\(a^{\ast}\)</span> and are therefore <strong>equivalent for risk minimisation</strong>.</p>
-</section>
 <section id="scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="scoring-rules">Scoring rules</h3>
 <p>A <strong>scoring rule</strong> <span class="math inline">\(S(x, P)\)</span> is special type of loss function<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that assesses the probabilistic forecast <span class="math inline">\(P\)</span> by assigning a numerical score based on <span class="math inline">\(P\)</span> and the observed outcome <span class="math inline">\(x\)</span>.</p>
-<p>The associated <strong>risk</strong> of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> is <span class="math display">\[
+<p>The <strong>risk</strong> of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> is <span class="math display">\[
 R_Q(P) = \operatorname{E}_{Q}\left(S(x, P)\right)
-\]</span> For a <strong>proper</strong> scoring rule the risk <span class="math inline">\(R_Q(P)\)</span> is minimised at <span class="math inline">\(P = Q\)</span>, hence <span class="math display">\[
+\]</span> The <strong>divergence</strong> between the distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> is given by <span class="math display">\[
+D(Q, P) = R_Q(P) - R_Q(Q)
+\]</span></p>
+<p>For a <strong>proper</strong> scoring rule the risk <span class="math inline">\(R_Q(P)\)</span> is minimised at <span class="math inline">\(P = Q\)</span>, hence <span class="math display">\[
 R_Q(P) \geq R_Q(Q)
-\]</span> For a <strong>strictly proper</strong> scoring rule the minimum is achieved only at the true distribution <span class="math inline">\(Q\)</span>, so equality holds exclusively for <span class="math inline">\(P = Q\)</span>.</p>
-<p>A proper scoring rule induces a <strong>divergence</strong> between the distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>, as the difference between the risk and the minimum risk : <span class="math display">\[
-D(Q, P) = R_Q(P) - R_Q(Q) \geq 0
-\]</span> By construction, the divergence <span class="math inline">\(D(Q, P)\)</span> is always <strong>non-negative</strong> and equals zero if <span class="math inline">\(P=Q\)</span>. For a stricly proper scoring rule the divergence vanishes exclusively for <span class="math inline">\(P=Q\)</span>.</p>
+\]</span> For a <strong>strictly proper</strong> scoring rule the minimum is achieved only at the true distribution <span class="math inline">\(Q\)</span>, so equality holds exclusively for <span class="math inline">\(P = Q\)</span>. Hence, for a proper scoring rule the divergence <span class="math inline">\(D(Q, P)  \geq 0\)</span> is always <strong>non-negative</strong> and equals zero if <span class="math inline">\(P=Q\)</span>. For a strictly proper scoring rule the divergence vanishes exclusively for <span class="math inline">\(P=Q\)</span>.</p>
 <p>Proper scoring rules are very useful as they allow to identify the underlying distribution and their parameters by risk minimisation or minimisation of the associated divergences.</p>
 <p>Proper scoring rules also have a number of further useful properties. For example, various <strong>decompositions</strong> exist for their risk, and the divergence satisfies a <strong>generalised Pythagorean theorem</strong>. Furthermore, there is a <strong>correspondence</strong> of proper scoring rules and their associated divergences with <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a>.</p>
+</section>
+<section id="equivalent-loss-functions-and-scoring-rules" class="level3">
+<h3 class="anchored" data-anchor-id="equivalent-loss-functions-and-scoring-rules">Equivalent loss functions and scoring rules</h3>
+<p>Adding a positive scaling factor <span class="math inline">\(c &gt; 0\)</span> or an additive term <span class="math inline">\(k(x)\)</span> to a loss function generates the <strong>family of equivalent losses</strong> <span class="math display">\[
+L_{\text{equiv}}(x, a) = c L(x, a) + k(x)
+\]</span> with associated risk <span class="math display">\[
+R_{\text{equiv}}(a) = c R(a) + \operatorname{E}(k(x))
+\]</span> All such losses yield the same risk minimiser <span class="math inline">\(a^{\ast}\)</span> and therefore are <strong>equivalent for risk minimisation</strong>.</p>
+<p>Furthermore, equivalent scoring rules <span class="math display">\[
+S_{\text{equiv}}(x, P) = c S(x, P) + k(x)
+\]</span> have associated equivalent divergences <span class="math display">\[
+D_{\text{equiv}}(Q, P) = c D(Q, P)
+\]</span> Thus, (strictly) proper scoring rules remain (strictly) proper under equivalence transformations. Furthermore, for <span class="math inline">\(c=1\)</span> equivalent scoring rules are <strong>strongly equivalent</strong> as their divergences are identical.</p>
 </section>
 <section id="common-loss-functions" class="level3">
 <h3 class="anchored" data-anchor-id="common-loss-functions">Common loss functions</h3>
@@ -576,7 +581,7 @@ D(Q, P) &amp;= R_Q(P) - \operatorname{Var}(Q) \\
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>As a loss function, scoring rules are negatively oriented. However, some authors consider them as utility functions with positive orientation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Treating scoring rules as loss functions implies a negative orientation. However, note that some authors adopt the opposite convention and treat scoring rules as positively oriented utility functions.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
