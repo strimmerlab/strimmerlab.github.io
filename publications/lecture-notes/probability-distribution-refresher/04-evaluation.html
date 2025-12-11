@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Evaluation – Probability and Distribution Refresher</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-univariate.html" rel="next">
+<link href="./03-transformations.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-evaluation.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Evaluation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probability and Distribution Refresher</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Combinatorics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and convolution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-evaluation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Evaluation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-expfam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exponential families</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-lossfunc" id="toc-sec-lossfunc" class="nav-link active" data-scroll-target="#sec-lossfunc"><span class="header-section-number">4.1</span> Loss functions</a>
+  <ul class="collapse">
+  <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss function</a></li>
+  <li><a href="#risk-function" id="toc-risk-function" class="nav-link" data-scroll-target="#risk-function">Risk function</a></li>
+  <li><a href="#minimising-risk" id="toc-minimising-risk" class="nav-link" data-scroll-target="#minimising-risk">Minimising risk</a></li>
+  <li><a href="#equivalent-loss-functions" id="toc-equivalent-loss-functions" class="nav-link" data-scroll-target="#equivalent-loss-functions">Equivalent loss functions</a></li>
+  </ul></li>
+  <li><a href="#common-loss-functions" id="toc-common-loss-functions" class="nav-link" data-scroll-target="#common-loss-functions"><span class="header-section-number">4.2</span> Common loss functions</a>
+  <ul class="collapse">
+  <li><a href="#squared-loss" id="toc-squared-loss" class="nav-link" data-scroll-target="#squared-loss">Squared loss</a></li>
+  <li><a href="#loss" id="toc-loss" class="nav-link" data-scroll-target="#loss">0-1 loss</a></li>
+  <li><a href="#asymmetric-loss" id="toc-asymmetric-loss" class="nav-link" data-scroll-target="#asymmetric-loss">Asymmetric loss</a></li>
+  <li><a href="#absolute-loss" id="toc-absolute-loss" class="nav-link" data-scroll-target="#absolute-loss">Absolute loss</a></li>
+  </ul></li>
+  <li><a href="#sec-scoringrules" id="toc-sec-scoringrules" class="nav-link" data-scroll-target="#sec-scoringrules"><span class="header-section-number">4.3</span> Scoring rules</a>
+  <ul class="collapse">
+  <li><a href="#proper-scoring-rules" id="toc-proper-scoring-rules" class="nav-link" data-scroll-target="#proper-scoring-rules">Proper scoring rules</a></li>
+  <li><a href="#score-entropy" id="toc-score-entropy" class="nav-link" data-scroll-target="#score-entropy">Score entropy</a></li>
+  <li><a href="#score-divergence" id="toc-score-divergence" class="nav-link" data-scroll-target="#score-divergence">Score divergence</a></li>
+  <li><a href="#equivalent-scoring-rules" id="toc-equivalent-scoring-rules" class="nav-link" data-scroll-target="#equivalent-scoring-rules">Equivalent scoring rules</a></li>
+  <li><a href="#correspondence-with-bregman-divergences" id="toc-correspondence-with-bregman-divergences" class="nav-link" data-scroll-target="#correspondence-with-bregman-divergences">Correspondence with Bregman divergences</a></li>
+  <li><a href="#further-properties" id="toc-further-properties" class="nav-link" data-scroll-target="#further-properties">Further properties</a></li>
+  </ul></li>
+  <li><a href="#common-scoring-rules" id="toc-common-scoring-rules" class="nav-link" data-scroll-target="#common-scoring-rules"><span class="header-section-number">4.4</span> Common scoring rules</a>
+  <ul class="collapse">
+  <li><a href="#sec-logscore" id="toc-sec-logscore" class="nav-link" data-scroll-target="#sec-logscore">Logarithmic scoring rule</a></li>
+  <li><a href="#brier-or-quadratic-scoring-rule" id="toc-brier-or-quadratic-scoring-rule" class="nav-link" data-scroll-target="#brier-or-quadratic-scoring-rule">Brier or quadratic scoring rule</a></li>
+  <li><a href="#proper-but-not-strictly-proper-scoring-rules" id="toc-proper-but-not-strictly-proper-scoring-rules" class="nav-link" data-scroll-target="#proper-but-not-strictly-proper-scoring-rules">Proper but not strictly proper scoring rules</a></li>
+  <li><a href="#other-strictly-proper-scoring-rules" id="toc-other-strictly-proper-scoring-rules" class="nav-link" data-scroll-target="#other-strictly-proper-scoring-rules">Other strictly proper scoring rules</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Evaluation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-lossfunc" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-lossfunc"><span class="header-section-number">4.1</span> Loss functions</h2>
+<section id="loss-function" class="level3">
+<h3 class="anchored" data-anchor-id="loss-function">Loss function</h3>
+<p>A <strong>loss or cost function</strong> <span class="math inline">\(L(x, a)\)</span> evaluates a prediction <span class="math inline">\(a\)</span>, for example a parameter or a probability distribution, on the basis of an observed outcome <span class="math inline">\(x\)</span>, and returns a numerical score.</p>
+<p>A loss function measures, informally, the error between <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span>. During optimisation the prediction <span class="math inline">\(a\)</span> is varied and the aim is minimisation of the error (hence a loss function has <em>negative orientation</em>, smaller is better).</p>
+<p>A <strong>utility or reward function</strong> is a loss function with a reversed sign (hence it has <em>positive orientation</em>, larger is better).</p>
+</section>
+<section id="risk-function" class="level3">
+<h3 class="anchored" data-anchor-id="risk-function">Risk function</h3>
+<p>The <strong>risk</strong> of <span class="math inline">\(a\)</span> under the distribution <span class="math inline">\(Q\)</span> for <span class="math inline">\(x\)</span> is defined as the expected loss <span class="math display">\[
+R(Q, a) = \operatorname{E}_Q(L(x, a))
+\]</span></p>
+<p>The risk is <strong>mixture preserving in Q</strong> meaning that <span class="math display">\[
+R( Q_{\lambda}, a ) = (1-\lambda) R(Q_0, a) + \lambda R(Q_1, a)
+\]</span> for the mixture <span class="math inline">\(Q_{\lambda}=(1-\lambda) Q_0 + \lambda Q_1\)</span> with <span class="math inline">\(0 &lt; \lambda &lt; 1\)</span> and <span class="math inline">\(Q_0 \neq Q_1\)</span>. This follows from the linearity of expectation.</p>
+<p>The risk of <span class="math inline">\(a\)</span> under the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> obtained from observations <span class="math inline">\(x_1, \ldots, x_n\)</span> is the <strong>empirical risk</strong> <span class="math display">\[
+R(\hat{Q}_n, a) =
+\frac{1}{n} \sum_{i=1}^{n} L(x_i, a)
+\]</span> where the expectation is replaced by the sample average.</p>
+</section>
+<section id="minimising-risk" class="level3">
+<h3 class="anchored" data-anchor-id="minimising-risk">Minimising risk</h3>
+<p>Minimising <span class="math inline">\(R(Q, a)\)</span> with regard to <span class="math inline">\(a\)</span> finds optimal predictions<br>
+<span class="math display">\[
+a^{\ast} = \underset{a}{\arg \min}\, R(Q, a)
+\]</span> with associated minimum risk <span class="math inline">\(R(Q, a^{\ast})\)</span>.</p>
+<p>Depending on the choice of underlying loss <span class="math inline">\(L(x, a)\)</span> minimising the risk provides a very general optimisation-based way to identify distributional features of the distribution <span class="math inline">\(Q\)</span> and to obtain parameter estimates.</p>
+</section>
+<section id="equivalent-loss-functions" class="level3">
+<h3 class="anchored" data-anchor-id="equivalent-loss-functions">Equivalent loss functions</h3>
+<p>Adding a positive scaling factor <span class="math inline">\(c &gt; 0\)</span> or an additive term <span class="math inline">\(k(x)\)</span> to a loss function generates a family of <strong>equivalent loss functions</strong> <span class="math display">\[
+L^{\text{equiv}}(x, a) = c L(x, a) + k(x)
+\]</span> with associated risk <span class="math display">\[
+R^{\text{equiv}}(Q, a) = c R(Q, a) + \operatorname{E}_Q(k(x))
+\]</span> Equivalent losses yield the <strong>same risk minimiser</strong> <span class="math inline">\({\arg \min}_a\, R(Q, a)\)</span> and the <strong>same loss minimiser</strong> <span class="math inline">\({\arg \min}_a\, L(x, a)\)</span> for fixed <span class="math inline">\(x\)</span>.</p>
+</section>
+</section>
+<section id="common-loss-functions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="common-loss-functions"><span class="header-section-number">4.2</span> Common loss functions</h2>
+<section id="squared-loss" class="level3">
+<h3 class="anchored" data-anchor-id="squared-loss">Squared loss</h3>
+<p>The <strong>squared loss</strong> or <strong>squared error</strong> <span class="math display">\[
+L_\text{sq}(x,a) = (x-a)^2
+\]</span> is one of the most commonly used loss functions. The corresponding risk is the <strong>mean squared loss</strong> or <strong>mean squared error</strong> (MSE) <span class="math display">\[
+R_{\text{sq}}(Q, a) = \operatorname{E}_Q((x-a)^2)
+\]</span> which is <strong>minimised at the mean</strong> <span class="math inline">\(a^{\ast} = \operatorname{E}(Q)\)</span>. This follows from <span class="math inline">\(R_{\text{sq}}(Q, a) = \operatorname{E}_Q(x^2) - 2 a \operatorname{E}_Q(x) + a^2\)</span> and <span class="math inline">\(dR_{\text{sq}}(Q, a)/da = - 2 \operatorname{E}_Q(x) + 2 a\)</span>. The <strong>minimum risk</strong> <span class="math inline">\(R_{\text{sq}}(a^{\ast}) = \operatorname{Var}(Q)\)</span> equals the <strong>variance</strong>.</p>
+</section>
+<section id="loss" class="level3">
+<h3 class="anchored" data-anchor-id="loss">0-1 loss</h3>
+<p>The <strong>0-1 loss</strong> function can be written as <span class="math display">\[
+L_{\text{01}}(x, a) =
+\begin{cases}
+-[x = a] &amp; \text{discrete case} \\
+-\delta(x-a) &amp; \text{continuous case} \\
+\end{cases}
+\]</span> employing the indicator function and Dirac delta function, respectively. The corresponding risk assuming <span class="math inline">\(x \sim Q\)</span> and pdmf <span class="math inline">\(q(x)\)</span> is <span class="math display">\[
+R_{\text{01}}(Q, a) = -q(a)
+\]</span> which is <strong>minimised at the mode</strong> of the pdmf.</p>
+</section>
+<section id="asymmetric-loss" class="level3">
+<h3 class="anchored" data-anchor-id="asymmetric-loss">Asymmetric loss</h3>
+<p>The <strong>asymmetric loss</strong> can be defined as <span class="math display">\[
+L_{\text{asym}}(x, a; \tau) =
+\begin{cases}
+2 \tau (x-a) &amp; \text{for $x\geq a$} \\
+2 (1-\tau) (a-x)  &amp; \text{for $x &lt; a$} \\
+\end{cases}
+\]</span> and the corresponding risk is <strong>minimised at the quantile</strong> <span class="math inline">\(x_{\tau}\)</span>.</p>
+</section>
+<section id="absolute-loss" class="level3">
+<h3 class="anchored" data-anchor-id="absolute-loss">Absolute loss</h3>
+<p>For <span class="math inline">\(\tau=1/2\)</span> it reduces to the <strong>absolute loss</strong> <span class="math display">\[
+L_{\text{abs}}(x, a) = | x - a|
+\]</span> whose corresponding risk is <strong>minimised at the median</strong> <span class="math inline">\(x_{1/2}\)</span>.</p>
+</section>
+</section>
+<section id="sec-scoringrules" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-scoringrules"><span class="header-section-number">4.3</span> Scoring rules</h2>
+<section id="proper-scoring-rules" class="level3">
+<h3 class="anchored" data-anchor-id="proper-scoring-rules">Proper scoring rules</h3>
+<p>A <strong>scoring rule</strong> <span class="math inline">\(S(x, P)\)</span> is special type of loss function<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that assesses the probabilistic forecast <span class="math inline">\(P\)</span> by assigning a numerical score based on <span class="math inline">\(P\)</span> and the observed outcome <span class="math inline">\(x\)</span>.</p>
+<p>The <strong>risk</strong> of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> is the expected score <span class="math display">\[
+R(Q, P) = \operatorname{E}_{Q}\left(S(x, P)\right)
+\]</span></p>
+<p>For a <strong>proper scoring rule</strong>, the risk <span class="math inline">\(R(Q, P)\)</span> is smallest when the quoted model <span class="math inline">\(P\)</span> matches the true model <span class="math inline">\(Q\)</span>. The minimal risk, achieved for <span class="math inline">\(P=Q\)</span>, leads to the <strong>properness inequality</strong> <span class="math display">\[
+R(Q, P) \geq R(Q, Q)
+\]</span> For a <strong>strictly proper</strong> scoring rule, the minimum risk is realised only for the true model, so <strong>equality holds exclusively</strong> for <span class="math inline">\(P = Q\)</span>.</p>
+</section>
+<section id="score-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="score-entropy">Score entropy</h3>
+<p>The minimum risk associated with a proper scoring rule is called the <strong>score entropy</strong> <span class="math inline">\(R(Q) = R(Q,Q)\)</span>. With it the properness inequality becomes <span class="math display">\[
+R(Q, P) \geq R(Q)
+\]</span></p>
+<p>For a <strong>proper</strong> scoring rule, the score entropy <span class="math inline">\(R(Q)\)</span> is <strong>concave</strong> in <span class="math inline">\(Q\)</span>. For a <strong>strictly proper</strong> scoring rule, the score entropy <span class="math inline">\(R(Q)\)</span> is <strong>strictly concave</strong>. This means that <span class="math display">\[
+R( Q_{\lambda}) \geq (1-\lambda) R(Q_0) + \lambda R(Q_1)
+\]</span> for the mixture <span class="math inline">\(Q_{\lambda}=(1-\lambda) Q_0 + \lambda Q_1\)</span> with <span class="math inline">\(0 &lt; \lambda &lt; 1\)</span> and <span class="math inline">\(Q_0 \neq Q_1\)</span> (for strict concavity replace <span class="math inline">\(\geq\)</span> by <span class="math inline">\(&gt;\)</span>).</p>
+<p>This follows from the fact that risk <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in <span class="math inline">\(Q\)</span>. Hence, <span class="math inline">\(R(Q_{\lambda}, Q_{\lambda} ) = (1-\lambda) R(Q_0, Q_{\lambda} ) + \lambda R(Q_1, Q_{\lambda} )\)</span>. Applying properness <span class="math inline">\(R(Q_i, Q_{\lambda} ) \geq R(Q_i)\)</span> with <span class="math inline">\(i \in \{0,1\}\)</span> yields concavity.</p>
+</section>
+<section id="score-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="score-divergence">Score divergence</h3>
+<p>The <strong>score divergence</strong> between the distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> equals the excess risk given by <span class="math display">\[
+D(Q, P) = R(Q, P) - R(Q)
+\]</span> For a <strong>proper</strong> scoring rule, the divergence <span class="math inline">\(D(Q, P)  \geq 0\)</span> is always <strong>non-negative</strong> and with <span class="math inline">\(D(Q, P)=0\)</span> if <span class="math inline">\(P=Q\)</span>. For a <strong>strictly proper</strong> scoring rule <span class="math inline">\(D(Q, P)=0\)</span> only when <span class="math inline">\(P=Q\)</span>.</p>
+<p>The score divergence <span class="math inline">\(D(Q, P)\)</span> is <strong>convex in <span class="math inline">\(Q\)</span></strong> for fixed <span class="math inline">\(P\)</span> for a <strong>proper</strong> scoring rule. It is <strong>strictly convex in <span class="math inline">\(Q\)</span></strong> for a <strong>strictly proper</strong> scoring rule. The convexity of <span class="math inline">\(D(Q,P)\)</span> in <span class="math inline">\(Q\)</span> derives from the concavity of <span class="math inline">\(R(Q)\)</span> and the fact that <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in&nbsp;<span class="math inline">\(Q\)</span>.</p>
+</section>
+<section id="equivalent-scoring-rules" class="level3">
+<h3 class="anchored" data-anchor-id="equivalent-scoring-rules">Equivalent scoring rules</h3>
+<p>Equivalent scoring rules <span class="math display">\[
+S^{\text{equiv}}(x, P) = c S(x, P) + k(x)
+\]</span> have associated equivalent score divergences <span class="math display">\[
+D^{\text{equiv}}(Q, P) = R^{\text{equiv}}(Q, P) - R^{\text{equiv}}(Q) = c D(Q, P)
+\]</span> Thus, (strictly) proper scoring rules remain (strictly) proper under equivalence transformations. Furthermore, for <span class="math inline">\(c=1\)</span> equivalent scoring rules are <strong>strongly equivalent</strong> as their divergences are identical.</p>
+</section>
+<section id="correspondence-with-bregman-divergences" class="level3">
+<h3 class="anchored" data-anchor-id="correspondence-with-bregman-divergences">Correspondence with Bregman divergences</h3>
+<p>Proper scoring rules and their associated divergences correspond to <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a> well-known in optimisation and machine learning.</p>
+<p>Specifically, the negative score entropy acts as the <strong>convex potential</strong> <span class="math inline">\(\Phi(Q) = -R(Q)\)</span> generating the score (Bregman) divergence <span class="math inline">\(D(Q,P)\)</span> via <span class="math display">\[
+D(Q,P) = \Phi(Q) -\Phi(P) - \langle \nabla \Phi(P), Q-P \rangle
+\]</span></p>
+</section>
+<section id="further-properties" class="level3">
+<h3 class="anchored" data-anchor-id="further-properties">Further properties</h3>
+<p>Proper scoring rules are highly useful because they enable identification of an underlying distribution and its parameters via risk minimisation or minimisation of the associated divergences. These approaches generalise conventional likelihood and Bayesian methods that are based on the logarithmic scoring rule (<a href="#sec-logscore" class="quarto-xref"><span>Section 4.4.1</span></a>).</p>
+<p>Proper scoring rules also enjoy several additional properties not mentioned above. For example, various <strong>decompositions</strong> exist for their risk, and the score divergence satisfies a <strong>generalised Pythagorean theorem</strong>.</p>
+</section>
+</section>
+<section id="common-scoring-rules" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="common-scoring-rules"><span class="header-section-number">4.4</span> Common scoring rules</h2>
+<section id="sec-logscore" class="level3">
+<h3 class="anchored" data-anchor-id="sec-logscore">Logarithmic scoring rule</h3>
+<p>The most important scoring rule is the <strong>logarithmic scoring rule</strong> or <strong>log-loss</strong> <span class="math display">\[
+S_{\text{log}}(x, P) = - \log p(x)
+\]</span></p>
+<p>The risk of <span class="math inline">\(P\)</span> under <span class="math inline">\(Q\)</span> based on the log-loss is the <strong>mean log-loss</strong> <span class="math display">\[
+R_{\text{log}}(Q, P) = - \operatorname{E}_{Q} \log p(x) = H(Q, P)
+\]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span>. Thus, the log-loss is <strong>strictly proper</strong>. Moreover, the log-loss is noted as the only <strong>local</strong> strictly proper scoring rule, as it solely depends on the value of the pdmf at the observed outcome <span class="math inline">\(x\)</span>, and not on any other features of the distribution&nbsp;<span class="math inline">\(P\)</span>.</p>
+<p>The mean log-loss is also known as <strong>cross-entropy</strong> denoted by <span class="math inline">\(H(Q, P)\)</span>.</p>
+<p>The minimum risk (score entropy) equals the <strong>information entropy</strong> denoted by <span class="math inline">\(H(Q):\)</span> <span class="math display">\[
+R_{\text{log}}(Q) = -\operatorname{E}_{Q} \log q(x) = H(Q)
+\]</span> The properness inequality <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>, with equality exclusively for <span class="math inline">\(P=Q\)</span> and relating cross-entropy and information entropy, is known as <strong>Gibbs’ inequality</strong>.</p>
+<p>The score divergence induced by the log-loss is the Kullback-Leibler (KL) divergence <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(Q,P) &amp;=  R_{\text{log}}(Q,P) -R_{\text{log}}(Q)) \\
+          &amp;= H(Q, P) - H(Q) \\
+          &amp;= \operatorname{E}_{Q} \log\left(\frac{q(x)}{p(x)}\right)\\
+\end{split}
+\]</span> The KL divergence obeys the <strong>data processing inequality</strong>, i.e.&nbsp;applying a transformation to the underlying random variables cannot increase the KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>. This property also holds for all <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> (of which the KL divergence is a principal example), but is notably <em>not</em> satisfied by divergences of other proper scoring rules (and thus other Bregman divergences).</p>
+<p>Furthermore, the KL divergence is the only divergence induced by proper scoring rules (and thus the only Bregman divergence), as well as the only <span class="math inline">\(f\)</span>-divergence, that is <strong>invariant against general coordinate transformations</strong>. Coordinate transformations can be viewed as a special case of data processing, and for <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> the data-processing inequality under general invertible transformations becomes an identity.</p>
+<p>The empirical risk of a distribution family <span class="math inline">\(P(\theta)\)</span> based on the log-loss is proportional to the log-likelihood function <span class="math display">\[
+\begin{split}
+R_{\text{log}}(\hat{Q}_n, P(\theta)) &amp;= - \frac{1}{n} \sum_{i=1}^n \log p(x_i | \theta) \\
+                &amp;= - \frac{1}{n} \ell_n(\theta)\\
+\end{split}
+\]</span> Minimising the empirical risk is thus equivalent to maximising the log-likelihood <span class="math inline">\(\ell_n(\theta)\)</span>.</p>
+<p>Similarly, minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(\hat{Q}_n,P(\theta))\)</span> with regard to&nbsp;<span class="math inline">\(\theta\)</span> is equivalent to minimising the empirical risk and hence to maximum likelihood.</p>
+</section>
+<section id="brier-or-quadratic-scoring-rule" class="level3">
+<h3 class="anchored" data-anchor-id="brier-or-quadratic-scoring-rule">Brier or quadratic scoring rule</h3>
+<p>The <strong>Brier scoring rule</strong>, also known as <strong>quadratic scoring rule</strong>, evaluates a probabilistic categorical forecast <span class="math inline">\(P\)</span> with corresponding class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> given a realisation <span class="math inline">\(\boldsymbol x\)</span> from the categorical distribution <span class="math inline">\(Q\)</span> with class probabilities <span class="math inline">\(q_1, \ldots, q_K\)</span>. It can be written as <span class="math display">\[
+\begin{split}
+S_{\text{Brier}}(\boldsymbol x, P) &amp;= \sum_{y=1}^K \left(x_y -p_y\right)^2 \\
+&amp;= 1 -  2 \sum_{y=1}^K x_y p_y +   \sum_{y=1}^K p_y^2\\
+&amp;= 1 -  2  p_k +   \sum_{y=1}^K p_y^2\\
+\end{split}
+\]</span> The indicator vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> contains zeros everywhere except for a single element <span class="math inline">\(x_k=1\)</span>. Unlike the log-loss, the Brier score is <em>not local</em> as the pmf for <span class="math inline">\(P\)</span> is evaluated across all <span class="math inline">\(K\)</span> classes, not just at the realised class <span class="math inline">\(k\)</span>.</p>
+<p>The corresponding risk is <span class="math display">\[
+\begin{split}
+R_{\text{Brier}}(Q,P) &amp;= \operatorname{E}_Q(S(\boldsymbol x, P)) \\
+       &amp;= 1 -2 \sum_{y=1}^K q_y p_y +\sum_{y=1}^K p_y^2\\
+\end{split}
+\]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span>. Thus, the Brier score is <strong>strictly proper</strong>.</p>
+<p>The minimum risk (score entropy) is <span class="math display">\[
+R_{\text{Brier}}(Q) = 1 -  \sum_{y=1}^K q_y^2
+\]</span></p>
+<p>The divergence induced by the Brier score is the <strong>squared Euclidean distance</strong> between the two pmfs: <span class="math display">\[
+\begin{split}
+D_{\text{Brier}}(Q, P) &amp;= R_{\text{Brier}}(Q, P) - R_{\text{Brier}}(Q) \\
+        &amp; = \sum_{y=1}^K  \left(q_y - p_y\right)^2\\
+\end{split}
+\]</span></p>
+</section>
+<section id="proper-but-not-strictly-proper-scoring-rules" class="level3">
+<h3 class="anchored" data-anchor-id="proper-but-not-strictly-proper-scoring-rules">Proper but not strictly proper scoring rules</h3>
+<p>An example of a proper, but not strictly proper, scoring rule is the <strong>squared error relative to the mean</strong> of the quoted model <span class="math inline">\(P\)</span>: <span class="math display">\[
+S_{\text{sq}}(x, P) = (x- \operatorname{E}(P))^2
+\]</span></p>
+<p>The corresponding risk is <span class="math display">\[
+\begin{split}
+R_{\text{sq}}(Q, P) &amp;= \operatorname{E}_Q\left( (x- \operatorname{E}(P))^2 \right)\\
+       &amp; = (\operatorname{E}(Q)-\operatorname{E}(P))^2 + \operatorname{Var}(Q)\\
+\end{split}
+\]</span> which is minimised at <span class="math inline">\(P=Q\)</span> but also at any distribution <span class="math inline">\(P\)</span> with the same mean as <span class="math inline">\(Q\)</span>.</p>
+<p>The minimum risk (score entropy) is the variance <span class="math display">\[
+R_{\text{sq}}(Q) = \operatorname{Var}(Q)
+\]</span></p>
+<p>The score divergence is the squared distance between the two means <span class="math display">\[
+\begin{split}
+D_{\text{sq}}(Q, P) &amp;= R_{\text{sq}}(Q, P) -R_{\text{sq}}(Q)) \\
+        &amp;= (\operatorname{E}(Q)-\operatorname{E}(P))^2\\
+\end{split}
+\]</span> which vanishes at <span class="math inline">\(P=Q\)</span> but also at any <span class="math inline">\(P\)</span> with <span class="math inline">\(\operatorname{E}(P)=\operatorname{E}(Q)\)</span>.</p>
+<p>The <strong>Dawid-Sebastiani scoring rule</strong> is a related scoring rule given by <span class="math display">\[
+S_{\text{DS}}\left(x, P\right) =  \log \operatorname{Var}(P) + \frac{(x-\operatorname{E}(P))^2}{\operatorname{Var}(P)}
+\]</span> It is equivalent to the log-loss applied to a normal model&nbsp;<span class="math inline">\(P\)</span>.</p>
+<p>The corresponding risk is <span class="math display">\[
+\begin{split}
+R_{\text{DS}}(Q, P) &amp;= \log \operatorname{Var}(P)  + \frac{(\operatorname{E}(Q)-\operatorname{E}(P))^2}{\operatorname{Var}(P)} + \frac{\operatorname{Var}(Q)}{\operatorname{Var}(P)}\\
+\end{split}
+\]</span> which is minimised at <span class="math inline">\(P=Q\)</span> but also at any distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(\operatorname{E}(P)=\operatorname{E}(Q)\)</span> and <span class="math inline">\(\operatorname{Var}(P)=\operatorname{Var}(Q)\)</span>.</p>
+<p>The minimum risk (score entropy) is <span class="math display">\[
+R_{\text{DS}}(Q) = \log \operatorname{Var}(Q) +1
+\]</span></p>
+<p>The score divergence is <span class="math display">\[
+\begin{split}
+D_{\text{DS}}(Q, P) &amp;= R_{\text{DS}}(Q, P) - R_{\text{DS}}(Q) \\
+        &amp;= \frac{(\operatorname{E}(Q)-\operatorname{E}(P))^2}{\operatorname{Var}(P)} +\frac{\operatorname{Var}(Q)}{\operatorname{Var}(P)}  - \log\left( \frac{\operatorname{Var}(Q}{\operatorname{Var}(P} \right)  -1 \\
+\end{split}
+\]</span> which vanishes at <span class="math inline">\(P=Q\)</span> but also at any <span class="math inline">\(P\)</span> for which <span class="math inline">\(\operatorname{E}(P)=\operatorname{E}(Q)\)</span> and <span class="math inline">\(\operatorname{Var}(P)=\operatorname{Var}(Q)\)</span>.</p>
+</section>
+<section id="other-strictly-proper-scoring-rules" class="level3">
+<h3 class="anchored" data-anchor-id="other-strictly-proper-scoring-rules">Other strictly proper scoring rules</h3>
+<p>Other useful strictly proper scoring rules include:</p>
+<ul>
+<li>the continuous ranked probability score (CRPS),</li>
+<li>the energy score (multivariate CRPS), and</li>
+<li>the Hyvärinen scoring rule.</li>
+</ul>
+<p>See also (Wikipedia): <a href="https://en.wikipedia.org/wiki/Scoring_rule">scoring rule</a>.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Treating scoring rules as loss functions implies a negative orientation. However, some authors adopt the opposite convention and treat scoring rules as positively oriented utility functions.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/strimmerlab\.github\.io\/publications\/lecture-notes\/probability-distribution-refresher\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-transformations.html" class="pagination-link" aria-label="Transformations and convolution">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and convolution</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-univariate.html" class="pagination-link" aria-label="Univariate distributions">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -184,25 +184,31 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations, convolution and loss functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and convolution</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-univariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
+  <a href="./04-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Evaluation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-multivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  <a href="./05-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Univariate distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-expfam.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exponential families</span></span></a>
+  <a href="./06-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multivariate distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-expfam.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exponential families</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -301,7 +307,7 @@ window.Quarto = {
 <section id="probability-mass-and-density-function" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="probability-mass-and-density-function"><span class="header-section-number">2.3</span> Probability mass and density function</h2>
 <p>The <strong>distribution</strong> (or <strong>law</strong>) of a random variable <span class="math inline">\(x\)</span> with sample space <span class="math inline">\(\Omega\)</span> is the probability measure that assigns probabilities to values or ranges of <span class="math inline">\(x\)</span>. This is done in practise by employing probability mass functions (pmf, for discrete random variables) or probability density functions (pdf, for continuous random variables).</p>
-<p>The scalar random variable <span class="math inline">\(x\)</span> is denoted by lower case and plain font. We also write <span class="math inline">\(x\)</span> for the outcomes of the random variable. Thus, we use the same symbol to denote a random variable and its realisations.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>The scalar random variable <span class="math inline">\(x\)</span> is written in lowercase plain font. We use the same symbol <span class="math inline">\(x\)</span> for both the random variable and its realisations.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>For a discrete random variable we define the event <span class="math inline">\(A = \{x: x=a\} = \{a\}\)</span> (corresponding to a single elementary event) and get the probability <span class="math display">\[
 \operatorname{Pr}(A) = \operatorname{Pr}(x=a) = f(a)
 \]</span> directly from the <strong>probability mass function</strong> (<strong>pmf</strong>). The pmf has the property that <span class="math inline">\(\sum_{x \in \Omega} f(x) = 1\)</span> and that <span class="math inline">\(f(x) \in [0,1]\)</span>.</p>
@@ -363,27 +369,33 @@ q_F(3/4) - q_F(1/4)\)</span>.</p>
 <h2 data-number="2.6" class="anchored" data-anchor-id="expectation-or-mean"><span class="header-section-number">2.6</span> Expectation or mean</h2>
 <p>The expected value of a random variable <span class="math inline">\(x\sim F\)</span> is defined as the weighted average over all possible outcomes, with the weight given by the pdmf&nbsp;<span class="math inline">\(f(x)\)</span>: <span class="math display">\[
 \begin{split}
-\operatorname{E}(F) &amp;= \operatorname{E}(x)\\
-&amp; = \mu =
+\operatorname{E}(x) &amp;= \operatorname{E}_F(x) = \operatorname{E}(F)\\
+&amp; =
 \begin{cases}
 \sum_{x \in \Omega} f(x) \, x &amp; \text{discrete case} \\
 \int_{x \in \Omega} f(x) \, x \, dx  &amp; \text{continuous case} \\
 \end{cases}\\
 \end{split}
-\]</span> We may can also write <span class="math inline">\(\operatorname{E}_{F}(x)\)</span> as a reminder that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>. Usually, the subscript <span class="math inline">\(F\)</span> is left out if there are no ambiguities. A further variant is to write the expectation as <span class="math inline">\(\operatorname{E}(F)\)</span> to indicate that the mean is a functional of the distribution&nbsp;<span class="math inline">\(F\)</span>.</p>
-<p>Because the sum or integral may diverge, not all distributions have finite means so the mean does not always exist (in contrast to the median, or quantiles in general). For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> does not have a mean for a degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 1\)</span> (see <a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+\]</span> The subscript <span class="math inline">\(F\)</span> in <span class="math inline">\(\operatorname{E}_{F}(x)\)</span> indicates that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>, but is usually left out if there are no ambiguities. The notation <span class="math inline">\(\operatorname{E}(F)\)</span> emphasises that the mean is a functional of the distribution&nbsp;<span class="math inline">\(F\)</span>.</p>
+<p>Because the sum or integral may diverge, not all distributions have finite means so the mean does not always exist (in contrast to the median, or quantiles in general). For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> does not have a mean for a degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 1\)</span> (see <a href="05-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 5.6</span></a>).</p>
+<p>Expectation is a <strong>linear operator</strong>, meaning that <span class="math display">\[
+\operatorname{E}(a_1 x_1 + a_2 x_2) = a_1  \operatorname{E}(x_1) +  a_2  \operatorname{E}(x_2)
+\]</span> for random variables <span class="math inline">\(x_1\sim F_1\)</span> and <span class="math inline">\(x_2 \sim F_2\)</span> and constants <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>.</p>
+<p>Consequently, expectation is <strong>mixture preserving</strong> so that <span class="math display">\[
+\operatorname{E}(Q_{\lambda}) = (1-\lambda) \operatorname{E}(Q_0) + \lambda \operatorname{E}(Q_1)
+\]</span> for the mixture <span class="math inline">\(Q_{\lambda}=(1-\lambda) Q_0 + \lambda Q_1\)</span> with <span class="math inline">\(0 &lt; \lambda &lt; 1\)</span> and <span class="math inline">\(Q_0 \neq Q_1\)</span>.</p>
 </section>
 <section id="variance" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="variance"><span class="header-section-number">2.7</span> Variance</h2>
 <p>The variance of a random variable <span class="math inline">\(x\sim F\)</span> is the expected value of the squared deviation around the mean <span class="math inline">\(\mu = \operatorname{E}(x)\)</span>: <span class="math display">\[
 \begin{split}
-\operatorname{Var}(F)&amp; = \operatorname{Var}(x) \\
+\operatorname{Var}(x) &amp;= \operatorname{Var}_F(x) =  \operatorname{Var}(F)\\
        &amp;= \operatorname{E}\left( (x - \mu))^2 \right) \\
        &amp;=  \operatorname{E}(x^2)-\mu^2
 \end{split}
 \]</span> By construction, <span class="math inline">\(\operatorname{Var}(x) \geq 0\)</span>.</p>
 <p>The notation <span class="math inline">\(\operatorname{Var}(F)\)</span> highlights that the variance is a functional of the distribution&nbsp;<span class="math inline">\(F\)</span>. Occasionally, we write <span class="math inline">\(\operatorname{Var}_F(x)\)</span> indicate that the expectation is taken with regard to the distribution <span class="math inline">\(F\)</span>.</p>
-<p>Like the mean, the variance may diverge and hence not necessarily exists for all distribution. For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> does not have a variance for the degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 2\)</span> (see <a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+<p>Like the mean, the variance may diverge and hence not necessarily exists for all distribution. For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> does not have a variance for the degree of freedom in the range <span class="math inline">\(0 &lt; \nu \leq 2\)</span> (see <a href="05-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 5.6</span></a>).</p>
 </section>
 <section id="moments-of-a-distribution" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="moments-of-a-distribution"><span class="header-section-number">2.8</span> Moments of a distribution</h2>
@@ -405,7 +417,7 @@ m_n(F) = \operatorname{E}((x-\mu)^n)
 <li>First central moment: <span class="math inline">\(m_1(F) = \operatorname{E}((x-\mu)^1) = 0\)</span></li>
 <li>Second central moment: <span class="math inline">\(m_2(F) = \operatorname{E}\left( (x - \mu)^2 \right)\)</span> (=the variance)</li>
 </ul>
-<p>The moments of a distribution are not necessarily all finite, i.e.&nbsp;some moments may not exist. For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> only has finite moments of degree smaller than the degree of freedom <span class="math inline">\(\nu\)</span> (see <a href="04-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+<p>The moments of a distribution are not necessarily all finite, i.e.&nbsp;some moments may not exist. For example, the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> only has finite moments of degree smaller than the degree of freedom <span class="math inline">\(\nu\)</span> (see <a href="05-univariate.html#sec-lstdist" class="quarto-xref"><span>Section 5.6</span></a>).</p>
 </section>
 <section id="expectation-of-a-transformed-random-variable" class="level2" data-number="2.9">
 <h2 data-number="2.9" class="anchored" data-anchor-id="expectation-of-a-transformed-random-variable"><span class="header-section-number">2.9</span> Expectation of a transformed random variable</h2>
@@ -447,13 +459,13 @@ m_n(F) = \operatorname{E}((x-\mu)^n)
 <p>In addition to scalar random variables we often make use of random vectors and random matrices.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>The mean of a random vector <span class="math inline">\(\boldsymbol x= (x_1, x_2,...,x_d)^T \sim F\)</span> is given by <span class="math display">\[
 \begin{split}
-\operatorname{E}(F) &amp;= \operatorname{E}(\boldsymbol x) \\
+\operatorname{E}(\boldsymbol x) &amp;= \operatorname{E}(F) \\
            &amp;= \underbrace{\boldsymbol \mu}_{d \times 1} = (\mu_1, \ldots, \mu_d)^T\\
 \end{split}
 \]</span> and thus is a vector of the same dimension as <span class="math inline">\(\boldsymbol x\)</span>, where <span class="math inline">\(\mu_i = \operatorname{E}(x_i)\)</span> are the means of the individual components <span class="math inline">\(x_i\)</span>.</p>
 <p>The variance of a random vector <span class="math inline">\(\boldsymbol x\)</span> of length <span class="math inline">\(d\)</span>, however, is not a vector but a matrix of size <span class="math inline">\(d\times d\)</span>. This matrix is called the <strong>covariance matrix</strong>: <span class="math display">\[
 \begin{split}
-\operatorname{Var}(F) &amp;= \operatorname{Var}(\boldsymbol x) \\
+\operatorname{Var}(\boldsymbol x) &amp;= \operatorname{Var}(F) \\
           &amp;= \underbrace{\boldsymbol \Sigma}_{d\times d} = (\sigma_{ij})
           = \begin{pmatrix}
     \sigma_{11} &amp; \dots &amp; \sigma_{1d}\\
@@ -497,7 +509,7 @@ m_n(F) = \operatorname{E}((x-\mu)^n)
 <p>The associated pdmf is written <span class="math inline">\(f(x; \theta)\)</span> or <span class="math inline">\(f(x | \theta)\)</span>. The conditional notation is more general because it implies the parameter <span class="math inline">\(\theta\)</span> may have its own distribution, yielding a joint density <span class="math inline">\(f(x, \theta) = f(x | \theta) f(\theta)\)</span>. Similarly, the corresponding cumulative distribution function is written <span class="math inline">\(F(x; \theta)\)</span> or <span class="math inline">\(F(x | \theta)\)</span>.</p>
 <p>Note that parametrisations are generally not unique, as any one-to-one transformation of <span class="math inline">\(\theta\)</span> yields an equivalent index of the same distribution family. For most commonly used distribution families there exist several standard parametrisations. We usually prefer those whose parameters that can be interpreted easily (e.g.&nbsp;in terms of moments) or that help to simplify calculations.</p>
 <p>If distinct parameters correspond to distinct distributions they are called <strong>identifiable</strong>. This is an important property as it allows parameters to be estimated from data. Specifically, if parameters are identifiable then <span class="math inline">\(P(\theta_1) = P(\theta_2)\)</span> implies <span class="math inline">\(\theta_1 = \theta_2\)</span>, and conversely if <span class="math inline">\(P(\theta_1) \neq P(\theta_2)\)</span> then <span class="math inline">\(\theta_1 \neq \theta_2\)</span>. If parameters and distributions are unique within a neighbourhood <span class="math inline">\(\theta_0+\epsilon\)</span> relative to a reference value <span class="math inline">\(\theta_0\)</span>, rather than globally, they are <strong>locally identifiable</strong> at&nbsp;<span class="math inline">\(\theta_0\)</span>.</p>
-<p>An important class of distribution families are <strong>exponential families</strong> discussed in <a href="06-expfam.html" class="quarto-xref"><span>Chapter 6</span></a>.</p>
+<p>An important class of distribution families are <strong>exponential families</strong> discussed in <a href="07-expfam.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -512,7 +524,7 @@ Whittle, P. 2000. <em>Probability via Expectation</em>. 3rd ed. Springer. <a hre
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>This notation is common in statistical machine learning and multivariate statistics, see for example <span class="citation" data-cites="MKB1979">Mardia, Kent, and Bibby (<a href="bibliography.html#ref-MKB1979" role="doc-biblioref">1979</a>)</span>. In alternative notation, random variables are often written in upper case and the outcomes in lower case. However, that convention doesn’t work well for multivariate random quantities (i.e.&nbsp;random vectors and random matrices) and is also ill-suited in Bayesian statistics where the uncertainty of parameters are modelled by random variables.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>This notation is common in statistical machine learning and multivariate statistics, see for example <span class="citation" data-cites="MKB1979">Mardia, Kent, and Bibby (<a href="bibliography.html#ref-MKB1979" role="doc-biblioref">1979</a>)</span>. An alternative convention uses uppercase letters for random variables and lowercase for outcomes, but that convention is problematic for multivariate objects (random vectors and random matrices) and is also ill-suited in Bayesian statistics where parameters are modelled as random variables.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>In our notational conventions, a scalar <span class="math inline">\(x\)</span> is written in lower case plain font, a vector <span class="math inline">\(\boldsymbol x\)</span> is written in lower case bold font, a matrix <span class="math inline">\(\boldsymbol X\)</span> in upper case bold font.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
@@ -807,8 +819,8 @@ Whittle, P. 2000. <em>Probability via Expectation</em>. 3rd ed. Springer. <a hre
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-transformations.html" class="pagination-link" aria-label="Transformations, convolution and loss functions">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations, convolution and loss functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-transformations.html" class="pagination-link" aria-label="Transformations and convolution">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Transformations and convolution</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
