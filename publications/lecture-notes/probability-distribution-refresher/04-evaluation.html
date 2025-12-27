@@ -224,16 +224,16 @@ window.Quarto = {
   <li><a href="#sec-scoringrules" id="toc-sec-scoringrules" class="nav-link" data-scroll-target="#sec-scoringrules"><span class="header-section-number">4.3</span> Scoring rules</a>
   <ul class="collapse">
   <li><a href="#proper-scoring-rules" id="toc-proper-scoring-rules" class="nav-link" data-scroll-target="#proper-scoring-rules">Proper scoring rules</a></li>
-  <li><a href="#score-entropy" id="toc-score-entropy" class="nav-link" data-scroll-target="#score-entropy">Score entropy</a></li>
-  <li><a href="#score-divergence" id="toc-score-divergence" class="nav-link" data-scroll-target="#score-divergence">Score divergence</a></li>
+  <li><a href="#scoring-rule-entropy" id="toc-scoring-rule-entropy" class="nav-link" data-scroll-target="#scoring-rule-entropy">Scoring-rule entropy</a></li>
+  <li><a href="#scoring-rule-divergence" id="toc-scoring-rule-divergence" class="nav-link" data-scroll-target="#scoring-rule-divergence">Scoring-rule divergence</a></li>
   <li><a href="#equivalent-scoring-rules" id="toc-equivalent-scoring-rules" class="nav-link" data-scroll-target="#equivalent-scoring-rules">Equivalent scoring rules</a></li>
-  <li><a href="#correspondence-with-bregman-divergences" id="toc-correspondence-with-bregman-divergences" class="nav-link" data-scroll-target="#correspondence-with-bregman-divergences">Correspondence with Bregman divergences</a></li>
   <li><a href="#further-properties" id="toc-further-properties" class="nav-link" data-scroll-target="#further-properties">Further properties</a></li>
   </ul></li>
   <li><a href="#common-scoring-rules" id="toc-common-scoring-rules" class="nav-link" data-scroll-target="#common-scoring-rules"><span class="header-section-number">4.4</span> Common scoring rules</a>
   <ul class="collapse">
   <li><a href="#sec-logscore" id="toc-sec-logscore" class="nav-link" data-scroll-target="#sec-logscore">Logarithmic scoring rule</a></li>
-  <li><a href="#brier-or-quadratic-scoring-rule" id="toc-brier-or-quadratic-scoring-rule" class="nav-link" data-scroll-target="#brier-or-quadratic-scoring-rule">Brier or quadratic scoring rule</a></li>
+  <li><a href="#quadratic-or-brier-scoring-rule" id="toc-quadratic-or-brier-scoring-rule" class="nav-link" data-scroll-target="#quadratic-or-brier-scoring-rule">Quadratic or Brier scoring rule</a></li>
+  <li><a href="#spherical-scoring-rule" id="toc-spherical-scoring-rule" class="nav-link" data-scroll-target="#spherical-scoring-rule">Spherical scoring rule</a></li>
   <li><a href="#proper-but-not-strictly-proper-scoring-rules" id="toc-proper-but-not-strictly-proper-scoring-rules" class="nav-link" data-scroll-target="#proper-but-not-strictly-proper-scoring-rules">Proper but not strictly proper scoring rules</a></li>
   <li><a href="#other-strictly-proper-scoring-rules" id="toc-other-strictly-proper-scoring-rules" class="nav-link" data-scroll-target="#other-strictly-proper-scoring-rules">Other strictly proper scoring rules</a></li>
   </ul></li>
@@ -350,43 +350,37 @@ R(Q, P) = \operatorname{E}_{Q}\left(S(x, P)\right)
 <p>For a <strong>proper scoring rule</strong>, the risk <span class="math inline">\(R(Q, P)\)</span> is smallest when the quoted model <span class="math inline">\(P\)</span> matches the true model <span class="math inline">\(Q\)</span>. The minimal risk, achieved for <span class="math inline">\(P=Q\)</span>, leads to the <strong>properness inequality</strong> <span class="math display">\[
 R(Q, P) \geq R(Q, Q)
 \]</span> For a <strong>strictly proper</strong> scoring rule, the minimum risk is realised only for the true model, so <strong>equality holds exclusively</strong> for <span class="math inline">\(P = Q\)</span>.</p>
+<p>Proper scoring rules are useful because they enable identification and approximation of data-generating distributions and their parameters via risk minimisation or minimisation of the associated scoring-rule divergences. This allows to generalise conventional statistical approaches based on the logarithmic scoring rule (<a href="#sec-logscore" class="quarto-xref"><span>Section 4.4.1</span></a>).</p>
 </section>
-<section id="score-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="score-entropy">Score entropy</h3>
-<p>The minimum risk associated with a proper scoring rule is called the <strong>score entropy</strong> <span class="math inline">\(R(Q) = R(Q,Q)\)</span>. With it the properness inequality becomes <span class="math display">\[
+<section id="scoring-rule-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="scoring-rule-entropy">Scoring-rule entropy</h3>
+<p>The minimum risk associated with a proper scoring rule is called the <strong>scoring-rule entropy</strong> <span class="math inline">\(R(Q) = R(Q,Q)\)</span>. With it the properness inequality becomes <span class="math display">\[
 R(Q, P) \geq R(Q)
 \]</span></p>
-<p>For a <strong>proper</strong> scoring rule, the score entropy <span class="math inline">\(R(Q)\)</span> is <strong>concave</strong> in <span class="math inline">\(Q\)</span>. For a <strong>strictly proper</strong> scoring rule, the score entropy <span class="math inline">\(R(Q)\)</span> is <strong>strictly concave</strong>. This means that <span class="math display">\[
+<p>For a <strong>proper</strong> scoring rule, the entropy <span class="math inline">\(R(Q)\)</span> is <strong>concave</strong> in <span class="math inline">\(Q\)</span>. For a <strong>strictly proper</strong> scoring rule, the entropy <span class="math inline">\(R(Q)\)</span> is <strong>strictly concave</strong>. This means that <span class="math display">\[
 R( Q_{\lambda}) \geq (1-\lambda) R(Q_0) + \lambda R(Q_1)
 \]</span> for the mixture <span class="math inline">\(Q_{\lambda}=(1-\lambda) Q_0 + \lambda Q_1\)</span> with <span class="math inline">\(0 &lt; \lambda &lt; 1\)</span> and <span class="math inline">\(Q_0 \neq Q_1\)</span> (for strict concavity replace <span class="math inline">\(\geq\)</span> by <span class="math inline">\(&gt;\)</span>).</p>
-<p>This follows from the fact that risk <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in <span class="math inline">\(Q\)</span>. Hence, <span class="math inline">\(R(Q_{\lambda}, Q_{\lambda} ) = (1-\lambda) R(Q_0, Q_{\lambda} ) + \lambda R(Q_1, Q_{\lambda} )\)</span>. Applying properness <span class="math inline">\(R(Q_i, Q_{\lambda} ) \geq R(Q_i)\)</span> with <span class="math inline">\(i \in \{0,1\}\)</span> yields concavity.</p>
+<p>This follows from the fact that the risk <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in <span class="math inline">\(Q\)</span>. Hence, <span class="math inline">\(R(Q_{\lambda}) = R(Q_{\lambda}, Q_{\lambda} ) = (1-\lambda) R(Q_0, Q_{\lambda} ) + \lambda R(Q_1, Q_{\lambda} )\)</span>. Applying properness <span class="math inline">\(R(Q_i, Q_{\lambda} ) \geq R(Q_i)\)</span> with <span class="math inline">\(i \in \{0,1\}\)</span> yields concavity.</p>
 </section>
-<section id="score-divergence" class="level3">
-<h3 class="anchored" data-anchor-id="score-divergence">Score divergence</h3>
-<p>The <strong>score divergence</strong> between the distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> equals the excess risk given by <span class="math display">\[
+<section id="scoring-rule-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="scoring-rule-divergence">Scoring-rule divergence</h3>
+<p>The <strong>scoring-rule divergence</strong> between the distributions <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> equals the excess risk given by <span class="math display">\[
 D(Q, P) = R(Q, P) - R(Q)
 \]</span> For a <strong>proper</strong> scoring rule, the divergence <span class="math inline">\(D(Q, P)  \geq 0\)</span> is always <strong>non-negative</strong> and with <span class="math inline">\(D(Q, P)=0\)</span> if <span class="math inline">\(P=Q\)</span>. For a <strong>strictly proper</strong> scoring rule <span class="math inline">\(D(Q, P)=0\)</span> only when <span class="math inline">\(P=Q\)</span>.</p>
-<p>The score divergence <span class="math inline">\(D(Q, P)\)</span> is <strong>convex in <span class="math inline">\(Q\)</span></strong> for fixed <span class="math inline">\(P\)</span> for a <strong>proper</strong> scoring rule. It is <strong>strictly convex in <span class="math inline">\(Q\)</span></strong> for a <strong>strictly proper</strong> scoring rule. The convexity of <span class="math inline">\(D(Q,P)\)</span> in <span class="math inline">\(Q\)</span> derives from the concavity of <span class="math inline">\(R(Q)\)</span> and the fact that <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in&nbsp;<span class="math inline">\(Q\)</span>.</p>
+<p>The scoring-rule divergence <span class="math inline">\(D(Q, P)\)</span> is <strong>convex in <span class="math inline">\(Q\)</span></strong> for fixed <span class="math inline">\(P\)</span> for a <strong>proper</strong> scoring rule. It is <strong>strictly convex in <span class="math inline">\(Q\)</span></strong> for a <strong>strictly proper</strong> scoring rule. The convexity of <span class="math inline">\(D(Q,P)\)</span> in <span class="math inline">\(Q\)</span> derives from the concavity of <span class="math inline">\(R(Q)\)</span> and the fact that <span class="math inline">\(R(Q, P)\)</span> is mixture-preserving in&nbsp;<span class="math inline">\(Q\)</span>.</p>
+<p>Divergences induced by proper scoring rules correspond to <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a> applied to probability distributions, with the convex generator being the negative entropy.</p>
 </section>
 <section id="equivalent-scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="equivalent-scoring-rules">Equivalent scoring rules</h3>
 <p>Equivalent scoring rules <span class="math display">\[
 S^{\text{equiv}}(x, P) = k S(x, P) + c(x)
-\]</span> have associated equivalent score divergences <span class="math display">\[
+\]</span> have associated equivalent divergences <span class="math display">\[
 D^{\text{equiv}}(Q, P) = R^{\text{equiv}}(Q, P) - R^{\text{equiv}}(Q) = k D(Q, P)
 \]</span> Thus, (strictly) proper scoring rules remain (strictly) proper under equivalence transformations. Furthermore, for <span class="math inline">\(k=1\)</span> equivalent scoring rules are <strong>strongly equivalent</strong> as their divergences are identical.</p>
 </section>
-<section id="correspondence-with-bregman-divergences" class="level3">
-<h3 class="anchored" data-anchor-id="correspondence-with-bregman-divergences">Correspondence with Bregman divergences</h3>
-<p>Proper scoring rules and their associated divergences correspond to <a href="https://en.wikipedia.org/wiki/Bregman_divergence"><strong>Bregman divergences</strong></a> well-known in optimisation and machine learning.</p>
-<p>Specifically, the negative score entropy acts as the <strong>convex potential</strong> <span class="math inline">\(\Phi(Q) = -R(Q)\)</span> generating the score (Bregman) divergence <span class="math inline">\(D(Q,P)\)</span> via <span class="math display">\[
-D(Q,P) = \Phi(Q) -\Phi(P) - \langle \nabla \Phi(P), Q-P \rangle
-\]</span></p>
-</section>
 <section id="further-properties" class="level3">
 <h3 class="anchored" data-anchor-id="further-properties">Further properties</h3>
-<p>Proper scoring rules are highly useful because they enable identification of an underlying distribution and its parameters via risk minimisation or minimisation of the associated divergences. These approaches generalise conventional likelihood and Bayesian methods that are based on the logarithmic scoring rule (<a href="#sec-logscore" class="quarto-xref"><span>Section 4.4.1</span></a>).</p>
-<p>Proper scoring rules also enjoy several additional properties not mentioned above. For example, various <strong>decompositions</strong> exist for their risk, and the score divergence satisfies a <strong>generalised Pythagorean theorem</strong>.</p>
+<p>Proper scoring rules also enjoy several additional properties not mentioned above. For example, various <strong>decompositions</strong> exist for their risk, and the scoring-rule divergence satisfies a <strong>generalised Pythagorean theorem</strong>.</p>
 </section>
 </section>
 <section id="common-scoring-rules" class="level2" data-number="4.4">
@@ -400,17 +394,19 @@ S_{\text{log}}(x, P) = - \log p(x)
 R_{\text{log}}(Q, P) = - \operatorname{E}_{Q} \log p(x) = H(Q, P)
 \]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span>. Thus, the log-loss is <strong>strictly proper</strong>. Moreover, the log-loss is noted as the only <strong>local</strong> strictly proper scoring rule, as it solely depends on the value of the pdmf at the observed outcome <span class="math inline">\(x\)</span>, and not on any other features of the distribution&nbsp;<span class="math inline">\(P\)</span>.</p>
 <p>The mean log-loss is also known as <strong>cross-entropy</strong> denoted by <span class="math inline">\(H(Q, P)\)</span>.</p>
-<p>The minimum risk (score entropy) equals the <strong>information entropy</strong> denoted by <span class="math inline">\(H(Q):\)</span> <span class="math display">\[
+<p>The minimum risk (scoring-rule entropy) equals the <strong>information entropy</strong> denoted by <span class="math inline">\(H(Q):\)</span> <span class="math display">\[
 R_{\text{log}}(Q) = -\operatorname{E}_{Q} \log q(x) = H(Q)
 \]</span> The properness inequality <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>, with equality exclusively for <span class="math inline">\(P=Q\)</span> and relating cross-entropy and information entropy, is known as <strong>Gibbs’ inequality</strong>.</p>
-<p>The score divergence induced by the log-loss is the Kullback-Leibler (KL) divergence <span class="math display">\[
+<p>The divergence induced by the log-loss is the Kullback-Leibler (KL) divergence <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(Q,P) &amp;=  R_{\text{log}}(Q,P) -R_{\text{log}}(Q)) \\
           &amp;= H(Q, P) - H(Q) \\
           &amp;= \operatorname{E}_{Q} \log\left(\frac{q(x)}{p(x)}\right)\\
 \end{split}
-\]</span> The KL divergence obeys the <strong>data processing inequality</strong>, i.e.&nbsp;applying a transformation to the underlying random variables cannot increase the KL divergence <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span>. This property also holds for all <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a> (of which the KL divergence is a principal example), but is notably <em>not</em> satisfied by divergences of other proper scoring rules (and thus other Bregman divergences).</p>
-<p>Furthermore, the KL divergence is the only divergence induced by proper scoring rules (and thus the only Bregman divergence), as well as the only <span class="math inline">\(f\)</span>-divergence, that is <strong>invariant against general coordinate transformations</strong>. Coordinate transformations can be viewed as a special case of data processing, and for <span class="math inline">\(D_{\text{KL}}(Q,P)\)</span> the data-processing inequality under general invertible transformations becomes an identity.</p>
+\]</span></p>
+<p>The KL divergence is <strong>invariant under a change of variables</strong>. Specifically, for arbitrary one-to-one transformations between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, even for continuous random variables, <span class="math inline">\(D_{\text{KL}}(Q_x,P_x) = D_{\text{KL}}(Q_y,P_y)\)</span>.</p>
+<p>More generally, the KL divergence also satisfies the <strong>data processing inequality</strong> (DPI). Applying a transformation (stochastic or deterministic, possibly coarsening) that produces <span class="math inline">\(y\)</span> from <span class="math inline">\(x\)</span>, cannot increase the divergence, so that <span class="math inline">\(D_{\text{KL}}(Q_x,P_x) \geq D_{\text{KL}}(Q_y,P_y)\)</span>. Note that a change of variables is a special case of data processing (with identity).</p>
+<p>Divergences between distributions satisfying the DPI (and hence being invariant under a change of variables) form the class of <a href="https://en.wikipedia.org/wiki/F-divergence"><span class="math inline">\(f\)</span>-divergences</a>. The KL divergence is the <em>only</em> divergence induced by a proper scoring rule (i.e.&nbsp;the only Bregman divergence) that is also an <span class="math inline">\(f\)</span>-divergence.</p>
 <p>The empirical risk of a distribution family <span class="math inline">\(P(\theta)\)</span> based on the log-loss is proportional to the log-likelihood function <span class="math display">\[
 \begin{split}
 R_{\text{log}}(\hat{Q}_n, P(\theta)) &amp;= - \frac{1}{n} \sum_{i=1}^n \log p(x_i | \theta) \\
@@ -419,30 +415,66 @@ R_{\text{log}}(\hat{Q}_n, P(\theta)) &amp;= - \frac{1}{n} \sum_{i=1}^n \log p(x_
 \]</span> Minimising the empirical risk is thus equivalent to maximising the log-likelihood <span class="math inline">\(\ell_n(\theta)\)</span>.</p>
 <p>Similarly, minimising the KL divergence <span class="math inline">\(D_{\text{KL}}(\hat{Q}_n,P(\theta))\)</span> with regard to&nbsp;<span class="math inline">\(\theta\)</span> is equivalent to minimising the empirical risk and hence to maximum likelihood.</p>
 </section>
-<section id="brier-or-quadratic-scoring-rule" class="level3">
-<h3 class="anchored" data-anchor-id="brier-or-quadratic-scoring-rule">Brier or quadratic scoring rule</h3>
-<p>The <strong>Brier scoring rule</strong>, also known as <strong>quadratic scoring rule</strong>, evaluates a probabilistic categorical forecast <span class="math inline">\(P\)</span> with corresponding class probabilities <span class="math inline">\(p_1, \ldots, p_K\)</span> given a realisation <span class="math inline">\(\boldsymbol x\)</span> from the categorical distribution <span class="math inline">\(Q\)</span> with class probabilities <span class="math inline">\(q_1, \ldots, q_K\)</span>. It can be written as <span class="math display">\[
+<section id="quadratic-or-brier-scoring-rule" class="level3">
+<h3 class="anchored" data-anchor-id="quadratic-or-brier-scoring-rule">Quadratic or Brier scoring rule</h3>
+<p>Assume the categorical distributions <span class="math inline">\(Q=\operatorname{Cat}(\boldsymbol q)\)</span> with class probabilities <span class="math inline">\(\boldsymbol q=(q_1, \ldots, q_K)^T\)</span> and <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> with corresponding class probabilities <span class="math inline">\(\boldsymbol p= (p_1, \ldots, p_K)^T\)</span> and an indicator vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> containing zeros everywhere except for a single element <span class="math inline">\(x_k=1\)</span>.</p>
+<p>The <strong>quadratic scoring rule</strong>, also known as <strong>Brier scoring rule</strong>, evaluates the categorical forecast <span class="math inline">\(P\)</span> given a realisation <span class="math inline">\(\boldsymbol x\)</span> from the categorical distribution <span class="math inline">\(Q\)</span> using the <strong>squared Euclidean distance</strong> between <span class="math inline">\(\boldsymbol x\)</span> and&nbsp;<span class="math inline">\(\boldsymbol p\)</span>: <span class="math display">\[
 \begin{split}
-S_{\text{Brier}}(\boldsymbol x, P) &amp;= \sum_{y=1}^K \left(x_y -p_y\right)^2 \\
-&amp;= 1 -  2 \sum_{y=1}^K x_y p_y +   \sum_{y=1}^K p_y^2\\
-&amp;= 1 -  2  p_k +   \sum_{y=1}^K p_y^2\\
+S_{\text{Brier}}(\boldsymbol x, P) &amp; = ||\boldsymbol x-\boldsymbol p||^2 \\
+&amp;= (\boldsymbol x-\boldsymbol p)^T(\boldsymbol x-\boldsymbol p)   \\
+&amp;= 1 -  2 \boldsymbol x^T \boldsymbol p+   \boldsymbol p^T \boldsymbol p\\
+&amp;= 1 -  2  p_k +  \boldsymbol p^T \boldsymbol p\\
 \end{split}
-\]</span> The indicator vector <span class="math inline">\(\boldsymbol x= (x_1, \ldots, x_K)^T = (0, 0, \ldots, 1, \ldots, 0)^T\)</span> contains zeros everywhere except for a single element <span class="math inline">\(x_k=1\)</span>. Unlike the log-loss, the Brier score is <em>not local</em> as the pmf for <span class="math inline">\(P\)</span> is evaluated across all <span class="math inline">\(K\)</span> classes, not just at the realised class <span class="math inline">\(k\)</span>.</p>
+\]</span> Unlike the log-loss, the Brier score is <em>not local</em> as the pmf for <span class="math inline">\(P\)</span> is evaluated across all <span class="math inline">\(K\)</span> classes, not just at the realised class <span class="math inline">\(k\)</span>.</p>
 <p>The corresponding risk is <span class="math display">\[
 \begin{split}
 R_{\text{Brier}}(Q,P) &amp;= \operatorname{E}_Q(S(\boldsymbol x, P)) \\
-       &amp;= 1 -2 \sum_{y=1}^K q_y p_y +\sum_{y=1}^K p_y^2\\
+       &amp;=  1 -2 \boldsymbol q^T \boldsymbol p+ \boldsymbol p^T \boldsymbol p\\
 \end{split}
-\]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span>. Thus, the Brier score is <strong>strictly proper</strong>.</p>
-<p>The minimum risk (score entropy) is <span class="math display">\[
-R_{\text{Brier}}(Q) = 1 -  \sum_{y=1}^K q_y^2
+\]</span> which is uniquely minimised for <span class="math inline">\(P=Q\)</span> with <span class="math inline">\(\boldsymbol p=\boldsymbol q\)</span>. Thus, the Brier score is <strong>strictly proper</strong>.</p>
+<p>The minimum risk (scoring-rule entropy) is <span class="math display">\[
+R_{\text{Brier}}(Q) = 1 - \boldsymbol q^T \boldsymbol q
 \]</span></p>
-<p>The divergence induced by the Brier score is the <strong>squared Euclidean distance</strong> between the two pmfs: <span class="math display">\[
+<p>The divergence induced by the Brier score is the <strong>squared Euclidean distance</strong> between <span class="math inline">\(\boldsymbol q\)</span> and&nbsp;<span class="math inline">\(\boldsymbol p\)</span>: <span class="math display">\[
 \begin{split}
 D_{\text{Brier}}(Q, P) &amp;= R_{\text{Brier}}(Q, P) - R_{\text{Brier}}(Q) \\
-        &amp; = \sum_{y=1}^K  \left(q_y - p_y\right)^2\\
+        &amp; = (\boldsymbol q-\boldsymbol p)^T(\boldsymbol q-\boldsymbol p)\\
+        &amp; = ||\boldsymbol q-\boldsymbol p||^2 \\
 \end{split}
 \]</span></p>
+</section>
+<section id="spherical-scoring-rule" class="level3">
+<h3 class="anchored" data-anchor-id="spherical-scoring-rule">Spherical scoring rule</h3>
+<p>The <strong>cosine similarity</strong> between two vectors <span class="math inline">\(\boldsymbol a\)</span> and <span class="math inline">\(\boldsymbol b\)</span> is the cosine of the angle <span class="math inline">\(\phi\)</span> between the two vectors: <span class="math display">\[
+\operatorname{cos\_sim}(\boldsymbol a, \boldsymbol b) = \cos \phi(\boldsymbol a, \boldsymbol b) = \frac{\boldsymbol a\cdot \boldsymbol b}{||a|| \, ||b||}
+\]</span> with <span class="math inline">\(\boldsymbol a\cdot \boldsymbol b= \boldsymbol a^T \boldsymbol b\)</span>, <span class="math inline">\(||a|| = (\boldsymbol a^T \boldsymbol a)^{1/2}\)</span> and <span class="math inline">\(||b|| = (\boldsymbol b^T \boldsymbol b)^{1/2}\)</span>.</p>
+<p>The <strong>cosine distance</strong> is the complement <span class="math display">\[
+\operatorname{cos\_dist}(\boldsymbol a, \boldsymbol b) = 1 -\operatorname{cos\_sim}(\boldsymbol a, \boldsymbol b)
+\]</span></p>
+<p>The <strong>spherical scoring rule</strong> evaluates the categorical forecast <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> given a realisation <span class="math inline">\(\boldsymbol x\)</span> from the categorical distribution <span class="math inline">\(Q=\operatorname{Cat}(\boldsymbol q)\)</span> using the <strong>negative cosine similarity</strong> between the probability vectors <span class="math inline">\(\boldsymbol x\)</span> and&nbsp;<span class="math inline">\(\boldsymbol p\)</span>: <span class="math display">\[
+\begin{split}
+S_{\operatorname{sph}}(\boldsymbol x, P) &amp; = -\operatorname{cos\_sim}(\boldsymbol x, \boldsymbol p)\\
+&amp;= -\boldsymbol x^T \boldsymbol p/ ||\boldsymbol p||   \\
+&amp;= -p_k / ||\boldsymbol p||   \\
+\end{split}
+\]</span> The spherical score is <em>not local</em> as the pmf for <span class="math inline">\(P\)</span> is evaluated across all <span class="math inline">\(K\)</span> classes, not just at the realised class <span class="math inline">\(k\)</span>. Depending on <span class="math inline">\(\boldsymbol p\)</span>, it may range from a minimum of <span class="math inline">\(-1\)</span> (angle <span class="math inline">\(\phi=0\)</span>, zero degrees) and to a maximum of <span class="math inline">\(0\)</span> (angle, <span class="math inline">\(\phi=\pi/2\)</span>, 90 degrees).</p>
+<p>The corresponding risk is <span class="math display">\[
+\begin{split}
+R_{\text{sph}}(Q,P) &amp;= \operatorname{E}_Q(S(\boldsymbol x, P)) \\
+       &amp;=  -\boldsymbol q^T \boldsymbol p/ ||\boldsymbol p|| \\
+       &amp;=  -||\boldsymbol q|| \, \operatorname{cos\_sim}(\boldsymbol q, \boldsymbol p)   \\
+\end{split}
+\]</span> which is proportional to the negative cosine similarity between <span class="math inline">\(\boldsymbol q\)</span> and <span class="math inline">\(\boldsymbol p\)</span>. It is uniquely minimised for <span class="math inline">\(P=Q\)</span> with <span class="math inline">\(\boldsymbol p=\boldsymbol q\)</span>. Therefore, the spherical scoring rule is <strong>strictly proper</strong>.</p>
+<p>The minimum risk (scoring-rule entropy) is <span class="math display">\[
+R_{\text{sph}}(Q) = -||\boldsymbol q||
+\]</span></p>
+<p>The divergence induced by the spherical score is <span class="math display">\[
+\begin{split}
+D_{\text{sph}}(Q, P) &amp;= R_{\text{sph}}(Q, P) - R_{\text{sph}}(Q) \\
+        &amp; =  -\boldsymbol q^T \boldsymbol p/ ||\boldsymbol p||      + ||\boldsymbol q||  \\
+        &amp; =  ||\boldsymbol q|| \,  \operatorname{cos\_dist}(\boldsymbol q, \boldsymbol p)        \\
+\end{split}
+\]</span> and hence is proportional to the cosine distance between <span class="math inline">\(\boldsymbol q\)</span> and <span class="math inline">\(\boldsymbol p\)</span>.</p>
 </section>
 <section id="proper-but-not-strictly-proper-scoring-rules" class="level3">
 <h3 class="anchored" data-anchor-id="proper-but-not-strictly-proper-scoring-rules">Proper but not strictly proper scoring rules</h3>
@@ -455,10 +487,10 @@ R_{\text{sq}}(Q, P) &amp;= \operatorname{E}_Q\left( (x- \operatorname{E}(P))^2 \
        &amp; = (\operatorname{E}(Q)-\operatorname{E}(P))^2 + \operatorname{Var}(Q)\\
 \end{split}
 \]</span> which is minimised at <span class="math inline">\(P=Q\)</span> but also at any distribution <span class="math inline">\(P\)</span> with the same mean as <span class="math inline">\(Q\)</span>.</p>
-<p>The minimum risk (score entropy) is the variance <span class="math display">\[
+<p>The minimum risk (scoring-rule entropy) is the variance <span class="math display">\[
 R_{\text{sq}}(Q) = \operatorname{Var}(Q)
 \]</span></p>
-<p>The score divergence is the squared distance between the two means <span class="math display">\[
+<p>The scoring-rule divergence is the squared distance between the two means <span class="math display">\[
 \begin{split}
 D_{\text{sq}}(Q, P) &amp;= R_{\text{sq}}(Q, P) -R_{\text{sq}}(Q)) \\
         &amp;= (\operatorname{E}(Q)-\operatorname{E}(P))^2\\
@@ -472,10 +504,10 @@ S_{\text{DS}}\left(x, P\right) =  \log \operatorname{Var}(P) + \frac{(x-\operato
 R_{\text{DS}}(Q, P) &amp;= \log \operatorname{Var}(P)  + \frac{(\operatorname{E}(Q)-\operatorname{E}(P))^2}{\operatorname{Var}(P)} + \frac{\operatorname{Var}(Q)}{\operatorname{Var}(P)}\\
 \end{split}
 \]</span> which is minimised at <span class="math inline">\(P=Q\)</span> but also at any distribution <span class="math inline">\(P\)</span> with <span class="math inline">\(\operatorname{E}(P)=\operatorname{E}(Q)\)</span> and <span class="math inline">\(\operatorname{Var}(P)=\operatorname{Var}(Q)\)</span>.</p>
-<p>The minimum risk (score entropy) is <span class="math display">\[
+<p>The minimum risk (scoring-rule entropy) is <span class="math display">\[
 R_{\text{DS}}(Q) = \log \operatorname{Var}(Q) +1
 \]</span></p>
-<p>The score divergence is <span class="math display">\[
+<p>The scoring-rule divergence is <span class="math display">\[
 \begin{split}
 D_{\text{DS}}(Q, P) &amp;= R_{\text{DS}}(Q, P) - R_{\text{DS}}(Q) \\
         &amp;= \frac{(\operatorname{E}(Q)-\operatorname{E}(P))^2}{\operatorname{Var}(P)} +\frac{\operatorname{Var}(Q)}{\operatorname{Var}(P)}  - \log\left( \frac{\operatorname{Var}(Q}{\operatorname{Var}(P} \right)  -1 \\
