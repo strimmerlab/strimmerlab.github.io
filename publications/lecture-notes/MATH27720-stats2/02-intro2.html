@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,10 +59,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -145,9 +145,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -207,13 +205,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Risk and divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Local divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -448,25 +446,30 @@ window.Quarto = {
 <p>In this module we will often make use of the following common univariate distributions:</p>
 <ol type="1">
 <li><p>Binomial distribution <span class="math inline">\(\operatorname{Bin}(n, \theta)\)</span>, with support <span class="math inline">\(\{0, 1, \ldots, n\}\)</span>.</p>
-<p>As special case (<span class="math inline">\(n=1)\)</span> is:</p>
+<p>Special case (<span class="math inline">\(n=1)\)</span>:</p>
 <ul>
 <li>Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span>, with support <span class="math inline">\(\{0, 1\}\)</span>.</li>
 </ul></li>
 <li><p>Beta distribution <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, 1]\)</span>.</p></li>
-<li><p>Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p></li>
+<li><p>Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p>
+<p>Special cases:</p>
+<ul>
+<li>standard normal distribution <span class="math inline">\(N(0,1)\)</span>.</li>
+<li>delta distribution <span class="math inline">\(\delta(\mu)\)</span> representing a point mass at <span class="math inline">\(\mu\)</span> (<span class="math inline">\(N(\mu, \varepsilon \sigma^2)\)</span> with <span class="math inline">\(\varepsilon \rightarrow 0\)</span>).</li>
+</ul></li>
 <li><p>Gamma distribution <span class="math inline">\(\operatorname{Gam}(\alpha, \theta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. It is also known as univariate Wishart distribution <span class="math inline">\(\operatorname{Wis}\left(s^2, k \right)\)</span>.</p>
-<p>Special cases of the gamma/Wishart distribution are:</p>
+<p>Special cases of the gamma/Wishart distribution:</p>
 <ul>
 <li>scaled chi-squared distribution <span class="math inline">\(s^2 \chi^2_{k}\)</span> (discrete <span class="math inline">\(k\)</span>)</li>
 <li>chi-squared distribution <span class="math inline">\(\chi^2_{k}\)</span> (discrete <span class="math inline">\(k\)</span>, <span class="math inline">\(s^2=1\)</span>)</li>
 <li>exponential distribution <span class="math inline">\(\operatorname{Exp}(\theta)\)</span> (<span class="math inline">\(\alpha=1\)</span>)</li>
 </ul></li>
-<li><p>Inverse gamma distribution <span class="math inline">\(\operatorname{IG}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. Also know as univariate inverse Wishart distribution <span class="math inline">\(\operatorname{IW}(\psi, k)\)</span>.</p></li>
+<li><p>Inverse gamma distribution <span class="math inline">\(\operatorname{IGam}(\alpha, \beta)\)</span>, with support <span class="math inline">\([0, \infty]\)</span>. Also know as univariate inverse Wishart distribution <span class="math inline">\(\operatorname{IWis}(\psi, k)\)</span>.</p></li>
 </ol>
 <p>All of the distributions above belong to the class of <strong>exponential families</strong> (see <a href="#sec-expfamintro" class="quarto-xref"><span>Section 2.4</span></a>). These families have many properties that are highly convenient for statistical analysis.</p>
 <ol start="6" type="1">
 <li><p>Location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span>, with support <span class="math inline">\([-\infty, \infty]\)</span>.</p>
-<p>Special cases of the location-scale <span class="math inline">\(t\)</span>-distribution are:</p>
+<p>Special cases of the location-scale <span class="math inline">\(t\)</span>-distribution:</p>
 <ul>
 <li>Student’s <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_\nu\)</span></li>
 <li>Cauchy distribution <span class="math inline">\(\operatorname{Cau}(\mu, \tau)\)</span></li>
@@ -480,7 +483,12 @@ window.Quarto = {
 <ul>
 <li>Categorical distribution <span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span>, generalising the Bernoulli distribution.</li>
 </ul></li>
-<li><p>Multivariate normal distribution <span class="math inline">\(N_d(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>, generalising the univariate normal distribution.</p></li>
+<li><p>Multivariate normal distribution <span class="math inline">\(N(\boldsymbol \mu, \boldsymbol \Sigma)\)</span>, generalising the univariate normal distribution.</p>
+<p>Special cases:</p>
+<ul>
+<li>standard multivariate normal distribution <span class="math inline">\(N(0, \boldsymbol I)\)</span>.</li>
+<li>multivariate delta distribution <span class="math inline">\(\delta(\boldsymbol \mu)\)</span> representing a point mass at <span class="math inline">\(\boldsymbol \mu\)</span> (<span class="math inline">\(N(\boldsymbol \mu, \varepsilon \boldsymbol \Sigma)\)</span> with <span class="math inline">\(\varepsilon \rightarrow 0\)</span>).</li>
+</ul></li>
 </ol>
 <p>A distribution family can be parametrised in multiple equivalent ways. Typically, there is a standard parametrisation, and also a mean parametrisation, where one of the parameters can be interpreted as the mean of the data. Sometimes, the same distribution is referred to by different names and there are various default parametrisations.</p>
 <p>Importantly, any parametrisation is a matter of choice and simply provides as an alternative means to index the elementary distributions within the family. However, certain parametrisations may be more interpretable or offer computational advantages.</p>
@@ -498,11 +506,11 @@ window.Quarto = {
 <p>Statistical analysis often uses models that are composed of many random variables. These models can be complex, with hierarchical or network-like structures that connect observed and latent variables, and potentially nonlinear functional relationships. Even so, the most sophisticated statistical models are constructed from simpler, more fundamental components.</p>
 <p>Specifically, the large class of <em>graphical models</em> provide a principled means to form complex joint distributions for observed and unobserved random variables built from more elementary components. This include <em>regression models</em>, <em>mixture models</em> and <em>compound models</em> (continuous version of mixture models) as well as more general network-like and hierarchically structured models.</p>
 <p>In these complex models some of the underlying elementary distributions will serve to model the observed output while others represent internal variables or account for the uncertainty regarding a parameter (in a Bayesian context).</p>
-<p>In statistical course units in year&nbsp;3 and year&nbsp;4 you will discuss and learn about many types of advanced models, related for instance to</p>
+<p>The advanced statistical course units in year&nbsp;3 and year&nbsp;4 will introduce many types these models, for instance related to</p>
 <ul>
 <li>multivariate statistics and machine learning</li>
 <li>temporal and spatial modelling, and</li>
-<li>generalised linear and nonparametric models.</li>
+<li>generalised linear and nonparametric regression.</li>
 </ul>
 </section>
 <section id="iterative-refinement" class="level3">
@@ -520,8 +528,10 @@ window.Quarto = {
 </section>
 <section id="definition" class="level3">
 <h3 class="anchored" data-anchor-id="definition">Definition</h3>
-<p>An <strong>exponential family</strong> <span class="math inline">\(P(\boldsymbol \eta)\)</span> arises by <strong>exponential tilting</strong> of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with (typically unnormalised) <strong>base function</strong> <span class="math inline">\(h(x)\)</span> toward the linear combination <span class="math inline">\(\boldsymbol \eta^T \boldsymbol t(x)\)</span> of the <strong>canonical statistics</strong> <span class="math inline">\(\boldsymbol t(x)\)</span> and the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>. This yields a pdmf of the form <span class="math display">\[
-p(x|\boldsymbol \eta) =    \underbrace{e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle }}_{\text{exponential tilt}}\, h(x) \, /\, z(\boldsymbol \eta)
+<p>An <strong>exponential family</strong> <span class="math inline">\(P(\boldsymbol \eta)\)</span> arises by <strong>exponential tilting</strong> of a <strong>base distribution</strong> <span class="math inline">\(B\)</span> with (typically unnormalised) <strong>base function</strong> <span class="math inline">\(h(x)\)</span> toward the inner product <span class="math inline">\(\langle\boldsymbol \eta^T \boldsymbol t(x)\rangle\)</span> of the <strong>canonical statistics</strong> <span class="math inline">\(\boldsymbol t(x)\)</span> and the <strong>canonical parameters</strong> <span class="math inline">\(\boldsymbol \eta\)</span>. This yields a pdmf of the form <span class="math display">\[
+p(x|\boldsymbol \eta) =  \underbrace{\vphantom{z(\boldsymbol \eta)} h(x) }_{\text{base}}
+                \underbrace{\vphantom{z(\boldsymbol \eta)} e^{\langle \boldsymbol \eta, \boldsymbol t(x) \rangle}}_{\text{exponential tilt}}
+                / \underbrace{z(\boldsymbol \eta)}_{\text{normaliser}}
 \]</span></p>
 <p>The base pdmf is obtained at <span class="math inline">\(\boldsymbol \eta=0\)</span> yielding <span class="math inline">\(b(x) = p(x | \boldsymbol \eta=0)  =   h(x) / z(0)\)</span>. If <span class="math inline">\(h(x)\)</span> is already a normalised pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
 <p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) .</p>
@@ -562,8 +572,18 @@ a(\boldsymbol \eta) = \log z(\boldsymbol \eta)
 </section>
 <section id="examples" class="level3">
 <h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="exm-logit" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2.1</strong></span> Logit and logistic function:</p>
+<p>The logit and logistic functions are useful for describing the Bernoulli distribution as exponential family (<a href="#exm-expfambernoulli" class="quarto-xref">Example&nbsp;<span>2.2</span></a>).</p>
+<p>The <strong>logit</strong> function is <span class="math display">\[
+\operatorname{logit}p = \log\left( \frac{p}{1-p} \right)  
+\]</span> also known as the the log-odds function. It maps the interval <span class="math inline">\([0,1]\)</span> to the interval <span class="math inline">\([-\infty, +\infty]\)</span>.</p>
+<p>Its inverse is the <strong>logistic</strong> function <span class="math display">\[
+\operatorname{logit}^{-1}(\alpha) = (\exp \alpha)/(1+\exp \alpha)
+\]</span> and mapps the interval <span class="math inline">\([-\infty, +\infty]\)</span> to the interval <span class="math inline">\([0,1]\)</span>.</p>
+</div>
 <div id="exm-expfambernoulli" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> as exponential family:</p>
+<p><span class="theorem-title"><strong>Example 2.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> as exponential family:</p>
 <p>The Bernoulli distribution <span class="math inline">\(\operatorname{Ber}(\theta)\)</span> can be specified in exponential family form as follows:</p>
 <ul>
 <li><span class="math inline">\(x \in \{0, 1\}\)</span></li>
@@ -602,7 +622,7 @@ p(x | \theta) &amp;= \theta^x \, (1-\theta)^{1-x} \\
 \]</span></p>
 </div>
 <div id="exm-expfamnormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> as exponential family:</p>
+<p><span class="theorem-title"><strong>Example 2.3</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> as exponential family:</p>
 <p>The two-parameter normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span> can be written in exponential family form as follows:</p>
 <ul>
 <li><span class="math inline">\(x \in  \mathbb{R}\)</span></li>

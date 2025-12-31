@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,10 +59,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -145,9 +145,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -207,13 +205,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Risk and divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Local divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -426,26 +424,26 @@ window.Quarto = {
 <h2 data-number="1.3" class="anchored" data-anchor-id="model-based-learning"><span class="header-section-number">1.3</span> Model-based learning</h2>
 <section id="sketch-of-statistical-learning" class="level3">
 <h3 class="anchored" data-anchor-id="sketch-of-statistical-learning">Sketch of statistical learning</h3>
-<p>The aim of statistical learning is to use observed data in an optimal way to learn about the underlying mechanism of the data-generating process. Since data is typically finite but models can be in principle arbitrarily complex there may be issues of over-fitting (insufficient data for the complexity of the model) but also under-fitting (model is too simplistic).</p>
-<p>We observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> assumed to result from an underlying probabilistic model <span class="math inline">\(F\)</span>, the distribution for&nbsp;<span class="math inline">\(x\)</span>:</p>
+<p>The aim of statistical learning is to use observed data in an optimal way to learn about the underlying mechanism of the data-generating process. Since data is typically finite but models can be in principle arbitrarily complex there may be issues of overfitting (insufficient data for the complexity of the model) but also under-fitting (model is too simplistic).</p>
+<p>We observe data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> assumed to result from an underlying probabilistic model <span class="math inline">\(Q\)</span>, the distribution for&nbsp;<span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[
 \begin{array}{cc}
 \textbf{Real world} \\
 \text{True model (unknown)} \\
-F \\
+Q \\
 \end{array}
 \longrightarrow
 \begin{array}{cc}
 \textbf{Data}\\
 \text{Samples from true model} \\
 D = \{x_1, \ldots, x_n\}\\
-x_i \sim F\\
+x_i \sim Q\\
 \end{array}
-\]</span> The true model underlying the data-generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> arising from the true model <span class="math inline">\(F\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
+\]</span> The true model underlying the data-generating process is unknown and cannot be observed. However, what we can observe is data <span class="math inline">\(D\)</span> arising from the true model <span class="math inline">\(Q\)</span> by measuring properties of interest (our observations from experiments). Sometimes we can also perturb the model and see what the effect is (interventional study).</p>
 <p>To explain the observed data <span class="math inline">\(D\)</span>, and also to predict future data, we consider various competing hypotheses in the form of candidate models <span class="math inline">\(P_{1}, P_{2}, \ldots\)</span>. Often these candidates belong to a parametric family <span class="math inline">\(P(\boldsymbol \theta)\)</span> indexed by a parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>. Individual models such as <span class="math inline">\(P(\boldsymbol \theta_1)\)</span> or <span class="math inline">\(P(\boldsymbol \theta_2)\)</span> correspond to specific parameter values <span class="math inline">\(\boldsymbol \theta_1\)</span> and <span class="math inline">\(\boldsymbol \theta_2\)</span>.</p>
 <p>Frequently parameters are chosen such that they allow some interpretation, such as moments or other properties of the distribution. However, intrinsically parameters are just labels and may be changed by any one-to-one transformation.</p>
 <p>For statistical learning it is important that models are <strong>identifiable</strong> within a family so that distinct parameters correspond to distinct distributions, as this allows models to be uniquely estimated from data. Specifically, if parameters are identifiable then <span class="math inline">\(P(\boldsymbol \theta_1) = P(\boldsymbol \theta_2)\)</span> implies <span class="math inline">\(\boldsymbol \theta_1 = \boldsymbol \theta_2\)</span>, and conversely if <span class="math inline">\(P(\boldsymbol \theta_1) \neq P(\boldsymbol \theta_2)\)</span> then <span class="math inline">\(\boldsymbol \theta_1 \neq \boldsymbol \theta_2\)</span>. If parameters and distributions are unique within a neighbourhood <span class="math inline">\(\boldsymbol \theta_0+\boldsymbol \varepsilon\)</span> relative to a reference value <span class="math inline">\(\boldsymbol \theta_0\)</span>, rather than globally, they are <strong>locally identifiable</strong> at&nbsp;<span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
-<p>The various candidate models <span class="math inline">\(P(\boldsymbol \theta)\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data-generating model&nbsp;<span class="math inline">\(F\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(F = P(\boldsymbol \theta_{\text{true}})\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
+<p>The various candidate models <span class="math inline">\(P(\boldsymbol \theta)\)</span> in the <strong>model world</strong> will at best be good approximations to the true underlying data-generating model&nbsp;<span class="math inline">\(Q\)</span>. In some cases the true model will be part of the model family, i.e.&nbsp;there exists a parameter <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span> so that <span class="math inline">\(Q = P(\boldsymbol \theta_{\text{true}})\)</span>. However, more typically we cannot assume that the true underlying model is contained in the family. Nonetheless, even an imperfect candidate model will often provide a useful mathematical approximation and capture some important characteristics of the true model and thus will help to interpret the observed data.</p>
 <p><span class="math display">\[
 \begin{array}{cc}
 \textbf{Statistical Learning}\\
@@ -453,7 +451,7 @@ x_i \sim F\\
 \text{approximating the true model} \\
 \text{and best explaining both} \\
 \text{observed and future data} \\
-F \approx P(\hat{\boldsymbol \theta})\\
+Q \approx P(\hat{\boldsymbol \theta})\\
 \end{array}
 \longleftarrow
 \begin{array}{cc}
@@ -463,22 +461,22 @@ F \approx P(\hat{\boldsymbol \theta})\\
 \text{Model } P(\boldsymbol \theta)\\
 \text{with parameter(s) } \boldsymbol \theta\\
 \text{Ideally, true model is } \\
-F = P(\boldsymbol \theta_{\text{true}})\\
+Q = P(\boldsymbol \theta_{\text{true}})\\
 \end{array}
 \]</span></p>
 <p><strong>The aim of statistical learning is to identify the model(s) that explain the current data and also predict future data (i.e.&nbsp;predict outcome of experiments that have not been conducted yet).</strong></p>
 <p>Thus a good model provides a good fit to the current data (i.e.&nbsp;it explains current observations well) and also to the future data (i.e.&nbsp;it generalises well).</p>
-<p>A large proportion of statistical theory is devoted to finding these “good” models that avoid both <em>over-fitting</em> (models being too complex and not generalising well) or <em>under-fitting</em> (models being too simplistic and hence also not predicting well).</p>
+<p>A large proportion of statistical theory is devoted to finding these “good” models that avoid both <em>overfitting</em> (models being too complex and not generalising well) or <em>under-fitting</em> (models being too simplistic and hence also not predicting well).</p>
 <p>Typically the aim is to find an approximating model whose <strong>model complexity</strong> is well matched with the complexity of the unknown true model and also with the complexity of the observed data.</p>
 </section>
 <section id="finding-the-best-models" class="level3">
 <h3 class="anchored" data-anchor-id="finding-the-best-models">Finding the best models</h3>
 <p>A core task in statistical learning is to identify those distributions that explain the existing data well and that also generalise well to future yet unseen observations.</p>
-<p>In a <strong>non-parametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(F\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(F)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math inline">\(\operatorname{E}_{F}(x) = \mu\)</span> by <span class="math display">\[
-\hat{\operatorname{E}}(x) = \hat{\mu} =  \operatorname{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
-\]</span> and of the variance <span class="math inline">\(\operatorname{Var}(x) = \sigma^2 = \operatorname{E}_{F}((x - \mu)^2)\)</span> by <span class="math display">\[
+<p>In a <strong>nonparametric setting</strong> we may simply rely on the law of large numbers that implies that the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> constructed from the observed data <span class="math inline">\(D\)</span> converges to the true distribution <span class="math inline">\(Q\)</span> if the sample size is large. We can therefore obtain an <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> of the functional <span class="math inline">\(\theta = g(Q)\)</span> by <span class="math inline">\(\hat{\theta}= g( \hat{Q}_n )\)</span>, i.e.&nbsp;by substituting the true distribution with the empirical distribution. This allows us, e.g., to get the empirical estimate of the mean <span class="math inline">\(\operatorname{E}_{Q}(x) = \mu\)</span> by <span class="math display">\[
+\hat{\operatorname{E}}(x) = \hat{\mu} =  \operatorname{E}_{\hat{Q}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
+\]</span> and of the variance <span class="math inline">\(\operatorname{Var}(x) = \sigma^2 = \operatorname{E}_{Q}((x - \mu)^2)\)</span> by <span class="math display">\[
 \widehat{\operatorname{Var}}(x) = \widehat{\sigma^2} =
-\operatorname{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+\operatorname{E}_{\hat{Q}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \]</span> simply by replacing the expectation with the sample average.</p>
 <p>For parametric models we need to find estimates of the parameters that correspond to the distributions that best approximate the unknown true data-generating model. One such approach is provided by the <strong>method of maximum likelihood</strong>. More precisely, given a probability distribution <span class="math inline">\(P(\boldsymbol \theta)\)</span> with density or mass function <span class="math inline">\(p(x|\boldsymbol \theta)\)</span> where <span class="math inline">\(\boldsymbol \theta\)</span> is a parameter vector, and <span class="math inline">\(D = \{x_1,\dots,x_n\}\)</span> are the observed iid data (i.e.&nbsp;independent and identically distributed), the <strong>likelihood function</strong> is defined as <span class="math display">\[
 L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\boldsymbol \theta)
@@ -487,7 +485,7 @@ L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\bold
 \]</span></p>
 <p>Historically, the likelihood was introduced as “the probability of observing the data given a model with specified parameters <span class="math inline">\(\boldsymbol \theta\)</span>”.</p>
 <p>However, this view breaks down for continuous random variables, where the likelihood function is formed from densities rather than probabilities. Furthermore, for discrete random variables the likelihood function typically does not include the additional factor accounting for the permutations of samples that is needed to obtain the actual probability of the data.</p>
-<p>Instead, we will see that estimation and inference in statistics are closely linked to information-theoretic concepts such entropy and divergences between distributions. Specifically, maximising the likelihood function is, for large samples, equivalent to minimising the Kullback-Leibler divergence <span class="math inline">\(D_{\text{KL}}(F,P(\boldsymbol \theta))\)</span> between the unknown true distribution <span class="math inline">\(F\)</span> and the model <span class="math inline">\(P(\boldsymbol \theta)\)</span>. As a consequence, the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This connection explains both the optimality properties as well as the limitations of the maximum likelihood approach in statistical learning.</p>
+<p>Instead, we will see that estimation and inference in statistics are closely linked to information-theoretic concepts such entropy and divergences between distributions. Specifically, maximising the likelihood function is, for large samples, equivalent to minimising the Kullback-Leibler divergence <span class="math inline">\(D_{\text{KL}}(Q,P(\boldsymbol \theta))\)</span> between the unknown true distribution <span class="math inline">\(Q\)</span> and the model <span class="math inline">\(P(\boldsymbol \theta)\)</span>. As a consequence, the method of <strong>maximum likelihood extends empirical estimation to parametric models</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This connection explains both the optimality properties as well as the limitations of the maximum likelihood approach in statistical learning.</p>
 </section>
 <section id="models-and-decomposition-of-uncertainty" class="level3">
 <h3 class="anchored" data-anchor-id="models-and-decomposition-of-uncertainty">Models and decomposition of uncertainty</h3>
@@ -504,7 +502,7 @@ L_n(\boldsymbol \theta) = L(\boldsymbol \theta| D ) =\prod_{i=1}^{n} p(x_i|\bold
 </section>
 <section id="further-reading" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.4</span> Further reading</h2>
-<p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> offers a gentle introduction to the history and and philosophical foundations of probability as well as to the frequentist and Bayesian interpretations.</p>
+<p>The book “Ten Great Ideas About Chance” by <span class="citation" data-cites="DiaconisSkyrms2018">Diaconis and Skyrms (<a href="bibliography.html#ref-DiaconisSkyrms2018" role="doc-biblioref">2018</a>)</span> provides and overview of the history and philosophical foundations of probability as well as discussing various interpretations of probability.</p>
 <p>The book “Probability Theory: The Logic of Science” by <span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> advocates that probability theory, as an extension of logic, is the natural framework for scientific reasoning.</p>
 <p>The popular science book “The Theory That Would Not Die” <span class="citation" data-cites="McGrayne2011">(<a href="bibliography.html#ref-McGrayne2011" role="doc-biblioref">McGrayne 2011</a>)</span> focuses on the history of Bayes’ theorem and its importance in statistics.</p>
 <p>For a quick recap of essential statistical concepts introduced in earlier statistical modules in year 1 and 2 see <a href="20-stats.html" class="quarto-xref"><span>Appendix A</span></a>.</p>

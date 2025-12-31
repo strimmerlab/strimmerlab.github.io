@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9290db0fca16de22067673ab8036b289.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,9 +125,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics 2: Statistical Learning with Likelihood and Bayes</a> 
     </div>
@@ -187,13 +185,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-entropy2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Divergence</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Risk and divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-entropy3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Fisher information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Local divergence</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -336,8 +334,8 @@ window.Quarto = {
   <li><a href="#statistical-learning" id="toc-statistical-learning" class="nav-link" data-scroll-target="#statistical-learning"><span class="header-section-number">A.2</span> Statistical learning</a></li>
   <li><a href="#sampling-properties-of-a-point-estimator" id="toc-sampling-properties-of-a-point-estimator" class="nav-link" data-scroll-target="#sampling-properties-of-a-point-estimator"><span class="header-section-number">A.3</span> Sampling properties of a point estimator</a></li>
   <li><a href="#efficiency-and-consistency-of-an-estimator" id="toc-efficiency-and-consistency-of-an-estimator" class="nav-link" data-scroll-target="#efficiency-and-consistency-of-an-estimator"><span class="header-section-number">A.4</span> Efficiency and consistency of an estimator</a></li>
-  <li><a href="#sec-lawlargenumbers" id="toc-sec-lawlargenumbers" class="nav-link" data-scroll-target="#sec-lawlargenumbers"><span class="header-section-number">A.5</span> Law of large numbers</a></li>
-  <li><a href="#sec-empiricalcdf" id="toc-sec-empiricalcdf" class="nav-link" data-scroll-target="#sec-empiricalcdf"><span class="header-section-number">A.6</span> Empirical distribution function</a></li>
+  <li><a href="#sec-empiricaldistribution" id="toc-sec-empiricaldistribution" class="nav-link" data-scroll-target="#sec-empiricaldistribution"><span class="header-section-number">A.5</span> Empirical distribution</a></li>
+  <li><a href="#sec-lawlargenumbers" id="toc-sec-lawlargenumbers" class="nav-link" data-scroll-target="#sec-lawlargenumbers"><span class="header-section-number">A.6</span> Law of large numbers</a></li>
   <li><a href="#sec-empiricalestimators" id="toc-sec-empiricalestimators" class="nav-link" data-scroll-target="#sec-empiricalestimators"><span class="header-section-number">A.7</span> Empirical estimators</a></li>
   <li><a href="#sec-distmeanvarest" id="toc-sec-distmeanvarest" class="nav-link" data-scroll-target="#sec-distmeanvarest"><span class="header-section-number">A.8</span> Sampling distribution of mean and variance estimators for normal data</a></li>
   <li><a href="#sec-tstat" id="toc-sec-tstat" class="nav-link" data-scroll-target="#sec-tstat"><span class="header-section-number">A.9</span> <span class="math inline">\(t\)</span>-statistics</a>
@@ -440,45 +438,58 @@ An <strong>estimator for <span class="math inline">\(\theta\)</span></strong> is
 <p>Consistency is an essential yet relatively weak requirement for any reasonable estimator. Among all consistent estimators we generally choose those that are most <strong>efficient</strong>, meaning that they exhibit the smallest variance and/or MSE for a given finite <span class="math inline">\(n\)</span>.</p>
 <p>Consistency implies that, given an infinite amount of data, the true model can be accurately identified, provided that the model class includes the actual data-generating model. If the model class does not encompass the true model, strict consistency cannot be attained. Nevertheless, our goal remains to choose a model that is closest to the true model and approximates it as best as possible.</p>
 </section>
-<section id="sec-lawlargenumbers" class="level2" data-number="A.5">
-<h2 data-number="A.5" class="anchored" data-anchor-id="sec-lawlargenumbers"><span class="header-section-number">A.5</span> Law of large numbers</h2>
-<p>The <strong>law of large numbers</strong>, discovered by <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a>, asserts that, if the mean exists, the sample average will converge to the mean as the sample size <span class="math inline">\(n\)</span> becomes large. Therefore, when the mean is defined, it can be approximated by the empirical mean for sufficiently large values of <span class="math inline">\(n\)</span>.</p>
-<p>A variant of the law of large numbers is that the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> convergences strongly to <span class="math inline">\(F\)</span> (<a href="#sec-empiricalcdf" class="quarto-xref"><span>Section A.6</span></a>).</p>
-<p>As a result, with <span class="math inline">\(n \rightarrow \infty\)</span> there’s also convergence of the average of a function of the observed samples to the corresponding expectation of the function of the random variable: <span class="math display">\[
-\operatorname{E}_{\hat{F}_n}(h(x)) =
-\frac{1}{n} \sum_{i=1}^n h(x_i) \to \operatorname{E}_{F}(h(x))
-\]</span> Hence, the law of large numbers also ensures that empirical estimators (<a href="#sec-empiricalestimators" class="quarto-xref"><span>Section A.7</span></a>) will converge to the corresponding true values for sufficiently large <span class="math inline">\(n\)</span>.</p>
-<p>Moreover, the law of large numbers provides a <strong>justification for interpreting large-sample limits of frequencies as probabilities</strong>. However, <strong>the converse</strong> assumption that all probabilities can be interpreted in frequentist manner <strong>does not follow</strong> from the law of large numbers or from the axioms of probability.</p>
-<p>Finally, it is worth pointing out that the law of large number doesn’t say anything about the finite sample properties of an estimator, it is only concerned with the asymptotic domain (large <span class="math inline">\(n\)</span>).</p>
-</section>
-<section id="sec-empiricalcdf" class="level2" data-number="A.6">
-<h2 data-number="A.6" class="anchored" data-anchor-id="sec-empiricalcdf"><span class="header-section-number">A.6</span> Empirical distribution function</h2>
-<p>Suppose we observe data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> with each <span class="math inline">\(x_i \sim F\)</span> sampled independently and identically. The empirical cumulative distribution function <span class="math inline">\(\hat{F}_n(x)\)</span> based on data <span class="math inline">\(D\)</span> is then given by <span class="math display">\[
-\hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n [x_i \leq x]  
-\]</span> where <span class="math inline">\([A]\)</span> is the indicator function in Iverson bracket notation which equals 1 if <span class="math inline">\(A\)</span> is true and 0 otherwise. Thus <span class="math inline">\(\hat{F}_n(x)\)</span> counts how many observations <span class="math inline">\(x_i \in D\)</span> are smaller or equal than <span class="math inline">\(x\)</span> and then standardises by the total number of samples <span class="math inline">\(n\)</span>.</p>
-<p>The empirical distribution function is monotonically non-decreasing from 0 to 1 in discrete steps.</p>
+<section id="sec-empiricaldistribution" class="level2" data-number="A.5">
+<h2 data-number="A.5" class="anchored" data-anchor-id="sec-empiricaldistribution"><span class="header-section-number">A.5</span> Empirical distribution</h2>
+<p>Suppose we observe data <span class="math inline">\(D=\{x_1, \ldots, x_n\}\)</span> with each <span class="math inline">\(x_i \sim Q\)</span> sampled independently and identically.</p>
+<p>The <strong>empirical distribution</strong> based on data <span class="math inline">\(D\)</span> can be written as the mixture <span class="math display">\[
+\hat{Q}_n = \frac{1}{n} \sum_{i=1}^n \delta(x_i)
+\]</span> where <span class="math inline">\(\delta(\mu)\)</span> is the delta distribution, a <em>continuous</em> distribution with mean <span class="math inline">\(\mu\)</span> representing a point mass at <span class="math inline">\(\mu\)</span>. The “hat” is a reminder that <span class="math inline">\(\hat{Q}_n\)</span> is a function of the observed data <span class="math inline">\(D\)</span> with the subscript <span class="math inline">\(n\)</span> indicating the sample size.</p>
+<p>The corresponding <strong>empirical pdf</strong> is <span class="math display">\[
+\hat{q}_n(x) = \frac{1}{n} \sum_{i=1}^n \delta(x | x_i)
+\]</span> This is a generalised function satisfying <span class="math inline">\(\hat{q}_n(x)=0\)</span> for all <span class="math inline">\(x\neq x_i\)</span> with infinite spikes at the data points <span class="math inline">\(x_i\)</span> and still integrating to one.</p>
+<p>The <strong>empirical cumulative distribution function</strong> (ecdf) is given by <span class="math display">\[
+\hat{Q}_n(x) = \frac{1}{n} \sum_{i=1}^n [x_i \leq x]  
+\]</span> where <span class="math inline">\([A]\)</span> is the indicator function in Iverson bracket notation which equals 1 if <span class="math inline">\(A\)</span> is true and 0 otherwise. Thus <span class="math inline">\(\hat{Q}_n(x)\)</span> counts how many observations <span class="math inline">\(x_i \in D\)</span> are smaller or equal than <span class="math inline">\(x\)</span> and then standardises by the total number of samples <span class="math inline">\(n\)</span>. The empirical distribution function is monotonically non-decreasing from 0 to 1 in discrete steps.</p>
+<p>The mean of the empirical distribution is the <strong>empirical mean</strong> and is given by the sample average: <span class="math display">\[
+\begin{split}
+\operatorname{E}_{\hat{Q}_n}(x) &amp;= \operatorname{E}(\hat{Q}_n) \\
+&amp;= \frac{1}{n} \sum_{i=1}^n \operatorname{E}( \delta(x_i) )\\
+&amp;=  \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
+\end{split}
+\]</span></p>
 <p>In R the empirical distribution function is computed by <code>ecdf()</code>.</p>
-<p>Crucially, the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> converges strongly (almost surely) to the underlying distribution <span class="math inline">\(F\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>: <span class="math display">\[
-\hat{F}_n\overset{a. s.}{\to} F
+</section>
+<section id="sec-lawlargenumbers" class="level2" data-number="A.6">
+<h2 data-number="A.6" class="anchored" data-anchor-id="sec-lawlargenumbers"><span class="header-section-number">A.6</span> Law of large numbers</h2>
+<p>The <strong>law of large numbers</strong>, discovered by <a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli (1655-1705)</a>, asserts that, if the mean exists, the sample average will converge to the mean as the sample size <span class="math inline">\(n\)</span> becomes large, <span class="math display">\[
+\frac{1}{n} \sum_{i=1}^n x_i = \bar{x} \to \operatorname{E}(x)
+\]</span> or equivalently, <span class="math display">\[
+\operatorname{E}(\hat{Q}_n) \to \operatorname{E}(Q)
+\]</span> Therefore, when the mean is defined, it can be approximated by the empirical mean for sufficiently large values of <span class="math inline">\(n\)</span>.</p>
+<p>A variant of the law of large numbers is that the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> converges strongly (almost surely) to the underlying distribution <span class="math inline">\(Q\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>: <span class="math display">\[
+\hat{Q}_n\overset{a. s.}{\to} Q
 \]</span> The <a href="https://en.wikipedia.org/wiki/Glivenko%E2%80%93Cantelli_theorem">Glivenko-Cantelli theorem</a> additionally asserts that the convergence is uniform.</p>
-<p>This theorem is a variant of the <strong>law of large numbers</strong> (<a href="#sec-lawlargenumbers" class="quarto-xref"><span>Section A.5</span></a>) applied to the whole distribution, rather than just to the mean.</p>
-<p>As a result, we may use the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> based on data <span class="math inline">\(D\)</span> as an estimate of the underlying unknown true distribution <span class="math inline">\(F\)</span>. From the convergence theorems we know that <span class="math inline">\(\hat{F}_n\)</span> is consistent.</p>
-<p>However, for <span class="math inline">\(\hat{F}_n\)</span> to work well as an estimate of <span class="math inline">\(F\)</span> the number of observations <span class="math inline">\(n\)</span> must be sufficiently large so that the approximation provided by <span class="math inline">\(\hat{F}_n\)</span> is adequate.</p>
+<p>As a result, with <span class="math inline">\(n \rightarrow \infty\)</span> there’s also convergence of the average of a function of the observed samples to the corresponding expectation of the function of the random variable: <span class="math display">\[
+\operatorname{E}_{\hat{Q}_n}(h(x)) =
+\frac{1}{n} \sum_{i=1}^n h(x_i) \to \operatorname{E}_{Q}(h(x))
+\]</span></p>
+<p>Moreover, the law of large numbers provides a <strong>justification for interpreting large-sample limits of frequencies as probabilities</strong>. However, <strong>the converse</strong> assumption that all probabilities can be interpreted in frequentist manner <strong>does not follow</strong> from the law of large numbers or from the axioms of probability.</p>
+<p>Finally, it is worth pointing out that the law of large number is only concerned with the asymptotic regime, finite sample behaviour (small <span class="math inline">\(n\)</span>) can be quite different from the large-<span class="math inline">\(n\)</span> case.</p>
 </section>
 <section id="sec-empiricalestimators" class="level2" data-number="A.7">
 <h2 data-number="A.7" class="anchored" data-anchor-id="sec-empiricalestimators"><span class="header-section-number">A.7</span> Empirical estimators</h2>
-<p>The fact that for large sample size <span class="math inline">\(n\)</span> the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> may be used as a substitute for the unknown <span class="math inline">\(F\)</span> allows us to easily construct empirical estimators.</p>
-<p>Specifically, parameters of a model can typically be expressed as a functional of the distribution <span class="math inline">\(\theta = g(F)\)</span>. An <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}\)</span> is constructed by substituting the true distribution by the empirical distribution <span class="math inline">\(\hat{\theta}= g( \hat{F}_n )\)</span>.</p>
-<p>An example is the mean <span class="math inline">\(\operatorname{E}_F(x)\)</span> with regard to <span class="math inline">\(F\)</span>. The <strong>empirical mean</strong> is the expectation with regard to the empirical distribution which equals the <strong>average of the samples</strong>: <span class="math display">\[
-\hat{\operatorname{E}}(x) = \hat{\mu} =  \operatorname{E}_{\hat{F}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
+<p>Thanks to the law of large numbers, we may use the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> based on data <span class="math inline">\(D\)</span> as a consistent estimator of the unknown true distribution <span class="math inline">\(Q\)</span>.</p>
+<p>This motivates <strong>empirical estimators</strong>. If a quantity of interest <span class="math inline">\(\theta\)</span> is a functional <span class="math inline">\(\theta = g(Q)\)</span> of the true distribution <span class="math inline">\(Q\)</span>, its <strong>empirical estimator</strong> <span class="math inline">\(\hat{\theta}= g( \hat{Q}_n )\)</span> is obtained by replacing the true distribution with the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span>.</p>
+<p>An example is the mean <span class="math inline">\(\operatorname{E}_Q(x)\)</span> with regard to <span class="math inline">\(Q\)</span>. The <strong>empirical mean</strong> is the expectation with regard to the empirical distribution which equals the <strong>average of the samples</strong>: <span class="math display">\[
+\hat{\operatorname{E}}(x) = \hat{\mu} =  \operatorname{E}_{\hat{Q}_n}(x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}
 \]</span></p>
 <p>Similarly, other empirical estimators can be constructed simply by replacing the expectation in the definition of the quantity of interest by the sample average. For example, the <strong>empirical variance</strong> with unknown mean is given by <span class="math display">\[
 \widehat{\operatorname{Var}}(x) = \widehat{\sigma^2} =
-\operatorname{E}_{\hat{F}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+\operatorname{E}_{\hat{Q}_n}((x - \hat{\mu})^2) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \]</span> Note the factor <span class="math inline">\(1/n\)</span> before the summation sign. We can also write the empirical variance in terms of <span class="math inline">\(\overline{x^2} =\frac{1}{n}\sum^{n}_{k=1} x^2\)</span> as <span class="math display">\[
 \widehat{\operatorname{Var}}(x) = \overline{x^2} - \bar{x}^2
 \]</span></p>
-<p>By construction, as a result of the strong convergence of <span class="math inline">\(\hat{F}_n\)</span> to <span class="math inline">\(F\)</span> empirical estimators are consistent, with their MSE, variance and bias all decreasing to zero with large sample size <span class="math inline">\(n\)</span>. However, for finite sample size they do have a finite variance and may also be biased.</p>
+<p>By construction, as a result of the strong convergence of <span class="math inline">\(\hat{Q}_n\)</span> to <span class="math inline">\(Q\)</span> empirical estimators are consistent, with their MSE, variance and bias all decreasing to zero with large sample size <span class="math inline">\(n\)</span>. However, for finite sample size they do have a finite variance and may also be biased.</p>
 <p>For example, the empirical variance given above is biased with <span class="math inline">\(\operatorname{Bias}(\widehat{\sigma^2}) = -\sigma^2/n\)</span>. Note this bias decreases with <span class="math inline">\(n\)</span>. An unbiased estimator can be obtained by rescaling the empirical estimator by the factor <span class="math inline">\(n/(n-1)\)</span>: <span class="math display">\[
 \widehat{\sigma^2}_{\text{UB}} = \frac{1}{n-1} \sum_{i=1}^n (x_i -\bar{x})^2
 \]</span></p>
