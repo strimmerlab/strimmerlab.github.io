@@ -364,12 +364,12 @@ window.Quarto = {
   <li><a href="#quantifying-the-uncertainty-of-maximum-likelihood-estimates" id="toc-quantifying-the-uncertainty-of-maximum-likelihood-estimates" class="nav-link" data-scroll-target="#quantifying-the-uncertainty-of-maximum-likelihood-estimates"><span class="header-section-number">10.2</span> Quantifying the uncertainty of maximum likelihood estimates</a>
   <ul class="collapse">
   <li><a href="#estimating-the-variance-of-mles" id="toc-estimating-the-variance-of-mles" class="nav-link" data-scroll-target="#estimating-the-variance-of-mles">Estimating the variance of MLEs</a></li>
-  <li><a href="#examples-for-the-estimated-variance-and-asymptotic-normal-distribution" id="toc-examples-for-the-estimated-variance-and-asymptotic-normal-distribution" class="nav-link" data-scroll-target="#examples-for-the-estimated-variance-and-asymptotic-normal-distribution">Examples for the estimated variance and asymptotic normal distribution</a></li>
   <li><a href="#wald-statistic" id="toc-wald-statistic" class="nav-link" data-scroll-target="#wald-statistic">Wald statistic</a></li>
-  <li><a href="#examples-of-the-squared-wald-statistic" id="toc-examples-of-the-squared-wald-statistic" class="nav-link" data-scroll-target="#examples-of-the-squared-wald-statistic">Examples of the (squared) Wald statistic</a></li>
+  </ul></li>
+  <li><a href="#normal-confidence-intervals-and-tests" id="toc-normal-confidence-intervals-and-tests" class="nav-link" data-scroll-target="#normal-confidence-intervals-and-tests"><span class="header-section-number">10.3</span> Normal confidence intervals and tests</a>
+  <ul class="collapse">
   <li><a href="#normal-confidence-intervals-using-the-wald-statistic" id="toc-normal-confidence-intervals-using-the-wald-statistic" class="nav-link" data-scroll-target="#normal-confidence-intervals-using-the-wald-statistic">Normal confidence intervals using the Wald statistic</a></li>
   <li><a href="#normal-tests-using-the-wald-statistic" id="toc-normal-tests-using-the-wald-statistic" class="nav-link" data-scroll-target="#normal-tests-using-the-wald-statistic">Normal tests using the Wald statistic</a></li>
-  <li><a href="#examples-for-normal-confidence-intervals-and-corresponding-tests" id="toc-examples-for-normal-confidence-intervals-and-corresponding-tests" class="nav-link" data-scroll-target="#examples-for-normal-confidence-intervals-and-corresponding-tests">Examples for normal confidence intervals and corresponding tests</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -426,8 +426,8 @@ f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla^T f(\boldsymbol x_0)\, (\boldsymb
 \]</span> Applied to the log-likelihood function this yields</p>
 <p><span class="math display">\[\ell_n(\boldsymbol \theta) \approx \ell_n(\hat{\boldsymbol \theta}_{ML} )- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)\]</span></p>
 <p>This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, \ell_n(\hat{\boldsymbol \theta}_{ML}) )\)</span>. Note the appearance of the observed Fisher information <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> in the quadratic term. There is no linear term because of the vanishing gradient at the MLE.</p>
-<p>Crucially, this approximated log-likelihood takes the same form as if <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> was sampled from a multivariate normal distribution with mean <span class="math inline">\(\boldsymbol \theta\)</span> and with covariance given by the <em>inverse</em> observed Fisher information.</p>
-<p>Note that this requires a positive definite observed Fisher information matrix so that <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> is actually invertible!</p>
+<p>Crucially, this approximated log-likelihood takes the same form as if <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> was sampled from a multivariate normal distribution with mean <span class="math inline">\(\boldsymbol \theta\)</span> and the covariance given by the <em>inverse</em> of the observed Fisher information.</p>
+<p>Note that this requires a regular model with positive definite observed Fisher information matrix so that <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> is actually invertible!</p>
 <div id="exm-quadapproxproportion" class="theorem example">
 <p><span class="theorem-title"><strong>Example 10.1</strong></span> Quadratic approximation of the log-likelihood for a proportion:</p>
 <p>From <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a> we have the log-likelihood <span class="math display">\[
@@ -555,11 +555,18 @@ x_{[n]}\sim \theta \, \operatorname{Beta}(n,1)\\
 \widehat{\operatorname{SD}}(\hat{\boldsymbol \theta}_{ML}) = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{-1/2}
 \]</span> Note that in the above we use <em>matrix inversion</em> and the (inverse) <em>matrix square root</em>.</p>
 <p>The reasons for preferring observed Fisher information are made mathematically precise in a classic paper by Efron and Hinkley (1978) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> .</p>
-</section>
-<section id="examples-for-the-estimated-variance-and-asymptotic-normal-distribution" class="level3">
-<h3 class="anchored" data-anchor-id="examples-for-the-estimated-variance-and-asymptotic-normal-distribution">Examples for the estimated variance and asymptotic normal distribution</h3>
+<div id="exm-distnormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.3</strong></span> Estimated variance and distribution of the MLE of the mean parameter for the normal distribution with known variance:</p>
+<p>From <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a> and <a href="09-likelihood3.html#exm-obsfishernormalmean" class="quarto-xref">Example&nbsp;<span>9.2</span></a> we know that <span class="math display">\[\hat{\mu}_{ML} =\bar{x}\]</span> and that the corresponding observed Fisher information at <span class="math inline">\(\hat{\mu}_{ML}\)</span> is <span class="math display">\[J_n(\hat{\mu}_{ML})=\frac{n}{\sigma^2}\]</span></p>
+<p>The estimated variance of the MLE is therefore <span class="math display">\[
+\widehat{\operatorname{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}
+\]</span> and the corresponding asymptotic normal distribution is <span class="math display">\[
+\hat{\mu}_{ML} \sim N\left(\mu,\frac{\sigma^2}{n}\right)
+\]</span></p>
+<p>Note that in this case the distribution is not asymptotic but is <strong>exact</strong>, i.e.&nbsp;valid also for small <span class="math inline">\(n\)</span> (as long as the data <span class="math inline">\(x_i\)</span> are actually from <span class="math inline">\(N(\mu, \sigma^2)\)</span>!).</p>
+</div>
 <div id="exm-distproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.3</strong></span> Estimated variance and distribution of the MLE of a proportion:</p>
+<p><span class="theorem-title"><strong>Example 10.4</strong></span> Estimated variance and distribution of the MLE of a proportion:</p>
 <p>From <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a> and <a href="09-likelihood3.html#exm-obsfisherproportion" class="quarto-xref">Example&nbsp;<span>9.1</span></a> we know the MLE <span class="math display">\[
 \hat{\theta}_{ML} = \bar{x} = \frac{k}{n}
 \]</span> and the corresponding observed Fisher information <span class="math display">\[
@@ -570,24 +577,11 @@ J_n(\hat{\theta}_{ML})=\frac{n}{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}
 \hat{\theta}_{ML} \overset{a}{\sim} N\left(\theta,   \frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n}   \right)
 \]</span></p>
 </div>
-<div id="exm-distnormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.4</strong></span> Estimated variance and distribution of the MLE of the mean parameter for the normal distribution with known variance:</p>
-<p>From <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a> and <a href="09-likelihood3.html#exm-obsfishernormalmean" class="quarto-xref">Example&nbsp;<span>9.2</span></a> we know that <span class="math display">\[\hat{\mu}_{ML} =\bar{x}\]</span> and that the corresponding observed Fisher information at <span class="math inline">\(\hat{\mu}_{ML}\)</span> is <span class="math display">\[J_n(\hat{\mu}_{ML})=\frac{n}{\sigma^2}\]</span></p>
-<p>The estimated variance of the MLE is therefore <span class="math display">\[
-\widehat{\operatorname{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}
-\]</span> and the corresponding asymptotic normal distribution is <span class="math display">\[
-\hat{\mu}_{ML} \sim N\left(\mu,\frac{\sigma^2}{n}\right)
-\]</span></p>
-<p>Note that in this case the distribution is not asymptotic but is <strong>exact</strong>, i.e.&nbsp;valid also for small <span class="math inline">\(n\)</span> (as long as the data <span class="math inline">\(x_i\)</span> are actually from <span class="math inline">\(N(\mu, \sigma^2)\)</span>!).</p>
-</div>
 </section>
 <section id="wald-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="wald-statistic">Wald statistic</h3>
-<p>Centering the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> with <span class="math inline">\(\boldsymbol \theta_0\)</span> followed by standardising with <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\boldsymbol \theta}_{ML})\)</span> yields the <strong>Wald statistic</strong> (named after <a href="https://en.wikipedia.org/wiki/Abraham_Wald">Abraham Wald, 1902–1950</a>): <span class="math display">\[
-\begin{split}
-\boldsymbol t(\boldsymbol \theta_0) &amp; = \widehat{\operatorname{SD}}(\hat{\boldsymbol \theta}_{ML})^{-1}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
-&amp; = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
-\end{split}
+<p>Centering the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> with <span class="math inline">\(\boldsymbol \theta_0\)</span> followed by standardising using the observed Fisher information yields the <strong>Wald statistic</strong> (named after <a href="https://en.wikipedia.org/wiki/Abraham_Wald">Abraham Wald, 1902–1950</a>): <span class="math display">\[
+\boldsymbol t(\boldsymbol \theta_0) = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{1/2}(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \]</span> The <strong>squared Wald statistic</strong> is a scalar defined as <span class="math display">\[
 \begin{split}
 t(\boldsymbol \theta_0)^2 &amp;= \boldsymbol t(\boldsymbol \theta_0)^T \boldsymbol t(\boldsymbol \theta_0) \\
@@ -596,14 +590,14 @@ t(\boldsymbol \theta_0)^2 &amp;= \boldsymbol t(\boldsymbol \theta_0)^T \boldsymb
 \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})
 (\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta_0)\\
 \end{split}
-\]</span> Note that in the literature both <span class="math inline">\(\boldsymbol t(\boldsymbol \theta_0)\)</span> and <span class="math inline">\(t(\boldsymbol \theta_0)^2\)</span> are commonly referred to as Wald statistics. In this text we use the qualifier “squared” if we refer to the latter.</p>
+\]</span> Both <span class="math inline">\(\boldsymbol t(\boldsymbol \theta_0)\)</span> and <span class="math inline">\(t(\boldsymbol \theta_0)^2\)</span> are commonly called Wald statistics in the literature. In this text we explicitly use the qualifier “squared” if we refer to the latter.</p>
 <p>We now assume that the true underlying parameter is <span class="math inline">\(\boldsymbol \theta_0\)</span>. Since the MLE is asymptotically normal the Wald statistic is asymptotically <strong>standard normal</strong> distributed: <span class="math display">\[\begin{align*}
 \begin{array}{cc}
 \boldsymbol t(\boldsymbol \theta_0) \overset{a}{\sim}\\
 t(\theta_0) \overset{a}{\sim}\\
 \end{array}
 \begin{array}{ll}
-N_d(\mathbf 0_d,\boldsymbol I_d)\\
+N(0,\boldsymbol I_d)\\
 N(0,1)\\
 \end{array}
 \begin{array}{ll}
@@ -624,25 +618,25 @@ t(\theta_0)^2\\
   \text{for scalar } \theta\\
 \end{array}
 \end{align*}\]</span> The degree of freedom of the chi-squared distribution is the dimension <span class="math inline">\(d\)</span> of the parameter vector <span class="math inline">\(\boldsymbol \theta\)</span>.</p>
-</section>
-<section id="examples-of-the-squared-wald-statistic" class="level3">
-<h3 class="anchored" data-anchor-id="examples-of-the-squared-wald-statistic">Examples of the (squared) Wald statistic</h3>
+<div id="exm-waldnormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.5</strong></span> Wald statistic for the mean parameter of a normal distribution with known variance:</p>
+<p>We continue from <a href="#exm-distnormalmean" class="quarto-xref">Example&nbsp;<span>10.3</span></a>. With <span class="math inline">\(\hat{\mu}_{ML} =\bar{x}\)</span> and <span class="math inline">\(\widehat{\operatorname{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}\)</span> and thus <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\mu}_{ML}) = \frac{\sigma}{\sqrt{n}}\)</span> we get as <strong>Wald statistic</strong>:</p>
+<p><span class="math display">\[t(\mu_0) = \frac{\bar{x}-\mu_0}{\sigma / \sqrt{n}}\sim N(0,1)\]</span> Note this is the one sample <span class="math inline">\(t\)</span>-statistic with given <span class="math inline">\(\sigma\)</span>. The <strong>squared Wald statistic</strong> is: <span class="math display">\[t(\mu_0)^2 = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}\sim \chi^2_1 \]</span></p>
+<p>Again, in this instance this is the exact distribution, not just the asymptotic one.</p>
+<p>Using the Wald statistic or the squared Wald statistic we can test whether a particular <span class="math inline">\(\mu_0\)</span> can be rejected as underlying true parameter, and we can also construct corresponding confidence intervals.</p>
+</div>
 <div id="exm-waldproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.5</strong></span> Wald statistic for a proportion:</p>
-<p>We continue from <a href="#exm-distproportion" class="quarto-xref">Example&nbsp;<span>10.3</span></a>. With <span class="math inline">\(\hat{\theta}_{ML} = \bar{x}\)</span> and <span class="math inline">\(\widehat{\operatorname{Var}}(   \hat{\theta}_{ML}  ) = \frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n}\)</span> and thus <span class="math inline">\(\widehat{\operatorname{SD}}(   \hat{\theta}_{ML}  ) =\sqrt{ \frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n} }\)</span> we get as <strong>Wald statistic</strong>:</p>
+<p><span class="theorem-title"><strong>Example 10.6</strong></span> Wald statistic for a proportion:</p>
+<p>We continue from <a href="#exm-distproportion" class="quarto-xref">Example&nbsp;<span>10.4</span></a>. With <span class="math inline">\(\hat{\theta}_{ML} = \bar{x}\)</span> and <span class="math inline">\(\widehat{\operatorname{Var}}(   \hat{\theta}_{ML}  ) = \frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n}\)</span> and thus <span class="math inline">\(\widehat{\operatorname{SD}}(   \hat{\theta}_{ML}  ) =\sqrt{ \frac{\hat{\theta}_{ML}(1-\hat{\theta}_{ML})}{n} }\)</span> we get as <strong>Wald statistic</strong>:</p>
 <p><span class="math display">\[
 t(\theta_0) = \frac{\bar{x}-\theta_0}{ \sqrt{\bar{x}(1-\bar{x}) / n }  }\overset{a}{\sim} N(0,1)
 \]</span></p>
 <p>The <strong>squared Wald statistic</strong> is: <span class="math display">\[t(\theta_0)^2 = n \frac{(\bar{x}-\theta_0)^2}{ \bar{x}(1-\bar{x})   }\overset{a}{\sim} \chi^2_1 \]</span></p>
 </div>
-<div id="exm-waldnormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.6</strong></span> Wald statistic for the mean parameter of a normal distribution with known variance:</p>
-<p>We continue from <a href="#exm-distnormalmean" class="quarto-xref">Example&nbsp;<span>10.4</span></a>. With <span class="math inline">\(\hat{\mu}_{ML} =\bar{x}\)</span> and <span class="math inline">\(\widehat{\operatorname{Var}}(\hat{\mu}_{ML}) = \frac{\sigma^2}{n}\)</span> and thus <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\mu}_{ML}) = \frac{\sigma}{\sqrt{n}}\)</span> we get as <strong>Wald statistic</strong>:</p>
-<p><span class="math display">\[t(\mu_0) = \frac{\bar{x}-\mu_0}{\sigma / \sqrt{n}}\sim N(0,1)\]</span> Note this is the one sample <span class="math inline">\(t\)</span>-statistic with given <span class="math inline">\(\sigma\)</span>. The <strong>squared Wald statistic</strong> is: <span class="math display">\[t(\mu_0)^2 = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}\sim \chi^2_1 \]</span></p>
-<p>Again, in this instance this is the exact distribution, not just the asymptotic one.</p>
-<p>Using the Wald statistic or the squared Wald statistic we can test whether a particular <span class="math inline">\(\mu_0\)</span> can be rejected as underlying true parameter, and we can also construct corresponding confidence intervals.</p>
-</div>
 </section>
+</section>
+<section id="normal-confidence-intervals-and-tests" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="normal-confidence-intervals-and-tests"><span class="header-section-number">10.3</span> Normal confidence intervals and tests</h2>
 <section id="normal-confidence-intervals-using-the-wald-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="normal-confidence-intervals-using-the-wald-statistic">Normal confidence intervals using the Wald statistic</h3>
 <p>See <a href="20-stats.html#sec-ci" class="quarto-xref"><span>Section A.10</span></a> to review relevant background from year 1.</p>
@@ -667,6 +661,17 @@ Figure&nbsp;10.3: Construction of a 95% symmetric normal confidence interval for
 \]</span> Note that this form facilitates the construction of normal confidence intervals for a parameter vector <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
 <p>A list of critical values for the chi-squared distribution with one degree of freedom is found in <a href="20-stats.html#tbl-critchisq" class="quarto-xref">Table&nbsp;<span>A.2</span></a>.</p>
 <p>The following lists contains the critical values resulting from the chi-squared distribution with degree of freedom <span class="math inline">\(m=1\)</span> for the three most common choices of coverage <span class="math inline">\(\kappa\)</span> for a normal CI for a univariate parameter: For example, for a 95% interval the critical value equals 3.84 (which is the square of the critical value 1.96 for the standard normal).</p>
+<div id="exm-cinormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.7</strong></span> Normal confidence interval for the mean:</p>
+<p>We continue from <a href="#exm-distnormalmean" class="quarto-xref">Example&nbsp;<span>10.3</span></a> and <a href="#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.5</span></a>. Assume that we observe <span class="math inline">\(n=25\)</span> measurements with average <span class="math inline">\(\bar{x} = 10\)</span>, from a normal with unknown mean and variance <span class="math inline">\(\sigma^2=4\)</span>.</p>
+<p>Then <span class="math inline">\(\hat{\mu}_{ML} = \bar{x} = 10\)</span> and <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\mu}_{ML}) = \sqrt{ \frac{ \sigma^2}{n} } = \frac{2}{5}\)</span>.</p>
+<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by <span class="math inline">\(\hat{\mu}_{ML} \pm 1.96 \, \widehat{\operatorname{SD}}(\hat{\mu}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([9.216, 10.784]\)</span>.</p>
+</div>
+<div id="exm-ciproportion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.8</strong></span> Asymptotic normal confidence interval for a proportion:</p>
+<p>We continue from <a href="#exm-distproportion" class="quarto-xref">Example&nbsp;<span>10.4</span></a> and <a href="#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.6</span></a>. Assume we observe <span class="math inline">\(n=30\)</span> measurements with average <span class="math inline">\(\bar{x} = 0.7\)</span>. Then <span class="math inline">\(\hat{\theta}_{ML} = \bar{x} = 0.7\)</span> and <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\theta}_{ML}) = \sqrt{ \frac{ \bar{x}(1-\bar{x})}{n} } \approx 0.084\)</span>.</p>
+<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by <span class="math inline">\(\hat{\theta}_{ML} \pm 1.96 \, \widehat{\operatorname{SD}}(\hat{\theta}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([0.536, 0.864]\)</span>.</p>
+</div>
 </section>
 <section id="normal-tests-using-the-wald-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="normal-tests-using-the-wald-statistic">Normal tests using the Wald statistic</h3>
@@ -676,44 +681,30 @@ Figure&nbsp;10.3: Construction of a 95% symmetric normal confidence interval for
 <li>Conversely, all values <span class="math inline">\(\theta_0\)</span> outside the CI can be rejected to be the true parameter with significance level <span class="math inline">\(\alpha=1-\kappa\)</span> .</li>
 </ul>
 <p>Hence, in order to test whether <span class="math inline">\(\boldsymbol \theta_0\)</span> is the true underlying parameter value we can compute the corresponding (squared) Wald statistic, find the desired critical value and then decide on rejection.</p>
-</section>
-<section id="examples-for-normal-confidence-intervals-and-corresponding-tests" class="level3">
-<h3 class="anchored" data-anchor-id="examples-for-normal-confidence-intervals-and-corresponding-tests">Examples for normal confidence intervals and corresponding tests</h3>
-<div id="exm-ciproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.7</strong></span> Asymptotic normal confidence interval for a proportion:</p>
-<p>We continue from <a href="#exm-distproportion" class="quarto-xref">Example&nbsp;<span>10.3</span></a> and <a href="#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.5</span></a>. Assume we observe <span class="math inline">\(n=30\)</span> measurements with average <span class="math inline">\(\bar{x} = 0.7\)</span>. Then <span class="math inline">\(\hat{p}_{ML} = \bar{x} = 0.7\)</span> and <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{p}_{ML}) = \sqrt{ \frac{ \bar{x}(1-\bar{x})}{n} } \approx 0.084\)</span>.</p>
-<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by <span class="math inline">\(\hat{p}_{ML} \pm 1.96 \, \widehat{\operatorname{SD}}(\hat{p}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([0.536, 0.864]\)</span>.</p>
-</div>
-<div id="exm-normaltestproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.8</strong></span> Asymptotic normal test for a proportion:</p>
-<p>We continue from <a href="#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.7</span></a>.</p>
-<p>We now consider two possible values (<span class="math inline">\(p_0=0.5\)</span> and <span class="math inline">\(p_0=0.8\)</span>) as potentially true underlying proportion.</p>
-<p>The value <span class="math inline">\(p_0=0.8\)</span> lies inside the 95% confidence interval <span class="math inline">\([0.536, 0.864]\)</span>. This implies we cannot reject the hypthesis that this is the true underlying parameter on 5% significance level. In contrast, <span class="math inline">\(p_0=0.5\)</span> is outside the confidence interval so we can indeed reject this value. In other words, data plus model exclude this value as statistically implausible.</p>
-<p>This can be verified more directly by computing the corresponding (squared) Wald statistics (see <a href="#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.5</span></a>) and comparing them with the relevant critical value (3.84 from chi-squared distribution for 5% significance level):</p>
-<ul>
-<li><span class="math inline">\(t(0.5)^2 = \frac{(0.7-0.5)^2}{0.084^2} = 5.71  &gt; 3.84\)</span> hence <span class="math inline">\(p_0=0.5\)</span> can be rejected.</li>
-<li><span class="math inline">\(t(0.8)^2 = \frac{(0.7-0.8)^2}{0.084^2} = 1.43  &lt; 3.84\)</span> hence <span class="math inline">\(p_0=0.8\)</span> cannot be rejected.</li>
-</ul>
-<p>Note that the squared Wald statistic at the boundaries of the normal confidence interval is equal to the critical value.</p>
-</div>
-<div id="exm-cinormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.9</strong></span> Normal confidence interval for the mean:</p>
-<p>We continue from <a href="#exm-distnormalmean" class="quarto-xref">Example&nbsp;<span>10.4</span></a> and <a href="#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.6</span></a>. Assume that we observe <span class="math inline">\(n=25\)</span> measurements with average <span class="math inline">\(\bar{x} = 10\)</span>, from a normal with unknown mean and variance <span class="math inline">\(\sigma^2=4\)</span>.</p>
-<p>Then <span class="math inline">\(\hat{\mu}_{ML} = \bar{x} = 10\)</span> and <span class="math inline">\(\widehat{\operatorname{SD}}(\hat{\mu}_{ML}) = \sqrt{ \frac{ \sigma^2}{n} } = \frac{2}{5}\)</span>.</p>
-<p>The symmetric asymptotic normal CI for <span class="math inline">\(p\)</span> with 95% coverage is given by <span class="math inline">\(\hat{\mu}_{ML} \pm 1.96 \, \widehat{\operatorname{SD}}(\hat{\mu}_{ML})\)</span> which for the present data results in the interval <span class="math inline">\([9.216, 10.784]\)</span>.</p>
-</div>
 <div id="exm-normaltestnormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 10.10</strong></span> Normal test for the mean:</p>
-<p>We continue from <a href="#exm-cinormalmean" class="quarto-xref">Example&nbsp;<span>10.9</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 10.9</strong></span> Normal test for the mean:</p>
+<p>We continue from <a href="#exm-cinormalmean" class="quarto-xref">Example&nbsp;<span>10.7</span></a>.</p>
 <p>We now consider two possible values (<span class="math inline">\(\mu_0=9.5\)</span> and <span class="math inline">\(\mu_0=11\)</span>) as potentially true underlying mean parameter.</p>
 <p>The value <span class="math inline">\(\mu_0=9.5\)</span> lies inside the 95% confidence interval <span class="math inline">\([9.216, 10.784]\)</span>. This implies we cannot reject the hypthesis that this is the true underlying parameter on 5% significance level. In contrast, <span class="math inline">\(\mu_0=11\)</span> is outside the confidence interval so we can indeed reject this value. In other words, data plus model exclude this value as a statistically implausible.</p>
-<p>This can be verified more directly by computing the corresponding (squared) Wald statistics (see <a href="#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.6</span></a>) and comparing them with the relevant critical values:</p>
+<p>This can be verified more directly by computing the corresponding (squared) Wald statistics (see <a href="#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.5</span></a>) and comparing them with the relevant critical values:</p>
 <ul>
 <li><span class="math inline">\(t(9.5)^2 = \frac{(10-9.5)^2}{4/25}= 1.56  &lt; 3.84\)</span> hence <span class="math inline">\(\mu_0=9.5\)</span> cannot be rejected.</li>
 <li><span class="math inline">\(t(11)^2 = \frac{(10-11)^2}{4/25} = 6.25 &gt; 3.84\)</span> hence <span class="math inline">\(\mu_0=11\)</span> can be rejected.</li>
 </ul>
 <p>The squared Wald statistic at the boundaries of the confidence interval equals the critical value.</p>
 <p>Note that this is the standard one-sample test of the mean, and that it is exact, not an approximation.</p>
+</div>
+<div id="exm-normaltestproportion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 10.10</strong></span> Asymptotic normal test for a proportion:</p>
+<p>We continue from <a href="#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a>.</p>
+<p>We now consider two possible values (<span class="math inline">\(\theta_0=0.5\)</span> and <span class="math inline">\(\theta_0=0.8\)</span>) as potentially true underlying proportion.</p>
+<p>The value <span class="math inline">\(\theta_0=0.8\)</span> lies inside the 95% confidence interval <span class="math inline">\([0.536, 0.864]\)</span>. This implies we cannot reject the hypthesis that this is the true underlying parameter on 5% significance level. In contrast, <span class="math inline">\(\theta_0=0.5\)</span> is outside the confidence interval so we can indeed reject this value. In other words, data plus model exclude this value as statistically implausible.</p>
+<p>This can be verified more directly by computing the corresponding (squared) Wald statistics (see <a href="#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.6</span></a>) and comparing them with the relevant critical value (3.84 from chi-squared distribution for 5% significance level):</p>
+<ul>
+<li><span class="math inline">\(t(0.5)^2 = \frac{(0.7-0.5)^2}{0.084^2} = 5.71  &gt; 3.84\)</span> hence <span class="math inline">\(\theta_0=0.5\)</span> can be rejected.</li>
+<li><span class="math inline">\(t(0.8)^2 = \frac{(0.7-0.8)^2}{0.084^2} = 1.43  &lt; 3.84\)</span> hence <span class="math inline">\(\theta_0=0.8\)</span> cannot be rejected.</li>
+</ul>
+<p>Note that the squared Wald statistic at the boundaries of the normal confidence interval is equal to the critical value.</p>
 </div>
 
 

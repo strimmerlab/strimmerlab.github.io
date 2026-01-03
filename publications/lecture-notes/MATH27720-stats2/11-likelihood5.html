@@ -354,10 +354,8 @@ window.Quarto = {
   <ul>
   <li><a href="#likelihood-based-confidence-intervals-and-wilks-statistic" id="toc-likelihood-based-confidence-intervals-and-wilks-statistic" class="nav-link active" data-scroll-target="#likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">11.1</span> Likelihood-based confidence intervals and Wilks statistic</a>
   <ul class="collapse">
-  <li><a href="#general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" id="toc-general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic">General idea and definition of Wilks log-likelihood ratio statistic</a></li>
-  <li><a href="#examples-of-the-wilks-log-likelihood-ratio-statistic" id="toc-examples-of-the-wilks-log-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#examples-of-the-wilks-log-likelihood-ratio-statistic">Examples of the Wilks log-likelihood ratio statistic</a></li>
+  <li><a href="#wilks-log-likelihood-ratio-statistic" id="toc-wilks-log-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#wilks-log-likelihood-ratio-statistic">Wilks log-likelihood ratio statistic</a></li>
   <li><a href="#quadratic-approximation-of-the-wilks-statistic" id="toc-quadratic-approximation-of-the-wilks-statistic" class="nav-link" data-scroll-target="#quadratic-approximation-of-the-wilks-statistic">Quadratic approximation of the Wilks statistic</a></li>
-  <li><a href="#examples-of-quadratic-approximations" id="toc-examples-of-quadratic-approximations" class="nav-link" data-scroll-target="#examples-of-quadratic-approximations">Examples of quadratic approximations</a></li>
   <li><a href="#distribution-of-the-wilks-statistic" id="toc-distribution-of-the-wilks-statistic" class="nav-link" data-scroll-target="#distribution-of-the-wilks-statistic">Distribution of the Wilks statistic</a></li>
   <li><a href="#cutoff-values-for-the-likelihood-ci" id="toc-cutoff-values-for-the-likelihood-ci" class="nav-link" data-scroll-target="#cutoff-values-for-the-likelihood-ci">Cutoff values for the likelihood CI</a></li>
   <li><a href="#likelihood-ratio-test-lrt-using-wilks-statistic" id="toc-likelihood-ratio-test-lrt-using-wilks-statistic" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt-using-wilks-statistic">Likelihood ratio test (LRT) using Wilks statistic</a></li>
@@ -391,8 +389,8 @@ window.Quarto = {
 
 <section id="likelihood-based-confidence-intervals-and-wilks-statistic" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="likelihood-based-confidence-intervals-and-wilks-statistic"><span class="header-section-number">11.1</span> Likelihood-based confidence intervals and Wilks statistic</h2>
-<section id="general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic" class="level3">
-<h3 class="anchored" data-anchor-id="general-idea-and-definition-of-wilks-log-likelihood-ratio-statistic">General idea and definition of Wilks log-likelihood ratio statistic</h3>
+<section id="wilks-log-likelihood-ratio-statistic" class="level3">
+<h3 class="anchored" data-anchor-id="wilks-log-likelihood-ratio-statistic">Wilks log-likelihood ratio statistic</h3>
 <div id="fig-likelihoodci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="b">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-likelihoodci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -428,11 +426,19 @@ W(\boldsymbol \theta_0) = -2\log \Lambda(\boldsymbol \theta_0)
 \]</span> Hence large values of <span class="math inline">\(W(\boldsymbol \theta_0\)</span> correspond to small values of <span class="math inline">\(\Lambda(\boldsymbol \theta_0)\)</span> and the other way round.</p>
 <p>In this course we will only use <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> as it is both easier to compute and its sampling distribution is easier to obtain.</p>
 </div>
-</section>
-<section id="examples-of-the-wilks-log-likelihood-ratio-statistic" class="level3">
-<h3 class="anchored" data-anchor-id="examples-of-the-wilks-log-likelihood-ratio-statistic">Examples of the Wilks log-likelihood ratio statistic</h3>
+<div id="exm-wilksnormalmean" class="theorem example">
+<p><span class="theorem-title"><strong>Example 11.2</strong></span> Wilks statistic for the mean parameter of a normal model:</p>
+<p>The Wilks statistic is <span class="math display">\[
+W(\mu_0) = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}
+\]</span></p>
+<p>See Worksheet L2 for a derivation of the Wilks statistic from the normal log-likelihood function.</p>
+<p>Note this is the same as the squared Wald statistic discussed in <a href="10-likelihood4.html#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.5</span></a>.</p>
+<p>Comparing with <a href="04-entropy2.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>4.7</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two normal distributions with different means and variance equal to <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[
+W(\mu_0) =2 n D_{\text{KL}}( N( \hat{\mu}_{ML}, \sigma^2 ), N(\mu_0, \sigma^2)  )
+\]</span></p>
+</div>
 <div id="exm-wilksproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.2</strong></span> Wilks statistic for the proportion:</p>
+<p><span class="theorem-title"><strong>Example 11.3</strong></span> Wilks statistic for the proportion:</p>
 <p>The log-likelihood function for the parameter <span class="math inline">\(\theta\)</span> is (cf. <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>) <span class="math display">\[
 \ell_n(\theta) = n ( \bar{x} \log \theta + (1-\bar{x}) \log(1-\theta) )
 \]</span> Hence the Wilks statistic is with <span class="math inline">\(\hat{\theta}_{ML}=\bar{x}\)</span> <span class="math display">\[
@@ -445,17 +451,6 @@ W(\theta_0) &amp; = 2 ( \ell_n( \hat{\theta}_{ML})  -\ell_n( \theta_0 ) )\\
 \]</span></p>
 <p>Comparing with <a href="04-entropy2.html#exm-klbernoulli" class="quarto-xref">Example&nbsp;<span>4.5</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two Bernoulli distributions: <span class="math display">\[
 W(\theta_0) =2 n D_{\text{KL}}( \operatorname{Ber}( \hat{\theta}_{ML} ), \operatorname{Ber}(\theta_0)  )
-\]</span></p>
-</div>
-<div id="exm-wilksnormalmean" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.3</strong></span> Wilks statistic for the mean parameter of a normal model:</p>
-<p>The Wilks statistic is <span class="math display">\[
-W(\mu_0) = \frac{(\bar{x}-\mu_0)^2}{\sigma^2 / n}
-\]</span></p>
-<p>See Worksheet L2 for a derivation of the Wilks statistic from the normal log-likelihood function.</p>
-<p>Note this is the same as the squared Wald statistic discussed in <a href="10-likelihood4.html#exm-waldnormalmean" class="quarto-xref">Example&nbsp;<span>10.6</span></a>.</p>
-<p>Comparing with <a href="04-entropy2.html#exm-klnormalequalvar" class="quarto-xref">Example&nbsp;<span>4.7</span></a> we see that in this case the Wilks statistic is essentially (apart from a scale factor <span class="math inline">\(2n\)</span>) the KL divergence between two normal distributions with different means and variance equal to <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[
-W(mu_0) =2 n D_{\text{KL}}( N( \hat{\mu}_{ML}, \sigma^2 ), N(\mu_0, \sigma^2)  )
 \]</span></p>
 </div>
 <div id="exm-wilksexpfam" class="theorem example">
@@ -494,51 +489,30 @@ W(\boldsymbol \theta_0) &amp; = 2(\ell_n(\hat{\boldsymbol \theta}_{ML})-\ell_n(\
 \]</span></p>
 <p>Thus the <strong>quadratic approximation of the Wilks statistic yields the squared Wald statistic</strong>.</p>
 <p>Conversely, the Wilks statistic can be understood a generalisation of the squared Wald statistic.</p>
-</section>
-<section id="examples-of-quadratic-approximations" class="level3">
-<h3 class="anchored" data-anchor-id="examples-of-quadratic-approximations">Examples of quadratic approximations</h3>
+<div id="exm-wilksnormalmeanquadraticapprox" class="theorem example">
+<p><span class="theorem-title"><strong>Example 11.5</strong></span> Quadratic approximation of the Wilks statistic for the mean parameter of a normal model (continued from <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.2</span></a>):</p>
+<p>The normal log-likelihood is already quadratic in the mean parameter (cf. <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a>). Correspondingly, the Wilks statistic is quadratic in the mean parameter as well. Hence in this particular case the quadratic “approximation” is in fact exact and the Wilks statistic and the squared Wald statistic are identical!</p>
+<p>Correspondingly, confidence intervals and tests based on the Wilks statistic are identical to those obtained using the Wald statistic.</p>
+</div>
 <div id="exm-wilksproportionquadraticapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.5</strong></span> Quadratic approximation of the Wilks statistic for a proportion (continued from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a>):</p>
+<p><span class="theorem-title"><strong>Example 11.6</strong></span> Quadratic approximation of the Wilks statistic for a proportion (continued from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.3</span></a>):</p>
 <p>The Wilks statistic is <span class="math display">\[
 W(\theta_0) = 2 n \left(  \bar{x} \log \left( \frac{  \bar{x}  }{\theta_0}  \right)  
                 + (1-\bar{x}) \log \left( \frac{1-\bar{x} }{1-\theta_0}  \right)  
     \right)
-\]</span> Computing Taylor series of second order (for <span class="math inline">\(p_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields the following approximations: <span class="math display">\[
-\log \left( \frac{  \bar{x}  }{p_0} \right) \approx -\frac{p_0-\bar{x}}{\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}^2   }
+\]</span> Computing Taylor series of second order (for <span class="math inline">\(\theta_0\)</span> around <span class="math inline">\(\bar{x}\)</span>) yields the following approximations: <span class="math display">\[
+\log \left( \frac{  \bar{x}  }{\theta_0} \right) \approx -\frac{\theta_0-\bar{x}}{\bar{x}} + \frac{ ( \theta_0-\bar{x} )^2    }{2  \bar{x}^2   }
 \]</span> and <span class="math display">\[
-\log \left( \frac{ 1- \bar{x}  }{1- p_0} \right) \approx \frac{p_0-\bar{x}}{1-\bar{x}} + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x})^2   }
+\log \left( \frac{ 1- \bar{x}  }{1- \theta_0} \right) \approx \frac{\theta_0-\bar{x}}{1-\bar{x}} + \frac{ ( \theta_0-\bar{x} )^2    }{2  (1-\bar{x})^2   }
 \]</span> With the above we can approximate the Wilks statistic of the proportion as <span class="math display">\[
 \begin{split}
-W(p_0) &amp; \approx  2 n \left(  - (p_0-\bar{x})  +\frac{ ( p_0-\bar{x} )^2    }{2  \bar{x}  }
-+ (p_0-\bar{x}) + \frac{ ( p_0-\bar{x} )^2    }{2  (1-\bar{x}) } \right)   \\
-&amp; = n \left(    \frac{ ( p_0-\bar{x} )^2    }{  \bar{x}  } + \frac{ ( p_0-\bar{x} )^2    }{  (1-\bar{x}) } \right)  \\
-&amp; = n \left(    \frac{ ( p_0-\bar{x} )^2    }{  \bar{x} (1-\bar{x})  } \right)   \\
-&amp;= t(p_0)^2 \,.
+W(\theta_0) &amp; \approx  2 n \left(  - (\theta_0-\bar{x})  +\frac{ ( \theta_0-\bar{x} )^2    }{2  \bar{x}  }
++ (\theta_0-\bar{x}) + \frac{ ( \theta_0-\bar{x} )^2    }{2  (1-\bar{x}) } \right)   \\
+&amp; = n \left(    \frac{ ( \theta_0-\bar{x} )^2    }{  \bar{x}  } + \frac{ ( \theta_0-\bar{x} )^2    }{  (1-\bar{x}) } \right)  \\
+&amp; = n \left(    \frac{ ( \theta_0-\bar{x} )^2    }{  \bar{x} (1-\bar{x})  } \right)   \\
+&amp;= t(\theta_0)^2 \,.
 \end{split}
-\]</span> This verifies that the quadratic approximation of the Wilks statistic leads back to the squared Wald statistic of <a href="10-likelihood4.html#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.5</span></a>.</p>
-</div>
-<div id="exm-wilksnormalmeanquadraticapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.6</strong></span> Quadratic approximation of the Wilks statistic for the mean parameter of a normal model (continued from <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.3</span></a>):</p>
-<p>The normal log-likelihood is already quadratic in the mean parameter (cf. <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a>). Correspondingly, the Wilks statistic is quadratic in the mean parameter as well. Hence in this particular case the quadratic “approximation” is in fact exact and the Wilks statistic and the squared Wald statistic are identical!</p>
-<p>Correspondingly, confidence intervals and tests based on the Wilks statistic are identical to those obtained using the Wald statistic.</p>
-</div>
-<div id="exm-catwilksquadapprox" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.7</strong></span> Quadratic approximation of the Wilks log-likelihood ratio statistic for the categorical distribution:</p>
-<p>Developing the Wilks statistic <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> yields the squared Wald statistic which for the categorical distribution is the Neyman chi-squared statistic: <span class="math display">\[
-\begin{split}
-W(\boldsymbol \theta_0)&amp; = 2 n D_{\text{KL}}( \operatorname{Cat}(\hat{\boldsymbol \theta}_{ML}), \operatorname{Cat}(\boldsymbol \theta_0 ) ) \\
-&amp; \approx n D_{\text{Neyman}}( \operatorname{Cat}(\hat{\boldsymbol \theta}_{ML}), \operatorname{Cat}(\boldsymbol \theta_0 ) ) \\
-&amp; = \sum_{k=1}^K \frac{(n_k-n_k^{\text{expect}} )^2}{n_k} \\
-&amp; =  \chi^2_{\text{Neyman}}\\
-\end{split}
-\]</span></p>
-<p>If instead we approximate the KL divergence assuming <span class="math inline">\(\boldsymbol \theta_0\)</span> as fixed we arrive at <span class="math display">\[
-\begin{split}
-2 n D_{\text{KL}}( \operatorname{Cat}(\hat{\boldsymbol \theta}_{ML}), \operatorname{Cat}(\boldsymbol \theta_0 ) ) &amp;\approx n D_{\text{Pearson}}( \operatorname{Cat}(\hat{\boldsymbol \theta}_{ML}),  \operatorname{Cat}(\boldsymbol \theta_0 ) )\\
-&amp; = \sum_{k=1}^K \frac{(n_k-n_k^{\text{expect}})^2}{n_k^{\text{expect}}} \\
-&amp; = \chi^2_{\text{Pearson}}
-\end{split}
-\]</span> which is the well-known Pearson chi-squared statistic (note the <em>expected</em> counts in its denominator).</p>
+\]</span> This verifies that the quadratic approximation of the Wilks statistic leads back to the squared Wald statistic of <a href="10-likelihood4.html#exm-waldproportion" class="quarto-xref">Example&nbsp;<span>10.6</span></a>.</p>
 </div>
 </section>
 <section id="distribution-of-the-wilks-statistic" class="level3">
@@ -586,9 +560,9 @@ Table&nbsp;11.1: Cutoff values for construction of likelihood confidence interva
 <p>The asymptotic distribution for <span class="math inline">\(W\)</span> is useful to choose a suitable <span class="math inline">\(\Delta\)</span> for the likelihood CI noting that <span class="math inline">\(2 \Delta = c_{\text{chisq}}\)</span> where <span class="math inline">\(c_{\text{chisq}}\)</span> is the critical value from <a href="20-stats.html#tbl-critchisq" class="quarto-xref">Table&nbsp;<span>A.2</span></a> for a specified coverage <span class="math inline">\(\kappa\)</span>. This yields <a href="#tbl-delta" class="quarto-xref">Table&nbsp;<span>11.1</span></a> valid for a scalar parameter.</p>
 <p>Hence, in order to calibrate the likelihood interval we in effect compare it with a normal confidence interval.</p>
 <div id="exm-likciproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.8</strong></span> Likelihood confidence interval for a proportion:</p>
-<p>We continue from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a>, and as in <a href="10-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.7</span></a> we asssume we have data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>.</p>
-<p>This yields (via numerical root finding) as the 95% likelihood confidence interval the interval <span class="math inline">\([0.524, 0.843]\)</span>. It is similar but not identical to the corresponding asymptotic normal interval <span class="math inline">\([0.536, 0.864]\)</span> obtained in <a href="10-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.7</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 11.7</strong></span> Likelihood confidence interval for a proportion:</p>
+<p>We continue from <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.3</span></a>, and as in <a href="10-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a> we asssume we have data with <span class="math inline">\(n = 30\)</span> and <span class="math inline">\(\bar{x} = 0.7\)</span>.</p>
+<p>This yields (via numerical root finding) as the 95% likelihood confidence interval the interval <span class="math inline">\([0.524, 0.843]\)</span>. It is similar but not identical to the corresponding asymptotic normal interval <span class="math inline">\([0.536, 0.864]\)</span> obtained in <a href="10-likelihood4.html#exm-ciproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-likelihoodciber" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
@@ -640,32 +614,32 @@ H_1: \boldsymbol \theta\neq \boldsymbol \theta_0\\
 <p>It can be shown that the likelihood ratio test to compare two simple models is optimal in the sense that for any given specified type I error (=probability of wrongly rejecting <span class="math inline">\(H_0\)</span>, i.e. the significance level) it will maximise the power (=1- type II error, probability of correctly accepting <span class="math inline">\(H_1\)</span>). This is known as the <strong>Neyman-Pearson theorem</strong>.</p>
 <p>As we have seen previousy, the likelihood-based confidence interval differs from the the confidence interval based on the quadratic / normal approximation. Correspondingly, tests based on the log-likelihood ratio <span class="math inline">\(W(\boldsymbol \theta_0)\)</span> and on the squared Wald statistic <span class="math inline">\(t(\theta_0)^2\)</span> will also yield different outcomes (e.g.&nbsp;rejection due to lying outside the confidence interval) even though both test statistics share the same asymptotic distribution and critical values.</p>
 <div id="exm-liktestproportion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.9</strong></span> Likelihood test for a proportion:</p>
-<p>We continue from <a href="#exm-likciproportion" class="quarto-xref">Example&nbsp;<span>11.8</span></a> with 95% likelihood confidence interval <span class="math inline">\([0.524, 0.843]\)</span>.</p>
-<p>The value <span class="math inline">\(p_0=0.5\)</span> is outside the CI and hence can be rejected whereas <span class="math inline">\(p_0=0.8\)</span> is insided the CI and hence cannot be rejected on 5% significance level.</p>
-<p>The Wilks statistic for <span class="math inline">\(p_0=0.5\)</span> and <span class="math inline">\(p_0=0.8\)</span> takes on the following values:</p>
+<p><span class="theorem-title"><strong>Example 11.8</strong></span> Likelihood test for a proportion:</p>
+<p>We continue from <a href="#exm-likciproportion" class="quarto-xref">Example&nbsp;<span>11.7</span></a> with 95% likelihood confidence interval <span class="math inline">\([0.524, 0.843]\)</span>.</p>
+<p>The value <span class="math inline">\(\theta_0=0.5\)</span> is outside the CI and hence can be rejected whereas <span class="math inline">\(\theta_0=0.8\)</span> is insided the CI and hence cannot be rejected on 5% significance level.</p>
+<p>The Wilks statistic for <span class="math inline">\(\theta_0=0.5\)</span> and <span class="math inline">\(\theta_0=0.8\)</span> takes on the following values:</p>
 <ul>
-<li><span class="math inline">\(W(0.5) = 4.94  &gt; 3.84\)</span> hence <span class="math inline">\(p_0=0.5\)</span> can be rejected.</li>
-<li><span class="math inline">\(W(0.8) = 1.69  &lt; 3.84\)</span> hence <span class="math inline">\(p_0=0.8\)</span> cannot be rejected.</li>
+<li><span class="math inline">\(W(0.5) = 4.94  &gt; 3.84\)</span> hence <span class="math inline">\(\theta_0=0.5\)</span> can be rejected.</li>
+<li><span class="math inline">\(W(0.8) = 1.69  &lt; 3.84\)</span> hence <span class="math inline">\(\theta_0=0.8\)</span> cannot be rejected.</li>
 </ul>
 <p>Note that the Wilks statistic at the boundaries of the likelihood confidence interval is equal to the critical value (3.84 corresponding to 5% significance level for a chi-squared distribution with 1 degree of freedom).</p>
-<p>Compare also with the normal test for a proportion in <a href="10-likelihood4.html#exm-normaltestproportion" class="quarto-xref">Example&nbsp;<span>10.8</span></a>.</p>
+<p>Compare also with the normal test for a proportion in <a href="10-likelihood4.html#exm-normaltestproportion" class="quarto-xref">Example&nbsp;<span>10.10</span></a>.</p>
 </div>
 </section>
 <section id="origin-of-likelihood-ratio-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="origin-of-likelihood-ratio-statistic">Origin of likelihood ratio statistic</h3>
 <p>The likelihood ratio statistic is asymptotically linked to differences in the KL divergences of the two compared models with the underlying true model.</p>
-<p>Assume that <span class="math inline">\(F\)</span> is the true (and unknown) data-generating model and that <span class="math inline">\(G_{\boldsymbol \theta}\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> corresponding to parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(F, G_A)\)</span> and <span class="math inline">\(D_{\text{KL}}(F, G_B)\)</span> indicate how close each of the models <span class="math inline">\(G_A\)</span> and <span class="math inline">\(G_B\)</span> fit the true <span class="math inline">\(F\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
-D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A) = \operatorname{E}_{F} \log \frac{g(x|\boldsymbol \theta_A )}{g(x| \boldsymbol \theta_B)}
-\]</span> Replacing <span class="math inline">\(F\)</span> by the empirical distribution <span class="math inline">\(\hat{F}_n\)</span> leads to the large sample approximation <span class="math display">\[
-2 n (D_{\text{KL}}(F, G_B)-D_{\text{KL}}(F, G_A))  \approx 2 (\ell_n(\boldsymbol \theta_A) - \ell_n(\boldsymbol \theta_B))
+<p>Assume that <span class="math inline">\(Q\)</span> is the true (and unknown) data-generating model and that <span class="math inline">\(P(\boldsymbol \theta)\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(P(\boldsymbol \theta_A)\)</span> and <span class="math inline">\(P(\boldsymbol \theta_B)\)</span> with parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(Q, P(\boldsymbol \theta_A) )\)</span> and <span class="math inline">\(D_{\text{KL}}(Q, P(\boldsymbol \theta_B))\)</span> indicate how close each of the models fit the true <span class="math inline">\(Q\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
+D_{\text{KL}}(Q, P(\boldsymbol \theta_B))-D_{\text{KL}}(Q, P(\boldsymbol \theta_A)) = \operatorname{E}_{Q} \log \frac{p(x|\boldsymbol \theta_A )}{p(x| \boldsymbol \theta_B)}
+\]</span> Replacing <span class="math inline">\(Q\)</span> by the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> leads to the large sample approximation <span class="math display">\[
+2 n (D_{\text{KL}}(Q,  P(\boldsymbol \theta_B))-D_{\text{KL}}(Q,  P(\boldsymbol \theta_A)))  \approx 2 (\ell_n(\boldsymbol \theta_A) - \ell_n(\boldsymbol \theta_B))
 \]</span> Hence, the difference in the log-likelihoods provides an estimate of the difference in the KL divergence of the two models involved.</p>
-<p>The Wilks log likelihood ratio statistic <span class="math display">\[
+<p>The Wilks log-likelihood ratio statistic <span class="math display">\[
 W(\boldsymbol \theta_0) = 2 ( \ell_n( \hat{\boldsymbol \theta}_{ML} ) - \ell_n(\boldsymbol \theta_0) )
 \]</span> thus compares the best-fit distribution with <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> as the parameter to the distribution with parameter <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
 <p>For exponential families the Wilks statistic can also be written in the form of the KL divergence: <span class="math display">\[
 W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( P(\hat{\boldsymbol \theta}_{ML}), P(\boldsymbol \theta_0))
-\]</span> This has been seen in <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.2</span></a> and <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.3</span></a>. However, this is not true in general.</p>
+\]</span> This has been seen in <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.3</span></a> and <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.2</span></a>. However, this is not true in general.</p>
 <p>See <a href="#exm-wilksexpfam" class="quarto-xref">Example&nbsp;<span>11.4</span></a> for the direct verification for exponential families.</p>
 </section>
 </section>
@@ -704,7 +678,7 @@ W &amp;= 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}
 <li><p>If <span class="math inline">\(H_0\)</span> is a simple hypothesis (i.e.&nbsp;<span class="math inline">\(d_0=0\)</span>) then the standard LRT (and corresponding CI) is recovered as special case of the GLRT.</p></li>
 </ul>
 <div id="exm-glrtnormal" class="theorem example">
-<p><span class="theorem-title"><strong>Example 11.10</strong></span> GLRT example:</p>
+<p><span class="theorem-title"><strong>Example 11.9</strong></span> GLRT example:</p>
 <p><em>Case-control study:</em> (e.g.&nbsp;“healthy” vs.&nbsp;“disease”)<br>
 we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> (and <span class="math inline">\(n=n_1+n_2\)</span>), with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
 <p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span> and <span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
