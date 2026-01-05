@@ -359,7 +359,7 @@ window.Quarto = {
   <li><a href="#distribution-of-the-wilks-statistic" id="toc-distribution-of-the-wilks-statistic" class="nav-link" data-scroll-target="#distribution-of-the-wilks-statistic">Distribution of the Wilks statistic</a></li>
   <li><a href="#cutoff-values-for-the-likelihood-ci" id="toc-cutoff-values-for-the-likelihood-ci" class="nav-link" data-scroll-target="#cutoff-values-for-the-likelihood-ci">Cutoff values for the likelihood CI</a></li>
   <li><a href="#likelihood-ratio-test-lrt-using-wilks-statistic" id="toc-likelihood-ratio-test-lrt-using-wilks-statistic" class="nav-link" data-scroll-target="#likelihood-ratio-test-lrt-using-wilks-statistic">Likelihood ratio test (LRT) using Wilks statistic</a></li>
-  <li><a href="#origin-of-likelihood-ratio-statistic" id="toc-origin-of-likelihood-ratio-statistic" class="nav-link" data-scroll-target="#origin-of-likelihood-ratio-statistic">Origin of likelihood ratio statistic</a></li>
+  <li><a href="#likelihood-ratio-statistic-and-kl-divergence" id="toc-likelihood-ratio-statistic-and-kl-divergence" class="nav-link" data-scroll-target="#likelihood-ratio-statistic-and-kl-divergence">Likelihood ratio statistic and KL divergence</a></li>
   </ul></li>
   <li><a href="#generalised-likelihood-ratio-test-glrt" id="toc-generalised-likelihood-ratio-test-glrt" class="nav-link" data-scroll-target="#generalised-likelihood-ratio-test-glrt"><span class="header-section-number">11.2</span> Generalised likelihood ratio test (GLRT)</a></li>
   </ul>
@@ -626,21 +626,34 @@ H_1: \boldsymbol \theta\neq \boldsymbol \theta_0\\
 <p>Compare also with the normal test for a proportion in <a href="10-likelihood4.html#exm-normaltestproportion" class="quarto-xref">Example&nbsp;<span>10.10</span></a>.</p>
 </div>
 </section>
-<section id="origin-of-likelihood-ratio-statistic" class="level3">
-<h3 class="anchored" data-anchor-id="origin-of-likelihood-ratio-statistic">Origin of likelihood ratio statistic</h3>
+<section id="likelihood-ratio-statistic-and-kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood-ratio-statistic-and-kl-divergence">Likelihood ratio statistic and KL divergence</h3>
 <p>The likelihood ratio statistic is asymptotically linked to differences in the KL divergences of the two compared models with the underlying true model.</p>
 <p>Assume that <span class="math inline">\(Q\)</span> is the true (and unknown) data-generating model and that <span class="math inline">\(P(\boldsymbol \theta)\)</span> is a family of models and we would like to compare two candidate models <span class="math inline">\(P(\boldsymbol \theta_A)\)</span> and <span class="math inline">\(P(\boldsymbol \theta_B)\)</span> with parameters <span class="math inline">\(\boldsymbol \theta_A\)</span> and <span class="math inline">\(\boldsymbol \theta_B\)</span> on the basis of observed data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span>. The KL divergences <span class="math inline">\(D_{\text{KL}}(Q, P(\boldsymbol \theta_A) )\)</span> and <span class="math inline">\(D_{\text{KL}}(Q, P(\boldsymbol \theta_B))\)</span> indicate how close each of the models fit the true <span class="math inline">\(Q\)</span>. The difference of the two divergences is a way to measure the relative fit of the two models, and can be computed as <span class="math display">\[
 D_{\text{KL}}(Q, P(\boldsymbol \theta_B))-D_{\text{KL}}(Q, P(\boldsymbol \theta_A)) = \operatorname{E}_{Q} \log \frac{p(x|\boldsymbol \theta_A )}{p(x| \boldsymbol \theta_B)}
-\]</span> Replacing <span class="math inline">\(Q\)</span> by the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> leads to the large sample approximation <span class="math display">\[
-2 n (D_{\text{KL}}(Q,  P(\boldsymbol \theta_B))-D_{\text{KL}}(Q,  P(\boldsymbol \theta_A)))  \approx 2 (\ell_n(\boldsymbol \theta_A) - \ell_n(\boldsymbol \theta_B))
+\]</span> Replacing <span class="math inline">\(Q\)</span> by the empirical distribution <span class="math inline">\(\hat{Q}_n\)</span> leads to the large sample approximation (see also <a href="04-entropy2.html#exm-empiricalmeanlogloss" class="quarto-xref">Example&nbsp;<span>4.3</span></a>) <span class="math display">\[
+\begin{split}
+&amp; D_{\text{KL}}(Q,  P(\boldsymbol \theta_B))-D_{\text{KL}}(Q,  P(\boldsymbol \theta_A)) \\
+&amp; \approx D_{\text{KL}}(\hat{Q}_n,  P(\boldsymbol \theta_B))-D_{\text{KL}}(\hat{Q}_n,  P(\boldsymbol \theta_A)) \\
+&amp; =  H(\hat{Q}_n,  P(\boldsymbol \theta_B))-H(\hat{Q}_n,  P(\boldsymbol \theta_A)) \\
+&amp;=  (\ell_n(\boldsymbol \theta_A) - \ell_n(\boldsymbol \theta_B))/n\\
+\end{split}
 \]</span> Hence, the difference in the log-likelihoods provides an estimate of the difference in the KL divergence of the two models involved.</p>
 <p>The Wilks log-likelihood ratio statistic <span class="math display">\[
-W(\boldsymbol \theta_0) = 2 ( \ell_n( \hat{\boldsymbol \theta}_{ML} ) - \ell_n(\boldsymbol \theta_0) )
+\begin{split}
+W(\boldsymbol \theta_0) &amp; = 2 ( \ell_n( \hat{\boldsymbol \theta}_{ML} ) - \ell_n(\boldsymbol \theta_0) ) \\
+&amp; = 2 n (D_{\text{KL}}(\hat{Q}_n,  P(\boldsymbol \theta_0))-D_{\text{KL}}(\hat{Q}_n,  P(  \hat{\boldsymbol \theta}_{ML} )) )\\
+\end{split}
 \]</span> thus compares the best-fit distribution with <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> as the parameter to the distribution with parameter <span class="math inline">\(\boldsymbol \theta_0\)</span>.</p>
-<p>For exponential families the Wilks statistic can also be written in the form of the KL divergence: <span class="math display">\[
+<p>For <em>exponential families</em> the Wilks statistic can also be written in the form of the KL divergence: <span class="math display">\[
 W(\boldsymbol \theta_0) = 2n D_{\text{KL}}( P(\hat{\boldsymbol \theta}_{ML}), P(\boldsymbol \theta_0))
-\]</span> This has been seen in <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.3</span></a> and <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.2</span></a>. However, this is not true in general.</p>
-<p>See <a href="#exm-wilksexpfam" class="quarto-xref">Example&nbsp;<span>11.4</span></a> for the direct verification for exponential families.</p>
+\]</span> This has been seen for specific examples in <a href="#exm-wilksnormalmean" class="quarto-xref">Example&nbsp;<span>11.2</span></a> and <a href="#exm-wilksproportion" class="quarto-xref">Example&nbsp;<span>11.3</span></a> and in <a href="#exm-wilksexpfam" class="quarto-xref">Example&nbsp;<span>11.4</span></a> for exponential families in general.</p>
+<p>This implies for exponential families the equality <span class="math display">\[
+\begin{split}
+D_{\text{KL}}(\hat{Q}_n,  P(\boldsymbol \theta_0)) &amp;= D_{\text{KL}}(\hat{Q}_n,  P(  \hat{\boldsymbol \theta}_{ML} ))\\
+&amp; \phantom{=} + D_{\text{KL}}( P(\hat{\boldsymbol \theta}_{ML}), P(\boldsymbol \theta_0))   \\
+\end{split}
+\]</span> which is a variant of the <strong>generalised Pythagorean theorem</strong> for the KL divergence.</p>
 </section>
 </section>
 <section id="generalised-likelihood-ratio-test-glrt" class="level2" data-number="11.2">
