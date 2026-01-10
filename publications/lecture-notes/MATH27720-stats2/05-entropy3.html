@@ -437,17 +437,17 @@ h(\boldsymbol \theta+\boldsymbol \varepsilon) \approx  \frac{1}{2} \boldsymbol \
 <p>Furthermore, the Hessian matrix of <span class="math inline">\(h(\boldsymbol \theta+\boldsymbol \varepsilon)\)</span> evaluated at <span class="math inline">\(\boldsymbol \varepsilon=0\)</span> is given by <span class="math display">\[
 \begin{split}
 \nabla \nabla^T h(\boldsymbol \theta) &amp;=  -\operatorname{E}_{P(\boldsymbol \theta)} \nabla \nabla^T  \log p(\boldsymbol x| \boldsymbol \theta) \\
-&amp;= \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)
+&amp;= \boldsymbol{\mathcal{I}}_P(\boldsymbol \theta)
 \end{split}
 \]</span></p>
-<p>This matrix is known as the <strong>Fisher information</strong> at <span class="math inline">\(\boldsymbol \theta\)</span>, denoted by <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>. It is also called <strong>expected Fisher information</strong> to emphasise that it is computed as the mean Hessian of the negative log-pdmf. The Fisher information matrix is always <strong>symmetric</strong> and <strong>positive semidefinite</strong>.</p>
+<p>This matrix <span class="math inline">\(\boldsymbol{\mathcal{I}}_P(\boldsymbol \theta)\)</span> is known as the <strong>Fisher information</strong>. The index <span class="math inline">\(P\)</span> serves as a reminder of the underlying model. It is also called <strong>expected Fisher information</strong> to emphasise that it is computed as the mean Hessian of the negative log-pdmf. The Fisher information matrix is always <strong>symmetric</strong> and <strong>positive semidefinite</strong>.</p>
 <p>With its help the KL divergence can be locally approximated by <span class="math display">\[
-D_{\text{KL}}(P(\boldsymbol \theta), P(\boldsymbol \theta+\boldsymbol \varepsilon))\approx \frac{1}{2} \boldsymbol \varepsilon^T  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \boldsymbol \varepsilon
+D_{\text{KL}}(P(\boldsymbol \theta), P(\boldsymbol \theta+\boldsymbol \varepsilon))\approx \frac{1}{2} \boldsymbol \varepsilon^T  \boldsymbol{\mathcal{I}}_P(\boldsymbol \theta)\,\boldsymbol \varepsilon
 \]</span></p>
 <p>We may also vary the first argument in the KL divergence. It is straightforward to show that this leads to the same approximation to second order in <span class="math inline">\(\boldsymbol \varepsilon\)</span>: <span class="math display">\[
 \begin{split}
 D_{\text{KL}}(P(\boldsymbol \theta+\boldsymbol \varepsilon), P(\boldsymbol \theta))
-&amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\, \boldsymbol \varepsilon\\
+&amp;\approx \frac{1}{2}\boldsymbol \varepsilon^T \boldsymbol{\mathcal{I}}_P(\boldsymbol \theta)\, \boldsymbol \varepsilon\\
 \end{split}
 \]</span></p>
 <p>Hence, although the KL divergence is not symmetric in its arguments in general, it is symmetric to second order (locally symmetric).</p>
@@ -461,7 +461,7 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In <strong>information geometry</strong> probability distributions are studied using tools from differential geometry. From this geometric perspective, smoothly parametrised distribution families <span class="math inline">\(P(\boldsymbol \theta)\)</span> are viewed as <strong>manifolds</strong>. In KL divergence geometry the Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> serves as <a href="https://en.wikipedia.org/wiki/Fisher_information_metric"><strong>metric tensor</strong></a>, measuring local distances between nearby distributions.</p>
+<p>In <strong>information geometry</strong> probability distributions are studied using tools from differential geometry. From this geometric perspective, smoothly parametrised distribution families <span class="math inline">\(P(\boldsymbol \theta)\)</span> are viewed as <strong>manifolds</strong>. In KL divergence geometry the Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_P(\boldsymbol \theta)\)</span> serves as <a href="https://en.wikipedia.org/wiki/Fisher_information_metric"><strong>metric tensor</strong></a>, measuring local distances between nearby distributions.</p>
 <p>Other types of divergences among distributions induce related geometries, with local metrics similarly obtained by quadratic approximation.</p>
 </div>
 </div>
@@ -474,17 +474,17 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <section id="sec-additivityfisher" class="level3">
 <h3 class="anchored" data-anchor-id="sec-additivityfisher">Additivity of Fisher information</h3>
 <p>We may wish to compute the Fisher information based on a set of independent identically distributed (iid) random variables.</p>
-<p>Assume that a random variable <span class="math inline">\(x \sim P(\boldsymbol \theta)\)</span> has log-pdmf <span class="math inline">\(\log p(x| \boldsymbol \theta)\)</span> and Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span>. The Fisher information <span class="math inline">\(\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim P(\boldsymbol \theta)\)</span> is computed from the joint log-pdmf <span class="math inline">\(\log p(x_1, \ldots, x_n) = \sum_{i}^n \log p(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
+<p>Assume that a random variable <span class="math inline">\(x \sim P(\boldsymbol \theta)\)</span> has log-pdmf <span class="math inline">\(\log p(x| \boldsymbol \theta)\)</span> and Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta)\)</span>. The Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_{x_1} \ldots P_{x_n}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim P(\boldsymbol \theta)\)</span> is computed from the joint log-pdmf <span class="math inline">\(\log p(x_1, \ldots, x_n| \boldsymbol \theta) = \sum_{i}^n \log p(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
 \begin{split}
-\boldsymbol I_{x_1, \ldots, x_n}^{\text{Fisher}}(\boldsymbol \theta) &amp;= -\operatorname{E}_{P(\boldsymbol \theta)} \nabla \nabla^T  \sum_{i}^n \log p(x_i| \boldsymbol \theta)\\
-&amp;= \sum_{i=1}^n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) =n  \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \\
+\boldsymbol{\mathcal{I}}_{P_{x_1} \ldots P_{x_n}}(\boldsymbol \theta) &amp;= -\operatorname{E}_{P_{x_1}(\boldsymbol \eta) \ldots P_{x_n}(\boldsymbol \eta)} \nabla \nabla^T  \sum_{i=1}^n \log p(x_i| \boldsymbol \theta)\\
+&amp;= \sum_{i=1}^n  \boldsymbol{\mathcal{I}}_{P_{x_i}}(\boldsymbol \theta) =n  \boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta) \\
 \end{split}
 \]</span> Hence, the Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables equals <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
 </section>
 <section id="invariance-property-of-fisher-information" class="level3">
 <h3 class="anchored" data-anchor-id="invariance-property-of-fisher-information">Invariance property of Fisher information</h3>
-<p>Like KL divergence the <strong>Fisher information is invariant under a change of variables in the sample space</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> and from distribution <span class="math inline">\(F_x\)</span> to <span class="math inline">\(F_y\)</span>. This is easy to see as the KL divergence itself is invariant under such reparametrisation, and thus also its curvature, and hence the Fisher information.</p>
-<p>More specifically, when the sample space is changed the density will gain a factor in the form of the Jacobian determinant according to this transformation. However, since this factor does not depend on the model parameters, the first and second derivatives of the log-density with regard to the model parameters are not affected by it.</p>
+<p>Like KL divergence the <strong>Fisher information is invariant under a change of variables in the sample space</strong>, such as from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> and from distribution <span class="math inline">\(P_x\)</span> to <span class="math inline">\(P_y\)</span> so that <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta) = \boldsymbol{\mathcal{I}}_{P_y}(\boldsymbol \theta)\)</span>. This follows from the invariance of KL divergence under change of variables.</p>
+<p>More specifically, when the random variable is changed from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> the density will gain a factor in the form of a Jacobian determinant associated with this transformation. However, since this factor does not depend on the model parameters, it does not affect the first and second derivatives of the log-density with regard to the model parameters.</p>
 <p>See also <a href="07-likelihood1.html#sec-mlregular" class="quarto-xref"><span>Section 7.4</span></a> for related sample space invariance of the gradient and curvature of the log-likelihood and <a href="09-likelihood3.html" class="quarto-xref"><span>Chapter 9</span></a> for the sample invariance of observed Fisher information.</p>
 </section>
 <section id="scalar-examples-single-parameter-models" class="level3">
@@ -497,7 +497,7 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 \frac{d^2}{d\theta^2} \log p(x | \theta)  =  -\frac{x}{\theta^2}-  \frac{1-x}{(1-\theta)^2}
 \]</span> Since <span class="math inline">\(\operatorname{E}(x) = \theta\)</span> we get as Fisher information <span class="math display">\[
 \begin{split}
-I^{\text{Fisher}}(\theta) &amp; = -\operatorname{E}\left(\frac{d^2}{d\theta^2} \log p(x | \theta)  \right)\\
+\mathcal{I}_{P}(\boldsymbol \theta) &amp; = -\operatorname{E}\left(\frac{d^2}{d\theta^2} \log p(x | \theta)  \right)\\
                            &amp;= \frac{\theta}{\theta^2}+  \frac{1-\theta}{(1-\theta)^2} \\
                             &amp;= \frac{1}{\theta(1-\theta)}\\
 \end{split}
@@ -509,9 +509,9 @@ I^{\text{Fisher}}(\theta) &amp; = -\operatorname{E}\left(\frac{d^2}{d\theta^2} \
 D_{\text{KL}}\left (\operatorname{Ber}(\theta_1), \operatorname{Ber}(\theta_2) \right)=\theta_1 \log\left( \frac{\theta_1}{\theta_2}\right) + (1-\theta_1) \log\left(\frac{1-\theta_1}{1-\theta_2}\right)
 \]</span> and from <a href="#exm-exfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a> the corresponding Fisher information.</p>
 <p>The quadratic approximation implies that <span class="math display">\[
-D_{\text{KL}}\left( \operatorname{Ber}(\theta), \operatorname{Ber}(\theta + \varepsilon) \right) \approx \frac{\varepsilon^2}{2}  I^{\text{Fisher}}(\theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
+D_{\text{KL}}\left( \operatorname{Ber}(\theta), \operatorname{Ber}(\theta + \varepsilon) \right) \approx \frac{\varepsilon^2}{2}  \mathcal{I}_{\operatorname{Ber}}(\boldsymbol \theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
 \]</span> and also that <span class="math display">\[
-D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\theta) \right) \approx \frac{\varepsilon^2}{2} I^{\text{Fisher}}(\theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
+D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\theta) \right) \approx \frac{\varepsilon^2}{2} \mathcal{I}_{\operatorname{Ber}}(\boldsymbol \theta) =  \frac{\varepsilon^2}{2 \theta (1-\theta)}
 \]</span></p>
 <p>In Worksheet E1 this is verified by using a second order Taylor series applied to the KL divergence.</p>
 </div>
@@ -523,7 +523,7 @@ D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\
 \]</span> The second derivative with respect to <span class="math inline">\(\mu\)</span> is <span class="math display">\[
 \frac{d^2}{d\mu^2} \log p(x | \mu, \sigma^2) = -\frac{1}{\sigma^2}
 \]</span> Therefore the Fisher information is <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}\left(\mu\right) = \frac{1}{\sigma^2}
+\mathcal{I}_{P}(\mu) = \frac{1}{\sigma^2}
 \]</span></p>
 </div>
 </section>
@@ -548,7 +548,7 @@ D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\
 -\frac{1}{\sigma^4} (x-\mu) &amp;  \frac{1}{2\sigma^4} - \frac{1}{\sigma^6}(x- \mu)^2 \\
 \end{pmatrix}
 \]</span> As <span class="math inline">\(\operatorname{E}(x) = \mu\)</span> we have <span class="math inline">\(\operatorname{E}(x-\mu) =0\)</span>. Furthermore, with <span class="math inline">\(\operatorname{E}( (x-\mu)^2 ) =\sigma^2\)</span> we see that <span class="math inline">\(\operatorname{E}\left(\frac{1}{\sigma^6}(x- \mu)^2\right) = \frac{1}{\sigma^4}\)</span>. Therefore the Fisher information matrix as the negative expected Hessian matrix is <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}\left(\mu,\sigma^2\right) = \begin{pmatrix} \frac{1}{\sigma^2} &amp; 0 \\ 0 &amp; \frac{1}{2\sigma^4} \end{pmatrix}
+\boldsymbol{\mathcal{I}}_{P}\left(\mu,\sigma^2\right) = \begin{pmatrix} \frac{1}{\sigma^2} &amp; 0 \\ 0 &amp; \frac{1}{2\sigma^4} \end{pmatrix}
 \]</span></p>
 </div>
 <div id="exm-exfisherexpfam" class="theorem example">
@@ -559,7 +559,7 @@ D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\
 \nabla \nabla^T  \log p(x | \boldsymbol \eta) = - \nabla \nabla^T a(\boldsymbol \eta) = -\boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta)
 \]</span> Then the Fisher information is <span class="math display">\[
 \begin{split}
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \eta) &amp;= -\operatorname{E}_{P(\boldsymbol \eta)} \nabla \nabla^T  \log p(x | \boldsymbol \eta)\\
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta) &amp;= -\operatorname{E}_{P(\boldsymbol \eta)} \nabla \nabla^T  \log p(x | \boldsymbol \eta)\\
 &amp; = \operatorname{E}_{P(\boldsymbol \eta)} \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta)\\
 &amp;= \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta)
 \end{split}
@@ -573,13 +573,13 @@ D_{\text{KL}}\left( \operatorname{Ber}(\theta+\varepsilon), \operatorname{Ber}(\
 <h2 data-number="5.2" class="anchored" data-anchor-id="colorred-blacktriangleright-reparametrisation"><span class="header-section-number">5.2</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Reparametrisation</h2>
 <section id="sec-covariantfisher" class="level3">
 <h3 class="anchored" data-anchor-id="sec-covariantfisher"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Fisher information under reparametrisation</h3>
-<p>The Fisher information <span class="math inline">\(\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)\)</span> depends on the parameter <span class="math inline">\(\boldsymbol \theta\)</span>. If we use a different parametrisation of the underlying distribution family, say <span class="math inline">\(\boldsymbol \zeta\)</span> instead of <span class="math inline">\(\boldsymbol \theta\)</span>, with a map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> from <span class="math inline">\(\boldsymbol \zeta\)</span> to <span class="math inline">\(\boldsymbol \theta\)</span>, then the Fisher information changes according to the chain rule in calculus.</p>
+<p>The Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta)\)</span> depends on the parameter <span class="math inline">\(\boldsymbol \theta\)</span>. If we use a different parametrisation of the underlying distribution family, say <span class="math inline">\(P(\boldsymbol \zeta)\)</span> instead of <span class="math inline">\(P(\boldsymbol \theta)\)</span>, with a map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> from <span class="math inline">\(\boldsymbol \zeta\)</span> to <span class="math inline">\(\boldsymbol \theta\)</span>, then the Fisher information changes according to the chain rule in calculus.</p>
 <p>To find the resulting Fisher information in terms of the new parameter <span class="math inline">\(\boldsymbol \zeta\)</span> we need to use the Jacobian matrix <span class="math inline">\(D \boldsymbol \theta(\boldsymbol \zeta)\)</span>. This matrix contains the gradients for each component of the map <span class="math inline">\(\boldsymbol \theta(\boldsymbol \zeta)\)</span> in its rows: <span class="math display">\[
 D \boldsymbol \theta(\boldsymbol \zeta) =
 \begin{pmatrix}\nabla^T \theta_1(\boldsymbol \zeta)\\ \nabla^T \theta_2(\boldsymbol \zeta) \\ \vdots \\  \end{pmatrix}
 \]</span></p>
 <p>With the above the Fisher information for <span class="math inline">\(\boldsymbol \theta\)</span> is then transformed to the Fisher information for <span class="math inline">\(\boldsymbol \zeta\)</span> applying the chain rule for the Hessian matrix: <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \zeta)   = (D \boldsymbol \theta(\boldsymbol \zeta))^T \, \boldsymbol I^{\text{Fisher}}(\boldsymbol \theta) \rvert_{\boldsymbol \theta= \boldsymbol \theta(\boldsymbol \zeta)}  \, D \boldsymbol \theta(\boldsymbol \zeta)
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \zeta)   = (D \boldsymbol \theta(\boldsymbol \zeta))^T \, \boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta) \rvert_{\boldsymbol \theta= \boldsymbol \theta(\boldsymbol \zeta)}  \, D \boldsymbol \theta(\boldsymbol \zeta)
 \]</span> This type of transformation is also known as <em>covariant transformation</em>.</p>
 </section>
 <section id="examples" class="level3">
@@ -587,20 +587,20 @@ D \boldsymbol \theta(\boldsymbol \zeta) =
 <div id="exm-expfishtransbernoulli" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.6</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Fisher information for the Bernoulli distribution from canonical to conventional parametrisation by change of variables:</p>
 <p>From <a href="02-intro2.html#exm-expfambernoulli" class="quarto-xref">Example&nbsp;<span>2.2</span></a> and <a href="#exm-exfisherexpfam" class="quarto-xref">Example&nbsp;<span>5.5</span></a> the Fisher information for the Bernoulli distribution using the canonical parameter <span class="math inline">\(\eta\)</span> is <span class="math display">\[
-I^{\text{Fisher}}(\eta)=a''(\eta) = \frac{ e^{\eta}}{(e^{\eta}+1)^2}
+\mathcal{I}_{P}(\eta)=a''(\eta) = \frac{ e^{\eta}}{(e^{\eta}+1)^2}
 \]</span> The map to the canonical parameter <span class="math inline">\(\eta\)</span> from the conventional parameter <span class="math inline">\(\theta\)</span> is the logit function <span class="math inline">\(\eta(\theta) = \log\left(  \frac{\theta}{1-\theta}\right)\)</span> with Jacobian <span class="math display">\[
 D \eta(\theta) = \eta(\theta)'= \frac{1}{\theta (1-\theta)}
 \]</span> Using the chain rule to obtain the Fisher information for <span class="math inline">\(\theta\)</span> with <span class="math display">\[
-I^{\text{Fisher}}(\eta) \rvert_{\eta = \eta(\theta)}   =\theta (1-\theta)
+\mathcal{I}_{P}(\eta) \rvert_{\eta = \eta(\theta)}   =\theta (1-\theta)
 \]</span> yields <span class="math display">\[
-I^{\text{Fisher}}(\theta) = (D\eta(\theta))^2 \, I^{\text{Fisher}}(\eta) \rvert_{\eta = \eta(\theta)}   =  \frac{1}{\theta (1-\theta)}
+\mathcal{I}_{P}(\theta) = (D\eta(\theta))^2 \, \mathcal{I}_{P}(\eta) \rvert_{\eta = \eta(\theta)}   =  \frac{1}{\theta (1-\theta)}
 \]</span> which agrees with the result obtained by direct calculation in <a href="#exm-exfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a>.</p>
 <p>Note that the Fisher information for the mean parameter <span class="math inline">\(\theta\)</span> is the inverse of the Fisher information for the canonical parameter <span class="math inline">\(\eta\)</span>.</p>
 </div>
 <div id="exm-expfishtransnormal" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.7</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Fisher information for the normal distribution from canonical to conventional parametrisation by change of variables:</p>
 <p>From <a href="02-intro2.html#exm-expfamnormal" class="quarto-xref">Example&nbsp;<span>2.3</span></a> and <a href="#exm-exfisherexpfam" class="quarto-xref">Example&nbsp;<span>5.5</span></a> the Fisher information matrix for the normal distribution using canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span> is <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \eta)=  \nabla \nabla^T a(\boldsymbol \eta) = \begin{pmatrix}
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta)=  \nabla \nabla^T a(\boldsymbol \eta) = \begin{pmatrix}
                  \frac{1}{1-2\eta_2} &amp; \frac{2 \eta_1}{(1-2 \eta_2)^2} \\
                  \frac{2 \eta_1}{(1-2 \eta_2)^2} &amp;  \frac{4\eta_1^2 -4 \eta_2 +2 }{(1-2 \eta_2)^3} \\
                  \end{pmatrix}
@@ -610,13 +610,13 @@ D\boldsymbol \eta(\boldsymbol \theta)=  \begin{pmatrix}
                  0 &amp;  \frac{1 }{2\sigma^4} \\
                  \end{pmatrix}
 \]</span> With <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \eta) \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \theta)} = \begin{pmatrix}
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta) \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \theta)} = \begin{pmatrix}
                  \sigma^2 &amp;  2 \mu \sigma^2 \\
                   2 \mu \sigma^2 &amp;  4 \mu^2 \sigma^2 + 2 \sigma^4 \\
                  \end{pmatrix}
 \]</span> this yields the Fisher information for <span class="math inline">\(\boldsymbol \theta=c(\mu, \sigma^2)^T\)</span> as <span class="math display">\[
 \begin{split}
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \theta)  &amp; = (D \boldsymbol \eta(\boldsymbol \theta))^T \, \boldsymbol I^{\text{Fisher}}(\boldsymbol \eta)  \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \theta)} \, D \boldsymbol \eta(\boldsymbol \theta)\\
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta)  &amp; = (D \boldsymbol \eta(\boldsymbol \theta))^T \, \boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta)  \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \theta)} \, D \boldsymbol \eta(\boldsymbol \theta)\\
 &amp;= \begin{pmatrix} \frac{1}{\sigma^2} &amp; 0 \\ 0 &amp; \frac{1}{2\sigma^4} \end{pmatrix}
 \end{split}
 \]</span> which agrees with the result obtained by direct calculation in <a href="#exm-exfishernormal" class="quarto-xref">Example&nbsp;<span>5.4</span></a>.</p>
@@ -626,10 +626,10 @@ D\boldsymbol \eta(\boldsymbol \theta)=  \begin{pmatrix}
 <p>An alternative parametrisation of an exponential family is provided by the means <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> of the canonical statistics <span class="math inline">\(\boldsymbol t(\boldsymbol x)\)</span>. These expectation parameters are given by <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}(\boldsymbol \eta)= \nabla a(\boldsymbol \eta)\)</span>.</p>
 <p>The Jacobian for the transformation <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}(\boldsymbol \eta)\)</span> is <span class="math inline">\(D \boldsymbol \mu_{\boldsymbol t}(\boldsymbol \eta) = D \nabla a(\boldsymbol \eta) = \nabla \nabla^T a(\boldsymbol \eta) = \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta)\)</span>. Hence, the Jacobian for the inverse transformation <span class="math inline">\(\boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})\)</span> is <span class="math inline">\(D \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}) = \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))^{-1}\)</span>.</p>
 <p>The Fisher information transforms covariantly under change of parameter. With <span class="math display">\[
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \eta) \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})} =  \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta) \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})} =  \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))
 \]</span> this yields the Fisher information for the expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> <span class="math display">\[
 \begin{split}
-\boldsymbol I^{\text{Fisher}}(\boldsymbol \mu_{\boldsymbol t})  &amp; = (D \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))^T \, \boldsymbol I^{\text{Fisher}}(\boldsymbol \eta)  \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})} \, D \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})\\
+\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \mu_{\boldsymbol t})  &amp; = (D \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))^T \, \boldsymbol{\mathcal{I}}_{P}(\boldsymbol \eta)  \rvert_{\boldsymbol \eta= \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})} \, D \boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t})\\
 &amp;= \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta(\boldsymbol \mu_{\boldsymbol t}))^{-1}
 \end{split}
 \]</span> Hence the Fisher information for the expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> is the inverse of the variance of the canonical statistics, and therefore the inverse of the Fisher information for the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span>.</p>
@@ -651,7 +651,7 @@ D\boldsymbol \eta(\boldsymbol \theta)=  \begin{pmatrix}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Fisher information matrix was originally introduced by <a href="https://en.wikipedia.org/wiki/Ronald_Fisher">Ronald A. Fisher (1890–1962)</a> in the 1920s to measure the precision of an estimator.</p>
+<p>The Fisher information matrix was originally introduced by <a href="https://en.wikipedia.org/wiki/Ronald_Fisher">Ronald A. Fisher (1890–1962)</a> in the 1925 to measure the precision of an estimator.</p>
 <p><a href="https://en.wikipedia.org/wiki/C._R._Rao">C. Radhakrishna Rao (1920–2023)</a> showed in 1945 that the Fisher information matrix defines a local metric tensor on the parameter space and established its interpretation as a local sensitivity measure.</p>
 <p>This insight later helped lead to the development of information geometry and to the study of singular or non-regular models in statistics.</p>
 </div>

@@ -372,8 +372,19 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" id="toc-colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" class="nav-link active" data-scroll-target="#colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.1</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum entropy principle to characterise distributions</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">6.2</span> Further reading</a></li>
+  <li><a href="#sec-infoentprior" id="toc-sec-infoentprior" class="nav-link active" data-scroll-target="#sec-infoentprior"><span class="header-section-number">6.1</span> Information entropy with prior measure</a>
+  <ul class="collapse">
+  <li><a href="#entropy-of-a-distribution-with-regard-to-a-reference" id="toc-entropy-of-a-distribution-with-regard-to-a-reference" class="nav-link" data-scroll-target="#entropy-of-a-distribution-with-regard-to-a-reference">Entropy of a distribution with regard to a reference</a></li>
+  <li><a href="#properties" id="toc-properties" class="nav-link" data-scroll-target="#properties">Properties</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#colorred-blacktriangleright-entropy-as-log-probability" id="toc-colorred-blacktriangleright-entropy-as-log-probability" class="nav-link" data-scroll-target="#colorred-blacktriangleright-entropy-as-log-probability"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy as log-probability</a></li>
+  </ul></li>
+  <li><a href="#maximum-entropy-principle-to-characterise-distributions" id="toc-maximum-entropy-principle-to-characterise-distributions" class="nav-link" data-scroll-target="#maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.2</span> Maximum entropy principle to characterise distributions</a>
+  <ul class="collapse">
+  <li><a href="#rationale-of-maximum-entropy" id="toc-rationale-of-maximum-entropy" class="nav-link" data-scroll-target="#rationale-of-maximum-entropy">Rationale of maximum entropy</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">6.3</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -399,35 +410,139 @@ window.Quarto = {
 </header>
 
 
-<section id="colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="colorred-blacktriangleright-maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.1</span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Maximum entropy principle to characterise distributions</h2>
-<p>Both Shannon entropy and differential entropy are useful to characterise distributions.</p>
-<p>As discussed in <a href="03-entropy1.html" class="quarto-xref"><span>Chapter 3</span></a>, <strong>large entropy</strong> implies that the <strong>distribution is spread out</strong> whereas <strong>small entropy</strong> indicates that the <strong>distribution is concentrated</strong>.</p>
-<p>Correspondingly, <strong>maximum entropy distributions</strong> can be considered <strong>minimally informative</strong> about a random variable. Higher entropy entropy means a more spread-out and therefore less informative distribution. Conversely, low entropy indicates that probability mass is concentrated, making the distribution more informative about the random variable.</p>
-<p>Examples:</p>
-<ol type="1">
-<li><p>The <strong>discrete uniform distribution</strong> is the <strong>maximum entropy distribution</strong> among all discrete distributions.</p></li>
-<li><p>the maximum entropy distribution among all continuous distributions supported in <span class="math inline">\([0, \infty]\)</span> with a specified mean is the <strong>exponential distribution</strong>.</p></li>
-<li><p>the maximum entropy distribution of a continuous random variable with support <span class="math inline">\([-\infty, \infty]\)</span> with a specific mean and variance is the <strong>normal distribution</strong>.</p></li>
-</ol>
-<p>A list of maximum entropy distribution is given here: <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution" class="uri">https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution</a>.</p>
-<p>Many distributions commonly used in statistical modelling are exponential families. Intriguingly, these distribution are all maximum entropy distributions, so there is a very close link between the principle of maximum entropy and common model choices in statistics and machine learning.</p>
-<div id="exm-maxentdiscunif" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.1</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Discrete uniform distribution as maximum entropy distribution:</p>
-<p>Assume <span class="math inline">\(G\)</span> is a categorical distribution with <span class="math inline">\(K\)</span> classes and probabilities <span class="math inline">\(g_i\)</span>. We now show that <span class="math inline">\(G\)</span> has maximum entropy when <span class="math inline">\(G\)</span> is the discrete uniform distribution.</p>
-<p>Let <span class="math inline">\(P=U_K\)</span> be the discrete uniform with equal probabilities <span class="math inline">\(p_i=1/K\)</span>. The entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = \log K\)</span> (see also <a href="03-entropy1.html#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.4</span></a>). The mean log-loss <span class="math inline">\(H(G, P) = - \operatorname{E}_G \log p_i = \log K\)</span>. Note that both quantities are identical.</p>
-<p>From Gibbs’ inequality we know that <span class="math inline">\(H(G, P) \geq H(G)\)</span>. Since in our case <span class="math inline">\(H(G, P) = H(P)\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(G)\)</span>, i.e.&nbsp;the discrete uniform distribution <span class="math inline">\(P\)</span> achieves the maximum entropy. Furthermore, any other distribution <span class="math inline">\(G\)</span> will have lower entropy, with equality only if <span class="math inline">\(G=P\)</span> and thus only if <span class="math inline">\(g_i=1/K\)</span>.</p>
+<p>This chapter introduces information entropy with prior measure, equal to the negative KL divergence and closely linked to Boltzmann entropy. Subsequently, the principle of maximum entropy is used to characterise distributions, naturally leading to exponential families.</p>
+<section id="sec-infoentprior" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-infoentprior"><span class="header-section-number">6.1</span> Information entropy with prior measure</h2>
+<section id="entropy-of-a-distribution-with-regard-to-a-reference" class="level3">
+<h3 class="anchored" data-anchor-id="entropy-of-a-distribution-with-regard-to-a-reference">Entropy of a distribution with regard to a reference</h3>
+<p>The <strong>information entropy with prior measure</strong> of the distribution <span class="math inline">\(Q\)</span> with reference to the distribution <span class="math inline">\(P\)</span> is given by <span class="math display">\[
+\begin{split}
+G(Q, P) &amp;=  H(Q) - H(Q, P) \\
+&amp;= -\operatorname{E}_Q\log\left(\frac{q(x)}{p(x)}\right) \\
+&amp;= - D_{\text{KL}}(Q, P)
+\end{split}
+\]</span> Note that this quantity equals the <em>negative</em> of the KL divergence between <span class="math inline">\(Q\)</span> and&nbsp;<span class="math inline">\(P\)</span> (<a href="04-entropy2.html#sec-kldivergence" class="quarto-xref"><span>Section 4.2</span></a>).</p>
+<p>We denote information entropy with prior measure by <span class="math inline">\(G(Q,P)\)</span>, not to be confused with the mean log-loss <span class="math inline">\(H(Q, P)\)</span>.</p>
+<p>Standard information entropy <span class="math inline">\(H(Q)\)</span> (see <a href="03-entropy1.html#sec-infoentropy" class="quarto-xref"><span>Section 3.2</span></a>) is a special case of information entropy with prior measure <span class="math inline">\(G(Q, P)\)</span> when the reference distribution <span class="math inline">\(P\)</span> is uniform (see <a href="#exm-entropyuniformprior" class="quarto-xref">Example&nbsp;<span>6.1</span></a>).</p>
+<p>Standard information entropy <span class="math inline">\(H(Q)\)</span> can be derived by combinatorial arguments (see <a href="03-entropy1.html#exm-combinatorialentropy" class="quarto-xref">Example&nbsp;<span>3.11</span></a>). Information entropy with prior measure <span class="math inline">\(G(Q,P)\)</span> is a natural generalisation of standard information entropy <span class="math inline">\(H(Q)\)</span> and follows a related derivation (see <a href="#exm-derivationinfoentprior" class="quarto-xref">Example&nbsp;<span>6.2</span></a>).</p>
+<div id="nte-cenames" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div id="exm-maxentexp" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Exponential distribution as maximum entropy distribution:</p>
-<p>Assume <span class="math inline">\(G\)</span> is a continuous distribution for <span class="math inline">\(x\)</span> with support <span class="math inline">\([0, \infty]\)</span> and with specified mean <span class="math inline">\(\operatorname{E}(x) = \theta\)</span>. We now show that <span class="math inline">\(G\)</span> has maximum entropy when <span class="math inline">\(G\)</span> is the exponential distribution.</p>
-<p>The log-density of the exponential distribution <span class="math inline">\(P\)</span> with scale parameter <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\log p(x | \theta) =  x/\theta -\log \theta\)</span>. The differential entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = -\operatorname{E}_P \log p(x | \theta) = 1 +\log \theta\)</span> as <span class="math inline">\(\operatorname{E}_P(x) = \theta\)</span>. The mean log-loss <span class="math inline">\(H(G, P) =  -\operatorname{E}_G \log p(x | \theta) = 1 +\log \theta\)</span> as <span class="math inline">\(\operatorname{E}_G(x) = \theta\)</span>. Note that both quantities are identical.</p>
-<p>From Gibbs’ inequality we know that <span class="math inline">\(H(G, P) \geq H(G)\)</span>. Since in our case <span class="math inline">\(H(G, P) = H(P)\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(G)\)</span>, i.e.&nbsp;the exponential distribution <span class="math inline">\(P\)</span> achieves the maximum entropy. Furthermore, any other distribution <span class="math inline">\(G\)</span> will have lower entropy, with equality only if <span class="math inline">\(G=P\)</span>.</p>
+<div class="callout-title-container flex-fill">
+Note&nbsp;6.1: Other names for information entropy with prior measure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Information entropy with regard to a reference distribution is known in physics as <strong>generalised Boltzmann-Gibbs-Shannon entropy</strong> (generalised BGS entropy).</p>
+<p>Occasionally, it is called <strong>relative BGS entropy</strong> but that is ambiguous because relative entropy commonly refers to KL divergence.</p>
+<p>Many other proposals for “generalised” entropies exist in the literature. Hence it is recommended to use “information entropy with respect to a prior measure” for <span class="math inline">\(G(Q, P)\)</span> rather than “relative” or “generalised” entropy.</p>
+</div>
 </div>
 </section>
-<section id="further-reading" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">6.2</span> Further reading</h2>
-<p><span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> provides a broad discussion of the principle of maximum entropy.</p>
+<section id="properties" class="level3">
+<h3 class="anchored" data-anchor-id="properties">Properties</h3>
+<p>Information entropy with prior measure shares its properties with KL divergence, such as invariance under change of variables, since the only difference is the sign.</p>
+<p>As a result, it is always non-positive, <span class="math inline">\(G(Q, P) \leq 0\)</span>, with the <em>maximum</em> <span class="math inline">\(G(Q, P) = 0\)</span> achieved only for <span class="math inline">\(Q=P\)</span>.</p>
+<p>Furthermore, the negative sign compared to KL divergence means that information entropy with prior measure <span class="math inline">\(G(Q, P)\)</span> is <strong>strictly concave in <span class="math inline">\(Q\)</span></strong>, exactly like information entropy <span class="math inline">\(H(Q)\)</span>. This ensures that optimisation with regard to <span class="math inline">\(Q\)</span> yields a unique maximum (it one exists).</p>
+<p><span class="math inline">\(G(Q, P)\)</span> is equivalent to information entropy <span class="math inline">\(H(Q)\)</span> when the reference <span class="math inline">\(P\)</span> is the uniform distribution (<a href="#exm-entropyuniformprior" class="quarto-xref">Example&nbsp;<span>6.1</span></a>).</p>
+<div id="exm-entropyuniformprior" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> Information entropy with uniform prior measure:</p>
+<p>Assume a distribution <span class="math inline">\(Q\)</span> and the uniform distribution <span class="math inline">\(U\)</span> with constant pdmf <span class="math inline">\(u(x)=c\)</span> over the domain of <span class="math inline">\(Q\)</span>.</p>
+<p>The mean log-loss <span class="math inline">\(H(Q, U)\)</span> is <span class="math display">\[
+H(Q, U) = -\operatorname{E}_Q(\log u(x)) = -\log c = \text{const.}
+\]</span> and does not depend on <span class="math inline">\(Q\)</span>.</p>
+<p>The information entropy of <span class="math inline">\(Q\)</span> with reference to <span class="math inline">\(U\)</span> is therefore <span class="math display">\[
+G(Q, U) = H(Q) - H(Q, U) = H(Q) + \text{const.}
+\]</span> Thus, the standard information entropy <span class="math inline">\(H(Q)\)</span> is equivalent to information entropy <span class="math inline">\(G(Q,U)\)</span> if the reference is the uniform distribution.</p>
+</div>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p><span class="math inline">\(G(Q, P)\)</span> measures the spread of probability mass relative to a reference distribution <span class="math inline">\(P\)</span>.</p>
+<p>This generalises from information entropy <span class="math inline">\(H(Q)\)</span> which measures the spread of probability mass relative to the uniform distribution.</p>
+</section>
+<section id="colorred-blacktriangleright-entropy-as-log-probability" class="level3">
+<h3 class="anchored" data-anchor-id="colorred-blacktriangleright-entropy-as-log-probability"><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Entropy as log-probability</h3>
+<p>As discussed in <a href="03-entropy1.html#sec-entropyphysics" class="quarto-xref"><span>Section 3.3</span></a> Boltzmann’s key insight in statistical mechanics was that entropy is a logarithmic measure of the “size” or “volume” of a macrostate.</p>
+<p>Taking this volume to be proportional to the number of microstates compatible with the observed macrostate yields information entropy (see <a href="03-entropy1.html#exm-combinatorialentropy" class="quarto-xref">Example&nbsp;<span>3.11</span></a>). A natural generalisation is to <strong>measure the relative volume a macrostate by its probability</strong> (recall that probability is a normalised positive measure). This leads to information entropy with prior measure (<a href="#exm-derivationinfoentprior" class="quarto-xref">Example&nbsp;<span>6.2</span></a>) and the general notion by Boltzmann of <strong>entropy as log-probability</strong>.</p>
+<p>Specifically, for a macrostate represented by counts <span class="math inline">\(D=\{n_1, \ldots, n_K\}\)</span> for <span class="math inline">\(K\)</span> classes with <span class="math inline">\(n = \sum_{k=1}^K n_k\)</span>, or equivalently by <span class="math inline">\(\hat{Q} = \operatorname{Cat}(\hat{\boldsymbol q})\)</span> with <span class="math inline">\(\hat{q}_k = n_k/n\)</span>, the logarithm of the multiplicity <span class="math inline">\(W_K\)</span> yields, for large <span class="math inline">\(n\)</span>, the information entropy <span class="math display">\[
+\frac{1}{n} \log W_K \approx  H(\hat{Q})
+\]</span> If instead we use the logarithm of the probability of the macrostate the above relation leads to information entropy with prior measure <span class="math inline">\(P\)</span> with <span class="math display">\[
+\frac{1}{n} \log  \operatorname{Pr}(D| \,\boldsymbol p)  \approx G(\hat{Q}, P)
+\]</span> where <span class="math inline">\(\boldsymbol p= (p_1, \ldots, p_K)^T\)</span> are prior probabilities of each class with <span class="math inline">\(P = \operatorname{Cat}(\boldsymbol p)\)</span>. See <a href="#exm-derivationinfoentprior" class="quarto-xref">Example&nbsp;<span>6.2</span></a> for details.</p>
+<p>The above link between probability and entropy written in terms of KL divergence as <span class="math display">\[
+\operatorname{Pr}(D| \,\boldsymbol p)  \approx e^{-n D_{\text{KL}}(\hat{Q}, P)}
+\]</span> forms the basis of <strong>large deviations theory</strong> (in probability) and the <strong>method of types</strong> (in information theory).</p>
+<div id="exm-derivationinfoentprior" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Combinatorial derivation of information entropy with prior measure:</p>
+<p>This is an extension of the combinatorial derivation of the standard information entropy (<a href="03-entropy1.html#exm-combinatorialentropy" class="quarto-xref">Example&nbsp;<span>3.11</span></a>).</p>
+<p>Assume <span class="math inline">\(\hat{Q}=\operatorname{Cat}(\hat{\boldsymbol q})\)</span> is an empirical categorical distribution based on observed counts <span class="math inline">\(D = \{n_1, \ldots, n_K\}\)</span>, representing the macrostate, and <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> is a second categorical distribution with class probabilities <span class="math inline">\(\boldsymbol p=(p_1, \ldots, p_K)^T\)</span>. For large <span class="math inline">\(n\)</span> we may use the multinomial coefficient <span class="math inline">\(W_K = \binom{n}{n_1, \ldots, n_K}\)</span> to obtain the entropy of <span class="math inline">\(\hat{Q}\)</span> via <span class="math inline">\(\log W_K \approx n H(\hat{Q})\)</span> (<a href="03-entropy1.html#exm-combinatorialentropy" class="quarto-xref">Example&nbsp;<span>3.11</span></a>).</p>
+<p>The standardised multinomial log-probability of <span class="math inline">\(D\)</span> given model <span class="math inline">\(p\)</span> then yields <span class="math display">\[
+\begin{split}
+\frac{1}{n} \log  p(D| \,\boldsymbol p) &amp;= \frac{1}{n} \log \left( W_K \times \prod_{k=1}^K  p_k^{n_k}    \right)\\
+&amp; = \frac{1}{n} \left( \log W_K  + \sum_{k=1}^K n_k \log p_k   \right)\\
+&amp; \approx H(\hat{Q})  +   \frac{1}{n} \sum_{k=1}^K n_k  \log p_k  \\
+&amp; = H(\hat{Q})  +  \sum_{k=1}^K \hat{q}_k  \log  p_k  \\
+&amp;=H(\hat{Q}) -H(\hat{Q}, P)\\
+&amp;= G(\hat{Q}, P)\\
+\end{split}
+\]</span> and hence <span class="math display">\[
+\frac{1}{n} \log  p(D| \,\boldsymbol p) \approx G(\hat{Q}, P)
+\]</span></p>
+<p>Standard information entropy <span class="math inline">\(H(\hat{Q})\)</span> implicitly assumes that every possible microstate, regardless of its associated macrostate, has the same probability (equal to <span class="math inline">\(1/K^n\)</span>) and that the probabilities of each class are equal (<span class="math inline">\(p_k= 1/K\)</span>). In contrast, information entropy <span class="math inline">\(G(\hat{Q}, P)\)</span> with prior measure <span class="math inline">\(P\)</span> only assumes that microstates belonging to the same macrostate have identical probability (equal to <span class="math inline">\(\prod_{k=1}^K p_k^{n_k}\)</span>) and also allows for unequal class probabilities <span class="math inline">\(p_k\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="maximum-entropy-principle-to-characterise-distributions" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="maximum-entropy-principle-to-characterise-distributions"><span class="header-section-number">6.2</span> Maximum entropy principle to characterise distributions</h2>
+<section id="rationale-of-maximum-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="rationale-of-maximum-entropy">Rationale of maximum entropy</h3>
+<p>In physics, systems at equilibrium are characterised by maximum entropy, subject to constraints. For example, in statistical mechanics maximum entropy characterised the most typical macrostate (see <a href="03-entropy1.html#sec-entropyphysics" class="quarto-xref"><span>Section 3.3</span></a>).</p>
+<p>As both entropy with prior measure <span class="math inline">\(G(Q, P)\)</span> and standard entropy <span class="math inline">\(H(Q)\)</span> are strictly concave in <span class="math inline">\(Q\)</span> (with the reference <span class="math inline">\(P\)</span> fixed or implicitly set to the uniform distribution), the maximum-entropy distribution is unique (it is exists).</p>
+<p>As discussed in <a href="03-entropy1.html" class="quarto-xref"><span>Chapter 3</span></a> and <a href="#sec-infoentprior" class="quarto-xref"><span>Section 6.1</span></a>, <strong>large entropy</strong> implies that the <strong>distribution is spread out</strong> (relative to the reference <span class="math inline">\(P\)</span>). Correspondingly, <strong>maximum-entropy distributions</strong> can be considered <strong>minimally informative</strong> about a random variable.</p>
+<p>Intriguingly, many distributions (and distribution families) commonly used in statistical modelling are characterised by maximum entropy. For example:</p>
+<ol type="1">
+<li><p>The <strong>discrete uniform distribution</strong> is the unique maximum-entropy distribution among all categorical distributions. See <a href="#exm-maxentdiscunif" class="quarto-xref">Example&nbsp;<span>6.3</span></a>.</p></li>
+<li><p>The <strong>exponential distribution</strong> is the unique maximum-entropy distribution among all continuous distributions supported in <span class="math inline">\([0, \infty]\)</span> with a specified mean. See <a href="#exm-maxentexp" class="quarto-xref">Example&nbsp;<span>6.4</span></a>.</p></li>
+<li><p>The <strong>normal distribution</strong> is the unique maximum-entropy distribution among all continuous distributions supported in <span class="math inline">\([-\infty, \infty]\)</span> with a specified mean and variance.</p></li>
+<li><p>More generally, <strong>exponential families</strong> also follow from the principle of maximum entropy subject to specified expectation parameters. See <a href="#exm-maxentexpfam" class="quarto-xref">Example&nbsp;<span>6.5</span></a>.</p></li>
+</ol>
+<p>Therefore, there is a very close link between the principle of maximum entropy and widely used choices for models in statistics and machine learning.</p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div id="exm-maxentdiscunif" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.3</strong></span> Discrete uniform distribution as maximum-entropy distribution:</p>
+<p>Let <span class="math inline">\(Q=\operatorname{Cat}(\boldsymbol q)\)</span> be a general categorical distribution with <span class="math inline">\(K\)</span> classes and corresponding class probabilities <span class="math inline">\(\boldsymbol q=(q_1, \ldots, q_K)^T\)</span> and <span class="math inline">\(P=\operatorname{Cat}(\boldsymbol p)\)</span> be the discrete uniform distribution with equal class probabilities <span class="math inline">\(\boldsymbol p=(p_1=1/K, \ldots, p_K=1/K)\)</span>.</p>
+<p>We now show that the entropy <span class="math inline">\(H(Q)\)</span> is maximised uniquely for <span class="math inline">\(Q=P\)</span>, i.e.&nbsp;if <span class="math inline">\(Q\)</span> is the discrete uniform distribution.</p>
+<p>First, note that <span class="math inline">\(H(Q)\)</span> is equivalent to <span class="math inline">\(G(Q, P)\)</span> since <span class="math inline">\(P\)</span> is the uniform distribution (<a href="#exm-entropyuniformprior" class="quarto-xref">Example&nbsp;<span>6.1</span></a>). Hence, maximising <span class="math inline">\(H(Q)\)</span> is equivalent to maximising <span class="math inline">\(G(Q, P)\)</span> with regard to <span class="math inline">\(Q\)</span>. The entropy <span class="math inline">\(G(Q, P)=0\)</span> achieves its maximum uniquely for <span class="math inline">\(Q=P\)</span>, thus <span class="math inline">\(H(Q)\)</span> is also maximised uniquely for <span class="math inline">\(Q=P\)</span>.</p>
+<p>Alternatively, we can also show directly that <span class="math inline">\(H(P) \geq H(Q)\)</span> with equality only for <span class="math inline">\(Q=P\)</span>. i.e.&nbsp;that the entropy of <span class="math inline">\(Q\)</span> is always smaller than the entropy of <span class="math inline">\(P\)</span> unless <span class="math inline">\(Q=P\)</span>. The entropy of the discrete uniform distribution <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = \log K\)</span> (see <a href="03-entropy1.html#exm-entropydiscunif" class="quarto-xref">Example&nbsp;<span>3.4</span></a>). The mean log-loss between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> is <span class="math inline">\(H(Q, P) = - \sum_{k=1}^K q_k \log p_k = \log K\)</span>. Gibbs’ inequality states that <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>, with equality only if <span class="math inline">\(P=Q\)</span>. Since in our case <span class="math inline">\(H(Q, P) = H(P) = \log K\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(Q)\)</span>.</p>
+<p>The uniqueness of the maximum follows from Gibbs’ inequality and from the strict concavity of information entropy.</p>
+</div>
+<div id="exm-maxentexp" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.4</strong></span> Exponential distribution as maximum-entropy distribution:</p>
+<p>Assume <span class="math inline">\(Q\)</span> is a continuous distribution for <span class="math inline">\(x\)</span> with support <span class="math inline">\([0, \infty]\)</span> and with specified mean <span class="math inline">\(\operatorname{E}_Q(x) = \theta\)</span>. Furthermore, <span class="math inline">\(P=\operatorname{Exp}(\theta)\)</span> is an exponential distribution with scale parameter <span class="math inline">\(\theta\)</span> and log-density <span class="math inline">\(\log p(x | \theta) =  x/\theta -\log \theta\)</span> and <span class="math inline">\(\operatorname{E}_P(x) = \theta\)</span>.</p>
+<p>We now show that the entropy <span class="math inline">\(H(Q)\)</span> is maximised uniquely for <span class="math inline">\(Q=P\)</span>, i.e.&nbsp;if <span class="math inline">\(Q\)</span> is an exponential distribution with specified mean.</p>
+<p>The information entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = -\operatorname{E}_P( \log p(x | \theta) ) = 1 +\log \theta\)</span> as <span class="math inline">\(\operatorname{E}_P(x) = \theta\)</span>. The mean log-loss is <span class="math inline">\(H(Q, P) =  -\operatorname{E}_Q (\log p(x | \theta)) = 1 +\log \theta\)</span> as <span class="math inline">\(\operatorname{E}_Q(x) = \theta\)</span>. Gibbs’ inequality states that <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>. Since in our case <span class="math inline">\(H(Q, P) = H(P)\)</span> it follows directly that <span class="math inline">\(H(P) \geq H(Q)\)</span>.</p>
+<p>Therefore, the exponential distribution <span class="math inline">\(P\)</span> achieves maximum entropy. and the distribution <span class="math inline">\(Q\)</span> will have lower entropy than <span class="math inline">\(P\)</span>, unless <span class="math inline">\(Q=P\)</span>. The maximum is unique because of Gibb’s inequality and the strict concavity of information entropy.</p>
+</div>
+<div id="exm-maxentexpfam" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.5</strong></span> <span class="math inline">\(\color{Red} \blacktriangleright\)</span> Exponential families as maximum-entropy distributions:</p>
+<p>Exponential families (see <a href="02-intro2.html#sec-expfamintro" class="quarto-xref"><span>Section 2.4</span></a>) are also characterised by achieving maximum entropy with specified expectation parameters.</p>
+<p>Specifically, assume <span class="math inline">\(B\)</span> is a base distribution with pdmf <span class="math inline">\(b(x)\)</span> and <span class="math inline">\(P= P(\boldsymbol \eta)\)</span> is an exponential family constructed by exponential tilting <span class="math inline">\(B\)</span> with log-pdmf <span class="math inline">\(p(x| \boldsymbol \eta) = \langle \boldsymbol \eta, \boldsymbol t(x) \rangle + \log b(x) - a(\boldsymbol \eta)\)</span>. The expectation parameters are specified as <span class="math inline">\(\operatorname{E}_P(\boldsymbol t(x)) = \boldsymbol \mu_{\boldsymbol t}\)</span> where <span class="math inline">\(\boldsymbol t(x)\)</span> are the canonical statistics. Let <span class="math inline">\(Q\)</span> be a distribution on the same domain as <span class="math inline">\(B\)</span> and <span class="math inline">\(P\)</span> subject to the constraint that <span class="math inline">\(\operatorname{E}_Q(\boldsymbol t(x)) = \boldsymbol \mu_{\boldsymbol t}\)</span>.</p>
+<p>We now show that the entropy <span class="math inline">\(G(Q, B)\)</span> is maximised uniquely for <span class="math inline">\(Q=P\)</span>, i.e.&nbsp;if <span class="math inline">\(Q\)</span> is an exponential family constructed from <span class="math inline">\(B\)</span> with the specified expectation parameters.</p>
+<p>The entropy of <span class="math inline">\(P\)</span> is <span class="math inline">\(H(P) = -\langle \boldsymbol \eta, \boldsymbol \mu_{\boldsymbol t} \rangle + H(P, B) + a(\boldsymbol \eta)\)</span>. The mean log-loss between <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> is <span class="math inline">\(H(Q, P) = -\langle \boldsymbol \eta, \boldsymbol \mu_{\boldsymbol t} \rangle + H(Q, B) + a(\boldsymbol \eta)\)</span>. Gibbs’ inequality states that <span class="math inline">\(H(Q, P) \geq H(Q)\)</span>. Since in our case <span class="math inline">\(H(Q, P) = H(P)-H(P,B)+H(Q,P)\)</span> it follows directly that <span class="math inline">\(H(P)-H(P,B) \geq H(Q)-H(Q,P)\)</span> and thus <span class="math inline">\(G(P, B) \geq G(Q, B)\)</span>.</p>
+<p>Therefore, the exponential family <span class="math inline">\(P\)</span> achieves maximum entropy and the distribution <span class="math inline">\(Q\)</span> will have lower entropy than <span class="math inline">\(P\)</span>, unless <span class="math inline">\(Q=P\)</span>. The maximum is unique because of Gibb’s inequality and the strict concavity of information entropy.</p>
+</div>
+</section>
+</section>
+<section id="further-reading" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">6.3</span> Further reading</h2>
+<p>See <span class="citation" data-cites="Akaike1985">Akaike (<a href="bibliography.html#ref-Akaike1985" role="doc-biblioref">1985</a>)</span> for a historical account of Boltzmann entropy as log-probability and the discovery of information entropy with prior measure by Boltzmann in 1878.</p>
+<p><span class="citation" data-cites="Jaynes2003">Jaynes (<a href="bibliography.html#ref-Jaynes2003" role="doc-biblioref">2003</a>)</span> provides a broad discussion of the principle of maximum entropy as a foundation for statistical learning.</p>
+<p>See also: <a href="https://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution">Maximum-entropy probability distributions (Wikipedia)</a></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -438,12 +553,19 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Using maximum entropy to characterise maximally uninformative distributions was advocated by <a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a> who also proposed to use maximum entropy in the context of finding Bayesian priors. The maximum entropy principle in statistical physics goes back to <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a>.</p>
+<p>The concept of entropy as log-probability is due to <a href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann (1844–1906)</a>. Boltzmann discovered the form of information entropy with prior measure in 1878, following the earlier 1877 formulation of standard information entropy.</p>
+<p><a href="https://en.wikipedia.org/wiki/Max_Planck">Max Planck (1958–1947)</a> was the first to explicitly state the fundamental relationship between entropy and log-probability (with credit to Boltzmann), using it to derive the formula for black-body radiation in 1900.</p>
+<p>Maximum entropy originated in thermodynamics as an empirical characterisation of equilibrium states. <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah W. Gibbs (1839–1903)</a> used the principle of maximum entropy subject to constraints to explicitly derive the canonical distribution (the physics name for exponential families) to represent equilibrium states in statistical mechanics.</p>
+<p><a href="https://en.wikipedia.org/wiki/Solomon_Kullback">Solomon Kullback (1907–1994)</a> and <a href="https://en.wikipedia.org/wiki/Richard_Leibler">Richard Leibler (1914–2003)</a> advocated the principle of minimum KL divergence in statistics.</p>
+<p><a href="https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes">Edwin T. Jaynes (1922–1998)</a> unified information theory and statistical mechanics and promoted the principle of maximum entropy as a general method for statistical learning and updating uncertainty.</p>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Akaike1985" class="csl-entry" role="listitem">
+Akaike, H. 1985. <span>“Prediction and Entropy.”</span> In <em>A Celebration of Statistics</em>, edited by A. C. Atkinson and S. E. Fienberg, 1–24. Springer. <a href="https://doi.org/10.1007/978-1-4613-8560-8_1">https://doi.org/10.1007/978-1-4613-8560-8_1</a>.
+</div>
 <div id="ref-Jaynes2003" class="csl-entry" role="listitem">
 Jaynes, E. T. 2003. <em>Probability Theory: The Logic of Science</em>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511790423">https://doi.org/10.1017/CBO9780511790423</a>.
 </div>
