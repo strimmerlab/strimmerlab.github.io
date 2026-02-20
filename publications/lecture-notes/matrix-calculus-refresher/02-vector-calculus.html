@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -38,7 +38,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -178,8 +178,12 @@ window.Quarto = {
   <li><a href="#second-order-vector-derivatives" id="toc-second-order-vector-derivatives" class="nav-link" data-scroll-target="#second-order-vector-derivatives"><span class="header-section-number">2.2</span> Second order vector derivatives</a></li>
   <li><a href="#chain-rules-for-gradient-vector-and-hessian-matrix" id="toc-chain-rules-for-gradient-vector-and-hessian-matrix" class="nav-link" data-scroll-target="#chain-rules-for-gradient-vector-and-hessian-matrix"><span class="header-section-number">2.3</span> Chain rules for gradient vector and Hessian matrix</a></li>
   <li><a href="#first-order-matrix-derivatives" id="toc-first-order-matrix-derivatives" class="nav-link" data-scroll-target="#first-order-matrix-derivatives"><span class="header-section-number">2.4</span> First order matrix derivatives</a></li>
-  <li><a href="#linear-and-quadratic-approximation" id="toc-linear-and-quadratic-approximation" class="nav-link" data-scroll-target="#linear-and-quadratic-approximation"><span class="header-section-number">2.5</span> Linear and quadratic approximation</a></li>
-  <li><a href="#conditions-for-a-local-extremum-of-a-function" id="toc-conditions-for-a-local-extremum-of-a-function" class="nav-link" data-scroll-target="#conditions-for-a-local-extremum-of-a-function"><span class="header-section-number">2.6</span> Conditions for a local extremum of a function</a></li>
+  <li><a href="#linear-and-quadratic-approximation" id="toc-linear-and-quadratic-approximation" class="nav-link" data-scroll-target="#linear-and-quadratic-approximation"><span class="header-section-number">2.5</span> Linear and quadratic approximation</a>
+  <ul class="collapse">
+  <li><a href="#linear-approximation" id="toc-linear-approximation" class="nav-link" data-scroll-target="#linear-approximation">Linear approximation</a></li>
+  <li><a href="#quadratic-approximation" id="toc-quadratic-approximation" class="nav-link" data-scroll-target="#quadratic-approximation">Quadratic approximation</a></li>
+  </ul></li>
+  <li><a href="#local-extrema-of-a-function" id="toc-local-extrema-of-a-function" class="nav-link" data-scroll-target="#local-extrema-of-a-function"><span class="header-section-number">2.6</span> Local extrema of a function</a></li>
   <li><a href="#convex-and-concave-functions" id="toc-convex-and-concave-functions" class="nav-link" data-scroll-target="#convex-and-concave-functions"><span class="header-section-number">2.7</span> Convex and concave functions</a></li>
   </ul>
 </nav>
@@ -347,61 +351,83 @@ D h(\boldsymbol X) = \frac{\partial h(\boldsymbol X)}{\partial \boldsymbol X}  =
 </section>
 <section id="linear-and-quadratic-approximation" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="linear-and-quadratic-approximation"><span class="header-section-number">2.5</span> Linear and quadratic approximation</h2>
-<p>A linear and quadratic approximation of a differentiable function is given by a Taylor series of first and second order, respectively.</p>
+<section id="linear-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="linear-approximation">Linear approximation</h3>
+<p>The linear approximation of a differentiable function is given by the first two terms of its Taylor series (the constant and linear terms).</p>
 <ol type="i">
-<li><p>Linear and quadratic approximation of a scalar-valued function of a scalar: <span class="math display">\[
-h(x) \approx h(x_0) + h'(x_0) \, (x-x_0) + \frac{1}{2} h''(x_0) \, (x-x_0)^2
-\]</span> Note that <span class="math inline">\(h'(x_0) = h'(x) \,|\, x_0\)</span> is first derivative of <span class="math inline">\(h(x)\)</span> evaluated at <span class="math inline">\(x_0\)</span> and <span class="math inline">\(h''(x_0) = h''(x) \,|\, x_0\)</span> is the second derivative of <span class="math inline">\(h(x)\)</span> evaluated <span class="math inline">\(x_0\)</span>.<br>
-With <span class="math inline">\(x = x_0+ \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
-h(x_0+ \varepsilon) \approx h(x_0) + h'(x_0) \, \varepsilon + \frac{1}{2} h''(x_0)\, \varepsilon^2
-\]</span> The first two terms on the right comprise the linear approximation, all three terms the quadratic approximation.</p></li>
-<li><p>Linear and quadratic approximation of a scalar-valued function of a vector: <span class="math display">\[
+<li><p>Scalar-valued function of a single variable: <span class="math display">\[
+h(x) = h(x_0) + h'(x_0) \, (x-x_0) + \mathcal{O}\!\left((x-x_0)^2\right)
+\]</span> where <span class="math inline">\(h'(x_0) = D h(x_0) = h'(x) \,|\, x_0\)</span> is the first derivative of <span class="math inline">\(h(x)\)</span> evaluated at <span class="math inline">\(x_0\)</span>. With <span class="math inline">\(x = x_0+ \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
+h(x_0+ \varepsilon) = h(x_0) + h'(x_0) \, \varepsilon + \mathcal{O}\!\left( \varepsilon^2\right)
+\]</span> or equivalently <span class="math display">\[
+h(x_0+ \varepsilon) = h(x_0) + D h(x_0) \, \varepsilon + \mathcal{O}( \varepsilon^2)
+\]</span></p></li>
+<li><p>Scalar-valued function of a vector: <span class="math display">\[
+h(\boldsymbol x) = h(\boldsymbol x_0) + \nabla^T h(\boldsymbol x_0)\, (\boldsymbol x-\boldsymbol x_0)  + \mathcal{O}\!\left(||\boldsymbol x-\boldsymbol x_0||^2 \right)
+\]</span> Here <span class="math inline">\(\nabla^T h(\boldsymbol x_0) = D h(\boldsymbol x_0)\)</span> is the vector derivative (i.e.&nbsp;the transposed gradient) of <span class="math inline">\(h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>. With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
+h(\boldsymbol x_0+ \boldsymbol \varepsilon) = h(\boldsymbol x_0) + \nabla^T h(\boldsymbol x_0)\, \boldsymbol \varepsilon+ \mathcal{O}\!\left( ||\boldsymbol \varepsilon||^2\right)
+\]</span> or equivalently <span class="math display">\[
+h(\boldsymbol x_0+ \boldsymbol \varepsilon) = h(\boldsymbol x_0) + D h(\boldsymbol x_0)\, \boldsymbol \varepsilon+ \mathcal{O}\!\left( ||\boldsymbol \varepsilon||^2\right)
+\]</span></p></li>
+<li><p>Vector-valued function of a vector: <span class="math display">\[
+\boldsymbol h(\boldsymbol x) = \boldsymbol h(\boldsymbol x_0) + D \boldsymbol h(\boldsymbol x_0) \, (\boldsymbol x-\boldsymbol x_0) + \mathcal{O}\!\left(||\boldsymbol x-\boldsymbol x_0||^2 \right)
+\]</span> Here <span class="math inline">\(D \boldsymbol h(\boldsymbol x_0)\)</span> is the vector derivative (i.e.&nbsp;the Jacobian matrix) of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>. With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
+\boldsymbol h(\boldsymbol x_0+ \boldsymbol \varepsilon) = \boldsymbol h(\boldsymbol x_0) + D \boldsymbol h(\boldsymbol x_0) \, \boldsymbol \varepsilon+ \mathcal{O}\!\left( ||\boldsymbol \varepsilon||^2\right)
+\]</span></p></li>
+</ol>
+</section>
+<section id="quadratic-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="quadratic-approximation">Quadratic approximation</h3>
+<p>The quadratic approximation of a differentiable function is given by the first three terms of its Taylor series (the constant, linear and quadratic terms).</p>
+<ol type="i">
+<li><p>Scalar-valued function of a single variable: <span class="math display">\[
+h(x) = h(x_0) + h'(x_0) \, (x-x_0) + \frac{1}{2} h''(x_0) \, (x-x_0)^2 + \mathcal{O}\!\left( ||x-x_0||^3\right)
+\]</span> where <span class="math inline">\(h''(x_0) = h''(x) \,|\, x_0\)</span> is the second derivative of <span class="math inline">\(h(x)\)</span> evaluated at&nbsp;<span class="math inline">\(x_0\)</span>. With <span class="math inline">\(x = x_0+ \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
+h(x_0+ \varepsilon) = h(x_0) + h'(x_0) \, \varepsilon + \frac{1}{2} h''(x_0)\, \varepsilon^2+ \mathcal{O}\!\left( ||\varepsilon||^3\right)
+\]</span></p></li>
+<li><p>Scalar-valued function of a vector: <span class="math display">\[
 h(\boldsymbol x) \approx h(\boldsymbol x_0) + \nabla^T h(\boldsymbol x_0)\, (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2}
-(\boldsymbol x-\boldsymbol x_0)^T \, \nabla \nabla^T h(\boldsymbol x_0) \, (\boldsymbol x-\boldsymbol x_0)
-\]</span> Note that <span class="math inline">\(\nabla^T h(\boldsymbol x_0)\)</span> is the transposed gradient (i.e the vector derivative) of <span class="math inline">\(h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span> and <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x_0)\)</span> the Hessian matrix of <span class="math inline">\(h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>. With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> this approximation can also be written as <span class="math display">\[
-h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) + \nabla^T h(\boldsymbol x_0)\, \boldsymbol \varepsilon+ \frac{1}{2} \boldsymbol \varepsilon^T \, \nabla \nabla^T h(\boldsymbol x_0) \,\boldsymbol \varepsilon
-\]</span> The first two terms on the right comprise the linear approximation, all three terms the quadratic approximation.</p></li>
-<li><p>Linear approximation of a vector-valued function of a vector: <span class="math display">\[
-\boldsymbol h(\boldsymbol x) \approx \boldsymbol h(\boldsymbol x_0) + D \boldsymbol h(\boldsymbol x_0) \, (\boldsymbol x-\boldsymbol x_0)
-\]</span> Note that <span class="math inline">\(D \boldsymbol h(\boldsymbol x_0)\)</span> is Jacobian matrix (i.e the vector derivative) of <span class="math inline">\(\boldsymbol h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>. With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> this approximation can also be written as <span class="math display">\[
-\boldsymbol h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) + D \boldsymbol h(\boldsymbol x_0) \, \boldsymbol \varepsilon
+(\boldsymbol x-\boldsymbol x_0)^T \, \nabla \nabla^T h(\boldsymbol x_0) \, (\boldsymbol x-\boldsymbol x_0) + \mathcal{O}\!\left(||\boldsymbol x-\boldsymbol x_0||^3 \right)
+\]</span> Here <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x_0)\)</span> is the Hessian matrix of <span class="math inline">\(h(\boldsymbol x)\)</span> evaluated at <span class="math inline">\(\boldsymbol x_0\)</span>. With <span class="math inline">\(\boldsymbol x= \boldsymbol x_0+ \boldsymbol \varepsilon\)</span> the approximation can also be written as <span class="math display">\[
+h(\boldsymbol x_0+ \boldsymbol \varepsilon) = h(\boldsymbol x_0) + \nabla^T h(\boldsymbol x_0)\, \boldsymbol \varepsilon+ \frac{1}{2} \boldsymbol \varepsilon^T \, \nabla \nabla^T h(\boldsymbol x_0) \,\boldsymbol \varepsilon+ \mathcal{O}\!\left(||\boldsymbol \varepsilon||^3 \right)
 \]</span></p></li>
 </ol>
 <div id="exm-taylorseries" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.5</strong></span> Examples of Taylor series approximations of second order:</p>
+<p><span class="theorem-title"><strong>Example 2.5</strong></span> Examples of second-order (quadratic) Taylor series approximations:</p>
 <ul>
-<li><span class="math inline">\(\log(x_0+\varepsilon) \approx \log(x_0) + \frac{\varepsilon}{x_0} - \frac{\varepsilon^2}{2 x_0^2}\)</span></li>
+<li><span class="math inline">\(\log(x_0+\varepsilon) \approx \log x_0 + \frac{\varepsilon}{x_0} - \frac{\varepsilon^2}{2 x_0^2}\)</span></li>
 <li><span class="math inline">\(\frac{x_0}{x_0+\varepsilon} \approx 1 - \frac{\varepsilon}{x_0} + \frac{\varepsilon^2}{ x_0^2}\)</span></li>
 </ul>
 </div>
 <div id="exm-approxextremum" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.6</strong></span> Around a local extremum <span class="math inline">\(\boldsymbol x_0\)</span> (maximum or minimum) where the gradient vanishes (<span class="math inline">\(h(\boldsymbol x_0) = 0\)</span>) the quadratic approximation of the function <span class="math inline">\(h(\boldsymbol x)\)</span> simplifies to<br>
+<p><span class="theorem-title"><strong>Example 2.6</strong></span> Around a local extremum <span class="math inline">\(\boldsymbol x_0\)</span> (maximum or minimum) where the gradient vanishes (<span class="math inline">\(\nabla h(\boldsymbol x_0) = 0\)</span>) the quadratic approximation of the function <span class="math inline">\(h(\boldsymbol x)\)</span> simplifies to<br>
 <span class="math display">\[
 h(\boldsymbol x_0+ \boldsymbol \varepsilon) \approx h(\boldsymbol x_0) +  \frac{1}{2} \boldsymbol \varepsilon^T \nabla \nabla^T h(\boldsymbol x_0) \boldsymbol \varepsilon
 \]</span></p>
 </div>
 </section>
-<section id="conditions-for-a-local-extremum-of-a-function" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="conditions-for-a-local-extremum-of-a-function"><span class="header-section-number">2.6</span> Conditions for a local extremum of a function</h2>
+</section>
+<section id="local-extrema-of-a-function" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="local-extrema-of-a-function"><span class="header-section-number">2.6</span> Local extrema of a function</h2>
 <p>To check if <span class="math inline">\(x_0\)</span> or <span class="math inline">\(\boldsymbol x_0\)</span> is a local extremum, i.e.&nbsp;a local maximum or a local minimum, of a differentiable function <span class="math inline">\(h(x)\)</span> or <span class="math inline">\(h(\boldsymbol x)\)</span> we can use the following conditions:</p>
 <p>For a function of a single variable:</p>
 <ol type="i">
-<li>First derivative is zero at the extremum: <span class="math inline">\(h'(x_0) = 0\)</span>.</li>
+<li>The first derivative is zero at the extremum: <span class="math inline">\(h'(x_0) = 0\)</span>.</li>
 <li>If the second derivative <span class="math inline">\(h''(x_0) &lt; 0\)</span> at the extremum is negative then it is a maximum.</li>
 <li>If the second derivative <span class="math inline">\(h''(x_0) &gt; 0\)</span> at the extremum is positive it is a minimum.</li>
 </ol>
 <p>Note that conditions ii) and iii) are sufficient but not necessary. For a minimum, it is necessary that the second derivative is nonnegative, and for a maximum that the second derivative is nonpositive.</p>
+<div id="exm-minzerocurvature" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2.7</strong></span> Minimum with vanishing second derivative:</p>
+<p>The function <span class="math inline">\(h(x)=x^4\)</span> clearly has a minimum at <span class="math inline">\(x_0=0\)</span>. As required the first derivative <span class="math inline">\(h'(x) = 4 x^3\)</span> vanishes at <span class="math inline">\(x_0=0\)</span> with <span class="math inline">\(h'(x_0)=0\)</span>. However, the second derivative <span class="math inline">\(h''(x) = 12 x^2\)</span> also vanishes at <span class="math inline">\(x_0=0\)</span> with <span class="math inline">\(h''(x_0)=0\)</span>, showing that a positive second derivative is not necessary for a minimum.</p>
+</div>
 <p>For a function of several variables:</p>
 <ol type="i">
-<li>Gradient vanishes at extremum: <span class="math inline">\(\nabla h(\boldsymbol x_0)=0\)</span>.</li>
+<li>The gradient vanishes at the extremum: <span class="math inline">\(\nabla h(\boldsymbol x_0)=0\)</span>.</li>
 <li>If the Hessian <span class="math inline">\(\nabla \nabla^T h(\boldsymbol x_0)\)</span> is negative definite (= all eigenvalues of Hessian matrix are negative) then the extremum is a maximum.</li>
 <li>If the Hessian is positive definite (= all eigenvalues of Hessian matrix are positive) then the extremum is a minimum.</li>
 </ol>
 <p>Again, conditions ii) and iii) are sufficient but not necessary. For a minimum it is necessary that the Hessian is positive semi-definite, and for a maximum that the Hessian is negative semi-definite.</p>
-<div id="exm-minzerocurvature" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.7</strong></span> Minimum with vanishing second derivative:</p>
-<p><span class="math inline">\(x^4\)</span> clearly has a minimum at <span class="math inline">\(x_0=0\)</span>. As required the first derivative <span class="math inline">\(4 x^3\)</span> vanishes at <span class="math inline">\(x_0=0\)</span>. However, the second derivative <span class="math inline">\(12 x^2\)</span> also vanishes at <span class="math inline">\(x_0=0\)</span>, showing that a positive second derivative is not necessary for a minimum.</p>
-</div>
 </section>
 <section id="convex-and-concave-functions" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="convex-and-concave-functions"><span class="header-section-number">2.7</span> Convex and concave functions</h2>
