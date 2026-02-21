@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -405,8 +405,8 @@ window.Quarto = {
 f(\boldsymbol x| \boldsymbol \mu, \boldsymbol \Sigma) = (2\pi)^{-\frac{d}{2}} \det(\boldsymbol \Sigma)^{-\frac{1}{2}}
 \exp\left(-\frac{1}{2} (\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu) \right)
 \]</span> the corresponding log-likelihood for <span class="math inline">\(\boldsymbol \mu\)</span> is <span class="math display">\[
-\ell_1(\boldsymbol \mu) = C - \frac{1}{2}(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)
-\]</span> where <span class="math inline">\(C\)</span> is a constant that does not depend on <span class="math inline">\(\boldsymbol \mu\)</span>. Note that the log-likelihood is a quadratic function (both for <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu\)</span>) and the maximum of the function lies at <span class="math inline">\(\boldsymbol \mu= \boldsymbol x\)</span> with value <span class="math inline">\(C\)</span>.</p>
+\ell_1(\boldsymbol \mu) = c - \frac{1}{2}(\boldsymbol x-\boldsymbol \mu)^T \boldsymbol \Sigma^{-1} (\boldsymbol x-\boldsymbol \mu)
+\]</span> where <span class="math inline">\(C\)</span> is a constant that does not depend on <span class="math inline">\(\boldsymbol \mu\)</span>. Note that the log-likelihood is a quadratic function (both for <span class="math inline">\(\boldsymbol x\)</span> and <span class="math inline">\(\boldsymbol \mu\)</span>) and the maximum of the function lies at <span class="math inline">\(\boldsymbol \mu= \boldsymbol x\)</span> with value <span class="math inline">\(c\)</span>.</p>
 </section>
 <section id="quadratic-approximation-of-a-log-likelihood-function" class="level3">
 <h3 class="anchored" data-anchor-id="quadratic-approximation-of-a-log-likelihood-function">Quadratic approximation of a log-likelihood function</h3>
@@ -420,13 +420,15 @@ Figure&nbsp;10.1: Quadratic approximation of the log-likelihood function.
 </figcaption>
 </figure>
 </div>
-<p>Now consider the quadratic approximation of a general log-likelihood function <span class="math inline">\(\ell_n(\boldsymbol \theta)\)</span> for <span class="math inline">\(\boldsymbol \theta\)</span> around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> (<a href="#fig-approxlogl" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>).</p>
-<p>We assume the underlying model is regular and that <span class="math inline">\(\nabla \ell_n(\hat{\boldsymbol \theta}_{ML}) = 0\)</span>, i.e.&nbsp;the gradient at the maximum vanishes. The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> is <span class="math display">\[
-f(\boldsymbol x) = f(\boldsymbol x_0) + \nabla^T f(\boldsymbol x_0)\, (\boldsymbol x-\boldsymbol x_0) + \frac{1}{2}
-(\boldsymbol x-\boldsymbol x_0)^T \nabla \nabla^T f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \ldots
-\]</span> Applied to the log-likelihood function this yields</p>
-<p><span class="math display">\[\ell_n(\boldsymbol \theta) \approx \ell_n(\hat{\boldsymbol \theta}_{ML} )- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)\]</span></p>
-<p>This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, \ell_n(\hat{\boldsymbol \theta}_{ML}) )\)</span>. Note the appearance of the observed Fisher information <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> in the quadratic term. There is no linear term because of the vanishing gradient at the MLE.</p>
+<p>Now consider the quadratic approximation of a general log-likelihood function <span class="math inline">\(\ell_n(\boldsymbol \theta)\)</span> for <span class="math inline">\(\boldsymbol \theta\)</span> around the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> (<a href="#fig-approxlogl" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>). We assume the underlying model is regular and that <span class="math inline">\(\nabla \ell_n(\hat{\boldsymbol \theta}_{ML}) = 0\)</span>, i.e.&nbsp;the gradient at the maximum likelihood estimate vanishes.</p>
+<p>The Taylor series approximation of scalar-valued function <span class="math inline">\(f(\boldsymbol x)\)</span> around <span class="math inline">\(\boldsymbol x_0\)</span> with <span class="math inline">\(\nabla f(\boldsymbol x_0) =0\)</span> is <span class="math display">\[
+f(\boldsymbol x) = f(\boldsymbol x_0) + \frac{1}{2}
+(\boldsymbol x-\boldsymbol x_0)^T \nabla \nabla^T f(\boldsymbol x_0) (\boldsymbol x-\boldsymbol x_0) + \mathcal{O}\!\left(||\boldsymbol x-\boldsymbol x_0 ||^3\right)
+\]</span></p>
+<p>Applied to the log-likelihood function (with <span class="math inline">\(\boldsymbol x= \boldsymbol \theta\)</span> and <span class="math inline">\(\boldsymbol x_0=\hat{\boldsymbol \theta}_{ML}\)</span>) this yields <span class="math display">\[
+\ell_n(\boldsymbol \theta) \approx \ell_n(\hat{\boldsymbol \theta}_{ML} )- \frac{1}{2}(\hat{\boldsymbol \theta}_{ML}- \boldsymbol \theta)^T J_n(\hat{\boldsymbol \theta}_{ML})(\hat{\boldsymbol \theta}_{ML}-\boldsymbol \theta)
+\]</span> This is a quadratic function with maximum at <span class="math inline">\(( \hat{\boldsymbol \theta}_{ML}, \ell_n(\hat{\boldsymbol \theta}_{ML}) )\)</span>.</p>
+<p>Note the appearance of the observed Fisher information <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> in the quadratic term. There is no linear term because of the vanishing gradient at the MLE.</p>
 <p>Crucially, this approximated log-likelihood takes the same form as if <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> was sampled from a multivariate normal distribution with mean <span class="math inline">\(\boldsymbol \theta\)</span> and the covariance given by the <em>inverse</em> of the observed Fisher information.</p>
 <p>Note that this requires a regular model with positive definite observed Fisher information matrix so that <span class="math inline">\(J_n(\hat{\boldsymbol \theta}_{ML})\)</span> is actually invertible!</p>
 <div id="exm-quadapproxproportion" class="theorem example">
