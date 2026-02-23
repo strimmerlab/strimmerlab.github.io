@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -420,12 +420,12 @@ p(x| \theta) = \theta^x (1-\theta)^{1-x} =
 \end{split}
 \]</span> Note that the log-likelihood depends on the data only via <span class="math inline">\(\bar{x}\)</span>. Thus, <span class="math inline">\(t(D) = \bar{x}\)</span> is a <strong>sufficient statistic</strong> for the parameter <span class="math inline">\(\theta\)</span>. In fact it is also a <strong>minimal sufficient statistic</strong> as will be discussed in more detail later.</p></li>
 <li><p>Score function: <span class="math display">\[
-S_n(\theta)=  \frac{d \ell_n(\theta)}{d\theta}= n \left( \frac{\bar{x}}{\theta}-\frac{1-\bar{x}}{1-\theta} \right)
+s_n(\theta)=  \frac{d \ell_n(\theta)}{d\theta}= n \left( \frac{\bar{x}}{\theta}-\frac{1-\bar{x}}{1-\theta} \right)
 \]</span></p></li>
-<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(S_n(\hat{\theta}_{ML})=0\)</span> yields as solution <span class="math display">\[
+<li><p>Maximum likelihood estimate: Setting <span class="math inline">\(s_n(\hat{\theta}_{ML})=0\)</span> yields as solution <span class="math display">\[
 \hat{\theta}_{ML} = \bar{x} = \frac{n_1}{n}
 \]</span></p>
-<p>With <span class="math inline">\(H_n(\theta) = \frac{dS_n(\theta)}{d\theta} = -n \left( \frac{\bar{x}}{\theta^2} + \frac{1-\bar{x}}{(1-\theta)^2} \right) &lt;0\)</span> the optimum corresponds indeed to the maximum of the (log-)likelihood function as this is negative for <span class="math inline">\(\hat{\theta}_{ML}\)</span> (and indeed for any <span class="math inline">\(\theta\)</span>).</p>
+<p>With <span class="math inline">\(\frac{d s_n(\theta)}{d\theta} = -n \left( \frac{\bar{x}}{\theta^2} + \frac{1-\bar{x}}{(1-\theta)^2} \right) &lt;0\)</span> the optimum corresponds indeed to the maximum of the (log-)likelihood function as this is negative for <span class="math inline">\(\hat{\theta}_{ML}\)</span> (and indeed for any <span class="math inline">\(\theta\)</span>).</p>
 <p>The maximum likelihood estimator of <span class="math inline">\(\theta\)</span> is therefore identical to the frequency of the successes among all observations.</p></li>
 </ul>
 </div>
@@ -443,23 +443,23 @@ S_n(\theta)=  \frac{d \ell_n(\theta)}{d\theta}= n \left( \frac{\bar{x}}{\theta}-
 <li><p>Density: <span class="math display">\[ p(x| \mu)=
 \frac{1}{\sqrt{2\pi\sigma^2}}
 \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
-<li><p>Log-Density: <span class="math display">\[\log p(x| \mu) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-density: <span class="math display">\[\log p(x| \mu) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
 <li><p>Log-likelihood function: <span class="math display">\[
 \begin{split}
 \ell_n(\mu) &amp;= \sum_{i=1}^n \log p(x_i| \mu)\\
-&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2}\log(2 \pi \sigma^2) }_{\text{constant term, does not depend on } \mu \text{, can be removed}}\\
+&amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2  \underbrace{-\frac{n}{2}\log(2 \pi \sigma^2) }_{\text{constant term, does not depend on } \mu}\\
 &amp;=-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i^2 - 2 x_i \mu+\mu^2)  + \text{ const.}\\
 &amp;=\frac{n}{\sigma^2}  ( \bar{x} \mu  - \frac{1}{2}\mu^2)  \underbrace{ - \frac{1}{2\sigma^2}\sum_{i=1}^n   x_i^2 }_{\text{another constant term}}   + \text{ const.}\\
 \end{split}
 \]</span> Note how the nonconstant terms of the log-likelihood depend on the data only through <span class="math inline">\(\bar{x}\)</span>. Hence <span class="math inline">\(t(D) =\bar{x}\)</span> this is a <strong>sufficient statistic</strong> for <span class="math inline">\(\mu\)</span>.</p></li>
 <li><p>Score function: <span class="math display">\[
-S_n(\mu) =
+s_n(\mu) =
 \frac{n}{\sigma^2} ( \bar{x}- \mu)
 \]</span></p></li>
-<li><p>Maximum likelihood estimate: <span class="math display">\[S_n(\hat{\mu}_{ML})=0 \Rightarrow \hat{\mu}_{ML} = \bar{x}\]</span></p></li>
-<li><p>With <span class="math inline">\(H_n(\mu) = \frac{dS_n(\mu)}{d\mu} = -\frac{n}{\sigma^2}&lt;0\)</span> the optimum is indeed the maximum</p></li>
+<li><p>Maximum likelihood estimate: <span class="math display">\[s_n(\hat{\mu}_{ML})=0 \Rightarrow \hat{\mu}_{ML} = \bar{x}\]</span></p></li>
+<li><p>With <span class="math inline">\(\frac{d s_n(\mu)}{d\mu} = -\frac{n}{\sigma^2}&lt;0\)</span> the optimum is indeed the maximum</p></li>
 </ul>
-<p>The constant term in the log-likelihood function collects all terms that do not depend on the parameter of interest. After taking the first derivative with regard to the parameter the constant term disappears thus it has no influence in maximum likelhood estimation. <strong>Therefore constant terms can be dropped from the log-likelihood function.</strong></p>
+<p>The constant term in the log-likelihood function collects all terms that do not depend on the parameter of interest. After taking the first derivative with regard to the parameter the constant term disappears thus it has no influence in maximum likelihood estimation. <strong>Therefore constant terms can be dropped from the log-likelihood function.</strong></p>
 </div>
 <div id="exm-mlenormalvar" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.3</strong></span> Maximum likelihood estimation for the normal distribution with known mean and unknown variance:</p>
@@ -472,7 +472,7 @@ S_n(\mu) =
 <li><p>the data <span class="math inline">\(D= \{x_1, \ldots, x_n\}\)</span> are all real in the range <span class="math inline">\(x_i \in [-\infty, \infty]\)</span>.</p></li>
 <li><p>the average of the squared centred data <span class="math inline">\(\overline{(x-\mu)^2} = \frac{1}{n} \sum_{i=1}^n (x_i-\mu)^2 \geq 0\)</span> is nonnegative.</p></li>
 <li><p>Density: <span class="math display">\[ p(x| \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
-<li><p>Log-Density: <span class="math display">\[\log p(x | \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-density: <span class="math display">\[\log p(x | \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
 <li><p>Log-likelihood function: <span class="math display">\[
 \begin{split}
 \ell_n(\sigma^2) &amp; = \ell_n(\mu, \sigma^2) = \sum_{i=1}^n \log p(x_i| \sigma^2)\\
@@ -481,18 +481,18 @@ S_n(\mu) =
 \end{split}
 \]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\overline{(x-\mu)^2}\)</span>. Hence <span class="math inline">\(t(D) = \overline{(x-\mu)^2}\)</span> is a sufficient statistic for <span class="math inline">\(\sigma^2\)</span>.</p></li>
 <li><p>Score function: <span class="math display">\[
-S_n(\sigma^2) =
+s_n(\sigma^2) =
 -\frac{n}{2\sigma^2}+\frac{n}{2\sigma^4}    \overline{(x-\mu)^2}
 \]</span></p>
 <p>Note that to obtain the score function the derivative needs to be taken with regard to the variance parameter <span class="math inline">\(\sigma^2\)</span> — not with regard to <span class="math inline">\(\sigma\)</span>! As a trick, relabel <span class="math inline">\(\sigma^2 = v\)</span> in the log-likelihood function, then take the derivative with regard to <span class="math inline">\(v\)</span>, then backsubstitute <span class="math inline">\(v=\sigma^2\)</span> in the final result.</p></li>
 <li><p>Maximum likelihood estimate: <span class="math display">\[
-S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
+s_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 \]</span> <span class="math display">\[
 \widehat{\sigma^2}_{ML}
 =\overline{(x-\mu)^2} = \frac{1}{n}\sum_{i=1}^n (x_i-\mu)^2
 \]</span></p></li>
-<li><p>To confirm that we actually have maximum we need to verify that the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(H_n(\sigma^2) = \frac{dS_n(\sigma^2)}{d\sigma^2} =
--\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2}  \overline{(x-\mu)^2} -1\right)\)</span> and hence <span class="math inline">\(H_n(\widehat{\sigma^2}_{ML} )   =
+<li><p>To confirm that we actually have maximum we need to verify that the second derivative of log-likelihood at the optimum is negative. With <span class="math inline">\(\frac{d s_n(\sigma^2)}{d\sigma^2} =
+-\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2}  \overline{(x-\mu)^2} -1\right)\)</span> and hence <span class="math inline">\(\frac{d s_n(\widehat{\sigma^2}_{ML})}{d\sigma^2}  =
 -\frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}&lt;0\)</span> the optimum is indeed the maximum.</p></li>
 </ul>
 </div>
@@ -544,7 +544,7 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 <li><p>the average <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i\)</span> is real as well.</p></li>
 <li><p>the average of the squared data <span class="math inline">\(\overline{x^2} = \frac{1}{n} \sum_{i=1}^n x_i^2 \geq 0\)</span> is nonnegative.</p></li>
 <li><p>Density: <span class="math display">\[ f(x| \mu, \sigma^2)=(2\pi\sigma^2)^{-\frac{1}{2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\]</span></p></li>
-<li><p>Log-Density: <span class="math display">\[\log f(x | \mu, \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
+<li><p>Log-density: <span class="math display">\[\log f(x | \mu, \sigma^2) =-\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}\]</span></p></li>
 <li><p>Log-likelihood function: <span class="math display">\[
 \begin{split}
 \ell_n(\boldsymbol \theta) &amp; = \ell_n(\mu, \sigma^2) = \sum_{i=1}^n \log f(x_i| \mu, \sigma^2)\\
@@ -552,9 +552,9 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 &amp;= -\frac{n}{2}\log \sigma^2-\frac{n}{2\sigma^2}  ( \overline{x^2} -2 \bar{x} \mu + \mu^2)  + C\\
 \end{split}
 \]</span> Note how the log-likelihood function depends on the data only through <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\overline{x^2}\)</span>. Hence, <span class="math inline">\(\boldsymbol t(D) = (\bar{x},  \overline{x^2})^T\)</span> are sufficient statistics for <span class="math inline">\(\boldsymbol \theta\)</span>.</p></li>
-<li><p>Score function <span class="math inline">\(\boldsymbol S_n\)</span>, gradient of <span class="math inline">\(\ell_n(\boldsymbol \theta)\)</span>: <span class="math display">\[
+<li><p>Score function <span class="math inline">\(\boldsymbol s_n\)</span>, gradient of <span class="math inline">\(\ell_n(\boldsymbol \theta)\)</span>: <span class="math display">\[
 \begin{split}
-\boldsymbol S_n(\boldsymbol \theta) &amp;= \boldsymbol S_n(\mu,\sigma^2)  \\
+\boldsymbol s_n(\boldsymbol \theta) &amp;= \boldsymbol s_n(\mu,\sigma^2)  \\
 &amp; =\nabla \ell_n(\mu, \sigma^2) \\
 &amp;=
 \begin{pmatrix}
@@ -564,7 +564,7 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 \end{split}
 \]</span></p></li>
 <li><p>Maximum likelihood estimate: <span class="math display">\[
-\boldsymbol S_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow
+\boldsymbol s_n(\hat{\boldsymbol \theta}_{ML})=0 \Rightarrow
 \]</span> <span class="math display">\[
 \hat{\boldsymbol \theta}_{ML}=
 \begin{pmatrix}
@@ -619,7 +619,7 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 </ul>
 <p>Estimating the parameters:</p>
 <ul>
-<li><p>Log-Density: <span class="math display">\[
+<li><p>Log-density: <span class="math display">\[
 \log p(x|\boldsymbol \eta) =  \boldsymbol \eta^T \boldsymbol t(x) + \log h(x) - a(\boldsymbol \eta)
 \]</span> where <span class="math inline">\(h(x)\)</span> is base function and <span class="math inline">\(a(\boldsymbol \eta)\)</span> is the log-partition function.</p></li>
 <li><p>Log-likelihood function: <span class="math display">\[
@@ -631,13 +631,13 @@ S_n(\widehat{\sigma^2}_{ML})=0 \Rightarrow
 \]</span> Note how the nonconstant terms of the log-likelihood depend on the data only through <span class="math inline">\(\overline{\boldsymbol t(x)}\)</span>. Hence the average of the canonical statistics are <strong>sufficient statistics</strong> for <span class="math inline">\(\boldsymbol \eta\)</span>. Furthermore, recall that the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> is convex, and as a result the log-likelihood function is concave in the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span>.</p></li>
 <li><p>Score function: <span class="math display">\[
 \begin{split}
-S_n(\boldsymbol \eta) &amp;= \nabla \ell_n(\boldsymbol \eta) \\
+s_n(\boldsymbol \eta) &amp;= \nabla \ell_n(\boldsymbol \eta) \\
           &amp;= -n \left(\nabla a(\boldsymbol \eta) + \overline{\boldsymbol t(x)} \right) \\
           &amp;= -n \left(\boldsymbol \mu_{\boldsymbol t}(\boldsymbol \eta) + \overline{\boldsymbol t(x)} \right) \\
 \end{split}
 \]</span> where <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}(\boldsymbol \eta) = \operatorname{E}( \boldsymbol t(x) )\)</span> are the means of the canonical statistics, given in dependence of the canonical parameters. The expectation parameters <span class="math inline">\(\boldsymbol \mu_{\boldsymbol t}\)</span> are often preferred over the canonical parameters <span class="math inline">\(\boldsymbol \eta\)</span>.</p></li>
 <li><p>Maximum likelihood estimate: <span class="math display">\[
-S_n(\hat{\boldsymbol \eta}_{ML})=0 \Rightarrow  \boldsymbol \mu_{\boldsymbol t}(\hat{\boldsymbol \eta}_{ML}) = \hat{\boldsymbol \mu}_{\boldsymbol t}^{ML}= \overline{\boldsymbol t(x)}
+s_n(\hat{\boldsymbol \eta}_{ML})=0 \Rightarrow  \boldsymbol \mu_{\boldsymbol t}(\hat{\boldsymbol \eta}_{ML}) = \hat{\boldsymbol \mu}_{\boldsymbol t}^{ML}= \overline{\boldsymbol t(x)}
 \]</span> Hence, the <strong>average canonical statistics are the MLEs of the expectation parameters of the exponential family</strong>. This is the generalisation of earlier specific examples such as that the MLE of the mean of a normal distribution and the MLE of the mean parameter of the Bernoulli distribution are both given by the average of the data.</p>
 <p>To obtain the MLE for the canonical parameter we solve the above for <span class="math inline">\(\hat{\boldsymbol \eta}_{ML}\)</span>: <span class="math display">\[
 \hat{\boldsymbol \eta}_{ML} = \boldsymbol \mu_{\boldsymbol t}^{-1} \left(  \overline{\boldsymbol t(x)} \right)

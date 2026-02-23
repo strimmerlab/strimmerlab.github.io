@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -42,7 +62,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -492,9 +512,7 @@ Figure&nbsp;10.2: Quadratic approximation of the log-likelihood for a Bernoulli 
 </ol>
 <p>Remarks:</p>
 <ul>
-<li>The asymptotic normality of MLEs was first discussed in Fisher (1925) <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
-</ul>
-<ul>
+<li><p>The asymptotic normality of MLEs was first discussed in <span class="citation" data-cites="Fisher1925">Fisher (<a href="bibliography.html#ref-Fisher1925" role="doc-biblioref">1925</a>)</span></p></li>
 <li><p>The technical details of the above considerations are worked out in the theory of <a href="https://en.wikipedia.org/wiki/Local_asymptotic_normality">locally asymptotically normal (LAN) models</a> pioneered in 1960 by <a href="https://en.wikipedia.org/wiki/Lucien_Le_Cam">Lucien LeCam (1924–2000)</a>.</p></li>
 <li><p>There are also methods to obtain higher-order (higher than quadratic and thus nonnormal) asymptotic approximations. These relate to <a href="https://en.wikipedia.org/wiki/Saddlepoint_approximation_method">saddle point approximations</a>.</p></li>
 </ul>
@@ -504,7 +522,7 @@ Figure&nbsp;10.2: Quadratic approximation of the log-likelihood for a Bernoulli 
 <p>Assume now that <span class="math inline">\(\hat{\boldsymbol \theta}\)</span> is an arbitrary and <em>unbiased</em> estimator for <span class="math inline">\(\boldsymbol \theta_{\text{true}}\)</span>, with <span class="math inline">\(\operatorname{E}(\hat{\boldsymbol \theta}) = \boldsymbol \theta_{\text{true}}\)</span>. The family <span class="math inline">\(P(\boldsymbol \theta)\)</span> assumed as generating the data is regular with pdmf <span class="math inline">\(p(\boldsymbol x| \boldsymbol \theta)\)</span> and Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta)\)</span>.</p>
 <p><a href="https://en.wikipedia.org/wiki/Ren%C3%A9_Maurice_Fr%C3%A9chet">Maurice R. Fréchet (1878–1973)</a>, <a href="https://de.wikipedia.org/wiki/Georges_Darmois">Georges Darmois (1888–1960)</a>, <a href="https://en.wikipedia.org/wiki/Harald_Cram%C3%A9r">Harald Cramér (1893–1985)</a> and <a href="https://en.wikipedia.org/wiki/C._R._Rao">C. Radhakrishna Rao (1920–2023)</a> all independently demonstrated in the 1940s the <strong>information inequality</strong> <span class="math display">\[
 \operatorname{Var}(\hat{\boldsymbol \theta}) \geq \left( n\boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta_{\text{true}}) \right)^{-1}
-\]</span> which puts a lower bound on the variance of <span class="math inline">\(\hat{\boldsymbol \theta}\)</span>. Note for dimensions <span class="math inline">\(d&gt;1\)</span> this is a matrix inequality of the type <span class="math inline">\(\boldsymbol B\geq \boldsymbol A\)</span> with matrices <span class="math inline">\(\boldsymbol A\)</span>, <span class="math inline">\(\boldsymbol B\)</span> and <span class="math inline">\(\boldsymbol B-\boldsymbol A\)</span> all symmetric and positive semidefinite.</p>
+\]</span> which puts a lower bound on the variance of <span class="math inline">\(\hat{\boldsymbol \theta}\)</span>. Note for dimensions <span class="math inline">\(d&gt;1\)</span> this is a matrix inequality of the type <span class="math inline">\(\boldsymbol A\geq \boldsymbol B\)</span> with matrices <span class="math inline">\(\boldsymbol A\)</span>, <span class="math inline">\(\boldsymbol B\)</span> and <span class="math inline">\(\boldsymbol A-\boldsymbol B\)</span> all symmetric and positive semidefinite.</p>
 <p>Crucially, the information inequality is a <em>nonasymptotic result</em>. However, note that maximum likelihood estimates <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span> are often only asymptotically unbiased.</p>
 <p>The information inequality can be derived from the data-processing inequality for Fisher information (<a href="05-entropy3.html#sec-expectedfisherinfo" class="quarto-xref"><span>Section 5.1</span></a>).</p>
 </section>
@@ -562,7 +580,7 @@ x_{[n]}\sim \theta \, \operatorname{Beta}(n,1)\\
 \]</span> and its square-root as the estimate of the standard deviation <span class="math display">\[
 \widehat{\operatorname{SD}}(\hat{\boldsymbol \theta}_{ML}) = \boldsymbol J_n(\hat{\boldsymbol \theta}_{ML})^{-1/2}
 \]</span> Note that in the above we use <em>matrix inversion</em> and the (inverse) <em>matrix square root</em>.</p>
-<p>The reasons for preferring observed Fisher information are made mathematically precise in a classic paper by Efron and Hinkley (1978) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> .</p>
+<p>The reasons for preferring observed Fisher information are made mathematically precise in a classic paper by Efron and Hinkley (1978) <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> .</p>
 <div id="exm-distnormalmean" class="theorem example">
 <p><span class="theorem-title"><strong>Example 10.3</strong></span> Estimated variance and distribution of the MLE of the mean parameter for the normal distribution with known variance:</p>
 <p>From <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a> and <a href="09-likelihood3.html#exm-obsfishernormalmean" class="quarto-xref">Example&nbsp;<span>9.2</span></a> we know that <span class="math display">\[\hat{\mu}_{ML} =\bar{x}\]</span> and that the corresponding observed Fisher information at <span class="math inline">\(\hat{\mu}_{ML}\)</span> is <span class="math display">\[J_n(\hat{\mu}_{ML})=\frac{n}{\sigma^2}\]</span></p>
@@ -716,13 +734,17 @@ Figure&nbsp;10.3: Construction of a 95% symmetric normal confidence interval for
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Fisher1925" class="csl-entry" role="listitem">
+Fisher, R. A. 1925. <span>“Theory of Statistical Estimation.”</span> <em>Math. Proc. Camb. Philos. Soc.</em> 22: 700–725. <a href="https://doi.org/110.1017/S0305004100009580">https://doi.org/110.1017/S0305004100009580</a>.
+</div>
+</div>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Fisher R. A. 1925. <em>Theory of statistical estimation.</em> Math. Proc. Cambridge Philos. Soc. <strong>22</strong>:700–725. <a href="https://doi.org/10.1017/S0305004100009580" class="uri">https://doi.org/10.1017/S0305004100009580</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Efron, B., and D. V. Hinkley. 1978. <em>Assessing the accuracy of the maximum likelihood estimator: observed versus expected Fisher information.</em> Biometrika <strong>65</strong>:457–482. <a href="https://doi.org/10.1093/biomet/65.3.457" class="uri">https://doi.org/10.1093/biomet/65.3.457</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Efron, B., and D. V. Hinkley. 1978. <em>Assessing the accuracy of the maximum likelihood estimator: observed versus expected Fisher information.</em> Biometrika <strong>65</strong>:457–482. <a href="https://doi.org/10.1093/biomet/65.3.457" class="uri">https://doi.org/10.1093/biomet/65.3.457</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

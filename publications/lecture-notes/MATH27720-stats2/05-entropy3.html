@@ -62,7 +62,7 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -473,13 +473,14 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 </section>
 <section id="sec-additivityfisher" class="level3">
 <h3 class="anchored" data-anchor-id="sec-additivityfisher">Additivity of Fisher information</h3>
-<p>We may wish to compute the Fisher information based on a set of independent identically distributed (iid) random variables.</p>
-<p>Assume that a random variable <span class="math inline">\(x \sim P(\boldsymbol \theta)\)</span> has log-pdmf <span class="math inline">\(\log p(x| \boldsymbol \theta)\)</span> and Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta)\)</span>. The Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_{x_1} \ldots P_{x_n}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim P(\boldsymbol \theta)\)</span> is computed from the joint log-pdmf <span class="math inline">\(\log p(x_1, \ldots, x_n| \boldsymbol \theta) = \sum_{i}^n \log p(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
+<p>We may wish to compute the Fisher information for a parameters based on a set of independent identically distributed (iid) random variables.</p>
+<p>Assume that a random variable <span class="math inline">\(x \sim P(\boldsymbol \theta)\)</span> has log-pdmf <span class="math inline">\(\log p(x| \boldsymbol \theta)\)</span> and Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta)\)</span>. The Fisher information <span class="math inline">\(\boldsymbol{\mathcal{I}}_{P_{x_1, \ldots, x_n}}(\boldsymbol \theta)\)</span> for a set of iid random variables <span class="math inline">\(x_1, \ldots, x_n \sim P(\boldsymbol \theta)\)</span> is computed from the joint log-pdmf <span class="math inline">\(\log p(x_1, \ldots, x_n| \boldsymbol \theta) = \sum_{i}^n \log p(x_i| \boldsymbol \theta)\)</span>. This yields <span class="math display">\[
 \begin{split}
-\boldsymbol{\mathcal{I}}_{P_{x_1} \ldots P_{x_n}}(\boldsymbol \theta) &amp;= -\operatorname{E}_{P_{x_1}(\boldsymbol \eta) \ldots P_{x_n}(\boldsymbol \eta)} \left( \nabla \nabla^T  \sum_{i=1}^n \log p(x_i| \boldsymbol \theta) \right)\\
-&amp;= \sum_{i=1}^n  \boldsymbol{\mathcal{I}}_{P_{x_i}}(\boldsymbol \theta) =n  \boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta) \\
+\boldsymbol{\mathcal{I}}_{P_{x_1, \ldots, x_n}}(\boldsymbol \theta) &amp;= -\operatorname{E}_{P_{x_1, \ldots, x_n}(\boldsymbol \eta)} \left( \nabla \nabla^T  \sum_{i=1}^n \log p(x_i| \boldsymbol \theta) \right)\\
+&amp;= -\operatorname{E}_{P_{x_1}(\boldsymbol \theta)} \ldots  \operatorname{E}_{P_{x_n}(\boldsymbol \theta)}  \left( \nabla \nabla^T  \sum_{i=1}^n \log p(x_i| \boldsymbol \theta) \right)\\
+&amp;= \sum_{i=1}^n  \boldsymbol{\mathcal{I}}_{P_{x}}(\boldsymbol \theta) =n  \boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta) \\
 \end{split}
-\]</span> Hence, the Fisher information for a set of <span class="math inline">\(n\)</span> iid random variables equals <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
+\]</span> Hence, the <strong>total Fisher information</strong> for a parameter based on a set of <span class="math inline">\(n\)</span> iid random variables equals <span class="math inline">\(n\)</span> times the Fisher information of a single variable.</p>
 </section>
 <section id="invariance-under-a-change-of-variables" class="level3">
 <h3 class="anchored" data-anchor-id="invariance-under-a-change-of-variables">Invariance under a change of variables</h3>
@@ -494,7 +495,7 @@ Note&nbsp;5.1: <span class="math inline">\(\color{Red} \blacktriangleright\)</sp
 <h3 class="anchored" data-anchor-id="data-processing-inequality">Data-processing inequality</h3>
 <p>More generally, Fisher information obeys the <strong>data-processing inequality</strong>. This states that Fisher information cannot increase under a data-processing map from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, so that <span class="math display">\[
 \boldsymbol{\mathcal{I}}_{P_x}(\boldsymbol \theta) \geq  \boldsymbol{\mathcal{I}}_{P_y}(\boldsymbol \theta)
-\]</span> For a lossless transformation, such as an invertible change of variables, the inequality becomes an identity. Note that for dimension <span class="math inline">\(d&gt;1\)</span> the above is a <strong>matrix inequality</strong> of the type <span class="math inline">\(\boldsymbol A\leq \boldsymbol B\)</span>, with matrices <span class="math inline">\(\boldsymbol A\)</span>, <span class="math inline">\(\boldsymbol B\)</span> and <span class="math inline">\(\boldsymbol B-\boldsymbol A\)</span> all symmetric and positive semidefinite.</p>
+\]</span> For a lossless transformation, such as an invertible change of variables, the inequality becomes an identity. Note that for dimension <span class="math inline">\(d&gt;1\)</span> the above is a <strong>matrix inequality</strong> of the type <span class="math inline">\(\boldsymbol A\geq \boldsymbol B\)</span>, with matrices <span class="math inline">\(\boldsymbol A\)</span>, <span class="math inline">\(\boldsymbol B\)</span> and <span class="math inline">\(\boldsymbol A-\boldsymbol B\)</span> all symmetric and positive semidefinite.</p>
 <p>The data-processing inequality for the Fisher information follows from the corresponding data-processing inequality for the KL divergence (<a href="04-entropy2.html#sec-kldivergence" class="quarto-xref"><span>Section 4.2</span></a>). A related matrix inequality is the <strong>information inequality</strong> providing a lower bound on the variance of an estimator (<a href="10-likelihood4.html#sec-approxdistmle" class="quarto-xref"><span>Section 10.1</span></a>).</p>
 </section>
 <section id="scalar-examples-single-parameter-models" class="level3">

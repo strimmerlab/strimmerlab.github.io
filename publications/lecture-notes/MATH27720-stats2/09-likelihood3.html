@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cbe6c956eb7929d3f622d6e189d76b0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -406,9 +406,16 @@ Figure&nbsp;9.1: Flat and peaked log-likelihood function.
 <p>Visual inspection of the log-likelihood function (e.g. <a href="#fig-flatlogl" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>) suggests that it contains more information about the parameter <span class="math inline">\(\boldsymbol \theta\)</span> than just the location of its maximum at <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>.</p>
 <p>In particular, in a regular model the <strong>curvature</strong> of the log-likelihood function at the MLE is linked to the accuracy of <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>: a flat log-likelihood surface near the maximum (low curvature) makes the optimal parameter less well determined (and more difficult find numerically). Conversely, if the log-likelihood surface is sharply peaked (strong curvature) then the maximum point is well defined. The curvature can be quantified by the matrix of second-order derivatives (Hessian matrix) of the log-likelihood function.</p>
 <p>Accordingly, the <strong>observed Fisher information</strong> (matrix) is defined as the negative Hessian of the log-likelihood function <span class="math inline">\(\ell_n(\boldsymbol \theta)\)</span> at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>: <span class="math display">\[
-{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = - \boldsymbol H(\hat{\boldsymbol \theta}_{ML}  ) = -\nabla \nabla^T \ell_n(\hat{\boldsymbol \theta}_{ML})
+{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) = -\nabla \nabla^T \ell_n(\hat{\boldsymbol \theta}_{ML})
+\]</span> With <span class="math inline">\(\ell_n ({\boldsymbol \theta}) = n \operatorname{E}_{\hat{Q}_n}(\log p(x | \boldsymbol \theta))\)</span> we can also write it as <span class="math display">\[
+\begin{split}
+{\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML}) &amp;= - n \operatorname{E}_{\hat{Q}_n} \left(  \nabla \nabla^T \log p(x | \hat{\boldsymbol \theta}_{ML} ) \right) \\
+&amp;=  n \boldsymbol J_P( \hat{\boldsymbol \theta}_{ML})
+\end{split}
+\]</span> with <span class="math display">\[
+\boldsymbol J_P( \boldsymbol \theta) = -\operatorname{E}_{ \hat{Q}_n } \left( \nabla \nabla^T \log p(x|\boldsymbol \theta)\right)
 \]</span></p>
-<p>Sometimes this is called the “observed information”. To avoid confusion with the <strong>Fisher information</strong> <span class="math display">\[
+<p>To avoid confusion with the <strong>Fisher information</strong> <span class="math display">\[
 \boldsymbol{\mathcal{I}}_{P}(\boldsymbol \theta) = -\operatorname{E}_{P(\boldsymbol \theta)} \left( \nabla \nabla^T \log p(x|\boldsymbol \theta)\right)
 \]</span> introduced earlier (<a href="05-entropy3.html#sec-expectedfisherinfo" class="quarto-xref"><span>Section 5.1</span></a>) it is necessary to always use the qualifier “observed” when referring to <span class="math inline">\({\boldsymbol J_n}(\hat{\boldsymbol \theta}_{ML})\)</span>.</p>
 <p>The observed Fisher information plays an important role in quantifying the uncertainty of a maximum likelihood estimate.</p>
@@ -434,17 +441,17 @@ Figure&nbsp;9.1: Flat and peaked log-likelihood function.
 <li><p>The observed Fisher information is computed from the log-likelihood function. Therefore it takes both the model and the observed data <span class="math inline">\(D\)</span> into account and explicitly depends on the sample size <span class="math inline">\(n\)</span>. It contains estimates of the parameters but not the parameters themselves. While the curvature of the log-likelihood function may be computed for any point of the log-likelihood function the observed Fisher information specifically refers to the curvature at the MLE <span class="math inline">\(\hat{\boldsymbol \theta}_{ML}\)</span>. It is linked to the (asymptotic) variance of the MLE (see the examples and as will be discussed in more detail later).</p></li>
 <li><p>In contrast, the expected Fisher information is derived directly from the log-density of the model family. It does not depend on the observed data, and thus does not depend on sample size. It is a property of the model family <span class="math inline">\(P(\boldsymbol \theta)\)</span> alone. It makes sense and can be computed at any <span class="math inline">\(\boldsymbol \theta\)</span>. It describes the local geometry of the space of the model family, and is the local approximation of KL information.</p></li>
 </ul>
-<p>Large sample equivalence:</p>
+<p>Large sample equivalence for correctly specified models:</p>
 <ul>
-<li>Assume that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_0\)</span>. It follows from the construction of the observed Fisher information and the law of large numbers that asymptotically for large sample size <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol{\mathcal{I}}_{P}( \boldsymbol \theta_0 )\)</span> (i.e.&nbsp;the Fisher information for a set of iid random variables, see <a href="05-entropy3.html#sec-additivityfisher" class="quarto-xref"><span>Section 5.1.3</span></a>.</li>
+<li>Assume a that <span class="math inline">\(P(\boldsymbol \theta)\)</span> is correctly specified and that for large sample size <span class="math inline">\(n\)</span> the MLE converges to <span class="math inline">\(\hat{\boldsymbol \theta}_{ML} \rightarrow \boldsymbol \theta_{\text{true}}\)</span>. It follows from the construction of the observed Fisher information and the law of large numbers that it converges to the Fisher information for a set of iid random variables, see <a href="05-entropy3.html#sec-additivityfisher" class="quarto-xref"><span>Section 5.1.3</span></a>. Specifically, <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol J_P(\hat{\boldsymbol \theta}_{ML}) \rightarrow n \boldsymbol{\mathcal{I}}_{P}( \boldsymbol \theta_{\text{true}} )\)</span></li>
 </ul>
 <p><span class="math inline">\(\color{Red} \blacktriangleright\)</span> Finite sample equivalence for exponential families:</p>
 <ul>
-<li><p>In a very important class of models, namely for <strong>exponential families</strong>, we find that <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol{\mathcal{I}}_{P}( \hat{\boldsymbol \theta}_{ML} )\)</span> is valid also for finite sample size <span class="math inline">\(n\)</span>. The general case is shown in <a href="05-entropy3.html#exm-exfisherexpfam" class="quarto-xref">Example&nbsp;<span>5.5</span></a> and <a href="#exm-obsfisherexpfam" class="quarto-xref">Example&nbsp;<span>9.5</span></a> (canonical parameter) and <a href="05-entropy3.html#exm-exfisherefexparam" class="quarto-xref">Example&nbsp;<span>5.8</span></a> and <a href="#exm-obsfisherefexparam" class="quarto-xref">Example&nbsp;<span>9.6</span></a> (expectation parameter).</p>
+<li><p>In the important class of <strong>exponential families</strong> the relationship <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = n \boldsymbol J_P( \hat{\boldsymbol \theta}_{ML} ) = n \boldsymbol{\mathcal{I}}_{P}( \hat{\boldsymbol \theta}_{ML} )\)</span> is valid also for finite sample size <span class="math inline">\(n\)</span>. The general case is shown in <a href="05-entropy3.html#exm-exfisherexpfam" class="quarto-xref">Example&nbsp;<span>5.5</span></a> and <a href="#exm-obsfisherexpfam" class="quarto-xref">Example&nbsp;<span>9.5</span></a> (canonical parameter) and <a href="05-entropy3.html#exm-exfisherefexparam" class="quarto-xref">Example&nbsp;<span>5.8</span></a> and <a href="#exm-obsfisherefexparam" class="quarto-xref">Example&nbsp;<span>9.6</span></a> (expectation parameter).</p>
 <p>This can also be directly seen from special instances of exponential families such as the Bernoulli distribution (<a href="05-entropy3.html#exm-exfisherbernoulli" class="quarto-xref">Example&nbsp;<span>5.1</span></a> and <a href="#exm-obsfisherproportion" class="quarto-xref">Example&nbsp;<span>9.1</span></a>), the normal distribution with one parameter (<a href="05-entropy3.html#exm-exfishernormknownvar" class="quarto-xref">Example&nbsp;<span>5.3</span></a> and <a href="#exm-obsfishernormalmean" class="quarto-xref">Example&nbsp;<span>9.2</span></a>) and the normal distribution with two parameters (<a href="05-entropy3.html#exm-exfishernormal" class="quarto-xref">Example&nbsp;<span>5.4</span></a> and <a href="#exm-obsfishernormalmeanvar" class="quarto-xref">Example&nbsp;<span>9.4</span></a>).</p></li>
 </ul>
 <ul>
-<li>However, exponential families are an exception. In a general model <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) \neq n \boldsymbol{\mathcal{I}}_{P}( \hat{\boldsymbol \theta}_{ML} )\)</span> for finite sample size <span class="math inline">\(n\)</span>. As an example consider the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> with unknown median parameter <span class="math inline">\(\mu\)</span> and known scale parameter <span class="math inline">\(\tau^2\)</span> and given degree of freedom <span class="math inline">\(\nu\)</span>. This is not an exponential family model (unless <span class="math inline">\(\nu \rightarrow \infty\)</span> when it becomes the normal distribution). It can be shown that the Fisher information is <span class="math inline">\(\mathcal{I}_{P}(\mu )=\frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> but the observed Fisher information <span class="math inline">\(J_n(\hat{\mu}_{ML}) \neq n \frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> with a maximum likelihood estimate <span class="math inline">\(\hat{\mu}_{ML}\)</span> that can only be computed numerically with no closed form available.</li>
+<li>However, exponential families are an exception. In a general model <span class="math inline">\(\boldsymbol J_n(\hat{\boldsymbol \theta}_{ML}) = \boldsymbol J_P(\hat{\boldsymbol \theta}_{ML}) \neq n \boldsymbol{\mathcal{I}}_{P}( \hat{\boldsymbol \theta}_{ML} )\)</span> for finite sample size <span class="math inline">\(n\)</span> even when the model <span class="math inline">\(P(\boldsymbol \theta)\)</span> is correctly specified. As an example consider the location-scale <span class="math inline">\(t\)</span>-distribution <span class="math inline">\(t_{\nu}(\mu, \tau^2)\)</span> with unknown median parameter <span class="math inline">\(\mu\)</span> and known scale parameter <span class="math inline">\(\tau^2\)</span> and given degree of freedom <span class="math inline">\(\nu\)</span>. This is not an exponential family model (unless <span class="math inline">\(\nu \rightarrow \infty\)</span> when it becomes the normal distribution). It can be shown that the Fisher information is <span class="math inline">\(\mathcal{I}_{P}(\mu )=\frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> but the observed Fisher information <span class="math inline">\(J_n(\hat{\mu}_{ML}) \neq n \frac{\nu+1}{\nu+3} \frac{1}{\tau^2}\)</span> with a maximum likelihood estimate <span class="math inline">\(\hat{\mu}_{ML}\)</span> that can only be computed numerically with no closed form available.</li>
 </ul>
 </section>
 </section>
@@ -455,10 +462,10 @@ Figure&nbsp;9.1: Flat and peaked log-likelihood function.
 <div id="exm-obsfisherproportion" class="theorem example">
 <p><span class="theorem-title"><strong>Example 9.1</strong></span> Observed Fisher information for the Bernoulli model <span class="math inline">\(\operatorname{Ber}(\theta)\)</span>:</p>
 <p>We continue <a href="08-likelihood2.html#exm-mleproportion" class="quarto-xref">Example&nbsp;<span>8.1</span></a>. The second derivative of the log-likelihood function is <span class="math display">\[
-H_n(\theta) = \frac{d S_n(\theta)}{d\theta}=- n \left( \frac{ \bar{x} }{\theta^2} + \frac{1 - \bar{x} }{(1-\theta)^2} \right)
+\frac{d s_n(\theta)}{d\theta}=- n \left( \frac{ \bar{x} }{\theta^2} + \frac{1 - \bar{x} }{(1-\theta)^2} \right)
 \]</span> The observed Fisher information is therefore <span class="math display">\[
 \begin{split}
-J_n(\hat{\theta}_{ML}) &amp;= -H( \hat{\theta}_{ML} )\\
+J_n(\hat{\theta}_{ML}) &amp;= -\frac{d s_n(\hat{\theta}_{ML})}{d\theta} \\
 &amp; = n \left(\frac{ \bar{x} }{\hat{\theta}_{ML}^2} + \frac{ 1 - \bar{x} }{  (1-\hat{\theta}_{ML})^2  } \right) \\
   &amp; = n \left(\frac{1}{\hat{\theta}_{ML}} + \frac{1}{1-\hat{\theta}_{ML}} \right) \\
   &amp;= \frac{n}{\hat{\theta}_{ML} (1-\hat{\theta}_{ML})} \\
@@ -470,9 +477,9 @@ J_n(\hat{\theta}_{ML}) &amp;= -H( \hat{\theta}_{ML} )\\
 <div id="exm-obsfishernormalmean" class="theorem example">
 <p><span class="theorem-title"><strong>Example 9.2</strong></span> Observed Fisher information for the normal distribution with unknown mean and known variance:</p>
 <p>This is the continuation of <a href="08-likelihood2.html#exm-mlenormalmean" class="quarto-xref">Example&nbsp;<span>8.2</span></a>. The second derivative of the log-likelihood function is <span class="math display">\[
-H_n(\mu) = \frac{d S_n(\mu)}{d\mu}=- \frac{n}{\sigma^2}
+\frac{d s_n(\mu)}{d\mu}=- \frac{n}{\sigma^2}
 \]</span> The observed Fisher information at the MLE is therefore <span class="math display">\[
-J_n(\hat{\mu}_{ML}) = -H_n(\hat{\mu}_{ML}) = \frac{n}{\sigma^2}
+J_n(\hat{\mu}_{ML}) = -\frac{d s_n(\hat{\mu}_{ML})}{d\mu} = \frac{n}{\sigma^2}
 \]</span> and the inverse of the observed Fisher information is <span class="math display">\[
 J_n(\hat{\mu}_{ML})^{-1} = \frac{\sigma^2}{n}
 \]</span></p>
@@ -481,10 +488,10 @@ J_n(\hat{\mu}_{ML})^{-1} = \frac{\sigma^2}{n}
 <div id="exm-obsnormalvar" class="theorem example">
 <p><span class="theorem-title"><strong>Example 9.3</strong></span> Observed Fisher information for the normal distribution with known mean and unknown variance:</p>
 <p>This is the continuation of <a href="08-likelihood2.html#exm-mlenormalvar" class="quarto-xref">Example&nbsp;<span>8.3</span></a>. The second derivative of the log-likelihood function is <span class="math display">\[
-H_n(\sigma^2) = \frac{dS_n(\sigma^2)}{d\sigma^2} =
+\frac{d s_n(\sigma^2)}{d\sigma^2} =
 -\frac{n}{2\sigma^4} \left(\frac{2}{\sigma^2}  \overline{(x-\mu)^2} -1\right)
 \]</span> Correspondingly, the observed Fisher information is <span class="math display">\[
-J_n(\widehat{\sigma^2}_{ML}) = -H_n(\widehat{\sigma^2}_{ML}) = \frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}
+J_n(\widehat{\sigma^2}_{ML}) = -\frac{d s_n(\widehat{\sigma^2}_{ML})}{d\sigma^2}   = \frac{n}{2} \left(\widehat{\sigma^2}_{ML} \right)^{-2}
 \]</span> and its inverse is <span class="math display">\[
 J_n(\widehat{\sigma^2}_{ML})^{-1} = \frac{2}{n} \left(\widehat{\sigma^2}_{ML} \right)^{2}
 \]</span></p>
@@ -501,7 +508,7 @@ J_n(\widehat{\sigma^2}_{ML})^{-1} = \frac{2}{n} \left(\widehat{\sigma^2}_{ML} \r
 <p>This is the continuation of <a href="08-likelihood2.html#exm-mlenormalmeanvar" class="quarto-xref">Example&nbsp;<span>8.5</span></a>.</p>
 <p>The Hessian matrix of the log-likelihood function is <span class="math display">\[
 \begin{split}
-\boldsymbol H_n(\mu,\sigma^2) &amp;= \nabla \nabla^T \ell_n(\mu,\sigma^2)\\
+\nabla \nabla^T \ell_n(\mu,\sigma^2)
 &amp;=
 \begin{pmatrix}
     - \frac{n}{\sigma^2}&amp;  -\frac{n}{\sigma^4} (\bar{x} -\mu)\\
@@ -511,7 +518,7 @@ J_n(\widehat{\sigma^2}_{ML})^{-1} = \frac{2}{n} \left(\widehat{\sigma^2}_{ML} \r
 \]</span> The negative Hessian at the MLE, i.e.&nbsp;at <span class="math inline">\(\hat{\mu}_{ML} = \bar{x}\)</span> and <span class="math inline">\(\widehat{\sigma^2}_{ML} = \overline{x^2} -\bar{x}^2\)</span>, yields the <strong>observed Fisher information matrix</strong>: <span class="math display">\[
 \begin{split}
 \boldsymbol J_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML})
-&amp;= -\boldsymbol H( \hat{\mu}_{ML},\widehat{\sigma^2}_{ML} )  \\
+&amp;= - \nabla \nabla^T \ell_n(\hat{\mu}_{ML},\widehat{\sigma^2}_{ML}) \\
 &amp;=  \begin{pmatrix}
     \frac{n}{\widehat{\sigma^2}_{ML}}&amp;0 \\
     0 &amp; \frac{n}{2(\widehat{\sigma^2}_{ML})^2}
@@ -530,7 +537,7 @@ J_n(\widehat{\sigma^2}_{ML})^{-1} = \frac{2}{n} \left(\widehat{\sigma^2}_{ML} \r
 <p>This is the continuation of <a href="08-likelihood2.html#exm-expfammle" class="quarto-xref">Example&nbsp;<span>8.7</span></a>.</p>
 <p>The Hessian matrix of the log-likelihood function is <span class="math display">\[
 \begin{split}
-\nabla \nabla^T l_n(\boldsymbol \eta) &amp;=  -n \nabla \nabla^T  a(\boldsymbol \eta)\\
+\nabla \nabla^T \ell_n(\boldsymbol \eta) &amp;=  -n \nabla \nabla^T  a(\boldsymbol \eta)\\
 &amp; = -n  \boldsymbol \Sigma_{\boldsymbol t}(\boldsymbol \eta)\\
 \end{split}
 \]</span> with <span class="math inline">\(\operatorname{Var}( \boldsymbol t(x) )  = \boldsymbol \Sigma_{\boldsymbol t}\)</span>.</p>
