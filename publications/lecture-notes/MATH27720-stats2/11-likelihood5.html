@@ -693,9 +693,8 @@ W &amp;= 2\log\left(\frac{L(\hat{\theta}_{ML} |D )}{L(\hat{\theta}_{ML}^0 | D )}
 <div id="exm-glrtnormal" class="theorem example">
 <p><span class="theorem-title"><strong>Example 11.9</strong></span> GLRT example:</p>
 <p><em>Case-control study:</em> (e.g.&nbsp;“healthy” vs.&nbsp;“disease”)<br>
-we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> (and <span class="math inline">\(n=n_1+n_2\)</span>), with two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
-<p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span> and <span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
-<p>Question: are the two means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> the same in the two groups?</p>
+we observe normal data <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> from two groups with sample size <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> (and <span class="math inline">\(n=n_1+n_2\)</span>).</p>
+<p>Question: are there two groups, or just a single group? More specifically, are the two means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> the same in the two groups?</p>
 <p><span class="math display">\[\begin{align*}
 \begin{array}{ll}
 H_0: \mu_1=\mu_2  \text{ (with variance unknown, i.e. treated as nuisance parameter)}
@@ -703,9 +702,14 @@ H_0: \mu_1=\mu_2  \text{ (with variance unknown, i.e. treated as nuisance parame
 H_1: \mu_1\neq\mu_2\\
 \end{array}
 \end{align*}\]</span></p>
-<p><em>Restricted and full models:</em></p>
-<p><span class="math inline">\(\omega_0\)</span>: restricted model with two parameters <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma^2_0\)</span> (so that <span class="math inline">\(x_{1},\dots,x_{n} \sim N(\mu_0, \sigma_0^2)\)</span> ).</p>
+<p>To resolve this question we compare two models, the full model with two different means and the restricted model with only one mean.</p>
+<p><em>Restricted model</em>:</p>
+<p><span class="math inline">\(\omega_0\)</span>: restricted model with two parameters <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma^2_0\)</span>.</p>
+<p><span class="math display">\[x_{1},\dots,x_{n} \sim N(\mu_0, \sigma_0^2)\]</span></p>
+<p><em>Full model</em>:</p>
 <p><span class="math inline">\(\Omega\)</span>: full model with three parameters <span class="math inline">\(\mu_1, \mu_2, \sigma^2\)</span>.</p>
+<p>Two different means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and common variance <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[x_1,\dots,x_{n_1} \sim N(\mu_1, \sigma^2)\]</span> and <span class="math display">\[x_{n_1+1},\dots,x_{n} \sim N(\mu_2, \sigma^2)\]</span></p>
 <p><em>Corresponding log-likelihood functions:</em></p>
 <p>Restricted model <span class="math inline">\(\omega_0\)</span>: <span class="math display">\[
 \ell_n(\mu_0, \sigma_0^2) = -\frac{n}{2} \log(\sigma_0^2)
@@ -768,10 +772,10 @@ t_{\text{ML}} = \sqrt{n \hat{\pi_1} \hat{\pi_2} }  \frac{\hat{\mu}_1-\hat{\mu}_2
 \]</span> is the two sample <span class="math inline">\(t\)</span>-statistic based on the ML variance estimate <span class="math inline">\(\widehat{\sigma^2}\)</span> and <span class="math inline">\(t_{\text{UB}} = t_{ML} \sqrt{\frac{n-2}{n}}\)</span> is the conventional two sample <span class="math inline">\(t\)</span>-statistic based on the unbiased variance estimate <span class="math inline">\(\widehat{\sigma^2}_{\text{UB}}=\frac{n}{n-2} \widehat{\sigma^2}\)</span> (see <a href="20-stats.html#sec-tstat" class="quarto-xref"><span>Section A.9</span></a>).</p>
 <p><em>Corresponding maximised log-likelihood:</em></p>
 <p>Restricted model:</p>
-<p><span class="math display">\[\ell_n(\hat{\mu}_0,\widehat{\sigma^2_0}) = -\frac{n}{2} \log(\widehat{\sigma^2_0}) -\frac{n}{2} \]</span></p>
+<p><span class="math display">\[\ell_n\left(\hat{\mu}_0,\widehat{\sigma^2_0}\right) = -\frac{n}{2} \log(\widehat{\sigma^2_0}) -\frac{n}{2} \]</span></p>
 <p>Full model:</p>
 <p><span class="math display">\[
-\ell_n(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} = -\frac{n}{2} \log(\widehat{\sigma^2}) -\frac{n}{2}
+\ell_n\left(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2} \right) = -\frac{n}{2} \log(\widehat{\sigma^2}) -\frac{n}{2}
 \]</span></p>
 <p><em>Likelihood ratio statistic:</em></p>
 <p><span class="math display">\[
@@ -788,8 +792,8 @@ W &amp; = 2 \left( \ell_n\left(\hat{\mu}_1,\hat{\mu}_2,\widehat{\sigma^2}\right)
 <p>The degree of freedom of the full model is <span class="math inline">\(d=3\)</span> and that of the constrained model <span class="math inline">\(d_0=2\)</span> so the generalised log likelihood ratio statistic <span class="math inline">\(W\)</span> is distributed asymptotically as <span class="math inline">\(\chi^2_{1}\)</span>. Hence, we reject the null model on 5% significance level for all <span class="math inline">\(W &gt; 3.84\)</span>.</p>
 </div>
 <p><em>Other application of GLRTs</em></p>
-<p>As shown above, the two sample <span class="math inline">\(t\)</span> statistic can be derived as a likelihood ratio statistic.</p>
-<p>More generally, it turns out that many other commonly used familiar statistical tests and test statistics can be interpreted as GLRTs. This shows the wide applicability of this procedure.</p>
+<p>As shown above, the two sample <span class="math inline">\(t\)</span>-statistic can be derived as a likelihood ratio statistic assuming an underyling normal model. More generally, it turns out that many other commonly used familiar statistical tests and test statistics can be interpreted via GLRTs.</p>
+<p>For nonnormal models the log-likelihood-ratio statistics provide a direct way to compare and test this models. Ultimately, this procedure relies on comparing the corresponding KL divergences (and thus links back to comparing entropies).</p>
 
 
 </section>
