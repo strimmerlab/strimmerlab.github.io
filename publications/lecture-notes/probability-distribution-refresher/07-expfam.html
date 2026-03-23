@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>7&nbsp; Exponential families – Probability and Distribution Refresher</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -24,7 +27,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -54,15 +56,14 @@ div.csl-indent {
 <link href="./06-multivariate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf90d58e07b16a5a5517af5259b97af0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fc9eaa8cc02fc591950752801fd374b1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -92,7 +93,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -290,8 +291,8 @@ p(x|\boldsymbol \eta) &amp;=  \underbrace{\vphantom{z(\boldsymbol \eta)} h(x) }_
 <li><span class="math inline">\(\boldsymbol t(x)\)</span> are the <strong>canonical statistics</strong>,</li>
 <li><span class="math inline">\(\boldsymbol \eta\)</span> are the <strong>canonical parameters</strong>,</li>
 <li><span class="math inline">\(h(x)\)</span> is a positive <strong>base function</strong> (typically unnormalised),</li>
-<li><span class="math inline">\(z(\boldsymbol \eta)\)</span> is the <strong>partition function</strong> and</li>
-<li><span class="math inline">\(a(\boldsymbol \eta) = \log z(\boldsymbol \eta)\)</span> the corresponding <strong>log-partition function</strong>.</li>
+<li><span class="math inline">\(z(\boldsymbol \eta)\)</span> is the <strong>partition function</strong> (the <strong>normaliser</strong>) and</li>
+<li><span class="math inline">\(a(\boldsymbol \eta) = \log z(\boldsymbol \eta)\)</span> the corresponding <strong>log-partition function</strong> (the <strong>log-normaliser</strong>).</li>
 </ul>
 <p>The base pdmf is obtained at <span class="math inline">\(\boldsymbol \eta=0\)</span> yielding <span class="math inline">\(b(x) = p(x | \boldsymbol \eta=0)  =   h(x) / z(0)\)</span>. If <span class="math inline">\(h(x)\)</span> is already a normalised pdmf then <span class="math inline">\(z(0)=1\)</span> and <span class="math inline">\(b(x)=h(x)\)</span>.</p>
 <p>The above presentation of exponential families assumes a univariate random variable (scalar <span class="math inline">\(x\)</span>) but also applies to multivariate random variables (vector <span class="math inline">\(\boldsymbol x\)</span> or matrix <span class="math inline">\(\boldsymbol X\)</span>) .</p>
@@ -339,7 +340,7 @@ K(\boldsymbol \tau) &amp;= \log M(\boldsymbol \tau) \\
 <p>The pdmf <span class="math inline">\(p(x|\boldsymbol \eta)\)</span> must integrate to one. Therefore, given <span class="math inline">\(h(x)\)</span> and <span class="math inline">\(\boldsymbol t(x)\)</span> the partition function <span class="math inline">\(z(\boldsymbol \eta)\)</span> is obtained by <span class="math display">\[
 z(\boldsymbol \eta)= \int_x  e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \rangle } \, h(x) \, dx
 \]</span> For discrete <span class="math inline">\(x\)</span> replace the integral by a sum.</p>
-<p>Consequently partition function <span class="math inline">\(z(\boldsymbol \eta)\)</span> is also called the <strong>normaliser</strong> and and the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> is called the <strong>log-normaliser</strong>.</p>
+<p>Consequently, the partition function <span class="math inline">\(z(\boldsymbol \eta)\)</span> is also called the <strong>normaliser</strong> and the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> is called the <strong>log-normaliser</strong>.</p>
 <p>Constructed as weighted integral of exponentials of linear functions, the partition function <span class="math inline">\(z(\boldsymbol \eta)\)</span> and the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> are <strong>convex</strong> with regard to <span class="math inline">\(\boldsymbol \eta\)</span>.</p>
 <p>For an exponential family in <strong>minimal representation</strong> the (log)-partition function(s) are <strong>strictly convex</strong>.</p>
 </section>
@@ -362,7 +363,7 @@ z(\boldsymbol \eta)= \int_x  e^{ \langle \boldsymbol \eta, \boldsymbol t(x) \ran
 \end{split}
 \]</span></p>
 <p>For an exponential family with minimal representation the log-partition function is strictly convex. Furthermore, the variance <span class="math inline">\(\boldsymbol \Sigma_{\boldsymbol t}\)</span> is a positive definite matrix and invertible.</p>
-<p>For overcomplete representations the log-partition function is convex but not strictly convex. Furthermore, the covariance matrix is positive semi-definite and not invertible.</p>
+<p>For overcomplete representations the log-partition function is convex but not strictly convex. Furthermore, the covariance matrix is positive semidefinite and not invertible.</p>
 <p>By construction, the log-partition function <span class="math inline">\(a(\boldsymbol \eta)\)</span> is finite in the interior of its parameter space. Therefore <em>all</em> moments and cumulants of the canonical statistics <span class="math inline">\(\boldsymbol t(x)\)</span> exist (are finite) and are given by the derivatives of <span class="math inline">\(a(\boldsymbol \eta)\)</span> at&nbsp;<span class="math inline">\(\boldsymbol \eta\)</span>.</p>
 </section>
 </section>
@@ -454,7 +455,7 @@ Table&nbsp;7.1: Common univariate exponential families
 <td><span class="math inline">\((1+e^\eta)^n\)</span></td>
 <td><span class="math inline">\(\operatorname{logit}(\theta)\)</span></td>
 <td><span class="math inline">\(x\)</span></td>
-<td><span class="math inline">\(\theta\)</span></td>
+<td><span class="math inline">\(n \theta\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\operatorname{Ber}(\theta)\)</span></td>
@@ -579,7 +580,7 @@ Table&nbsp;7.2: Common multivariate exponential families
 <td><span class="math inline">\((\sum_{k=1}^K \exp \eta_k)^n\)</span></td>
 <td><span class="math inline">\((c+\log \theta_k)\)</span></td>
 <td><span class="math inline">\(\boldsymbol x\)</span></td>
-<td><span class="math inline">\(\boldsymbol \theta\)</span></td>
+<td><span class="math inline">\(n \boldsymbol \theta\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\operatorname{Cat}(\boldsymbol \theta)\)</span></td>
@@ -636,7 +637,7 @@ Table&nbsp;7.2: Common multivariate exponential families
 <p>See also: <a href="https://en.wikipedia.org/wiki/Exponential_family">Exponential family (Wikipedia)</a> and <span class="citation" data-cites="EfronExpFam2022">Efron (<a href="bibliography.html#ref-EfronExpFam2022" role="doc-biblioref">2022</a>)</span>.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-EfronExpFam2022" class="csl-entry" role="listitem">
 Efron, B. 2022. <em>Exponential Families in Theory and Practise</em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781108773157">https://doi.org/10.1017/9781108773157</a>.
 </div>
