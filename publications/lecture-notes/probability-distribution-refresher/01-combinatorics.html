@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -41,10 +41,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fc9eaa8cc02fc591950752801fd374b1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-93838c0c3619e0284f2f9e406e0daf35.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -279,9 +279,9 @@ n! = \prod_{i=1}^n i = 1 \times 2 \times \ldots \times n
 W_K &amp;= \binom{n}{n_1, \ldots, n_K} \\
     &amp;= \frac {n!}{n_1! \, n_2! \, \ldots \, n_K! }
 \end{split}
-\]</span> is the number of permutations of <span class="math inline">\(n\)</span> distinct items allocated to <span class="math inline">\(K\)</span> groups, with <span class="math inline">\(n_k\)</span> unordered items in group <span class="math inline">\(k\)</span> and <span class="math inline">\(\sum_{k=1}^K n_k=n\)</span>.</p>
-<p>Thus, the multinomial coefficient <span class="math inline">\(W_K\)</span> equals the number of ways to place <span class="math inline">\(n\)</span> distinct items into <span class="math inline">\(K\)</span> labelled boxes so that box <span class="math inline">\(k\)</span> contains exactly <span class="math inline">\(n_k\)</span> unordered items, with <span class="math inline">\(\sum_{k=1}^K n_k=n\)</span>.</p>
-<p>For <span class="math inline">\(n_k=1\)</span> (and thus <span class="math inline">\(K=n\)</span>) the multinomial coefficient reduces to the factorial.</p>
+\]</span> is the number of permutations of <span class="math inline">\(n\)</span> distinct items allocated to <span class="math inline">\(K\)</span> groups, with <span class="math inline">\(n_k\)</span> unordered items in group <span class="math inline">\(k\)</span> and <span class="math inline">\(n = \sum_{k=1}^K n_k\)</span>.</p>
+<p>Thus, the multinomial coefficient <span class="math inline">\(W_K\)</span> equals the number of ways to place <span class="math inline">\(n\)</span> distinct items into <span class="math inline">\(K\)</span> labelled boxes so that box <span class="math inline">\(k\)</span> contains exactly <span class="math inline">\(n_k\)</span> unordered items, with <span class="math inline">\(n = \sum_{k=1}^K n_k\)</span>.</p>
+<p>For <span class="math inline">\(n_k=1\)</span> (and thus <span class="math inline">\(K=n\)</span>) the multinomial coefficient reduces to the factorial <span class="math inline">\(n!\)</span>.</p>
 <p>For two groups (<span class="math inline">\(K=2\)</span>) the multinomial coefficient becomes the <strong>binomial coefficient</strong> <span class="math display">\[
 \begin{split}
 W_2 &amp;= \binom{n}{n_1, n_2} = \binom{n}{n_1, n- n_1}\\
@@ -289,15 +289,16 @@ W_2 &amp;= \binom{n}{n_1, n_2} = \binom{n}{n_1, n- n_1}\\
     &amp; = \binom{n}{n_1}
 \end{split}
 \]</span></p>
+<p>For a single group (<span class="math inline">\(K=1\)</span>) the multinomial coefficient equals <span class="math inline">\(W_1=1\)</span>.</p>
 </section>
 <section id="de-moivre-sterling-approximation" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="de-moivre-sterling-approximation"><span class="header-section-number">1.4</span> De Moivre-Sterling approximation</h2>
 <p>The factorial is frequently approximated by the following formula derived by <a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre (1667–1754)</a> and <a href="https://en.wikipedia.org/wiki/James_Stirling_(mathematician)">James Stirling (1692-1770)</a> <span class="math display">\[
-n! \approx \sqrt{2 \pi} n^{n+\frac{1}{2}} e^{-n}
+n! = \sqrt{2 \pi n } \left(\frac{ n }{ e}\right)^n \, \left(1 +  \mathcal{O}\!\left( \frac{1}{n}\right)    \right)
 \]</span> or equivalently on logarithmic scale <span class="math display">\[
-\log n!  \approx \left(n+\frac{1}{2}\right) \log n  -n + \frac{1}{2}\log \left( 2 \pi\right)
+\log n!  = n \log n -n + \frac{1}{2}\log \left( 2 \pi n\right) + \mathcal{O}\!\left( \frac{1}{n}\right)
 \]</span> The approximation is good for small <span class="math inline">\(n\)</span> (but fails for <span class="math inline">\(n=0\)</span>) and becomes more and more accurate with increasing <span class="math inline">\(n\)</span>. For large <span class="math inline">\(n\)</span> the approximation can be simplified to <span class="math display">\[
-\log n! \approx  n \log n  -n
+\log n!  =   n \log n  -n + \mathcal{O}\!\left( \log n\right)
 \]</span></p>
 <p>The de&nbsp;Moivre-Sterling approximation applied to the multinomial coefficient yields <span class="math display">\[
 \begin{split}
