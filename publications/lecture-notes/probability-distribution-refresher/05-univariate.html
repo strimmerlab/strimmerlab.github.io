@@ -274,6 +274,7 @@ window.Quarto = {
   <li><a href="#special-case-exponential-distribution" id="toc-special-case-exponential-distribution" class="nav-link" data-scroll-target="#special-case-exponential-distribution">Special case: exponential distribution</a></li>
   <li><a href="#scale-transformation" id="toc-scale-transformation" class="nav-link" data-scroll-target="#scale-transformation">Scale transformation</a></li>
   <li><a href="#convolution-property-4" id="toc-convolution-property-4" class="nav-link" data-scroll-target="#convolution-property-4">Convolution property</a></li>
+  <li><a href="#link-to-normal-distribution" id="toc-link-to-normal-distribution" class="nav-link" data-scroll-target="#link-to-normal-distribution">Link to normal distribution</a></li>
   <li><a href="#normal-approximation-3" id="toc-normal-approximation-3" class="nav-link" data-scroll-target="#normal-approximation-3">Normal approximation</a></li>
   </ul></li>
   <li><a href="#sec-sqrtgamdist" id="toc-sec-sqrtgamdist" class="nav-link" data-scroll-target="#sec-sqrtgamdist"><span class="header-section-number">5.7</span> Square-root gamma distribution</a>
@@ -920,7 +921,6 @@ p(x| s^2, k)=\frac{1}{\Gamma(k/2) (2 s^2)^{k/2} } x^{(k-2)/2} e^{-s^{-2}x/2}
 s^2 \chi^2_{k} =\operatorname{Wis}\left(s^2, k \right)
 \]</span></p>
 <p>This is equivalent to restricting the shape parameter <span class="math inline">\(\alpha\)</span> of the gamma distribution <span class="math inline">\(\operatorname{Gam}(\alpha, \theta=2 s^2)\)</span> to <span class="math inline">\(\alpha \in \{1/2, 1, 3/2, 2, \ldots\}\)</span>.</p>
-<p>The scaled chi-squared distribution with <span class="math inline">\(k=1\)</span> is the distribution of a squared normal random variable with mean zero. Specifically, if <span class="math inline">\(z \sim N(0, s^2)\)</span> then <span class="math inline">\(z^2 \sim s^2 \chi^2_{1}= \operatorname{Wis}(s^2, 1)=N(0, s^2)^2\)</span>.</p>
 <p>In mean parametrisation, the scaled chi-squared distribution is specified as <span class="math inline">\(\frac{\mu}{k} \chi^2_{k}\)</span>.</p>
 <p>For even <span class="math inline">\(k \in \{2, 4, \ldots\}\)</span> the scaled chi-squared distribution <span class="math inline">\(s^2 \chi^2_{k}\)</span> corresponds to the Erlang distribution <span class="math inline">\(\operatorname{Erl}(\alpha=k/2, \theta=2 s^2)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -974,7 +974,6 @@ p(x| k)=\frac{1}{\Gamma(k/2) 2^{k/2} } x^{(k-2)/2} e^{-x/2}
 <p>If <span class="math inline">\(k \in \{ 1, 2, \ldots \}\)</span> is restricted to the positive integers the univariate standard Wishart distribution is called <strong>chi-squared distribution</strong> <span class="math display">\[
 \chi^2_{k}=\operatorname{Wis}\left(s^2=1, k \right)
 \]</span></p>
-<p>The chi-squared distribution with <span class="math inline">\(k=1\)</span> is the distribution of a squared standard normal random variable. Specifically, if <span class="math inline">\(z \sim N(0, 1)\)</span> then <span class="math inline">\(z^2 \sim  \chi^2_{1} = \operatorname{Wis}(1,1)=N(0,1)^2\)</span>.</p>
 <p>In mean parametrisation, the chi-squared distribution is specified as <span class="math inline">\(\chi^2_{\mu}\)</span>, with <span class="math inline">\(\mu\)</span> restricted to positive integers.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1096,11 +1095,23 @@ p(x|  \theta)=\theta^{-1}  e^{-x/\theta}
 \sum_{i=1}^n \operatorname{Wis}(s^2, k_i) \sim \operatorname{Wis}\left(s^2, \sum_{i=1}^n k_i\right)
 \]</span></p>
 <p>Since <span class="math inline">\(n\)</span> can be an arbitrary positive integer, the gamma resp. univariate Wishart distribution is <strong>infinitely divisible</strong>.</p>
-<p>The above includes the following two specific constructions:</p>
+<p>The above includes the following specific constructions:</p>
 <ol type="a">
-<li><p>If <span class="math inline">\(x_1, \ldots, x_n \sim \operatorname{Exp}(\theta)\)</span> are independent samples from <span class="math inline">\(\operatorname{Exp}(\theta)\)</span> then the sum <span class="math inline">\(y = \sum_{i=1}^n x_i \sim \operatorname{Gam}(\alpha=n, \theta)\)</span> is gamma distributed with the same scale parameter.</p></li>
-<li><p>The sum of <span class="math inline">\(k\)</span> independent scaled chi-squared random variables <span class="math inline">\(s^2 \chi^2_{1}\)</span> with one degree of freedom and identical scale parameter <span class="math inline">\(s^2\)</span> yields a scaled chi-squared random variable <span class="math inline">\(s^2 \chi^2_{k}\)</span> with degree of freedom <span class="math inline">\(k\)</span> and the same scale parameter. Thus, if <span class="math inline">\(z_1,z_2,\dots,z_k\sim N(0,1)\)</span> are <span class="math inline">\(k\)</span> independent samples from <span class="math inline">\(N(0,s^2)\)</span> then <span class="math inline">\(\sum_{i=1}^{k} z_i^2 \sim s^2 \chi^2_{k}\)</span>.</p></li>
+<li><p>The Erlang distribution (gamma distribution with integer <span class="math inline">\(\alpha\)</span>) <span class="math display">\[
+\sum_{i=1}^{\alpha} \operatorname{Exp}(\theta) \sim \operatorname{Erl}(\alpha, \theta)
+\]</span></p></li>
+<li><p>The scaled chi-squared distribution <span class="math display">\[
+\sum_{i=1}^k s^2 \chi^2_{1} \sim s^2 \chi^2_{k}
+\]</span></p></li>
+<li><p>The univariate Wishart distribution <span class="math inline">\(\operatorname{Wis}(s^2, k)\)</span> for integer-valued <span class="math inline">\(k\)</span>: <span class="math display">\[
+\sum_{i=1}^k \operatorname{Wis}(s^2, 1) \sim \operatorname{Wis}\left(s^2, k\right)
+\]</span></p></li>
 </ol>
+</section>
+<section id="link-to-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="link-to-normal-distribution">Link to normal distribution</h3>
+<p>The unvariate Wishart distribution or scaled chi-squared distribution is closely related to the normal distribution with mean zero. Specifically, if <span class="math inline">\(\boldsymbol z\sim N(0, s^2)\)</span> then <span class="math inline">\(z^2 \sim  \operatorname{Wis}(s^2, 1) = s^2 \chi^2_{1}\)</span>. Thus, if <span class="math inline">\(z_1, \ldots, z_k\sim N(0,s^2)\)</span> are <span class="math inline">\(k\)</span> independent samples then <span class="math inline">\(\sum_{i=1}^k z_i^2 \sim  \operatorname{Wis}(s^2, k) = s^2 \chi^2_{k}\)</span>.</p>
+<p>Similarly, the univariate standard Wishart distribution or chi-squared distribution is closely related to the standard normal distribution. Specifically, if <span class="math inline">\(z \sim N(0, 1)\)</span> then <span class="math inline">\(z^2 \sim  \operatorname{Wis}(1, 1)= \chi^2_{1}\)</span>. Thus, if <span class="math inline">\(z_1, \ldots,  z_k\sim N(0,1)\)</span> are <span class="math inline">\(k\)</span> independent samples then <span class="math inline">\(\sum_{i=1}^k z_i^2 \sim  \operatorname{Wis}(1, k) =  \chi^2_{k}\)</span>.</p>
 </section>
 <section id="normal-approximation-3" class="level3">
 <h3 class="anchored" data-anchor-id="normal-approximation-3">Normal approximation</h3>
