@@ -895,7 +895,7 @@ p(\boldsymbol x) = \prod_{i=1}^d \, (2\pi)^{-1/2} e^{-x_i^2/2 }
 \]</span> where <span class="math inline">\(\boldsymbol S=(s_{ij})\)</span> is the scale parameter (a symmetric <span class="math inline">\(d \times d\)</span> positive definite matrix with elements <span class="math inline">\(s_{ij}\)</span>). The dimension <span class="math inline">\(d\)</span> is given by the size of the matrix <span class="math inline">\(\boldsymbol S\)</span>.</p>
 <p>The shape or concentration parameter <span class="math inline">\(k\)</span> takes on real values in the range <span class="math inline">\(k &gt; d-1\)</span> and integer values in the range <span class="math inline">\(k \in {1, \ldots, d-1}\)</span> for <span class="math inline">\(d&gt;1\)</span>. For <span class="math inline">\(k&gt;d-1\)</span> the matrix <span class="math inline">\(\boldsymbol X\)</span> is positive definite and invertible (see also <a href="#sec-iwdist" class="quarto-xref"><span>Section 6.7</span></a>), otherwise <span class="math inline">\(\boldsymbol X\)</span> is singular and positive semidefinite.</p>
 <p>The distribution has mean <span class="math display">\[
-\operatorname{E}(\boldsymbol X) = k \boldsymbol S= \boldsymbol M= (\mu_{ij})
+\operatorname{E}(\boldsymbol X) = k \boldsymbol S= \alpha \boldsymbol \Theta= \boldsymbol M= (\mu_{ij})
 \]</span> and variances of the elements of <span class="math inline">\(\boldsymbol X\)</span> are <span class="math display">\[
 \begin{split}
 \operatorname{Var}(x_{ij})  &amp;= k \left(s^2_{ij}+s_{ii} s_{jj}  \right)\\
@@ -903,11 +903,16 @@ p(\boldsymbol x) = \prod_{i=1}^d \, (2\pi)^{-1/2} e^{-x_i^2/2 }
 \end{split}
 \]</span></p>
 <p>The pdf is (for <span class="math inline">\(k&gt;d-1\)</span>) <span class="math display">\[
-p(\boldsymbol X| \boldsymbol S, k) = \frac{1}{\Gamma_d(k/2) \det(2 \boldsymbol S)^{k/2}} (\det\boldsymbol X)^{(k-d-1)/2}
-\exp\left(-\operatorname{Tr}(\boldsymbol S^{-1}\boldsymbol X)/2\right)
+\begin{split}
+p(\boldsymbol X| \boldsymbol S, k) &amp;= \frac{1}{\Gamma_d(k/2) \det(2 \boldsymbol S)^{k/2}} (\det\boldsymbol X)^{(k-d-1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol S^{-1}\boldsymbol X)/2\right)\\
+&amp;= \frac{1}{\Gamma_d(\alpha) (\det \boldsymbol \Theta)^{(d+1)/2}} \det( \boldsymbol \Theta^{-1} \boldsymbol X)^{\alpha - (d+1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol \Theta^{-1}\boldsymbol X)\right)\\
+\end{split}
 \]</span> containing the <strong>multivariate gamma function</strong> <span class="math inline">\(\Gamma_d(x)\)</span> (see <a href="a-specialfuncs.html#sec-gammafunc" class="quarto-xref"><span>Section A.1</span></a>).</p>
 <p>This pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
-<p>In mean parametrisation, with <span class="math inline">\(\boldsymbol M\)</span> as parameter instead of <span class="math inline">\(\boldsymbol S\)</span>, the Wishart distribution is specified as <span class="math inline">\(\operatorname{Wis}\left(\boldsymbol S= \frac{\boldsymbol M}{k}, k \right)\)</span>.</p>
+<p>In gamma parametrisation, with <span class="math inline">\(\boldsymbol \Theta=2 \boldsymbol S\)</span> and <span class="math inline">\(\alpha=k/2\)</span> as scale and shape parameters, the Wishart distribution is specified as <span class="math inline">\(\operatorname{Wis}\left(\boldsymbol S= \boldsymbol \Theta/2, k=2\alpha \right) = \operatorname{Gam}(\alpha, \boldsymbol \Theta)\)</span>.</p>
+<p>In mean parametrisation, with <span class="math inline">\(\boldsymbol M\)</span> as parameter instead of <span class="math inline">\(\boldsymbol S\)</span>, the Wishart distribution is specified as <span class="math inline">\(\operatorname{Wis}\left(\boldsymbol S= \boldsymbol M/k, k \right)\)</span>.</p>
 <p>If <span class="math inline">\(\boldsymbol X\)</span> is a scalar rather than a matrix, and hence <span class="math inline">\(d=1\)</span>, the Wishart distribution reduces to the univariate Wishart distribution or scaled chi-squared distribution (<a href="05-univariate.html#sec-gamdist" class="quarto-xref"><span>Section 5.6</span></a>).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1045,7 +1050,7 @@ then <span class="math inline">\(\sum_{i=1}^k \boldsymbol z_i \boldsymbol z_i^T 
 \boldsymbol X\sim \operatorname{IW}\left(\boldsymbol \Psi, k\right)
 \]</span> where <span class="math inline">\(\boldsymbol \Psi= (\psi_{ij})\)</span> is the scale parameter (a <span class="math inline">\(d \times d\)</span> positive definite symmetric matrix) and <span class="math inline">\(k&gt; d-1\)</span> is the standard shape parameter. An alternative shape parameter is <span class="math inline">\(\nu=k-(d-1) = k -d+1 &gt; 0\)</span>. The dimension <span class="math inline">\(d\)</span> is given by the size of the matrix <span class="math inline">\(\boldsymbol \Psi\)</span>.</p>
 <p>The mean is (for <span class="math inline">\(k &gt; d+1\)</span> or <span class="math inline">\(\nu &gt; 2\)</span>) <span class="math display">\[
-\operatorname{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{k-d-1} = \frac{\boldsymbol \Psi}{\nu-2}  = \boldsymbol M=(\mu_{ij})
+\operatorname{E}(\boldsymbol X) = \frac{\boldsymbol \Psi}{k-d-1} = \frac{\boldsymbol \Psi}{\nu-2}  =   \frac{\boldsymbol B}{\alpha-\frac{d+1}{2}}  = \boldsymbol M=(\mu_{ij})
 \]</span> The variances of elements of <span class="math inline">\(\boldsymbol X\)</span> are (for <span class="math inline">\(k &gt; d+3\)</span> or <span class="math inline">\(\nu &gt; 4\)</span>) <span class="math display">\[
 \begin{split}
 \operatorname{Var}(x_{ij}) &amp; = \frac{ (k-d-1) \, \psi_{ii} \psi_{jj} + (k-d+1)\, \psi_{ij}^2 }{ (k-d)   (k-d-1)^2 (k-d-3)  }\\
@@ -1053,10 +1058,15 @@ then <span class="math inline">\(\sum_{i=1}^k \boldsymbol z_i \boldsymbol z_i^T 
 \end{split}
 \]</span></p>
 <p>The inverse Wishart distribution <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi, k\right)\)</span> has pdf <span class="math display">\[
-p(\boldsymbol X| \boldsymbol \Psi, k) = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }{\Gamma_d(k/2) } (\det \boldsymbol X)^{-(k+d+1)/2}
-\exp\left(-\operatorname{Tr}(\boldsymbol \Psi\boldsymbol X^{-1})/2\right)
+\begin{split}
+p(\boldsymbol X| \boldsymbol \Psi, k) &amp; = \frac{ \det(\boldsymbol \Psi/2)^{k/2}  }{\Gamma_d(k/2) } (\det \boldsymbol X)^{-(k+d+1)/2}
+\exp\left(-\operatorname{Tr}(\boldsymbol \Psi\boldsymbol X^{-1})/2\right) \\
+&amp; = \frac{  1 }{\Gamma_d(\alpha) (\det \boldsymbol B)^{(d+1)/2  }  }   \det (\boldsymbol B^{-1} \boldsymbol X)^{-\alpha-(d+1)/2}
+\exp\left(-\operatorname{Tr}( (\boldsymbol B^{-1} \boldsymbol X)^{-1}   )\right) \\
+\end{split}
 \]</span> containing the <strong>multivariate gamma function</strong> <span class="math inline">\(\Gamma_d(x)\)</span> (see <a href="a-specialfuncs.html#sec-gammafunc" class="quarto-xref"><span>Section A.1</span></a>).</p>
 <p>As with the Wishart distribution the pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>In gamma parametrisation, with <span class="math inline">\(\boldsymbol B= \boldsymbol \Psi/2\)</span> and <span class="math inline">\(\alpha=k/2\)</span> as scale and shape parameters, the inverse Wishart distribution is specified as <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi= 2 \boldsymbol B, k=2\alpha \right) = \operatorname{IG}\left(\alpha, \boldsymbol B\right)\)</span>.</p>
 <p>In mean parametrisation, with <span class="math inline">\(\boldsymbol M\)</span> as parameter instead of <span class="math inline">\(\boldsymbol \Psi\)</span> and using the alternative shape parameter <span class="math inline">\(\nu\)</span>, the inverse Wishart distribution is specified as <span class="math inline">\(\operatorname{IW}\left(\boldsymbol \Psi=  (\nu-2)  \boldsymbol M, \, k=\nu+d-1\right)\)</span>.</p>
 <p>A further common parametrisation of the multivariate inverse Wishart distribution uses the biased mean parameter <span class="math inline">\(\boldsymbol T= \frac{\boldsymbol \Psi}{\nu} = \frac{\nu-2}{\nu} \boldsymbol M\)</span> instead of the mean <span class="math inline">\(\boldsymbol M\)</span>, with bias <span class="math inline">\(-\frac{2}{\nu} \boldsymbol M\)</span>. This parametrisation relates to the multivariate <span class="math inline">\(t\)</span>-distribution (see <a href="#sec-mvtdist" class="quarto-xref"><span>Section 6.8</span></a>) and is used in Bayesian analysis. It yields the specification <span class="math inline">\(\operatorname{IW}(\boldsymbol \Psi= \nu \boldsymbol T, \nu + d -1)\)</span>, with mean (for <span class="math inline">\(\nu&gt;2\)</span>) <span class="math display">\[
 \operatorname{E}(\boldsymbol X) = \frac{ \nu}{\nu-2}  \boldsymbol T= \boldsymbol M
@@ -1125,11 +1135,11 @@ p_{\boldsymbol X}(\boldsymbol X| \boldsymbol \Psi, k) = (\det\boldsymbol X)^{-d-
 \frac{1}{(k-d) (k-d-1) (k-d-3) }  = \frac{1}{(\nu-1) (\nu-2) (\nu-4) }  =\frac{(\nu-2) \mu^2}{(\nu-1)(\nu-4)}  &amp;  \text{if $i\neq j$}\\
 \end{cases}
 \]</span></p>
-<p>The inverse Wishart distribution <span class="math inline">\(\operatorname{IW}\left(\boldsymbol I, k\right)\)</span> has pdf <span class="math display">\[
-p(\boldsymbol X| \boldsymbol I, k) = \frac{ 1  }{\Gamma_d(k/2) 2^{dk/2}  } (\det\boldsymbol X)^{-(k+d+1)/2}
+<p>The standard inverse Wishart distribution <span class="math inline">\(\operatorname{IW}\left(\boldsymbol I, k\right)\)</span> has pdf <span class="math display">\[
+p(\boldsymbol X| k) = \frac{ 1  }{\Gamma_d(k/2) 2^{dk/2}  } (\det\boldsymbol X)^{-(k+d+1)/2}
 \exp\left(-\operatorname{Tr}(\boldsymbol X^{-1})/2\right)
 \]</span> containing the <strong>multivariate gamma function</strong> <span class="math inline">\(\Gamma_d(x)\)</span> (see <a href="a-specialfuncs.html#sec-gammafunc" class="quarto-xref"><span>Section A.1</span></a>).</p>
-<p>As with the Wishart distribution the pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
+<p>As with the standard Wishart distribution the pdf is a joint pdf over the <span class="math inline">\(d\)</span> diagonal elements <span class="math inline">\(x_{ii}\)</span> and the <span class="math inline">\(d(d-1)/2\)</span> off-diagonal elements <span class="math inline">\(x_{ij}\)</span> of the symmetric random matrix&nbsp;<span class="math inline">\(\boldsymbol X\)</span>.</p>
 <p>In mean parametrisation with <span class="math inline">\(\mu=1/(\nu-2)\)</span> as parameter and <span class="math inline">\(\boldsymbol M=\mu\boldsymbol I\)</span> the standard inverse Wishart distribution is specified as <span class="math inline">\(\operatorname{IW}(\boldsymbol \Psi=\boldsymbol I, k=1/\mu+d+1)\)</span>.</p>
 <p>In biased mean parametrisation (recall <span class="math inline">\(\nu/(\nu-2) \boldsymbol T= \boldsymbol M\)</span>) with <span class="math inline">\(\tau^2=1/\nu\)</span> as parameter and <span class="math inline">\(\boldsymbol T=\tau^2 \boldsymbol I\)</span> the standard inverse Wishart distribution is specified as <span class="math inline">\(\operatorname{IW}(\boldsymbol \Psi=\boldsymbol I, k=1/\tau^2+d-1)\)</span>.</p>
 <p>If <span class="math inline">\(\boldsymbol X\)</span> is scalar rather than a matrix, and hence <span class="math inline">\(d=1\)</span> and <span class="math inline">\(\nu=k\)</span>, the multivariate standard inverse Wishart distribution reduces to the univariate standard inverse Wishart distribution or inverse chi-squared distribution (<a href="05-univariate.html#sec-invgamdist" class="quarto-xref"><span>Section 5.8</span></a>).</p>
@@ -1279,7 +1289,7 @@ p(\boldsymbol x) =
 \Gamma\left(\frac{d+1}{2}\right)
 \left(  \pi (1+ \boldsymbol x^T \boldsymbol x) \right)^{-(d+1)/2}
 \]</span></p>
-<p>For scalar <span class="math inline">\(x\)</span> (and hence <span class="math inline">\(d=1\)</span>) the multivariate standard Cauchy distribution <span class="math inline">\(\operatorname{Cau}(0, \boldsymbol I)\)</span> reduces to the standard univariate Cauchy distribution <span class="math inline">\(\operatorname{Cau}(0, 1)\)</span>.</p>
+<p>For scalar <span class="math inline">\(x\)</span> (and hence <span class="math inline">\(d=1\)</span>) the multivariate standard Cauchy distribution <span class="math inline">\(\operatorname{Cau}(0, \boldsymbol I)\)</span> reduces to the univariate standard Cauchy distribution <span class="math inline">\(\operatorname{Cau}(0, 1)\)</span>.</p>
 </section>
 <section id="location-scale-transformation-1" class="level3">
 <h3 class="anchored" data-anchor-id="location-scale-transformation-1">Location-scale transformation</h3>
